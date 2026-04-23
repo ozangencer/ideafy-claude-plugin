@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "ideafy": {
+      "command": "node",
+      "args": [
+        "${CLAUDE_PLUGIN_ROOT}/mcp/index.js"
+      ]
+    }
+  }
+}

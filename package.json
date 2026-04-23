@@ -1,0 +1,16 @@
+{
+  "name": "ideafy-claude-plugin",
+  "version": "0.1.0",
+  "description": "Runtime dependencies for the Ideafy Claude Code plugin MCP server.",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.27.1",
+    "better-sqlite3": "^12.6.0",
+    "marked": "^17.0.1",
+    "uuid": "^11.0.5"
+  },
+  "scripts": {
+    "postinstall:note": "This plugin is installed via the Ideafy app; do not run manually."
+  }
+}

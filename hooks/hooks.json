@@ -1,0 +1,28 @@
+{
+  "description": "Ideafy kanban integration: card tracking on prompt submit, pre-edit guardrails.",
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/card-tracking.sh\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write|NotebookEdit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/pre-edit-check.sh\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  }
+}
