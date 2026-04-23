@@ -1,0 +1,18 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "ideafy",
+  "version": "1.0.0",
+  "description": "Ideafy kanban integration for Claude Code — MCP tools, phase-aware workflow hooks, and supporting skills.",
+  "owner": {
+    "name": "Ozan Gencer"
+  },
+  "plugins": [
+    {
+      "name": "ideafy",
+      "description": "MCP tools, UserPromptSubmit + PreToolUse hooks, and workflow skills for the Ideafy kanban app.",
+      "source": "./plugins/ideafy",
+      "category": "productivity",
+      "version": "0.1.0"
+    }
+  ]
+}
