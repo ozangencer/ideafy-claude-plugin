@@ -116,6 +116,15 @@ function findFuzzyMatch(target, candidates) {
     }
     return best?.key ?? null;
 }
+function markdownCheckboxStats(markdown) {
+    const matches = markdown.match(/^\s*-\s*\[([ xX])\]/gm) || [];
+    let checked = 0;
+    for (const match of matches) {
+        if (/\[[xX]\]/.test(match))
+            checked++;
+    }
+    return { total: matches.length, checked };
+}
 // Promote plain <ul><li>…</li></ul> to Tiptap taskList (all unchecked). Keeps
 // extractTaskItems / mergeTestCheckState resilient to payloads that lack
 // `- [ ]` markdown prefixes or to historically-stored plain lists. Idempotent.
@@ -180,6 +189,36 @@ function assessTestRewrite(existingHtml, newHtml) {
         return {
             safe: false,
             reason: `new content retains only ${retained}/${existingItems.length} existing items (< 50%)`,
+            retained,
+            existing: existingItems.length,
+        };
+    }
+    return { safe: true, retained, existing: existingItems.length };
+}
+function assessAppendOnlyRewrite(existingHtml, newHtml) {
+    const existingItems = extractTaskItems(existingHtml);
+    if (!existingItems.length) {
+        return { safe: true, retained: 0, existing: 0 };
+    }
+    const newItems = extractTaskItems(newHtml);
+    if (!newItems.length) {
+        return {
+            safe: false,
+            reason: "new test scenarios are empty — refusing to wipe existing list",
+            retained: 0,
+            existing: existingItems.length,
+        };
+    }
+    const newKeys = newItems.map((i) => i.normalized);
+    let retained = 0;
+    for (const e of existingItems) {
+        if (findFuzzyMatch(e.normalized, newKeys))
+            retained++;
+    }
+    if (retained < existingItems.length) {
+        return {
+            safe: false,
+            reason: `append-only save_tests requires all existing checklist items to be preserved; retained ${retained}/${existingItems.length}`,
             retained,
             existing: existingItems.length,
         };
@@ -902,13 +941,35 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
                         isError: true,
                     };
                 }
+                const existing = db.prepare(`SELECT test_scenarios FROM cards WHERE id = ?`).get(id);
+                const existingItems = extractTaskItems(existing?.test_scenarios || "");
+                const existingCheckedCount = existingItems.filter((item) => item.checked).length;
+                const checkboxStats = markdownCheckboxStats(testScenarios);
+                if (existingItems.length > 0 && checkboxStats.total === 0) {
+                    return {
+                        content: [{
+                                type: "text",
+                                text: "save_tests refused: payload contains no markdown checkboxes (`- [ ]` / `- [x]`). Include the full existing checklist plus your additions; plain paragraphs would wipe checkbox state.",
+                            }],
+                        isError: true,
+                    };
+                }
+                if (existingCheckedCount > 0 && checkboxStats.checked === 0) {
+                    return {
+                        content: [{
+                                type: "text",
+                                text: `save_tests refused: existing list has ${existingCheckedCount} checked item(s) but your payload preserved 0 checked boxes. Include the existing [x] items verbatim so checkbox state is not lost.`,
+                            }],
+                        isError: true,
+                    };
+                }
                 // Convert markdown to Tiptap-compatible HTML with TaskList support
                 const htmlContent = markdownToTiptapHtml(testScenarios);
-                // Shrink guard: if existing list is non-empty, require the new content
-                // to retain ≥ 50% of items. This blocks silent wipes from AI mistakes.
-                const existing = db.prepare(`SELECT test_scenarios FROM cards WHERE id = ?`).get(id);
+                // Append-only guard: save_tests is intentionally stricter than generic
+                // HTML merges. Every existing checklist item must still be present
+                // (fuzzy match) in the new payload; otherwise we reject the write.
                 if (existing?.test_scenarios) {
-                    const assessment = assessTestRewrite(existing.test_scenarios, htmlContent);
+                    const assessment = assessAppendOnlyRewrite(existing.test_scenarios, htmlContent);
                     if (!assessment.safe) {
                         return {
                             content: [{
