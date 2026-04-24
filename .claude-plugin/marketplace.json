@@ -12,7 +12,7 @@
       "description": "MCP tools, UserPromptSubmit + PreToolUse hooks, and workflow skills for the Ideafy kanban app.",
       "source": "./plugins/ideafy",
       "category": "productivity",
-      "version": "0.1.2"
+      "version": "0.1.3"
     }
   ]
 }

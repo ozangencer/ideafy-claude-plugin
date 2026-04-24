@@ -151,11 +151,21 @@ function normalizeTestsHtml(html) {
 function extractTaskItems(html) {
     const items = [];
     const normalized = normalizeTestsHtml(html);
-    const regex = /<li[^>]*data-type="taskItem"[^>]*data-checked="(true|false)"[^>]*>.*?<p>(.*?)<\/p>/gi;
+    const regex = /<li\b([^>]*)>([\s\S]*?)<\/li>/gi;
     let match;
     while ((match = regex.exec(normalized)) !== null) {
-        const checked = match[1] === "true";
-        const normalizedText = normalizeTaskText(match[2]);
+        const attrs = match[1];
+        if (!/data-type\s*=\s*"taskItem"/i.test(attrs))
+            continue;
+        const checkedMatch = attrs.match(/data-checked\s*=\s*"(true|false)"/i);
+        if (!checkedMatch)
+            continue;
+        const body = match[2];
+        const textMatch = body.match(/<p\b[^>]*>([\s\S]*?)<\/p>/i);
+        if (!textMatch)
+            continue;
+        const checked = checkedMatch[1] === "true";
+        const normalizedText = normalizeTaskText(textMatch[1]);
         if (normalizedText)
             items.push({ normalized: normalizedText, checked });
     }
