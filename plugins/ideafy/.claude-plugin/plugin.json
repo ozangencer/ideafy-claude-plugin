@@ -1,6 +1,6 @@
 {
   "name": "ideafy",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Ideafy integration for Claude Code: kanban card tracking, phase-aware workflow hooks, and Ideafy MCP tools.",
   "author": {
     "name": "Ozan Gencer"
