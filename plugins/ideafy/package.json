@@ -1,6 +1,6 @@
 {
   "name": "ideafy-claude-plugin",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Runtime dependencies for the Ideafy Claude Code plugin MCP server.",
   "private": true,
   "type": "module",
