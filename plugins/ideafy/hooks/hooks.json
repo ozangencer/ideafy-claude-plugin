@@ -1,5 +1,5 @@
 {
-  "description": "Ideafy kanban integration: card tracking on prompt submit, pre-edit guardrails.",
+  "description": "Ideafy kanban integration: card tracking on prompt submit, pre-edit guardrails, plan-to-card sync on plan approval.",
   "hooks": {
     "UserPromptSubmit": [
       {
@@ -19,6 +19,18 @@
           {
             "type": "command",
             "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/pre-edit-check.sh\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "ExitPlanMode",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/plan-sync-check.sh\"",
             "timeout": 5
           }
         ]
