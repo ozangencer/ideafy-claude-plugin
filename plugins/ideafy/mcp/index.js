@@ -435,7 +435,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
             },
             {
                 name: "update_card",
-                description: "Update a kanban card fields (title, description, solutionSummary, status, complexity, priority, useWorktree). For testScenarios, use save_tests instead — update_card rejects it to protect checkbox states.",
+                description: "Update a kanban card fields (title, description, solutionSummary, status, complexity, priority, useWorktree, groupId). For testScenarios, use save_tests instead — update_card rejects it to protect checkbox states.",
                 inputSchema: {
                     type: "object",
                     properties: {
@@ -473,6 +473,10 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
                         useWorktree: {
                             type: ["boolean", "null"],
                             description: "Per-card worktree override. true = force isolated worktree, false = work on main branch, null = follow project setting.",
+                        },
+                        groupId: {
+                            type: ["string", "null"],
+                            description: "card_groups.id this card belongs to — the chain the board folds it into. null removes it from its group. A group is membership only: it has no status, no completion state and no date of its own, so do not treat it as an epic.",
                         },
                     },
                     required: ["id"],
@@ -551,6 +555,10 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
                         projectId: {
                             type: "string",
                             description: "Project ID to associate with (required)",
+                        },
+                        groupId: {
+                            type: "string",
+                            description: "card_groups.id this card belongs to — the chain the board folds it into. A group is membership only: it has no status, no completion state and no date of its own, so do not treat it as an epic.",
                         },
                     },
                     required: ["title", "projectId"],
@@ -721,6 +729,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             status, complexity, priority,
             project_folder as projectFolder,
             project_id as projectId,
+            group_id as groupId,
             task_number as taskNumber,
             git_worktree_path as gitWorktreePath,
             git_worktree_status as gitWorktreeStatus,
@@ -793,6 +802,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
                     complexity: "complexity",
                     priority: "priority",
                     useWorktree: "use_worktree",
+                    groupId: "group_id",
                 };
                 // Reject unknown fields instead of dropping them. The loop below only
                 // writes keys present in fieldMap, so a typo ("aiOpinion", "statuss")
@@ -911,6 +921,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             status, complexity, priority,
             project_folder as projectFolder,
             project_id as projectId,
+            group_id as groupId,
             task_number as taskNumber,
             git_worktree_path as gitWorktreePath,
             git_worktree_status as gitWorktreeStatus,
@@ -975,7 +986,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
                 return { content };
             }
             case "create_card": {
-                const { title, description = "", solutionSummary = "", status = "backlog", complexity = "medium", priority = "medium", projectId = null, } = args;
+                const { title, description = "", solutionSummary = "", status = "backlog", complexity = "medium", priority = "medium", projectId = null, groupId = null, } = args;
                 assertValidCardTitle(title);
                 const now = new Date().toISOString();
                 let taskNumber = null;
@@ -999,10 +1010,10 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           INSERT INTO cards (
             id, title, description, solution_summary, test_scenarios,
             status, complexity, priority, project_folder, project_id,
-            task_number, created_at, updated_at
-          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            group_id, task_number, created_at, updated_at
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `).run(cardId, title, markdownToTiptapHtml(description), markdownToTiptapHtml(solutionSummary), "", // Test scenarios added after implementation via save_tests
-                status, complexity, priority, projectFolder, projectId, taskNumber, now, now);
+                status, complexity, priority, projectFolder, projectId, groupId, taskNumber, now, now);
                 return {
                     content: [{ type: "text", text: `Card created: ${cardId} (${title})` }],
                 };
