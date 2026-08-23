@@ -2,7 +2,7 @@
 // GENERATED FILE — DO NOT EDIT.
 //
 // Verbatim copy of lib/prompts/test-style.ts, written by
-// scripts/sync-test-style.mjs on every mcp-server build. Edit the source,
+// scripts/sync-mcp-shared.mjs on every mcp-server build. Edit the source,
 // not this file; anything you change here is overwritten on the next build.
 // ─────────────────────────────────────────────────────────────────────────
 const STYLE_CONTRACT_EN = `## Test scenario style (mandatory)
