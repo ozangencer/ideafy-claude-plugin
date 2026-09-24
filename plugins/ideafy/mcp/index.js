@@ -9,8 +9,9 @@ import { homedir } from "os";
 import { mkdirSync } from "fs";
 import { marked } from "marked";
 import { v4 as uuidv4 } from "uuid";
-import { normalizeUseWorktree, serializeUseWorktreeForDb, extractCardImages, } from "./serialize-card.js";
+import { normalizeUseWorktree, serializeUseWorktreeForDb, extractCardImages, buildOpinionPlanningNote, } from "./serialize-card.js";
 import { buildTestStyleContract } from "./test-style.generated.js";
+import { AI_OPINION_PLANNING_RULE } from "./opinion.generated.js";
 import { buildPhaseHint, buildPhasePolicyBody } from "./phase-policy.generated.js";
 import { createWorktree, ensureBranchInPlace, generateBranchName, getCurrentBranch, getWorktreePath, isGitRepo, resolveEffectiveWorktree, worktreeExists, } from "./git-helpers.js";
 import { existsSync } from "fs";
@@ -542,7 +543,11 @@ Before drafting the plan, call get_card to read the project's voice. Voice chang
 
 - entrepreneur — Plain prose. Lead with user impact and "why". Name the files/areas that change in human terms ("the login flow, the session check"), but skip line numbers and snippets. Trade-offs in one sentence each.
 - builder (default) — Plain technical paragraphs grouped by feature area. Name file paths inline. End with a short Files line. No spec bullets unless a step has 5+ sub-changes.
-- engineer — Numbered spec steps with file:line scope, function/symbol names, code snippets where they clarify, and explicit trade-offs. End with a Changed Files table (| File | Change |).`,
+- engineer — Numbered spec steps with file:line scope, function/symbol names, code snippets where they clarify, and explicit trade-offs. End with a Changed Files table (| File | Change |).
+
+AI OPINION CONTRACT (mandatory — get_card returns the card's \`aiOpinion\` and \`aiVerdict\`):
+
+${AI_OPINION_PLANNING_RULE}`,
                 inputSchema: {
                     type: "object",
                     properties: {
@@ -731,6 +736,13 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
                 const content = [
                     { type: "text", text: JSON.stringify(cleanedCard, null, 2) }
                 ];
+                // A session the user opened by hand never sees Ideafy's planning
+                // prompts, so the opinion rule travels with the card itself. Its own
+                // block, so content[0] stays plain JSON for anything that parses it.
+                const planningNote = buildOpinionPlanningNote(card);
+                if (planningNote) {
+                    content.push({ type: "text", text: planningNote });
+                }
                 // Add images as separate content blocks
                 for (const img of images) {
                     content.push({
