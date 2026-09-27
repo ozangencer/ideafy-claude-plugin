@@ -15,6 +15,7 @@ import { AI_OPINION_PLANNING_RULE } from "./opinion.generated.js";
 import { buildPhaseHint, buildPhasePolicyBody } from "./phase-policy.generated.js";
 import { createWorktree, ensureBranchInPlace, generateBranchName, getCurrentBranch, getWorktreePath, isGitRepo, resolveEffectiveWorktree, worktreeExists, } from "./git-helpers.js";
 import { existsSync } from "fs";
+import { assertGroupAssignable, createGroup, listGroups, updateGroup, } from "./card-groups.js";
 // The same style contract every other AI surface injects, pulled from
 // lib/prompts/test-style.ts via scripts/sync-mcp-shared.mjs. Built without a
 // language so the card-language rule stays in play: a tool description is
@@ -443,7 +444,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
                         },
                         groupId: {
                             type: ["string", "null"],
-                            description: "card_groups.id this card belongs to — the chain the board folds it into. null removes it from its group. A group is membership only: it has no status, no completion state and no date of its own, so do not treat it as an epic.",
+                            description: "card_groups.id this card belongs to — the chain the board folds it into. null removes it from its group. Get ids from list_groups; create_group makes a new one. A group is membership only: it has no status, no completion state and no date of its own, so do not treat it as an epic.",
                         },
                     },
                     required: ["id"],
@@ -525,7 +526,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
                         },
                         groupId: {
                             type: "string",
-                            description: "card_groups.id this card belongs to — the chain the board folds it into. A group is membership only: it has no status, no completion state and no date of its own, so do not treat it as an epic.",
+                            description: "card_groups.id this card belongs to — the chain the board folds it into. Get ids from list_groups; create_group makes a new one. A group is membership only: it has no status, no completion state and no date of its own, so do not treat it as an epic.",
                         },
                     },
                     required: ["title", "projectId"],
@@ -629,6 +630,71 @@ All three voices still produce the same Summary Verdict / Strengths / Concerns /
                         },
                     },
                     required: ["id", "aiOpinion"],
+                },
+            },
+            {
+                name: "list_groups",
+                description: "List card groups with their id, code, name and member count. A group is a chain of cards that belong to one piece of work; the board folds its cards into one row. It is membership only: no status, no completion state, no date, so do not treat it as an epic. With projectId, returns what a card in that project can join: the project's own groups plus groups not tied to any project.",
+                inputSchema: {
+                    type: "object",
+                    properties: {
+                        projectId: {
+                            type: "string",
+                            description: "Only groups a card in this project can join (optional)",
+                        },
+                    },
+                },
+            },
+            {
+                name: "create_group",
+                description: "Create a card group, then pass its id as groupId to create_card or update_card. Call list_groups first: a code already used in the same project is rejected and the error names the existing group to use instead. The code is normalised the way the app does it: uppercase letters and digits, at most 6 characters (e.g. MOBILE).",
+                inputSchema: {
+                    type: "object",
+                    properties: {
+                        code: {
+                            type: "string",
+                            description: "Short code shown on the card face (required). Uppercase letters and digits, up to 6 characters.",
+                        },
+                        name: {
+                            type: "string",
+                            description: "Group heading on the board, e.g. 'Mobile app'. Defaults to the code.",
+                        },
+                        projectId: {
+                            type: "string",
+                            description: "Project the group belongs to. Omit for a group offered in every project.",
+                        },
+                        color: {
+                            type: "string",
+                            description: "Optional hex color, e.g. #22c55e",
+                        },
+                    },
+                    required: ["code"],
+                },
+            },
+            {
+                name: "update_group",
+                description: "Rename a card group or change its code or color. Membership is changed per card with update_card's groupId, not here.",
+                inputSchema: {
+                    type: "object",
+                    properties: {
+                        id: {
+                            type: "string",
+                            description: "Group id from list_groups (required)",
+                        },
+                        code: {
+                            type: "string",
+                            description: "New code: uppercase letters and digits, up to 6 characters",
+                        },
+                        name: {
+                            type: "string",
+                            description: "New group heading",
+                        },
+                        color: {
+                            type: ["string", "null"],
+                            description: "New hex color, or null to clear it",
+                        },
+                    },
+                    required: ["id"],
                 },
             },
             {
@@ -808,6 +874,12 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
                 if (updates.title !== undefined) {
                     assertValidCardTitle(updates.title);
                 }
+                if (updates.groupId !== undefined) {
+                    const owner = db
+                        .prepare(`SELECT project_id FROM cards WHERE id = ?`)
+                        .get(id);
+                    assertGroupAssignable(db, updates.groupId, owner?.project_id ?? null);
+                }
                 const setClauses = ["updated_at = ?"];
                 const values = [new Date().toISOString()];
                 for (const [key, value] of Object.entries(updates)) {
@@ -970,6 +1042,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             case "create_card": {
                 const { title, description = "", solutionSummary = "", status = "backlog", complexity = "medium", priority = "medium", projectId = null, groupId = null, } = args;
                 assertValidCardTitle(title);
+                assertGroupAssignable(db, groupId, projectId);
                 const now = new Date().toISOString();
                 let taskNumber = null;
                 let projectFolder = "";
@@ -1420,6 +1493,30 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
                                 : `${bound} This column has no phase policy.`,
                         },
                     ],
+                };
+            }
+            case "list_groups": {
+                const { projectId } = (args ?? {});
+                const groups = listGroups(db, projectId);
+                return {
+                    content: [{ type: "text", text: JSON.stringify(groups, null, 2) }],
+                };
+            }
+            case "create_group": {
+                const input = args;
+                const group = createGroup(db, input);
+                return {
+                    content: [{
+                            type: "text",
+                            text: `Group created: ${group.id} (${group.code} · ${group.name}). Pass this id as groupId to create_card or update_card.`,
+                        }],
+                };
+            }
+            case "update_group": {
+                const { id, ...updates } = args;
+                const group = updateGroup(db, id, updates);
+                return {
+                    content: [{ type: "text", text: `Group ${group.id} updated: ${group.code} · ${group.name}.` }],
                 };
             }
             case "get_project_by_folder": {
