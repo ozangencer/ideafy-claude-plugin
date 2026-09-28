@@ -16,6 +16,7 @@ import { PRIOR_DECISIONS_RULE } from "./prior-decisions.generated.js";
 import { buildPhaseHint, buildPhasePolicyBody } from "./phase-policy.generated.js";
 import { createWorktree, ensureBranchInPlace, generateBranchName, getCurrentBranch, getWorktreePath, isGitRepo, listChangedFiles, resolveEffectiveWorktree, worktreeExists, } from "./git-helpers.js";
 import { DEFAULT_SEARCH_LIMIT, DEFAULT_SEARCH_STATUSES, MAX_OPEN_WORK_FILES, listOpenWork, searchCards, } from "./card-search.js";
+import { linkCardsInHtml, projectIdOfCard } from "./card-link-resolver.js";
 import { existsSync } from "fs";
 import { assertGroupAssignable, createGroup, listGroups, updateGroup, } from "./card-groups.js";
 // The same style contract every other AI surface injects, pulled from
@@ -961,7 +962,9 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
                         // Convert markdown to HTML for rich text fields
                         if (markdownFields.includes(key) && typeof value === "string") {
                             const htmlValue = markdownToTiptapHtml(value);
-                            values.push(htmlValue);
+                            values.push(key === "solutionSummary"
+                                ? linkCardsInHtml(db, htmlValue, updates.projectId ?? projectIdOfCard(db, id))
+                                : htmlValue);
                         }
                         else if (key === "useWorktree") {
                             // SQLite integer column: true/false → 1/0, null passes through
@@ -1204,7 +1207,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             status, complexity, priority, project_folder, project_id,
             group_id, task_number, created_at, updated_at
           ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        `).run(cardId, title, markdownToTiptapHtml(description), markdownToTiptapHtml(solutionSummary), "", // Test scenarios added after implementation via save_tests
+        `).run(cardId, title, markdownToTiptapHtml(description), linkCardsInHtml(db, markdownToTiptapHtml(solutionSummary), projectId), "", // Test scenarios added after implementation via save_tests
                 status, complexity, priority, projectFolder, projectId, groupId, taskNumber, now, now);
                 // The column a card lands in already implies what happens next, but
                 // nothing in the create_card result used to say so — and the offer
@@ -1232,8 +1235,9 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
                         isError: true,
                     };
                 }
-                // Convert markdown to Tiptap-compatible HTML with TaskList support
-                const htmlContent = markdownToTiptapHtml(solutionSummary);
+                // Convert markdown to Tiptap-compatible HTML with TaskList support;
+                // "IDE-318" in Edge Cases becomes a clickable [[ chip.
+                const htmlContent = linkCardsInHtml(db, markdownToTiptapHtml(solutionSummary), projectIdOfCard(db, id));
                 const result = db.prepare(`
           UPDATE cards
           SET solution_summary = ?, status = 'progress', updated_at = ?
@@ -1346,8 +1350,9 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
                         isError: true,
                     };
                 }
-                // Convert markdown to Tiptap-compatible HTML
-                const htmlContent = markdownToTiptapHtml(aiOpinion);
+                // Convert markdown to Tiptap-compatible HTML; "IDE-318" under Related
+                // Cards becomes a clickable [[ chip.
+                const htmlContent = linkCardsInHtml(db, markdownToTiptapHtml(aiOpinion), projectIdOfCard(db, id));
                 const result = db.prepare(`
           UPDATE cards
           SET ai_opinion = ?, ai_verdict = ?, updated_at = ?

@@ -29,10 +29,10 @@ Once bound, the server returns phase-specific reminders in later hook context. F
 
 Check the card against the project's other cards first:
 
-- `search_cards` with the `projectId`, 2-3 keywords and this card's id as `excludeCardId` — for earlier decisions this work might contradict. A newer decision overrides an older one; `withdrawn` means tried and abandoned.
+- `search_cards` with the `projectId`, 2-3 keywords and this card's id as `excludeCardId` — for earlier decisions this work might contradict. Completed, test and progress cards are decisions; a newer one overrides an older one. A `withdrawn` card was tried and abandoned: a precedent at most, never a contradiction. When evaluating an idea, search `ideation` and `backlog` too, for one that already exists.
 - `list_open_work` with the same `projectId`, `excludeCardId` and the files you plan to change as `files` — for unmerged cards touching the same files. Shared files come back under `overlap`, even when a big branch's list is cut off. On an overlap, say which card, which file and which should land first.
 
-Write nothing about it if there is no contradiction and no overlap. `list_cards` returns summaries; pass `full: true` only when you need card bodies.
+Name cards by their bare displayId (IDE-318), not in backticks — saving turns them into clickable links. Write nothing about it if there is no contradiction and no overlap. `list_cards` returns summaries; pass `full: true` only when you need card bodies.
 
 ## Don't
 
