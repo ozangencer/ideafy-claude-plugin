@@ -25,6 +25,15 @@ If the user names an existing card ("this is for IDE-125"), skip creation — ca
 
 Once bound, the server returns phase-specific reminders in later hook context. Follow whatever the server instructs per column (plan writing, test writing, etc.) — do not invent a phase model locally.
 
+## Before you write a plan or an evaluation
+
+Check the card against the project's other cards first:
+
+- `search_cards` with the `projectId`, 2-3 keywords and this card's id as `excludeCardId` — for earlier decisions this work might contradict. A newer decision overrides an older one; `withdrawn` means tried and abandoned.
+- `list_open_work` with the same `projectId` and `excludeCardId` — for unmerged cards touching the same files. On an overlap, say which card, which file and which should land first.
+
+Write nothing about it if there is no contradiction and no overlap. `list_cards` returns summaries; pass `full: true` only when you need card bodies.
+
 ## Don't
 
 - Don't offer to create a card for quick lookup / read-only questions.

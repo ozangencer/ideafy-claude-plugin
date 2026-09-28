@@ -9,11 +9,13 @@ import { homedir } from "os";
 import { mkdirSync } from "fs";
 import { marked } from "marked";
 import { v4 as uuidv4 } from "uuid";
-import { normalizeUseWorktree, serializeUseWorktreeForDb, extractCardImages, buildOpinionPlanningNote, } from "./serialize-card.js";
+import { normalizeUseWorktree, serializeUseWorktreeForDb, extractCardImages, buildOpinionPlanningNote, buildPriorDecisionsNote, } from "./serialize-card.js";
 import { buildTestStyleContract } from "./test-style.generated.js";
 import { AI_OPINION_PLANNING_RULE } from "./opinion.generated.js";
+import { PRIOR_DECISIONS_RULE } from "./prior-decisions.generated.js";
 import { buildPhaseHint, buildPhasePolicyBody } from "./phase-policy.generated.js";
-import { createWorktree, ensureBranchInPlace, generateBranchName, getCurrentBranch, getWorktreePath, isGitRepo, resolveEffectiveWorktree, worktreeExists, } from "./git-helpers.js";
+import { createWorktree, ensureBranchInPlace, generateBranchName, getCurrentBranch, getWorktreePath, isGitRepo, listChangedFiles, resolveEffectiveWorktree, worktreeExists, } from "./git-helpers.js";
+import { DEFAULT_SEARCH_LIMIT, DEFAULT_SEARCH_STATUSES, MAX_OPEN_WORK_FILES, listOpenWork, searchCards, } from "./card-search.js";
 import { existsSync } from "fs";
 import { assertGroupAssignable, createGroup, listGroups, updateGroup, } from "./card-groups.js";
 // The same style contract every other AI surface injects, pulled from
@@ -471,7 +473,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
             },
             {
                 name: "list_cards",
-                description: "List all kanban cards, optionally filtered by status",
+                description: "List kanban cards, optionally filtered by status. Returns a summary per card (title, status, complexity, priority, worktree fields) without description, solutionSummary or testScenarios — open a card with get_card for its content, or pass full: true. To find cards about a topic, use search_cards instead.",
                 inputSchema: {
                     type: "object",
                     properties: {
@@ -484,7 +486,65 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
                             type: "string",
                             description: "Filter by project ID (optional)",
                         },
+                        full: {
+                            type: "boolean",
+                            description: "Also return description, solutionSummary and testScenarios (with their images). Large on a big project — default false.",
+                        },
                     },
+                },
+            },
+            {
+                name: "search_cards",
+                description: `Search one project's cards for earlier decisions before you evaluate an idea or write a plan. Matches the query's words (case- and accent-insensitive) against each card's title, description, plan and AI opinion; a title match ranks higher. Returns short rows — displayId, title, status, aiVerdict, completedAt, updatedAt and a ~240-character snippet — never the full card. Open a row with get_card when the snippet is not enough.
+
+Reading the results: a newer decision overrides an older one (compare completedAt/updatedAt); \`withdrawn\` means the approach was tried and abandoned; \`progress\` / \`test\` are decisions still in flight.`,
+                inputSchema: {
+                    type: "object",
+                    properties: {
+                        query: {
+                            type: "string",
+                            description: "2-3 keywords from the task, space-separated. A card matches if any word matches.",
+                        },
+                        projectId: {
+                            type: "string",
+                            description: "Project to search (required) — results never cross projects, so one project's cards are not precedent for another's.",
+                        },
+                        statuses: {
+                            type: "array",
+                            items: {
+                                type: "string",
+                                enum: ["ideation", "backlog", "bugs", "progress", "test", "completed", "withdrawn"],
+                            },
+                            description: `Columns to search. Default: ${DEFAULT_SEARCH_STATUSES.join(", ")}.`,
+                        },
+                        excludeCardId: {
+                            type: "string",
+                            description: "The card you are working on (UUID or display ID), so it does not match itself.",
+                        },
+                        limit: {
+                            type: "number",
+                            description: `Maximum rows (default ${DEFAULT_SEARCH_LIMIT}, max 25).`,
+                        },
+                    },
+                    required: ["query", "projectId"],
+                },
+            },
+            {
+                name: "list_open_work",
+                description: `List a project's unmerged work and the files each piece touches, to spot overlap before you plan. Two sources per card: \`git\` — cards with a live worktree or branch, listing the files changed since the branch left the default branch; \`plan\` — backlog/bugs/progress cards with a written plan but no branch yet, listing the files the plan's Files line names. Returns displayId, title, status, branch, source and at most ${MAX_OPEN_WORK_FILES} file paths per card — no diffs and no plan text. A project that is not a git repository only has plan rows.`,
+                inputSchema: {
+                    type: "object",
+                    properties: {
+                        projectId: {
+                            type: "string",
+                            description: "Project to inspect (required).",
+                        },
+                        excludeCardId: {
+                            type: "string",
+                            description: "The card you are working on (UUID or display ID), so it is not listed against itself.",
+                        },
+                    },
+                    required: ["projectId"],
                 },
             },
             {
@@ -548,7 +608,11 @@ Before drafting the plan, call get_card to read the project's voice. Voice chang
 
 AI OPINION CONTRACT (mandatory — get_card returns the card's \`aiOpinion\` and \`aiVerdict\`):
 
-${AI_OPINION_PLANNING_RULE}`,
+${AI_OPINION_PLANNING_RULE}
+
+PRIOR DECISIONS (check before you draft):
+
+${PRIOR_DECISIONS_RULE}`,
                 inputSchema: {
                     type: "object",
                     properties: {
@@ -809,6 +873,10 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
                 if (planningNote) {
                     content.push({ type: "text", text: planningNote });
                 }
+                const priorDecisionsNote = buildPriorDecisionsNote(card);
+                if (priorDecisionsNote) {
+                    content.push({ type: "text", text: priorDecisionsNote });
+                }
                 // Add images as separate content blocks
                 for (const img of images) {
                     content.push({
@@ -966,12 +1034,18 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
                 };
             }
             case "list_cards": {
-                const { status, projectId } = args;
+                const { status, projectId, full } = args;
+                // The content fields dominate the payload — on a project with a few
+                // hundred cards they run to megabytes — so the default is a summary
+                // and get_card is where a card's content is read.
+                const contentColumns = full
+                    ? `description,
+            solution_summary as solutionSummary,
+            test_scenarios as testScenarios,`
+                    : "";
                 let query = `
           SELECT
-            id, title, description,
-            solution_summary as solutionSummary,
-            test_scenarios as testScenarios,
+            id, title, ${contentColumns}
             status, complexity, priority,
             project_folder as projectFolder,
             project_id as projectId,
@@ -1004,6 +1078,11 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
                     const raw = row.useWorktree;
                     row.useWorktree =
                         normalizeUseWorktree(raw);
+                }
+                if (!full) {
+                    return {
+                        content: [{ type: "text", text: JSON.stringify(cards, null, 2) }],
+                    };
                 }
                 // Extract images from all cards (max 10 total)
                 const allImages = [];
@@ -1038,6 +1117,55 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
                     });
                 }
                 return { content };
+            }
+            case "search_cards": {
+                const { query, projectId, statuses, excludeCardId, limit } = args;
+                if (!query?.trim() || !projectId) {
+                    return {
+                        content: [{ type: "text", text: "search_cards needs a query and a projectId." }],
+                        isError: true,
+                    };
+                }
+                const unknown = (statuses ?? []).filter((s) => !STATUSES.includes(s));
+                if (unknown.length) {
+                    return {
+                        content: [{ type: "text", text: `Unknown status: ${unknown.join(", ")}. Use one of: ${STATUSES.join(", ")}.` }],
+                        isError: true,
+                    };
+                }
+                const results = searchCards(db, {
+                    query,
+                    projectId,
+                    statuses,
+                    excludeCardId: excludeCardId ? resolveCardId(excludeCardId) : null,
+                    limit,
+                });
+                return {
+                    content: [{
+                            type: "text",
+                            text: results.length
+                                ? JSON.stringify(results, null, 2)
+                                : `No cards in this project match "${query}".`,
+                        }],
+                };
+            }
+            case "list_open_work": {
+                const { projectId, excludeCardId } = args;
+                if (!projectId) {
+                    return {
+                        content: [{ type: "text", text: "list_open_work needs a projectId." }],
+                        isError: true,
+                    };
+                }
+                const rows = await listOpenWork(db, { projectId, excludeCardId: excludeCardId ? resolveCardId(excludeCardId) : null }, { isGitRepo, changedFiles: listChangedFiles });
+                return {
+                    content: [{
+                            type: "text",
+                            text: rows.length
+                                ? JSON.stringify(rows, null, 2)
+                                : "No open work with known files in this project.",
+                        }],
+                };
             }
             case "create_card": {
                 const { title, description = "", solutionSummary = "", status = "backlog", complexity = "medium", priority = "medium", projectId = null, groupId = null, } = args;
