@@ -128,7 +128,7 @@ function safeDisplayId(value) {
 // MCP server hands them back as a tool result — a channel the model reads at a
 // different trust level — and emitting a literal system-reminder tag from tool
 // output reads as an injection attempt, so that caller takes the bare body.
-export function buildPhasePolicyBody(card, branchPolicy) {
+export function buildPhasePolicyBody(card, branchPolicy, mode = "development") {
     const phaseInstruction = PHASE_INSTRUCTIONS[card.status];
     if (!phaseInstruction)
         return null;
@@ -150,18 +150,22 @@ export function buildPhasePolicyBody(card, branchPolicy) {
     // 1, 2, 3, 4, 8.
     let clause = phaseLines.filter((line) => /^\d+\./.test(line)).length;
     const next = () => ++clause;
-    if (branchPolicy?.enforced && branchPolicy.targetBranch) {
+    // Both git clauses are development-only. A Work project never resolves a
+    // branch policy anyway (shouldUseWorktree says no), but the trailer clause
+    // used to key off the display ID alone — and a Work card has one.
+    const gitClauses = mode !== "work";
+    if (gitClauses && branchPolicy?.enforced && branchPolicy.targetBranch) {
         lines.push(`${next()}. This card must be implemented on branch "${branchPolicy.targetBranch}".`, "   Before the first Edit/Write/NotebookEdit in this session, verify the", "   current branch. If it does not match, call mcp__ideafy__ensure_branch", `   with cardId "${card.id}" to create or check out the correct branch.`, "   The PreToolUse hook will block edits performed on the wrong branch.");
     }
-    if (displayId) {
+    if (gitClauses && displayId) {
         lines.push(`${next()}. When a commit advances the work this card describes, reference the`, `   card with a trailer: put "Card: ${displayId}" on its own line as the last`, "   line of the commit body. Write the subject exactly as you otherwise", "   would — no prefix, no change in style.", `${next()}. Do NOT tag a commit with this card when the work is something the`, "   card does not cover. Untagged commits are legitimate and common — a", "   typo fix, a lint pass, an unrelated bug you happened to notice. Leave", "   those untagged, or ask in one sentence whether to open a card for the", "   work and use that card's ref instead. A wrong ref is worse than none:", "   it makes the board claim something that is not true.");
     }
     return lines.join("\n");
 }
 // Phase-aware policy block used once a session is bound to a card. What the
 // hook injects on every user turn.
-export function buildPhasePolicy(card, branchPolicy) {
-    const body = buildPhasePolicyBody(card, branchPolicy);
+export function buildPhasePolicy(card, branchPolicy, mode = "development") {
+    const body = buildPhasePolicyBody(card, branchPolicy, mode);
     if (body === null)
         return null;
     return `<system-reminder>\n${body}\n</system-reminder>\n`;

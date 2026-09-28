@@ -185,6 +185,14 @@ export async function ensureBranchInPlace(cwd, branchName) {
         };
     }
 }
+// Mirror of shouldUseWorktree in lib/workspace.ts: a Work project never gets a
+// branch, whatever the toggles say. resolveEffectiveWorktree below calls it by
+// the same name so the two resolver bodies stay textually identical.
+export function shouldUseWorktree(card, project) {
+    if (project?.mode === "work")
+        return false;
+    return card.useWorktree ?? project?.useWorktrees ?? true;
+}
 // Mirror of resolveEffectiveWorktree in lib/hook-policy.ts. That one stayed on
 // the app side because it imports generateBranchName from lib/git; this one
 // leans on the copy that already lives above. The phase policy the MCP server
@@ -193,7 +201,7 @@ export async function ensureBranchInPlace(cwd, branchName) {
 // on" identically — mcp-server/__tests__/phase-policy.test.ts cross-checks the
 // two bodies.
 export function resolveEffectiveWorktree(card, project) {
-    const effective = card.useWorktree ?? project?.useWorktrees ?? true;
+    const effective = shouldUseWorktree(card, project);
     if (!effective)
         return { enforced: false, targetBranch: null };
     if (card.gitBranchName) {

@@ -15,6 +15,9 @@ export function serializeUseWorktreeForDb(value) {
         return null;
     return value ? 1 : 0;
 }
+export function normalizeProjectMode(value) {
+    return value === "work" ? "work" : "development";
+}
 export function extractImagesFromHtml(html, fieldName) {
     const images = [];
     let index = 0;
