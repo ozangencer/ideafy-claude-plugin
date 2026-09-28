@@ -531,7 +531,7 @@ Reading the results: a newer decision overrides an older one (compare completedA
             },
             {
                 name: "list_open_work",
-                description: `List a project's unmerged work and the files each piece touches, to spot overlap before you plan. Two sources per card: \`git\` — cards with a live worktree or branch, listing the files changed since the branch left the default branch; \`plan\` — backlog/bugs/progress cards with a written plan but no branch yet, listing the files the plan's Files line names. Returns displayId, title, status, branch, source and at most ${MAX_OPEN_WORK_FILES} file paths per card — no diffs and no plan text. A project that is not a git repository only has plan rows.`,
+                description: `List a project's unmerged work and the files each piece touches, to spot overlap before you plan. Two sources per card: \`git\` — cards with a live worktree or branch, listing the files changed since the branch left the default branch; \`plan\` — backlog/bugs/progress cards with a written plan but no branch yet, listing the files the plan's Files line names. Returns displayId, title, status, branch, source and at most ${MAX_OPEN_WORK_FILES} file paths per card — no diffs and no plan text. Pass the files your card will change as \`files\` and each row that touches one of them carries it under \`overlap\`, matched against the card's full list even past the cap; those rows come first. A project that is not a git repository only has plan rows.`,
                 inputSchema: {
                     type: "object",
                     properties: {
@@ -542,6 +542,11 @@ Reading the results: a newer decision overrides an older one (compare completedA
                         excludeCardId: {
                             type: "string",
                             description: "The card you are working on (UUID or display ID), so it is not listed against itself.",
+                        },
+                        files: {
+                            type: "array",
+                            items: { type: "string" },
+                            description: "Repo-relative paths your card will change (e.g. your plan's Files line). `dir/*` matches everything under dir.",
                         },
                     },
                     required: ["projectId"],
@@ -1150,14 +1155,18 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
                 };
             }
             case "list_open_work": {
-                const { projectId, excludeCardId } = args;
+                const { projectId, excludeCardId, files } = args;
                 if (!projectId) {
                     return {
                         content: [{ type: "text", text: "list_open_work needs a projectId." }],
                         isError: true,
                     };
                 }
-                const rows = await listOpenWork(db, { projectId, excludeCardId: excludeCardId ? resolveCardId(excludeCardId) : null }, { isGitRepo, changedFiles: listChangedFiles });
+                const rows = await listOpenWork(db, {
+                    projectId,
+                    excludeCardId: excludeCardId ? resolveCardId(excludeCardId) : null,
+                    files: Array.isArray(files) ? files.filter((f) => typeof f === "string") : null,
+                }, { isGitRepo, changedFiles: listChangedFiles });
                 return {
                     content: [{
                             type: "text",

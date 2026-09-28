@@ -199,6 +199,30 @@ export function extractPlanFiles(solutionHtml) {
     return section ? pathTokens(section[1]) : [];
 }
 export const MAX_OPEN_WORK_FILES = 40;
+function normalizePath(path) {
+    return path.trim().replace(/^\.\//, "").replace(/\/+$/, "");
+}
+// `dir/*` or `dir/**` covers everything under dir; anything else is exact.
+function pathsOverlap(a, b) {
+    const globRoot = (p) => (/\/\*+$/.test(p) ? p.replace(/\/\*+$/, "/") : null);
+    const ga = globRoot(a);
+    const gb = globRoot(b);
+    if (ga && gb)
+        return ga.startsWith(gb) || gb.startsWith(ga);
+    if (ga)
+        return b.startsWith(ga);
+    if (gb)
+        return a.startsWith(gb);
+    return a === b;
+}
+// The caller's files that a card also touches, matched against the card's full
+// file list — not the capped one it gets back. A 52-file branch otherwise hides
+// its overlap past the cap, and alphabetical order puts mcp-server/ and lib/
+// right where the cut falls.
+function findOverlap(cardFiles, callerFiles) {
+    const card = cardFiles.map(normalizePath);
+    return callerFiles.filter((f) => card.some((c) => pathsOverlap(c, f)));
+}
 // Columns where work can still be unmerged. Human Test only counts while it
 // still has a live branch or worktree; its plan alone says nothing about what
 // is left.
@@ -228,6 +252,7 @@ export async function listOpenWork(db, opts, deps) {
     // A Work project has no repository; its open work is whatever the plans say.
     const repoPath = project.folderPath;
     const inGit = repoPath ? await deps.isGitRepo(repoPath) : false;
+    const callerFiles = Array.from(new Set((opts.files ?? []).map(normalizePath).filter(Boolean)));
     const result = [];
     for (const row of rows) {
         const base = {
@@ -266,7 +291,16 @@ export async function listOpenWork(db, opts, deps) {
         };
         if (files.length > MAX_OPEN_WORK_FILES)
             entry.moreFiles = files.length - MAX_OPEN_WORK_FILES;
+        if (callerFiles.length) {
+            const overlap = findOverlap(files, callerFiles);
+            if (overlap.length)
+                entry.overlap = overlap;
+        }
         result.push(entry);
+    }
+    // Overlapping cards first, so the rows that matter lead the answer.
+    if (callerFiles.length) {
+        result.sort((a, b) => Number(Boolean(b.overlap)) - Number(Boolean(a.overlap)));
     }
     return result;
 }
