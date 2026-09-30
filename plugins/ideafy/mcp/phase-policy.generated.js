@@ -31,6 +31,20 @@ const PHASE_INSTRUCTIONS = {
     // an entry here so buildPhasePolicy does not bail out.
     test: "record what you verified with save_tests, then propose moving to Completed.",
 };
+// A Work card is written, not built: there is no plan-then-implement split and
+// no code to test, so the backlog and revision columns go straight to doing the
+// work and handing back a review checklist. Kept generic on purpose — the
+// output can be a document, a research note or a mail draft. Ideation is the
+// same evaluation in both modes, so it has no entry here.
+const WORK_PHASE_INSTRUCTIONS = {
+    backlog: "do the work in the project folder and leave the output there — a document, a research note, a mail draft, whatever the card asks for. Base it on the card's AI Opinion when it has one — get_card returns it. Record each file you produce with save_output; it does not move the card and needs no confirmation. Then write a short summary of what you produced and propose save_tests with a review checklist for it. This moves the card to In Review.",
+    bugs: "revise the output in the project folder as the card describes and leave the new version there. Record any new file with save_output; it does not move the card and needs no confirmation. Then write a short summary of what changed and propose save_tests with a review checklist for it. This moves the card to In Review.",
+    progress: "propose save_tests with a review checklist for the output. This moves the card to In Review.",
+    test: "tick the review checklist items you checked with save_tests, then propose moving to Done.",
+};
+function phaseInstructionFor(status, mode) {
+    return (mode === "work" && WORK_PHASE_INSTRUCTIONS[status]) || PHASE_INSTRUCTIONS[status];
+}
 export function isTerminalPhase(status) {
     return status === "completed" || status === "withdrawn";
 }
@@ -79,7 +93,26 @@ function sanitizeForReminder(value, maxLength = 120) {
 // scenario is not a phase transition — it is the work itself, and it happens
 // many times per session — so recording it must not need a confirmation round
 // trip. Only the move to Completed does.
-function buildTestPhaseLines() {
+function buildTestPhaseLines(mode) {
+    if (mode === "work") {
+        return [
+            "1. This card is in review. Whenever you check a review item yourself —",
+            "   open the output in the project folder and confirm what the item asks —",
+            "   mark it [x] and call save_tests. Send the FULL checklist — every existing",
+            "   item with its current [x]/[ ] state — changing only the boxes you checked.",
+            "   Recording what you checked is the work, not a phase transition: do it",
+            "   without asking first.",
+            "2. Never check an item you did not actually confirm. Leave it [ ] and say",
+            "   why — it needs a person's judgement, or access you do not have, or the",
+            "   output fell short. A failing item stays unchecked and gets reported,",
+            "   never quietly skipped.",
+            "3. When every item is checked, STOP and ASK in a single short sentence",
+            "   whether to move the card to Done. On a clear yes, call move_card with",
+            "   status 'completed' in the same turn.",
+            "4. On 'no', keep working — 'no' means 'not yet'. Do not re-ask about moving",
+            "   the card on turns where nothing new was checked.",
+        ];
+    }
     return [
         "1. This card is in manual testing. Whenever you verify a scenario yourself,",
         "   mark it [x] and call save_tests. Send the FULL checklist — every existing",
@@ -129,13 +162,13 @@ function safeDisplayId(value) {
 // different trust level — and emitting a literal system-reminder tag from tool
 // output reads as an injection attempt, so that caller takes the bare body.
 export function buildPhasePolicyBody(card, branchPolicy, mode = "development") {
-    const phaseInstruction = PHASE_INSTRUCTIONS[card.status];
+    const phaseInstruction = phaseInstructionFor(card.status, mode);
     if (!phaseInstruction)
         return null;
     const title = sanitizeForReminder(card.title);
     const displayId = safeDisplayId(card.displayId);
     const phaseLines = card.status === "test"
-        ? buildTestPhaseLines()
+        ? buildTestPhaseLines(mode)
         : buildStandardPhaseLines(card.status, phaseInstruction);
     const lines = [
         `Ideafy card: ${card.id} — "${title}"`,

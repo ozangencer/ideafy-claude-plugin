@@ -27,6 +27,7 @@ Restart Claude Code after install.
 
 - Ideafy app running on `localhost:${IDEAFY_PORT:-3030}` (hooks forward prompt context here)
 - Ideafy SQLite DB at the OS-standard Electron userData dir (auto-resolved — macOS / Linux / Windows)
+- Node.js 22.5 or newer as `node` on PATH. The MCP server uses Node's built-in `node:sqlite`, so the plugin has no native dependency to build
 
 If the server is unreachable, the hooks emit a single reminder asking the user to launch Ideafy, then stay silent.
 

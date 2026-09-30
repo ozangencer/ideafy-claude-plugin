@@ -2,7 +2,7 @@
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { CallToolRequestSchema, ListToolsRequestSchema, } from "@modelcontextprotocol/sdk/types.js";
-import Database from "better-sqlite3";
+import { openDatabase, transaction } from "./db.js";
 import { resolve, dirname } from "path";
 import { fileURLToPath } from "url";
 import { homedir } from "os";
@@ -298,12 +298,19 @@ function resolveDbPath() {
     return resolve(dir, "kanban.db");
 }
 const DB_PATH = resolveDbPath();
-// Initialize database connection. WAL journal mode so this process and
-// the Next server can read/write the same DB concurrently without
-// SQLITE_BUSY errors.
-const db = new Database(DB_PATH);
-db.pragma("journal_mode = WAL");
-db.pragma("foreign_keys = ON");
+// Initialize database connection. openDatabase sets WAL and a busy timeout so
+// this process and the Next server can read/write the same DB concurrently
+// without SQLITE_BUSY errors. A Node without node:sqlite exits here with a
+// one-line reason instead of a stack trace.
+const db = (() => {
+    try {
+        return openDatabase(DB_PATH);
+    }
+    catch (error) {
+        console.error(`[ideafy-mcp] ${error instanceof Error ? error.message : String(error)}`);
+        process.exit(1);
+    }
+})();
 // ============================================================================
 // Input validation
 // ============================================================================
@@ -1054,7 +1061,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
                 // One transaction: groupId is written first (0016's trigger clears
                 // the old position), then the order is computed in the new chain. A
                 // rejected afterCardId rolls the field writes back with it.
-                const outcome = db.transaction(() => {
+                const outcome = transaction(db, () => {
                     if (writeFields) {
                         const result = db.prepare(`
               UPDATE cards SET ${setClauses.join(", ")} WHERE id = ?
@@ -1065,7 +1072,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
                     return {
                         placed: reorder ? moveCardInChain(db, id, afterCardId ?? null) : null,
                     };
-                })();
+                });
                 if (!outcome) {
                     return {
                         content: [{ type: "text", text: `Card not found: ${id}` }],

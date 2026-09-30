@@ -1,3 +1,4 @@
+import { transaction } from "./db.js";
 import { v4 as uuidv4 } from "uuid";
 import { buildChainContext, compareByChainOrder, isFinished, placeAfter, } from "./chain-order.generated.js";
 import { hasColumn } from "./output-paths.js";
@@ -205,7 +206,7 @@ export function moveCardInChain(db, cardId, afterCardId) {
     if (afterCardId === cardId) {
         throw new CardGroupError("afterCardId cannot be the card itself.");
     }
-    return db.transaction(() => {
+    return transaction(db, () => {
         const card = db.prepare(`SELECT group_id AS groupId FROM cards WHERE id = ?`).get(cardId);
         if (!card)
             throw new CardGroupError(`Card not found: ${cardId}`);
@@ -222,5 +223,5 @@ export function moveCardInChain(db, cardId, afterCardId) {
         const write = db.prepare(`UPDATE cards SET group_order = ? WHERE id = ?`);
         ids.forEach((id, index) => write.run(index + 1, id));
         return { position: ids.indexOf(cardId) + 1, total: ids.length };
-    })();
+    });
 }
