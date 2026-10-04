@@ -21425,11 +21425,14 @@ var card_ops_exports = {};
 __export(card_ops_exports, {
   allRows: () => allRows,
   completedAtFor: () => completedAtFor,
+  completedAtOnCreate: () => completedAtOnCreate,
   getRow: () => getRow,
   isStatus: () => isStatus,
   moveCard: () => moveCard,
   runChanges: () => runChanges,
   saveOpinion: () => saveOpinion,
+  statusAfterPlan: () => statusAfterPlan,
+  statusAfterTests: () => statusAfterTests,
   transaction: () => transaction
 });
 
@@ -21495,6 +21498,15 @@ function completedAtFor(oldStatus, newStatus, current, now) {
   if (newStatus === "completed" && oldStatus !== "completed") return now;
   if (newStatus !== "completed" && oldStatus === "completed") return null;
   return current;
+}
+function completedAtOnCreate(status, now) {
+  return completedAtFor("", status, null, now);
+}
+function statusAfterPlan(current) {
+  return current === "ideation" || current === "backlog" || current === "bugs" ? "progress" : null;
+}
+function statusAfterTests(current) {
+  return current === "test" || current === "completed" || current === "withdrawn" ? null : "test";
 }
 function moveCard(db2, id, status, now) {
   if (!isStatus(status)) return { ok: false, reason: "invalid-status" };
@@ -21688,7 +21700,16 @@ var { PRIOR_DECISIONS_RULE: PRIOR_DECISIONS_RULE2, CHAIN_IMPLEMENTATION_RULE: CH
 var { linkCardReferences: linkCardReferences2 } = unwrap(card_links_exports);
 var { buildChainContext: buildChainContext2, compareByChainOrder: compareByChainOrder2, isFinished: isFinished2, placeAfter: placeAfter2 } = unwrap(chain_order_exports);
 var { extractPlanFiles: extractPlanFiles2, htmlToText: htmlToText2, normalizePath: normalizePath2, pathsOverlap: pathsOverlap2 } = unwrap(plan_files_exports);
-var { transaction: transaction2, moveCard: moveCard2, completedAtFor: completedAtFor2, isStatus: isStatus2, saveOpinion: saveOpinion2 } = unwrap(card_ops_exports);
+var {
+  transaction: transaction2,
+  moveCard: moveCard2,
+  completedAtFor: completedAtFor2,
+  completedAtOnCreate: completedAtOnCreate2,
+  isStatus: isStatus2,
+  statusAfterPlan: statusAfterPlan2,
+  statusAfterTests: statusAfterTests2,
+  saveOpinion: saveOpinion2
+} = unwrap(card_ops_exports);
 var { normalizeComplexity: normalizeComplexity2, describeOpinionMarkers: describeOpinionMarkers2 } = unwrap(opinion_markers_exports);
 
 // db.ts
@@ -23987,6 +24008,17 @@ var STATUSES2 = [
   "completed",
   "withdrawn"
 ];
+function saveFieldAndMove(id, column, html, nextStatus) {
+  return transaction2(db, () => {
+    const row = db.prepare(`SELECT status FROM cards WHERE id = ?`).get(id);
+    if (!row) return false;
+    const now = (/* @__PURE__ */ new Date()).toISOString();
+    db.prepare(`UPDATE cards SET ${column} = ?, updated_at = ? WHERE id = ?`).run(html, now, id);
+    const target = nextStatus(row.status);
+    if (target) moveCard2(db, id, target, now);
+    return true;
+  });
+}
 function readStatus(id) {
   const row = db.prepare(`SELECT status FROM cards WHERE id = ?`).get(id);
   return row?.status ?? "unknown";
@@ -24222,7 +24254,7 @@ Reading the results: a newer decision overrides an older one (compare completedA
       },
       {
         name: "save_plan",
-        description: `Save a solution plan to a card and move it to In Progress. Use this when you've completed planning a task.
+        description: `Save a solution plan to a card. A card in Ideation, Backlog or Bugs moves to In Progress; anywhere else it stays in its column. Use this when you've completed planning a task.
 
 NOT the exit from Ideation. A card in the \`ideation\` column has not been evaluated yet: it needs save_opinion first, then the user's yes to move_card. Calling save_plan on an ideation card skips the evaluation the user asked for and jumps the card two columns at once \u2014 check the card's column before you call this.
 
@@ -24258,7 +24290,7 @@ ${PRIOR_DECISIONS_RULE2}`,
       },
       {
         name: "save_tests",
-        description: `Save test scenarios to a card and move it to Human Test. Use this when you've completed implementation.
+        description: `Save test scenarios to a card and move it to Human Test (a Completed or Withdrawn card stays where it is). Use this when you've completed implementation.
 
 ${TEST_STYLE_CONTRACT}
 
@@ -24601,6 +24633,15 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           }
           updates.complexity = stored;
         }
+        if (updates.status !== void 0 && !isStatus2(updates.status)) {
+          return {
+            content: [{
+              type: "text",
+              text: `update_card: "${updates.status}" is not a column. Valid columns: ${STATUSES2.join(", ")}.`
+            }],
+            isError: true
+          };
+        }
         if (updates.groupId !== void 0) {
           const owner = db.prepare(`SELECT project_id FROM cards WHERE id = ?`).get(id);
           assertGroupAssignable(db, updates.groupId, owner?.project_id ?? null);
@@ -24850,6 +24891,21 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           groupId = null
         } = args;
         assertValidCardTitle(title);
+        if (!isStatus2(status)) {
+          return {
+            content: [{
+              type: "text",
+              text: `create_card: "${status}" is not a column. Valid columns: ${STATUSES2.join(", ")}.`
+            }],
+            isError: true
+          };
+        }
+        if (status === "completed" && !hasCapability(db, "completedAt")) {
+          return {
+            content: [{ type: "text", text: missingCapabilityMessage("create_card", "completedAt") }],
+            isError: true
+          };
+        }
         assertGroupAssignable(db, groupId, projectId);
         const storedComplexity = normalizeComplexity2(complexity);
         if (!storedComplexity) {
@@ -24874,12 +24930,13 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           }
         }
         const cardId = v4_default();
+        const completedAt = completedAtOnCreate2(status, now);
         db.prepare(`
           INSERT INTO cards (
             id, title, description, solution_summary, test_scenarios,
             status, complexity, priority, project_folder, project_id,
-            group_id, task_number, created_at, updated_at
-          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            group_id, task_number, created_at, updated_at${completedAt ? ", completed_at" : ""}
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?${completedAt ? ", ?" : ""})
         `).run(
           cardId,
           title,
@@ -24895,7 +24952,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           groupId,
           taskNumber,
           now,
-          now
+          now,
+          ...completedAt ? [completedAt] : []
         );
         const hint = buildPhaseHint2(status);
         return {
@@ -24917,12 +24975,14 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           };
         }
         const htmlContent = linkCardsInHtml(db, markdownToTiptapHtml(solutionSummary), projectIdOfCard(db, id));
-        const result = db.prepare(`
-          UPDATE cards
-          SET solution_summary = ?, status = 'progress', updated_at = ?
-          WHERE id = ?
-        `).run(htmlContent, (/* @__PURE__ */ new Date()).toISOString(), id);
-        if (result.changes === 0) {
+        if (!hasCapability(db, "completedAt")) {
+          return {
+            content: [{ type: "text", text: missingCapabilityMessage("save_plan", "completedAt") }],
+            isError: true
+          };
+        }
+        const saved = saveFieldAndMove(id, "solution_summary", htmlContent, statusAfterPlan2);
+        if (!saved) {
           return {
             content: [{ type: "text", text: `Card not found: ${id}` }],
             isError: true
@@ -24978,12 +25038,14 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           }
         }
         const mergedHtml = !deletionRequested && existing?.test_scenarios ? mergeTestCheckState(existing.test_scenarios, htmlContent) : htmlContent;
-        const result = db.prepare(`
-          UPDATE cards
-          SET test_scenarios = ?, status = 'test', updated_at = ?
-          WHERE id = ?
-        `).run(mergedHtml, (/* @__PURE__ */ new Date()).toISOString(), id);
-        if (result.changes === 0) {
+        if (!hasCapability(db, "completedAt")) {
+          return {
+            content: [{ type: "text", text: missingCapabilityMessage("save_tests", "completedAt") }],
+            isError: true
+          };
+        }
+        const saved = saveFieldAndMove(id, "test_scenarios", mergedHtml, statusAfterTests2);
+        if (!saved) {
           return {
             content: [{ type: "text", text: `Card not found: ${id}` }],
             isError: true
