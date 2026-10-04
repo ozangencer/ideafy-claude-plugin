@@ -30,9 +30,9 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 
-// node_modules/ajv/dist/compile/codegen/code.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/code.js
 var require_code = __commonJS({
-  "node_modules/ajv/dist/compile/codegen/code.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/code.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.regexpCode = exports.getEsmExportName = exports.getProperty = exports.safeStringify = exports.stringify = exports.strConcat = exports.addCodeArg = exports.str = exports._ = exports.nil = exports._Code = exports.Name = exports.IDENTIFIER = exports._CodeOrName = void 0;
@@ -184,9 +184,9 @@ var require_code = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/codegen/scope.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/scope.js
 var require_scope = __commonJS({
-  "node_modules/ajv/dist/compile/codegen/scope.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/scope.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.ValueScope = exports.ValueScopeName = exports.Scope = exports.varKinds = exports.UsedValueState = void 0;
@@ -329,9 +329,9 @@ var require_scope = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/codegen/index.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/index.js
 var require_codegen = __commonJS({
-  "node_modules/ajv/dist/compile/codegen/index.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.or = exports.and = exports.not = exports.CodeGen = exports.operators = exports.varKinds = exports.ValueScopeName = exports.ValueScope = exports.Scope = exports.Name = exports.regexpCode = exports.stringify = exports.getProperty = exports.nil = exports.strConcat = exports.str = exports._ = void 0;
@@ -1049,9 +1049,9 @@ var require_codegen = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/util.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/util.js
 var require_util = __commonJS({
-  "node_modules/ajv/dist/compile/util.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/util.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.checkStrictMode = exports.getErrorPath = exports.Type = exports.useFunc = exports.setEvaluated = exports.evaluatedPropsToName = exports.mergeEvaluated = exports.eachItem = exports.unescapeJsonPointer = exports.escapeJsonPointer = exports.escapeFragment = exports.unescapeFragment = exports.schemaRefOrVal = exports.schemaHasRulesButRef = exports.schemaHasRules = exports.checkUnknownRules = exports.alwaysValidSchema = exports.toHash = void 0;
@@ -1216,9 +1216,9 @@ var require_util = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/names.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/names.js
 var require_names = __commonJS({
-  "node_modules/ajv/dist/compile/names.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/names.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -1255,9 +1255,9 @@ var require_names = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/errors.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/errors.js
 var require_errors = __commonJS({
-  "node_modules/ajv/dist/compile/errors.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/errors.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.extendErrors = exports.resetErrorsCount = exports.reportExtraError = exports.reportError = exports.keyword$DataError = exports.keywordError = void 0;
@@ -1377,9 +1377,9 @@ var require_errors = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/validate/boolSchema.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/boolSchema.js
 var require_boolSchema = __commonJS({
-  "node_modules/ajv/dist/compile/validate/boolSchema.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/boolSchema.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.boolOrEmptySchema = exports.topBoolOrEmptySchema = void 0;
@@ -1428,9 +1428,9 @@ var require_boolSchema = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/rules.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/rules.js
 var require_rules = __commonJS({
-  "node_modules/ajv/dist/compile/rules.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/rules.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.getRules = exports.isJSONType = void 0;
@@ -1459,9 +1459,9 @@ var require_rules = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/validate/applicability.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/applicability.js
 var require_applicability = __commonJS({
-  "node_modules/ajv/dist/compile/validate/applicability.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/applicability.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.shouldUseRule = exports.shouldUseGroup = exports.schemaHasRulesForType = void 0;
@@ -1482,9 +1482,9 @@ var require_applicability = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/validate/dataType.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/dataType.js
 var require_dataType = __commonJS({
-  "node_modules/ajv/dist/compile/validate/dataType.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/dataType.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.reportTypeError = exports.checkDataTypes = exports.checkDataType = exports.coerceAndCheckDataType = exports.getJSONTypes = exports.getSchemaTypes = exports.DataType = void 0;
@@ -1666,9 +1666,9 @@ var require_dataType = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/validate/defaults.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/defaults.js
 var require_defaults = __commonJS({
-  "node_modules/ajv/dist/compile/validate/defaults.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/defaults.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.assignDefaults = void 0;
@@ -1703,9 +1703,9 @@ var require_defaults = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/code.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/code.js
 var require_code2 = __commonJS({
-  "node_modules/ajv/dist/vocabularies/code.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/code.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.validateUnion = exports.validateArray = exports.usePattern = exports.callValidateCode = exports.schemaProperties = exports.allSchemaProperties = exports.noPropertyInData = exports.propertyInData = exports.isOwnProperty = exports.hasPropFunc = exports.reportMissingProp = exports.checkMissingProp = exports.checkReportMissingProp = void 0;
@@ -1836,9 +1836,9 @@ var require_code2 = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/validate/keyword.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/keyword.js
 var require_keyword = __commonJS({
-  "node_modules/ajv/dist/compile/validate/keyword.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/keyword.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.validateKeywordUsage = exports.validSchemaType = exports.funcKeywordCode = exports.macroKeywordCode = void 0;
@@ -1954,9 +1954,9 @@ var require_keyword = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/validate/subschema.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/subschema.js
 var require_subschema = __commonJS({
-  "node_modules/ajv/dist/compile/validate/subschema.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/subschema.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.extendSubschemaMode = exports.extendSubschemaData = exports.getSubschema = void 0;
@@ -2037,9 +2037,9 @@ var require_subschema = __commonJS({
   }
 });
 
-// node_modules/fast-deep-equal/index.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-deep-equal/index.js
 var require_fast_deep_equal = __commonJS({
-  "node_modules/fast-deep-equal/index.js"(exports, module) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-deep-equal/index.js"(exports, module) {
     "use strict";
     module.exports = function equal(a, b2) {
       if (a === b2) return true;
@@ -2072,9 +2072,9 @@ var require_fast_deep_equal = __commonJS({
   }
 });
 
-// node_modules/json-schema-traverse/index.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/json-schema-traverse/index.js
 var require_json_schema_traverse = __commonJS({
-  "node_modules/json-schema-traverse/index.js"(exports, module) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/json-schema-traverse/index.js"(exports, module) {
     "use strict";
     var traverse = module.exports = function(schema, opts, cb) {
       if (typeof opts == "function") {
@@ -2160,9 +2160,9 @@ var require_json_schema_traverse = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/resolve.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/resolve.js
 var require_resolve = __commonJS({
-  "node_modules/ajv/dist/compile/resolve.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/resolve.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.getSchemaRefs = exports.resolveUrl = exports.normalizeId = exports._getFullPath = exports.getFullPath = exports.inlineRef = void 0;
@@ -2316,9 +2316,9 @@ var require_resolve = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/validate/index.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/index.js
 var require_validate = __commonJS({
-  "node_modules/ajv/dist/compile/validate/index.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.getData = exports.KeywordCxt = exports.validateFunctionCode = void 0;
@@ -2824,9 +2824,9 @@ var require_validate = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/runtime/validation_error.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/validation_error.js
 var require_validation_error = __commonJS({
-  "node_modules/ajv/dist/runtime/validation_error.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/validation_error.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var ValidationError = class extends Error {
@@ -2840,9 +2840,9 @@ var require_validation_error = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/ref_error.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/ref_error.js
 var require_ref_error = __commonJS({
-  "node_modules/ajv/dist/compile/ref_error.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/ref_error.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var resolve_1 = require_resolve();
@@ -2857,9 +2857,9 @@ var require_ref_error = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/index.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/index.js
 var require_compile = __commonJS({
-  "node_modules/ajv/dist/compile/index.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.resolveSchema = exports.getCompilingSchema = exports.resolveRef = exports.compileSchema = exports.SchemaEnv = void 0;
@@ -3081,9 +3081,9 @@ var require_compile = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/refs/data.json
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/refs/data.json
 var require_data = __commonJS({
-  "node_modules/ajv/dist/refs/data.json"(exports, module) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/refs/data.json"(exports, module) {
     module.exports = {
       $id: "https://raw.githubusercontent.com/ajv-validator/ajv/master/lib/refs/data.json#",
       description: "Meta-schema for $data reference (JSON AnySchema extension proposal)",
@@ -3100,9 +3100,9 @@ var require_data = __commonJS({
   }
 });
 
-// node_modules/fast-uri/lib/utils.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/lib/utils.js
 var require_utils = __commonJS({
-  "node_modules/fast-uri/lib/utils.js"(exports, module) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/lib/utils.js"(exports, module) {
     "use strict";
     var isUUID = RegExp.prototype.test.bind(/^[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}$/iu);
     var isIPv4 = RegExp.prototype.test.bind(/^(?:(?:25[0-5]|2[0-4]\d|1\d{2}|[1-9]\d|\d)\.){3}(?:25[0-5]|2[0-4]\d|1\d{2}|[1-9]\d|\d)$/u);
@@ -3357,9 +3357,9 @@ var require_utils = __commonJS({
   }
 });
 
-// node_modules/fast-uri/lib/schemes.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/lib/schemes.js
 var require_schemes = __commonJS({
-  "node_modules/fast-uri/lib/schemes.js"(exports, module) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/lib/schemes.js"(exports, module) {
     "use strict";
     var { isUUID } = require_utils();
     var URN_REG = /([\da-z][\d\-a-z]{0,31}):((?:[\w!$'()*+,\-.:;=@]|%[\da-f]{2})+)/iu;
@@ -3567,9 +3567,9 @@ var require_schemes = __commonJS({
   }
 });
 
-// node_modules/fast-uri/index.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/index.js
 var require_fast_uri = __commonJS({
-  "node_modules/fast-uri/index.js"(exports, module) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/index.js"(exports, module) {
     "use strict";
     var { normalizeIPv6, removeDotSegments, recomposeAuthority, normalizeComponentEncoding, isIPv4, nonSimpleDomain } = require_utils();
     var { SCHEMES, getSchemeHandler } = require_schemes();
@@ -3822,9 +3822,9 @@ var require_fast_uri = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/runtime/uri.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/uri.js
 var require_uri = __commonJS({
-  "node_modules/ajv/dist/runtime/uri.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/uri.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var uri = require_fast_uri();
@@ -3833,9 +3833,9 @@ var require_uri = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/core.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/core.js
 var require_core = __commonJS({
-  "node_modules/ajv/dist/core.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/core.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.CodeGen = exports.Name = exports.nil = exports.stringify = exports.str = exports._ = exports.KeywordCxt = void 0;
@@ -4444,9 +4444,9 @@ var require_core = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/core/id.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/id.js
 var require_id = __commonJS({
-  "node_modules/ajv/dist/vocabularies/core/id.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/id.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var def = {
@@ -4459,9 +4459,9 @@ var require_id = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/core/ref.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/ref.js
 var require_ref = __commonJS({
-  "node_modules/ajv/dist/vocabularies/core/ref.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/ref.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.callRef = exports.getValidate = void 0;
@@ -4581,9 +4581,9 @@ var require_ref = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/core/index.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/index.js
 var require_core2 = __commonJS({
-  "node_modules/ajv/dist/vocabularies/core/index.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var id_1 = require_id();
@@ -4602,9 +4602,9 @@ var require_core2 = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/validation/limitNumber.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitNumber.js
 var require_limitNumber = __commonJS({
-  "node_modules/ajv/dist/vocabularies/validation/limitNumber.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitNumber.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -4634,9 +4634,9 @@ var require_limitNumber = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/validation/multipleOf.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/multipleOf.js
 var require_multipleOf = __commonJS({
-  "node_modules/ajv/dist/vocabularies/validation/multipleOf.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/multipleOf.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -4662,9 +4662,9 @@ var require_multipleOf = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/runtime/ucs2length.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/ucs2length.js
 var require_ucs2length = __commonJS({
-  "node_modules/ajv/dist/runtime/ucs2length.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/ucs2length.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     function ucs2length(str) {
@@ -4688,9 +4688,9 @@ var require_ucs2length = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/validation/limitLength.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitLength.js
 var require_limitLength = __commonJS({
-  "node_modules/ajv/dist/vocabularies/validation/limitLength.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitLength.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -4720,9 +4720,9 @@ var require_limitLength = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/validation/pattern.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/pattern.js
 var require_pattern = __commonJS({
-  "node_modules/ajv/dist/vocabularies/validation/pattern.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/pattern.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -4757,9 +4757,9 @@ var require_pattern = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/validation/limitProperties.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitProperties.js
 var require_limitProperties = __commonJS({
-  "node_modules/ajv/dist/vocabularies/validation/limitProperties.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitProperties.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -4786,9 +4786,9 @@ var require_limitProperties = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/validation/required.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/required.js
 var require_required = __commonJS({
-  "node_modules/ajv/dist/vocabularies/validation/required.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/required.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -4868,9 +4868,9 @@ var require_required = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/validation/limitItems.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitItems.js
 var require_limitItems = __commonJS({
-  "node_modules/ajv/dist/vocabularies/validation/limitItems.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitItems.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -4897,9 +4897,9 @@ var require_limitItems = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/runtime/equal.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/equal.js
 var require_equal = __commonJS({
-  "node_modules/ajv/dist/runtime/equal.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/equal.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var equal = require_fast_deep_equal();
@@ -4908,9 +4908,9 @@ var require_equal = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/validation/uniqueItems.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/uniqueItems.js
 var require_uniqueItems = __commonJS({
-  "node_modules/ajv/dist/vocabularies/validation/uniqueItems.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/uniqueItems.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var dataType_1 = require_dataType();
@@ -4975,9 +4975,9 @@ var require_uniqueItems = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/validation/const.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/const.js
 var require_const = __commonJS({
-  "node_modules/ajv/dist/vocabularies/validation/const.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/const.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5004,9 +5004,9 @@ var require_const = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/validation/enum.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/enum.js
 var require_enum = __commonJS({
-  "node_modules/ajv/dist/vocabularies/validation/enum.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/enum.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5053,9 +5053,9 @@ var require_enum = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/validation/index.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/index.js
 var require_validation = __commonJS({
-  "node_modules/ajv/dist/vocabularies/validation/index.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var limitNumber_1 = require_limitNumber();
@@ -5091,9 +5091,9 @@ var require_validation = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/additionalItems.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/additionalItems.js
 var require_additionalItems = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/additionalItems.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/additionalItems.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.validateAdditionalItems = void 0;
@@ -5144,9 +5144,9 @@ var require_additionalItems = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/items.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/items.js
 var require_items = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/items.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/items.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.validateTuple = void 0;
@@ -5201,9 +5201,9 @@ var require_items = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/prefixItems.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/prefixItems.js
 var require_prefixItems = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/prefixItems.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/prefixItems.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var items_1 = require_items();
@@ -5218,9 +5218,9 @@ var require_prefixItems = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/items2020.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/items2020.js
 var require_items2020 = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/items2020.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/items2020.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5253,9 +5253,9 @@ var require_items2020 = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/contains.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/contains.js
 var require_contains = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/contains.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/contains.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5347,9 +5347,9 @@ var require_contains = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/dependencies.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/dependencies.js
 var require_dependencies = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/dependencies.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/dependencies.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.validateSchemaDeps = exports.validatePropertyDeps = exports.error = void 0;
@@ -5441,9 +5441,9 @@ var require_dependencies = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/propertyNames.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/propertyNames.js
 var require_propertyNames = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/propertyNames.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/propertyNames.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5484,9 +5484,9 @@ var require_propertyNames = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/additionalProperties.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/additionalProperties.js
 var require_additionalProperties = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/additionalProperties.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/additionalProperties.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -5590,9 +5590,9 @@ var require_additionalProperties = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/properties.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/properties.js
 var require_properties = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/properties.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/properties.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var validate_1 = require_validate();
@@ -5648,9 +5648,9 @@ var require_properties = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/patternProperties.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/patternProperties.js
 var require_patternProperties = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/patternProperties.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/patternProperties.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -5722,9 +5722,9 @@ var require_patternProperties = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/not.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/not.js
 var require_not = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/not.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/not.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var util_1 = require_util();
@@ -5753,9 +5753,9 @@ var require_not = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/anyOf.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/anyOf.js
 var require_anyOf = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/anyOf.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/anyOf.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -5770,9 +5770,9 @@ var require_anyOf = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/oneOf.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/oneOf.js
 var require_oneOf = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/oneOf.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/oneOf.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5828,9 +5828,9 @@ var require_oneOf = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/allOf.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/allOf.js
 var require_allOf = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/allOf.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/allOf.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var util_1 = require_util();
@@ -5855,9 +5855,9 @@ var require_allOf = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/if.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/if.js
 var require_if = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/if.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/if.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5924,9 +5924,9 @@ var require_if = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/thenElse.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/thenElse.js
 var require_thenElse = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/thenElse.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/thenElse.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var util_1 = require_util();
@@ -5942,9 +5942,9 @@ var require_thenElse = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/index.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/index.js
 var require_applicator = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/index.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var additionalItems_1 = require_additionalItems();
@@ -5990,9 +5990,9 @@ var require_applicator = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/format/format.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/format/format.js
 var require_format = __commonJS({
-  "node_modules/ajv/dist/vocabularies/format/format.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/format/format.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -6080,9 +6080,9 @@ var require_format = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/format/index.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/format/index.js
 var require_format2 = __commonJS({
-  "node_modules/ajv/dist/vocabularies/format/index.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/format/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var format_1 = require_format();
@@ -6091,9 +6091,9 @@ var require_format2 = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/metadata.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/metadata.js
 var require_metadata = __commonJS({
-  "node_modules/ajv/dist/vocabularies/metadata.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/metadata.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.contentVocabulary = exports.metadataVocabulary = void 0;
@@ -6114,9 +6114,9 @@ var require_metadata = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/draft7.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/draft7.js
 var require_draft7 = __commonJS({
-  "node_modules/ajv/dist/vocabularies/draft7.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/draft7.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var core_1 = require_core2();
@@ -6136,9 +6136,9 @@ var require_draft7 = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/discriminator/types.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/discriminator/types.js
 var require_types = __commonJS({
-  "node_modules/ajv/dist/vocabularies/discriminator/types.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/discriminator/types.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.DiscrError = void 0;
@@ -6150,9 +6150,9 @@ var require_types = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/discriminator/index.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/discriminator/index.js
 var require_discriminator = __commonJS({
-  "node_modules/ajv/dist/vocabularies/discriminator/index.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/discriminator/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -6255,9 +6255,9 @@ var require_discriminator = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/refs/json-schema-draft-07.json
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/refs/json-schema-draft-07.json
 var require_json_schema_draft_07 = __commonJS({
-  "node_modules/ajv/dist/refs/json-schema-draft-07.json"(exports, module) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/refs/json-schema-draft-07.json"(exports, module) {
     module.exports = {
       $schema: "http://json-schema.org/draft-07/schema#",
       $id: "http://json-schema.org/draft-07/schema#",
@@ -6412,9 +6412,9 @@ var require_json_schema_draft_07 = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/ajv.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/ajv.js
 var require_ajv = __commonJS({
-  "node_modules/ajv/dist/ajv.js"(exports, module) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/ajv.js"(exports, module) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.MissingRefError = exports.ValidationError = exports.CodeGen = exports.Name = exports.nil = exports.stringify = exports.str = exports._ = exports.KeywordCxt = exports.Ajv = void 0;
@@ -6482,9 +6482,9 @@ var require_ajv = __commonJS({
   }
 });
 
-// node_modules/ajv-formats/dist/formats.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/formats.js
 var require_formats = __commonJS({
-  "node_modules/ajv-formats/dist/formats.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/formats.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.formatNames = exports.fastFormats = exports.fullFormats = void 0;
@@ -6685,9 +6685,9 @@ var require_formats = __commonJS({
   }
 });
 
-// node_modules/ajv-formats/dist/limit.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/limit.js
 var require_limit = __commonJS({
-  "node_modules/ajv-formats/dist/limit.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/limit.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.formatLimitDefinition = void 0;
@@ -6757,9 +6757,9 @@ var require_limit = __commonJS({
   }
 });
 
-// node_modules/ajv-formats/dist/index.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/index.js
 var require_dist = __commonJS({
-  "node_modules/ajv-formats/dist/index.js"(exports, module) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/index.js"(exports, module) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var formats_1 = require_formats();
@@ -6799,7 +6799,7 @@ var require_dist = __commonJS({
   }
 });
 
-// node_modules/zod/v3/helpers/util.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/helpers/util.js
 var util;
 (function(util2) {
   util2.assertEqual = (_2) => {
@@ -6933,7 +6933,7 @@ var getParsedType = (data) => {
   }
 };
 
-// node_modules/zod/v3/ZodError.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/ZodError.js
 var ZodIssueCode = util.arrayToEnum([
   "invalid_type",
   "invalid_literal",
@@ -7047,7 +7047,7 @@ ZodError.create = (issues) => {
   return error2;
 };
 
-// node_modules/zod/v3/locales/en.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/locales/en.js
 var errorMap = (issue2, _ctx) => {
   let message;
   switch (issue2.code) {
@@ -7150,13 +7150,13 @@ var errorMap = (issue2, _ctx) => {
 };
 var en_default = errorMap;
 
-// node_modules/zod/v3/errors.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/errors.js
 var overrideErrorMap = en_default;
 function getErrorMap() {
   return overrideErrorMap;
 }
 
-// node_modules/zod/v3/helpers/parseUtil.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/helpers/parseUtil.js
 var makeIssue = (params) => {
   const { data, path, errorMaps, issueData } = params;
   const fullPath = [...path, ...issueData.path || []];
@@ -7265,14 +7265,14 @@ var isDirty = (x2) => x2.status === "dirty";
 var isValid = (x2) => x2.status === "valid";
 var isAsync = (x2) => typeof Promise !== "undefined" && x2 instanceof Promise;
 
-// node_modules/zod/v3/helpers/errorUtil.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/helpers/errorUtil.js
 var errorUtil;
 (function(errorUtil2) {
   errorUtil2.errToObj = (message) => typeof message === "string" ? { message } : message || {};
   errorUtil2.toString = (message) => typeof message === "string" ? message : message?.message;
 })(errorUtil || (errorUtil = {}));
 
-// node_modules/zod/v3/types.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/types.js
 var ParseInputLazyPath = class {
   constructor(parent, value, path, key) {
     this._cachedPath = [];
@@ -10675,7 +10675,7 @@ var nullableType = ZodNullable.create;
 var preprocessType = ZodEffects.createWithPreprocess;
 var pipelineType = ZodPipeline.create;
 
-// node_modules/zod/v4/core/core.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/core.js
 var NEVER = Object.freeze({
   status: "aborted"
 });
@@ -10749,7 +10749,7 @@ function config(newConfig) {
   return globalConfig;
 }
 
-// node_modules/zod/v4/core/util.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/util.js
 var util_exports = {};
 __export(util_exports, {
   BIGINT_FORMAT_RANGES: () => BIGINT_FORMAT_RANGES,
@@ -11428,7 +11428,7 @@ var Class = class {
   }
 };
 
-// node_modules/zod/v4/core/errors.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/errors.js
 var initializer = (inst, def) => {
   inst.name = "$ZodError";
   Object.defineProperty(inst, "_zod", {
@@ -11494,7 +11494,7 @@ function formatError(error2, mapper = (issue2) => issue2.message) {
   return fieldErrors;
 }
 
-// node_modules/zod/v4/core/parse.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/parse.js
 var _parse = (_Err) => (schema, value, _ctx, _params) => {
   const ctx = _ctx ? Object.assign(_ctx, { async: false }) : { async: false };
   const result = schema._zod.run({ value, issues: [] }, ctx);
@@ -11574,7 +11574,7 @@ var _safeDecodeAsync = (_Err) => async (schema, value, _ctx) => {
   return _safeParseAsync(_Err)(schema, value, _ctx);
 };
 
-// node_modules/zod/v4/core/regexes.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/regexes.js
 var regexes_exports = {};
 __export(regexes_exports, {
   base64: () => base64,
@@ -11731,7 +11731,7 @@ var sha512_hex = /^[0-9a-fA-F]{128}$/;
 var sha512_base64 = /* @__PURE__ */ fixedBase64(86, "==");
 var sha512_base64url = /* @__PURE__ */ fixedBase64url(86);
 
-// node_modules/zod/v4/core/checks.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/checks.js
 var $ZodCheck = /* @__PURE__ */ $constructor("$ZodCheck", (inst, def) => {
   var _a2;
   inst._zod ?? (inst._zod = {});
@@ -12279,7 +12279,7 @@ var $ZodCheckOverwrite = /* @__PURE__ */ $constructor("$ZodCheckOverwrite", (ins
   };
 });
 
-// node_modules/zod/v4/core/doc.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/doc.js
 var Doc = class {
   constructor(args = []) {
     this.content = [];
@@ -12315,14 +12315,14 @@ var Doc = class {
   }
 };
 
-// node_modules/zod/v4/core/versions.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/versions.js
 var version = {
   major: 4,
   minor: 3,
   patch: 6
 };
 
-// node_modules/zod/v4/core/schemas.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/schemas.js
 var $ZodType = /* @__PURE__ */ $constructor("$ZodType", (inst, def) => {
   var _a2;
   inst ?? (inst = {});
@@ -14293,7 +14293,7 @@ function handleRefineResult(result, payload, input, inst) {
   }
 }
 
-// node_modules/zod/v4/locales/en.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/locales/en.js
 var error = () => {
   const Sizable = {
     string: { unit: "characters", verb: "to have" },
@@ -14402,7 +14402,7 @@ function en_default2() {
   };
 }
 
-// node_modules/zod/v4/core/registries.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/registries.js
 var _a;
 var $ZodRegistry = class {
   constructor() {
@@ -14450,7 +14450,7 @@ function registry() {
 (_a = globalThis).__zod_globalRegistry ?? (_a.__zod_globalRegistry = registry());
 var globalRegistry = globalThis.__zod_globalRegistry;
 
-// node_modules/zod/v4/core/api.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/api.js
 // @__NO_SIDE_EFFECTS__
 function _string(Class2, params) {
   return new Class2({
@@ -15254,7 +15254,7 @@ function _stringFormat(Class2, format, fnOrRegex, _params = {}) {
   return inst;
 }
 
-// node_modules/zod/v4/core/to-json-schema.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/to-json-schema.js
 function initializeContext(params) {
   let target = params?.target ?? "draft-2020-12";
   if (target === "draft-4")
@@ -15606,7 +15606,7 @@ var createStandardJSONSchemaMethod = (schema, io, processors = {}) => (params) =
   return finalize(ctx, schema);
 };
 
-// node_modules/zod/v4/core/json-schema-processors.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/json-schema-processors.js
 var formatMap = {
   guid: "uuid",
   url: "uri",
@@ -16082,7 +16082,7 @@ var lazyProcessor = (schema, ctx, _json, params) => {
   seen.ref = innerType;
 };
 
-// node_modules/@modelcontextprotocol/sdk/dist/esm/server/zod-compat.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/zod-compat.js
 function isZ4Schema(s) {
   const schema = s;
   return !!schema._zod;
@@ -16145,7 +16145,7 @@ function getLiteralValue(schema) {
   return void 0;
 }
 
-// node_modules/zod/v4/classic/schemas.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/schemas.js
 var schemas_exports3 = {};
 __export(schemas_exports3, {
   ZodAny: () => ZodAny2,
@@ -16314,7 +16314,7 @@ __export(schemas_exports3, {
   xor: () => xor
 });
 
-// node_modules/zod/v4/classic/checks.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/checks.js
 var checks_exports2 = {};
 __export(checks_exports2, {
   endsWith: () => _endsWith,
@@ -16348,7 +16348,7 @@ __export(checks_exports2, {
   uppercase: () => _uppercase
 });
 
-// node_modules/zod/v4/classic/iso.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/iso.js
 var iso_exports2 = {};
 __export(iso_exports2, {
   ZodISODate: () => ZodISODate,
@@ -16389,7 +16389,7 @@ function duration2(params) {
   return _isoDuration(ZodISODuration, params);
 }
 
-// node_modules/zod/v4/classic/errors.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/errors.js
 var initializer2 = (inst, issues) => {
   $ZodError.init(inst, issues);
   inst.name = "ZodError";
@@ -16429,7 +16429,7 @@ var ZodRealError = $constructor("ZodError", initializer2, {
   Parent: Error
 });
 
-// node_modules/zod/v4/classic/parse.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/parse.js
 var parse2 = /* @__PURE__ */ _parse(ZodRealError);
 var parseAsync2 = /* @__PURE__ */ _parseAsync(ZodRealError);
 var safeParse3 = /* @__PURE__ */ _safeParse(ZodRealError);
@@ -16443,7 +16443,7 @@ var safeDecode2 = /* @__PURE__ */ _safeDecode(ZodRealError);
 var safeEncodeAsync2 = /* @__PURE__ */ _safeEncodeAsync(ZodRealError);
 var safeDecodeAsync2 = /* @__PURE__ */ _safeDecodeAsync(ZodRealError);
 
-// node_modules/zod/v4/classic/schemas.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/schemas.js
 var ZodType2 = /* @__PURE__ */ $constructor("ZodType", (inst, def) => {
   $ZodType.init(inst, def);
   Object.assign(inst["~standard"], {
@@ -17522,22 +17522,22 @@ function preprocess(fn, schema) {
   return pipe(transform(fn), schema);
 }
 
-// node_modules/zod/v4/classic/compat.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/compat.js
 var ZodFirstPartyTypeKind2;
 /* @__PURE__ */ (function(ZodFirstPartyTypeKind3) {
 })(ZodFirstPartyTypeKind2 || (ZodFirstPartyTypeKind2 = {}));
 
-// node_modules/zod/v4/classic/from-json-schema.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/from-json-schema.js
 var z = {
   ...schemas_exports3,
   ...checks_exports2,
   iso: iso_exports2
 };
 
-// node_modules/zod/v4/classic/external.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/external.js
 config(en_default2());
 
-// node_modules/@modelcontextprotocol/sdk/dist/esm/types.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/types.js
 var LATEST_PROTOCOL_VERSION = "2025-11-25";
 var SUPPORTED_PROTOCOL_VERSIONS = [LATEST_PROTOCOL_VERSION, "2025-06-18", "2025-03-26", "2024-11-05", "2024-10-07"];
 var RELATED_TASK_META_KEY = "io.modelcontextprotocol/related-task";
@@ -19056,15 +19056,15 @@ var UrlElicitationRequiredError = class extends McpError {
   }
 };
 
-// node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/interfaces.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/interfaces.js
 function isTerminal(status) {
   return status === "completed" || status === "failed" || status === "cancelled";
 }
 
-// node_modules/zod-to-json-schema/dist/esm/parsers/string.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod-to-json-schema/dist/esm/parsers/string.js
 var ALPHA_NUMERIC = new Set("ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvxyz0123456789");
 
-// node_modules/@modelcontextprotocol/sdk/dist/esm/server/zod-json-schema-compat.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/zod-json-schema-compat.js
 function getMethodLiteral(schema) {
   const shape = getObjectShape(schema);
   const methodSchema = shape?.method;
@@ -19085,7 +19085,7 @@ function parseWithCompat(schema, data) {
   return result.data;
 }
 
-// node_modules/@modelcontextprotocol/sdk/dist/esm/shared/protocol.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/shared/protocol.js
 var DEFAULT_REQUEST_TIMEOUT_MSEC = 6e4;
 var Protocol = class {
   constructor(_options) {
@@ -20039,7 +20039,7 @@ function mergeCapabilities(base, additional) {
   return result;
 }
 
-// node_modules/@modelcontextprotocol/sdk/dist/esm/validation/ajv-provider.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/validation/ajv-provider.js
 var import_ajv = __toESM(require_ajv(), 1);
 var import_ajv_formats = __toESM(require_dist(), 1);
 function createDefaultAjvInstance() {
@@ -20107,7 +20107,7 @@ var AjvJsonSchemaValidator = class {
   }
 };
 
-// node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/server.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/server.js
 var ExperimentalServerTasks = class {
   constructor(_server) {
     this._server = _server;
@@ -20320,7 +20320,7 @@ var ExperimentalServerTasks = class {
   }
 };
 
-// node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/helpers.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/helpers.js
 function assertToolsCallTaskCapability(requests, method, entityName) {
   if (!requests) {
     throw new Error(`${entityName} does not support task creation (required for ${method})`);
@@ -20355,7 +20355,7 @@ function assertClientRequestTaskCapability(requests, method, entityName) {
   }
 }
 
-// node_modules/@modelcontextprotocol/sdk/dist/esm/server/index.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/index.js
 var Server = class extends Protocol {
   /**
    * Initializes this server with the given name and version information.
@@ -20735,10 +20735,10 @@ var Server = class extends Protocol {
   }
 };
 
-// node_modules/@modelcontextprotocol/sdk/dist/esm/server/stdio.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/stdio.js
 import process3 from "node:process";
 
-// node_modules/@modelcontextprotocol/sdk/dist/esm/shared/stdio.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/shared/stdio.js
 var ReadBuffer = class {
   append(chunk) {
     this._buffer = this._buffer ? Buffer.concat([this._buffer, chunk]) : chunk;
@@ -20766,7 +20766,7 @@ function serializeMessage(message) {
   return JSON.stringify(message) + "\n";
 }
 
-// node_modules/@modelcontextprotocol/sdk/dist/esm/server/stdio.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/stdio.js
 var StdioServerTransport = class {
   constructor(_stdin = process3.stdin, _stdout = process3.stdout) {
     this._stdin = _stdin;
@@ -21423,17 +21423,31 @@ function sharedPlanFiles(a, b2) {
 // ../lib/card-ops/index.ts
 var card_ops_exports = {};
 __export(card_ops_exports, {
+  CardGroupError: () => CardGroupError,
+  DEFAULT_GROUP_COLOR: () => DEFAULT_GROUP_COLOR,
+  GROUP_CODE_MAX: () => GROUP_CODE_MAX,
   allRows: () => allRows,
+  assertGroupAssignable: () => assertGroupAssignable,
+  clearQueue: () => clearQueue,
   completedAtFor: () => completedAtFor,
   completedAtOnCreate: () => completedAtOnCreate,
+  createGroup: () => createGroup,
+  deleteGroup: () => deleteGroup,
+  getGroup: () => getGroup,
   getRow: () => getRow,
   isStatus: () => isStatus,
+  listGroups: () => listGroups,
   moveCard: () => moveCard,
+  moveCardInChain: () => moveCardInChain,
+  normalizeGroupCode: () => normalizeGroupCode,
+  normalizeGroupId: () => normalizeGroupId,
+  opinionEditFields: () => opinionEditFields,
   runChanges: () => runChanges,
   saveOpinion: () => saveOpinion,
   statusAfterPlan: () => statusAfterPlan,
   statusAfterTests: () => statusAfterTests,
-  transaction: () => transaction
+  transaction: () => transaction,
+  updateGroup: () => updateGroup
 });
 
 // ../lib/card-ops/db.ts
@@ -21688,6 +21702,249 @@ function saveOpinion(db2, args) {
     complexity: row?.complexity ?? null
   };
 }
+function opinionEditFields(previous, next) {
+  const before = parseOpinionMarkers(previous ?? "");
+  const after = parseOpinionMarkers(next);
+  const changed = {};
+  if (after.verdict !== before.verdict) changed.verdict = after.verdict;
+  if (after.score !== before.score) changed.score = after.score;
+  if (after.priority !== before.priority && after.priority) changed.priority = after.priority;
+  if (after.complexity !== before.complexity && after.complexity) changed.complexity = after.complexity;
+  return changed;
+}
+
+// ../lib/card-queue.ts
+function compareByQueuePosition(a, b2) {
+  const ap = a.queuePosition ?? Number.MAX_SAFE_INTEGER;
+  const bp = b2.queuePosition ?? Number.MAX_SAFE_INTEGER;
+  if (ap !== bp) return ap - bp;
+  return (a.taskNumber ?? Number.MAX_SAFE_INTEGER) - (b2.taskNumber ?? Number.MAX_SAFE_INTEGER);
+}
+
+// ../lib/card-ops/queue.ts
+function clearQueue(db2, keep = /* @__PURE__ */ new Set()) {
+  return transaction(db2, () => {
+    const rows = allRows(
+      db2,
+      `SELECT c.id, c.title, c.queue_position AS queuePosition, c.task_number AS taskNumber,
+              p.id_prefix AS idPrefix
+       FROM cards c LEFT JOIN projects p ON p.id = c.project_id
+       WHERE c.queue_position IS NOT NULL`
+    ).sort(compareByQueuePosition);
+    const cleared = rows.filter((row) => !keep.has(row.id));
+    const unqueue = db2.prepare(`UPDATE cards SET queue_position = NULL WHERE id = ?`);
+    for (const row of cleared) unqueue.run(row.id);
+    return cleared.map((row) => ({
+      cardId: row.id,
+      displayId: row.idPrefix && row.taskNumber != null ? `${row.idPrefix}-${row.taskNumber}` : row.title
+    }));
+  });
+}
+
+// ../lib/card-ops/groups.ts
+var DEFAULT_GROUP_COLOR = "#5e6ad2";
+var GROUP_CODE_MAX = 6;
+function normalizeGroupCode(raw) {
+  return raw.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, GROUP_CODE_MAX);
+}
+function normalizeGroupId(value) {
+  if (value === void 0) return void 0;
+  return typeof value === "string" && value.trim() ? value.trim() : null;
+}
+var CardGroupError = class extends Error {
+  constructor(message, kind = "invalid") {
+    super(message);
+    this.kind = kind;
+    this.name = "CardGroupError";
+  }
+  kind;
+};
+function assertGroupsTable(db2) {
+  const row = getRow(db2, `SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'card_groups'`);
+  if (!row) {
+    throw new CardGroupError(
+      "This Ideafy database has no card groups yet. Update the Ideafy app, then try again."
+    );
+  }
+}
+function assertProjectExists(db2, projectId) {
+  if (!getRow(db2, `SELECT id FROM projects WHERE id = ?`, projectId)) {
+    throw new CardGroupError(`Project not found: ${projectId}`);
+  }
+}
+var SELECT_GROUPS = `
+  SELECT
+    g.id, g.project_id AS projectId, g.code, g.name, g.color, g.created_at AS createdAt,
+    (SELECT COUNT(*) FROM cards c WHERE c.group_id = g.id) AS memberCount
+  FROM card_groups g
+`;
+function getGroup(db2, id) {
+  assertGroupsTable(db2);
+  return getRow(db2, `${SELECT_GROUPS} WHERE g.id = ?`, id) ?? null;
+}
+function listGroups(db2, projectId) {
+  assertGroupsTable(db2);
+  if (projectId) {
+    return allRows(
+      db2,
+      `${SELECT_GROUPS} WHERE g.project_id IS NULL OR g.project_id = ? ORDER BY g.code`,
+      projectId
+    );
+  }
+  return allRows(db2, `${SELECT_GROUPS} ORDER BY g.code`);
+}
+function findCodeClash(db2, code, projectId, exceptId) {
+  const candidates = projectId ? listGroups(db2, projectId) : listGroups(db2);
+  return candidates.find((g2) => g2.id !== exceptId && g2.code.toUpperCase() === code) ?? null;
+}
+function assertGroupAssignable(db2, groupId, projectId) {
+  if (groupId === null || groupId === void 0) return;
+  const group = getGroup(db2, groupId);
+  if (!group) {
+    throw new CardGroupError(`Group not found: ${groupId}. Call list_groups for valid ids, or create_group first.`);
+  }
+  if (group.projectId && projectId && group.projectId !== projectId) {
+    throw new CardGroupError(
+      `Group ${group.code} belongs to another project (${group.projectId}); this card is in ${projectId}.`
+    );
+  }
+}
+function createGroup(db2, input, now = (/* @__PURE__ */ new Date()).toISOString()) {
+  assertGroupsTable(db2);
+  const code = normalizeGroupCode(input.code ?? "");
+  if (!code) {
+    throw new CardGroupError("Group code is required: letters and digits, up to 6 characters (e.g. MOBILE).");
+  }
+  const projectId = input.projectId || null;
+  if (projectId) assertProjectExists(db2, projectId);
+  const clash = findCodeClash(db2, code, projectId, null);
+  if (clash) {
+    throw new CardGroupError(
+      `A group with code ${code} already exists: ${clash.id} (${clash.name}). Use that id as groupId instead of creating a new one.`,
+      "conflict"
+    );
+  }
+  const row = {
+    id: globalThis.crypto.randomUUID(),
+    projectId,
+    code,
+    // A nameless group reads as its code — the backfill writes the same.
+    name: input.name?.trim() || code,
+    // Not sent: the picker's default, so a terminal-made group does not show
+    // up grey next to hand-made ones. An explicit null or "" means no color.
+    color: input.color === void 0 ? DEFAULT_GROUP_COLOR : input.color || null,
+    createdAt: now
+  };
+  runChanges(
+    db2,
+    `INSERT INTO card_groups (id, project_id, code, name, color, created_at) VALUES (?, ?, ?, ?, ?, ?)`,
+    row.id,
+    row.projectId,
+    row.code,
+    row.name,
+    row.color,
+    row.createdAt
+  );
+  return { ...row, memberCount: 0 };
+}
+function updateGroup(db2, id, updates) {
+  const existing = getGroup(db2, id);
+  if (!existing) throw new CardGroupError(`Group not found: ${id}`, "not_found");
+  const code = updates.code !== void 0 ? normalizeGroupCode(String(updates.code)) : existing.code;
+  const name = updates.name !== void 0 ? String(updates.name).trim() : existing.name;
+  if (!code || !name) throw new CardGroupError("Group code and name cannot be empty.");
+  const color = updates.color !== void 0 ? updates.color || null : existing.color;
+  const projectId = updates.projectId !== void 0 ? updates.projectId || null : existing.projectId;
+  if (code === existing.code && name === existing.name && color === existing.color && projectId === existing.projectId) {
+    return existing;
+  }
+  if (projectId !== existing.projectId && projectId) {
+    assertProjectExists(db2, projectId);
+    const strays = getRow(
+      db2,
+      `SELECT COUNT(*) AS count FROM cards WHERE group_id = ? AND project_id IS NOT NULL AND project_id != ?`,
+      id,
+      projectId
+    );
+    if (Number(strays?.count ?? 0) > 0) {
+      throw new CardGroupError(
+        `Group ${existing.code} has ${strays.count} card(s) from another project; move them out of the group first, or keep it global.`,
+        "conflict"
+      );
+    }
+  }
+  if (code !== existing.code || projectId !== existing.projectId) {
+    const clash = findCodeClash(db2, code, projectId, id);
+    if (clash) {
+      throw new CardGroupError(`Code ${code} is already used by group ${clash.id} (${clash.name}).`, "conflict");
+    }
+  }
+  runChanges(
+    db2,
+    `UPDATE card_groups SET project_id = ?, code = ?, name = ?, color = ? WHERE id = ?`,
+    projectId,
+    code,
+    name,
+    color,
+    id
+  );
+  return { ...existing, projectId, code, name, color };
+}
+function deleteGroup(db2, id) {
+  return transaction(db2, () => {
+    const group = getGroup(db2, id);
+    if (!group) throw new CardGroupError(`Group not found: ${id}`, "not_found");
+    const { changes } = runChanges(db2, `UPDATE cards SET group_id = NULL WHERE group_id = ?`, id);
+    runChanges(db2, `DELETE FROM card_groups WHERE id = ?`, id);
+    return { group, releasedCards: changes };
+  });
+}
+function moveCardInChain(db2, cardId, afterCardId, expectedGroupId) {
+  if (afterCardId === cardId) {
+    throw new CardGroupError("afterCardId cannot be the card itself.");
+  }
+  return transaction(db2, () => {
+    const card = getRow(db2, `SELECT group_id AS groupId FROM cards WHERE id = ?`, cardId);
+    if (!card) throw new CardGroupError(`Card not found: ${cardId}`, "not_found");
+    if (expectedGroupId !== void 0 && card.groupId !== expectedGroupId) {
+      throw new CardGroupError("Card is not in this group.");
+    }
+    if (!card.groupId) {
+      throw new CardGroupError(
+        "This card is in no group, so it has no chain to order. Pass groupId in the same call to add it to one."
+      );
+    }
+    const members = allRows(
+      db2,
+      `SELECT id, group_order AS groupOrder, task_number AS taskNumber FROM cards WHERE group_id = ?`,
+      card.groupId
+    );
+    if (afterCardId !== null && !members.some((member) => member.id === afterCardId)) {
+      throw new CardGroupError("afterCardId is not in this card's group. Call list_groups to see the chain.");
+    }
+    const current = [...members].sort(compareByChainOrder);
+    const ids = placeAfter(members, cardId, afterCardId);
+    const position = ids.indexOf(cardId) + 1;
+    if (ids.every((id, index) => id === current[index].id)) {
+      return {
+        groupId: card.groupId,
+        position,
+        total: ids.length,
+        order: current.map((member) => ({ id: member.id, groupOrder: member.groupOrder })),
+        changed: false
+      };
+    }
+    const write = db2.prepare(`UPDATE cards SET group_order = ? WHERE id = ?`);
+    ids.forEach((id, index) => write.run(index + 1, id));
+    return {
+      groupId: card.groupId,
+      position,
+      total: ids.length,
+      order: ids.map((id, index) => ({ id, groupOrder: index + 1 })),
+      changed: true
+    };
+  });
+}
 
 // shared.ts
 function unwrap(ns) {
@@ -21708,7 +21965,19 @@ var {
   isStatus: isStatus2,
   statusAfterPlan: statusAfterPlan2,
   statusAfterTests: statusAfterTests2,
-  saveOpinion: saveOpinion2
+  saveOpinion: saveOpinion2,
+  clearQueue: clearQueue2,
+  DEFAULT_GROUP_COLOR: DEFAULT_GROUP_COLOR2,
+  CardGroupError: CardGroupError2,
+  normalizeGroupCode: normalizeGroupCode2,
+  normalizeGroupId: normalizeGroupId2,
+  getGroup: getGroup2,
+  listGroups: listGroups2,
+  assertGroupAssignable: assertGroupAssignable2,
+  createGroup: createGroup2,
+  updateGroup: updateGroup2,
+  deleteGroup: deleteGroup2,
+  moveCardInChain: moveCardInChain2
 } = unwrap(card_ops_exports);
 var { normalizeComplexity: normalizeComplexity2, describeOpinionMarkers: describeOpinionMarkers2 } = unwrap(opinion_markers_exports);
 
@@ -21744,7 +22013,7 @@ import { fileURLToPath } from "url";
 import { homedir as homedir2 } from "os";
 import { mkdirSync as mkdirSync2 } from "fs";
 
-// node_modules/marked/lib/marked.esm.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/marked/lib/marked.esm.js
 function M() {
   return { async: false, breaks: false, extensions: null, gfm: true, hooks: null, pedantic: false, renderer: null, silent: false, tokenizer: null, walkTokens: null };
 }
@@ -22952,7 +23221,7 @@ var Kt = g.parseInline;
 var Xt = b.parse;
 var Jt = x.lex;
 
-// node_modules/uuid/dist/esm/stringify.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/uuid/dist/esm/stringify.js
 var byteToHex = [];
 for (let i = 0; i < 256; ++i) {
   byteToHex.push((i + 256).toString(16).slice(1));
@@ -22961,7 +23230,7 @@ function unsafeStringify(arr, offset = 0) {
   return (byteToHex[arr[offset + 0]] + byteToHex[arr[offset + 1]] + byteToHex[arr[offset + 2]] + byteToHex[arr[offset + 3]] + "-" + byteToHex[arr[offset + 4]] + byteToHex[arr[offset + 5]] + "-" + byteToHex[arr[offset + 6]] + byteToHex[arr[offset + 7]] + "-" + byteToHex[arr[offset + 8]] + byteToHex[arr[offset + 9]] + "-" + byteToHex[arr[offset + 10]] + byteToHex[arr[offset + 11]] + byteToHex[arr[offset + 12]] + byteToHex[arr[offset + 13]] + byteToHex[arr[offset + 14]] + byteToHex[arr[offset + 15]]).toLowerCase();
 }
 
-// node_modules/uuid/dist/esm/rng.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/uuid/dist/esm/rng.js
 import { randomFillSync } from "crypto";
 var rnds8Pool = new Uint8Array(256);
 var poolPtr = rnds8Pool.length;
@@ -22973,11 +23242,11 @@ function rng() {
   return rnds8Pool.slice(poolPtr, poolPtr += 16);
 }
 
-// node_modules/uuid/dist/esm/native.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/uuid/dist/esm/native.js
 import { randomUUID } from "crypto";
 var native_default = { randomUUID };
 
-// node_modules/uuid/dist/esm/v4.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/uuid/dist/esm/v4.js
 function v4(options, buf, offset) {
   if (native_default.randomUUID && !buf && !options) {
     return native_default.randomUUID();
@@ -23074,6 +23343,8 @@ var CAPABILITIES = {
   groupOrder: ["cards", "group_order"],
   /** git_branch_status — whether a card's branch is merged, for list_open_work. */
   branchStatus: ["cards", "git_branch_status"],
+  /** queue_position (0017) — a card's place in the run queue. */
+  queuePosition: ["cards", "queue_position"],
   /** ai_score (0021) — the opinion's Final Score, written by save_opinion. */
   aiScore: ["cards", "ai_score"]
 };
@@ -23573,103 +23844,6 @@ function projectIdOfCard(db2, cardId) {
 import { existsSync as existsSync4 } from "fs";
 
 // card-groups.ts
-var CardGroupError = class extends Error {
-};
-var GROUP_CODE_MAX = 6;
-function normalizeGroupCode(raw) {
-  return raw.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, GROUP_CODE_MAX);
-}
-function assertGroupsTable(db2) {
-  const row = db2.prepare(`SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'card_groups'`).get();
-  if (!row) {
-    throw new CardGroupError(
-      "This Ideafy database has no card groups yet. Update the Ideafy app, then try again."
-    );
-  }
-}
-function assertProjectExists(db2, projectId) {
-  const row = db2.prepare(`SELECT id FROM projects WHERE id = ?`).get(projectId);
-  if (!row) throw new CardGroupError(`Project not found: ${projectId}`);
-}
-var SELECT_GROUPS = `
-  SELECT
-    g.id, g.project_id AS projectId, g.code, g.name, g.color, g.created_at AS createdAt,
-    (SELECT COUNT(*) FROM cards c WHERE c.group_id = g.id) AS memberCount
-  FROM card_groups g
-`;
-function getGroup(db2, id) {
-  assertGroupsTable(db2);
-  const row = db2.prepare(`${SELECT_GROUPS} WHERE g.id = ?`).get(id);
-  return row ?? null;
-}
-function listGroups(db2, projectId) {
-  assertGroupsTable(db2);
-  if (projectId) {
-    return db2.prepare(`${SELECT_GROUPS} WHERE g.project_id IS NULL OR g.project_id = ? ORDER BY g.code`).all(projectId);
-  }
-  return db2.prepare(`${SELECT_GROUPS} ORDER BY g.code`).all();
-}
-function findCodeClash(db2, code, projectId, exceptId) {
-  const candidates = projectId ? listGroups(db2, projectId) : listGroups(db2);
-  return candidates.find((g2) => g2.id !== exceptId && g2.code.toUpperCase() === code) ?? null;
-}
-function createGroup(db2, input, now = (/* @__PURE__ */ new Date()).toISOString()) {
-  assertGroupsTable(db2);
-  const code = normalizeGroupCode(input.code ?? "");
-  if (!code) {
-    throw new CardGroupError("Group code is required: letters and digits, up to 6 characters (e.g. MOBILE).");
-  }
-  const projectId = input.projectId || null;
-  if (projectId) assertProjectExists(db2, projectId);
-  const clash = findCodeClash(db2, code, projectId, null);
-  if (clash) {
-    throw new CardGroupError(
-      `A group with code ${code} already exists: ${clash.id} (${clash.name}). Use that id as groupId instead of creating a new one.`
-    );
-  }
-  const row = {
-    id: v4_default(),
-    projectId,
-    code,
-    // A nameless group reads as its code, same as the app's POST route.
-    name: input.name?.trim() || code,
-    color: input.color || null,
-    createdAt: now
-  };
-  db2.prepare(
-    `INSERT INTO card_groups (id, project_id, code, name, color, created_at) VALUES (?, ?, ?, ?, ?, ?)`
-  ).run(row.id, row.projectId, row.code, row.name, row.color, row.createdAt);
-  return { ...row, memberCount: 0 };
-}
-function updateGroup(db2, id, updates) {
-  const existing = getGroup(db2, id);
-  if (!existing) throw new CardGroupError(`Group not found: ${id}`);
-  const code = updates.code !== void 0 ? normalizeGroupCode(updates.code) : existing.code;
-  const name = updates.name !== void 0 ? updates.name.trim() : existing.name;
-  if (!code || !name) throw new CardGroupError("Group code and name cannot be empty.");
-  if (updates.code === void 0 && updates.name === void 0 && updates.color === void 0) {
-    throw new CardGroupError(`update_group: nothing to update for group ${id}. Pass code, name or color.`);
-  }
-  if (code !== existing.code) {
-    const clash = findCodeClash(db2, code, existing.projectId, id);
-    if (clash) throw new CardGroupError(`Code ${code} is already used by group ${clash.id} (${clash.name}).`);
-  }
-  const color = updates.color !== void 0 ? updates.color || null : existing.color;
-  db2.prepare(`UPDATE card_groups SET code = ?, name = ?, color = ? WHERE id = ?`).run(code, name, color, id);
-  return { ...existing, code, name, color };
-}
-function assertGroupAssignable(db2, groupId, projectId) {
-  if (groupId === null || groupId === void 0) return;
-  const group = getGroup(db2, groupId);
-  if (!group) {
-    throw new CardGroupError(`Group not found: ${groupId}. Call list_groups for valid ids, or create_group first.`);
-  }
-  if (group.projectId && projectId && group.projectId !== projectId) {
-    throw new CardGroupError(
-      `Group ${group.code} belongs to another project (${group.projectId}); this card is in ${projectId}.`
-    );
-  }
-}
 function groupOrderSelect(db2) {
   return hasCapability(db2, "groupOrder") ? "c.group_order" : "NULL";
 }
@@ -23681,6 +23855,7 @@ function selectMembers(db2, where) {
       p.id_prefix AS idPrefix
     FROM cards c LEFT JOIN projects p ON p.id = c.project_id
     WHERE ${where}
+    ORDER BY c.task_number DESC, c.created_at
   `;
 }
 function toChainRef(member) {
@@ -23692,7 +23867,7 @@ function toChainRef(member) {
 }
 function getChainForCard(db2, card) {
   if (!card.groupId) return null;
-  const group = getGroup(db2, card.groupId);
+  const group = getGroup2(db2, card.groupId);
   if (!group) return null;
   const members = db2.prepare(selectMembers(db2, "c.group_id = ?")).all(card.groupId);
   const context = buildChainContext2(members, card.id, toChainRef);
@@ -23700,7 +23875,7 @@ function getChainForCard(db2, card) {
   return { groupId: group.id, groupCode: group.code, groupName: group.name, ...context };
 }
 function listGroupsWithChains(db2, projectId) {
-  const groups = listGroups(db2, projectId);
+  const groups = listGroups2(db2, projectId);
   if (groups.length === 0) return [];
   const placeholders = groups.map(() => "?").join(", ");
   const rows = db2.prepare(selectMembers(db2, `c.group_id IN (${placeholders})`)).all(...groups.map((g2) => g2.id));
@@ -23720,32 +23895,14 @@ function listGroupsWithChains(db2, projectId) {
     };
   });
 }
-function moveCardInChain(db2, cardId, afterCardId) {
+function moveCardInChain3(db2, cardId, afterCardId) {
   if (!hasCapability(db2, "groupOrder")) {
-    throw new CardGroupError(
+    throw new CardGroupError2(
       "This Ideafy database cannot store a chain order yet. Update the Ideafy app, then try again."
     );
   }
-  if (afterCardId === cardId) {
-    throw new CardGroupError("afterCardId cannot be the card itself.");
-  }
-  return transaction2(db2, () => {
-    const card = db2.prepare(`SELECT group_id AS groupId FROM cards WHERE id = ?`).get(cardId);
-    if (!card) throw new CardGroupError(`Card not found: ${cardId}`);
-    if (!card.groupId) {
-      throw new CardGroupError(
-        "This card is in no group, so it has no chain to order. Pass groupId in the same call to add it to one."
-      );
-    }
-    const members = db2.prepare(`SELECT id, group_order AS groupOrder, task_number AS taskNumber FROM cards WHERE group_id = ?`).all(card.groupId);
-    if (afterCardId !== null && !members.some((member) => member.id === afterCardId)) {
-      throw new CardGroupError("afterCardId is not in this card's group. Call list_groups to see the chain.");
-    }
-    const ids = placeAfter2(members, cardId, afterCardId);
-    const write = db2.prepare(`UPDATE cards SET group_order = ? WHERE id = ?`);
-    ids.forEach((id, index) => write.run(index + 1, id));
-    return { position: ids.indexOf(cardId) + 1, total: ids.length };
-  });
+  const { position, total, changed } = moveCardInChain2(db2, cardId, afterCardId);
+  return { position, total, changed };
 }
 
 // index.ts
@@ -24097,7 +24254,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
             },
             groupId: {
               type: ["string", "null"],
-              description: "card_groups.id this card belongs to \u2014 the chain the board folds it into. null removes it from its group. Get ids from list_groups; create_group makes a new one. A group is membership only: it has no status, no completion state and no date of its own, so do not treat it as an epic."
+              description: 'card_groups.id this card belongs to \u2014 the chain the board folds it into. null or "" removes it from its group. Get ids from list_groups; create_group makes a new one. A group is membership only: it has no status, no completion state and no date of its own, so do not treat it as an epic.'
             },
             afterCardId: {
               type: ["string", "null"],
@@ -24245,8 +24402,8 @@ Reading the results: a newer decision overrides an older one (compare completedA
               description: "Project ID to associate with (required)"
             },
             groupId: {
-              type: "string",
-              description: "card_groups.id this card belongs to \u2014 the chain the board folds it into. Get ids from list_groups; create_group makes a new one. A group is membership only: it has no status, no completion state and no date of its own, so do not treat it as an epic."
+              type: ["string", "null"],
+              description: 'card_groups.id this card belongs to \u2014 the chain the board folds it into. Omit, null or "" for no group. Get ids from list_groups; create_group makes a new one. A group is membership only: it has no status, no completion state and no date of its own, so do not treat it as an epic.'
             }
           },
           required: ["title", "projectId"]
@@ -24375,6 +24532,14 @@ All three voices still produce the same Summary Verdict / Strengths / Concerns /
         }
       },
       {
+        name: "clear_queue",
+        description: "Empty the run queue: every card waiting for an autonomous run is taken out, the same as Clear in the app's queue popover. Only waiting cards go \u2014 a run already going keeps going; this is not Stop. Call it only when the user explicitly asks to clear the whole queue; to take one card out, the app's row menu has Remove. There is no Undo here: the result lists the cleared cards in their old order, so tell the user which ones went. Whether the queue is running stays the app's call \u2014 the next card added there starts it fresh.",
+        inputSchema: {
+          type: "object",
+          properties: {}
+        }
+      },
+      {
         name: "list_groups",
         description: "List card groups with their id, code, name and member count, plus each chain's members in chain order (displayId, title, status, position) and `next`, the first member that is neither completed nor withdrawn. A group is a chain of cards that belong to one piece of work; the board folds its cards into one row. It is membership only: no status, no completion state, no date, so do not treat it as an epic. With projectId, returns what a card in that project can join: the project's own groups plus groups not tied to any project.",
         inputSchema: {
@@ -24407,7 +24572,7 @@ All three voices still produce the same Summary Verdict / Strengths / Concerns /
             },
             color: {
               type: "string",
-              description: "Optional hex color, e.g. #22c55e"
+              description: "Optional hex color, e.g. #22c55e. Defaults to the app picker's first color."
             }
           },
           required: ["code"]
@@ -24415,7 +24580,7 @@ All three voices still produce the same Summary Verdict / Strengths / Concerns /
       },
       {
         name: "update_group",
-        description: "Rename a card group or change its code or color. Membership is changed per card with update_card's groupId, not here.",
+        description: "Rename a card group or change its code, color or project. Membership is changed per card with update_card's groupId, not here. Moving a group to a project is refused while it holds cards from another project; making it global (projectId null) always works.",
         inputSchema: {
           type: "object",
           properties: {
@@ -24434,6 +24599,24 @@ All three voices still produce the same Summary Verdict / Strengths / Concerns /
             color: {
               type: ["string", "null"],
               description: "New hex color, or null to clear it"
+            },
+            projectId: {
+              type: ["string", "null"],
+              description: "Project the group belongs to, or null to offer it in every project"
+            }
+          },
+          required: ["id"]
+        }
+      },
+      {
+        name: "delete_group",
+        description: "Delete a card group, the same as the card modal's Delete. Its cards are not deleted: they stay in their columns, in no group, and lose their chain position. The answer says how many cards were released.",
+        inputSchema: {
+          type: "object",
+          properties: {
+            id: {
+              type: "string",
+              description: "Group id from list_groups (required)"
             }
           },
           required: ["id"]
@@ -24643,8 +24826,11 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           };
         }
         if (updates.groupId !== void 0) {
+          updates.groupId = normalizeGroupId2(updates.groupId) ?? null;
+        }
+        if (updates.groupId !== void 0) {
           const owner = db.prepare(`SELECT project_id FROM cards WHERE id = ?`).get(id);
-          assertGroupAssignable(db, updates.groupId, owner?.project_id ?? null);
+          assertGroupAssignable2(db, updates.groupId, owner?.project_id ?? null);
         }
         const now = (/* @__PURE__ */ new Date()).toISOString();
         const setClauses = ["updated_at = ?"];
@@ -24697,7 +24883,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             if (Number(result.changes) === 0) return null;
           }
           return {
-            placed: reorder ? moveCardInChain(db, id, afterCardId ?? null) : null
+            placed: reorder ? moveCardInChain3(db, id, afterCardId ?? null) : null
           };
         });
         if (!outcome) {
@@ -24708,7 +24894,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         }
         const written = Object.keys(updates).filter((key) => key in fieldMap);
         if (reorder) written.push("afterCardId");
-        const placedNote = outcome.placed ? ` Chain position ${outcome.placed.position}/${outcome.placed.total}.` : "";
+        const placedNote = !outcome.placed ? "" : outcome.placed.changed ? ` Chain position ${outcome.placed.position}/${outcome.placed.total}.` : ` Already at chain position ${outcome.placed.position}/${outcome.placed.total}; the order was not rewritten.`;
         return {
           content: [{
             type: "text",
@@ -24888,7 +25074,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           complexity = "medium",
           priority = "medium",
           projectId = null,
-          groupId = null
+          groupId: rawGroupId = null
         } = args;
         assertValidCardTitle(title);
         if (!isStatus2(status)) {
@@ -24906,7 +25092,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             isError: true
           };
         }
-        assertGroupAssignable(db, groupId, projectId);
+        const groupId = normalizeGroupId2(rawGroupId) ?? null;
+        assertGroupAssignable2(db, groupId, projectId);
         const storedComplexity = normalizeComplexity2(complexity);
         if (!storedComplexity) {
           return {
@@ -25378,6 +25565,21 @@ ${policy}` : `${bound} This column has no phase policy.`
           ]
         };
       }
+      case "clear_queue": {
+        if (!hasCapability(db, "queuePosition")) {
+          return {
+            content: [{ type: "text", text: missingCapabilityMessage("clear_queue", "queuePosition") }],
+            isError: true
+          };
+        }
+        const cleared = clearQueue2(db);
+        return {
+          content: [{
+            type: "text",
+            text: cleared.length === 0 ? "The run queue was already empty." : `Cleared ${cleared.length} card(s) from the run queue, in their old order: ${cleared.map((c) => c.displayId).join(", ")}. A run already going was not touched.`
+          }]
+        };
+      }
       case "list_groups": {
         const { projectId } = args ?? {};
         const groups = listGroupsWithChains(db, projectId);
@@ -25387,7 +25589,7 @@ ${policy}` : `${bound} This column has no phase policy.`
       }
       case "create_group": {
         const input = args;
-        const group = createGroup(db, input);
+        const group = createGroup2(db, input);
         return {
           content: [{
             type: "text",
@@ -25397,9 +25599,28 @@ ${policy}` : `${bound} This column has no phase policy.`
       }
       case "update_group": {
         const { id, ...updates } = args;
-        const group = updateGroup(db, id, updates);
+        if (Object.values(updates).every((value) => value === void 0)) {
+          return {
+            content: [{
+              type: "text",
+              text: `update_group: nothing to update for group ${id}. Pass code, name, color or projectId.`
+            }],
+            isError: true
+          };
+        }
+        const group = updateGroup2(db, id, updates);
         return {
           content: [{ type: "text", text: `Group ${group.id} updated: ${group.code} \xB7 ${group.name}.` }]
+        };
+      }
+      case "delete_group": {
+        const { id } = args;
+        const { group, releasedCards } = deleteGroup2(db, id);
+        return {
+          content: [{
+            type: "text",
+            text: `Group ${group.code} \xB7 ${group.name} deleted. ${releasedCards} card(s) released: they keep their columns and are in no group now.`
+          }]
         };
       }
       case "get_project_by_folder": {
