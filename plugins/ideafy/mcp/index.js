@@ -3589,49 +3589,49 @@ var require_fast_uri = __commonJS({
       schemelessOptions.skipEscape = true;
       return serialize(resolved, schemelessOptions);
     }
-    function resolveComponent(base, relative2, options, skipNormalization) {
+    function resolveComponent(base, relative3, options, skipNormalization) {
       const target = {};
       if (!skipNormalization) {
         base = parse3(serialize(base, options), options);
-        relative2 = parse3(serialize(relative2, options), options);
+        relative3 = parse3(serialize(relative3, options), options);
       }
       options = options || {};
-      if (!options.tolerant && relative2.scheme) {
-        target.scheme = relative2.scheme;
-        target.userinfo = relative2.userinfo;
-        target.host = relative2.host;
-        target.port = relative2.port;
-        target.path = removeDotSegments(relative2.path || "");
-        target.query = relative2.query;
+      if (!options.tolerant && relative3.scheme) {
+        target.scheme = relative3.scheme;
+        target.userinfo = relative3.userinfo;
+        target.host = relative3.host;
+        target.port = relative3.port;
+        target.path = removeDotSegments(relative3.path || "");
+        target.query = relative3.query;
       } else {
-        if (relative2.userinfo !== void 0 || relative2.host !== void 0 || relative2.port !== void 0) {
-          target.userinfo = relative2.userinfo;
-          target.host = relative2.host;
-          target.port = relative2.port;
-          target.path = removeDotSegments(relative2.path || "");
-          target.query = relative2.query;
+        if (relative3.userinfo !== void 0 || relative3.host !== void 0 || relative3.port !== void 0) {
+          target.userinfo = relative3.userinfo;
+          target.host = relative3.host;
+          target.port = relative3.port;
+          target.path = removeDotSegments(relative3.path || "");
+          target.query = relative3.query;
         } else {
-          if (!relative2.path) {
+          if (!relative3.path) {
             target.path = base.path;
-            if (relative2.query !== void 0) {
-              target.query = relative2.query;
+            if (relative3.query !== void 0) {
+              target.query = relative3.query;
             } else {
               target.query = base.query;
             }
           } else {
-            if (relative2.path[0] === "/") {
-              target.path = removeDotSegments(relative2.path);
+            if (relative3.path[0] === "/") {
+              target.path = removeDotSegments(relative3.path);
             } else {
               if ((base.userinfo !== void 0 || base.host !== void 0 || base.port !== void 0) && !base.path) {
-                target.path = "/" + relative2.path;
+                target.path = "/" + relative3.path;
               } else if (!base.path) {
-                target.path = relative2.path;
+                target.path = relative3.path;
               } else {
-                target.path = base.path.slice(0, base.path.lastIndexOf("/") + 1) + relative2.path;
+                target.path = base.path.slice(0, base.path.lastIndexOf("/") + 1) + relative3.path;
               }
               target.path = removeDotSegments(target.path);
             }
-            target.query = relative2.query;
+            target.query = relative3.query;
           }
           target.userinfo = base.userinfo;
           target.host = base.host;
@@ -3639,7 +3639,7 @@ var require_fast_uri = __commonJS({
         }
         target.scheme = base.scheme;
       }
-      target.fragment = relative2.fragment;
+      target.fragment = relative3.fragment;
       return target;
     }
     function equal(uriA, uriB, options) {
@@ -21126,6 +21126,13 @@ function buildPhasePolicyBody(card, branchPolicy, mode = "development") {
       "   The PreToolUse hook will block edits performed on the wrong branch."
     );
   }
+  if (gitClauses && (card.status === "progress" || card.status === "bugs")) {
+    lines.push(
+      `${next()}. Before the first edit, call check_write_conflicts with the files you`,
+      "   plan to touch. On a conflict, quote it and offer: wait, work in a",
+      "   worktree, or continue only with the user's OK."
+    );
+  }
   if (gitClauses && displayId) {
     lines.push(
       `${next()}. When a commit advances the work this card describes, reference the`,
@@ -21209,6 +21216,10 @@ function buildCreationOfferPolicy(project, signals) {
     "   directly without creating a new card.",
     "6. This offer is shown only once per session. After this turn the hook will",
     "   stay silent unless a binding is created.",
+    "7. Before you edit code in this project, with or without a card, call",
+    `   check_write_conflicts (projectId: ${project.id}) with the files you plan`,
+    "   to touch. On a conflict, quote it and offer: wait, work in a worktree, or",
+    "   continue only with the user's OK.",
     "</system-reminder>",
     ""
   ].join("\n");
@@ -21442,9 +21453,12 @@ function sharedPlanFiles(a, b2) {
 // ../lib/card-ops/index.ts
 var card_ops_exports = {};
 __export(card_ops_exports, {
+  APP_HEARTBEAT_STALE_MS: () => APP_HEARTBEAT_STALE_MS,
   CardGroupError: () => CardGroupError,
   DEFAULT_GROUP_COLOR: () => DEFAULT_GROUP_COLOR,
   GROUP_CODE_MAX: () => GROUP_CODE_MAX,
+  TERMINAL_WRITER_TTL_MS: () => TERMINAL_WRITER_TTL_MS,
+  acknowledgeWrite: () => acknowledgeWrite,
   allRows: () => allRows,
   assertGroupAssignable: () => assertGroupAssignable,
   clearQueue: () => clearQueue,
@@ -21465,17 +21479,21 @@ __export(card_ops_exports, {
   normalizeGroupCode: () => normalizeGroupCode,
   normalizeGroupId: () => normalizeGroupId,
   opinionEditFields: () => opinionEditFields,
+  parseWriteAck: () => parseWriteAck,
   queueDisplayId: () => queueDisplayId,
   queueKindOf: () => queueKindOf,
   queueRowIneligibleReason: () => queueRowIneligibleReason,
   queuedRunsInWorktree: () => queuedRunsInWorktree,
+  readRuntime: () => readRuntime,
+  readWriteAck: () => readWriteAck,
   restoreQueueCards: () => restoreQueueCards,
   runChanges: () => runChanges,
   saveOpinion: () => saveOpinion,
   statusAfterPlan: () => statusAfterPlan,
   statusAfterTests: () => statusAfterTests,
   transaction: () => transaction,
-  updateGroup: () => updateGroup
+  updateGroup: () => updateGroup,
+  writeRuntime: () => writeRuntime
 });
 
 // ../lib/card-ops/db.ts
@@ -21742,6 +21760,20 @@ function opinionEditFields(previous, next) {
 }
 
 // ../lib/card-queue.ts
+var card_queue_exports = {};
+__export(card_queue_exports, {
+  QUEUE_CLEARING_STATUSES: () => QUEUE_CLEARING_STATUSES,
+  TERMINAL_WRITE_OPTIONS: () => TERMINAL_WRITE_OPTIONS,
+  compareByQueuePosition: () => compareByQueuePosition,
+  conflictingLiveRun: () => conflictingLiveRun,
+  liveRunPhrase: () => liveRunPhrase,
+  liveRunSubject: () => liveRunSubject,
+  queueIneligibleReason: () => queueIneligibleReason,
+  queueRanks: () => queueRanks,
+  sharedWorkingCopyWith: () => sharedWorkingCopyWith,
+  terminalHoldFor: () => terminalHoldFor,
+  writeConflictFor: () => writeConflictFor
+});
 var QUEUE_CLEARING_STATUSES = /* @__PURE__ */ new Set([
   "test",
   "completed",
@@ -21753,6 +21785,11 @@ function compareByQueuePosition(a, b2) {
   const bp = b2.queuePosition ?? Number.MAX_SAFE_INTEGER;
   if (ap !== bp) return ap - bp;
   return (a.taskNumber ?? Number.MAX_SAFE_INTEGER) - (b2.taskNumber ?? Number.MAX_SAFE_INTEGER);
+}
+function queueRanks(cards) {
+  const ranks = /* @__PURE__ */ new Map();
+  cards.filter((card) => card.queuePosition !== null).sort(compareByQueuePosition).forEach((card, index) => ranks.set(card.id, index + 1));
+  return ranks;
 }
 function queueIneligibleReason(input) {
   if (input.status === "test") {
@@ -21771,6 +21808,63 @@ function queueIneligibleReason(input) {
   if (input.phase !== "implementation") return "it already has a test checklist";
   if (input.processingType) return "a run is already going on it";
   return null;
+}
+function sharedWorkingCopyWith(self, ahead) {
+  if (self.runsInWorktree) return null;
+  for (let i = ahead.length - 1; i >= 0; i--) {
+    const other = ahead[i];
+    if (other.id === self.id || other.runsInWorktree || other.kind === "verify") continue;
+    if (other.projectId === self.projectId) return other;
+  }
+  return null;
+}
+function conflictingLiveRun(self, live) {
+  if (self.runsInWorktree || self.kind === "planning") return null;
+  for (const other of live) {
+    if (other.id === self.id || other.runsInWorktree || other.kind === "planning") continue;
+    if (other.projectId === self.projectId) return other;
+  }
+  return null;
+}
+function liveRunSubject(run) {
+  if (run.kind === "terminal") {
+    return run.displayId ? `${run.displayId}'s terminal session is editing` : "a terminal session is editing";
+  }
+  const name = run.displayId ?? "a card";
+  if (run.kind === "tests-chat") return `${name}'s Tests chat is working`;
+  if (run.fromQueue) return `${name} is running from the queue`;
+  return `${name} is running`;
+}
+function liveRunPhrase(run) {
+  const subject = liveRunSubject(run);
+  return `${subject.charAt(0).toUpperCase()}${subject.slice(1)} in the same folder.`;
+}
+var TERMINAL_WRITE_OPTIONS = "Wait for it, work in a worktree, or continue only if the user confirms.";
+function writeConflictFor(input) {
+  const open = (run) => !input.acknowledged?.has(run.id);
+  const live = conflictingLiveRun(input.self, input.live.filter(open));
+  if (live) {
+    return {
+      conflictId: live.id,
+      conflictCardId: live.cardId,
+      reason: "live-run",
+      message: `${liveRunPhrase(live)} ${TERMINAL_WRITE_OPTIONS}`
+    };
+  }
+  if (!input.armed) return null;
+  const next = input.waiting.find((row) => open(row) && conflictingLiveRun(input.self, [row]));
+  if (!next) return null;
+  return {
+    conflictId: next.id,
+    conflictCardId: next.cardId,
+    reason: "queue",
+    message: `The queue is running on main (${next.displayId ?? "a card"} is next). ${TERMINAL_WRITE_OPTIONS}`
+  };
+}
+function terminalHoldFor(next, writers) {
+  const writer = conflictingLiveRun(next, writers);
+  if (!writer) return null;
+  return `${next.displayId ?? "the next card"} waits: ${liveRunSubject(writer)} in the same folder`;
 }
 
 // ../lib/prompts/utils.ts
@@ -22206,6 +22300,146 @@ function moveCardInChain(db2, cardId, afterCardId, expectedGroupId) {
   });
 }
 
+// ../lib/card-ops/runtime.ts
+var APP_HEARTBEAT_STALE_MS = 9e4;
+var TERMINAL_WRITER_TTL_MS = 10 * 6e4;
+function writeRuntime(db2, input) {
+  transaction(db2, () => {
+    runChanges(db2, "DELETE FROM live_folder_runs");
+    const insert = db2.prepare(
+      `INSERT INTO live_folder_runs
+         (id, project_id, card_id, display_id, kind, runs_in_worktree, source, from_queue, touched_files, seen_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+    );
+    for (const run of input.runs) {
+      insert.run(
+        run.id,
+        run.projectId,
+        run.cardId,
+        run.displayId,
+        run.kind,
+        run.runsInWorktree ? 1 : 0,
+        run.source,
+        run.fromQueue ? 1 : 0,
+        run.touchedFiles.length ? JSON.stringify(run.touchedFiles) : null,
+        run.seenAt
+      );
+    }
+    runChanges(
+      db2,
+      `INSERT INTO queue_runtime (id, armed, paused_reason, held_by, heartbeat_at) VALUES (1, ?, ?, ?, ?)
+       ON CONFLICT(id) DO UPDATE SET armed = excluded.armed, paused_reason = excluded.paused_reason,
+         held_by = excluded.held_by, heartbeat_at = excluded.heartbeat_at`,
+      input.armed ? 1 : 0,
+      input.pausedReason,
+      input.heldBy,
+      input.now
+    );
+  });
+}
+function hasTable(db2, name) {
+  return !!getRow(db2, "SELECT name FROM sqlite_master WHERE type = 'table' AND name = ?", name);
+}
+function stringList(value) {
+  return Array.isArray(value) ? value.filter((item) => typeof item === "string") : [];
+}
+function parseList(raw) {
+  if (!raw) return [];
+  try {
+    return stringList(JSON.parse(raw));
+  } catch {
+    return [];
+  }
+}
+function readRuntime(db2, now = Date.now()) {
+  const closed = (appState, heartbeatAt = null) => ({
+    appState,
+    armed: false,
+    pausedReason: null,
+    heldBy: null,
+    heartbeatAt,
+    runs: []
+  });
+  if (!hasTable(db2, "queue_runtime") || !hasTable(db2, "live_folder_runs")) return closed("unknown");
+  const state = getRow(
+    db2,
+    "SELECT armed, paused_reason AS pausedReason, held_by AS heldBy, heartbeat_at AS heartbeatAt FROM queue_runtime WHERE id = 1"
+  );
+  if (!state) return closed("closed");
+  const beat = Date.parse(state.heartbeatAt);
+  if (!Number.isFinite(beat) || now - beat > APP_HEARTBEAT_STALE_MS) return closed("closed", state.heartbeatAt);
+  const runs = allRows(
+    db2,
+    `SELECT id, project_id AS projectId, card_id AS cardId, display_id AS displayId, kind,
+            runs_in_worktree AS runsInWorktree, source, from_queue AS fromQueue,
+            touched_files AS touchedFiles, seen_at AS seenAt
+     FROM live_folder_runs`
+  ).map(
+    (row) => ({
+      ...row,
+      runsInWorktree: !!row.runsInWorktree,
+      source: row.source === "terminal" ? "terminal" : "app",
+      fromQueue: !!row.fromQueue,
+      touchedFiles: parseList(row.touchedFiles)
+    })
+  ).filter((run) => run.source !== "terminal" || now - Date.parse(run.seenAt) <= TERMINAL_WRITER_TTL_MS);
+  return {
+    appState: "open",
+    armed: !!state.armed,
+    pausedReason: state.pausedReason,
+    heldBy: state.heldBy,
+    heartbeatAt: state.heartbeatAt,
+    runs
+  };
+}
+function parseWriteAck(raw) {
+  if (!raw) return { conflicts: [], files: [] };
+  try {
+    const value = JSON.parse(raw);
+    return { conflicts: stringList(value?.conflicts), files: stringList(value?.files) };
+  } catch {
+    return { conflicts: [], files: [] };
+  }
+}
+function readWriteAck(db2, sessionId) {
+  const row = getRow(
+    db2,
+    "SELECT write_ack AS writeAck FROM ideafy_sessions WHERE session_id = ?",
+    sessionId
+  );
+  return parseWriteAck(row?.writeAck);
+}
+function acknowledgeWrite(db2, input) {
+  return transaction(db2, () => {
+    const current = readWriteAck(db2, input.sessionId);
+    const next = {
+      conflicts: Array.from(/* @__PURE__ */ new Set([...current.conflicts, ...input.conflicts])),
+      files: Array.from(/* @__PURE__ */ new Set([...current.files, ...input.files]))
+    };
+    const json2 = JSON.stringify(next);
+    const updated = runChanges(
+      db2,
+      "UPDATE ideafy_sessions SET write_ack = ?, updated_at = ? WHERE session_id = ?",
+      json2,
+      input.now,
+      input.sessionId
+    );
+    if (updated.changes === 0) {
+      runChanges(
+        db2,
+        `INSERT INTO ideafy_sessions (session_id, project_id, state, created_at, updated_at, write_ack)
+         VALUES (?, ?, 'offered', ?, ?, ?)`,
+        input.sessionId,
+        input.projectId,
+        input.now,
+        input.now,
+        json2
+      );
+    }
+    return next;
+  });
+}
+
 // ../lib/prompts/evaluation.ts
 var evaluation_exports = {};
 __export(evaluation_exports, {
@@ -22586,8 +22820,12 @@ var {
   createGroup: createGroup2,
   updateGroup: updateGroup2,
   deleteGroup: deleteGroup2,
-  moveCardInChain: moveCardInChain2
+  moveCardInChain: moveCardInChain2,
+  readRuntime: readRuntime2,
+  readWriteAck: readWriteAck2,
+  acknowledgeWrite: acknowledgeWrite2
 } = unwrap(card_ops_exports);
+var { writeConflictFor: writeConflictFor2 } = unwrap(card_queue_exports);
 var { normalizeComplexity: normalizeComplexity2, describeOpinionMarkers: describeOpinionMarkers2 } = unwrap(opinion_markers_exports);
 var { EVALUATION_OUTPUT_SCHEMA: EVALUATION_OUTPUT_SCHEMA2, EVALUATION_HEADINGS_RULE: EVALUATION_HEADINGS_RULE2, buildEvaluationGuide: buildEvaluationGuide2 } = unwrap(evaluation_exports);
 var { cardArtifactDir: cardArtifactDir2, materializeArtifactFences: materializeArtifactFences2, persistCardArtifacts: persistCardArtifacts2 } = unwrap(artifact_links_exports);
@@ -22619,7 +22857,7 @@ function openDatabase(path2) {
 }
 
 // index.ts
-import { resolve as resolve2, dirname } from "path";
+import { resolve as resolve2, dirname, relative as relative2, isAbsolute as isAbsolute2, sep as sep2 } from "path";
 import { fileURLToPath } from "url";
 import { homedir as homedir3 } from "os";
 import { mkdirSync as mkdirSync3 } from "fs";
@@ -23966,7 +24204,11 @@ var CAPABILITIES = {
   /** ai_score (0021) — the opinion's Final Score, written by save_opinion. */
   aiScore: ["cards", "ai_score"],
   /** queue_verify_scope (0023) — what a queued pre-verify walks; read with every queue row. */
-  queueVerifyScope: ["cards", "queue_verify_scope"]
+  queueVerifyScope: ["cards", "queue_verify_scope"],
+  /** queue_runtime (0024) — the app's live runs and queue state, mirrored for the terminal. */
+  runtimeMirror: ["queue_runtime", "heartbeat_at"],
+  /** write_ack (0025) — what a session was told it may continue past, read by the edit hook. */
+  writeAck: ["ideafy_sessions", "write_ack"]
 };
 var knownColumns = /* @__PURE__ */ new WeakMap();
 function hasColumn(db2, table, column) {
@@ -24195,6 +24437,20 @@ async function listChangedFiles(repoPath, opts) {
       return [];
     }
     return stdout.split("\n").map((line) => line.trim()).filter(Boolean);
+  } catch {
+    return [];
+  }
+}
+async function listUncommittedFiles(cwd, files) {
+  try {
+    const args = ["status", "--porcelain", "--untracked-files=all"];
+    if (files && files.length > 0) args.push("--", ...files);
+    const { stdout } = await git(cwd, ...args);
+    return stdout.split("\n").filter((line) => line.length > 3).map((line) => {
+      const path2 = line.slice(3);
+      const arrow = path2.indexOf(" -> ");
+      return (arrow === -1 ? path2 : path2.slice(arrow + 4)).replace(/^"|"$/g, "");
+    });
   } catch {
     return [];
   }
@@ -25174,7 +25430,7 @@ The server writes the card's verdict, score, priority and complexity from those 
       },
       {
         name: "list_queue",
-        description: `List the run queue: the cards waiting for an autonomous run, in the order the app will start them \u2014 the order its queue popover shows. One queue serves every project; pass projectId to see one project's cards (rank stays the card's place in the whole queue). Each row: rank, id, displayId, title, status, projectId, kind (implementation = build from its plan; verify = pre-verify walk of a Human Test checklist's core flow) and runsInWorktree. Whether the queue is running or paused lives in the app's memory and cannot be read from here: runState is always "unknown" \u2014 do not guess it. The app's warnings about files shared with live runs are not included either; for file overlap with other open work, use list_open_work.`,
+        description: `List the run queue: the cards waiting for an autonomous run, in the order the app will start them \u2014 the order its queue popover shows. One queue serves every project; pass projectId to see one project's cards (rank stays the card's place in the whole queue). Each row: rank, id, displayId, title, status, projectId, kind (implementation = build from its plan; verify = pre-verify walk of a Human Test checklist's core flow) and runsInWorktree. runState is what the app last reported: "running" (armed, starts the next card when nothing is live), "held" (armed, but a terminal session is editing the next card's folder \u2014 heldBy says which), "paused" (waits for Resume \u2014 pausedReason says why), "app-closed" (the app is not running, so nothing starts) or "unknown" (an app too old to report it \u2014 do not guess). The app's warnings about files shared with live runs are not included; for file overlap with other open work, use list_open_work.`,
         inputSchema: {
           type: "object",
           properties: {
@@ -25183,6 +25439,33 @@ The server writes the card's verdict, score, priority and complexity from those 
               description: "Only this project's queued cards (optional)"
             }
           }
+        }
+      },
+      {
+        name: "check_write_conflicts",
+        description: `Check, before you edit code in a project, whether the Ideafy app would let a run write there now \u2014 the app's one-writer-per-folder rule. Reports: conflicts (a live autonomous run, quick fix, Tests chat or another terminal session working in the same folder without a worktree, or an armed queue whose next card would start in that folder \u2014 each with the app's own message), uncommitted (files git shows changed that this session did not edit; git cannot say whose they are), openWork (open cards whose plan or branch touches the files you pass), the queue's state, and appState ("closed" means the app is not running: no live run, no queue \u2014 not an error). The Ideafy edit hook blocks an Edit/Write that hits a conflict whether or not you called this. On a conflict, quote its message to the user and offer: wait, work in a worktree, or continue. Only after the user explicitly says to continue, call again with sessionId and acknowledge: true \u2014 that records the current conflicts (and the files you pass) as accepted for this session, and the hook lets those edits through; a different run or file asks again.`,
+        inputSchema: {
+          type: "object",
+          properties: {
+            projectId: {
+              type: "string",
+              description: "The project you are about to edit (required)."
+            },
+            files: {
+              type: "array",
+              items: { type: "string" },
+              description: "Files you plan to touch, relative to the project folder (absolute paths are accepted). Narrows the uncommitted check and enables the open-work overlap."
+            },
+            sessionId: {
+              type: "string",
+              description: "This Claude Code session's id \u2014 the edit hook's message names it. Needed for acknowledge, and to leave out the files this session already edited."
+            },
+            acknowledge: {
+              type: "boolean",
+              description: "Record the current conflicts and the files passed as accepted for this session. Only on the user's explicit OK."
+            }
+          },
+          required: ["projectId"]
         }
       },
       {
@@ -26296,14 +26579,125 @@ ${policy}` : `${bound} This column has no phase policy.`
           ...queueKindOf2(row) === "verify" ? { verifyScope: row.queueVerifyScope ?? "next" } : {},
           runsInWorktree: queuedRunsInWorktree2(row)
         })).filter((item) => !projectId || item.projectId === projectId);
+        const runtime = readRuntime2(db);
+        const runState = runtime.appState === "unknown" ? "unknown" : runtime.appState === "closed" ? "app-closed" : !runtime.armed ? "paused" : runtime.heldBy ? "held" : "running";
         return {
           content: [{
             type: "text",
             text: JSON.stringify(
               {
-                runState: "unknown",
-                note: "Whether the queue is running or paused lives in the Ideafy app; a terminal cannot see it. The app shows it in its queue popover.",
+                runState,
+                ...runState === "paused" && runtime.pausedReason ? { pausedReason: runtime.pausedReason } : {},
+                ...runState === "held" ? { heldBy: runtime.heldBy } : {},
+                ...runState === "unknown" ? { note: "This Ideafy app does not report its queue state yet; update it. Do not guess whether the queue is running." } : {},
                 items
+              },
+              null,
+              2
+            )
+          }]
+        };
+      }
+      case "check_write_conflicts": {
+        const { projectId, files: rawFiles, sessionId, acknowledge } = args ?? {};
+        if (!projectId) {
+          return { content: [{ type: "text", text: "check_write_conflicts needs a projectId." }], isError: true };
+        }
+        const project = db.prepare("SELECT id, folder_path AS folderPath FROM projects WHERE id = ?").get(projectId);
+        if (!project) {
+          return { content: [{ type: "text", text: `Project not found: ${projectId}` }], isError: true };
+        }
+        if (acknowledge && !sessionId) {
+          return {
+            content: [{ type: "text", text: "check_write_conflicts: acknowledge needs the sessionId the edit hook named. Nothing was written." }],
+            isError: true
+          };
+        }
+        if (acknowledge && !hasCapability(db, "writeAck")) {
+          return { content: [{ type: "text", text: missingCapabilityMessage("check_write_conflicts", "writeAck") }], isError: true };
+        }
+        const folder = project.folderPath ?? "";
+        const files = (Array.isArray(rawFiles) ? rawFiles : []).filter((f) => typeof f === "string" && f.trim().length > 0).map((f) => isAbsolute2(f) && folder ? relative2(folder, f) : f.replace(/^\.\//, ""));
+        const fromRoot = folder ? relative2(folder, process.cwd()) : "";
+        const inWorktree = fromRoot.split(sep2)[0] === ".worktrees";
+        const runtime = readRuntime2(db);
+        const selfId = `terminal:${sessionId ?? "this-session"}`;
+        const self = runtime.runs.find((run) => run.id === selfId);
+        const live = runtime.runs;
+        const waiting = hasCapability(db, "queueVerifyScope") ? listQueueRows2(db).map((row) => ({
+          id: row.id,
+          projectId: row.projectId,
+          runsInWorktree: queuedRunsInWorktree2(row),
+          kind: queueKindOf2(row),
+          cardId: row.id,
+          displayId: queueDisplayId2(row)
+        })) : [];
+        const ack = sessionId && hasCapability(db, "writeAck") ? readWriteAck2(db, sessionId) : { conflicts: [], files: [] };
+        const accepted = new Set(acknowledge ? [] : ack.conflicts);
+        const conflicts = [];
+        for (let i = 0; i <= live.length + waiting.length; i++) {
+          const conflict = writeConflictFor2({
+            self: { id: selfId, projectId, runsInWorktree: inWorktree, kind: "terminal" },
+            live,
+            waiting,
+            armed: runtime.armed,
+            acknowledged: accepted
+          });
+          if (!conflict) break;
+          conflicts.push(conflict);
+          accepted.add(conflict.conflictId);
+        }
+        const checkout = inWorktree ? process.cwd() : folder;
+        const ownFiles = new Set(self?.touchedFiles ?? []);
+        const uncommitted = checkout && await isGitRepo(checkout) ? (await listUncommittedFiles(checkout, files.length ? files : null)).map((f) => inWorktree && folder ? relative2(folder, resolve2(checkout, f)) : f).filter((f) => !ownFiles.has(f)) : [];
+        const boundCardId = sessionId ? db.prepare("SELECT card_id AS cardId FROM ideafy_sessions WHERE session_id = ?").get(sessionId)?.cardId ?? null : null;
+        const openWork = files.length ? (await listOpenWork(
+          db,
+          { projectId, excludeCardId: boundCardId, files },
+          { isGitRepo, changedFiles: listChangedFiles }
+        )).filter((row) => row.overlap && row.overlap.length > 0).map((row) => ({ displayId: row.displayId, title: row.title, status: row.status, overlap: row.overlap })) : [];
+        let acknowledged;
+        if (acknowledge && sessionId) {
+          acknowledged = acknowledgeWrite2(db, {
+            sessionId,
+            projectId,
+            conflicts: conflicts.map((c) => c.conflictId),
+            files: Array.from(/* @__PURE__ */ new Set([...files, ...uncommitted])),
+            now: (/* @__PURE__ */ new Date()).toISOString()
+          });
+        }
+        const blocked = !acknowledge && (conflicts.length > 0 || uncommitted.some((f) => !ack.files.includes(f)));
+        const appNote = runtime.appState === "closed" ? "The Ideafy app is closed: no run is live and the queue is not running." : runtime.appState === "unknown" ? "This Ideafy database has no live-run mirror yet (update the app): live runs and the queue state are unknown." : null;
+        const next = acknowledge ? "Recorded. The edit hook lets these through for this session; a different run or file will ask again." : blocked ? "Do not edit yet. Quote the conflict to the user and offer: wait, work in a worktree, or continue. Only on their explicit OK, call this again with sessionId and acknowledge: true." : openWork.length ? "No run is in the way. Open cards plan to touch the same files: mention them to the user before you edit." : "Clear to edit.";
+        return {
+          content: [{
+            type: "text",
+            text: JSON.stringify(
+              {
+                appState: runtime.appState,
+                ...appNote ? { appNote } : {},
+                queue: {
+                  armed: runtime.armed,
+                  ...runtime.pausedReason ? { pausedReason: runtime.pausedReason } : {},
+                  ...runtime.heldBy ? { heldBy: runtime.heldBy } : {}
+                },
+                conflicts: conflicts.map((c) => {
+                  const terminal = !sessionId && c.conflictId.startsWith("terminal:") ? runtime.runs.find((run) => run.id === c.conflictId) : void 0;
+                  return {
+                    reason: c.reason,
+                    message: c.message,
+                    conflictId: c.conflictId,
+                    ...terminal ? {
+                      editedFiles: terminal.touchedFiles,
+                      hint: "If these are your own edits, that session is this one: call again with your sessionId to leave it out."
+                    } : {}
+                  };
+                }),
+                uncommitted: uncommitted.slice(0, MAX_OPEN_WORK_FILES),
+                ...uncommitted.length > MAX_OPEN_WORK_FILES ? { moreUncommitted: uncommitted.length - MAX_OPEN_WORK_FILES } : {},
+                openWork,
+                ...acknowledged ? { acknowledged } : {},
+                next
               },
               null,
               2

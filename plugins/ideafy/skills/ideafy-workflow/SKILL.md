@@ -31,6 +31,10 @@ Once bound, the server returns phase-specific reminders in later hook context. F
 
 Follow the rule `get_card` returns with the card — it covers `search_cards`, `list_open_work` and the chain, and on an ideation card the evaluation template too. `list_cards` returns summaries; pass `full: true` only when you need card bodies.
 
+## Before you edit code
+
+Call `check_write_conflicts` with `projectId` and the files you plan to touch. It applies the app's one-writer-per-folder rule: a live run, the armed queue's next card or another terminal session in the same folder without a worktree, and uncommitted changes this session did not make. On a conflict, quote its message and offer: wait, work in a worktree, or continue. Only on the user's explicit OK call it again with `sessionId` and `acknowledge: true`. The edit hook blocks a conflicting Edit/Write either way, and its message names the `sessionId`.
+
 ## Don't
 
 - Don't offer to create a card for quick lookup / read-only questions.
