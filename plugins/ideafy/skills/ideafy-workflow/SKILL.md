@@ -17,6 +17,8 @@ If the user's first request in a fresh session looks like trackable work and no 
 
 On "yes", call `create_card` with `projectId`, a concise title, a description drawn from the user's request, and `status` ∈ {ideation, backlog, bugs}. Then immediately `bind_session_to_card` with the returned card id.
 
+Then do what `create_card`'s result says. On a card opened without a plan outside ideation and bugs, that means writing its AI Opinion in the same turn.
+
 ## When to bind to an existing card
 
 If the user names an existing card ("this is for IDE-125"), skip creation — call `bind_session_to_card` directly.
