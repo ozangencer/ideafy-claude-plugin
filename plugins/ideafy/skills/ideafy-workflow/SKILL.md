@@ -35,6 +35,12 @@ Follow the rule `get_card` returns with the card — it covers `search_cards`, `
 
 Call `check_write_conflicts` with `projectId` and the files you plan to touch. It applies the app's one-writer-per-folder rule: a live run, the armed queue's next card or another terminal session in the same folder without a worktree, and uncommitted changes this session did not make. On a conflict, quote its message and offer: wait, work in a worktree, or continue. Only on the user's explicit OK call it again with `sessionId` and `acknowledge: true`. The edit hook blocks a conflicting Edit/Write either way, and its message names the `sessionId`.
 
+A `chain-order` conflict is different: the card you are building has a predecessor in its chain whose code is not in yet. Name the card that comes first and ask whether to go ahead out of order; on the user's OK, acknowledge it once (pass `cardId` if the session is not bound to the card).
+
+## The run queue
+
+`list_queue` shows it; `queue_card` / `unqueue_card` change it; `pause_queue` / `resume_queue` do what the app's Pause and Resume do. Call any of these that change the queue only when the user explicitly asks. Pausing never stops a run already going, and with the app closed pause and resume change nothing. If `queue_card` says the card jumps its chain, tell the user and offer to move the predecessor ahead.
+
 ## Don't
 
 - Don't offer to create a card for quick lookup / read-only questions.
