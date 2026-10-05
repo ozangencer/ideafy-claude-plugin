@@ -3223,8 +3223,8 @@ var require_utils = __commonJS({
       }
       return ind;
     }
-    function removeDotSegments(path) {
-      let input = path;
+    function removeDotSegments(path2) {
+      let input = path2;
       const output = [];
       let nextSlash = -1;
       let len = 0;
@@ -3423,8 +3423,8 @@ var require_schemes = __commonJS({
         wsComponent.secure = void 0;
       }
       if (wsComponent.resourceName) {
-        const [path, query] = wsComponent.resourceName.split("?");
-        wsComponent.path = path && path !== "/" ? path : void 0;
+        const [path2, query] = wsComponent.resourceName.split("?");
+        wsComponent.path = path2 && path2 !== "/" ? path2 : void 0;
         wsComponent.query = query;
         wsComponent.resourceName = void 0;
       }
@@ -7158,8 +7158,8 @@ function getErrorMap() {
 
 // node_modules/zod/v3/helpers/parseUtil.js
 var makeIssue = (params) => {
-  const { data, path, errorMaps, issueData } = params;
-  const fullPath = [...path, ...issueData.path || []];
+  const { data, path: path2, errorMaps, issueData } = params;
+  const fullPath = [...path2, ...issueData.path || []];
   const fullIssue = {
     ...issueData,
     path: fullPath
@@ -7274,11 +7274,11 @@ var errorUtil;
 
 // node_modules/zod/v3/types.js
 var ParseInputLazyPath = class {
-  constructor(parent, value, path, key) {
+  constructor(parent, value, path2, key) {
     this._cachedPath = [];
     this.parent = parent;
     this.data = value;
-    this._path = path;
+    this._path = path2;
     this._key = key;
   }
   get path() {
@@ -10922,10 +10922,10 @@ function mergeDefs(...defs) {
 function cloneDef(schema) {
   return mergeDefs(schema._zod.def);
 }
-function getElementAtPath(obj, path) {
-  if (!path)
+function getElementAtPath(obj, path2) {
+  if (!path2)
     return obj;
-  return path.reduce((acc, key) => acc?.[key], obj);
+  return path2.reduce((acc, key) => acc?.[key], obj);
 }
 function promiseAllObject(promisesObj) {
   const keys = Object.keys(promisesObj);
@@ -11308,11 +11308,11 @@ function aborted(x2, startIndex = 0) {
   }
   return false;
 }
-function prefixIssues(path, issues) {
+function prefixIssues(path2, issues) {
   return issues.map((iss) => {
     var _a2;
     (_a2 = iss).path ?? (_a2.path = []);
-    iss.path.unshift(path);
+    iss.path.unshift(path2);
     return iss;
   });
 }
@@ -20998,7 +20998,7 @@ __export(phase_policy_exports, {
   isTerminalPhase: () => isTerminalPhase
 });
 var PHASE_INSTRUCTIONS = {
-  ideation: "propose save_opinion. This tool does NOT move the card. Once the opinion is saved, ask separately whether to move the card \u2014 to 'backlog' if the verdict was positive, to 'withdrawn' if it was negative \u2014 and call move_card only on a clear yes. Never report the card as moved until move_card has returned.",
+  ideation: "evaluate the idea with the rule and template get_card returns for this card, then propose save_opinion. This tool does NOT move the card. Once the opinion is saved, ask separately whether to move the card \u2014 to 'backlog' if the verdict was positive, to 'withdrawn' if it was negative \u2014 and call move_card only on a clear yes. Never report the card as moved until move_card has returned.",
   backlog: "propose save_plan. This moves the card to In Progress. Build the plan on the card's AI Opinion when it has one \u2014 get_card returns it with the rule.",
   bugs: "propose save_plan. This moves the card to In Progress. Build the plan on the card's AI Opinion when it has one \u2014 get_card returns it with the rule.",
   progress: "propose save_tests. This moves the card to Human Test.",
@@ -21406,8 +21406,8 @@ function extractPlanFiles(solutionHtml) {
   const section2 = text.match(/Files to Modify\s*\n([\s\S]*?)(?:\n(?:Implementation Steps|Edge Cases|Dependencies)\b|$)/i);
   return section2 ? pathTokens(section2[1]) : [];
 }
-function normalizePath(path) {
-  return path.trim().replace(/^\.\//, "").replace(/\/+$/, "");
+function normalizePath(path2) {
+  return path2.trim().replace(/^\.\//, "").replace(/\/+$/, "");
 }
 function pathsOverlap(a, b2) {
   const globRoot = (p) => /\/\*+$/.test(p) ? p.replace(/\/\*+$/, "/") : null;
@@ -22191,6 +22191,349 @@ function moveCardInChain(db2, cardId, afterCardId, expectedGroupId) {
   });
 }
 
+// ../lib/prompts/evaluation.ts
+var evaluation_exports = {};
+__export(evaluation_exports, {
+  EVALUATION_HEADINGS_RULE: () => EVALUATION_HEADINGS_RULE,
+  EVALUATION_OUTPUT_SCHEMA: () => EVALUATION_OUTPUT_SCHEMA,
+  buildChainSection: () => buildChainSection,
+  buildEvaluationGuide: () => buildEvaluationGuide,
+  buildPriorDecisionsSection: () => buildPriorDecisionsSection
+});
+var EVALUATION_OUTPUT_SCHEMA = `## Summary Verdict
+[VERDICT: strong_yes/yes/maybe/no/strong_no] \u2014 one sentence: Strong Yes / Yes / Maybe / No / Strong No, and why.
+
+## Related Cards
+[Optional \u2014 only when an earlier card contradicts this idea, set a precedent for it, already describes the same idea, open work overlaps it or brings in something it relies on, or when the card is in a chain, and only when it would change the verdict or a recommendation. One line per card: displayId, the kind (contradiction, precedent, duplicate, overlap, dependency, predecessor or successor), what it decided or touches, and why it matters here. Chain predecessors and successors are listed in chain order with their status. Leave the whole section out otherwise.]
+
+## Strengths
+- Key strengths of the idea
+
+## Concerns
+- Main concerns, risks, or issues
+
+## Recommendations
+- What to consider before implementing, suggested modifications
+
+## Priority
+[PRIORITY: low/medium/high] \u2014 reasoning. Be honest, not everything is high priority.
+
+## Complexity
+[COMPLEXITY: trivial/low/medium/high/very_high] \u2014 assessment.
+(trivial = few lines, low = simple, medium = moderate, high = significant, very_high = major)
+
+## Final Score
+[SCORE: X/10] \u2014 brief justification
+
+The four bracketed markers \u2014 [VERDICT: \u2026], [PRIORITY: \u2026], [COMPLEXITY: \u2026], [SCORE: X/10] \u2014 each hold exactly one value and stay in English whatever language the rest is written in. The card's verdict, score, priority and complexity are read from them.`;
+var EVALUATION_HEADINGS_RULE = "Markdown with exactly these sections (Related Cards is the only optional one). Keep every `##` heading exactly as written, in English, even when you write the content in another language: the app reads the verdict and the scores from them.";
+function buildPriorDecisionsSection(card) {
+  if (!card.projectId) return "";
+  return `
+## Earlier Decisions
+Card id: ${card.id} \xB7 projectId: ${card.projectId}
+
+${PRIOR_DECISIONS_EVALUATION_RULE}
+`;
+}
+function chainLine(ref) {
+  const name = ref.displayId ? `${ref.displayId} \xB7 ${ref.title}` : `${ref.title} (draft, no displayId)`;
+  return `${name} \u2014 ${ref.status}`;
+}
+function buildChainSection(chain) {
+  if (!chain) return "";
+  const lines = [
+    ...chain.predecessors.map((ref, i) => `${i + 1}. ${chainLine(ref)}`),
+    `${chain.position}. (this card)`,
+    ...chain.successors.map((ref, i) => `${chain.position + i + 1}. ${chainLine(ref)}`)
+  ];
+  const next = chain.next ? chainLine(chain.next) : "none \u2014 every member is completed or withdrawn";
+  return `
+## Chain
+This card is ${chain.position}/${chain.total} in chain ${chain.groupCode} (${chain.groupName}), in chain order:
+${lines.join("\n")}
+Next open card in the chain: ${next}
+`;
+}
+function buildEvaluationGuide() {
+  return `${PRIOR_DECISIONS_EVALUATION_RULE}
+
+Then write the evaluation in this template and save it with save_opinion (aiOpinion as markdown). ${EVALUATION_HEADINGS_RULE}
+
+${EVALUATION_OUTPUT_SCHEMA}`;
+}
+
+// ../lib/artifact-links.ts
+var artifact_links_exports = {};
+__export(artifact_links_exports, {
+  SCRATCH_DIR: () => SCRATCH_DIR,
+  cardArtifactDir: () => cardArtifactDir,
+  destinationFor: () => destinationFor,
+  materializeArtifactFences: () => materializeArtifactFences,
+  persistArtifactLinks: () => persistArtifactLinks,
+  persistArtifacts: () => persistArtifacts,
+  persistCardArtifacts: () => persistCardArtifacts
+});
+import { copyFileSync, existsSync, mkdirSync, readFileSync, realpathSync, statSync, writeFileSync } from "fs";
+import { homedir } from "os";
+import path from "path";
+
+// ../lib/artifact-fence.ts
+var ARTIFACT_FENCE_MAX_BYTES = 512 * 1024;
+var ALLOWED_EXT = /* @__PURE__ */ new Set(["html", "htm", "svg"]);
+var MAX_NAME_LENGTH = 80;
+var FENCE_OPEN_RE = /^ {0,3}(`{3,}|~{3,})(.*)$/;
+var ARTIFACT_ATTR_RE = /\bartifact\s*=\s*(?:"([^"]*)"|'([^']*)')/;
+function sanitizeArtifactFilename(raw, lang = "") {
+  const base = raw.split(/[\\/]/).filter(Boolean).pop() ?? "";
+  const name = base.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9._-]/g, "").replace(/^[.-]+/, "");
+  const dot = name.lastIndexOf(".");
+  let stem = dot > 0 ? name.slice(0, dot) : name;
+  let ext = dot > 0 ? name.slice(dot + 1) : "";
+  if (!ext) ext = lang.toLowerCase() === "svg" ? "svg" : "html";
+  if (!ALLOWED_EXT.has(ext)) return null;
+  stem = stem.replace(/\.+$/, "").slice(0, MAX_NAME_LENGTH - ext.length - 1) || "mockup";
+  return `${stem}.${ext}`;
+}
+function extractArtifactFences(text) {
+  const fences = [];
+  if (!text || !text.includes("artifact")) return fences;
+  let open = null;
+  let offset = 0;
+  while (offset <= text.length) {
+    const newline = text.indexOf("\n", offset);
+    const lineEnd = newline === -1 ? text.length : newline;
+    const line = text.slice(offset, lineEnd);
+    if (!open) {
+      const match = line.match(FENCE_OPEN_RE);
+      if (match && !(match[1][0] === "`" && match[2].includes("`"))) {
+        const info = match[2].trim();
+        const attr = info.match(ARTIFACT_ATTR_RE);
+        const lang = info.split(/\s+/)[0] ?? "";
+        open = {
+          marker: match[1],
+          start: offset,
+          bodyStart: newline === -1 ? text.length : newline + 1,
+          filename: attr ? sanitizeArtifactFilename(attr[1] ?? attr[2] ?? "", lang) : null,
+          artifact: !!attr
+        };
+      }
+    } else {
+      const trimmed = line.trim();
+      if (trimmed.length >= open.marker.length && trimmed[0] === open.marker[0] && /^(`+|~+)$/.test(trimmed)) {
+        if (open.artifact) {
+          fences.push({
+            start: open.start,
+            end: lineEnd,
+            filename: open.filename,
+            body: text.slice(open.bodyStart, Math.max(open.bodyStart, offset - 1)),
+            closed: true
+          });
+        }
+        open = null;
+      }
+    }
+    if (newline === -1) break;
+    offset = newline + 1;
+  }
+  if (open?.artifact) {
+    fences.push({
+      start: open.start,
+      end: text.length,
+      filename: open.filename,
+      body: text.slice(open.bodyStart),
+      closed: false
+    });
+  }
+  return fences;
+}
+
+// ../lib/artifact-url.ts
+var IMAGE_EXT = /* @__PURE__ */ new Set(["png", "jpg", "jpeg", "gif", "webp", "svg", "avif", "heic", "bmp"]);
+var DOC_EXT = /* @__PURE__ */ new Set(["md", "markdown", "pdf", "txt", "doc", "docx", "pptx", "xlsx", "csv", "rtf", "key", "pages", "numbers"]);
+var HTML_EXT = /* @__PURE__ */ new Set(["html", "htm"]);
+function fileUrlToPath(href) {
+  if (!href) return null;
+  const match = href.trim().match(/^file:\/\/(localhost)?(\/[^?#]*)/i);
+  if (!match) return null;
+  let decoded;
+  try {
+    decoded = decodeURIComponent(match[2]);
+  } catch {
+    decoded = match[2];
+  }
+  if (!decoded.startsWith("/") || decoded.includes("\0")) return null;
+  return decoded;
+}
+function pathToFileUrl(absolutePath) {
+  return `file://${absolutePath.split("/").map(encodeURIComponent).join("/")}`;
+}
+var LOCAL_PATH_RE = /^(~\/|\/(Users|home|tmp|private|var\/folders|Volumes)\/)\S/;
+function localPathFromText(text) {
+  if (!text || text.includes("\n")) return null;
+  const trimmed = text.trim();
+  return LOCAL_PATH_RE.test(trimmed) ? trimmed : null;
+}
+function artifactBasename(absolutePath) {
+  const parts = absolutePath.split("/").filter(Boolean);
+  return parts[parts.length - 1] || absolutePath;
+}
+function artifactKind(absolutePath) {
+  const ext = artifactBasename(absolutePath).split(".").pop()?.toLowerCase() || "";
+  if (HTML_EXT.has(ext)) return "html";
+  if (IMAGE_EXT.has(ext)) return "image";
+  if (DOC_EXT.has(ext)) return "doc";
+  return "file";
+}
+function decodeEntities3(text) {
+  return text.replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
+}
+function escapeHtml(text) {
+  return text.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+function artifactChipHtml(absolutePath, name) {
+  const label = name?.trim() || artifactBasename(absolutePath);
+  const pathAttr = escapeHtml(absolutePath);
+  return `<span data-type="artifactMention" data-path="${pathAttr}" data-name="${escapeHtml(label)}" data-kind="${artifactKind(absolutePath)}" title="${pathAttr}" class="mention artifact-mention">${escapeHtml(label)}</span>`;
+}
+function fileLinksToArtifactChips(html) {
+  if (!html || !html.includes("file://")) return html;
+  return html.replace(
+    /<a\b[^>]*href="(file:\/\/[^"]*)"[^>]*>([\s\S]*?)<\/a>/gi,
+    (tag, href, inner) => {
+      const absolute = fileUrlToPath(decodeEntities3(href));
+      if (!absolute) return tag;
+      const text = decodeEntities3(inner.replace(/<[^>]*>/g, "").trim());
+      const name = !text || text.startsWith("/") || text.startsWith("file://") ? void 0 : text;
+      return artifactChipHtml(absolute, name);
+    }
+  );
+}
+var INLINE_CODE_RE = /(?<!<pre\b[^>]*>)<code\b[^>]*>([^<]*)<\/code>/gi;
+function replaceCodePaths(html, render) {
+  if (!html || !html.includes("<code")) return html;
+  return html.replace(INLINE_CODE_RE, (tag, inner) => {
+    const path2 = localPathFromText(decodeEntities3(inner));
+    return path2 && render(path2) || tag;
+  });
+}
+function codePathsToFileLinks(html, homeDir) {
+  return replaceCodePaths(html, (path2) => {
+    const absolute = path2.startsWith("~/") ? `${homeDir}/${path2.slice(2)}` : path2;
+    return `<a href="${escapeHtml(pathToFileUrl(absolute))}">${escapeHtml(artifactBasename(absolute))}</a>`;
+  });
+}
+
+// ../lib/artifact-links.ts
+var MAX_ARTIFACT_BYTES = 50 * 1024 * 1024;
+var SCRATCH_DIR = "scratch";
+function cardArtifactDir(cardId, homeDir = homedir()) {
+  return path.join(homeDir, ".ideafy", "images", cardId);
+}
+function isInside(child, parent) {
+  return child === parent || child.startsWith(parent + path.sep);
+}
+function sameContents(a, b2) {
+  const sa = statSync(a);
+  const sb = statSync(b2);
+  if (sa.size !== sb.size) return false;
+  return readFileSync(a).equals(readFileSync(b2));
+}
+function destinationFor(base, dir, isSame) {
+  const ext = path.extname(base);
+  const stem = ext ? base.slice(0, -ext.length) : base;
+  for (let n = 1; ; n++) {
+    const candidate = path.join(dir, n === 1 ? base : `${stem}-${n}${ext}`);
+    if (!existsSync(candidate)) return candidate;
+    if (isSame(candidate)) return candidate;
+  }
+}
+function sameBytes(candidate, contents) {
+  return statSync(candidate).size === contents.length && readFileSync(candidate).equals(contents);
+}
+function materializeArtifactFences(text, cardDir) {
+  const fences = extractArtifactFences(text).filter((fence) => fence.closed);
+  if (fences.length === 0) return text;
+  const scratchDir = path.join(cardDir, SCRATCH_DIR);
+  let out = "";
+  let cursor = 0;
+  for (const fence of fences) {
+    out += text.slice(cursor, fence.start);
+    cursor = fence.end;
+    const original = text.slice(fence.start, fence.end);
+    const contents = Buffer.from(fence.body.endsWith("\n") ? fence.body : `${fence.body}
+`, "utf8");
+    if (!fence.filename || contents.length > ARTIFACT_FENCE_MAX_BYTES) {
+      console.warn(`[artifact-fence] left a block in place: ${fence.filename ?? "bad name"}, ${contents.length} bytes`);
+      out += original;
+      continue;
+    }
+    try {
+      mkdirSync(scratchDir, { recursive: true });
+      const target = destinationFor(fence.filename, scratchDir, (candidate) => sameBytes(candidate, contents));
+      if (!existsSync(target)) writeFileSync(target, contents);
+      out += `[${path.basename(target)}](${pathToFileUrl(target)})`;
+    } catch (error2) {
+      console.error("Failed to save artifact block:", fence.filename, error2);
+      out += original;
+    }
+  }
+  return out + text.slice(cursor);
+}
+function escapeAttr2(value) {
+  return value.replace(/&/g, "&amp;").replace(/"/g, "&quot;");
+}
+function persistArtifacts(html, cardDir) {
+  return fileLinksToArtifactChips(persistArtifactLinks(html, cardDir));
+}
+function persistCardArtifacts(html, cardId, homeDir = homedir()) {
+  const linked = codePathsToFileLinks(html, homeDir);
+  if (!linked.includes("file://")) return linked;
+  const cardDir = cardArtifactDir(cardId, homeDir);
+  try {
+    mkdirSync(cardDir, { recursive: true });
+  } catch (error2) {
+    console.error("Failed to create the card folder:", cardDir, error2);
+  }
+  return persistArtifacts(linked, cardDir);
+}
+function persistArtifactLinks(html, cardDir) {
+  if (!html || !html.includes("file://")) return html;
+  let realCardDir;
+  try {
+    realCardDir = realpathSync(cardDir);
+  } catch {
+    return html;
+  }
+  return html.replace(/href=(["'])(file:\/\/[^"']*)\1/gi, (match, quote, rawHref) => {
+    const source = fileUrlToPath(rawHref.replace(/&amp;/g, "&"));
+    if (!source) return match;
+    let realSource;
+    try {
+      realSource = realpathSync(source);
+      const stat = statSync(realSource);
+      if (!stat.isFile() || stat.size > MAX_ARTIFACT_BYTES) return match;
+    } catch {
+      return match;
+    }
+    if (isInside(realSource, realCardDir) && !isInside(realSource, path.join(realCardDir, SCRATCH_DIR))) {
+      return match;
+    }
+    try {
+      const target = destinationFor(
+        artifactBasename(realSource),
+        realCardDir,
+        (candidate) => sameContents(realSource, candidate)
+      );
+      if (!existsSync(target)) copyFileSync(realSource, target);
+      return `href=${quote}${escapeAttr2(pathToFileUrl(target))}${quote}`;
+    } catch (error2) {
+      console.error("Failed to persist artifact:", source, error2);
+      return match;
+    }
+  });
+}
+
 // shared.ts
 function unwrap(ns) {
   return Reflect.get(ns, "default") ?? ns;
@@ -22231,6 +22574,8 @@ var {
   moveCardInChain: moveCardInChain2
 } = unwrap(card_ops_exports);
 var { normalizeComplexity: normalizeComplexity2, describeOpinionMarkers: describeOpinionMarkers2 } = unwrap(opinion_markers_exports);
+var { EVALUATION_OUTPUT_SCHEMA: EVALUATION_OUTPUT_SCHEMA2, EVALUATION_HEADINGS_RULE: EVALUATION_HEADINGS_RULE2, buildEvaluationGuide: buildEvaluationGuide2 } = unwrap(evaluation_exports);
+var { cardArtifactDir: cardArtifactDir2, materializeArtifactFences: materializeArtifactFences2, persistCardArtifacts: persistCardArtifacts2 } = unwrap(artifact_links_exports);
 
 // db.ts
 var MIN_NODE = [22, 5];
@@ -22249,9 +22594,9 @@ function loadSqlite() {
     );
   }
 }
-function openDatabase(path) {
+function openDatabase(path2) {
   const { DatabaseSync } = loadSqlite();
-  const db2 = new DatabaseSync(path);
+  const db2 = new DatabaseSync(path2);
   db2.exec("PRAGMA journal_mode = WAL");
   db2.exec("PRAGMA foreign_keys = ON");
   db2.exec("PRAGMA busy_timeout = 5000");
@@ -22261,8 +22606,8 @@ function openDatabase(path) {
 // index.ts
 import { resolve as resolve2, dirname } from "path";
 import { fileURLToPath } from "url";
-import { homedir as homedir2 } from "os";
-import { mkdirSync as mkdirSync2 } from "fs";
+import { homedir as homedir3 } from "os";
+import { mkdirSync as mkdirSync3 } from "fs";
 
 // node_modules/marked/lib/marked.esm.js
 function M() {
@@ -23576,6 +23921,12 @@ function buildPriorDecisionsNote(card) {
   return `Before you write a plan for this card:
 ${PRIOR_DECISIONS_RULE2}`;
 }
+function buildEvaluationNote(card, statuses = ["ideation"]) {
+  if (!statuses.includes(card.status)) return null;
+  if (hasHtmlText(card.aiOpinion)) return null;
+  return `If you are evaluating this idea:
+${buildEvaluationGuide2()}`;
+}
 function buildChainImplementationNote(card, chain) {
   if (!chain) return null;
   if (card.status !== "progress") return null;
@@ -23625,8 +23976,8 @@ function missingCapabilityMessage(tool, capability) {
 }
 
 // output-paths.ts
-import { existsSync, realpathSync, statSync } from "fs";
-import { homedir } from "os";
+import { existsSync as existsSync2, realpathSync as realpathSync2, statSync as statSync2 } from "fs";
+import { homedir as homedir2 } from "os";
 import { isAbsolute, relative, resolve, sep } from "path";
 var OutputPathError = class extends Error {
 };
@@ -23644,23 +23995,23 @@ function resolveOutputPath(projectFolder, inputPath) {
   if (!trimmed) {
     throw new OutputPathError("save_output needs a path to the file that was written.");
   }
-  const expanded = trimmed === "~" || trimmed.startsWith("~/") ? resolve(homedir(), trimmed.slice(2)) : trimmed;
+  const expanded = trimmed === "~" || trimmed.startsWith("~/") ? resolve(homedir2(), trimmed.slice(2)) : trimmed;
   const absolute = isAbsolute(expanded) ? resolve(expanded) : resolve(projectFolder, expanded);
   let projectReal;
   try {
-    projectReal = realpathSync(projectFolder);
+    projectReal = realpathSync2(projectFolder);
   } catch {
     throw new OutputPathError(
       `The card's project folder does not exist on this machine: ${projectFolder}. Nothing was recorded.`
     );
   }
-  if (!existsSync(absolute)) {
+  if (!existsSync2(absolute)) {
     throw new OutputPathError(
       `File not found: ${absolute}. save_output records a file that already exists \u2014 write it first, then call save_output again.`
     );
   }
-  const fileReal = realpathSync(absolute);
-  if (!statSync(fileReal).isFile()) {
+  const fileReal = realpathSync2(absolute);
+  if (!statSync2(fileReal).isFile()) {
     throw new OutputPathError(
       `Not a file: ${absolute}. save_output records one file at a time \u2014 call it once per file.`
     );
@@ -23711,7 +24062,7 @@ function recordOutputPath(db2, cardId, inputPath) {
 // git-helpers.ts
 import { execFile } from "child_process";
 import { promisify } from "util";
-import { existsSync as existsSync2, mkdirSync } from "fs";
+import { existsSync as existsSync3, mkdirSync as mkdirSync2 } from "fs";
 import { join } from "path";
 var execFileAsync = promisify(execFile);
 async function git(cwd, ...args) {
@@ -23769,7 +24120,7 @@ function getWorktreePath(projectPath, branchName) {
 }
 async function worktreeExists(projectPath, worktreePath) {
   try {
-    if (!existsSync2(worktreePath)) return false;
+    if (!existsSync3(worktreePath)) return false;
     const { stdout } = await git(projectPath, "worktree", "list", "--porcelain");
     return stdout.includes(`worktree ${worktreePath}`);
   } catch {
@@ -23780,8 +24131,8 @@ async function createWorktree(projectPath, branchName) {
   const worktreePath = getWorktreePath(projectPath, branchName);
   const baseDir = getWorktreeBaseDir(projectPath);
   try {
-    if (!existsSync2(baseDir)) {
-      mkdirSync(baseDir, { recursive: true });
+    if (!existsSync3(baseDir)) {
+      mkdirSync2(baseDir, { recursive: true });
     }
     if (await worktreeExists(projectPath, worktreePath)) {
       return { success: true, worktreePath };
@@ -23814,7 +24165,7 @@ async function listChangedFiles(repoPath, opts) {
     const defaultBranch = await getDefaultBranch(repoPath);
     let stdout;
     if (opts.worktreePath) {
-      if (!existsSync2(opts.worktreePath)) return [];
+      if (!existsSync3(opts.worktreePath)) return [];
       const { stdout: base } = await git(opts.worktreePath, "merge-base", defaultBranch, "HEAD");
       ({ stdout } = await git(opts.worktreePath, "diff", "--name-only", base.trim()));
     } else if (opts.branchName) {
@@ -23892,7 +24243,7 @@ function resolveEffectiveWorktree(card, project) {
 }
 
 // card-search.ts
-import { existsSync as existsSync3 } from "fs";
+import { existsSync as existsSync4 } from "fs";
 var foldCache = /* @__PURE__ */ new Map();
 function foldChar(c) {
   let ch = foldCache.get(c);
@@ -23998,7 +24349,7 @@ function findOverlap(cardFiles, callerFiles) {
 var OPEN_STATUSES = ["backlog", "bugs", "progress", "test"];
 var PLAN_STATUSES = /* @__PURE__ */ new Set(["backlog", "bugs", "progress"]);
 async function listOpenWork(db2, opts, deps) {
-  const pathExists = deps.pathExists ?? existsSync3;
+  const pathExists = deps.pathExists ?? existsSync4;
   const project = db2.prepare(`SELECT folder_path as folderPath, id_prefix as idPrefix FROM projects WHERE id = ?`).get(opts.projectId);
   if (!project) return [];
   const hasBranchColumns = hasCapability(db2, "branchStatus");
@@ -24094,7 +24445,7 @@ function projectIdOfCard(db2, cardId) {
 }
 
 // index.ts
-import { existsSync as existsSync4 } from "fs";
+import { existsSync as existsSync5 } from "fs";
 
 // card-groups.ts
 function groupOrderSelect(db2) {
@@ -24343,7 +24694,7 @@ function mergeTestCheckState(existingHtml, newHtml) {
 }
 var __dirname = dirname(fileURLToPath(import.meta.url));
 function getDefaultDataDir() {
-  const home = homedir2();
+  const home = homedir3();
   switch (process.platform) {
     case "darwin":
       return resolve2(home, "Library/Application Support/ideafy");
@@ -24356,7 +24707,7 @@ function getDefaultDataDir() {
 function resolveDbPath() {
   const userDataEnv = process.env.IDEAFY_USER_DATA;
   const dir = userDataEnv ? resolve2(userDataEnv) : getDefaultDataDir();
-  mkdirSync2(dir, { recursive: true });
+  mkdirSync3(dir, { recursive: true });
   return resolve2(dir, "kanban.db");
 }
 var DB_PATH = resolveDbPath();
@@ -24432,6 +24783,11 @@ function saveFieldAndMove(id, column, html, nextStatus) {
 function readStatus(id) {
   const row = db.prepare(`SELECT status FROM cards WHERE id = ?`).get(id);
   return row?.status ?? "unknown";
+}
+function cardFieldHtml(id, markdown) {
+  const withFiles = materializeArtifactFences2(markdown, cardArtifactDir2(id));
+  const linked = linkCardsInHtml(db, markdownToTiptapHtml(withFiles), projectIdOfCard(db, id));
+  return persistCardArtifacts2(linked, id);
 }
 function aiScoreColumn(conn) {
   return hasCapability(conn, "aiScore") ? "ai_score as aiScore," : "NULL as aiScore,";
@@ -24664,7 +25020,7 @@ Reading the results: a newer decision overrides an older one (compare completedA
       },
       {
         name: "save_plan",
-        description: `Save a solution plan to a card. A card in Ideation, Backlog or Bugs moves to In Progress; anywhere else it stays in its column. Use this when you've completed planning a task.
+        description: `Save a solution plan to a card. A card in Ideation, Backlog or Bugs moves to In Progress; anywhere else it stays in its column. Use this when you've completed planning a task. A mockup or any other file linked in the plan (a file:// link, a backticked absolute path, or a \`\`\`html artifact="name.html" block) is copied into the card's folder and shown as a chip, the way the app's Apply keeps it.
 
 NOT the exit from Ideation. A card in the \`ideation\` column has not been evaluated yet: it needs save_opinion first, then the user's yes to move_card. Calling save_plan on an ideation card skips the evaluation the user asked for and jumps the card two columns at once \u2014 check the card's column before you call this.
 
@@ -24745,7 +25101,11 @@ Before drafting, call get_card to read the project's voice. The required section
 - builder (default) \u2014 Balance product and technical lenses. Name key risks (race conditions, schema drift) as 1-line callouts; mention rough complexity in plain words. File names appear inline only when they meaningfully shape the verdict.
 - engineer \u2014 Lead with technical risk: race conditions, n+1, schema drift, API contract breaks, perf cliffs, refactor opportunities, testability and dependency cost. File:line references welcome. Product framing is secondary.
 
-All three voices still produce the same Summary Verdict / Strengths / Concerns / Recommendations / Priority / Complexity / Final Score sections and the same four markers \u2014 voice changes the prose inside, not the schema.`,
+All three voices still produce the same sections of the template (see aiOpinion) and the same four markers \u2014 voice changes the prose inside, not the schema.
+
+BEFORE YOU WRITE: get_card returns the full evaluation rule with an ideation card that has no opinion yet \u2014 follow it. When you re-evaluate a card that already has one, run the same check before writing: search_cards for earlier decisions and duplicates, list_open_work for overlapping work, and the chain get_card returns; report what you found under Related Cards.
+
+A mockup or any other file linked in the opinion (a file:// link, a backticked absolute path, or a \`\`\`html artifact="name.html" block) is copied into the card's folder and shown as a chip, the way the app's Apply keeps it.`,
         inputSchema: {
           type: "object",
           properties: {
@@ -24755,7 +25115,11 @@ All three voices still produce the same Summary Verdict / Strengths / Concerns /
             },
             aiOpinion: {
               type: "string",
-              description: "AI opinion in markdown. MUST include these sections: ## Summary Verdict ([VERDICT: strong_yes|yes|maybe|no|strong_no] \u2014 one sentence), ## Strengths (bullet points), ## Concerns (bullet points), ## Recommendations (bullet points), ## Priority ([PRIORITY: low|medium|high] \u2014 reasoning), ## Complexity ([COMPLEXITY: low|medium|high] \u2014 assessment), ## Final Score ([SCORE: X/10] \u2014 justification). The server reads the card's verdict, score, priority and complexity from these four markers and writes them itself \u2014 do not call update_card for priority or complexity. Marker values stay English in every card language. Adapt the prose inside each section to the project's voice (see tool description)."
+              description: `AI opinion in markdown, in this template. ${EVALUATION_HEADINGS_RULE2}
+
+${EVALUATION_OUTPUT_SCHEMA2}
+
+The server writes the card's verdict, score, priority and complexity from those markers itself \u2014 do not call update_card for priority or complexity. Adapt the prose inside each section to the project's voice (see tool description).`
             },
             aiVerdict: {
               type: "string",
@@ -25044,6 +25408,10 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         const chainImplementationNote = buildChainImplementationNote(card, chain);
         if (chainImplementationNote) {
           content.push({ type: "text", text: chainImplementationNote });
+        }
+        const evaluationNote = buildEvaluationNote(card);
+        if (evaluationNote) {
+          content.push({ type: "text", text: evaluationNote });
         }
         for (const img of images) {
           content.push({
@@ -25464,13 +25832,13 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             isError: true
           };
         }
-        const htmlContent = linkCardsInHtml(db, markdownToTiptapHtml(solutionSummary), projectIdOfCard(db, id));
         if (!hasCapability(db, "completedAt")) {
           return {
             content: [{ type: "text", text: missingCapabilityMessage("save_plan", "completedAt") }],
             isError: true
           };
         }
+        const htmlContent = cardFieldHtml(id, solutionSummary);
         const saved = saveFieldAndMove(id, "solution_summary", htmlContent, statusAfterPlan2);
         if (!saved) {
           return {
@@ -25566,7 +25934,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             isError: true
           };
         }
-        const htmlContent = linkCardsInHtml(db, markdownToTiptapHtml(aiOpinion), projectIdOfCard(db, id));
+        const htmlContent = cardFieldHtml(id, aiOpinion);
         const result = saveOpinion2(db, {
           id,
           html: htmlContent,
@@ -25752,7 +26120,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             ]
           };
         }
-        const cwd = card.gitWorktreePath && existsSync4(card.gitWorktreePath) ? card.gitWorktreePath : projectFolder;
+        const cwd = card.gitWorktreePath && existsSync5(card.gitWorktreePath) ? card.gitWorktreePath : projectFolder;
         const currentBranch = await getCurrentBranch(cwd);
         if (currentBranch === targetBranch) {
           if (branchGenerated || card.gitBranchName !== targetBranch) {
