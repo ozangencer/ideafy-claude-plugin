@@ -20991,6 +20991,7 @@ function buildTestStyleContractForCard(card) {
 // ../lib/prompts/phase-policy.ts
 var phase_policy_exports = {};
 __export(phase_policy_exports, {
+  buildCreatedCardOpinionClause: () => buildCreatedCardOpinionClause,
   buildCreationOfferPolicy: () => buildCreationOfferPolicy,
   buildPhaseHint: () => buildPhaseHint,
   buildPhasePolicy: () => buildPhasePolicy,
@@ -20999,7 +21000,7 @@ __export(phase_policy_exports, {
 });
 var PHASE_INSTRUCTIONS = {
   ideation: "evaluate the idea with the rule and template get_card returns for this card, then propose save_opinion. This tool does NOT move the card. Once the opinion is saved, ask separately whether to move the card \u2014 to 'backlog' if the verdict was positive, to 'withdrawn' if it was negative \u2014 and call move_card only on a clear yes. Never report the card as moved until move_card has returned.",
-  backlog: "propose save_plan. This moves the card to In Progress. Build the plan on the card's AI Opinion when it has one \u2014 get_card returns it with the rule.",
+  backlog: "propose save_plan. This moves the card to In Progress. Build the plan on the card's AI Opinion when it has one \u2014 get_card returns it with the rule. If the card has no AI Opinion yet, propose save_opinion first, with the evaluation rule get_card returns.",
   bugs: "propose save_plan. This moves the card to In Progress. Build the plan on the card's AI Opinion when it has one \u2014 get_card returns it with the rule.",
   progress: "propose save_tests. This moves the card to Human Test.",
   // The test column runs on its own policy block (buildTestPhaseLines) rather
@@ -21024,6 +21025,20 @@ function buildPhaseHint(status) {
   if (!instruction) return null;
   const firstSentence = instruction.split(". ")[0].replace(/\.$/, "");
   return `Column: ${status} \u2014 expected next action: ${firstSentence}.`;
+}
+var OPINION_ON_CREATE_STATUSES = /* @__PURE__ */ new Set(["backlog", "progress", "test"]);
+function buildCreatedCardOpinionClause(status, hasPlan) {
+  if (!OPINION_ON_CREATE_STATUSES.has(status) || hasPlan) return null;
+  return [
+    "The user's yes to opening this card covers its AI Opinion too. In this same turn, without asking,",
+    "write the opinion with the evaluation rule below and save it with save_opinion; only after that",
+    "propose save_plan. If the card was opened into a group, call get_card on it first for its chain.",
+    "Fill Concerns with your own doubts about the idea \u2014 do not restate the case you argued in the",
+    `conversation. Skip the opinion if the user asked to open the card without one ("opinion's\u0131z a\xE7",`,
+    '"h\u0131zl\u0131ca at", "no opinion", "just drop it in").',
+    "This exception covers only this save_opinion call on this new card. Every other save_* call and",
+    "move_card still needs the user's confirmation first, as the session policy says."
+  ].join("\n");
 }
 function sanitizeForReminder(value, maxLength = 120) {
   const collapsed = (value || "").replace(/[\r\n\u2028\u2029]+/g, " ").replace(/\s{2,}/g, " ").trim();
@@ -22539,7 +22554,7 @@ function unwrap(ns) {
   return Reflect.get(ns, "default") ?? ns;
 }
 var { buildTestStyleContract: buildTestStyleContract2 } = unwrap(test_style_exports);
-var { buildPhaseHint: buildPhaseHint2, buildPhasePolicyBody: buildPhasePolicyBody2 } = unwrap(phase_policy_exports);
+var { buildPhaseHint: buildPhaseHint2, buildPhasePolicyBody: buildPhasePolicyBody2, buildCreatedCardOpinionClause: buildCreatedCardOpinionClause2 } = unwrap(phase_policy_exports);
 var { AI_OPINION_PLANNING_RULE: AI_OPINION_PLANNING_RULE2 } = unwrap(opinion_exports);
 var { PRIOR_DECISIONS_RULE: PRIOR_DECISIONS_RULE2, CHAIN_IMPLEMENTATION_RULE: CHAIN_IMPLEMENTATION_RULE2 } = unwrap(prior_decisions_exports);
 var { linkCardReferences: linkCardReferences2 } = unwrap(card_links_exports);
@@ -23921,9 +23936,10 @@ function buildPriorDecisionsNote(card) {
   return `Before you write a plan for this card:
 ${PRIOR_DECISIONS_RULE2}`;
 }
-function buildEvaluationNote(card, statuses = ["ideation"]) {
+function buildEvaluationNote(card, statuses = ["ideation", "backlog"]) {
   if (!statuses.includes(card.status)) return null;
   if (hasHtmlText(card.aiOpinion)) return null;
+  if (card.status !== "ideation" && hasHtmlText(card.solutionSummary)) return null;
   return `If you are evaluating this idea:
 ${buildEvaluationGuide2()}`;
 }
@@ -24975,7 +24991,7 @@ Reading the results: a newer decision overrides an older one (compare completedA
       },
       {
         name: "create_card",
-        description: "Create a new kanban card. Markdown content in description and solutionSummary will be converted to HTML. Test scenarios should be added after implementation using save_tests.",
+        description: "Create a new kanban card. Markdown content in description and solutionSummary will be converted to HTML. Test scenarios should be added after implementation using save_tests. On a backlog, progress or test card opened without a plan, the result asks you to write its AI Opinion in the same turn.",
         inputSchema: {
           type: "object",
           properties: {
@@ -25814,14 +25830,24 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           ...completedAt ? [completedAt] : []
         );
         const hint = buildPhaseHint2(status);
-        return {
-          content: [
-            {
-              type: "text",
-              text: hint ? `Card created: ${cardId} (${title}). ${hint}` : `Card created: ${cardId} (${title})`
-            }
-          ]
-        };
+        const content = [
+          {
+            type: "text",
+            text: hint ? `Card created: ${cardId} (${title}). ${hint}` : `Card created: ${cardId} (${title})`
+          }
+        ];
+        const opinionClause = buildCreatedCardOpinionClause2(status, hasHtmlText(solutionSummary));
+        if (opinionClause) {
+          content.push({ type: "text", text: opinionClause });
+          const evaluationNote = buildEvaluationNote(
+            { status, aiOpinion: null },
+            ["backlog", "progress", "test"]
+          );
+          if (evaluationNote) {
+            content.push({ type: "text", text: evaluationNote });
+          }
+        }
+        return { content };
       }
       case "save_plan": {
         const { id: rawId, solutionSummary } = args;
