@@ -9,9 +9,9 @@ var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __commonJS = (cb, mod) => function __require() {
   return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
 };
-var __export = (target, all) => {
+var __export = (target2, all) => {
   for (var name in all)
-    __defProp(target, name, { get: all[name], enumerable: true });
+    __defProp(target2, name, { get: all[name], enumerable: true });
 };
 var __copyProps = (to, from, except, desc) => {
   if (from && typeof from === "object" || typeof from === "function") {
@@ -21,18 +21,18 @@ var __copyProps = (to, from, except, desc) => {
   }
   return to;
 };
-var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+var __toESM = (mod, isNodeMode, target2) => (target2 = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
   // If the importer is in node compatibility mode or this is not an ESM
   // file that has been converted to a CommonJS file using a Babel-
   // compatible transform (i.e. "__esModule" has not been set), then set
   // "default" to the CommonJS "module.exports" for node compatibility.
-  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+  isNodeMode || !mod || !mod.__esModule ? __defProp(target2, "default", { value: mod, enumerable: true }) : target2,
   mod
 ));
 
-// node_modules/ajv/dist/compile/codegen/code.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/code.js
 var require_code = __commonJS({
-  "node_modules/ajv/dist/compile/codegen/code.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/code.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.regexpCode = exports.getEsmExportName = exports.getProperty = exports.safeStringify = exports.stringify = exports.strConcat = exports.addCodeArg = exports.str = exports._ = exports.nil = exports._Code = exports.Name = exports.IDENTIFIER = exports._CodeOrName = void 0;
@@ -98,7 +98,7 @@ var require_code = __commonJS({
     }
     exports._ = _2;
     var plus = new _Code("+");
-    function str(strs, ...args) {
+    function str2(strs, ...args) {
       const expr = [safeStringify(strs[0])];
       let i = 0;
       while (i < args.length) {
@@ -109,7 +109,7 @@ var require_code = __commonJS({
       optimize(expr);
       return new _Code(expr);
     }
-    exports.str = str;
+    exports.str = str2;
     function addCodeArg(code, arg) {
       if (arg instanceof _Code)
         code.push(...arg._items);
@@ -152,7 +152,7 @@ var require_code = __commonJS({
       return;
     }
     function strConcat(c1, c2) {
-      return c2.emptyStr() ? c1 : c1.emptyStr() ? c2 : str`${c1}${c2}`;
+      return c2.emptyStr() ? c1 : c1.emptyStr() ? c2 : str2`${c1}${c2}`;
     }
     exports.strConcat = strConcat;
     function interpolate(x2) {
@@ -184,9 +184,9 @@ var require_code = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/codegen/scope.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/scope.js
 var require_scope = __commonJS({
-  "node_modules/ajv/dist/compile/codegen/scope.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/scope.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.ValueScope = exports.ValueScopeName = exports.Scope = exports.varKinds = exports.UsedValueState = void 0;
@@ -329,9 +329,9 @@ var require_scope = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/codegen/index.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/index.js
 var require_codegen = __commonJS({
-  "node_modules/ajv/dist/compile/codegen/index.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.or = exports.and = exports.not = exports.CodeGen = exports.operators = exports.varKinds = exports.ValueScopeName = exports.ValueScope = exports.Scope = exports.Name = exports.regexpCode = exports.stringify = exports.getProperty = exports.nil = exports.strConcat = exports.str = exports._ = void 0;
@@ -1049,9 +1049,9 @@ var require_codegen = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/util.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/util.js
 var require_util = __commonJS({
-  "node_modules/ajv/dist/compile/util.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/util.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.checkStrictMode = exports.getErrorPath = exports.Type = exports.useFunc = exports.setEvaluated = exports.evaluatedPropsToName = exports.mergeEvaluated = exports.eachItem = exports.unescapeJsonPointer = exports.escapeJsonPointer = exports.escapeFragment = exports.unescapeFragment = exports.schemaRefOrVal = exports.schemaHasRulesButRef = exports.schemaHasRules = exports.checkUnknownRules = exports.alwaysValidSchema = exports.toHash = void 0;
@@ -1114,22 +1114,22 @@ var require_util = __commonJS({
       return (0, codegen_1._)`${topSchemaRef}${schemaPath}${(0, codegen_1.getProperty)(keyword)}`;
     }
     exports.schemaRefOrVal = schemaRefOrVal;
-    function unescapeFragment(str) {
-      return unescapeJsonPointer(decodeURIComponent(str));
+    function unescapeFragment(str2) {
+      return unescapeJsonPointer(decodeURIComponent(str2));
     }
     exports.unescapeFragment = unescapeFragment;
-    function escapeFragment(str) {
-      return encodeURIComponent(escapeJsonPointer(str));
+    function escapeFragment(str2) {
+      return encodeURIComponent(escapeJsonPointer(str2));
     }
     exports.escapeFragment = escapeFragment;
-    function escapeJsonPointer(str) {
-      if (typeof str == "number")
-        return `${str}`;
-      return str.replace(/~/g, "~0").replace(/\//g, "~1");
+    function escapeJsonPointer(str2) {
+      if (typeof str2 == "number")
+        return `${str2}`;
+      return str2.replace(/~/g, "~0").replace(/\//g, "~1");
     }
     exports.escapeJsonPointer = escapeJsonPointer;
-    function unescapeJsonPointer(str) {
-      return str.replace(/~1/g, "/").replace(/~0/g, "~");
+    function unescapeJsonPointer(str2) {
+      return str2.replace(/~1/g, "/").replace(/~0/g, "~");
     }
     exports.unescapeJsonPointer = unescapeJsonPointer;
     function eachItem(xs, f) {
@@ -1216,9 +1216,9 @@ var require_util = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/names.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/names.js
 var require_names = __commonJS({
-  "node_modules/ajv/dist/compile/names.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/names.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -1255,9 +1255,9 @@ var require_names = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/errors.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/errors.js
 var require_errors = __commonJS({
-  "node_modules/ajv/dist/compile/errors.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/errors.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.extendErrors = exports.resetErrorsCount = exports.reportExtraError = exports.reportError = exports.keyword$DataError = exports.keywordError = void 0;
@@ -1377,9 +1377,9 @@ var require_errors = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/validate/boolSchema.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/boolSchema.js
 var require_boolSchema = __commonJS({
-  "node_modules/ajv/dist/compile/validate/boolSchema.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/boolSchema.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.boolOrEmptySchema = exports.topBoolOrEmptySchema = void 0;
@@ -1428,9 +1428,9 @@ var require_boolSchema = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/rules.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/rules.js
 var require_rules = __commonJS({
-  "node_modules/ajv/dist/compile/rules.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/rules.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.getRules = exports.isJSONType = void 0;
@@ -1459,9 +1459,9 @@ var require_rules = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/validate/applicability.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/applicability.js
 var require_applicability = __commonJS({
-  "node_modules/ajv/dist/compile/validate/applicability.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/applicability.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.shouldUseRule = exports.shouldUseGroup = exports.schemaHasRulesForType = void 0;
@@ -1482,9 +1482,9 @@ var require_applicability = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/validate/dataType.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/dataType.js
 var require_dataType = __commonJS({
-  "node_modules/ajv/dist/compile/validate/dataType.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/dataType.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.reportTypeError = exports.checkDataTypes = exports.checkDataType = exports.coerceAndCheckDataType = exports.getJSONTypes = exports.getSchemaTypes = exports.DataType = void 0;
@@ -1666,9 +1666,9 @@ var require_dataType = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/validate/defaults.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/defaults.js
 var require_defaults = __commonJS({
-  "node_modules/ajv/dist/compile/validate/defaults.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/defaults.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.assignDefaults = void 0;
@@ -1703,9 +1703,9 @@ var require_defaults = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/code.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/code.js
 var require_code2 = __commonJS({
-  "node_modules/ajv/dist/vocabularies/code.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/code.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.validateUnion = exports.validateArray = exports.usePattern = exports.callValidateCode = exports.schemaProperties = exports.allSchemaProperties = exports.noPropertyInData = exports.propertyInData = exports.isOwnProperty = exports.hasPropFunc = exports.reportMissingProp = exports.checkMissingProp = exports.checkReportMissingProp = void 0;
@@ -1836,9 +1836,9 @@ var require_code2 = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/validate/keyword.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/keyword.js
 var require_keyword = __commonJS({
-  "node_modules/ajv/dist/compile/validate/keyword.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/keyword.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.validateKeywordUsage = exports.validSchemaType = exports.funcKeywordCode = exports.macroKeywordCode = void 0;
@@ -1954,9 +1954,9 @@ var require_keyword = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/validate/subschema.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/subschema.js
 var require_subschema = __commonJS({
-  "node_modules/ajv/dist/compile/validate/subschema.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/subschema.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.extendSubschemaMode = exports.extendSubschemaData = exports.getSubschema = void 0;
@@ -2037,9 +2037,9 @@ var require_subschema = __commonJS({
   }
 });
 
-// node_modules/fast-deep-equal/index.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-deep-equal/index.js
 var require_fast_deep_equal = __commonJS({
-  "node_modules/fast-deep-equal/index.js"(exports, module) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-deep-equal/index.js"(exports, module) {
     "use strict";
     module.exports = function equal(a, b2) {
       if (a === b2) return true;
@@ -2072,9 +2072,9 @@ var require_fast_deep_equal = __commonJS({
   }
 });
 
-// node_modules/json-schema-traverse/index.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/json-schema-traverse/index.js
 var require_json_schema_traverse = __commonJS({
-  "node_modules/json-schema-traverse/index.js"(exports, module) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/json-schema-traverse/index.js"(exports, module) {
     "use strict";
     var traverse = module.exports = function(schema, opts, cb) {
       if (typeof opts == "function") {
@@ -2154,15 +2154,15 @@ var require_json_schema_traverse = __commonJS({
         post(schema, jsonPtr, rootSchema, parentJsonPtr, parentKeyword, parentSchema, keyIndex);
       }
     }
-    function escapeJsonPtr(str) {
-      return str.replace(/~/g, "~0").replace(/\//g, "~1");
+    function escapeJsonPtr(str2) {
+      return str2.replace(/~/g, "~0").replace(/\//g, "~1");
     }
   }
 });
 
-// node_modules/ajv/dist/compile/resolve.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/resolve.js
 var require_resolve = __commonJS({
-  "node_modules/ajv/dist/compile/resolve.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/resolve.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.getSchemaRefs = exports.resolveUrl = exports.normalizeId = exports._getFullPath = exports.getFullPath = exports.inlineRef = void 0;
@@ -2316,9 +2316,9 @@ var require_resolve = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/validate/index.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/index.js
 var require_validate = __commonJS({
-  "node_modules/ajv/dist/compile/validate/index.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.getData = exports.KeywordCxt = exports.validateFunctionCode = void 0;
@@ -2824,9 +2824,9 @@ var require_validate = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/runtime/validation_error.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/validation_error.js
 var require_validation_error = __commonJS({
-  "node_modules/ajv/dist/runtime/validation_error.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/validation_error.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var ValidationError = class extends Error {
@@ -2840,9 +2840,9 @@ var require_validation_error = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/ref_error.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/ref_error.js
 var require_ref_error = __commonJS({
-  "node_modules/ajv/dist/compile/ref_error.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/ref_error.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var resolve_1 = require_resolve();
@@ -2857,9 +2857,9 @@ var require_ref_error = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/index.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/index.js
 var require_compile = __commonJS({
-  "node_modules/ajv/dist/compile/index.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.resolveSchema = exports.getCompilingSchema = exports.resolveRef = exports.compileSchema = exports.SchemaEnv = void 0;
@@ -3081,9 +3081,9 @@ var require_compile = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/refs/data.json
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/refs/data.json
 var require_data = __commonJS({
-  "node_modules/ajv/dist/refs/data.json"(exports, module) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/refs/data.json"(exports, module) {
     module.exports = {
       $id: "https://raw.githubusercontent.com/ajv-validator/ajv/master/lib/refs/data.json#",
       description: "Meta-schema for $data reference (JSON AnySchema extension proposal)",
@@ -3100,9 +3100,9 @@ var require_data = __commonJS({
   }
 });
 
-// node_modules/fast-uri/lib/utils.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/lib/utils.js
 var require_utils = __commonJS({
-  "node_modules/fast-uri/lib/utils.js"(exports, module) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/lib/utils.js"(exports, module) {
     "use strict";
     var isUUID = RegExp.prototype.test.bind(/^[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}$/iu);
     var isIPv4 = RegExp.prototype.test.bind(/^(?:(?:25[0-5]|2[0-4]\d|1\d{2}|[1-9]\d|\d)\.){3}(?:25[0-5]|2[0-4]\d|1\d{2}|[1-9]\d|\d)$/u);
@@ -3216,15 +3216,15 @@ var require_utils = __commonJS({
         return { host, isIPV6: false };
       }
     }
-    function findToken(str, token) {
+    function findToken(str2, token) {
       let ind = 0;
-      for (let i = 0; i < str.length; i++) {
-        if (str[i] === token) ind++;
+      for (let i = 0; i < str2.length; i++) {
+        if (str2[i] === token) ind++;
       }
       return ind;
     }
-    function removeDotSegments(path2) {
-      let input = path2;
+    function removeDotSegments(path5) {
+      let input = path5;
       const output = [];
       let nextSlash = -1;
       let len = 0;
@@ -3357,9 +3357,9 @@ var require_utils = __commonJS({
   }
 });
 
-// node_modules/fast-uri/lib/schemes.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/lib/schemes.js
 var require_schemes = __commonJS({
-  "node_modules/fast-uri/lib/schemes.js"(exports, module) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/lib/schemes.js"(exports, module) {
     "use strict";
     var { isUUID } = require_utils();
     var URN_REG = /([\da-z][\d\-a-z]{0,31}):((?:[\w!$'()*+,\-.:;=@]|%[\da-f]{2})+)/iu;
@@ -3423,8 +3423,8 @@ var require_schemes = __commonJS({
         wsComponent.secure = void 0;
       }
       if (wsComponent.resourceName) {
-        const [path2, query] = wsComponent.resourceName.split("?");
-        wsComponent.path = path2 && path2 !== "/" ? path2 : void 0;
+        const [path5, query] = wsComponent.resourceName.split("?");
+        wsComponent.path = path5 && path5 !== "/" ? path5 : void 0;
         wsComponent.query = query;
         wsComponent.resourceName = void 0;
       }
@@ -3567,9 +3567,9 @@ var require_schemes = __commonJS({
   }
 });
 
-// node_modules/fast-uri/index.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/index.js
 var require_fast_uri = __commonJS({
-  "node_modules/fast-uri/index.js"(exports, module) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/index.js"(exports, module) {
     "use strict";
     var { normalizeIPv6, removeDotSegments, recomposeAuthority, normalizeComponentEncoding, isIPv4, nonSimpleDomain } = require_utils();
     var { SCHEMES, getSchemeHandler } = require_schemes();
@@ -3590,57 +3590,57 @@ var require_fast_uri = __commonJS({
       return serialize(resolved, schemelessOptions);
     }
     function resolveComponent(base, relative3, options, skipNormalization) {
-      const target = {};
+      const target2 = {};
       if (!skipNormalization) {
         base = parse3(serialize(base, options), options);
         relative3 = parse3(serialize(relative3, options), options);
       }
       options = options || {};
       if (!options.tolerant && relative3.scheme) {
-        target.scheme = relative3.scheme;
-        target.userinfo = relative3.userinfo;
-        target.host = relative3.host;
-        target.port = relative3.port;
-        target.path = removeDotSegments(relative3.path || "");
-        target.query = relative3.query;
+        target2.scheme = relative3.scheme;
+        target2.userinfo = relative3.userinfo;
+        target2.host = relative3.host;
+        target2.port = relative3.port;
+        target2.path = removeDotSegments(relative3.path || "");
+        target2.query = relative3.query;
       } else {
         if (relative3.userinfo !== void 0 || relative3.host !== void 0 || relative3.port !== void 0) {
-          target.userinfo = relative3.userinfo;
-          target.host = relative3.host;
-          target.port = relative3.port;
-          target.path = removeDotSegments(relative3.path || "");
-          target.query = relative3.query;
+          target2.userinfo = relative3.userinfo;
+          target2.host = relative3.host;
+          target2.port = relative3.port;
+          target2.path = removeDotSegments(relative3.path || "");
+          target2.query = relative3.query;
         } else {
           if (!relative3.path) {
-            target.path = base.path;
+            target2.path = base.path;
             if (relative3.query !== void 0) {
-              target.query = relative3.query;
+              target2.query = relative3.query;
             } else {
-              target.query = base.query;
+              target2.query = base.query;
             }
           } else {
             if (relative3.path[0] === "/") {
-              target.path = removeDotSegments(relative3.path);
+              target2.path = removeDotSegments(relative3.path);
             } else {
               if ((base.userinfo !== void 0 || base.host !== void 0 || base.port !== void 0) && !base.path) {
-                target.path = "/" + relative3.path;
+                target2.path = "/" + relative3.path;
               } else if (!base.path) {
-                target.path = relative3.path;
+                target2.path = relative3.path;
               } else {
-                target.path = base.path.slice(0, base.path.lastIndexOf("/") + 1) + relative3.path;
+                target2.path = base.path.slice(0, base.path.lastIndexOf("/") + 1) + relative3.path;
               }
-              target.path = removeDotSegments(target.path);
+              target2.path = removeDotSegments(target2.path);
             }
-            target.query = relative3.query;
+            target2.query = relative3.query;
           }
-          target.userinfo = base.userinfo;
-          target.host = base.host;
-          target.port = base.port;
+          target2.userinfo = base.userinfo;
+          target2.host = base.host;
+          target2.port = base.port;
         }
-        target.scheme = base.scheme;
+        target2.scheme = base.scheme;
       }
-      target.fragment = relative3.fragment;
-      return target;
+      target2.fragment = relative3.fragment;
+      return target2;
     }
     function equal(uriA, uriB, options) {
       if (typeof uriA === "string") {
@@ -3822,9 +3822,9 @@ var require_fast_uri = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/runtime/uri.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/uri.js
 var require_uri = __commonJS({
-  "node_modules/ajv/dist/runtime/uri.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/uri.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var uri = require_fast_uri();
@@ -3833,9 +3833,9 @@ var require_uri = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/core.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/core.js
 var require_core = __commonJS({
-  "node_modules/ajv/dist/core.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/core.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.CodeGen = exports.Name = exports.nil = exports.stringify = exports.str = exports._ = exports.KeywordCxt = void 0;
@@ -3872,7 +3872,7 @@ var require_core = __commonJS({
     var util_1 = require_util();
     var $dataRefSchema = require_data();
     var uri_1 = require_uri();
-    var defaultRegExp = (str, flags) => new RegExp(str, flags);
+    var defaultRegExp = (str2, flags) => new RegExp(str2, flags);
     defaultRegExp.code = "new RegExp";
     var META_IGNORE_OPTIONS = ["removeAdditional", "useDefaults", "coerceTypes"];
     var EXT_SCOPE_NAMES = /* @__PURE__ */ new Set([
@@ -4444,9 +4444,9 @@ var require_core = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/core/id.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/id.js
 var require_id = __commonJS({
-  "node_modules/ajv/dist/vocabularies/core/id.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/id.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var def = {
@@ -4459,9 +4459,9 @@ var require_id = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/core/ref.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/ref.js
 var require_ref = __commonJS({
-  "node_modules/ajv/dist/vocabularies/core/ref.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/ref.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.callRef = exports.getValidate = void 0;
@@ -4581,9 +4581,9 @@ var require_ref = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/core/index.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/index.js
 var require_core2 = __commonJS({
-  "node_modules/ajv/dist/vocabularies/core/index.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var id_1 = require_id();
@@ -4602,9 +4602,9 @@ var require_core2 = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/validation/limitNumber.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitNumber.js
 var require_limitNumber = __commonJS({
-  "node_modules/ajv/dist/vocabularies/validation/limitNumber.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitNumber.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -4634,9 +4634,9 @@ var require_limitNumber = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/validation/multipleOf.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/multipleOf.js
 var require_multipleOf = __commonJS({
-  "node_modules/ajv/dist/vocabularies/validation/multipleOf.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/multipleOf.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -4662,21 +4662,21 @@ var require_multipleOf = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/runtime/ucs2length.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/ucs2length.js
 var require_ucs2length = __commonJS({
-  "node_modules/ajv/dist/runtime/ucs2length.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/ucs2length.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    function ucs2length(str) {
-      const len = str.length;
+    function ucs2length(str2) {
+      const len = str2.length;
       let length = 0;
       let pos = 0;
       let value;
       while (pos < len) {
         length++;
-        value = str.charCodeAt(pos++);
+        value = str2.charCodeAt(pos++);
         if (value >= 55296 && value <= 56319 && pos < len) {
-          value = str.charCodeAt(pos);
+          value = str2.charCodeAt(pos);
           if ((value & 64512) === 56320)
             pos++;
         }
@@ -4688,9 +4688,9 @@ var require_ucs2length = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/validation/limitLength.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitLength.js
 var require_limitLength = __commonJS({
-  "node_modules/ajv/dist/vocabularies/validation/limitLength.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitLength.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -4720,9 +4720,9 @@ var require_limitLength = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/validation/pattern.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/pattern.js
 var require_pattern = __commonJS({
-  "node_modules/ajv/dist/vocabularies/validation/pattern.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/pattern.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -4757,9 +4757,9 @@ var require_pattern = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/validation/limitProperties.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitProperties.js
 var require_limitProperties = __commonJS({
-  "node_modules/ajv/dist/vocabularies/validation/limitProperties.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitProperties.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -4786,9 +4786,9 @@ var require_limitProperties = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/validation/required.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/required.js
 var require_required = __commonJS({
-  "node_modules/ajv/dist/vocabularies/validation/required.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/required.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -4868,9 +4868,9 @@ var require_required = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/validation/limitItems.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitItems.js
 var require_limitItems = __commonJS({
-  "node_modules/ajv/dist/vocabularies/validation/limitItems.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitItems.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -4897,9 +4897,9 @@ var require_limitItems = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/runtime/equal.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/equal.js
 var require_equal = __commonJS({
-  "node_modules/ajv/dist/runtime/equal.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/equal.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var equal = require_fast_deep_equal();
@@ -4908,9 +4908,9 @@ var require_equal = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/validation/uniqueItems.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/uniqueItems.js
 var require_uniqueItems = __commonJS({
-  "node_modules/ajv/dist/vocabularies/validation/uniqueItems.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/uniqueItems.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var dataType_1 = require_dataType();
@@ -4975,9 +4975,9 @@ var require_uniqueItems = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/validation/const.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/const.js
 var require_const = __commonJS({
-  "node_modules/ajv/dist/vocabularies/validation/const.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/const.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5004,9 +5004,9 @@ var require_const = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/validation/enum.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/enum.js
 var require_enum = __commonJS({
-  "node_modules/ajv/dist/vocabularies/validation/enum.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/enum.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5053,9 +5053,9 @@ var require_enum = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/validation/index.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/index.js
 var require_validation = __commonJS({
-  "node_modules/ajv/dist/vocabularies/validation/index.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var limitNumber_1 = require_limitNumber();
@@ -5091,9 +5091,9 @@ var require_validation = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/additionalItems.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/additionalItems.js
 var require_additionalItems = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/additionalItems.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/additionalItems.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.validateAdditionalItems = void 0;
@@ -5144,9 +5144,9 @@ var require_additionalItems = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/items.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/items.js
 var require_items = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/items.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/items.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.validateTuple = void 0;
@@ -5201,9 +5201,9 @@ var require_items = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/prefixItems.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/prefixItems.js
 var require_prefixItems = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/prefixItems.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/prefixItems.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var items_1 = require_items();
@@ -5218,9 +5218,9 @@ var require_prefixItems = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/items2020.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/items2020.js
 var require_items2020 = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/items2020.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/items2020.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5253,9 +5253,9 @@ var require_items2020 = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/contains.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/contains.js
 var require_contains = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/contains.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/contains.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5347,9 +5347,9 @@ var require_contains = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/dependencies.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/dependencies.js
 var require_dependencies = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/dependencies.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/dependencies.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.validateSchemaDeps = exports.validatePropertyDeps = exports.error = void 0;
@@ -5441,9 +5441,9 @@ var require_dependencies = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/propertyNames.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/propertyNames.js
 var require_propertyNames = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/propertyNames.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/propertyNames.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5484,9 +5484,9 @@ var require_propertyNames = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/additionalProperties.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/additionalProperties.js
 var require_additionalProperties = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/additionalProperties.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/additionalProperties.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -5590,9 +5590,9 @@ var require_additionalProperties = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/properties.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/properties.js
 var require_properties = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/properties.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/properties.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var validate_1 = require_validate();
@@ -5648,9 +5648,9 @@ var require_properties = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/patternProperties.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/patternProperties.js
 var require_patternProperties = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/patternProperties.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/patternProperties.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -5722,9 +5722,9 @@ var require_patternProperties = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/not.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/not.js
 var require_not = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/not.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/not.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var util_1 = require_util();
@@ -5753,9 +5753,9 @@ var require_not = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/anyOf.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/anyOf.js
 var require_anyOf = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/anyOf.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/anyOf.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -5770,9 +5770,9 @@ var require_anyOf = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/oneOf.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/oneOf.js
 var require_oneOf = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/oneOf.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/oneOf.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5828,9 +5828,9 @@ var require_oneOf = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/allOf.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/allOf.js
 var require_allOf = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/allOf.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/allOf.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var util_1 = require_util();
@@ -5855,9 +5855,9 @@ var require_allOf = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/if.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/if.js
 var require_if = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/if.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/if.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5924,9 +5924,9 @@ var require_if = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/thenElse.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/thenElse.js
 var require_thenElse = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/thenElse.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/thenElse.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var util_1 = require_util();
@@ -5942,9 +5942,9 @@ var require_thenElse = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/index.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/index.js
 var require_applicator = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/index.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var additionalItems_1 = require_additionalItems();
@@ -5990,9 +5990,9 @@ var require_applicator = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/format/format.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/format/format.js
 var require_format = __commonJS({
-  "node_modules/ajv/dist/vocabularies/format/format.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/format/format.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -6080,9 +6080,9 @@ var require_format = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/format/index.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/format/index.js
 var require_format2 = __commonJS({
-  "node_modules/ajv/dist/vocabularies/format/index.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/format/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var format_1 = require_format();
@@ -6091,9 +6091,9 @@ var require_format2 = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/metadata.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/metadata.js
 var require_metadata = __commonJS({
-  "node_modules/ajv/dist/vocabularies/metadata.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/metadata.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.contentVocabulary = exports.metadataVocabulary = void 0;
@@ -6114,9 +6114,9 @@ var require_metadata = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/draft7.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/draft7.js
 var require_draft7 = __commonJS({
-  "node_modules/ajv/dist/vocabularies/draft7.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/draft7.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var core_1 = require_core2();
@@ -6136,9 +6136,9 @@ var require_draft7 = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/discriminator/types.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/discriminator/types.js
 var require_types = __commonJS({
-  "node_modules/ajv/dist/vocabularies/discriminator/types.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/discriminator/types.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.DiscrError = void 0;
@@ -6150,9 +6150,9 @@ var require_types = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/discriminator/index.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/discriminator/index.js
 var require_discriminator = __commonJS({
-  "node_modules/ajv/dist/vocabularies/discriminator/index.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/discriminator/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -6255,9 +6255,9 @@ var require_discriminator = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/refs/json-schema-draft-07.json
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/refs/json-schema-draft-07.json
 var require_json_schema_draft_07 = __commonJS({
-  "node_modules/ajv/dist/refs/json-schema-draft-07.json"(exports, module) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/refs/json-schema-draft-07.json"(exports, module) {
     module.exports = {
       $schema: "http://json-schema.org/draft-07/schema#",
       $id: "http://json-schema.org/draft-07/schema#",
@@ -6412,9 +6412,9 @@ var require_json_schema_draft_07 = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/ajv.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/ajv.js
 var require_ajv = __commonJS({
-  "node_modules/ajv/dist/ajv.js"(exports, module) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/ajv.js"(exports, module) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.MissingRefError = exports.ValidationError = exports.CodeGen = exports.Name = exports.nil = exports.stringify = exports.str = exports._ = exports.KeywordCxt = exports.Ajv = void 0;
@@ -6482,9 +6482,9 @@ var require_ajv = __commonJS({
   }
 });
 
-// node_modules/ajv-formats/dist/formats.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/formats.js
 var require_formats = __commonJS({
-  "node_modules/ajv-formats/dist/formats.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/formats.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.formatNames = exports.fastFormats = exports.fullFormats = void 0;
@@ -6559,8 +6559,8 @@ var require_formats = __commonJS({
     }
     var DATE = /^(\d\d\d\d)-(\d\d)-(\d\d)$/;
     var DAYS = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-    function date4(str) {
-      const matches = DATE.exec(str);
+    function date4(str2) {
+      const matches = DATE.exec(str2);
       if (!matches)
         return false;
       const year = +matches[1];
@@ -6579,8 +6579,8 @@ var require_formats = __commonJS({
     }
     var TIME = /^(\d\d):(\d\d):(\d\d(?:\.\d+)?)(z|([+-])(\d\d)(?::?(\d\d))?)?$/i;
     function getTime(strictTimeZone) {
-      return function time3(str) {
-        const matches = TIME.exec(str);
+      return function time3(str2) {
+        const matches = TIME.exec(str2);
         if (!matches)
           return false;
         const hr = +matches[1];
@@ -6626,8 +6626,8 @@ var require_formats = __commonJS({
     var DATE_TIME_SEPARATOR = /t|\s/i;
     function getDateTime(strictTimeZone) {
       const time3 = getTime(strictTimeZone);
-      return function date_time(str) {
-        const dateTime = str.split(DATE_TIME_SEPARATOR);
+      return function date_time(str2) {
+        const dateTime = str2.split(DATE_TIME_SEPARATOR);
         return dateTime.length === 2 && date4(dateTime[0]) && time3(dateTime[1]);
       };
     }
@@ -6652,13 +6652,13 @@ var require_formats = __commonJS({
     }
     var NOT_URI_FRAGMENT = /\/|:/;
     var URI = /^(?:[a-z][a-z0-9+\-.]*:)(?:\/?\/(?:(?:[a-z0-9\-._~!$&'()*+,;=:]|%[0-9a-f]{2})*@)?(?:\[(?:(?:(?:(?:[0-9a-f]{1,4}:){6}|::(?:[0-9a-f]{1,4}:){5}|(?:[0-9a-f]{1,4})?::(?:[0-9a-f]{1,4}:){4}|(?:(?:[0-9a-f]{1,4}:){0,1}[0-9a-f]{1,4})?::(?:[0-9a-f]{1,4}:){3}|(?:(?:[0-9a-f]{1,4}:){0,2}[0-9a-f]{1,4})?::(?:[0-9a-f]{1,4}:){2}|(?:(?:[0-9a-f]{1,4}:){0,3}[0-9a-f]{1,4})?::[0-9a-f]{1,4}:|(?:(?:[0-9a-f]{1,4}:){0,4}[0-9a-f]{1,4})?::)(?:[0-9a-f]{1,4}:[0-9a-f]{1,4}|(?:(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d\d?))|(?:(?:[0-9a-f]{1,4}:){0,5}[0-9a-f]{1,4})?::[0-9a-f]{1,4}|(?:(?:[0-9a-f]{1,4}:){0,6}[0-9a-f]{1,4})?::)|[Vv][0-9a-f]+\.[a-z0-9\-._~!$&'()*+,;=:]+)\]|(?:(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d\d?)|(?:[a-z0-9\-._~!$&'()*+,;=]|%[0-9a-f]{2})*)(?::\d*)?(?:\/(?:[a-z0-9\-._~!$&'()*+,;=:@]|%[0-9a-f]{2})*)*|\/(?:(?:[a-z0-9\-._~!$&'()*+,;=:@]|%[0-9a-f]{2})+(?:\/(?:[a-z0-9\-._~!$&'()*+,;=:@]|%[0-9a-f]{2})*)*)?|(?:[a-z0-9\-._~!$&'()*+,;=:@]|%[0-9a-f]{2})+(?:\/(?:[a-z0-9\-._~!$&'()*+,;=:@]|%[0-9a-f]{2})*)*)(?:\?(?:[a-z0-9\-._~!$&'()*+,;=:@/?]|%[0-9a-f]{2})*)?(?:#(?:[a-z0-9\-._~!$&'()*+,;=:@/?]|%[0-9a-f]{2})*)?$/i;
-    function uri(str) {
-      return NOT_URI_FRAGMENT.test(str) && URI.test(str);
+    function uri(str2) {
+      return NOT_URI_FRAGMENT.test(str2) && URI.test(str2);
     }
     var BYTE = /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/gm;
-    function byte(str) {
+    function byte(str2) {
       BYTE.lastIndex = 0;
-      return BYTE.test(str);
+      return BYTE.test(str2);
     }
     var MIN_INT32 = -(2 ** 31);
     var MAX_INT32 = 2 ** 31 - 1;
@@ -6672,11 +6672,11 @@ var require_formats = __commonJS({
       return true;
     }
     var Z_ANCHOR = /[^\\]\\Z/;
-    function regex(str) {
-      if (Z_ANCHOR.test(str))
+    function regex(str2) {
+      if (Z_ANCHOR.test(str2))
         return false;
       try {
-        new RegExp(str);
+        new RegExp(str2);
         return true;
       } catch (e) {
         return false;
@@ -6685,9 +6685,9 @@ var require_formats = __commonJS({
   }
 });
 
-// node_modules/ajv-formats/dist/limit.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/limit.js
 var require_limit = __commonJS({
-  "node_modules/ajv-formats/dist/limit.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/limit.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.formatLimitDefinition = void 0;
@@ -6757,9 +6757,9 @@ var require_limit = __commonJS({
   }
 });
 
-// node_modules/ajv-formats/dist/index.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/index.js
 var require_dist = __commonJS({
-  "node_modules/ajv-formats/dist/index.js"(exports, module) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/index.js"(exports, module) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var formats_1 = require_formats();
@@ -6799,7 +6799,7 @@ var require_dist = __commonJS({
   }
 });
 
-// node_modules/zod/v3/helpers/util.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/helpers/util.js
 var util;
 (function(util2) {
   util2.assertEqual = (_2) => {
@@ -6933,7 +6933,7 @@ var getParsedType = (data) => {
   }
 };
 
-// node_modules/zod/v3/ZodError.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/ZodError.js
 var ZodIssueCode = util.arrayToEnum([
   "invalid_type",
   "invalid_literal",
@@ -7047,7 +7047,7 @@ ZodError.create = (issues) => {
   return error2;
 };
 
-// node_modules/zod/v3/locales/en.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/locales/en.js
 var errorMap = (issue2, _ctx) => {
   let message;
   switch (issue2.code) {
@@ -7150,16 +7150,16 @@ var errorMap = (issue2, _ctx) => {
 };
 var en_default = errorMap;
 
-// node_modules/zod/v3/errors.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/errors.js
 var overrideErrorMap = en_default;
 function getErrorMap() {
   return overrideErrorMap;
 }
 
-// node_modules/zod/v3/helpers/parseUtil.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/helpers/parseUtil.js
 var makeIssue = (params) => {
-  const { data, path: path2, errorMaps, issueData } = params;
-  const fullPath = [...path2, ...issueData.path || []];
+  const { data, path: path5, errorMaps, issueData } = params;
+  const fullPath = [...path5, ...issueData.path || []];
   const fullIssue = {
     ...issueData,
     path: fullPath
@@ -7265,20 +7265,20 @@ var isDirty = (x2) => x2.status === "dirty";
 var isValid = (x2) => x2.status === "valid";
 var isAsync = (x2) => typeof Promise !== "undefined" && x2 instanceof Promise;
 
-// node_modules/zod/v3/helpers/errorUtil.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/helpers/errorUtil.js
 var errorUtil;
 (function(errorUtil2) {
   errorUtil2.errToObj = (message) => typeof message === "string" ? { message } : message || {};
   errorUtil2.toString = (message) => typeof message === "string" ? message : message?.message;
 })(errorUtil || (errorUtil = {}));
 
-// node_modules/zod/v3/types.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/types.js
 var ParseInputLazyPath = class {
-  constructor(parent, value, path2, key) {
+  constructor(parent, value, path5, key) {
     this._cachedPath = [];
     this.parent = parent;
     this.data = value;
-    this._path = path2;
+    this._path = path5;
     this._key = key;
   }
   get path() {
@@ -7604,8 +7604,8 @@ var ZodType = class {
       description
     });
   }
-  pipe(target) {
-    return ZodPipeline.create(this, target);
+  pipe(target2) {
+    return ZodPipeline.create(this, target2);
   }
   readonly() {
     return ZodReadonly.create(this);
@@ -9985,29 +9985,29 @@ var ZodFunction = class _ZodFunction extends ZodType {
     const params = { errorMap: ctx.common.contextualErrorMap };
     const fn = ctx.data;
     if (this._def.returns instanceof ZodPromise) {
-      const me = this;
+      const me2 = this;
       return OK(async function(...args) {
         const error2 = new ZodError([]);
-        const parsedArgs = await me._def.args.parseAsync(args, params).catch((e) => {
+        const parsedArgs = await me2._def.args.parseAsync(args, params).catch((e) => {
           error2.addIssue(makeArgsIssue(args, e));
           throw error2;
         });
         const result = await Reflect.apply(fn, this, parsedArgs);
-        const parsedReturns = await me._def.returns._def.type.parseAsync(result, params).catch((e) => {
+        const parsedReturns = await me2._def.returns._def.type.parseAsync(result, params).catch((e) => {
           error2.addIssue(makeReturnsIssue(result, e));
           throw error2;
         });
         return parsedReturns;
       });
     } else {
-      const me = this;
+      const me2 = this;
       return OK(function(...args) {
-        const parsedArgs = me._def.args.safeParse(args, params);
+        const parsedArgs = me2._def.args.safeParse(args, params);
         if (!parsedArgs.success) {
           throw new ZodError([makeArgsIssue(args, parsedArgs.error)]);
         }
         const result = Reflect.apply(fn, this, parsedArgs.data);
-        const parsedReturns = me._def.returns.safeParse(result, params);
+        const parsedReturns = me2._def.returns.safeParse(result, params);
         if (!parsedReturns.success) {
           throw new ZodError([makeReturnsIssue(result, parsedReturns.error)]);
         }
@@ -10675,7 +10675,7 @@ var nullableType = ZodNullable.create;
 var preprocessType = ZodEffects.createWithPreprocess;
 var pipelineType = ZodPipeline.create;
 
-// node_modules/zod/v4/core/core.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/core.js
 var NEVER = Object.freeze({
   status: "aborted"
 });
@@ -10749,7 +10749,7 @@ function config(newConfig) {
   return globalConfig;
 }
 
-// node_modules/zod/v4/core/util.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/util.js
 var util_exports = {};
 __export(util_exports, {
   BIGINT_FORMAT_RANGES: () => BIGINT_FORMAT_RANGES,
@@ -10903,8 +10903,8 @@ function defineLazy(object3, key, getter) {
 function objectClone(obj) {
   return Object.create(Object.getPrototypeOf(obj), Object.getOwnPropertyDescriptors(obj));
 }
-function assignProp(target, prop, value) {
-  Object.defineProperty(target, prop, {
+function assignProp(target2, prop, value) {
+  Object.defineProperty(target2, prop, {
     value,
     writable: true,
     enumerable: true,
@@ -10922,10 +10922,10 @@ function mergeDefs(...defs) {
 function cloneDef(schema) {
   return mergeDefs(schema._zod.def);
 }
-function getElementAtPath(obj, path2) {
-  if (!path2)
+function getElementAtPath(obj, path5) {
+  if (!path5)
     return obj;
-  return path2.reduce((acc, key) => acc?.[key], obj);
+  return path5.reduce((acc, key) => acc?.[key], obj);
 }
 function promiseAllObject(promisesObj) {
   const keys = Object.keys(promisesObj);
@@ -10940,14 +10940,14 @@ function promiseAllObject(promisesObj) {
 }
 function randomString(length = 10) {
   const chars = "abcdefghijklmnopqrstuvwxyz";
-  let str = "";
+  let str2 = "";
   for (let i = 0; i < length; i++) {
-    str += chars[Math.floor(Math.random() * chars.length)];
+    str2 += chars[Math.floor(Math.random() * chars.length)];
   }
-  return str;
+  return str2;
 }
-function esc(str) {
-  return JSON.stringify(str);
+function esc(str2) {
+  return JSON.stringify(str2);
 }
 function slugify(input) {
   return input.toLowerCase().trim().replace(/[^\w\s-]/g, "").replace(/[\s_-]+/g, "-").replace(/^-+|-+$/g, "");
@@ -11047,8 +11047,8 @@ var getParsedType2 = (data) => {
 };
 var propertyKeyTypes = /* @__PURE__ */ new Set(["string", "number", "symbol"]);
 var primitiveTypes = /* @__PURE__ */ new Set(["string", "number", "bigint", "boolean", "symbol", "undefined"]);
-function escapeRegex(str) {
-  return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+function escapeRegex(str2) {
+  return str2.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 function clone(inst, def, params) {
   const cl = new inst._zod.constr(def ?? inst._zod.def);
@@ -11073,35 +11073,35 @@ function normalizeParams(_params) {
   return params;
 }
 function createTransparentProxy(getter) {
-  let target;
+  let target2;
   return new Proxy({}, {
     get(_2, prop, receiver) {
-      target ?? (target = getter());
-      return Reflect.get(target, prop, receiver);
+      target2 ?? (target2 = getter());
+      return Reflect.get(target2, prop, receiver);
     },
     set(_2, prop, value, receiver) {
-      target ?? (target = getter());
-      return Reflect.set(target, prop, value, receiver);
+      target2 ?? (target2 = getter());
+      return Reflect.set(target2, prop, value, receiver);
     },
     has(_2, prop) {
-      target ?? (target = getter());
-      return Reflect.has(target, prop);
+      target2 ?? (target2 = getter());
+      return Reflect.has(target2, prop);
     },
     deleteProperty(_2, prop) {
-      target ?? (target = getter());
-      return Reflect.deleteProperty(target, prop);
+      target2 ?? (target2 = getter());
+      return Reflect.deleteProperty(target2, prop);
     },
     ownKeys(_2) {
-      target ?? (target = getter());
-      return Reflect.ownKeys(target);
+      target2 ?? (target2 = getter());
+      return Reflect.ownKeys(target2);
     },
     getOwnPropertyDescriptor(_2, prop) {
-      target ?? (target = getter());
-      return Reflect.getOwnPropertyDescriptor(target, prop);
+      target2 ?? (target2 = getter());
+      return Reflect.getOwnPropertyDescriptor(target2, prop);
     },
     defineProperty(_2, prop, descriptor) {
-      target ?? (target = getter());
-      return Reflect.defineProperty(target, prop, descriptor);
+      target2 ?? (target2 = getter());
+      return Reflect.defineProperty(target2, prop, descriptor);
     }
   });
 }
@@ -11308,11 +11308,11 @@ function aborted(x2, startIndex = 0) {
   }
   return false;
 }
-function prefixIssues(path2, issues) {
+function prefixIssues(path5, issues) {
   return issues.map((iss) => {
     var _a2;
     (_a2 = iss).path ?? (_a2.path = []);
-    iss.path.unshift(path2);
+    iss.path.unshift(path5);
     return iss;
   });
 }
@@ -11428,7 +11428,7 @@ var Class = class {
   }
 };
 
-// node_modules/zod/v4/core/errors.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/errors.js
 var initializer = (inst, def) => {
   inst.name = "$ZodError";
   Object.defineProperty(inst, "_zod", {
@@ -11494,7 +11494,7 @@ function formatError(error2, mapper = (issue2) => issue2.message) {
   return fieldErrors;
 }
 
-// node_modules/zod/v4/core/parse.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/parse.js
 var _parse = (_Err) => (schema, value, _ctx, _params) => {
   const ctx = _ctx ? Object.assign(_ctx, { async: false }) : { async: false };
   const result = schema._zod.run({ value, issues: [] }, ctx);
@@ -11574,7 +11574,7 @@ var _safeDecodeAsync = (_Err) => async (schema, value, _ctx) => {
   return _safeParseAsync(_Err)(schema, value, _ctx);
 };
 
-// node_modules/zod/v4/core/regexes.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/regexes.js
 var regexes_exports = {};
 __export(regexes_exports, {
   base64: () => base64,
@@ -11731,7 +11731,7 @@ var sha512_hex = /^[0-9a-fA-F]{128}$/;
 var sha512_base64 = /* @__PURE__ */ fixedBase64(86, "==");
 var sha512_base64url = /* @__PURE__ */ fixedBase64url(86);
 
-// node_modules/zod/v4/core/checks.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/checks.js
 var $ZodCheck = /* @__PURE__ */ $constructor("$ZodCheck", (inst, def) => {
   var _a2;
   inst._zod ?? (inst._zod = {});
@@ -12279,7 +12279,7 @@ var $ZodCheckOverwrite = /* @__PURE__ */ $constructor("$ZodCheckOverwrite", (ins
   };
 });
 
-// node_modules/zod/v4/core/doc.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/doc.js
 var Doc = class {
   constructor(args = []) {
     this.content = [];
@@ -12315,14 +12315,14 @@ var Doc = class {
   }
 };
 
-// node_modules/zod/v4/core/versions.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/versions.js
 var version = {
   major: 4,
   minor: 3,
   patch: 6
 };
 
-// node_modules/zod/v4/core/schemas.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/schemas.js
 var $ZodType = /* @__PURE__ */ $constructor("$ZodType", (inst, def) => {
   var _a2;
   inst ?? (inst = {});
@@ -14293,7 +14293,7 @@ function handleRefineResult(result, payload, input, inst) {
   }
 }
 
-// node_modules/zod/v4/locales/en.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/locales/en.js
 var error = () => {
   const Sizable = {
     string: { unit: "characters", verb: "to have" },
@@ -14402,7 +14402,7 @@ function en_default2() {
   };
 }
 
-// node_modules/zod/v4/core/registries.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/registries.js
 var _a;
 var $ZodRegistry = class {
   constructor() {
@@ -14450,7 +14450,7 @@ function registry() {
 (_a = globalThis).__zod_globalRegistry ?? (_a.__zod_globalRegistry = registry());
 var globalRegistry = globalThis.__zod_globalRegistry;
 
-// node_modules/zod/v4/core/api.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/api.js
 // @__NO_SIDE_EFFECTS__
 function _string(Class2, params) {
   return new Class2({
@@ -15254,17 +15254,17 @@ function _stringFormat(Class2, format, fnOrRegex, _params = {}) {
   return inst;
 }
 
-// node_modules/zod/v4/core/to-json-schema.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/to-json-schema.js
 function initializeContext(params) {
-  let target = params?.target ?? "draft-2020-12";
-  if (target === "draft-4")
-    target = "draft-04";
-  if (target === "draft-7")
-    target = "draft-07";
+  let target2 = params?.target ?? "draft-2020-12";
+  if (target2 === "draft-4")
+    target2 = "draft-04";
+  if (target2 === "draft-7")
+    target2 = "draft-07";
   return {
     processors: params.processors ?? {},
     metadataRegistry: params?.metadata ?? globalRegistry,
-    target,
+    target: target2,
     unrepresentable: params?.unrepresentable ?? "throw",
     override: params?.override ?? (() => {
     }),
@@ -15599,14 +15599,14 @@ var createToJSONSchemaMethod = (schema, processors = {}) => (params) => {
   return finalize(ctx, schema);
 };
 var createStandardJSONSchemaMethod = (schema, io, processors = {}) => (params) => {
-  const { libraryOptions, target } = params ?? {};
-  const ctx = initializeContext({ ...libraryOptions ?? {}, target, io, processors });
+  const { libraryOptions, target: target2 } = params ?? {};
+  const ctx = initializeContext({ ...libraryOptions ?? {}, target: target2, io, processors });
   process2(schema, ctx);
   extractDefs(ctx, schema);
   return finalize(ctx, schema);
 };
 
-// node_modules/zod/v4/core/json-schema-processors.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/json-schema-processors.js
 var formatMap = {
   guid: "uuid",
   url: "uri",
@@ -16082,7 +16082,7 @@ var lazyProcessor = (schema, ctx, _json, params) => {
   seen.ref = innerType;
 };
 
-// node_modules/@modelcontextprotocol/sdk/dist/esm/server/zod-compat.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/zod-compat.js
 function isZ4Schema(s) {
   const schema = s;
   return !!schema._zod;
@@ -16145,7 +16145,7 @@ function getLiteralValue(schema) {
   return void 0;
 }
 
-// node_modules/zod/v4/classic/schemas.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/schemas.js
 var schemas_exports3 = {};
 __export(schemas_exports3, {
   ZodAny: () => ZodAny2,
@@ -16314,7 +16314,7 @@ __export(schemas_exports3, {
   xor: () => xor
 });
 
-// node_modules/zod/v4/classic/checks.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/checks.js
 var checks_exports2 = {};
 __export(checks_exports2, {
   endsWith: () => _endsWith,
@@ -16348,7 +16348,7 @@ __export(checks_exports2, {
   uppercase: () => _uppercase
 });
 
-// node_modules/zod/v4/classic/iso.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/iso.js
 var iso_exports2 = {};
 __export(iso_exports2, {
   ZodISODate: () => ZodISODate,
@@ -16389,7 +16389,7 @@ function duration2(params) {
   return _isoDuration(ZodISODuration, params);
 }
 
-// node_modules/zod/v4/classic/errors.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/errors.js
 var initializer2 = (inst, issues) => {
   $ZodError.init(inst, issues);
   inst.name = "ZodError";
@@ -16429,7 +16429,7 @@ var ZodRealError = $constructor("ZodError", initializer2, {
   Parent: Error
 });
 
-// node_modules/zod/v4/classic/parse.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/parse.js
 var parse2 = /* @__PURE__ */ _parse(ZodRealError);
 var parseAsync2 = /* @__PURE__ */ _parseAsync(ZodRealError);
 var safeParse3 = /* @__PURE__ */ _safeParse(ZodRealError);
@@ -16443,7 +16443,7 @@ var safeDecode2 = /* @__PURE__ */ _safeDecode(ZodRealError);
 var safeEncodeAsync2 = /* @__PURE__ */ _safeEncodeAsync(ZodRealError);
 var safeDecodeAsync2 = /* @__PURE__ */ _safeDecodeAsync(ZodRealError);
 
-// node_modules/zod/v4/classic/schemas.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/schemas.js
 var ZodType2 = /* @__PURE__ */ $constructor("ZodType", (inst, def) => {
   $ZodType.init(inst, def);
   Object.assign(inst["~standard"], {
@@ -16501,7 +16501,7 @@ var ZodType2 = /* @__PURE__ */ $constructor("ZodType", (inst, def) => {
   inst.default = (def2) => _default(inst, def2);
   inst.prefault = (def2) => prefault(inst, def2);
   inst.catch = (params) => _catch(inst, params);
-  inst.pipe = (target) => pipe(inst, target);
+  inst.pipe = (target2) => pipe(inst, target2);
   inst.readonly = () => readonly(inst);
   inst.describe = (description) => {
     const cl = inst.clone();
@@ -17522,22 +17522,22 @@ function preprocess(fn, schema) {
   return pipe(transform(fn), schema);
 }
 
-// node_modules/zod/v4/classic/compat.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/compat.js
 var ZodFirstPartyTypeKind2;
 /* @__PURE__ */ (function(ZodFirstPartyTypeKind3) {
 })(ZodFirstPartyTypeKind2 || (ZodFirstPartyTypeKind2 = {}));
 
-// node_modules/zod/v4/classic/from-json-schema.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/from-json-schema.js
 var z = {
   ...schemas_exports3,
   ...checks_exports2,
   iso: iso_exports2
 };
 
-// node_modules/zod/v4/classic/external.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/external.js
 config(en_default2());
 
-// node_modules/@modelcontextprotocol/sdk/dist/esm/types.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/types.js
 var LATEST_PROTOCOL_VERSION = "2025-11-25";
 var SUPPORTED_PROTOCOL_VERSIONS = [LATEST_PROTOCOL_VERSION, "2025-06-18", "2025-03-26", "2024-11-05", "2024-10-07"];
 var RELATED_TASK_META_KEY = "io.modelcontextprotocol/related-task";
@@ -19056,15 +19056,15 @@ var UrlElicitationRequiredError = class extends McpError {
   }
 };
 
-// node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/interfaces.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/interfaces.js
 function isTerminal(status) {
   return status === "completed" || status === "failed" || status === "cancelled";
 }
 
-// node_modules/zod-to-json-schema/dist/esm/parsers/string.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod-to-json-schema/dist/esm/parsers/string.js
 var ALPHA_NUMERIC = new Set("ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvxyz0123456789");
 
-// node_modules/@modelcontextprotocol/sdk/dist/esm/server/zod-json-schema-compat.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/zod-json-schema-compat.js
 function getMethodLiteral(schema) {
   const shape = getObjectShape(schema);
   const methodSchema = shape?.method;
@@ -19085,7 +19085,7 @@ function parseWithCompat(schema, data) {
   return result.data;
 }
 
-// node_modules/@modelcontextprotocol/sdk/dist/esm/shared/protocol.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/shared/protocol.js
 var DEFAULT_REQUEST_TIMEOUT_MSEC = 6e4;
 var Protocol = class {
   constructor(_options) {
@@ -20039,7 +20039,7 @@ function mergeCapabilities(base, additional) {
   return result;
 }
 
-// node_modules/@modelcontextprotocol/sdk/dist/esm/validation/ajv-provider.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/validation/ajv-provider.js
 var import_ajv = __toESM(require_ajv(), 1);
 var import_ajv_formats = __toESM(require_dist(), 1);
 function createDefaultAjvInstance() {
@@ -20107,7 +20107,7 @@ var AjvJsonSchemaValidator = class {
   }
 };
 
-// node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/server.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/server.js
 var ExperimentalServerTasks = class {
   constructor(_server) {
     this._server = _server;
@@ -20320,7 +20320,7 @@ var ExperimentalServerTasks = class {
   }
 };
 
-// node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/helpers.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/helpers.js
 function assertToolsCallTaskCapability(requests, method, entityName) {
   if (!requests) {
     throw new Error(`${entityName} does not support task creation (required for ${method})`);
@@ -20355,7 +20355,7 @@ function assertClientRequestTaskCapability(requests, method, entityName) {
   }
 }
 
-// node_modules/@modelcontextprotocol/sdk/dist/esm/server/index.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/index.js
 var Server = class extends Protocol {
   /**
    * Initializes this server with the given name and version information.
@@ -20735,10 +20735,10 @@ var Server = class extends Protocol {
   }
 };
 
-// node_modules/@modelcontextprotocol/sdk/dist/esm/server/stdio.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/stdio.js
 import process3 from "node:process";
 
-// node_modules/@modelcontextprotocol/sdk/dist/esm/shared/stdio.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/shared/stdio.js
 var ReadBuffer = class {
   append(chunk) {
     this._buffer = this._buffer ? Buffer.concat([this._buffer, chunk]) : chunk;
@@ -20766,7 +20766,7 @@ function serializeMessage(message) {
   return JSON.stringify(message) + "\n";
 }
 
-// node_modules/@modelcontextprotocol/sdk/dist/esm/server/stdio.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/stdio.js
 var StdioServerTransport = class {
   constructor(_stdin = process3.stdin, _stdout = process3.stdout) {
     this._stdin = _stdin;
@@ -21148,8 +21148,9 @@ function buildPhasePolicyBody(card, branchPolicy, mode = "development") {
     );
   }
   lines.push(
-    `${next()}. Never call queue_card unless the user explicitly asked to queue that`,
-    "   card. A queued card runs unattended once the app's queue reaches it."
+    `${next()}. Never call queue_card, pause_queue or resume_queue unless the user`,
+    "   explicitly asked to queue that card, or to pause or resume the queue. A",
+    "   queued card runs unattended once the app's queue reaches it."
   );
   return lines.join("\n");
 }
@@ -21350,7 +21351,9 @@ function linkCardReferences(html, resolve3) {
 var chain_order_exports = {};
 __export(chain_order_exports, {
   buildChainContext: () => buildChainContext,
+  chainOrderWarning: () => chainOrderWarning,
   compareByChainOrder: () => compareByChainOrder,
+  hasLanded: () => hasLanded,
   isFinished: () => isFinished,
   placeAfter: () => placeAfter
 });
@@ -21369,11 +21372,11 @@ function placeAfter(members, cardId, afterCardId) {
   rest.splice(at, 0, cardId);
   return rest;
 }
-function buildChainContext(members, cardId, toRef) {
+function buildChainContext(members, cardId, toRef2) {
   const ordered = [...members].sort(compareByChainOrder);
   const index = ordered.findIndex((member) => member.id === cardId);
   if (index === -1) return null;
-  const refs = ordered.map(toRef);
+  const refs = ordered.map(toRef2);
   return {
     position: index + 1,
     total: refs.length,
@@ -21381,6 +21384,31 @@ function buildChainContext(members, cardId, toRef) {
     predecessors: refs.slice(0, index),
     successors: refs.slice(index + 1)
   };
+}
+function hasLanded(member) {
+  if (isFinished(member)) return true;
+  return member.status === "test" && member.gitBranchStatus !== "active";
+}
+var MAX_NAMED = 3;
+function nameList(labels) {
+  const shown = labels.slice(0, MAX_NAMED).join(", ");
+  return labels.length > MAX_NAMED ? `${shown} +${labels.length - MAX_NAMED}` : shown;
+}
+function chainOrderWarning(input) {
+  const ordered = [...input.members].sort(compareByChainOrder);
+  const index = ordered.findIndex((member) => member.id === input.cardId);
+  if (index <= 0) return null;
+  const open = ordered.slice(0, index).filter((member) => !hasLanded(member) && !input.skip?.has(member.id));
+  if (open.length === 0) return null;
+  const openAhead = open.map(input.toRef);
+  const label = (ref) => ref.displayId ?? ref.title;
+  const sentences = open.length === 1 ? [`${label(openAhead[0])} is not done yet and comes before this card in the chain.`] : [`${open.length} open cards come before this card in the chain: ${nameList(openAhead.map(label))}.`];
+  const unmerged = open.filter((member) => member.status === "test").map((member) => label(input.toRef(member)));
+  if (unmerged.length === 1) sentences.push(`${unmerged[0]}'s branch is not merged yet.`);
+  else if (unmerged.length > 1) sentences.push(`${nameList(unmerged)} have branches not merged yet.`);
+  const behind = open.filter((member) => input.queuedBehind?.has(member.id)).map((member) => label(input.toRef(member)));
+  if (behind.length > 0) sentences.push(`Move ${nameList(behind)} ahead of it in the queue.`);
+  return { openAhead, message: sentences.join(" ") };
 }
 
 // ../lib/plan-files.ts
@@ -21432,8 +21460,8 @@ function extractPlanFiles(solutionHtml) {
   const section2 = text.match(/Files to Modify\s*\n([\s\S]*?)(?:\n(?:Implementation Steps|Edge Cases|Dependencies)\b|$)/i);
   return section2 ? pathTokens(section2[1]) : [];
 }
-function normalizePath(path2) {
-  return path2.trim().replace(/^\.\//, "").replace(/\/+$/, "");
+function normalizePath(path5) {
+  return path5.trim().replace(/^\.\//, "").replace(/\/+$/, "");
 }
 function pathsOverlap(a, b2) {
   const globRoot = (p) => /\/\*+$/.test(p) ? p.replace(/\/\*+$/, "/") : null;
@@ -21454,16 +21482,23 @@ function sharedPlanFiles(a, b2) {
 var card_ops_exports = {};
 __export(card_ops_exports, {
   APP_HEARTBEAT_STALE_MS: () => APP_HEARTBEAT_STALE_MS,
+  CARD_RUNTIME_FIELDS: () => CARD_RUNTIME_FIELDS,
   CardGroupError: () => CardGroupError,
   DEFAULT_GROUP_COLOR: () => DEFAULT_GROUP_COLOR,
   GROUP_CODE_MAX: () => GROUP_CODE_MAX,
   TERMINAL_WRITER_TTL_MS: () => TERMINAL_WRITER_TTL_MS,
   acknowledgeWrite: () => acknowledgeWrite,
+  addOutputPath: () => addOutputPath,
+  addTestReportWarnings: () => addTestReportWarnings,
   allRows: () => allRows,
   assertGroupAssignable: () => assertGroupAssignable,
+  chainAckId: () => chainAckId,
+  chainOrderWarningFor: () => chainOrderWarningFor,
+  chainWriteConflictFor: () => chainWriteConflictFor,
   clearQueue: () => clearQueue,
   completedAtFor: () => completedAtFor,
   completedAtOnCreate: () => completedAtOnCreate,
+  createCard: () => createCard,
   createGroup: () => createGroup,
   deleteGroup: () => deleteGroup,
   dequeueCard: () => dequeueCard,
@@ -21483,15 +21518,25 @@ __export(card_ops_exports, {
   queueDisplayId: () => queueDisplayId,
   queueKindOf: () => queueKindOf,
   queueRowIneligibleReason: () => queueRowIneligibleReason,
+  queuedChainWarningFor: () => queuedChainWarningFor,
   queuedRunsInWorktree: () => queuedRunsInWorktree,
   readRuntime: () => readRuntime,
   readWriteAck: () => readWriteAck,
   restoreQueueCards: () => restoreQueueCards,
   runChanges: () => runChanges,
+  runtimeAssignments: () => runtimeAssignments,
   saveOpinion: () => saveOpinion,
+  savePlan: () => savePlan,
+  savePlanAndTests: () => savePlanAndTests,
+  saveTestReport: () => saveTestReport,
+  saveTests: () => saveTests,
+  serializeBooleanForDb: () => serializeBooleanForDb,
+  serializeUseWorktreeForDb: () => serializeUseWorktreeForDb,
+  setCardRuntime: () => setCardRuntime,
   statusAfterPlan: () => statusAfterPlan,
   statusAfterTests: () => statusAfterTests,
   transaction: () => transaction,
+  updateCard: () => updateCard,
   updateGroup: () => updateGroup,
   writeRuntime: () => writeRuntime
 });
@@ -21587,6 +21632,2619 @@ function moveCard(db2, id, status, now) {
       id
     );
     return { ok: true, changed: row.status !== status, from: row.status, to: status, completedAt };
+  });
+}
+
+// ../lib/card-ops/card-fields.ts
+var CARD_RUNTIME_FIELDS = {
+  processingType: { column: "processing_type", why: "run lock: which AI process holds the card right now" },
+  gitBranchName: { column: "git_branch_name", why: "git state: the branch the card's work lives on" },
+  gitBranchStatus: { column: "git_branch_status", why: "git state: active, merged or rolled back" },
+  gitWorktreePath: { column: "git_worktree_path", why: "git state: where the card's worktree sits on disk" },
+  gitWorktreeStatus: { column: "git_worktree_status", why: "git state: whether that worktree still exists" },
+  devServerPort: { column: "dev_server_port", why: "dev server process: the port it listens on" },
+  devServerPid: { column: "dev_server_pid", why: "dev server process: the pid Stop kills" },
+  rebaseConflict: { column: "rebase_conflict", why: "rebase conflict: Merge stopped and needs a hand" },
+  conflictFiles: { column: "conflict_files", why: "rebase conflict: the files it stopped on" }
+};
+function serializeBooleanForDb(value) {
+  if (value === null) return null;
+  return value ? 1 : 0;
+}
+var serializeUseWorktreeForDb = serializeBooleanForDb;
+function runtimeAssignments(runtime) {
+  const sql = [];
+  const values = [];
+  if (!runtime) return { sql, values };
+  for (const key of Object.keys(CARD_RUNTIME_FIELDS)) {
+    const value = runtime[key];
+    if (value === void 0) continue;
+    sql.push(`${CARD_RUNTIME_FIELDS[key].column} = ?`);
+    if (key === "rebaseConflict") values.push(serializeBooleanForDb(value));
+    else if (key === "conflictFiles") values.push(value === null ? null : JSON.stringify(value));
+    else values.push(value);
+  }
+  return { sql, values };
+}
+function setCardRuntime(db2, id, runtime, now) {
+  const { sql, values } = runtimeAssignments(runtime);
+  if (now) {
+    sql.push("updated_at = ?");
+    values.push(now);
+  }
+  if (sql.length === 0) return true;
+  return runChanges(db2, `UPDATE cards SET ${sql.join(", ")} WHERE id = ?`, ...values, id).changes > 0;
+}
+
+// ../lib/markdown.ts
+var markdown_exports = {};
+__export(markdown_exports, {
+  assessAppendOnlyRewrite: () => assessAppendOnlyRewrite,
+  assessTestRewrite: () => assessTestRewrite,
+  closestTaskText: () => closestTaskText,
+  countRetainedItems: () => countRetainedItems,
+  ensureHtml: () => ensureHtml,
+  ensureTestScenariosHtml: () => ensureTestScenariosHtml,
+  extractTaskItems: () => extractTaskItems,
+  isHtml: () => isHtml,
+  markdownToTiptapHtml: () => markdownToTiptapHtml,
+  matchTaskItem: () => matchTaskItem,
+  mergeHtmlSections: () => mergeHtmlSections,
+  mergeStaleTestWrite: () => mergeStaleTestWrite,
+  mergeTestCheckState: () => mergeTestCheckState,
+  mergeTestMarkdownSections: () => mergeTestMarkdownSections,
+  normalizeTestsHtml: () => normalizeTestsHtml,
+  plainTaskText: () => plainTaskText,
+  testScenariosToMarkdown: () => testScenariosToMarkdown,
+  untickTaskItems: () => untickTaskItems
+});
+
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/node_modules/marked/lib/marked.esm.js
+function L() {
+  return { async: false, breaks: false, extensions: null, gfm: true, hooks: null, pedantic: false, renderer: null, silent: false, tokenizer: null, walkTokens: null };
+}
+var T = L();
+function Z(u3) {
+  T = u3;
+}
+var C = { exec: () => null };
+function k(u3, e = "") {
+  let t = typeof u3 == "string" ? u3 : u3.source, n = { replace: (r, i) => {
+    let s = typeof i == "string" ? i : i.source;
+    return s = s.replace(m.caret, "$1"), t = t.replace(r, s), n;
+  }, getRegex: () => new RegExp(t, e) };
+  return n;
+}
+var me = (() => {
+  try {
+    return !!new RegExp("(?<=1)(?<!1)");
+  } catch {
+    return false;
+  }
+})();
+var m = { codeRemoveIndent: /^(?: {1,4}| {0,3}\t)/gm, outputLinkReplace: /\\([\[\]])/g, indentCodeCompensation: /^(\s+)(?:```)/, beginningSpace: /^\s+/, endingHash: /#$/, startingSpaceChar: /^ /, endingSpaceChar: / $/, nonSpaceChar: /[^ ]/, newLineCharGlobal: /\n/g, tabCharGlobal: /\t/g, multipleSpaceGlobal: /\s+/g, blankLine: /^[ \t]*$/, doubleBlankLine: /\n[ \t]*\n[ \t]*$/, blockquoteStart: /^ {0,3}>/, blockquoteSetextReplace: /\n {0,3}((?:=+|-+) *)(?=\n|$)/g, blockquoteSetextReplace2: /^ {0,3}>[ \t]?/gm, listReplaceTabs: /^\t+/, listReplaceNesting: /^ {1,4}(?=( {4})*[^ ])/g, listIsTask: /^\[[ xX]\] +\S/, listReplaceTask: /^\[[ xX]\] +/, listTaskCheckbox: /\[[ xX]\]/, anyLine: /\n.*\n/, hrefBrackets: /^<(.*)>$/, tableDelimiter: /[:|]/, tableAlignChars: /^\||\| *$/g, tableRowBlankLine: /\n[ \t]*$/, tableAlignRight: /^ *-+: *$/, tableAlignCenter: /^ *:-+: *$/, tableAlignLeft: /^ *:-+ *$/, startATag: /^<a /i, endATag: /^<\/a>/i, startPreScriptTag: /^<(pre|code|kbd|script)(\s|>)/i, endPreScriptTag: /^<\/(pre|code|kbd|script)(\s|>)/i, startAngleBracket: /^</, endAngleBracket: />$/, pedanticHrefTitle: /^([^'"]*[^\s])\s+(['"])(.*)\2/, unicodeAlphaNumeric: /[\p{L}\p{N}]/u, escapeTest: /[&<>"']/, escapeReplace: /[&<>"']/g, escapeTestNoEncode: /[<>"']|&(?!(#\d{1,7}|#[Xx][a-fA-F0-9]{1,6}|\w+);)/, escapeReplaceNoEncode: /[<>"']|&(?!(#\d{1,7}|#[Xx][a-fA-F0-9]{1,6}|\w+);)/g, unescapeTest: /&(#(?:\d+)|(?:#x[0-9A-Fa-f]+)|(?:\w+));?/ig, caret: /(^|[^\[])\^/g, percentDecode: /%25/g, findPipe: /\|/g, splitPipe: / \|/, slashPipe: /\\\|/g, carriageReturn: /\r\n|\r/g, spaceLine: /^ +$/gm, notSpaceStart: /^\S*/, endingNewline: /\n$/, listItemRegex: (u3) => new RegExp(`^( {0,3}${u3})((?:[	 ][^\\n]*)?(?:\\n|$))`), nextBulletRegex: (u3) => new RegExp(`^ {0,${Math.min(3, u3 - 1)}}(?:[*+-]|\\d{1,9}[.)])((?:[ 	][^\\n]*)?(?:\\n|$))`), hrRegex: (u3) => new RegExp(`^ {0,${Math.min(3, u3 - 1)}}((?:- *){3,}|(?:_ *){3,}|(?:\\* *){3,})(?:\\n+|$)`), fencesBeginRegex: (u3) => new RegExp(`^ {0,${Math.min(3, u3 - 1)}}(?:\`\`\`|~~~)`), headingBeginRegex: (u3) => new RegExp(`^ {0,${Math.min(3, u3 - 1)}}#`), htmlBeginRegex: (u3) => new RegExp(`^ {0,${Math.min(3, u3 - 1)}}<(?:[a-z].*>|!--)`, "i") };
+var xe = /^(?:[ \t]*(?:\n|$))+/;
+var be = /^((?: {4}| {0,3}\t)[^\n]+(?:\n(?:[ \t]*(?:\n|$))*)?)+/;
+var Re = /^ {0,3}(`{3,}(?=[^`\n]*(?:\n|$))|~{3,})([^\n]*)(?:\n|$)(?:|([\s\S]*?)(?:\n|$))(?: {0,3}\1[~`]* *(?=\n|$)|$)/;
+var I = /^ {0,3}((?:-[\t ]*){3,}|(?:_[ \t]*){3,}|(?:\*[ \t]*){3,})(?:\n+|$)/;
+var Te = /^ {0,3}(#{1,6})(?=\s|$)(.*)(?:\n+|$)/;
+var N = /(?:[*+-]|\d{1,9}[.)])/;
+var re = /^(?!bull |blockCode|fences|blockquote|heading|html|table)((?:.|\n(?!\s*?\n|bull |blockCode|fences|blockquote|heading|html|table))+?)\n {0,3}(=+|-+) *(?:\n+|$)/;
+var se = k(re).replace(/bull/g, N).replace(/blockCode/g, /(?: {4}| {0,3}\t)/).replace(/fences/g, / {0,3}(?:`{3,}|~{3,})/).replace(/blockquote/g, / {0,3}>/).replace(/heading/g, / {0,3}#{1,6}/).replace(/html/g, / {0,3}<[^\n>]+>\n/).replace(/\|table/g, "").getRegex();
+var Oe = k(re).replace(/bull/g, N).replace(/blockCode/g, /(?: {4}| {0,3}\t)/).replace(/fences/g, / {0,3}(?:`{3,}|~{3,})/).replace(/blockquote/g, / {0,3}>/).replace(/heading/g, / {0,3}#{1,6}/).replace(/html/g, / {0,3}<[^\n>]+>\n/).replace(/table/g, / {0,3}\|?(?:[:\- ]*\|)+[\:\- ]*\n/).getRegex();
+var Q = /^([^\n]+(?:\n(?!hr|heading|lheading|blockquote|fences|list|html|table| +\n)[^\n]+)*)/;
+var we = /^[^\n]+/;
+var F = /(?!\s*\])(?:\\[\s\S]|[^\[\]\\])+/;
+var ye = k(/^ {0,3}\[(label)\]: *(?:\n[ \t]*)?([^<\s][^\s]*|<.*?>)(?:(?: +(?:\n[ \t]*)?| *\n[ \t]*)(title))? *(?:\n+|$)/).replace("label", F).replace("title", /(?:"(?:\\"?|[^"\\])*"|'[^'\n]*(?:\n[^'\n]+)*\n?'|\([^()]*\))/).getRegex();
+var Pe = k(/^( {0,3}bull)([ \t][^\n]+?)?(?:\n|$)/).replace(/bull/g, N).getRegex();
+var v = "address|article|aside|base|basefont|blockquote|body|caption|center|col|colgroup|dd|details|dialog|dir|div|dl|dt|fieldset|figcaption|figure|footer|form|frame|frameset|h[1-6]|head|header|hr|html|iframe|legend|li|link|main|menu|menuitem|meta|nav|noframes|ol|optgroup|option|p|param|search|section|summary|table|tbody|td|tfoot|th|thead|title|tr|track|ul";
+var j = /<!--(?:-?>|[\s\S]*?(?:-->|$))/;
+var Se = k("^ {0,3}(?:<(script|pre|style|textarea)[\\s>][\\s\\S]*?(?:</\\1>[^\\n]*\\n+|$)|comment[^\\n]*(\\n+|$)|<\\?[\\s\\S]*?(?:\\?>\\n*|$)|<![A-Z][\\s\\S]*?(?:>\\n*|$)|<!\\[CDATA\\[[\\s\\S]*?(?:\\]\\]>\\n*|$)|</?(tag)(?: +|\\n|/?>)[\\s\\S]*?(?:(?:\\n[ 	]*)+\\n|$)|<(?!script|pre|style|textarea)([a-z][\\w-]*)(?:attribute)*? */?>(?=[ \\t]*(?:\\n|$))[\\s\\S]*?(?:(?:\\n[ 	]*)+\\n|$)|</(?!script|pre|style|textarea)[a-z][\\w-]*\\s*>(?=[ \\t]*(?:\\n|$))[\\s\\S]*?(?:(?:\\n[ 	]*)+\\n|$))", "i").replace("comment", j).replace("tag", v).replace("attribute", / +[a-zA-Z:_][\w.:-]*(?: *= *"[^"\n]*"| *= *'[^'\n]*'| *= *[^\s"'=<>`]+)?/).getRegex();
+var ie = k(Q).replace("hr", I).replace("heading", " {0,3}#{1,6}(?:\\s|$)").replace("|lheading", "").replace("|table", "").replace("blockquote", " {0,3}>").replace("fences", " {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list", " {0,3}(?:[*+-]|1[.)]) ").replace("html", "</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag", v).getRegex();
+var $e = k(/^( {0,3}> ?(paragraph|[^\n]*)(?:\n|$))+/).replace("paragraph", ie).getRegex();
+var U = { blockquote: $e, code: be, def: ye, fences: Re, heading: Te, hr: I, html: Se, lheading: se, list: Pe, newline: xe, paragraph: ie, table: C, text: we };
+var te = k("^ *([^\\n ].*)\\n {0,3}((?:\\| *)?:?-+:? *(?:\\| *:?-+:? *)*(?:\\| *)?)(?:\\n((?:(?! *\\n|hr|heading|blockquote|code|fences|list|html).*(?:\\n|$))*)\\n*|$)").replace("hr", I).replace("heading", " {0,3}#{1,6}(?:\\s|$)").replace("blockquote", " {0,3}>").replace("code", "(?: {4}| {0,3}	)[^\\n]").replace("fences", " {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list", " {0,3}(?:[*+-]|1[.)]) ").replace("html", "</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag", v).getRegex();
+var _e = { ...U, lheading: Oe, table: te, paragraph: k(Q).replace("hr", I).replace("heading", " {0,3}#{1,6}(?:\\s|$)").replace("|lheading", "").replace("table", te).replace("blockquote", " {0,3}>").replace("fences", " {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list", " {0,3}(?:[*+-]|1[.)]) ").replace("html", "</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag", v).getRegex() };
+var Le = { ...U, html: k(`^ *(?:comment *(?:\\n|\\s*$)|<(tag)[\\s\\S]+?</\\1> *(?:\\n{2,}|\\s*$)|<tag(?:"[^"]*"|'[^']*'|\\s[^'"/>\\s]*)*?/?> *(?:\\n{2,}|\\s*$))`).replace("comment", j).replace(/tag/g, "(?!(?:a|em|strong|small|s|cite|q|dfn|abbr|data|time|code|var|samp|kbd|sub|sup|i|b|u|mark|ruby|rt|rp|bdi|bdo|span|br|wbr|ins|del|img)\\b)\\w+(?!:|[^\\w\\s@]*@)\\b").getRegex(), def: /^ *\[([^\]]+)\]: *<?([^\s>]+)>?(?: +(["(][^\n]+[")]))? *(?:\n+|$)/, heading: /^(#{1,6})(.*)(?:\n+|$)/, fences: C, lheading: /^(.+?)\n {0,3}(=+|-+) *(?:\n+|$)/, paragraph: k(Q).replace("hr", I).replace("heading", ` *#{1,6} *[^
+]`).replace("lheading", se).replace("|table", "").replace("blockquote", " {0,3}>").replace("|fences", "").replace("|list", "").replace("|html", "").replace("|tag", "").getRegex() };
+var Me = /^\\([!"#$%&'()*+,\-./:;<=>?@\[\]\\^_`{|}~])/;
+var ze = /^(`+)([^`]|[^`][\s\S]*?[^`])\1(?!`)/;
+var oe = /^( {2,}|\\)\n(?!\s*$)/;
+var Ae = /^(`+|[^`])(?:(?= {2,}\n)|[\s\S]*?(?:(?=[\\<!\[`*_]|\b_|$)|[^ ](?= {2,}\n)))/;
+var D = /[\p{P}\p{S}]/u;
+var K = /[\s\p{P}\p{S}]/u;
+var ae = /[^\s\p{P}\p{S}]/u;
+var Ce = k(/^((?![*_])punctSpace)/, "u").replace(/punctSpace/g, K).getRegex();
+var le = /(?!~)[\p{P}\p{S}]/u;
+var Ie = /(?!~)[\s\p{P}\p{S}]/u;
+var Ee = /(?:[^\s\p{P}\p{S}]|~)/u;
+var Be = k(/link|precode-code|html/, "g").replace("link", /\[(?:[^\[\]`]|(?<a>`+)[^`]+\k<a>(?!`))*?\]\((?:\\[\s\S]|[^\\\(\)]|\((?:\\[\s\S]|[^\\\(\)])*\))*\)/).replace("precode-", me ? "(?<!`)()" : "(^^|[^`])").replace("code", /(?<b>`+)[^`]+\k<b>(?!`)/).replace("html", /<(?! )[^<>]*?>/).getRegex();
+var ue = /^(?:\*+(?:((?!\*)punct)|[^\s*]))|^_+(?:((?!_)punct)|([^\s_]))/;
+var qe = k(ue, "u").replace(/punct/g, D).getRegex();
+var ve = k(ue, "u").replace(/punct/g, le).getRegex();
+var pe = "^[^_*]*?__[^_*]*?\\*[^_*]*?(?=__)|[^*]+(?=[^*])|(?!\\*)punct(\\*+)(?=[\\s]|$)|notPunctSpace(\\*+)(?!\\*)(?=punctSpace|$)|(?!\\*)punctSpace(\\*+)(?=notPunctSpace)|[\\s](\\*+)(?!\\*)(?=punct)|(?!\\*)punct(\\*+)(?!\\*)(?=punct)|notPunctSpace(\\*+)(?=notPunctSpace)";
+var De = k(pe, "gu").replace(/notPunctSpace/g, ae).replace(/punctSpace/g, K).replace(/punct/g, D).getRegex();
+var He = k(pe, "gu").replace(/notPunctSpace/g, Ee).replace(/punctSpace/g, Ie).replace(/punct/g, le).getRegex();
+var Ze = k("^[^_*]*?\\*\\*[^_*]*?_[^_*]*?(?=\\*\\*)|[^_]+(?=[^_])|(?!_)punct(_+)(?=[\\s]|$)|notPunctSpace(_+)(?!_)(?=punctSpace|$)|(?!_)punctSpace(_+)(?=notPunctSpace)|[\\s](_+)(?!_)(?=punct)|(?!_)punct(_+)(?!_)(?=punct)", "gu").replace(/notPunctSpace/g, ae).replace(/punctSpace/g, K).replace(/punct/g, D).getRegex();
+var Ge = k(/\\(punct)/, "gu").replace(/punct/g, D).getRegex();
+var Ne = k(/^<(scheme:[^\s\x00-\x1f<>]*|email)>/).replace("scheme", /[a-zA-Z][a-zA-Z0-9+.-]{1,31}/).replace("email", /[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+(@)[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+(?![-_])/).getRegex();
+var Qe = k(j).replace("(?:-->|$)", "-->").getRegex();
+var Fe = k("^comment|^</[a-zA-Z][\\w:-]*\\s*>|^<[a-zA-Z][\\w-]*(?:attribute)*?\\s*/?>|^<\\?[\\s\\S]*?\\?>|^<![a-zA-Z]+\\s[\\s\\S]*?>|^<!\\[CDATA\\[[\\s\\S]*?\\]\\]>").replace("comment", Qe).replace("attribute", /\s+[a-zA-Z:_][\w.:-]*(?:\s*=\s*"[^"]*"|\s*=\s*'[^']*'|\s*=\s*[^\s"'=<>`]+)?/).getRegex();
+var q = /(?:\[(?:\\[\s\S]|[^\[\]\\])*\]|\\[\s\S]|`+[^`]*?`+(?!`)|[^\[\]\\`])*?/;
+var je = k(/^!?\[(label)\]\(\s*(href)(?:(?:[ \t]*(?:\n[ \t]*)?)(title))?\s*\)/).replace("label", q).replace("href", /<(?:\\.|[^\n<>\\])+>|[^ \t\n\x00-\x1f]*/).replace("title", /"(?:\\"?|[^"\\])*"|'(?:\\'?|[^'\\])*'|\((?:\\\)?|[^)\\])*\)/).getRegex();
+var ce = k(/^!?\[(label)\]\[(ref)\]/).replace("label", q).replace("ref", F).getRegex();
+var he = k(/^!?\[(ref)\](?:\[\])?/).replace("ref", F).getRegex();
+var Ue = k("reflink|nolink(?!\\()", "g").replace("reflink", ce).replace("nolink", he).getRegex();
+var ne = /[hH][tT][tT][pP][sS]?|[fF][tT][pP]/;
+var W = { _backpedal: C, anyPunctuation: Ge, autolink: Ne, blockSkip: Be, br: oe, code: ze, del: C, emStrongLDelim: qe, emStrongRDelimAst: De, emStrongRDelimUnd: Ze, escape: Me, link: je, nolink: he, punctuation: Ce, reflink: ce, reflinkSearch: Ue, tag: Fe, text: Ae, url: C };
+var Ke = { ...W, link: k(/^!?\[(label)\]\((.*?)\)/).replace("label", q).getRegex(), reflink: k(/^!?\[(label)\]\s*\[([^\]]*)\]/).replace("label", q).getRegex() };
+var G = { ...W, emStrongRDelimAst: He, emStrongLDelim: ve, url: k(/^((?:protocol):\/\/|www\.)(?:[a-zA-Z0-9\-]+\.?)+[^\s<]*|^email/).replace("protocol", ne).replace("email", /[A-Za-z0-9._+-]+(@)[a-zA-Z0-9-_]+(?:\.[a-zA-Z0-9-_]*[a-zA-Z0-9])+(?![-_])/).getRegex(), _backpedal: /(?:[^?!.,:;*_'"~()&]+|\([^)]*\)|&(?![a-zA-Z0-9]+;$)|[?!.,:;*_'"~)]+(?!$))+/, del: /^(~~?)(?=[^\s~])((?:\\[\s\S]|[^\\])*?(?:\\[\s\S]|[^\s~\\]))\1(?=[^~]|$)/, text: k(/^([`~]+|[^`~])(?:(?= {2,}\n)|(?=[a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-]+@)|[\s\S]*?(?:(?=[\\<!\[`*~_]|\b_|protocol:\/\/|www\.|$)|[^ ](?= {2,}\n)|[^a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-](?=[a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-]+@)))/).replace("protocol", ne).getRegex() };
+var We = { ...G, br: k(oe).replace("{2,}", "*").getRegex(), text: k(G.text).replace("\\b_", "\\b_| {2,}\\n").replace(/\{2,\}/g, "*").getRegex() };
+var E = { normal: U, gfm: _e, pedantic: Le };
+var M = { normal: W, gfm: G, breaks: We, pedantic: Ke };
+var Xe = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" };
+var ke = (u3) => Xe[u3];
+function w(u3, e) {
+  if (e) {
+    if (m.escapeTest.test(u3)) return u3.replace(m.escapeReplace, ke);
+  } else if (m.escapeTestNoEncode.test(u3)) return u3.replace(m.escapeReplaceNoEncode, ke);
+  return u3;
+}
+function X(u3) {
+  try {
+    u3 = encodeURI(u3).replace(m.percentDecode, "%");
+  } catch {
+    return null;
+  }
+  return u3;
+}
+function J(u3, e) {
+  let t = u3.replace(m.findPipe, (i, s, a) => {
+    let o = false, l = s;
+    for (; --l >= 0 && a[l] === "\\"; ) o = !o;
+    return o ? "|" : " |";
+  }), n = t.split(m.splitPipe), r = 0;
+  if (n[0].trim() || n.shift(), n.length > 0 && !n.at(-1)?.trim() && n.pop(), e) if (n.length > e) n.splice(e);
+  else for (; n.length < e; ) n.push("");
+  for (; r < n.length; r++) n[r] = n[r].trim().replace(m.slashPipe, "|");
+  return n;
+}
+function z2(u3, e, t) {
+  let n = u3.length;
+  if (n === 0) return "";
+  let r = 0;
+  for (; r < n; ) {
+    let i = u3.charAt(n - r - 1);
+    if (i === e && !t) r++;
+    else if (i !== e && t) r++;
+    else break;
+  }
+  return u3.slice(0, n - r);
+}
+function de(u3, e) {
+  if (u3.indexOf(e[1]) === -1) return -1;
+  let t = 0;
+  for (let n = 0; n < u3.length; n++) if (u3[n] === "\\") n++;
+  else if (u3[n] === e[0]) t++;
+  else if (u3[n] === e[1] && (t--, t < 0)) return n;
+  return t > 0 ? -2 : -1;
+}
+function ge(u3, e, t, n, r) {
+  let i = e.href, s = e.title || null, a = u3[1].replace(r.other.outputLinkReplace, "$1");
+  n.state.inLink = true;
+  let o = { type: u3[0].charAt(0) === "!" ? "image" : "link", raw: t, href: i, title: s, text: a, tokens: n.inlineTokens(a) };
+  return n.state.inLink = false, o;
+}
+function Je(u3, e, t) {
+  let n = u3.match(t.other.indentCodeCompensation);
+  if (n === null) return e;
+  let r = n[1];
+  return e.split(`
+`).map((i) => {
+    let s = i.match(t.other.beginningSpace);
+    if (s === null) return i;
+    let [a] = s;
+    return a.length >= r.length ? i.slice(r.length) : i;
+  }).join(`
+`);
+}
+var y = class {
+  options;
+  rules;
+  lexer;
+  constructor(e) {
+    this.options = e || T;
+  }
+  space(e) {
+    let t = this.rules.block.newline.exec(e);
+    if (t && t[0].length > 0) return { type: "space", raw: t[0] };
+  }
+  code(e) {
+    let t = this.rules.block.code.exec(e);
+    if (t) {
+      let n = t[0].replace(this.rules.other.codeRemoveIndent, "");
+      return { type: "code", raw: t[0], codeBlockStyle: "indented", text: this.options.pedantic ? n : z2(n, `
+`) };
+    }
+  }
+  fences(e) {
+    let t = this.rules.block.fences.exec(e);
+    if (t) {
+      let n = t[0], r = Je(n, t[3] || "", this.rules);
+      return { type: "code", raw: n, lang: t[2] ? t[2].trim().replace(this.rules.inline.anyPunctuation, "$1") : t[2], text: r };
+    }
+  }
+  heading(e) {
+    let t = this.rules.block.heading.exec(e);
+    if (t) {
+      let n = t[2].trim();
+      if (this.rules.other.endingHash.test(n)) {
+        let r = z2(n, "#");
+        (this.options.pedantic || !r || this.rules.other.endingSpaceChar.test(r)) && (n = r.trim());
+      }
+      return { type: "heading", raw: t[0], depth: t[1].length, text: n, tokens: this.lexer.inline(n) };
+    }
+  }
+  hr(e) {
+    let t = this.rules.block.hr.exec(e);
+    if (t) return { type: "hr", raw: z2(t[0], `
+`) };
+  }
+  blockquote(e) {
+    let t = this.rules.block.blockquote.exec(e);
+    if (t) {
+      let n = z2(t[0], `
+`).split(`
+`), r = "", i = "", s = [];
+      for (; n.length > 0; ) {
+        let a = false, o = [], l;
+        for (l = 0; l < n.length; l++) if (this.rules.other.blockquoteStart.test(n[l])) o.push(n[l]), a = true;
+        else if (!a) o.push(n[l]);
+        else break;
+        n = n.slice(l);
+        let p = o.join(`
+`), c = p.replace(this.rules.other.blockquoteSetextReplace, `
+    $1`).replace(this.rules.other.blockquoteSetextReplace2, "");
+        r = r ? `${r}
+${p}` : p, i = i ? `${i}
+${c}` : c;
+        let g = this.lexer.state.top;
+        if (this.lexer.state.top = true, this.lexer.blockTokens(c, s, true), this.lexer.state.top = g, n.length === 0) break;
+        let h = s.at(-1);
+        if (h?.type === "code") break;
+        if (h?.type === "blockquote") {
+          let R = h, f = R.raw + `
+` + n.join(`
+`), O = this.blockquote(f);
+          s[s.length - 1] = O, r = r.substring(0, r.length - R.raw.length) + O.raw, i = i.substring(0, i.length - R.text.length) + O.text;
+          break;
+        } else if (h?.type === "list") {
+          let R = h, f = R.raw + `
+` + n.join(`
+`), O = this.list(f);
+          s[s.length - 1] = O, r = r.substring(0, r.length - h.raw.length) + O.raw, i = i.substring(0, i.length - R.raw.length) + O.raw, n = f.substring(s.at(-1).raw.length).split(`
+`);
+          continue;
+        }
+      }
+      return { type: "blockquote", raw: r, tokens: s, text: i };
+    }
+  }
+  list(e) {
+    let t = this.rules.block.list.exec(e);
+    if (t) {
+      let n = t[1].trim(), r = n.length > 1, i = { type: "list", raw: "", ordered: r, start: r ? +n.slice(0, -1) : "", loose: false, items: [] };
+      n = r ? `\\d{1,9}\\${n.slice(-1)}` : `\\${n}`, this.options.pedantic && (n = r ? n : "[*+-]");
+      let s = this.rules.other.listItemRegex(n), a = false;
+      for (; e; ) {
+        let l = false, p = "", c = "";
+        if (!(t = s.exec(e)) || this.rules.block.hr.test(e)) break;
+        p = t[0], e = e.substring(p.length);
+        let g = t[2].split(`
+`, 1)[0].replace(this.rules.other.listReplaceTabs, (O) => " ".repeat(3 * O.length)), h = e.split(`
+`, 1)[0], R = !g.trim(), f = 0;
+        if (this.options.pedantic ? (f = 2, c = g.trimStart()) : R ? f = t[1].length + 1 : (f = t[2].search(this.rules.other.nonSpaceChar), f = f > 4 ? 1 : f, c = g.slice(f), f += t[1].length), R && this.rules.other.blankLine.test(h) && (p += h + `
+`, e = e.substring(h.length + 1), l = true), !l) {
+          let O = this.rules.other.nextBulletRegex(f), V = this.rules.other.hrRegex(f), Y = this.rules.other.fencesBeginRegex(f), ee = this.rules.other.headingBeginRegex(f), fe = this.rules.other.htmlBeginRegex(f);
+          for (; e; ) {
+            let H = e.split(`
+`, 1)[0], A;
+            if (h = H, this.options.pedantic ? (h = h.replace(this.rules.other.listReplaceNesting, "  "), A = h) : A = h.replace(this.rules.other.tabCharGlobal, "    "), Y.test(h) || ee.test(h) || fe.test(h) || O.test(h) || V.test(h)) break;
+            if (A.search(this.rules.other.nonSpaceChar) >= f || !h.trim()) c += `
+` + A.slice(f);
+            else {
+              if (R || g.replace(this.rules.other.tabCharGlobal, "    ").search(this.rules.other.nonSpaceChar) >= 4 || Y.test(g) || ee.test(g) || V.test(g)) break;
+              c += `
+` + h;
+            }
+            !R && !h.trim() && (R = true), p += H + `
+`, e = e.substring(H.length + 1), g = A.slice(f);
+          }
+        }
+        i.loose || (a ? i.loose = true : this.rules.other.doubleBlankLine.test(p) && (a = true)), i.items.push({ type: "list_item", raw: p, task: !!this.options.gfm && this.rules.other.listIsTask.test(c), loose: false, text: c, tokens: [] }), i.raw += p;
+      }
+      let o = i.items.at(-1);
+      if (o) o.raw = o.raw.trimEnd(), o.text = o.text.trimEnd();
+      else return;
+      i.raw = i.raw.trimEnd();
+      for (let l of i.items) {
+        if (this.lexer.state.top = false, l.tokens = this.lexer.blockTokens(l.text, []), l.task) {
+          if (l.text = l.text.replace(this.rules.other.listReplaceTask, ""), l.tokens[0]?.type === "text" || l.tokens[0]?.type === "paragraph") {
+            l.tokens[0].raw = l.tokens[0].raw.replace(this.rules.other.listReplaceTask, ""), l.tokens[0].text = l.tokens[0].text.replace(this.rules.other.listReplaceTask, "");
+            for (let c = this.lexer.inlineQueue.length - 1; c >= 0; c--) if (this.rules.other.listIsTask.test(this.lexer.inlineQueue[c].src)) {
+              this.lexer.inlineQueue[c].src = this.lexer.inlineQueue[c].src.replace(this.rules.other.listReplaceTask, "");
+              break;
+            }
+          }
+          let p = this.rules.other.listTaskCheckbox.exec(l.raw);
+          if (p) {
+            let c = { type: "checkbox", raw: p[0] + " ", checked: p[0] !== "[ ]" };
+            l.checked = c.checked, i.loose ? l.tokens[0] && ["paragraph", "text"].includes(l.tokens[0].type) && "tokens" in l.tokens[0] && l.tokens[0].tokens ? (l.tokens[0].raw = c.raw + l.tokens[0].raw, l.tokens[0].text = c.raw + l.tokens[0].text, l.tokens[0].tokens.unshift(c)) : l.tokens.unshift({ type: "paragraph", raw: c.raw, text: c.raw, tokens: [c] }) : l.tokens.unshift(c);
+          }
+        }
+        if (!i.loose) {
+          let p = l.tokens.filter((g) => g.type === "space"), c = p.length > 0 && p.some((g) => this.rules.other.anyLine.test(g.raw));
+          i.loose = c;
+        }
+      }
+      if (i.loose) for (let l of i.items) {
+        l.loose = true;
+        for (let p of l.tokens) p.type === "text" && (p.type = "paragraph");
+      }
+      return i;
+    }
+  }
+  html(e) {
+    let t = this.rules.block.html.exec(e);
+    if (t) return { type: "html", block: true, raw: t[0], pre: t[1] === "pre" || t[1] === "script" || t[1] === "style", text: t[0] };
+  }
+  def(e) {
+    let t = this.rules.block.def.exec(e);
+    if (t) {
+      let n = t[1].toLowerCase().replace(this.rules.other.multipleSpaceGlobal, " "), r = t[2] ? t[2].replace(this.rules.other.hrefBrackets, "$1").replace(this.rules.inline.anyPunctuation, "$1") : "", i = t[3] ? t[3].substring(1, t[3].length - 1).replace(this.rules.inline.anyPunctuation, "$1") : t[3];
+      return { type: "def", tag: n, raw: t[0], href: r, title: i };
+    }
+  }
+  table(e) {
+    let t = this.rules.block.table.exec(e);
+    if (!t || !this.rules.other.tableDelimiter.test(t[2])) return;
+    let n = J(t[1]), r = t[2].replace(this.rules.other.tableAlignChars, "").split("|"), i = t[3]?.trim() ? t[3].replace(this.rules.other.tableRowBlankLine, "").split(`
+`) : [], s = { type: "table", raw: t[0], header: [], align: [], rows: [] };
+    if (n.length === r.length) {
+      for (let a of r) this.rules.other.tableAlignRight.test(a) ? s.align.push("right") : this.rules.other.tableAlignCenter.test(a) ? s.align.push("center") : this.rules.other.tableAlignLeft.test(a) ? s.align.push("left") : s.align.push(null);
+      for (let a = 0; a < n.length; a++) s.header.push({ text: n[a], tokens: this.lexer.inline(n[a]), header: true, align: s.align[a] });
+      for (let a of i) s.rows.push(J(a, s.header.length).map((o, l) => ({ text: o, tokens: this.lexer.inline(o), header: false, align: s.align[l] })));
+      return s;
+    }
+  }
+  lheading(e) {
+    let t = this.rules.block.lheading.exec(e);
+    if (t) return { type: "heading", raw: t[0], depth: t[2].charAt(0) === "=" ? 1 : 2, text: t[1], tokens: this.lexer.inline(t[1]) };
+  }
+  paragraph(e) {
+    let t = this.rules.block.paragraph.exec(e);
+    if (t) {
+      let n = t[1].charAt(t[1].length - 1) === `
+` ? t[1].slice(0, -1) : t[1];
+      return { type: "paragraph", raw: t[0], text: n, tokens: this.lexer.inline(n) };
+    }
+  }
+  text(e) {
+    let t = this.rules.block.text.exec(e);
+    if (t) return { type: "text", raw: t[0], text: t[0], tokens: this.lexer.inline(t[0]) };
+  }
+  escape(e) {
+    let t = this.rules.inline.escape.exec(e);
+    if (t) return { type: "escape", raw: t[0], text: t[1] };
+  }
+  tag(e) {
+    let t = this.rules.inline.tag.exec(e);
+    if (t) return !this.lexer.state.inLink && this.rules.other.startATag.test(t[0]) ? this.lexer.state.inLink = true : this.lexer.state.inLink && this.rules.other.endATag.test(t[0]) && (this.lexer.state.inLink = false), !this.lexer.state.inRawBlock && this.rules.other.startPreScriptTag.test(t[0]) ? this.lexer.state.inRawBlock = true : this.lexer.state.inRawBlock && this.rules.other.endPreScriptTag.test(t[0]) && (this.lexer.state.inRawBlock = false), { type: "html", raw: t[0], inLink: this.lexer.state.inLink, inRawBlock: this.lexer.state.inRawBlock, block: false, text: t[0] };
+  }
+  link(e) {
+    let t = this.rules.inline.link.exec(e);
+    if (t) {
+      let n = t[2].trim();
+      if (!this.options.pedantic && this.rules.other.startAngleBracket.test(n)) {
+        if (!this.rules.other.endAngleBracket.test(n)) return;
+        let s = z2(n.slice(0, -1), "\\");
+        if ((n.length - s.length) % 2 === 0) return;
+      } else {
+        let s = de(t[2], "()");
+        if (s === -2) return;
+        if (s > -1) {
+          let o = (t[0].indexOf("!") === 0 ? 5 : 4) + t[1].length + s;
+          t[2] = t[2].substring(0, s), t[0] = t[0].substring(0, o).trim(), t[3] = "";
+        }
+      }
+      let r = t[2], i = "";
+      if (this.options.pedantic) {
+        let s = this.rules.other.pedanticHrefTitle.exec(r);
+        s && (r = s[1], i = s[3]);
+      } else i = t[3] ? t[3].slice(1, -1) : "";
+      return r = r.trim(), this.rules.other.startAngleBracket.test(r) && (this.options.pedantic && !this.rules.other.endAngleBracket.test(n) ? r = r.slice(1) : r = r.slice(1, -1)), ge(t, { href: r && r.replace(this.rules.inline.anyPunctuation, "$1"), title: i && i.replace(this.rules.inline.anyPunctuation, "$1") }, t[0], this.lexer, this.rules);
+    }
+  }
+  reflink(e, t) {
+    let n;
+    if ((n = this.rules.inline.reflink.exec(e)) || (n = this.rules.inline.nolink.exec(e))) {
+      let r = (n[2] || n[1]).replace(this.rules.other.multipleSpaceGlobal, " "), i = t[r.toLowerCase()];
+      if (!i) {
+        let s = n[0].charAt(0);
+        return { type: "text", raw: s, text: s };
+      }
+      return ge(n, i, n[0], this.lexer, this.rules);
+    }
+  }
+  emStrong(e, t, n = "") {
+    let r = this.rules.inline.emStrongLDelim.exec(e);
+    if (!r || r[3] && n.match(this.rules.other.unicodeAlphaNumeric)) return;
+    if (!(r[1] || r[2] || "") || !n || this.rules.inline.punctuation.exec(n)) {
+      let s = [...r[0]].length - 1, a, o, l = s, p = 0, c = r[0][0] === "*" ? this.rules.inline.emStrongRDelimAst : this.rules.inline.emStrongRDelimUnd;
+      for (c.lastIndex = 0, t = t.slice(-1 * e.length + s); (r = c.exec(t)) != null; ) {
+        if (a = r[1] || r[2] || r[3] || r[4] || r[5] || r[6], !a) continue;
+        if (o = [...a].length, r[3] || r[4]) {
+          l += o;
+          continue;
+        } else if ((r[5] || r[6]) && s % 3 && !((s + o) % 3)) {
+          p += o;
+          continue;
+        }
+        if (l -= o, l > 0) continue;
+        o = Math.min(o, o + l + p);
+        let g = [...r[0]][0].length, h = e.slice(0, s + r.index + g + o);
+        if (Math.min(s, o) % 2) {
+          let f = h.slice(1, -1);
+          return { type: "em", raw: h, text: f, tokens: this.lexer.inlineTokens(f) };
+        }
+        let R = h.slice(2, -2);
+        return { type: "strong", raw: h, text: R, tokens: this.lexer.inlineTokens(R) };
+      }
+    }
+  }
+  codespan(e) {
+    let t = this.rules.inline.code.exec(e);
+    if (t) {
+      let n = t[2].replace(this.rules.other.newLineCharGlobal, " "), r = this.rules.other.nonSpaceChar.test(n), i = this.rules.other.startingSpaceChar.test(n) && this.rules.other.endingSpaceChar.test(n);
+      return r && i && (n = n.substring(1, n.length - 1)), { type: "codespan", raw: t[0], text: n };
+    }
+  }
+  br(e) {
+    let t = this.rules.inline.br.exec(e);
+    if (t) return { type: "br", raw: t[0] };
+  }
+  del(e) {
+    let t = this.rules.inline.del.exec(e);
+    if (t) return { type: "del", raw: t[0], text: t[2], tokens: this.lexer.inlineTokens(t[2]) };
+  }
+  autolink(e) {
+    let t = this.rules.inline.autolink.exec(e);
+    if (t) {
+      let n, r;
+      return t[2] === "@" ? (n = t[1], r = "mailto:" + n) : (n = t[1], r = n), { type: "link", raw: t[0], text: n, href: r, tokens: [{ type: "text", raw: n, text: n }] };
+    }
+  }
+  url(e) {
+    let t;
+    if (t = this.rules.inline.url.exec(e)) {
+      let n, r;
+      if (t[2] === "@") n = t[0], r = "mailto:" + n;
+      else {
+        let i;
+        do
+          i = t[0], t[0] = this.rules.inline._backpedal.exec(t[0])?.[0] ?? "";
+        while (i !== t[0]);
+        n = t[0], t[1] === "www." ? r = "http://" + t[0] : r = t[0];
+      }
+      return { type: "link", raw: t[0], text: n, href: r, tokens: [{ type: "text", raw: n, text: n }] };
+    }
+  }
+  inlineText(e) {
+    let t = this.rules.inline.text.exec(e);
+    if (t) {
+      let n = this.lexer.state.inRawBlock;
+      return { type: "text", raw: t[0], text: t[0], escaped: n };
+    }
+  }
+};
+var x = class u {
+  tokens;
+  options;
+  state;
+  inlineQueue;
+  tokenizer;
+  constructor(e) {
+    this.tokens = [], this.tokens.links = /* @__PURE__ */ Object.create(null), this.options = e || T, this.options.tokenizer = this.options.tokenizer || new y(), this.tokenizer = this.options.tokenizer, this.tokenizer.options = this.options, this.tokenizer.lexer = this, this.inlineQueue = [], this.state = { inLink: false, inRawBlock: false, top: true };
+    let t = { other: m, block: E.normal, inline: M.normal };
+    this.options.pedantic ? (t.block = E.pedantic, t.inline = M.pedantic) : this.options.gfm && (t.block = E.gfm, this.options.breaks ? t.inline = M.breaks : t.inline = M.gfm), this.tokenizer.rules = t;
+  }
+  static get rules() {
+    return { block: E, inline: M };
+  }
+  static lex(e, t) {
+    return new u(t).lex(e);
+  }
+  static lexInline(e, t) {
+    return new u(t).inlineTokens(e);
+  }
+  lex(e) {
+    e = e.replace(m.carriageReturn, `
+`), this.blockTokens(e, this.tokens);
+    for (let t = 0; t < this.inlineQueue.length; t++) {
+      let n = this.inlineQueue[t];
+      this.inlineTokens(n.src, n.tokens);
+    }
+    return this.inlineQueue = [], this.tokens;
+  }
+  blockTokens(e, t = [], n = false) {
+    for (this.options.pedantic && (e = e.replace(m.tabCharGlobal, "    ").replace(m.spaceLine, "")); e; ) {
+      let r;
+      if (this.options.extensions?.block?.some((s) => (r = s.call({ lexer: this }, e, t)) ? (e = e.substring(r.raw.length), t.push(r), true) : false)) continue;
+      if (r = this.tokenizer.space(e)) {
+        e = e.substring(r.raw.length);
+        let s = t.at(-1);
+        r.raw.length === 1 && s !== void 0 ? s.raw += `
+` : t.push(r);
+        continue;
+      }
+      if (r = this.tokenizer.code(e)) {
+        e = e.substring(r.raw.length);
+        let s = t.at(-1);
+        s?.type === "paragraph" || s?.type === "text" ? (s.raw += (s.raw.endsWith(`
+`) ? "" : `
+`) + r.raw, s.text += `
+` + r.text, this.inlineQueue.at(-1).src = s.text) : t.push(r);
+        continue;
+      }
+      if (r = this.tokenizer.fences(e)) {
+        e = e.substring(r.raw.length), t.push(r);
+        continue;
+      }
+      if (r = this.tokenizer.heading(e)) {
+        e = e.substring(r.raw.length), t.push(r);
+        continue;
+      }
+      if (r = this.tokenizer.hr(e)) {
+        e = e.substring(r.raw.length), t.push(r);
+        continue;
+      }
+      if (r = this.tokenizer.blockquote(e)) {
+        e = e.substring(r.raw.length), t.push(r);
+        continue;
+      }
+      if (r = this.tokenizer.list(e)) {
+        e = e.substring(r.raw.length), t.push(r);
+        continue;
+      }
+      if (r = this.tokenizer.html(e)) {
+        e = e.substring(r.raw.length), t.push(r);
+        continue;
+      }
+      if (r = this.tokenizer.def(e)) {
+        e = e.substring(r.raw.length);
+        let s = t.at(-1);
+        s?.type === "paragraph" || s?.type === "text" ? (s.raw += (s.raw.endsWith(`
+`) ? "" : `
+`) + r.raw, s.text += `
+` + r.raw, this.inlineQueue.at(-1).src = s.text) : this.tokens.links[r.tag] || (this.tokens.links[r.tag] = { href: r.href, title: r.title }, t.push(r));
+        continue;
+      }
+      if (r = this.tokenizer.table(e)) {
+        e = e.substring(r.raw.length), t.push(r);
+        continue;
+      }
+      if (r = this.tokenizer.lheading(e)) {
+        e = e.substring(r.raw.length), t.push(r);
+        continue;
+      }
+      let i = e;
+      if (this.options.extensions?.startBlock) {
+        let s = 1 / 0, a = e.slice(1), o;
+        this.options.extensions.startBlock.forEach((l) => {
+          o = l.call({ lexer: this }, a), typeof o == "number" && o >= 0 && (s = Math.min(s, o));
+        }), s < 1 / 0 && s >= 0 && (i = e.substring(0, s + 1));
+      }
+      if (this.state.top && (r = this.tokenizer.paragraph(i))) {
+        let s = t.at(-1);
+        n && s?.type === "paragraph" ? (s.raw += (s.raw.endsWith(`
+`) ? "" : `
+`) + r.raw, s.text += `
+` + r.text, this.inlineQueue.pop(), this.inlineQueue.at(-1).src = s.text) : t.push(r), n = i.length !== e.length, e = e.substring(r.raw.length);
+        continue;
+      }
+      if (r = this.tokenizer.text(e)) {
+        e = e.substring(r.raw.length);
+        let s = t.at(-1);
+        s?.type === "text" ? (s.raw += (s.raw.endsWith(`
+`) ? "" : `
+`) + r.raw, s.text += `
+` + r.text, this.inlineQueue.pop(), this.inlineQueue.at(-1).src = s.text) : t.push(r);
+        continue;
+      }
+      if (e) {
+        let s = "Infinite loop on byte: " + e.charCodeAt(0);
+        if (this.options.silent) {
+          console.error(s);
+          break;
+        } else throw new Error(s);
+      }
+    }
+    return this.state.top = true, t;
+  }
+  inline(e, t = []) {
+    return this.inlineQueue.push({ src: e, tokens: t }), t;
+  }
+  inlineTokens(e, t = []) {
+    let n = e, r = null;
+    if (this.tokens.links) {
+      let o = Object.keys(this.tokens.links);
+      if (o.length > 0) for (; (r = this.tokenizer.rules.inline.reflinkSearch.exec(n)) != null; ) o.includes(r[0].slice(r[0].lastIndexOf("[") + 1, -1)) && (n = n.slice(0, r.index) + "[" + "a".repeat(r[0].length - 2) + "]" + n.slice(this.tokenizer.rules.inline.reflinkSearch.lastIndex));
+    }
+    for (; (r = this.tokenizer.rules.inline.anyPunctuation.exec(n)) != null; ) n = n.slice(0, r.index) + "++" + n.slice(this.tokenizer.rules.inline.anyPunctuation.lastIndex);
+    let i;
+    for (; (r = this.tokenizer.rules.inline.blockSkip.exec(n)) != null; ) i = r[2] ? r[2].length : 0, n = n.slice(0, r.index + i) + "[" + "a".repeat(r[0].length - i - 2) + "]" + n.slice(this.tokenizer.rules.inline.blockSkip.lastIndex);
+    n = this.options.hooks?.emStrongMask?.call({ lexer: this }, n) ?? n;
+    let s = false, a = "";
+    for (; e; ) {
+      s || (a = ""), s = false;
+      let o;
+      if (this.options.extensions?.inline?.some((p) => (o = p.call({ lexer: this }, e, t)) ? (e = e.substring(o.raw.length), t.push(o), true) : false)) continue;
+      if (o = this.tokenizer.escape(e)) {
+        e = e.substring(o.raw.length), t.push(o);
+        continue;
+      }
+      if (o = this.tokenizer.tag(e)) {
+        e = e.substring(o.raw.length), t.push(o);
+        continue;
+      }
+      if (o = this.tokenizer.link(e)) {
+        e = e.substring(o.raw.length), t.push(o);
+        continue;
+      }
+      if (o = this.tokenizer.reflink(e, this.tokens.links)) {
+        e = e.substring(o.raw.length);
+        let p = t.at(-1);
+        o.type === "text" && p?.type === "text" ? (p.raw += o.raw, p.text += o.text) : t.push(o);
+        continue;
+      }
+      if (o = this.tokenizer.emStrong(e, n, a)) {
+        e = e.substring(o.raw.length), t.push(o);
+        continue;
+      }
+      if (o = this.tokenizer.codespan(e)) {
+        e = e.substring(o.raw.length), t.push(o);
+        continue;
+      }
+      if (o = this.tokenizer.br(e)) {
+        e = e.substring(o.raw.length), t.push(o);
+        continue;
+      }
+      if (o = this.tokenizer.del(e)) {
+        e = e.substring(o.raw.length), t.push(o);
+        continue;
+      }
+      if (o = this.tokenizer.autolink(e)) {
+        e = e.substring(o.raw.length), t.push(o);
+        continue;
+      }
+      if (!this.state.inLink && (o = this.tokenizer.url(e))) {
+        e = e.substring(o.raw.length), t.push(o);
+        continue;
+      }
+      let l = e;
+      if (this.options.extensions?.startInline) {
+        let p = 1 / 0, c = e.slice(1), g;
+        this.options.extensions.startInline.forEach((h) => {
+          g = h.call({ lexer: this }, c), typeof g == "number" && g >= 0 && (p = Math.min(p, g));
+        }), p < 1 / 0 && p >= 0 && (l = e.substring(0, p + 1));
+      }
+      if (o = this.tokenizer.inlineText(l)) {
+        e = e.substring(o.raw.length), o.raw.slice(-1) !== "_" && (a = o.raw.slice(-1)), s = true;
+        let p = t.at(-1);
+        p?.type === "text" ? (p.raw += o.raw, p.text += o.text) : t.push(o);
+        continue;
+      }
+      if (e) {
+        let p = "Infinite loop on byte: " + e.charCodeAt(0);
+        if (this.options.silent) {
+          console.error(p);
+          break;
+        } else throw new Error(p);
+      }
+    }
+    return t;
+  }
+};
+var P = class {
+  options;
+  parser;
+  constructor(e) {
+    this.options = e || T;
+  }
+  space(e) {
+    return "";
+  }
+  code({ text: e, lang: t, escaped: n }) {
+    let r = (t || "").match(m.notSpaceStart)?.[0], i = e.replace(m.endingNewline, "") + `
+`;
+    return r ? '<pre><code class="language-' + w(r) + '">' + (n ? i : w(i, true)) + `</code></pre>
+` : "<pre><code>" + (n ? i : w(i, true)) + `</code></pre>
+`;
+  }
+  blockquote({ tokens: e }) {
+    return `<blockquote>
+${this.parser.parse(e)}</blockquote>
+`;
+  }
+  html({ text: e }) {
+    return e;
+  }
+  def(e) {
+    return "";
+  }
+  heading({ tokens: e, depth: t }) {
+    return `<h${t}>${this.parser.parseInline(e)}</h${t}>
+`;
+  }
+  hr(e) {
+    return `<hr>
+`;
+  }
+  list(e) {
+    let t = e.ordered, n = e.start, r = "";
+    for (let a = 0; a < e.items.length; a++) {
+      let o = e.items[a];
+      r += this.listitem(o);
+    }
+    let i = t ? "ol" : "ul", s = t && n !== 1 ? ' start="' + n + '"' : "";
+    return "<" + i + s + `>
+` + r + "</" + i + `>
+`;
+  }
+  listitem(e) {
+    return `<li>${this.parser.parse(e.tokens)}</li>
+`;
+  }
+  checkbox({ checked: e }) {
+    return "<input " + (e ? 'checked="" ' : "") + 'disabled="" type="checkbox"> ';
+  }
+  paragraph({ tokens: e }) {
+    return `<p>${this.parser.parseInline(e)}</p>
+`;
+  }
+  table(e) {
+    let t = "", n = "";
+    for (let i = 0; i < e.header.length; i++) n += this.tablecell(e.header[i]);
+    t += this.tablerow({ text: n });
+    let r = "";
+    for (let i = 0; i < e.rows.length; i++) {
+      let s = e.rows[i];
+      n = "";
+      for (let a = 0; a < s.length; a++) n += this.tablecell(s[a]);
+      r += this.tablerow({ text: n });
+    }
+    return r && (r = `<tbody>${r}</tbody>`), `<table>
+<thead>
+` + t + `</thead>
+` + r + `</table>
+`;
+  }
+  tablerow({ text: e }) {
+    return `<tr>
+${e}</tr>
+`;
+  }
+  tablecell(e) {
+    let t = this.parser.parseInline(e.tokens), n = e.header ? "th" : "td";
+    return (e.align ? `<${n} align="${e.align}">` : `<${n}>`) + t + `</${n}>
+`;
+  }
+  strong({ tokens: e }) {
+    return `<strong>${this.parser.parseInline(e)}</strong>`;
+  }
+  em({ tokens: e }) {
+    return `<em>${this.parser.parseInline(e)}</em>`;
+  }
+  codespan({ text: e }) {
+    return `<code>${w(e, true)}</code>`;
+  }
+  br(e) {
+    return "<br>";
+  }
+  del({ tokens: e }) {
+    return `<del>${this.parser.parseInline(e)}</del>`;
+  }
+  link({ href: e, title: t, tokens: n }) {
+    let r = this.parser.parseInline(n), i = X(e);
+    if (i === null) return r;
+    e = i;
+    let s = '<a href="' + e + '"';
+    return t && (s += ' title="' + w(t) + '"'), s += ">" + r + "</a>", s;
+  }
+  image({ href: e, title: t, text: n, tokens: r }) {
+    r && (n = this.parser.parseInline(r, this.parser.textRenderer));
+    let i = X(e);
+    if (i === null) return w(n);
+    e = i;
+    let s = `<img src="${e}" alt="${n}"`;
+    return t && (s += ` title="${w(t)}"`), s += ">", s;
+  }
+  text(e) {
+    return "tokens" in e && e.tokens ? this.parser.parseInline(e.tokens) : "escaped" in e && e.escaped ? e.text : w(e.text);
+  }
+};
+var $ = class {
+  strong({ text: e }) {
+    return e;
+  }
+  em({ text: e }) {
+    return e;
+  }
+  codespan({ text: e }) {
+    return e;
+  }
+  del({ text: e }) {
+    return e;
+  }
+  html({ text: e }) {
+    return e;
+  }
+  text({ text: e }) {
+    return e;
+  }
+  link({ text: e }) {
+    return "" + e;
+  }
+  image({ text: e }) {
+    return "" + e;
+  }
+  br() {
+    return "";
+  }
+  checkbox({ raw: e }) {
+    return e;
+  }
+};
+var b = class u2 {
+  options;
+  renderer;
+  textRenderer;
+  constructor(e) {
+    this.options = e || T, this.options.renderer = this.options.renderer || new P(), this.renderer = this.options.renderer, this.renderer.options = this.options, this.renderer.parser = this, this.textRenderer = new $();
+  }
+  static parse(e, t) {
+    return new u2(t).parse(e);
+  }
+  static parseInline(e, t) {
+    return new u2(t).parseInline(e);
+  }
+  parse(e) {
+    let t = "";
+    for (let n = 0; n < e.length; n++) {
+      let r = e[n];
+      if (this.options.extensions?.renderers?.[r.type]) {
+        let s = r, a = this.options.extensions.renderers[s.type].call({ parser: this }, s);
+        if (a !== false || !["space", "hr", "heading", "code", "table", "blockquote", "list", "html", "def", "paragraph", "text"].includes(s.type)) {
+          t += a || "";
+          continue;
+        }
+      }
+      let i = r;
+      switch (i.type) {
+        case "space": {
+          t += this.renderer.space(i);
+          break;
+        }
+        case "hr": {
+          t += this.renderer.hr(i);
+          break;
+        }
+        case "heading": {
+          t += this.renderer.heading(i);
+          break;
+        }
+        case "code": {
+          t += this.renderer.code(i);
+          break;
+        }
+        case "table": {
+          t += this.renderer.table(i);
+          break;
+        }
+        case "blockquote": {
+          t += this.renderer.blockquote(i);
+          break;
+        }
+        case "list": {
+          t += this.renderer.list(i);
+          break;
+        }
+        case "checkbox": {
+          t += this.renderer.checkbox(i);
+          break;
+        }
+        case "html": {
+          t += this.renderer.html(i);
+          break;
+        }
+        case "def": {
+          t += this.renderer.def(i);
+          break;
+        }
+        case "paragraph": {
+          t += this.renderer.paragraph(i);
+          break;
+        }
+        case "text": {
+          t += this.renderer.text(i);
+          break;
+        }
+        default: {
+          let s = 'Token with "' + i.type + '" type was not found.';
+          if (this.options.silent) return console.error(s), "";
+          throw new Error(s);
+        }
+      }
+    }
+    return t;
+  }
+  parseInline(e, t = this.renderer) {
+    let n = "";
+    for (let r = 0; r < e.length; r++) {
+      let i = e[r];
+      if (this.options.extensions?.renderers?.[i.type]) {
+        let a = this.options.extensions.renderers[i.type].call({ parser: this }, i);
+        if (a !== false || !["escape", "html", "link", "image", "strong", "em", "codespan", "br", "del", "text"].includes(i.type)) {
+          n += a || "";
+          continue;
+        }
+      }
+      let s = i;
+      switch (s.type) {
+        case "escape": {
+          n += t.text(s);
+          break;
+        }
+        case "html": {
+          n += t.html(s);
+          break;
+        }
+        case "link": {
+          n += t.link(s);
+          break;
+        }
+        case "image": {
+          n += t.image(s);
+          break;
+        }
+        case "checkbox": {
+          n += t.checkbox(s);
+          break;
+        }
+        case "strong": {
+          n += t.strong(s);
+          break;
+        }
+        case "em": {
+          n += t.em(s);
+          break;
+        }
+        case "codespan": {
+          n += t.codespan(s);
+          break;
+        }
+        case "br": {
+          n += t.br(s);
+          break;
+        }
+        case "del": {
+          n += t.del(s);
+          break;
+        }
+        case "text": {
+          n += t.text(s);
+          break;
+        }
+        default: {
+          let a = 'Token with "' + s.type + '" type was not found.';
+          if (this.options.silent) return console.error(a), "";
+          throw new Error(a);
+        }
+      }
+    }
+    return n;
+  }
+};
+var S = class {
+  options;
+  block;
+  constructor(e) {
+    this.options = e || T;
+  }
+  static passThroughHooks = /* @__PURE__ */ new Set(["preprocess", "postprocess", "processAllTokens", "emStrongMask"]);
+  static passThroughHooksRespectAsync = /* @__PURE__ */ new Set(["preprocess", "postprocess", "processAllTokens"]);
+  preprocess(e) {
+    return e;
+  }
+  postprocess(e) {
+    return e;
+  }
+  processAllTokens(e) {
+    return e;
+  }
+  emStrongMask(e) {
+    return e;
+  }
+  provideLexer() {
+    return this.block ? x.lex : x.lexInline;
+  }
+  provideParser() {
+    return this.block ? b.parse : b.parseInline;
+  }
+};
+var B = class {
+  defaults = L();
+  options = this.setOptions;
+  parse = this.parseMarkdown(true);
+  parseInline = this.parseMarkdown(false);
+  Parser = b;
+  Renderer = P;
+  TextRenderer = $;
+  Lexer = x;
+  Tokenizer = y;
+  Hooks = S;
+  constructor(...e) {
+    this.use(...e);
+  }
+  walkTokens(e, t) {
+    let n = [];
+    for (let r of e) switch (n = n.concat(t.call(this, r)), r.type) {
+      case "table": {
+        let i = r;
+        for (let s of i.header) n = n.concat(this.walkTokens(s.tokens, t));
+        for (let s of i.rows) for (let a of s) n = n.concat(this.walkTokens(a.tokens, t));
+        break;
+      }
+      case "list": {
+        let i = r;
+        n = n.concat(this.walkTokens(i.items, t));
+        break;
+      }
+      default: {
+        let i = r;
+        this.defaults.extensions?.childTokens?.[i.type] ? this.defaults.extensions.childTokens[i.type].forEach((s) => {
+          let a = i[s].flat(1 / 0);
+          n = n.concat(this.walkTokens(a, t));
+        }) : i.tokens && (n = n.concat(this.walkTokens(i.tokens, t)));
+      }
+    }
+    return n;
+  }
+  use(...e) {
+    let t = this.defaults.extensions || { renderers: {}, childTokens: {} };
+    return e.forEach((n) => {
+      let r = { ...n };
+      if (r.async = this.defaults.async || r.async || false, n.extensions && (n.extensions.forEach((i) => {
+        if (!i.name) throw new Error("extension name required");
+        if ("renderer" in i) {
+          let s = t.renderers[i.name];
+          s ? t.renderers[i.name] = function(...a) {
+            let o = i.renderer.apply(this, a);
+            return o === false && (o = s.apply(this, a)), o;
+          } : t.renderers[i.name] = i.renderer;
+        }
+        if ("tokenizer" in i) {
+          if (!i.level || i.level !== "block" && i.level !== "inline") throw new Error("extension level must be 'block' or 'inline'");
+          let s = t[i.level];
+          s ? s.unshift(i.tokenizer) : t[i.level] = [i.tokenizer], i.start && (i.level === "block" ? t.startBlock ? t.startBlock.push(i.start) : t.startBlock = [i.start] : i.level === "inline" && (t.startInline ? t.startInline.push(i.start) : t.startInline = [i.start]));
+        }
+        "childTokens" in i && i.childTokens && (t.childTokens[i.name] = i.childTokens);
+      }), r.extensions = t), n.renderer) {
+        let i = this.defaults.renderer || new P(this.defaults);
+        for (let s in n.renderer) {
+          if (!(s in i)) throw new Error(`renderer '${s}' does not exist`);
+          if (["options", "parser"].includes(s)) continue;
+          let a = s, o = n.renderer[a], l = i[a];
+          i[a] = (...p) => {
+            let c = o.apply(i, p);
+            return c === false && (c = l.apply(i, p)), c || "";
+          };
+        }
+        r.renderer = i;
+      }
+      if (n.tokenizer) {
+        let i = this.defaults.tokenizer || new y(this.defaults);
+        for (let s in n.tokenizer) {
+          if (!(s in i)) throw new Error(`tokenizer '${s}' does not exist`);
+          if (["options", "rules", "lexer"].includes(s)) continue;
+          let a = s, o = n.tokenizer[a], l = i[a];
+          i[a] = (...p) => {
+            let c = o.apply(i, p);
+            return c === false && (c = l.apply(i, p)), c;
+          };
+        }
+        r.tokenizer = i;
+      }
+      if (n.hooks) {
+        let i = this.defaults.hooks || new S();
+        for (let s in n.hooks) {
+          if (!(s in i)) throw new Error(`hook '${s}' does not exist`);
+          if (["options", "block"].includes(s)) continue;
+          let a = s, o = n.hooks[a], l = i[a];
+          S.passThroughHooks.has(s) ? i[a] = (p) => {
+            if (this.defaults.async && S.passThroughHooksRespectAsync.has(s)) return (async () => {
+              let g = await o.call(i, p);
+              return l.call(i, g);
+            })();
+            let c = o.call(i, p);
+            return l.call(i, c);
+          } : i[a] = (...p) => {
+            if (this.defaults.async) return (async () => {
+              let g = await o.apply(i, p);
+              return g === false && (g = await l.apply(i, p)), g;
+            })();
+            let c = o.apply(i, p);
+            return c === false && (c = l.apply(i, p)), c;
+          };
+        }
+        r.hooks = i;
+      }
+      if (n.walkTokens) {
+        let i = this.defaults.walkTokens, s = n.walkTokens;
+        r.walkTokens = function(a) {
+          let o = [];
+          return o.push(s.call(this, a)), i && (o = o.concat(i.call(this, a))), o;
+        };
+      }
+      this.defaults = { ...this.defaults, ...r };
+    }), this;
+  }
+  setOptions(e) {
+    return this.defaults = { ...this.defaults, ...e }, this;
+  }
+  lexer(e, t) {
+    return x.lex(e, t ?? this.defaults);
+  }
+  parser(e, t) {
+    return b.parse(e, t ?? this.defaults);
+  }
+  parseMarkdown(e) {
+    return (n, r) => {
+      let i = { ...r }, s = { ...this.defaults, ...i }, a = this.onError(!!s.silent, !!s.async);
+      if (this.defaults.async === true && i.async === false) return a(new Error("marked(): The async option was set to true by an extension. Remove async: false from the parse options object to return a Promise."));
+      if (typeof n > "u" || n === null) return a(new Error("marked(): input parameter is undefined or null"));
+      if (typeof n != "string") return a(new Error("marked(): input parameter is of type " + Object.prototype.toString.call(n) + ", string expected"));
+      if (s.hooks && (s.hooks.options = s, s.hooks.block = e), s.async) return (async () => {
+        let o = s.hooks ? await s.hooks.preprocess(n) : n, p = await (s.hooks ? await s.hooks.provideLexer() : e ? x.lex : x.lexInline)(o, s), c = s.hooks ? await s.hooks.processAllTokens(p) : p;
+        s.walkTokens && await Promise.all(this.walkTokens(c, s.walkTokens));
+        let h = await (s.hooks ? await s.hooks.provideParser() : e ? b.parse : b.parseInline)(c, s);
+        return s.hooks ? await s.hooks.postprocess(h) : h;
+      })().catch(a);
+      try {
+        s.hooks && (n = s.hooks.preprocess(n));
+        let l = (s.hooks ? s.hooks.provideLexer() : e ? x.lex : x.lexInline)(n, s);
+        s.hooks && (l = s.hooks.processAllTokens(l)), s.walkTokens && this.walkTokens(l, s.walkTokens);
+        let c = (s.hooks ? s.hooks.provideParser() : e ? b.parse : b.parseInline)(l, s);
+        return s.hooks && (c = s.hooks.postprocess(c)), c;
+      } catch (o) {
+        return a(o);
+      }
+    };
+  }
+  onError(e, t) {
+    return (n) => {
+      if (n.message += `
+Please report this to https://github.com/markedjs/marked.`, e) {
+        let r = "<p>An error occurred:</p><pre>" + w(n.message + "", true) + "</pre>";
+        return t ? Promise.resolve(r) : r;
+      }
+      if (t) return Promise.reject(n);
+      throw n;
+    };
+  }
+};
+var _ = new B();
+function d(u3, e) {
+  return _.parse(u3, e);
+}
+d.options = d.setOptions = function(u3) {
+  return _.setOptions(u3), d.defaults = _.defaults, Z(d.defaults), d;
+};
+d.getDefaults = L;
+d.defaults = T;
+d.use = function(...u3) {
+  return _.use(...u3), d.defaults = _.defaults, Z(d.defaults), d;
+};
+d.walkTokens = function(u3, e) {
+  return _.walkTokens(u3, e);
+};
+d.parseInline = _.parseInline;
+d.Parser = b;
+d.parser = b.parse;
+d.Renderer = P;
+d.TextRenderer = $;
+d.Lexer = x;
+d.lexer = x.lex;
+d.Tokenizer = y;
+d.Hooks = S;
+d.parse = d;
+var Dt = d.options;
+var Ht = d.setOptions;
+var Zt = d.use;
+var Gt = d.walkTokens;
+var Nt = d.parseInline;
+var Ft = b.parse;
+var jt = x.lex;
+
+// ../lib/markdown.ts
+d.setOptions({
+  gfm: true,
+  breaks: true
+});
+function convertCheckboxListHtmlToTaskList(html) {
+  if (!html) return html;
+  return html.replace(
+    /<ul\b([^>]*)>\s*((?:<li\b[^>]*>\s*<input[^>]*type="checkbox"[^>]*>[\s\S]*?<\/li>\s*)+)<\/ul>/gi,
+    (_match, attrs, items) => {
+      if (/data-type\s*=\s*"taskList"/i.test(attrs)) {
+        return `<ul${attrs}>${items}</ul>`;
+      }
+      const taskItems = items.replace(
+        /<li\b([^>]*)>\s*<input([^>]*)type="checkbox"([^>]*)>\s*([\s\S]*?)<\/li>/gi,
+        (_itemMatch, liAttrs, before, after, text) => {
+          if (/data-type\s*=\s*"taskItem"/i.test(liAttrs)) {
+            return `<li${liAttrs}><input${before}type="checkbox"${after}>${text}</li>`;
+          }
+          const isChecked = /\bchecked\b/i.test(before) || /\bchecked\b/i.test(after);
+          const trimmed = text.trim();
+          const paragraph = /<p\b/i.test(trimmed) ? trimmed : `<p>${trimmed}</p>`;
+          return `<li data-type="taskItem" data-checked="${isChecked}"><label><input type="checkbox"${isChecked ? ' checked="checked"' : ""}><span></span></label><div>${paragraph}</div></li>`;
+        }
+      );
+      return `<ul data-type="taskList">${taskItems}</ul>`;
+    }
+  );
+}
+function markdownToTiptapHtml(markdown) {
+  if (!markdown || markdown.trim() === "") {
+    return "";
+  }
+  let html = d.parse(markdown);
+  return convertCheckboxListHtmlToTaskList(html);
+}
+function wrapBareTaskItems(html) {
+  return html.replace(
+    /(<li\b[^>]*data-type="taskItem"[^>]*>)([\s\S]*?)(<\/li>)/gi,
+    (match, open, body, close) => {
+      if (/<(p|ul|ol)\b/i.test(body)) return match;
+      const trimmed = body.trim();
+      return trimmed ? `${open}<p>${trimmed}</p>${close}` : match;
+    }
+  );
+}
+function normalizeTestsHtml(html) {
+  if (!html) return html;
+  return wrapBareTaskItems(convertCheckboxListHtmlToTaskList(html)).replace(
+    /<ul\b([^>]*)>([\s\S]*?)<\/ul>/gi,
+    (match, attrs, inner) => {
+      if (/data-type\s*=\s*"taskList"/i.test(attrs)) return match;
+      if (/<li[^>]*data-type="taskItem"/i.test(inner)) return match;
+      if (!/<li\b/i.test(inner)) return match;
+      const taskItems = inner.replace(
+        /<li\b[^>]*>([\s\S]*?)<\/li>/gi,
+        (_m, body) => {
+          const trimmed = body.trim();
+          const paragraph = /<p\b/i.test(trimmed) ? trimmed : `<p>${trimmed}</p>`;
+          return `<li data-type="taskItem" data-checked="false"><label><input type="checkbox"><span></span></label><div>${paragraph}</div></li>`;
+        }
+      );
+      return `<ul data-type="taskList">${taskItems}</ul>`;
+    }
+  );
+}
+function normalizeTaskText(text) {
+  return text.replace(/<[^>]*>/g, " ").replace(/&[a-z]+;/gi, " ").toLowerCase().replace(/[.,;:!?/\\|()[\]{}<>@#$%^&*"'`~=+\-_]/g, " ").replace(/\s+/g, " ").trim();
+}
+function levenshtein(a, b2, cap) {
+  if (a === b2) return 0;
+  if (!a.length) return b2.length;
+  if (!b2.length) return a.length;
+  if (Math.abs(a.length - b2.length) > cap) return cap + 1;
+  let prev = new Array(b2.length + 1);
+  let curr = new Array(b2.length + 1);
+  for (let j2 = 0; j2 <= b2.length; j2++) prev[j2] = j2;
+  for (let i = 1; i <= a.length; i++) {
+    curr[0] = i;
+    let rowMin = curr[0];
+    for (let j2 = 1; j2 <= b2.length; j2++) {
+      const cost = a.charCodeAt(i - 1) === b2.charCodeAt(j2 - 1) ? 0 : 1;
+      curr[j2] = Math.min(curr[j2 - 1] + 1, prev[j2] + 1, prev[j2 - 1] + cost);
+      if (curr[j2] < rowMin) rowMin = curr[j2];
+    }
+    if (rowMin > cap) return cap + 1;
+    [prev, curr] = [curr, prev];
+  }
+  return prev[b2.length];
+}
+function tokenize(s) {
+  return s.split(" ").filter((t) => t.length >= 3);
+}
+function tokenOverlap(a, b2) {
+  if (!a.length || !b2.length) return 0;
+  const setA = new Set(a);
+  let intersect = 0;
+  for (const t of b2) if (setA.has(t)) intersect++;
+  return intersect / Math.max(a.length, b2.length);
+}
+function findFuzzyMatch(target2, candidates) {
+  if (candidates.includes(target2)) return target2;
+  for (const c of candidates) {
+    if (c.length < 6 || target2.length < 6) continue;
+    if (c.includes(target2) || target2.includes(c)) return c;
+  }
+  let best = null;
+  const targetTokens = tokenize(target2);
+  for (const c of candidates) {
+    const maxLen = Math.max(c.length, target2.length);
+    if (maxLen < 6) continue;
+    const cap = Math.max(2, Math.floor(maxLen * 0.2));
+    const d2 = levenshtein(target2, c, cap);
+    if (d2 <= cap) {
+      const score = 1 - d2 / maxLen;
+      if (!best || score > best.score) best = { key: c, score };
+      continue;
+    }
+    const overlap = tokenOverlap(targetTokens, tokenize(c));
+    if (overlap >= 0.6) {
+      if (!best || overlap > best.score) best = { key: c, score: overlap };
+    }
+  }
+  return best?.key ?? null;
+}
+var TASK_ITEM_OPEN = String.raw`<li\b(?=[^>]*data-type="taskItem")`;
+function taskItemCheckRegex() {
+  return new RegExp(String.raw`${TASK_ITEM_OPEN}([^>]*data-checked=")(?:true|false)("[^>]*>.*?<p>)(.*?)(<\/p>)`, "gi");
+}
+function extractTaskItems(html) {
+  const items = [];
+  const normalized = normalizeTestsHtml(html);
+  const regex = new RegExp(String.raw`${TASK_ITEM_OPEN}[^>]*data-checked="(true|false)"[^>]*>.*?<p>(.*?)<\/p>`, "gi");
+  let match;
+  while ((match = regex.exec(normalized)) !== null) {
+    const checked = match[1] === "true";
+    const rawText = match[2].trim();
+    const normalized2 = normalizeTaskText(rawText);
+    if (normalized2) {
+      items.push({ normalized: normalized2, checked, rawText });
+    }
+  }
+  return items;
+}
+function matchTaskItem(text, html) {
+  const target2 = normalizeTaskText(text);
+  if (!target2) return null;
+  const items = extractTaskItems(html);
+  const key = findFuzzyMatch(target2, items.map((i) => i.normalized));
+  return key ? items.find((i) => i.normalized === key) ?? null : null;
+}
+function closestTaskText(text, candidates) {
+  const target2 = normalizeTaskText(text);
+  if (!target2) return -1;
+  const keys = candidates.map(normalizeTaskText);
+  const key = findFuzzyMatch(target2, keys.filter(Boolean));
+  return key ? keys.indexOf(key) : -1;
+}
+function untickTaskItems(html, itemTexts) {
+  const keys = extractTaskItems(html).map((i) => i.normalized);
+  const hits = new Set(
+    itemTexts.map((text) => normalizeTaskText(text)).filter(Boolean).map((target2) => findFuzzyMatch(target2, keys)).filter((key) => key !== null)
+  );
+  if (hits.size === 0) return html;
+  return normalizeTestsHtml(html).replace(
+    taskItemCheckRegex(),
+    (fullMatch, prefix, middle, text, suffix) => {
+      if (!hits.has(normalizeTaskText(text))) return fullMatch;
+      return `<li${prefix}false${middle}${text}${suffix}`.replace(
+        /<input type="checkbox"(?:\s+checked="checked")?>/,
+        '<input type="checkbox">'
+      );
+    }
+  );
+}
+function countRetainedItems(existingHtml, newHtml) {
+  const existing = extractTaskItems(existingHtml);
+  const newItems = extractTaskItems(newHtml);
+  if (!existing.length) return { retained: 0, existing: 0 };
+  const newKeys = newItems.map((i) => i.normalized);
+  let retained = 0;
+  for (const e of existing) {
+    if (findFuzzyMatch(e.normalized, newKeys)) retained++;
+  }
+  return { retained, existing: existing.length };
+}
+function assessTestRewrite(existingHtml, newHtml) {
+  const existingItems = extractTaskItems(existingHtml);
+  if (!existingItems.length) return { safe: true, retained: 0, existing: 0 };
+  const newItems = extractTaskItems(newHtml);
+  if (!newItems.length) {
+    return {
+      safe: false,
+      reason: "new test scenarios are empty \u2014 refusing to wipe existing list",
+      retained: 0,
+      existing: existingItems.length
+    };
+  }
+  const { retained, existing } = countRetainedItems(existingHtml, newHtml);
+  const ratio = retained / existing;
+  if (ratio < 0.5) {
+    return {
+      safe: false,
+      reason: `new content retains only ${retained}/${existing} existing items (< 50%)`,
+      retained,
+      existing
+    };
+  }
+  return { safe: true, retained, existing };
+}
+function assessAppendOnlyRewrite(existingHtml, newHtml) {
+  const existingItems = extractTaskItems(existingHtml);
+  if (!existingItems.length) return { safe: true, retained: 0, existing: 0 };
+  if (!extractTaskItems(newHtml).length) {
+    return {
+      safe: false,
+      reason: "new test scenarios are empty \u2014 refusing to wipe existing list",
+      retained: 0,
+      existing: existingItems.length
+    };
+  }
+  const { retained, existing } = countRetainedItems(existingHtml, newHtml);
+  if (retained < existing) {
+    return {
+      safe: false,
+      reason: `append-only save_tests requires all existing checklist items to be preserved; retained ${retained}/${existing}`,
+      retained,
+      existing
+    };
+  }
+  return { safe: true, retained, existing };
+}
+function mergeTestCheckState(existingHtml, newHtml) {
+  if (!existingHtml || !newHtml) return newHtml;
+  const existingItems = extractTaskItems(existingHtml);
+  if (existingItems.length === 0) return normalizeTestsHtml(newHtml);
+  const existingKeys = existingItems.map((i) => i.normalized);
+  const checkedMap = /* @__PURE__ */ new Map();
+  for (const item of existingItems) checkedMap.set(item.normalized, item.checked);
+  return normalizeTestsHtml(newHtml).replace(
+    taskItemCheckRegex(),
+    (fullMatch, prefix, middle, text, suffix) => {
+      const normalized = normalizeTaskText(text);
+      if (!normalized) return fullMatch;
+      const matchedKey = findFuzzyMatch(normalized, existingKeys);
+      const wasChecked = matchedKey ? checkedMap.get(matchedKey) : false;
+      if (wasChecked) {
+        const result = `<li${prefix}true${middle}${text}${suffix}`;
+        return result.replace(
+          /<input type="checkbox"(?:\s+checked="checked")?>/,
+          '<input type="checkbox" checked="checked">'
+        );
+      }
+      return fullMatch;
+    }
+  );
+}
+function mergeStaleTestWrite(existingHtml, formHtml) {
+  const existingItems = extractTaskItems(existingHtml);
+  if (existingItems.length === 0) return normalizeTestsHtml(formHtml);
+  if (!formHtml) return existingHtml;
+  const formItems = extractTaskItems(formHtml);
+  const formKeys = formItems.map((i) => i.normalized);
+  const formByKey = new Map(formItems.map((i) => [i.normalized, i]));
+  const existingNormalized = normalizeTestsHtml(existingHtml);
+  const updatedExisting = existingNormalized.replace(
+    taskItemCheckRegex(),
+    (fullMatch, prefix, middle, text, suffix) => {
+      const normalized = normalizeTaskText(text);
+      if (!normalized) return fullMatch;
+      const matchedKey = findFuzzyMatch(normalized, formKeys);
+      if (!matchedKey) return fullMatch;
+      const formState = formByKey.get(matchedKey);
+      if (!formState) return fullMatch;
+      const result = `<li${prefix}${formState.checked}${middle}${text}${suffix}`;
+      return result.replace(
+        /<input type="checkbox"(?:\s+checked="checked")?>/,
+        formState.checked ? '<input type="checkbox" checked="checked">' : '<input type="checkbox">'
+      );
+    }
+  );
+  const existingKeys = existingItems.map((i) => i.normalized);
+  const toAppend = formItems.filter(
+    (f) => !findFuzzyMatch(f.normalized, existingKeys)
+  );
+  if (toAppend.length === 0) return updatedExisting;
+  const appendHtml = toAppend.map((f) => {
+    const checkedAttr = f.checked ? ' checked="checked"' : "";
+    return `<li data-type="taskItem" data-checked="${f.checked}"><label><input type="checkbox"${checkedAttr}><span></span></label><div><p>${f.rawText}</p></div></li>`;
+  }).join("\n");
+  return updatedExisting.replace(/<\/ul>\s*$/i, `${appendHtml}</ul>`);
+}
+function testScenariosToMarkdown(html) {
+  if (!html) return "";
+  const parts = [];
+  const tokenRegex = /<h([1-6])[^>]*>([\s\S]*?)<\/h[1-6]>|<li([^>]*data-type="taskItem"[^>]*)>([\s\S]*?)<\/li>|<p[^>]*>([\s\S]*?)<\/p>/gi;
+  let match;
+  while ((match = tokenRegex.exec(html)) !== null) {
+    const [, hLevel, hText, liAttrs, liBody, pText] = match;
+    if (hLevel) {
+      const level = Math.min(parseInt(hLevel, 10), 6);
+      const text = hText.replace(/<[^>]*>/g, "").trim();
+      if (text) parts.push(`${"#".repeat(level)} ${text}`);
+    } else if (liAttrs !== void 0) {
+      const checkedMatch = liAttrs.match(/data-checked="(true|false)"/i);
+      const checked = checkedMatch ? checkedMatch[1] === "true" : false;
+      const inner = liBody.match(/<p[^>]*>([\s\S]*?)<\/p>/i);
+      const text = (inner ? inner[1] : liBody).replace(/<[^>]*>/g, "").trim();
+      if (text) parts.push(`- [${checked ? "x" : " "}] ${text}`);
+    } else if (pText) {
+      const text = pText.replace(/<[^>]*>/g, "").trim();
+      if (text && !text.includes("[ ]") && !text.includes("[x]")) {
+        parts.push(text);
+      }
+    }
+  }
+  return parts.join("\n");
+}
+function plainTaskText(rawText) {
+  return decodeEntities3(rawText.replace(/<[^>]*>/g, "")).replace(/\s+/g, " ").trim();
+}
+function decodeEntities3(text) {
+  return text.replace(/&#(\d+);/g, (_m, code) => String.fromCharCode(parseInt(code, 10))).replace(/&#x([0-9a-f]+);/gi, (_m, code) => String.fromCharCode(parseInt(code, 16))).replace(/&nbsp;/gi, " ").replace(/&quot;/gi, '"').replace(/&apos;/gi, "'").replace(/&lt;/gi, "<").replace(/&gt;/gi, ">").replace(/&amp;/gi, "&");
+}
+function normalizeHeading(text) {
+  return decodeEntities3(text.replace(/<[^>]*>/g, "")).replace(/[*_`]/g, "").replace(/\s+/g, " ").trim().replace(/\s*:$/, "").toLocaleLowerCase("tr");
+}
+function dedupeKey(text) {
+  return normalizeTaskText(decodeEntities3(text.replace(/<[^>]*>/g, " "))) || null;
+}
+function sectionEnd(blocks, headingIdx) {
+  const level = blocks[headingIdx].level;
+  for (let i = headingIdx + 1; i < blocks.length; i++) {
+    if (blocks[i].key !== null && blocks[i].level <= level) return i;
+  }
+  return blocks.length;
+}
+function lastHeadingIndex(blocks, key) {
+  for (let i = blocks.length - 1; i >= 0; i--) {
+    if (blocks[i].key !== null && (key === void 0 || blocks[i].key === key)) return i;
+  }
+  return -1;
+}
+function dedupeKeysIn(blocks, from, to) {
+  const keys = /* @__PURE__ */ new Set();
+  for (let i = from; i < to; i++) {
+    const b2 = blocks[i];
+    if (b2.key === null && b2.dedupe) keys.add(b2.dedupe);
+  }
+  return keys;
+}
+function mergeSections(existing, incoming, scope) {
+  const result = [...existing];
+  let added = 0;
+  const groups = [];
+  for (const block of incoming) {
+    if (block.key !== null) groups.push({ heading: block, body: [] });
+    else if (groups.length) groups[groups.length - 1].body.push(block);
+    else groups.push({ heading: null, body: [block] });
+  }
+  const stack = [];
+  for (const group of groups) {
+    let insertAt;
+    let scopeStart;
+    let target2 = null;
+    if (!group.heading) {
+      insertAt = result.length;
+      scopeStart = Math.max(0, lastHeadingIndex(result));
+    } else {
+      while (stack.length && stack[stack.length - 1].level >= group.heading.level) stack.pop();
+      const matchIdx = lastHeadingIndex(result, group.heading.key);
+      if (matchIdx >= 0) {
+        target2 = result[matchIdx];
+        insertAt = sectionEnd(result, matchIdx);
+        scopeStart = matchIdx;
+      } else {
+        const parent = stack[stack.length - 1];
+        insertAt = parent ? sectionEnd(result, result.indexOf(parent.block)) : result.length;
+        scopeStart = insertAt;
+      }
+    }
+    const seen = scope === "document" ? dedupeKeysIn(result, 0, result.length) : dedupeKeysIn(result, scopeStart, insertAt);
+    const accepted = [];
+    for (const block of group.body) {
+      if (block.dedupe && seen.has(block.dedupe)) continue;
+      if (block.dedupe) seen.add(block.dedupe);
+      accepted.push(block);
+    }
+    if (group.heading && !target2) {
+      if (group.body.length && !accepted.length) continue;
+      accepted.unshift(group.heading);
+      target2 = group.heading;
+    }
+    if (accepted.length) {
+      result.splice(insertAt, 0, ...accepted);
+      added += accepted.length;
+    }
+    if (group.heading && target2) stack.push({ level: group.heading.level, block: target2 });
+  }
+  return { blocks: result, added };
+}
+var MD_HEADING = /^ {0,3}(#{1,6})\s+(.*?)(?:\s+#+)?\s*$/;
+var MD_LIST_ITEM = /^(?: {0,1})(?:[-*+]|\d+[.)])\s+/;
+var MD_FENCE = /^ {0,3}(```|~~~)/;
+var MD_TASK_PREFIX = /^\s*(?:[-*+]|\d+[.)])\s+(?:\[[ xX]\]\s*)?/;
+function tokenizeMarkdownSections(markdown) {
+  const blocks = [];
+  const lines = markdown.replace(/\r\n?/g, "\n").split("\n");
+  let current = [];
+  let currentIsList = false;
+  const flush = () => {
+    if (!current.length) return;
+    const raw = current.join("\n");
+    const text = currentIsList ? raw.replace(MD_TASK_PREFIX, "") : raw;
+    blocks.push({ key: null, level: 0, raw, dedupe: dedupeKey(text), list: currentIsList });
+    current = [];
+    currentIsList = false;
+  };
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const fence = line.match(MD_FENCE);
+    if (fence) {
+      flush();
+      const fenceLines = [line];
+      for (i++; i < lines.length; i++) {
+        fenceLines.push(lines[i]);
+        if (lines[i].trimStart().startsWith(fence[1])) break;
+      }
+      const raw = fenceLines.join("\n");
+      blocks.push({ key: null, level: 0, raw, dedupe: dedupeKey(raw) });
+      continue;
+    }
+    const heading = line.match(MD_HEADING);
+    if (heading) {
+      flush();
+      const key = normalizeHeading(heading[2]);
+      if (key) {
+        blocks.push({ key, level: heading[1].length, raw: line.trim(), dedupe: null });
+      }
+      continue;
+    }
+    if (!line.trim()) {
+      flush();
+      continue;
+    }
+    if (MD_LIST_ITEM.test(line)) {
+      flush();
+      current = [line];
+      currentIsList = true;
+      continue;
+    }
+    current.push(line);
+  }
+  flush();
+  return blocks;
+}
+function joinMarkdownBlocks(blocks) {
+  let out = "";
+  blocks.forEach((block, i) => {
+    if (i > 0) {
+      out += blocks[i - 1].list && block.list ? "\n" : "\n\n";
+    }
+    out += block.raw;
+  });
+  return out;
+}
+function mergeTestMarkdownSections(existing, incoming) {
+  const incomingBlocks = tokenizeMarkdownSections(incoming);
+  if (!existing.trim()) return { markdown: incoming, added: incomingBlocks.length };
+  const { blocks, added } = mergeSections(tokenizeMarkdownSections(existing), incomingBlocks, "document");
+  if (added === 0) return { markdown: existing, added };
+  return { markdown: joinMarkdownBlocks(blocks), added };
+}
+var HTML_VOID_TAG = /^(area|base|br|col|embed|hr|img|input|link|meta|source|track|wbr)$/i;
+function splitTopLevelHtml(html) {
+  const parts = [];
+  const tagRe = /<!--[\s\S]*?-->|<(\/?)([a-zA-Z][a-zA-Z0-9]*)\b[^>]*?(\/?)>/g;
+  let depth2 = 0;
+  let start = -1;
+  let lastEnd = 0;
+  let match;
+  while ((match = tagRe.exec(html)) !== null) {
+    if (!match[2]) continue;
+    if (depth2 === 0) {
+      const text = html.slice(lastEnd, match.index).trim();
+      if (text) parts.push(`<p>${text}</p>`);
+      start = match.index;
+    }
+    const closing = match[1] === "/";
+    const selfClosing = match[3] === "/" || HTML_VOID_TAG.test(match[2]);
+    if (closing) depth2--;
+    else if (!selfClosing) depth2++;
+    if (depth2 < 0) return null;
+    if (depth2 === 0) {
+      parts.push(html.slice(start, tagRe.lastIndex));
+      lastEnd = tagRe.lastIndex;
+    }
+  }
+  if (depth2 !== 0) return null;
+  const tail = html.slice(lastEnd).trim();
+  if (tail) parts.push(`<p>${tail}</p>`);
+  return parts;
+}
+function tokenizeHtmlSections(html) {
+  const parts = splitTopLevelHtml(html);
+  if (!parts) return null;
+  return parts.map((raw) => {
+    const heading = raw.match(/^<h([1-6])\b[^>]*>([\s\S]*?)<\/h\1>$/i);
+    if (heading) {
+      const key = normalizeHeading(heading[2]);
+      if (key) return { key, level: parseInt(heading[1], 10), raw, dedupe: null };
+    }
+    return { key: null, level: 0, raw, dedupe: dedupeKey(raw) };
+  });
+}
+function mergeHtmlSections(existing, incoming) {
+  const incomingBlocks = tokenizeHtmlSections(incoming);
+  if (!existing.trim()) return { html: incoming, added: incomingBlocks?.length ?? 1 };
+  const existingBlocks = tokenizeHtmlSections(existing);
+  if (!existingBlocks || !incomingBlocks) {
+    return { html: `${existing}
+${incoming}`, added: 1 };
+  }
+  const { blocks, added } = mergeSections(existingBlocks, incomingBlocks, "section");
+  if (added === 0) return { html: existing, added };
+  return { html: blocks.map((b2) => b2.raw).join("\n"), added };
+}
+function isHtml(content) {
+  if (!content) return false;
+  const trimmed = content.trim();
+  return trimmed.startsWith("<") && trimmed.includes(">");
+}
+function ensureHtml(content) {
+  if (!content || content.trim() === "") {
+    return "";
+  }
+  if (isHtml(content)) {
+    return content;
+  }
+  return markdownToTiptapHtml(content);
+}
+function ensureTestScenariosHtml(content) {
+  if (!content || content.trim() === "") {
+    return "";
+  }
+  if (!isHtml(content)) {
+    return normalizeTestsHtml(markdownToTiptapHtml(content));
+  }
+  return normalizeTestsHtml(convertCheckboxListHtmlToTaskList(content));
+}
+
+// ../lib/card-attachments.ts
+var card_attachments_exports = {};
+__export(card_attachments_exports, {
+  ATTACHMENTS_DIR: () => ATTACHMENTS_DIR,
+  CARD_RICH_FIELDS: () => CARD_RICH_FIELDS,
+  attachmentContentType: () => attachmentContentType,
+  attachmentDir: () => attachmentDir,
+  attachmentPath: () => attachmentPath,
+  attachmentRefs: () => attachmentRefs,
+  attachmentUrl: () => attachmentUrl,
+  externalizeFields: () => externalizeFields,
+  externalizeInlineImages: () => externalizeInlineImages,
+  inlineAttachments: () => inlineAttachments,
+  isAttachmentName: () => isAttachmentName,
+  storeAttachment: () => storeAttachment
+});
+import { createHash } from "crypto";
+import { copyFileSync as copyFileSync2, existsSync as existsSync2, mkdirSync as mkdirSync2, readFileSync as readFileSync2, renameSync, writeFileSync as writeFileSync2 } from "fs";
+import { homedir as homedir2 } from "os";
+import path2 from "path";
+
+// ../lib/artifact-links.ts
+var artifact_links_exports = {};
+__export(artifact_links_exports, {
+  SCRATCH_DIR: () => SCRATCH_DIR,
+  cardArtifactDir: () => cardArtifactDir,
+  destinationFor: () => destinationFor,
+  materializeArtifactFences: () => materializeArtifactFences,
+  persistArtifactLinks: () => persistArtifactLinks,
+  persistArtifacts: () => persistArtifacts,
+  persistCardArtifacts: () => persistCardArtifacts
+});
+import { copyFileSync, existsSync, mkdirSync, readFileSync, realpathSync, statSync, writeFileSync } from "fs";
+import { homedir } from "os";
+import path from "path";
+
+// ../lib/artifact-fence.ts
+var ARTIFACT_FENCE_MAX_BYTES = 512 * 1024;
+var ALLOWED_EXT = /* @__PURE__ */ new Set(["html", "htm", "svg"]);
+var MAX_NAME_LENGTH = 80;
+var FENCE_OPEN_RE = /^ {0,3}(`{3,}|~{3,})(.*)$/;
+var ARTIFACT_ATTR_RE = /\bartifact\s*=\s*(?:"([^"]*)"|'([^']*)')/;
+function sanitizeArtifactFilename(raw, lang = "") {
+  const base = raw.split(/[\\/]/).filter(Boolean).pop() ?? "";
+  const name = base.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9._-]/g, "").replace(/^[.-]+/, "");
+  const dot = name.lastIndexOf(".");
+  let stem = dot > 0 ? name.slice(0, dot) : name;
+  let ext = dot > 0 ? name.slice(dot + 1) : "";
+  if (!ext) ext = lang.toLowerCase() === "svg" ? "svg" : "html";
+  if (!ALLOWED_EXT.has(ext)) return null;
+  stem = stem.replace(/\.+$/, "").slice(0, MAX_NAME_LENGTH - ext.length - 1) || "mockup";
+  return `${stem}.${ext}`;
+}
+function extractArtifactFences(text) {
+  const fences = [];
+  if (!text || !text.includes("artifact")) return fences;
+  let open = null;
+  let offset = 0;
+  while (offset <= text.length) {
+    const newline = text.indexOf("\n", offset);
+    const lineEnd = newline === -1 ? text.length : newline;
+    const line = text.slice(offset, lineEnd);
+    if (!open) {
+      const match = line.match(FENCE_OPEN_RE);
+      if (match && !(match[1][0] === "`" && match[2].includes("`"))) {
+        const info = match[2].trim();
+        const attr = info.match(ARTIFACT_ATTR_RE);
+        const lang = info.split(/\s+/)[0] ?? "";
+        open = {
+          marker: match[1],
+          start: offset,
+          bodyStart: newline === -1 ? text.length : newline + 1,
+          filename: attr ? sanitizeArtifactFilename(attr[1] ?? attr[2] ?? "", lang) : null,
+          artifact: !!attr
+        };
+      }
+    } else {
+      const trimmed = line.trim();
+      if (trimmed.length >= open.marker.length && trimmed[0] === open.marker[0] && /^(`+|~+)$/.test(trimmed)) {
+        if (open.artifact) {
+          fences.push({
+            start: open.start,
+            end: lineEnd,
+            filename: open.filename,
+            body: text.slice(open.bodyStart, Math.max(open.bodyStart, offset - 1)),
+            closed: true
+          });
+        }
+        open = null;
+      }
+    }
+    if (newline === -1) break;
+    offset = newline + 1;
+  }
+  if (open?.artifact) {
+    fences.push({
+      start: open.start,
+      end: text.length,
+      filename: open.filename,
+      body: text.slice(open.bodyStart),
+      closed: false
+    });
+  }
+  return fences;
+}
+
+// ../lib/artifact-url.ts
+var IMAGE_EXT = /* @__PURE__ */ new Set(["png", "jpg", "jpeg", "gif", "webp", "svg", "avif", "heic", "bmp"]);
+var DOC_EXT = /* @__PURE__ */ new Set(["md", "markdown", "pdf", "txt", "doc", "docx", "pptx", "xlsx", "csv", "rtf", "key", "pages", "numbers"]);
+var HTML_EXT = /* @__PURE__ */ new Set(["html", "htm"]);
+function fileUrlToPath(href) {
+  if (!href) return null;
+  const match = href.trim().match(/^file:\/\/(localhost)?(\/[^?#]*)/i);
+  if (!match) return null;
+  let decoded;
+  try {
+    decoded = decodeURIComponent(match[2]);
+  } catch {
+    decoded = match[2];
+  }
+  if (!decoded.startsWith("/") || decoded.includes("\0")) return null;
+  return decoded;
+}
+function pathToFileUrl(absolutePath) {
+  return `file://${absolutePath.split("/").map(encodeURIComponent).join("/")}`;
+}
+var LOCAL_PATH_RE = /^(~\/|\/(Users|home|tmp|private|var\/folders|Volumes)\/)\S/;
+function localPathFromText(text) {
+  if (!text || text.includes("\n")) return null;
+  const trimmed = text.trim();
+  return LOCAL_PATH_RE.test(trimmed) ? trimmed : null;
+}
+function artifactBasename(absolutePath) {
+  const parts = absolutePath.split("/").filter(Boolean);
+  return parts[parts.length - 1] || absolutePath;
+}
+function artifactKind(absolutePath) {
+  const ext = artifactBasename(absolutePath).split(".").pop()?.toLowerCase() || "";
+  if (HTML_EXT.has(ext)) return "html";
+  if (IMAGE_EXT.has(ext)) return "image";
+  if (DOC_EXT.has(ext)) return "doc";
+  return "file";
+}
+function decodeEntities4(text) {
+  return text.replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
+}
+function escapeHtml(text) {
+  return text.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+function artifactChipHtml(absolutePath, name) {
+  const label = name?.trim() || artifactBasename(absolutePath);
+  const pathAttr = escapeHtml(absolutePath);
+  return `<span data-type="artifactMention" data-path="${pathAttr}" data-name="${escapeHtml(label)}" data-kind="${artifactKind(absolutePath)}" title="${pathAttr}" class="mention artifact-mention">${escapeHtml(label)}</span>`;
+}
+function fileLinksToArtifactChips(html) {
+  if (!html || !html.includes("file://")) return html;
+  return html.replace(
+    /<a\b[^>]*href="(file:\/\/[^"]*)"[^>]*>([\s\S]*?)<\/a>/gi,
+    (tag, href, inner) => {
+      const absolute = fileUrlToPath(decodeEntities4(href));
+      if (!absolute) return tag;
+      const text = decodeEntities4(inner.replace(/<[^>]*>/g, "").trim());
+      const name = !text || text.startsWith("/") || text.startsWith("file://") ? void 0 : text;
+      return artifactChipHtml(absolute, name);
+    }
+  );
+}
+var INLINE_CODE_RE = /(?<!<pre\b[^>]*>)<code\b[^>]*>([^<]*)<\/code>/gi;
+function replaceCodePaths(html, render) {
+  if (!html || !html.includes("<code")) return html;
+  return html.replace(INLINE_CODE_RE, (tag, inner) => {
+    const path5 = localPathFromText(decodeEntities4(inner));
+    return path5 && render(path5) || tag;
+  });
+}
+function codePathsToFileLinks(html, homeDir) {
+  return replaceCodePaths(html, (path5) => {
+    const absolute = path5.startsWith("~/") ? `${homeDir}/${path5.slice(2)}` : path5;
+    return `<a href="${escapeHtml(pathToFileUrl(absolute))}">${escapeHtml(artifactBasename(absolute))}</a>`;
+  });
+}
+
+// ../lib/artifact-links.ts
+var MAX_ARTIFACT_BYTES = 50 * 1024 * 1024;
+var SCRATCH_DIR = "scratch";
+function cardArtifactDir(cardId, homeDir = homedir()) {
+  return path.join(homeDir, ".ideafy", "images", cardId);
+}
+function isInside(child, parent) {
+  return child === parent || child.startsWith(parent + path.sep);
+}
+function sameContents(a, b2) {
+  const sa = statSync(a);
+  const sb = statSync(b2);
+  if (sa.size !== sb.size) return false;
+  return readFileSync(a).equals(readFileSync(b2));
+}
+function destinationFor(base, dir, isSame) {
+  const ext = path.extname(base);
+  const stem = ext ? base.slice(0, -ext.length) : base;
+  for (let n = 1; ; n++) {
+    const candidate = path.join(dir, n === 1 ? base : `${stem}-${n}${ext}`);
+    if (!existsSync(candidate)) return candidate;
+    if (isSame(candidate)) return candidate;
+  }
+}
+function sameBytes(candidate, contents) {
+  return statSync(candidate).size === contents.length && readFileSync(candidate).equals(contents);
+}
+function materializeArtifactFences(text, cardDir) {
+  const fences = extractArtifactFences(text).filter((fence) => fence.closed);
+  if (fences.length === 0) return text;
+  const scratchDir = path.join(cardDir, SCRATCH_DIR);
+  let out = "";
+  let cursor = 0;
+  for (const fence of fences) {
+    out += text.slice(cursor, fence.start);
+    cursor = fence.end;
+    const original = text.slice(fence.start, fence.end);
+    const contents = Buffer.from(fence.body.endsWith("\n") ? fence.body : `${fence.body}
+`, "utf8");
+    if (!fence.filename || contents.length > ARTIFACT_FENCE_MAX_BYTES) {
+      console.warn(`[artifact-fence] left a block in place: ${fence.filename ?? "bad name"}, ${contents.length} bytes`);
+      out += original;
+      continue;
+    }
+    try {
+      mkdirSync(scratchDir, { recursive: true });
+      const target2 = destinationFor(fence.filename, scratchDir, (candidate) => sameBytes(candidate, contents));
+      if (!existsSync(target2)) writeFileSync(target2, contents);
+      out += `[${path.basename(target2)}](${pathToFileUrl(target2)})`;
+    } catch (error2) {
+      console.error("Failed to save artifact block:", fence.filename, error2);
+      out += original;
+    }
+  }
+  return out + text.slice(cursor);
+}
+function escapeAttr2(value) {
+  return value.replace(/&/g, "&amp;").replace(/"/g, "&quot;");
+}
+function persistArtifacts(html, cardDir) {
+  return fileLinksToArtifactChips(persistArtifactLinks(html, cardDir));
+}
+function persistCardArtifacts(html, cardId, homeDir = homedir()) {
+  const linked = codePathsToFileLinks(html, homeDir);
+  if (!linked.includes("file://")) return linked;
+  const cardDir = cardArtifactDir(cardId, homeDir);
+  try {
+    mkdirSync(cardDir, { recursive: true });
+  } catch (error2) {
+    console.error("Failed to create the card folder:", cardDir, error2);
+  }
+  return persistArtifacts(linked, cardDir);
+}
+function persistArtifactLinks(html, cardDir) {
+  if (!html || !html.includes("file://")) return html;
+  let realCardDir;
+  try {
+    realCardDir = realpathSync(cardDir);
+  } catch {
+    return html;
+  }
+  return html.replace(/href=(["'])(file:\/\/[^"']*)\1/gi, (match, quote, rawHref) => {
+    const source = fileUrlToPath(rawHref.replace(/&amp;/g, "&"));
+    if (!source) return match;
+    let realSource;
+    try {
+      realSource = realpathSync(source);
+      const stat = statSync(realSource);
+      if (!stat.isFile() || stat.size > MAX_ARTIFACT_BYTES) return match;
+    } catch {
+      return match;
+    }
+    if (isInside(realSource, realCardDir) && !isInside(realSource, path.join(realCardDir, SCRATCH_DIR))) {
+      return match;
+    }
+    try {
+      const target2 = destinationFor(
+        artifactBasename(realSource),
+        realCardDir,
+        (candidate) => sameContents(realSource, candidate)
+      );
+      if (!existsSync(target2)) copyFileSync(realSource, target2);
+      return `href=${quote}${escapeAttr2(pathToFileUrl(target2))}${quote}`;
+    } catch (error2) {
+      console.error("Failed to persist artifact:", source, error2);
+      return match;
+    }
+  });
+}
+
+// ../lib/card-attachments.ts
+var ATTACHMENTS_DIR = "attachments";
+var MIME = {
+  png: "image/png",
+  jpg: "image/jpeg",
+  gif: "image/gif",
+  webp: "image/webp"
+};
+var FILE_NAME = /^[a-f0-9]{64}\.(png|jpg|gif|webp)$/;
+var CARD_ID = /^[A-Za-z0-9-]{1,64}$/;
+var INLINE_HTML = /(<img\b[^>]*?\bsrc=)(["'])data:image\/[a-z0-9.+-]+;base64,([A-Za-z0-9+/=\s]+?)\2/gi;
+var INLINE_MARKDOWN = /(!\[[^\]]*\]\()data:image\/[a-z0-9.+-]+;base64,([A-Za-z0-9+/=]+)\)/gi;
+var ATTACHMENT_URL = /\/api\/cards\/([A-Za-z0-9-]{1,64})\/attachments\/([a-f0-9]{64}\.(?:png|jpg|gif|webp))/g;
+function isAttachmentName(name) {
+  return FILE_NAME.test(name);
+}
+function attachmentContentType(name) {
+  const ext = path2.extname(name).slice(1);
+  return MIME[ext] ?? "application/octet-stream";
+}
+function attachmentUrl(cardId, file2) {
+  return `/api/cards/${cardId}/attachments/${file2}`;
+}
+function attachmentDir(cardId, homeDir = homedir2()) {
+  return path2.join(cardArtifactDir(cardId, homeDir), ATTACHMENTS_DIR);
+}
+function attachmentPath(cardId, file2, homeDir = homedir2()) {
+  if (!CARD_ID.test(cardId) || !isAttachmentName(file2)) return null;
+  return path2.join(attachmentDir(cardId, homeDir), file2);
+}
+function sniff(bytes) {
+  if (bytes.length >= 8 && bytes.readUInt32BE(0) === 2303741511) return "png";
+  if (bytes.length >= 3 && bytes[0] === 255 && bytes[1] === 216 && bytes[2] === 255) return "jpg";
+  if (bytes.length >= 6 && bytes.toString("ascii", 0, 4) === "GIF8") return "gif";
+  if (bytes.length >= 12 && bytes.toString("ascii", 0, 4) === "RIFF" && bytes.toString("ascii", 8, 12) === "WEBP") {
+    return "webp";
+  }
+  return null;
+}
+function storeAttachment(cardId, bytes, homeDir = homedir2()) {
+  if (!CARD_ID.test(cardId)) return null;
+  const ext = sniff(bytes);
+  if (!ext) return null;
+  const file2 = `${createHash("sha256").update(bytes).digest("hex")}.${ext}`;
+  const dir = attachmentDir(cardId, homeDir);
+  const target2 = path2.join(dir, file2);
+  if (!existsSync2(target2)) {
+    mkdirSync2(dir, { recursive: true });
+    const partial2 = `${target2}.${process.pid}.partial`;
+    writeFileSync2(partial2, bytes);
+    renameSync(partial2, target2);
+  }
+  return { file: file2, url: attachmentUrl(cardId, file2), path: target2 };
+}
+function storeBase64(cardId, data, homeDir) {
+  const bytes = Buffer.from(data.replace(/\s+/g, ""), "base64");
+  if (bytes.length === 0) return null;
+  return storeAttachment(cardId, bytes, homeDir)?.url ?? null;
+}
+function adoptForeign(cardId, url2, ownerId, file2, homeDir) {
+  if (ownerId === cardId) return url2;
+  const source = attachmentPath(ownerId, file2, homeDir);
+  const target2 = attachmentPath(cardId, file2, homeDir);
+  if (!source || !target2) return url2;
+  try {
+    if (!existsSync2(target2)) {
+      if (!existsSync2(source)) return url2;
+      mkdirSync2(path2.dirname(target2), { recursive: true });
+      copyFileSync2(source, target2);
+    }
+    return attachmentUrl(cardId, file2);
+  } catch {
+    return url2;
+  }
+}
+function externalizeInlineImages(cardId, html, homeDir = homedir2()) {
+  if (!html) return html;
+  let out = html;
+  if (out.includes("data:image/")) {
+    out = out.replace(INLINE_HTML, (whole, prefix, quote, data) => {
+      const url2 = storeBase64(cardId, data, homeDir);
+      return url2 ? `${prefix}${quote}${url2}${quote}` : whole;
+    });
+    out = out.replace(INLINE_MARKDOWN, (whole, prefix, data) => {
+      const url2 = storeBase64(cardId, data, homeDir);
+      return url2 ? `${prefix}${url2})` : whole;
+    });
+  }
+  if (out.includes("/attachments/")) {
+    out = out.replace(
+      ATTACHMENT_URL,
+      (url2, ownerId, file2) => adoptForeign(cardId, url2, ownerId, file2, homeDir)
+    );
+  }
+  return out;
+}
+var CARD_RICH_FIELDS = ["description", "solutionSummary", "testScenarios", "aiOpinion"];
+function externalizeFields(cardId, fields, names, homeDir = homedir2()) {
+  let out = fields;
+  for (const name of names) {
+    const value = out[name];
+    if (typeof value !== "string" || !value) continue;
+    const next = externalizeInlineImages(cardId, value, homeDir);
+    if (next !== value) {
+      if (out === fields) out = { ...out };
+      out[name] = next;
+    }
+  }
+  return out;
+}
+function attachmentRefs(html, homeDir = homedir2()) {
+  if (!html || !html.includes("/attachments/")) return [];
+  const refs = [];
+  const seen = /* @__PURE__ */ new Set();
+  for (const match of html.matchAll(ATTACHMENT_URL)) {
+    const [, cardId, file2] = match;
+    const key = `${cardId}/${file2}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    const p = attachmentPath(cardId, file2, homeDir);
+    if (p && existsSync2(p)) refs.push({ cardId, file: file2, path: p });
+  }
+  return refs;
+}
+function inlineAttachments(html, homeDir = homedir2()) {
+  if (!html || !html.includes("/attachments/")) return html ?? "";
+  return html.replace(ATTACHMENT_URL, (url2, cardId, file2) => {
+    const p = attachmentPath(cardId, file2, homeDir);
+    if (!p) return url2;
+    try {
+      return `data:${attachmentContentType(file2)};base64,${readFileSync2(p).toString("base64")}`;
+    } catch {
+      return url2;
+    }
+  });
+}
+
+// ../lib/card-ops/save-content.ts
+function target(moveTo, current, rule) {
+  if (moveTo === void 0) return rule(current);
+  return moveTo;
+}
+function savePlan(db2, args) {
+  if (args.moveTo && !isStatus(args.moveTo)) return { ok: false, reason: "invalid-status" };
+  const planHtml = externalizeInlineImages(args.id, args.html);
+  return transaction(db2, () => {
+    const row = getRow(
+      db2,
+      `SELECT status, solution_summary FROM cards WHERE id = ?`,
+      args.id
+    );
+    if (!row) return { ok: false, reason: "not-found" };
+    const runtime = runtimeAssignments(args.runtime);
+    runChanges(
+      db2,
+      `UPDATE cards SET
+         solution_summary = ?,
+         complexity = COALESCE(?, complexity),
+         priority = COALESCE(?, priority),
+         ${[...runtime.sql, "updated_at = ?"].join(", ")}
+       WHERE id = ?`,
+      planHtml,
+      args.complexity ?? null,
+      args.priority ?? null,
+      ...runtime.values,
+      args.now,
+      args.id
+    );
+    const to = target(args.moveTo, row.status, statusAfterPlan);
+    if (to) moveCard(db2, args.id, to, args.now);
+    return { ok: true, html: planHtml, previous: row.solution_summary ?? "", from: row.status, status: to ?? row.status };
+  });
+}
+function saveTests(db2, args) {
+  if (args.moveTo && !isStatus(args.moveTo)) return { ok: false, reason: "invalid-status" };
+  const incoming = externalizeInlineImages(args.id, args.html);
+  return transaction(db2, () => {
+    const row = getRow(
+      db2,
+      `SELECT status, test_scenarios FROM cards WHERE id = ?`,
+      args.id
+    );
+    if (!row) return { ok: false, reason: "not-found" };
+    const previous = row.test_scenarios ?? "";
+    let html = incoming;
+    if (args.guard === "append-only" || args.guard === "rewrite") {
+      const assessment = args.guard === "append-only" ? assessAppendOnlyRewrite(previous, html) : assessTestRewrite(args.baseline ?? previous, html);
+      if (!assessment.safe) {
+        return {
+          ok: false,
+          reason: "unsafe",
+          detail: assessment.reason ?? "unsafe rewrite",
+          retained: assessment.retained,
+          existing: assessment.existing,
+          previous
+        };
+      }
+    }
+    if (args.guard !== "replace" && previous) html = mergeTestCheckState(previous, html);
+    let extra;
+    if (args.finalize) {
+      const finalized = args.finalize(html, previous);
+      if (typeof finalized === "string") html = finalized;
+      else ({ html, runtime: extra } = finalized);
+    }
+    const runtime = runtimeAssignments({ ...args.runtime, ...extra });
+    runChanges(
+      db2,
+      `UPDATE cards SET test_scenarios = ?, ${[...runtime.sql, "updated_at = ?"].join(", ")} WHERE id = ?`,
+      html,
+      ...runtime.values,
+      args.now,
+      args.id
+    );
+    const to = target(args.moveTo, row.status, statusAfterTests);
+    if (to) moveCard(db2, args.id, to, args.now);
+    return { ok: true, html, previous, from: row.status, status: to ?? row.status };
+  });
+}
+function savePlanAndTests(db2, args) {
+  return transaction(db2, () => {
+    const plan = savePlan(db2, { id: args.id, html: args.solutionSummary, now: args.now, moveTo: null, runtime: args.runtime });
+    if (!plan.ok) return plan;
+    return saveTests(db2, { id: args.id, html: args.testScenarios, now: args.now, guard: "replace", moveTo: args.moveTo });
+  });
+}
+
+// ../lib/output-paths.ts
+function parseOutputPaths(value) {
+  if (!value) return null;
+  try {
+    const parsed = JSON.parse(value);
+    if (!Array.isArray(parsed)) return null;
+    const paths = parsed.filter((entry) => typeof entry === "string");
+    return paths.length ? paths : null;
+  } catch {
+    return null;
+  }
+}
+
+// ../lib/card-ops/output-paths.ts
+function addOutputPath(db2, id, relativePath, now) {
+  return transaction(db2, () => {
+    const row = getRow(db2, `SELECT output_paths FROM cards WHERE id = ?`, id);
+    if (!row) return { ok: false, reason: "not-found" };
+    const existing = parseOutputPaths(row.output_paths) ?? [];
+    if (existing.includes(relativePath)) return { ok: true, outputPaths: existing, alreadyRecorded: true };
+    const outputPaths = [...existing, relativePath];
+    runChanges(db2, `UPDATE cards SET output_paths = ?, updated_at = ? WHERE id = ?`, JSON.stringify(outputPaths), now, id);
+    return { ok: true, outputPaths, alreadyRecorded: false };
+  });
+}
+
+// ../lib/test-report.ts
+var test_report_exports = {};
+__export(test_report_exports, {
+  MAX_ARTIFACTS_PER_ITEM: () => MAX_ARTIFACTS_PER_ITEM,
+  MAX_TEST_REPORT_RUNS: () => MAX_TEST_REPORT_RUNS,
+  MISSING_EVIDENCE_NOTE: () => MISSING_EVIDENCE_NOTE,
+  TEST_REPORT_DIR: () => TEST_REPORT_DIR,
+  TEST_REPORT_FENCE: () => TEST_REPORT_FENCE,
+  buildTestReportRun: () => buildTestReportRun,
+  countByStatus: () => countByStatus,
+  extractTestReportFence: () => extractTestReportFence,
+  isTestReportImageName: () => isTestReportImageName,
+  isTestReportRunId: () => isTestReportRunId,
+  newTestReportRunId: () => newTestReportRunId,
+  normalizeTestReportItem: () => normalizeTestReportItem,
+  normalizeTestReportWarnings: () => normalizeTestReportWarnings,
+  parseTestReportItems: () => parseTestReportItems,
+  parseTestReports: () => parseTestReports,
+  prependTestReportRun: () => prependTestReportRun,
+  readTestReportSummary: () => readTestReportSummary,
+  summarizeTestReportRun: () => summarizeTestReportRun,
+  testReportConflicts: () => testReportConflicts
+});
+function isTestReportScope(value) {
+  return value === "run" || value === "reverify" || value === "single" || value === "retest";
+}
+var MAX_TEST_REPORT_RUNS = 20;
+var MAX_ARTIFACTS_PER_ITEM = 3;
+var TEST_REPORT_DIR = "test-report";
+var TEST_REPORT_FENCE = "test-report";
+var MAX_TEXT = 2e3;
+var MAX_OUTPUT = 4e3;
+var MAX_STEPS = 20;
+var MAX_ITEMS = 50;
+var MAX_WARNINGS = 20;
+var MAX_WARNING_TEXT = 1e3;
+var MISSING_EVIDENCE_NOTE = "Marked failed without an observed result or an error, so it is shown as needing a manual check.";
+var IMAGE_FILE = /^[\w.\- ]+\.(png|jpe?g|webp|gif)$/i;
+function buildTestReportRun(input) {
+  return {
+    id: input.id ?? newTestReportRunId(new Date(input.now)),
+    runAt: input.now,
+    platform: input.platform,
+    source: input.source,
+    evidence: input.evidence,
+    scope: input.scope,
+    checklistApplied: input.checklistApplied,
+    items: input.items,
+    warnings: []
+  };
+}
+function newTestReportRunId(now = /* @__PURE__ */ new Date()) {
+  const stamp = now.toISOString().replace(/[-:]/g, "").replace(/\.\d+Z$/, "Z");
+  return `run-${stamp}-${Math.random().toString(36).slice(2, 6)}`;
+}
+function isTestReportRunId(value) {
+  return /^run-[0-9TZ]+-[a-z0-9]+$/.test(value);
+}
+function readTestReportSummary(value) {
+  if (!value || typeof value !== "object") return null;
+  const v2 = value;
+  const count = (n) => typeof n === "number" && Number.isFinite(n) && n >= 0 ? n : null;
+  const passed = count(v2.passed);
+  const failed = count(v2.failed);
+  const manual = count(v2.manual);
+  if (v2.evidence !== "text" && v2.evidence !== "visual") return null;
+  if (!isTestReportScope(v2.scope)) return null;
+  if (passed === null || failed === null || manual === null) return null;
+  return { evidence: v2.evidence, scope: v2.scope, passed, failed, manual };
+}
+function summarizeTestReportRun(run) {
+  const count = (status) => run.items.filter((item) => item.status === status).length;
+  return {
+    evidence: run.evidence,
+    scope: run.scope,
+    passed: count("passed"),
+    failed: count("failed"),
+    manual: count("manual")
+  };
+}
+function isTestReportImageName(value) {
+  return IMAGE_FILE.test(value) && !value.includes("..");
+}
+var FENCE = new RegExp("^[ \\t]*```+[ \\t]*" + TEST_REPORT_FENCE + "[^\\n]*\\n([\\s\\S]*?)^[ \\t]*```+[ \\t]*$", "gm");
+function extractTestReportFence(text) {
+  let raw = null;
+  const stripped = text.replace(FENCE, (_match, body) => {
+    raw = body;
+    return "";
+  });
+  if (raw === null) return { text, raw: null };
+  return { text: stripped.replace(/\n{3,}/g, "\n\n").trimEnd(), raw };
+}
+function str(value, max = MAX_TEXT) {
+  if (typeof value === "number" || typeof value === "boolean") value = String(value);
+  if (typeof value !== "string") return null;
+  const trimmed = value.trim();
+  if (!trimmed) return null;
+  return trimmed.length > max ? `${trimmed.slice(0, max)}\u2026` : trimmed;
+}
+function normalizeStatus(value) {
+  const text = typeof value === "string" ? value.trim().toLowerCase() : "";
+  if (["passed", "pass", "ok", "success", "ge\xE7ti"].includes(text)) return "passed";
+  if (["failed", "fail", "error", "kald\u0131"].includes(text)) return "failed";
+  return "manual";
+}
+function normalizeArtifacts(value) {
+  if (!Array.isArray(value)) return [];
+  const artifacts = [];
+  for (const entry of value) {
+    const raw = typeof entry === "string" ? { file: entry } : entry;
+    if (!raw || typeof raw !== "object") continue;
+    const record2 = raw;
+    const file2 = str(record2.file ?? record2.path ?? record2.name, 400);
+    if (!file2) continue;
+    const step = typeof record2.step === "number" && Number.isInteger(record2.step) && record2.step > 0 ? record2.step : null;
+    artifacts.push({ file: file2, step, caption: str(record2.caption, 300) });
+    if (artifacts.length === MAX_ARTIFACTS_PER_ITEM) break;
+  }
+  return artifacts;
+}
+function normalizeTestReportItem(value) {
+  if (!value || typeof value !== "object") return null;
+  const record2 = value;
+  const item = str(record2.item ?? record2.scenario ?? record2.title, 600);
+  if (!item) return null;
+  const steps = Array.isArray(record2.steps) ? record2.steps.map((step) => str(step)).filter((step) => Boolean(step)).slice(0, MAX_STEPS) : [];
+  const observed = str(record2.observed);
+  const error2 = str(record2.error, MAX_OUTPUT);
+  let status = normalizeStatus(record2.status);
+  let note = null;
+  if (status === "failed" && !observed && !error2) {
+    status = "manual";
+    note = MISSING_EVIDENCE_NOTE;
+  }
+  return {
+    item,
+    status,
+    approach: str(record2.approach ?? record2.logic),
+    steps,
+    expected: str(record2.expected),
+    observed,
+    error: error2,
+    command: str(record2.command, MAX_TEXT),
+    output: str(record2.output, MAX_OUTPUT),
+    artifacts: normalizeArtifacts(record2.artifacts ?? record2.screenshots),
+    note
+  };
+}
+function parseTestReportItems(value) {
+  let parsed = value;
+  if (typeof value === "string") {
+    try {
+      parsed = JSON.parse(value);
+    } catch (error2) {
+      return { ok: false, error: `not valid JSON (${error2 instanceof Error ? error2.message : String(error2)})` };
+    }
+  }
+  const list = Array.isArray(parsed) ? parsed : parsed && typeof parsed === "object" && Array.isArray(parsed.items) ? parsed.items : null;
+  if (!list) return { ok: false, error: "expected an `items` array" };
+  const items = list.map(normalizeTestReportItem).filter((item) => item !== null).slice(0, MAX_ITEMS);
+  if (items.length === 0) return { ok: false, error: "no item had an `item` text" };
+  return { ok: true, items };
+}
+function normalizeTestReportWarnings(value) {
+  if (!Array.isArray(value)) return [];
+  return value.map((warning) => typeof warning === "string" ? str(warning, MAX_WARNING_TEXT) : null).filter((warning) => warning !== null).slice(0, MAX_WARNINGS);
+}
+function normalizeRun(value) {
+  if (!value || typeof value !== "object") return null;
+  const record2 = value;
+  const id = str(record2.id, 100);
+  const runAt = str(record2.runAt, 40);
+  if (!id || !runAt || !Array.isArray(record2.items)) return null;
+  const items = record2.items.map((item) => {
+    const normalized = normalizeTestReportItem(item);
+    if (normalized && item && typeof item === "object") {
+      normalized.note = str(item.note) ?? normalized.note;
+    }
+    return normalized;
+  }).filter((item) => item !== null);
+  return {
+    id,
+    runAt,
+    platform: str(record2.platform, 40),
+    source: record2.source === "terminal" ? "terminal" : "autonomous",
+    evidence: record2.evidence === "visual" ? "visual" : "text",
+    scope: isTestReportScope(record2.scope) ? record2.scope : "run",
+    checklistApplied: record2.checklistApplied !== false,
+    items,
+    warnings: normalizeTestReportWarnings(record2.warnings)
+  };
+}
+function parseTestReports(value) {
+  if (!value) return null;
+  try {
+    const parsed = JSON.parse(value);
+    if (!Array.isArray(parsed)) return null;
+    const runs = parsed.map(normalizeRun).filter((run) => run !== null);
+    return runs.length ? runs : null;
+  } catch {
+    return null;
+  }
+}
+function prependTestReportRun(existing, run, max = MAX_TEST_REPORT_RUNS) {
+  const all = [run, ...existing.filter((r) => r.id !== run.id)];
+  return { runs: all.slice(0, max), dropped: all.slice(max) };
+}
+function testReportConflicts(run, checklistHtml) {
+  const conflicts = [];
+  for (const item of run.items) {
+    const match = matchTaskItem(item.item, checklistHtml);
+    if (!match) continue;
+    if (item.status === "passed" && !match.checked) conflicts.push({ item: item.item, kind: "passed-but-unticked" });
+    if (item.status === "failed" && match.checked) conflicts.push({ item: item.item, kind: "failed-but-ticked" });
+  }
+  return conflicts;
+}
+function countByStatus(run) {
+  const counts = { passed: 0, failed: 0, manual: 0 };
+  for (const item of run.items) counts[item.status]++;
+  return counts;
+}
+
+// ../lib/card-ops/save-test-report.ts
+function saveTestReport(db2, args) {
+  return transaction(db2, () => {
+    const row = getRow(db2, `SELECT test_reports FROM cards WHERE id = ?`, args.id);
+    if (!row) return { ok: false, reason: "not-found" };
+    const { runs, dropped } = prependTestReportRun(parseTestReports(row.test_reports) ?? [], args.run);
+    runChanges(
+      db2,
+      `UPDATE cards SET test_reports = ?, updated_at = ? WHERE id = ?`,
+      JSON.stringify(runs),
+      args.now,
+      args.id
+    );
+    return { ok: true, runs, dropped };
+  });
+}
+function addTestReportWarnings(db2, args) {
+  return transaction(db2, () => {
+    const row = getRow(db2, `SELECT test_reports FROM cards WHERE id = ?`, args.id);
+    if (!row) return { ok: false, reason: "not-found" };
+    const existing = parseTestReports(row.test_reports) ?? [];
+    let runs;
+    let dropped = [];
+    if (existing.some((run) => run.id === args.runId)) {
+      runs = existing.map(
+        (run) => run.id === args.runId ? { ...run, warnings: normalizeTestReportWarnings([...run.warnings ?? [], ...args.warnings]) } : run
+      );
+    } else {
+      const run = buildTestReportRun({
+        id: args.runId,
+        items: [],
+        now: args.now,
+        platform: args.platform ?? null,
+        source: "autonomous",
+        evidence: args.evidence ?? "text",
+        scope: "run",
+        checklistApplied: true
+      });
+      run.warnings = normalizeTestReportWarnings(args.warnings);
+      ({ runs, dropped } = prependTestReportRun(existing, run));
+    }
+    runChanges(
+      db2,
+      `UPDATE cards SET test_reports = ?, updated_at = ? WHERE id = ?`,
+      JSON.stringify(runs),
+      args.now,
+      args.id
+    );
+    return { ok: true, runs, dropped };
   });
 }
 
@@ -21711,6 +24369,276 @@ function describeOpinionMarkers(markers) {
   return parts.join(" \xB7 ");
 }
 
+// ../lib/card-ops/groups.ts
+var DEFAULT_GROUP_COLOR = "#5e6ad2";
+var GROUP_CODE_MAX = 6;
+function normalizeGroupCode(raw) {
+  return raw.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, GROUP_CODE_MAX);
+}
+function normalizeGroupId(value) {
+  if (value === void 0) return void 0;
+  return typeof value === "string" && value.trim() ? value.trim() : null;
+}
+var CardGroupError = class extends Error {
+  constructor(message, kind = "invalid") {
+    super(message);
+    this.kind = kind;
+    this.name = "CardGroupError";
+  }
+  kind;
+};
+function assertGroupsTable(db2) {
+  const row = getRow(db2, `SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'card_groups'`);
+  if (!row) {
+    throw new CardGroupError(
+      "This Ideafy database has no card groups yet. Update the Ideafy app, then try again."
+    );
+  }
+}
+function assertProjectExists(db2, projectId) {
+  if (!getRow(db2, `SELECT id FROM projects WHERE id = ?`, projectId)) {
+    throw new CardGroupError(`Project not found: ${projectId}`);
+  }
+}
+var SELECT_GROUPS = `
+  SELECT
+    g.id, g.project_id AS projectId, g.code, g.name, g.color, g.created_at AS createdAt,
+    (SELECT COUNT(*) FROM cards c WHERE c.group_id = g.id) AS memberCount
+  FROM card_groups g
+`;
+function getGroup(db2, id) {
+  assertGroupsTable(db2);
+  return getRow(db2, `${SELECT_GROUPS} WHERE g.id = ?`, id) ?? null;
+}
+function listGroups(db2, projectId) {
+  assertGroupsTable(db2);
+  if (projectId) {
+    return allRows(
+      db2,
+      `${SELECT_GROUPS} WHERE g.project_id IS NULL OR g.project_id = ? ORDER BY g.code`,
+      projectId
+    );
+  }
+  return allRows(db2, `${SELECT_GROUPS} ORDER BY g.code`);
+}
+function findCodeClash(db2, code, projectId, exceptId) {
+  const candidates = projectId ? listGroups(db2, projectId) : listGroups(db2);
+  return candidates.find((g) => g.id !== exceptId && g.code.toUpperCase() === code) ?? null;
+}
+function assertGroupAssignable(db2, groupId, projectId) {
+  if (groupId === null || groupId === void 0) return;
+  const group = getGroup(db2, groupId);
+  if (!group) {
+    throw new CardGroupError(`Group not found: ${groupId}. Call list_groups for valid ids, or create_group first.`);
+  }
+  if (group.projectId && projectId && group.projectId !== projectId) {
+    throw new CardGroupError(
+      `Group ${group.code} belongs to another project (${group.projectId}); this card is in ${projectId}.`
+    );
+  }
+}
+function createGroup(db2, input, now = (/* @__PURE__ */ new Date()).toISOString()) {
+  assertGroupsTable(db2);
+  const code = normalizeGroupCode(input.code ?? "");
+  if (!code) {
+    throw new CardGroupError("Group code is required: letters and digits, up to 6 characters (e.g. MOBILE).");
+  }
+  const projectId = input.projectId || null;
+  if (projectId) assertProjectExists(db2, projectId);
+  const clash = findCodeClash(db2, code, projectId, null);
+  if (clash) {
+    throw new CardGroupError(
+      `A group with code ${code} already exists: ${clash.id} (${clash.name}). Use that id as groupId instead of creating a new one.`,
+      "conflict"
+    );
+  }
+  const row = {
+    id: globalThis.crypto.randomUUID(),
+    projectId,
+    code,
+    // A nameless group reads as its code — the backfill writes the same.
+    name: input.name?.trim() || code,
+    // Not sent: the picker's default, so a terminal-made group does not show
+    // up grey next to hand-made ones. An explicit null or "" means no color.
+    color: input.color === void 0 ? DEFAULT_GROUP_COLOR : input.color || null,
+    createdAt: now
+  };
+  runChanges(
+    db2,
+    `INSERT INTO card_groups (id, project_id, code, name, color, created_at) VALUES (?, ?, ?, ?, ?, ?)`,
+    row.id,
+    row.projectId,
+    row.code,
+    row.name,
+    row.color,
+    row.createdAt
+  );
+  return { ...row, memberCount: 0 };
+}
+function updateGroup(db2, id, updates) {
+  const existing = getGroup(db2, id);
+  if (!existing) throw new CardGroupError(`Group not found: ${id}`, "not_found");
+  const code = updates.code !== void 0 ? normalizeGroupCode(String(updates.code)) : existing.code;
+  const name = updates.name !== void 0 ? String(updates.name).trim() : existing.name;
+  if (!code || !name) throw new CardGroupError("Group code and name cannot be empty.");
+  const color = updates.color !== void 0 ? updates.color || null : existing.color;
+  const projectId = updates.projectId !== void 0 ? updates.projectId || null : existing.projectId;
+  if (code === existing.code && name === existing.name && color === existing.color && projectId === existing.projectId) {
+    return existing;
+  }
+  if (projectId !== existing.projectId && projectId) {
+    assertProjectExists(db2, projectId);
+    const strays = getRow(
+      db2,
+      `SELECT COUNT(*) AS count FROM cards WHERE group_id = ? AND project_id IS NOT NULL AND project_id != ?`,
+      id,
+      projectId
+    );
+    if (Number(strays?.count ?? 0) > 0) {
+      throw new CardGroupError(
+        `Group ${existing.code} has ${strays.count} card(s) from another project; move them out of the group first, or keep it global.`,
+        "conflict"
+      );
+    }
+  }
+  if (code !== existing.code || projectId !== existing.projectId) {
+    const clash = findCodeClash(db2, code, projectId, id);
+    if (clash) {
+      throw new CardGroupError(`Code ${code} is already used by group ${clash.id} (${clash.name}).`, "conflict");
+    }
+  }
+  runChanges(
+    db2,
+    `UPDATE card_groups SET project_id = ?, code = ?, name = ?, color = ? WHERE id = ?`,
+    projectId,
+    code,
+    name,
+    color,
+    id
+  );
+  return { ...existing, projectId, code, name, color };
+}
+function deleteGroup(db2, id) {
+  return transaction(db2, () => {
+    const group = getGroup(db2, id);
+    if (!group) throw new CardGroupError(`Group not found: ${id}`, "not_found");
+    const { changes } = runChanges(db2, `UPDATE cards SET group_id = NULL WHERE group_id = ?`, id);
+    runChanges(db2, `DELETE FROM card_groups WHERE id = ?`, id);
+    return { group, releasedCards: changes };
+  });
+}
+function moveCardInChain(db2, cardId, afterCardId, expectedGroupId) {
+  if (afterCardId === cardId) {
+    throw new CardGroupError("afterCardId cannot be the card itself.");
+  }
+  return transaction(db2, () => {
+    const card = getRow(db2, `SELECT group_id AS groupId FROM cards WHERE id = ?`, cardId);
+    if (!card) throw new CardGroupError(`Card not found: ${cardId}`, "not_found");
+    if (expectedGroupId !== void 0 && card.groupId !== expectedGroupId) {
+      throw new CardGroupError("Card is not in this group.");
+    }
+    if (!card.groupId) {
+      throw new CardGroupError(
+        "This card is in no group, so it has no chain to order. Pass groupId in the same call to add it to one."
+      );
+    }
+    const members = allRows(
+      db2,
+      `SELECT id, group_order AS groupOrder, task_number AS taskNumber FROM cards WHERE group_id = ?`,
+      card.groupId
+    );
+    if (afterCardId !== null && !members.some((member) => member.id === afterCardId)) {
+      throw new CardGroupError("afterCardId is not in this card's group. Call list_groups to see the chain.");
+    }
+    const current = [...members].sort(compareByChainOrder);
+    const ids = placeAfter(members, cardId, afterCardId);
+    const position = ids.indexOf(cardId) + 1;
+    if (ids.every((id, index) => id === current[index].id)) {
+      return {
+        groupId: card.groupId,
+        position,
+        total: ids.length,
+        order: current.map((member) => ({ id: member.id, groupOrder: member.groupOrder })),
+        changed: false
+      };
+    }
+    const write = db2.prepare(`UPDATE cards SET group_order = ? WHERE id = ?`);
+    ids.forEach((id, index) => write.run(index + 1, id));
+    return {
+      groupId: card.groupId,
+      position,
+      total: ids.length,
+      order: ids.map((id, index) => ({ id, groupOrder: index + 1 })),
+      changed: true
+    };
+  });
+}
+
+// ../lib/card-ops/create-card.ts
+function createCard(db2, given, now) {
+  const input = externalizeFields(given.id, given, CARD_RICH_FIELDS);
+  const status = input.status || "backlog";
+  if (!isStatus(status)) return { ok: false, reason: "invalid-status" };
+  const complexity = normalizeComplexity(input.complexity || "medium");
+  if (!complexity) return { ok: false, reason: "invalid-complexity" };
+  const projectId = input.projectId || null;
+  const groupId = normalizeGroupId(input.groupId) ?? null;
+  return transaction(db2, () => {
+    assertGroupAssignable(db2, groupId, projectId);
+    let taskNumber = null;
+    let projectFolder = input.projectFolder ?? "";
+    if (projectId) {
+      const project = getRow(
+        db2,
+        `UPDATE projects SET next_task_number = next_task_number + 1, updated_at = ?
+         WHERE id = ? RETURNING next_task_number, folder_path`,
+        now,
+        projectId
+      );
+      if (project) {
+        taskNumber = Number(project.next_task_number) - 1;
+        projectFolder = project.folder_path;
+      }
+    }
+    const completedAt = completedAtOnCreate(status, now);
+    const columns = {
+      id: input.id,
+      title: input.title,
+      description: input.description ?? "",
+      solution_summary: input.solutionSummary ?? "",
+      test_scenarios: input.testScenarios ?? "",
+      status,
+      complexity,
+      priority: input.priority || "medium",
+      project_folder: projectFolder,
+      project_id: projectId,
+      group_id: groupId,
+      task_number: taskNumber,
+      created_at: now,
+      updated_at: now
+    };
+    const optional2 = {
+      ai_opinion: input.aiOpinion || null,
+      ai_verdict: input.aiVerdict ?? null,
+      ai_score: input.aiScore ?? null,
+      ai_platform: input.aiPlatform || null,
+      use_worktree: serializeUseWorktreeForDb(input.useWorktree ?? null),
+      work_template_id: input.workTemplateId || null,
+      completed_at: completedAt
+    };
+    for (const [column, value] of Object.entries(optional2)) {
+      if (value !== null) columns[column] = value;
+    }
+    const names = Object.keys(columns);
+    runChanges(
+      db2,
+      `INSERT INTO cards (${names.join(", ")}) VALUES (${names.map(() => "?").join(", ")})`,
+      ...Object.values(columns)
+    );
+    return { ok: true, id: input.id, status, taskNumber, projectFolder, completedAt };
+  });
+}
+
 // ../lib/card-ops/save-opinion.ts
 function saveOpinion(db2, args) {
   const markers = parseOpinionMarkers(args.source);
@@ -21726,7 +24654,7 @@ function saveOpinion(db2, args) {
        complexity = COALESCE(?, complexity),
        updated_at = ?
      WHERE id = ?`,
-    args.html,
+    externalizeInlineImages(args.id, args.html),
     verdict,
     markers.score,
     markers.priority,
@@ -21757,6 +24685,118 @@ function opinionEditFields(previous, next) {
   if (after.priority !== before.priority && after.priority) changed.priority = after.priority;
   if (after.complexity !== before.complexity && after.complexity) changed.complexity = after.complexity;
   return changed;
+}
+
+// ../lib/card-ops/update-card.ts
+var COLUMN = {
+  title: "title",
+  description: "description",
+  solutionSummary: "solution_summary",
+  testScenarios: "test_scenarios",
+  aiOpinion: "ai_opinion",
+  aiVerdict: "ai_verdict",
+  aiScore: "ai_score",
+  status: "status",
+  complexity: "complexity",
+  priority: "priority",
+  projectId: "project_id",
+  projectFolder: "project_folder",
+  groupId: "group_id",
+  aiPlatform: "ai_platform",
+  useWorktree: "use_worktree",
+  workTemplateId: "work_template_id"
+};
+function updateCard(db2, args) {
+  const { id, now } = args;
+  const fields = externalizeFields(
+    id,
+    Object.fromEntries(Object.entries(args.fields).filter(([, value]) => value !== void 0)),
+    CARD_RICH_FIELDS
+  );
+  if (fields.status !== void 0 && !isStatus(fields.status)) return { ok: false, reason: "invalid-status" };
+  return transaction(db2, () => {
+    const existing = getRow(
+      db2,
+      `SELECT status, completed_at, updated_at, test_scenarios, ai_opinion, priority, complexity,
+              project_id, group_id, task_number
+       FROM cards WHERE id = ?`,
+      id
+    );
+    if (!existing) return { ok: false, reason: "not-found" };
+    const set2 = { ...fields };
+    if (fields.testScenarios !== void 0 && existing.test_scenarios) {
+      const stale = !!args.baseUpdatedAt && args.baseUpdatedAt !== existing.updated_at;
+      set2.testScenarios = stale ? mergeStaleTestWrite(existing.test_scenarios, fields.testScenarios) : mergeTestCheckState(existing.test_scenarios, fields.testScenarios);
+    }
+    if (fields.aiOpinion !== void 0) {
+      const edited = opinionEditFields(existing.ai_opinion, fields.aiOpinion);
+      if (fields.aiVerdict === void 0 && "verdict" in edited) set2.aiVerdict = edited.verdict ?? null;
+      if (fields.aiScore === void 0 && "score" in edited) set2.aiScore = edited.score ?? null;
+      for (const level of ["priority", "complexity"]) {
+        const pickedByHand = fields[level] !== void 0 && fields[level] !== existing[level];
+        if (!pickedByHand && edited[level]) set2[level] = edited[level];
+      }
+    }
+    let taskNumber = existing.task_number;
+    const projectId = fields.projectId !== void 0 ? fields.projectId : existing.project_id;
+    const projectChanged = projectId !== existing.project_id;
+    if (projectChanged) {
+      if (projectId === null) {
+        taskNumber = null;
+      } else {
+        const next = getRow(
+          db2,
+          `UPDATE projects SET next_task_number = next_task_number + 1, updated_at = ?
+           WHERE id = ? RETURNING next_task_number`,
+          now,
+          projectId
+        );
+        if (next) taskNumber = Number(next.next_task_number) - 1;
+      }
+      set2.projectId = projectId;
+    }
+    let groupId = existing.group_id;
+    if (fields.groupId !== void 0) groupId = normalizeGroupId(fields.groupId) ?? null;
+    if (projectChanged && groupId) {
+      const group = getGroup(db2, groupId);
+      if (!group || group.projectId && group.projectId !== projectId) groupId = null;
+    }
+    if (groupId !== existing.group_id) {
+      assertGroupAssignable(db2, groupId, projectId);
+      set2.groupId = groupId;
+    } else {
+      delete set2.groupId;
+    }
+    const status = fields.status ?? existing.status;
+    const columns = [];
+    const values = [];
+    for (const [key, value] of Object.entries(set2)) {
+      columns.push(`${COLUMN[key]} = ?`);
+      values.push(key === "useWorktree" ? serializeUseWorktreeForDb(value) : value);
+    }
+    if (projectChanged) {
+      columns.push("task_number = ?");
+      values.push(taskNumber);
+    }
+    if (fields.status !== void 0 || args.completedAt !== void 0) {
+      columns.push("completed_at = ?");
+      values.push(
+        args.completedAt !== void 0 ? args.completedAt : completedAtFor(existing.status, status, existing.completed_at, now)
+      );
+    }
+    if (columns.length > 0) {
+      runChanges(db2, `UPDATE cards SET ${[...columns, "updated_at = ?"].join(", ")} WHERE id = ?`, ...values, now, id);
+    }
+    const placed = args.afterCardId !== void 0 ? moveCardInChain(db2, id, args.afterCardId) : null;
+    return {
+      ok: true,
+      status,
+      taskNumber,
+      groupId,
+      written: Object.keys(set2),
+      placed
+    };
+  });
 }
 
 // ../lib/card-queue.ts
@@ -21925,14 +24965,14 @@ function parseTestProgress(html) {
     if (counts.total === 0) return;
     groups.push({ heading: section2.heading, occurrence, core: index === coreIndex, ...counts });
   });
-  const core = groups.find((g2) => g2.core);
+  const core = groups.find((g) => g.core);
   if (!core) return { ...overall, groups };
   return { ...overall, core: { checked: core.checked, total: core.total }, groups };
 }
 function verifyTargets(progress, scope) {
   if (!progress?.core) return [];
-  const coreIndex = progress.groups.findIndex((g2) => g2.core);
-  const open = progress.groups.slice(coreIndex).filter((g2) => g2.checked < g2.total);
+  const coreIndex = progress.groups.findIndex((g) => g.core);
+  const open = progress.groups.slice(coreIndex).filter((g) => g.checked < g.total);
   return scope === "all" ? open : open.slice(0, 1);
 }
 function nextVerifyGroup(progress) {
@@ -22095,209 +25135,77 @@ function clearQueue(db2, keep = /* @__PURE__ */ new Set()) {
   });
 }
 
-// ../lib/card-ops/groups.ts
-var DEFAULT_GROUP_COLOR = "#5e6ad2";
-var GROUP_CODE_MAX = 6;
-function normalizeGroupCode(raw) {
-  return raw.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, GROUP_CODE_MAX);
-}
-function normalizeGroupId(value) {
-  if (value === void 0) return void 0;
-  return typeof value === "string" && value.trim() ? value.trim() : null;
-}
-var CardGroupError = class extends Error {
-  constructor(message, kind = "invalid") {
-    super(message);
-    this.kind = kind;
-    this.name = "CardGroupError";
-  }
-  kind;
-};
-function assertGroupsTable(db2) {
-  const row = getRow(db2, `SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'card_groups'`);
-  if (!row) {
-    throw new CardGroupError(
-      "This Ideafy database has no card groups yet. Update the Ideafy app, then try again."
-    );
-  }
-}
-function assertProjectExists(db2, projectId) {
-  if (!getRow(db2, `SELECT id FROM projects WHERE id = ?`, projectId)) {
-    throw new CardGroupError(`Project not found: ${projectId}`);
-  }
-}
-var SELECT_GROUPS = `
-  SELECT
-    g.id, g.project_id AS projectId, g.code, g.name, g.color, g.created_at AS createdAt,
-    (SELECT COUNT(*) FROM cards c WHERE c.group_id = g.id) AS memberCount
-  FROM card_groups g
-`;
-function getGroup(db2, id) {
-  assertGroupsTable(db2);
-  return getRow(db2, `${SELECT_GROUPS} WHERE g.id = ?`, id) ?? null;
-}
-function listGroups(db2, projectId) {
-  assertGroupsTable(db2);
-  if (projectId) {
-    return allRows(
-      db2,
-      `${SELECT_GROUPS} WHERE g.project_id IS NULL OR g.project_id = ? ORDER BY g.code`,
-      projectId
-    );
-  }
-  return allRows(db2, `${SELECT_GROUPS} ORDER BY g.code`);
-}
-function findCodeClash(db2, code, projectId, exceptId) {
-  const candidates = projectId ? listGroups(db2, projectId) : listGroups(db2);
-  return candidates.find((g2) => g2.id !== exceptId && g2.code.toUpperCase() === code) ?? null;
-}
-function assertGroupAssignable(db2, groupId, projectId) {
-  if (groupId === null || groupId === void 0) return;
-  const group = getGroup(db2, groupId);
-  if (!group) {
-    throw new CardGroupError(`Group not found: ${groupId}. Call list_groups for valid ids, or create_group first.`);
-  }
-  if (group.projectId && projectId && group.projectId !== projectId) {
-    throw new CardGroupError(
-      `Group ${group.code} belongs to another project (${group.projectId}); this card is in ${projectId}.`
-    );
-  }
-}
-function createGroup(db2, input, now = (/* @__PURE__ */ new Date()).toISOString()) {
-  assertGroupsTable(db2);
-  const code = normalizeGroupCode(input.code ?? "");
-  if (!code) {
-    throw new CardGroupError("Group code is required: letters and digits, up to 6 characters (e.g. MOBILE).");
-  }
-  const projectId = input.projectId || null;
-  if (projectId) assertProjectExists(db2, projectId);
-  const clash = findCodeClash(db2, code, projectId, null);
-  if (clash) {
-    throw new CardGroupError(
-      `A group with code ${code} already exists: ${clash.id} (${clash.name}). Use that id as groupId instead of creating a new one.`,
-      "conflict"
-    );
-  }
-  const row = {
-    id: globalThis.crypto.randomUUID(),
-    projectId,
-    code,
-    // A nameless group reads as its code — the backfill writes the same.
-    name: input.name?.trim() || code,
-    // Not sent: the picker's default, so a terminal-made group does not show
-    // up grey next to hand-made ones. An explicit null or "" means no color.
-    color: input.color === void 0 ? DEFAULT_GROUP_COLOR : input.color || null,
-    createdAt: now
-  };
-  runChanges(
+// ../lib/card-ops/chain.ts
+function chainMembers(db2, cardId) {
+  const card = getRow(db2, "SELECT group_id AS groupId FROM cards WHERE id = ?", cardId);
+  if (!card?.groupId) return [];
+  return allRows(
     db2,
-    `INSERT INTO card_groups (id, project_id, code, name, color, created_at) VALUES (?, ?, ?, ?, ?, ?)`,
-    row.id,
-    row.projectId,
-    row.code,
-    row.name,
-    row.color,
-    row.createdAt
+    `SELECT c.id, c.title, c.status, c.task_number AS taskNumber, c.group_order AS groupOrder,
+            c.git_branch_status AS gitBranchStatus, p.id_prefix AS idPrefix
+     FROM cards c LEFT JOIN projects p ON p.id = c.project_id
+     WHERE c.group_id = ?`,
+    card.groupId
   );
-  return { ...row, memberCount: 0 };
 }
-function updateGroup(db2, id, updates) {
-  const existing = getGroup(db2, id);
-  if (!existing) throw new CardGroupError(`Group not found: ${id}`, "not_found");
-  const code = updates.code !== void 0 ? normalizeGroupCode(String(updates.code)) : existing.code;
-  const name = updates.name !== void 0 ? String(updates.name).trim() : existing.name;
-  if (!code || !name) throw new CardGroupError("Group code and name cannot be empty.");
-  const color = updates.color !== void 0 ? updates.color || null : existing.color;
-  const projectId = updates.projectId !== void 0 ? updates.projectId || null : existing.projectId;
-  if (code === existing.code && name === existing.name && color === existing.color && projectId === existing.projectId) {
-    return existing;
+var toRef = (row) => ({
+  displayId: row.idPrefix && row.taskNumber != null ? `${row.idPrefix}-${row.taskNumber}` : null,
+  title: row.title,
+  status: row.status
+});
+function chainOrderWarningFor(db2, cardId, options = {}) {
+  try {
+    const members = chainMembers(db2, cardId);
+    if (members.length === 0) return null;
+    return chainOrderWarning({ members, cardId, toRef, ...options });
+  } catch (error2) {
+    console.warn("[chain-order] warning skipped:", error2);
+    return null;
   }
-  if (projectId !== existing.projectId && projectId) {
-    assertProjectExists(db2, projectId);
-    const strays = getRow(
-      db2,
-      `SELECT COUNT(*) AS count FROM cards WHERE group_id = ? AND project_id IS NOT NULL AND project_id != ?`,
-      id,
-      projectId
+}
+function queuedChainWarningFor(db2, cardId, runningIds = []) {
+  try {
+    const queue = listQueueRows(db2);
+    const self = queue.find((row) => row.id === cardId) ?? getQueueRow(db2, cardId);
+    if (!self || queueKindOf(self) === "verify") return null;
+    const index = queue.findIndex((row) => row.id === cardId);
+    const running = Array.from(runningIds).filter((id) => id !== cardId).map((id) => getQueueRow(db2, id)).filter((row) => !!row);
+    const ahead = [...running, ...index === -1 ? queue : queue.slice(0, index)];
+    const behind = index === -1 ? [] : queue.slice(index + 1);
+    const selfInWorktree = queuedRunsInWorktree(self);
+    const skip = new Set(
+      ahead.filter((row) => !selfInWorktree && !queuedRunsInWorktree(row) && queueKindOf(row) !== "verify").map((row) => row.id)
     );
-    if (Number(strays?.count ?? 0) > 0) {
-      throw new CardGroupError(
-        `Group ${existing.code} has ${strays.count} card(s) from another project; move them out of the group first, or keep it global.`,
-        "conflict"
-      );
-    }
+    return chainOrderWarningFor(db2, cardId, { skip, queuedBehind: new Set(behind.map((row) => row.id)) });
+  } catch (error2) {
+    console.warn("[chain-order] queue warning skipped:", error2);
+    return null;
   }
-  if (code !== existing.code || projectId !== existing.projectId) {
-    const clash = findCodeClash(db2, code, projectId, id);
-    if (clash) {
-      throw new CardGroupError(`Code ${code} is already used by group ${clash.id} (${clash.name}).`, "conflict");
-    }
-  }
-  runChanges(
-    db2,
-    `UPDATE card_groups SET project_id = ?, code = ?, name = ?, color = ? WHERE id = ?`,
-    projectId,
-    code,
-    name,
-    color,
-    id
-  );
-  return { ...existing, projectId, code, name, color };
 }
-function deleteGroup(db2, id) {
-  return transaction(db2, () => {
-    const group = getGroup(db2, id);
-    if (!group) throw new CardGroupError(`Group not found: ${id}`, "not_found");
-    const { changes } = runChanges(db2, `UPDATE cards SET group_id = NULL WHERE group_id = ?`, id);
-    runChanges(db2, `DELETE FROM card_groups WHERE id = ?`, id);
-    return { group, releasedCards: changes };
-  });
+function chainAckId(cardId) {
+  return `chain:${cardId}`;
 }
-function moveCardInChain(db2, cardId, afterCardId, expectedGroupId) {
-  if (afterCardId === cardId) {
-    throw new CardGroupError("afterCardId cannot be the card itself.");
-  }
-  return transaction(db2, () => {
-    const card = getRow(db2, `SELECT group_id AS groupId FROM cards WHERE id = ?`, cardId);
-    if (!card) throw new CardGroupError(`Card not found: ${cardId}`, "not_found");
-    if (expectedGroupId !== void 0 && card.groupId !== expectedGroupId) {
-      throw new CardGroupError("Card is not in this group.");
-    }
-    if (!card.groupId) {
-      throw new CardGroupError(
-        "This card is in no group, so it has no chain to order. Pass groupId in the same call to add it to one."
-      );
-    }
-    const members = allRows(
+var BUILDING_STATUSES = /* @__PURE__ */ new Set(["backlog", "progress", "bugs"]);
+function chainWriteConflictFor(db2, cardId) {
+  try {
+    const card = getRow(
       db2,
-      `SELECT id, group_order AS groupOrder, task_number AS taskNumber FROM cards WHERE group_id = ?`,
-      card.groupId
+      "SELECT status, solution_summary AS solutionSummary FROM cards WHERE id = ?",
+      cardId
     );
-    if (afterCardId !== null && !members.some((member) => member.id === afterCardId)) {
-      throw new CardGroupError("afterCardId is not in this card's group. Call list_groups to see the chain.");
-    }
-    const current = [...members].sort(compareByChainOrder);
-    const ids = placeAfter(members, cardId, afterCardId);
-    const position = ids.indexOf(cardId) + 1;
-    if (ids.every((id, index) => id === current[index].id)) {
-      return {
-        groupId: card.groupId,
-        position,
-        total: ids.length,
-        order: current.map((member) => ({ id: member.id, groupOrder: member.groupOrder })),
-        changed: false
-      };
-    }
-    const write = db2.prepare(`UPDATE cards SET group_order = ? WHERE id = ?`);
-    ids.forEach((id, index) => write.run(index + 1, id));
+    if (!card || !BUILDING_STATUSES.has(card.status) || !stripHtml(card.solutionSummary ?? "")) return null;
+    const warning = chainOrderWarningFor(db2, cardId);
+    if (!warning) return null;
     return {
-      groupId: card.groupId,
-      position,
-      total: ids.length,
-      order: ids.map((id, index) => ({ id, groupOrder: index + 1 })),
-      changed: true
+      conflictId: chainAckId(cardId),
+      conflictCardId: cardId,
+      reason: "chain-order",
+      message: `${warning.message} This is a warning, not a block: go ahead only if the user confirms.`
     };
-  });
+  } catch (error2) {
+    console.warn("[chain-order] edit check skipped:", error2);
+    return null;
+  }
 }
 
 // ../lib/card-ops/runtime.ts
@@ -22445,6 +25353,7 @@ var evaluation_exports = {};
 __export(evaluation_exports, {
   EVALUATION_HEADINGS_RULE: () => EVALUATION_HEADINGS_RULE,
   EVALUATION_OUTPUT_SCHEMA: () => EVALUATION_OUTPUT_SCHEMA,
+  EVALUATION_SAVE_INSTRUCTION: () => EVALUATION_SAVE_INSTRUCTION,
   buildChainSection: () => buildChainSection,
   buildEvaluationGuide: () => buildEvaluationGuide,
   buildPriorDecisionsSection: () => buildPriorDecisionsSection
@@ -22504,283 +25413,206 @@ ${lines.join("\n")}
 Next open card in the chain: ${next}
 `;
 }
+var EVALUATION_SAVE_INSTRUCTION = `Then write the evaluation in this template and save it with save_opinion (aiOpinion as markdown). ${EVALUATION_HEADINGS_RULE}
+
+${EVALUATION_OUTPUT_SCHEMA}`;
 function buildEvaluationGuide() {
   return `${PRIOR_DECISIONS_EVALUATION_RULE}
 
-Then write the evaluation in this template and save it with save_opinion (aiOpinion as markdown). ${EVALUATION_HEADINGS_RULE}
-
-${EVALUATION_OUTPUT_SCHEMA}`;
+${EVALUATION_SAVE_INSTRUCTION}`;
 }
 
-// ../lib/artifact-links.ts
-var artifact_links_exports = {};
-__export(artifact_links_exports, {
-  SCRATCH_DIR: () => SCRATCH_DIR,
-  cardArtifactDir: () => cardArtifactDir,
-  destinationFor: () => destinationFor,
-  materializeArtifactFences: () => materializeArtifactFences,
-  persistArtifactLinks: () => persistArtifactLinks,
-  persistArtifacts: () => persistArtifacts,
-  persistCardArtifacts: () => persistCardArtifacts
+// ../lib/test-report-files.ts
+var test_report_files_exports = {};
+__export(test_report_files_exports, {
+  importTerminalArtifacts: () => importTerminalArtifacts,
+  keepWrittenArtifacts: () => keepWrittenArtifacts,
+  removeTestReportRunDirs: () => removeTestReportRunDirs,
+  testReportRunDir: () => testReportRunDir
 });
-import { copyFileSync, existsSync, mkdirSync, readFileSync, realpathSync, statSync, writeFileSync } from "fs";
-import { homedir } from "os";
-import path from "path";
-
-// ../lib/artifact-fence.ts
-var ARTIFACT_FENCE_MAX_BYTES = 512 * 1024;
-var ALLOWED_EXT = /* @__PURE__ */ new Set(["html", "htm", "svg"]);
-var MAX_NAME_LENGTH = 80;
-var FENCE_OPEN_RE = /^ {0,3}(`{3,}|~{3,})(.*)$/;
-var ARTIFACT_ATTR_RE = /\bartifact\s*=\s*(?:"([^"]*)"|'([^']*)')/;
-function sanitizeArtifactFilename(raw, lang = "") {
-  const base = raw.split(/[\\/]/).filter(Boolean).pop() ?? "";
-  const name = base.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9._-]/g, "").replace(/^[.-]+/, "");
-  const dot = name.lastIndexOf(".");
-  let stem = dot > 0 ? name.slice(0, dot) : name;
-  let ext = dot > 0 ? name.slice(dot + 1) : "";
-  if (!ext) ext = lang.toLowerCase() === "svg" ? "svg" : "html";
-  if (!ALLOWED_EXT.has(ext)) return null;
-  stem = stem.replace(/\.+$/, "").slice(0, MAX_NAME_LENGTH - ext.length - 1) || "mockup";
-  return `${stem}.${ext}`;
+import { copyFileSync as copyFileSync3, mkdirSync as mkdirSync3, rmSync, statSync as statSync2 } from "fs";
+import { homedir as homedir3 } from "os";
+import path3 from "path";
+var MAX_SCREENSHOT_BYTES = 20 * 1024 * 1024;
+function testReportRunDir(cardId, runId, homeDir = homedir3()) {
+  return path3.join(cardArtifactDir(cardId, homeDir), TEST_REPORT_DIR, runId);
 }
-function extractArtifactFences(text) {
-  const fences = [];
-  if (!text || !text.includes("artifact")) return fences;
-  let open = null;
-  let offset = 0;
-  while (offset <= text.length) {
-    const newline = text.indexOf("\n", offset);
-    const lineEnd = newline === -1 ? text.length : newline;
-    const line = text.slice(offset, lineEnd);
-    if (!open) {
-      const match = line.match(FENCE_OPEN_RE);
-      if (match && !(match[1][0] === "`" && match[2].includes("`"))) {
-        const info = match[2].trim();
-        const attr = info.match(ARTIFACT_ATTR_RE);
-        const lang = info.split(/\s+/)[0] ?? "";
-        open = {
-          marker: match[1],
-          start: offset,
-          bodyStart: newline === -1 ? text.length : newline + 1,
-          filename: attr ? sanitizeArtifactFilename(attr[1] ?? attr[2] ?? "", lang) : null,
-          artifact: !!attr
-        };
-      }
-    } else {
-      const trimmed = line.trim();
-      if (trimmed.length >= open.marker.length && trimmed[0] === open.marker[0] && /^(`+|~+)$/.test(trimmed)) {
-        if (open.artifact) {
-          fences.push({
-            start: open.start,
-            end: lineEnd,
-            filename: open.filename,
-            body: text.slice(open.bodyStart, Math.max(open.bodyStart, offset - 1)),
-            closed: true
-          });
+function removeTestReportRunDirs(cardId, runs, homeDir = homedir3()) {
+  for (const run of runs) {
+    if (!isTestReportRunId(run.id)) continue;
+    try {
+      rmSync(testReportRunDir(cardId, run.id, homeDir), { recursive: true, force: true });
+    } catch (error2) {
+      console.warn(`[test-report] could not remove ${run.id} of ${cardId}:`, error2);
+    }
+  }
+}
+function isFile(p) {
+  try {
+    const stat = statSync2(p);
+    return stat.isFile() && stat.size <= MAX_SCREENSHOT_BYTES;
+  } catch {
+    return false;
+  }
+}
+function keepWrittenArtifacts(items, runDir) {
+  return items.map((item) => ({
+    ...item,
+    artifacts: item.artifacts.map((artifact) => ({ ...artifact, file: path3.basename(artifact.file) })).filter((artifact) => isTestReportImageName(artifact.file) && isFile(path3.join(runDir, artifact.file)))
+  }));
+}
+function importTerminalArtifacts(items, runDir) {
+  let made = false;
+  let n = 0;
+  return items.map((item) => ({
+    ...item,
+    artifacts: item.artifacts.flatMap((artifact) => {
+      const source = artifact.file.startsWith("~/") ? path3.join(homedir3(), artifact.file.slice(2)) : artifact.file;
+      if (!path3.isAbsolute(source) || !isFile(source)) return [];
+      const ext = path3.extname(source).toLowerCase();
+      const file2 = `shot-${++n}${ext}`;
+      if (!isTestReportImageName(file2)) return [];
+      try {
+        if (!made) {
+          mkdirSync3(runDir, { recursive: true });
+          made = true;
         }
-        open = null;
+        copyFileSync3(source, path3.join(runDir, file2));
+        return [{ ...artifact, file: file2 }];
+      } catch {
+        return [];
       }
-    }
-    if (newline === -1) break;
-    offset = newline + 1;
-  }
-  if (open?.artifact) {
-    fences.push({
-      start: open.start,
-      end: text.length,
-      filename: open.filename,
-      body: text.slice(open.bodyStart),
-      closed: false
-    });
-  }
-  return fences;
+    })
+  }));
 }
 
-// ../lib/artifact-url.ts
-var IMAGE_EXT = /* @__PURE__ */ new Set(["png", "jpg", "jpeg", "gif", "webp", "svg", "avif", "heic", "bmp"]);
-var DOC_EXT = /* @__PURE__ */ new Set(["md", "markdown", "pdf", "txt", "doc", "docx", "pptx", "xlsx", "csv", "rtf", "key", "pages", "numbers"]);
-var HTML_EXT = /* @__PURE__ */ new Set(["html", "htm"]);
-function fileUrlToPath(href) {
-  if (!href) return null;
-  const match = href.trim().match(/^file:\/\/(localhost)?(\/[^?#]*)/i);
-  if (!match) return null;
-  let decoded;
-  try {
-    decoded = decodeURIComponent(match[2]);
-  } catch {
-    decoded = match[2];
+// ../lib/test-report-text.ts
+var test_report_text_exports = {};
+__export(test_report_text_exports, {
+  TEST_REPORT_SCOPE_LABEL: () => TEST_REPORT_SCOPE_LABEL,
+  formatTestReport: () => formatTestReport,
+  selectTestReportRun: () => selectTestReportRun,
+  testReportCardSummary: () => testReportCardSummary,
+  testReportRunNumber: () => testReportRunNumber
+});
+var TEST_REPORT_SCOPE_LABEL = {
+  run: "pre-verify",
+  reverify: "re-verify after fix",
+  single: "verify on screen",
+  retest: "re-test after your fix"
+};
+function testReportRunNumber(index, total) {
+  return total - index;
+}
+function selectTestReportRun(runs, run) {
+  if (run === void 0 || run === null || run === "") return { index: 0 };
+  const raw = String(run).trim();
+  const byId = runs.findIndex((r) => r.id === raw);
+  if (byId >= 0) return { index: byId };
+  const numeric = /^#?(\d+)$/.exec(raw);
+  if (numeric) {
+    const number3 = Number(numeric[1]);
+    if (number3 >= 1 && number3 <= runs.length) return { index: runs.length - number3 };
   }
-  if (!decoded.startsWith("/") || decoded.includes("\0")) return null;
-  return decoded;
+  const range = runs.length === 1 ? "#1" : `#1 (oldest) to #${runs.length} (newest)`;
+  return { error: `No run "${raw}" in this Test Report. It has ${range}, or pass a run id.` };
 }
-function pathToFileUrl(absolutePath) {
-  return `file://${absolutePath.split("/").map(encodeURIComponent).join("/")}`;
+function countsText(run) {
+  const counts = countByStatus(run);
+  const parts = ["failed", "manual", "passed"].filter((status) => counts[status] > 0).map((status) => `${counts[status]} ${status}`);
+  return parts.length ? parts.join(", ") : "no items";
 }
-var LOCAL_PATH_RE = /^(~\/|\/(Users|home|tmp|private|var\/folders|Volumes)\/)\S/;
-function localPathFromText(text) {
-  if (!text || text.includes("\n")) return null;
-  const trimmed = text.trim();
-  return LOCAL_PATH_RE.test(trimmed) ? trimmed : null;
+function runLine(run, index, total) {
+  const origin = run.source === "terminal" ? "terminal" : "app";
+  return `#${testReportRunNumber(index, total)} \xB7 ${run.runAt} \xB7 ${TEST_REPORT_SCOPE_LABEL[run.scope]} \xB7 ${run.evidence} \xB7 ${origin} \xB7 ${countsText(run)}`;
 }
-function artifactBasename(absolutePath) {
-  const parts = absolutePath.split("/").filter(Boolean);
-  return parts[parts.length - 1] || absolutePath;
+function indent(text, prefix) {
+  return text.split("\n").map((line) => `${prefix}${line}`).join("\n");
 }
-function artifactKind(absolutePath) {
-  const ext = artifactBasename(absolutePath).split(".").pop()?.toLowerCase() || "";
-  if (HTML_EXT.has(ext)) return "html";
-  if (IMAGE_EXT.has(ext)) return "image";
-  if (DOC_EXT.has(ext)) return "doc";
-  return "file";
+function itemText(item, number3, full) {
+  const head = `${number3}. [${item.status}] ${item.item}`;
+  if (!full) return head;
+  const lines = [head];
+  const field = (label, value) => {
+    if (value) lines.push(`   ${label}: ${value}`);
+  };
+  field("Approach", item.approach);
+  if (item.steps.length) {
+    lines.push("   Steps:");
+    item.steps.forEach((step, i) => lines.push(`     ${i + 1}. ${step}`));
+  }
+  field("Expected", item.expected);
+  field("Observed", item.observed);
+  field("Error", item.error);
+  field("Command", item.command);
+  if (item.output) lines.push("   Output:", indent(item.output, "     "));
+  field("Note", item.note);
+  if (item.artifacts.length) {
+    const captions = item.artifacts.map((a) => a.caption).filter(Boolean);
+    lines.push(
+      `   Screenshots: ${item.artifacts.length}${captions.length ? ` (${captions.join("; ")})` : ""}`
+    );
+  }
+  return lines.join("\n");
 }
-function decodeEntities3(text) {
-  return text.replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
-}
-function escapeHtml(text) {
-  return text.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-}
-function artifactChipHtml(absolutePath, name) {
-  const label = name?.trim() || artifactBasename(absolutePath);
-  const pathAttr = escapeHtml(absolutePath);
-  return `<span data-type="artifactMention" data-path="${pathAttr}" data-name="${escapeHtml(label)}" data-kind="${artifactKind(absolutePath)}" title="${pathAttr}" class="mention artifact-mention">${escapeHtml(label)}</span>`;
-}
-function fileLinksToArtifactChips(html) {
-  if (!html || !html.includes("file://")) return html;
-  return html.replace(
-    /<a\b[^>]*href="(file:\/\/[^"]*)"[^>]*>([\s\S]*?)<\/a>/gi,
-    (tag, href, inner) => {
-      const absolute = fileUrlToPath(decodeEntities3(href));
-      if (!absolute) return tag;
-      const text = decodeEntities3(inner.replace(/<[^>]*>/g, "").trim());
-      const name = !text || text.startsWith("/") || text.startsWith("file://") ? void 0 : text;
-      return artifactChipHtml(absolute, name);
-    }
+function formatTestReport(input) {
+  const { displayId, runs, index, status, checklistHtml, screenshotsAttached } = input;
+  const run = runs[index];
+  const total = runs.length;
+  const out = [];
+  out.push(`Test Report \xB7 ${displayId} \xB7 ${total} run${total === 1 ? "" : "s"}, newest first`);
+  runs.forEach((r, i) => out.push(`${i === index ? "\u2192" : " "} ${runLine(r, i, total)}`));
+  out.push("");
+  out.push(
+    `Showing #${testReportRunNumber(index, total)} (${run.id}).${total > 1 ? ' Pass run: "#N" or a run id for another one.' : ""}`
   );
-}
-var INLINE_CODE_RE = /(?<!<pre\b[^>]*>)<code\b[^>]*>([^<]*)<\/code>/gi;
-function replaceCodePaths(html, render) {
-  if (!html || !html.includes("<code")) return html;
-  return html.replace(INLINE_CODE_RE, (tag, inner) => {
-    const path2 = localPathFromText(decodeEntities3(inner));
-    return path2 && render(path2) || tag;
-  });
-}
-function codePathsToFileLinks(html, homeDir) {
-  return replaceCodePaths(html, (path2) => {
-    const absolute = path2.startsWith("~/") ? `${homeDir}/${path2.slice(2)}` : path2;
-    return `<a href="${escapeHtml(pathToFileUrl(absolute))}">${escapeHtml(artifactBasename(absolute))}</a>`;
-  });
-}
-
-// ../lib/artifact-links.ts
-var MAX_ARTIFACT_BYTES = 50 * 1024 * 1024;
-var SCRATCH_DIR = "scratch";
-function cardArtifactDir(cardId, homeDir = homedir()) {
-  return path.join(homeDir, ".ideafy", "images", cardId);
-}
-function isInside(child, parent) {
-  return child === parent || child.startsWith(parent + path.sep);
-}
-function sameContents(a, b2) {
-  const sa = statSync(a);
-  const sb = statSync(b2);
-  if (sa.size !== sb.size) return false;
-  return readFileSync(a).equals(readFileSync(b2));
-}
-function destinationFor(base, dir, isSame) {
-  const ext = path.extname(base);
-  const stem = ext ? base.slice(0, -ext.length) : base;
-  for (let n = 1; ; n++) {
-    const candidate = path.join(dir, n === 1 ? base : `${stem}-${n}${ext}`);
-    if (!existsSync(candidate)) return candidate;
-    if (isSame(candidate)) return candidate;
+  if (!run.checklistApplied) {
+    out.push("Its checklist was refused, so none of its ticks reached the Tests tab.");
   }
-}
-function sameBytes(candidate, contents) {
-  return statSync(candidate).size === contents.length && readFileSync(candidate).equals(contents);
-}
-function materializeArtifactFences(text, cardDir) {
-  const fences = extractArtifactFences(text).filter((fence) => fence.closed);
-  if (fences.length === 0) return text;
-  const scratchDir = path.join(cardDir, SCRATCH_DIR);
-  let out = "";
-  let cursor = 0;
-  for (const fence of fences) {
-    out += text.slice(cursor, fence.start);
-    cursor = fence.end;
-    const original = text.slice(fence.start, fence.end);
-    const contents = Buffer.from(fence.body.endsWith("\n") ? fence.body : `${fence.body}
-`, "utf8");
-    if (!fence.filename || contents.length > ARTIFACT_FENCE_MAX_BYTES) {
-      console.warn(`[artifact-fence] left a block in place: ${fence.filename ?? "bad name"}, ${contents.length} bytes`);
-      out += original;
-      continue;
-    }
-    try {
-      mkdirSync(scratchDir, { recursive: true });
-      const target = destinationFor(fence.filename, scratchDir, (candidate) => sameBytes(candidate, contents));
-      if (!existsSync(target)) writeFileSync(target, contents);
-      out += `[${path.basename(target)}](${pathToFileUrl(target)})`;
-    } catch (error2) {
-      console.error("Failed to save artifact block:", fence.filename, error2);
-      out += original;
-    }
+  const warnings = run.warnings ?? [];
+  if (warnings.length) {
+    out.push("", "Warnings from the run:");
+    for (const warning of warnings) out.push(`- ${warning}`);
   }
-  return out + text.slice(cursor);
-}
-function escapeAttr2(value) {
-  return value.replace(/&/g, "&amp;").replace(/"/g, "&quot;");
-}
-function persistArtifacts(html, cardDir) {
-  return fileLinksToArtifactChips(persistArtifactLinks(html, cardDir));
-}
-function persistCardArtifacts(html, cardId, homeDir = homedir()) {
-  const linked = codePathsToFileLinks(html, homeDir);
-  if (!linked.includes("file://")) return linked;
-  const cardDir = cardArtifactDir(cardId, homeDir);
-  try {
-    mkdirSync(cardDir, { recursive: true });
-  } catch (error2) {
-    console.error("Failed to create the card folder:", cardDir, error2);
-  }
-  return persistArtifacts(linked, cardDir);
-}
-function persistArtifactLinks(html, cardDir) {
-  if (!html || !html.includes("file://")) return html;
-  let realCardDir;
-  try {
-    realCardDir = realpathSync(cardDir);
-  } catch {
-    return html;
-  }
-  return html.replace(/href=(["'])(file:\/\/[^"']*)\1/gi, (match, quote, rawHref) => {
-    const source = fileUrlToPath(rawHref.replace(/&amp;/g, "&"));
-    if (!source) return match;
-    let realSource;
-    try {
-      realSource = realpathSync(source);
-      const stat = statSync(realSource);
-      if (!stat.isFile() || stat.size > MAX_ARTIFACT_BYTES) return match;
-    } catch {
-      return match;
-    }
-    if (isInside(realSource, realCardDir) && !isInside(realSource, path.join(realCardDir, SCRATCH_DIR))) {
-      return match;
-    }
-    try {
-      const target = destinationFor(
-        artifactBasename(realSource),
-        realCardDir,
-        (candidate) => sameContents(realSource, candidate)
+  const conflicts = checklistHtml ? testReportConflicts(run, checklistHtml) : [];
+  if (conflicts.length) {
+    out.push("", "Where the Tests tab disagrees with this run:");
+    for (const conflict of conflicts) {
+      out.push(
+        conflict.kind === "failed-but-ticked" ? `- failed in this run, ticked in Tests: ${conflict.item}` : `- passed in this run, unticked in Tests: ${conflict.item}`
       );
-      if (!existsSync(target)) copyFileSync(realSource, target);
-      return `href=${quote}${escapeAttr2(pathToFileUrl(target))}${quote}`;
-    } catch (error2) {
-      console.error("Failed to persist artifact:", source, error2);
-      return match;
     }
-  });
+  }
+  const shown = run.items.map((item, i) => ({ item, number: i + 1 })).filter(({ item }) => !status || item.status === status);
+  out.push("", status ? `Items (${status} only):` : "Items:");
+  if (!shown.length) {
+    out.push(status ? `No ${status} items in this run.` : "This run has no items.");
+  }
+  for (const { item, number: number3 } of shown) {
+    out.push(itemText(item, number3, Boolean(status) || item.status !== "passed"));
+  }
+  if (!status && shown.some(({ item }) => item.status === "passed")) {
+    out.push("", 'Passed items are one line each; pass status: "passed" for their detail.');
+  }
+  if (!screenshotsAttached && shown.some(({ item }) => item.artifacts.length > 0)) {
+    out.push("Pass screenshots: true to see the screenshots.");
+  }
+  return out.join("\n");
+}
+function testReportCardSummary(runs) {
+  if (!runs?.length) return null;
+  const latest = runs[0];
+  return {
+    runs: runs.length,
+    latest: {
+      number: runs.length,
+      runAt: latest.runAt,
+      scope: TEST_REPORT_SCOPE_LABEL[latest.scope],
+      evidence: latest.evidence,
+      ...countByStatus(latest)
+    },
+    read: "get_test_report for the items, what each run observed and where the Tests tab disagrees"
+  };
 }
 
 // shared.ts
@@ -22823,12 +25655,33 @@ var {
   moveCardInChain: moveCardInChain2,
   readRuntime: readRuntime2,
   readWriteAck: readWriteAck2,
-  acknowledgeWrite: acknowledgeWrite2
+  acknowledgeWrite: acknowledgeWrite2,
+  chainOrderWarningFor: chainOrderWarningFor2,
+  queuedChainWarningFor: queuedChainWarningFor2,
+  chainWriteConflictFor: chainWriteConflictFor2,
+  chainAckId: chainAckId2,
+  savePlan: savePlan2,
+  saveTests: saveTests2,
+  updateCard: updateCard2,
+  createCard: createCard2,
+  addOutputPath: addOutputPath2,
+  saveTestReport: saveTestReport2,
+  serializeUseWorktreeForDb: serializeUseWorktreeForDb2,
+  CARD_RUNTIME_FIELDS: CARD_RUNTIME_FIELDS2
 } = unwrap(card_ops_exports);
 var { writeConflictFor: writeConflictFor2 } = unwrap(card_queue_exports);
 var { normalizeComplexity: normalizeComplexity2, describeOpinionMarkers: describeOpinionMarkers2 } = unwrap(opinion_markers_exports);
 var { EVALUATION_OUTPUT_SCHEMA: EVALUATION_OUTPUT_SCHEMA2, EVALUATION_HEADINGS_RULE: EVALUATION_HEADINGS_RULE2, buildEvaluationGuide: buildEvaluationGuide2 } = unwrap(evaluation_exports);
 var { cardArtifactDir: cardArtifactDir2, materializeArtifactFences: materializeArtifactFences2, persistCardArtifacts: persistCardArtifacts2 } = unwrap(artifact_links_exports);
+var {
+  markdownToTiptapHtml: markdownToTiptapHtml2,
+  extractTaskItems: extractTaskItems2,
+  assessAppendOnlyRewrite: assessAppendOnlyRewrite2
+} = unwrap(markdown_exports);
+var { parseTestReportItems: parseTestReportItems2, parseTestReports: parseTestReports2, buildTestReportRun: buildTestReportRun2, MAX_ARTIFACTS_PER_ITEM: MAX_ARTIFACTS_PER_ITEM2 } = unwrap(test_report_exports);
+var { formatTestReport: formatTestReport2, selectTestReportRun: selectTestReportRun2, testReportCardSummary: testReportCardSummary2 } = unwrap(test_report_text_exports);
+var { importTerminalArtifacts: importTerminalArtifacts2, removeTestReportRunDirs: removeTestReportRunDirs2, testReportRunDir: testReportRunDir2 } = unwrap(test_report_files_exports);
+var { attachmentRefs: attachmentRefs2, attachmentContentType: attachmentContentType2 } = unwrap(card_attachments_exports);
 
 // db.ts
 var MIN_NODE = [22, 5];
@@ -22847,9 +25700,9 @@ function loadSqlite() {
     );
   }
 }
-function openDatabase(path2) {
+function openDatabase(path5) {
   const { DatabaseSync } = loadSqlite();
-  const db2 = new DatabaseSync(path2);
+  const db2 = new DatabaseSync(path5);
   db2.exec("PRAGMA journal_mode = WAL");
   db2.exec("PRAGMA foreign_keys = ON");
   db2.exec("PRAGMA busy_timeout = 5000");
@@ -22859,1218 +25712,10 @@ function openDatabase(path2) {
 // index.ts
 import { resolve as resolve2, dirname, relative as relative2, isAbsolute as isAbsolute2, sep as sep2 } from "path";
 import { fileURLToPath } from "url";
-import { homedir as homedir3 } from "os";
-import { mkdirSync as mkdirSync3 } from "fs";
+import { homedir as homedir6 } from "os";
+import { mkdirSync as mkdirSync5 } from "fs";
 
-// node_modules/marked/lib/marked.esm.js
-function M() {
-  return { async: false, breaks: false, extensions: null, gfm: true, hooks: null, pedantic: false, renderer: null, silent: false, tokenizer: null, walkTokens: null };
-}
-var O = M();
-function G(u3) {
-  O = u3;
-}
-var _ = { exec: () => null };
-function k(u3, e = "") {
-  let t = typeof u3 == "string" ? u3 : u3.source, n = { replace: (r, i) => {
-    let s = typeof i == "string" ? i : i.source;
-    return s = s.replace(m.caret, "$1"), t = t.replace(r, s), n;
-  }, getRegex: () => new RegExp(t, e) };
-  return n;
-}
-var be = (() => {
-  try {
-    return !!new RegExp("(?<=1)(?<!1)");
-  } catch {
-    return false;
-  }
-})();
-var m = { codeRemoveIndent: /^(?: {1,4}| {0,3}\t)/gm, outputLinkReplace: /\\([\[\]])/g, indentCodeCompensation: /^(\s+)(?:```)/, beginningSpace: /^\s+/, endingHash: /#$/, startingSpaceChar: /^ /, endingSpaceChar: / $/, nonSpaceChar: /[^ ]/, newLineCharGlobal: /\n/g, tabCharGlobal: /\t/g, multipleSpaceGlobal: /\s+/g, blankLine: /^[ \t]*$/, doubleBlankLine: /\n[ \t]*\n[ \t]*$/, blockquoteStart: /^ {0,3}>/, blockquoteSetextReplace: /\n {0,3}((?:=+|-+) *)(?=\n|$)/g, blockquoteSetextReplace2: /^ {0,3}>[ \t]?/gm, listReplaceNesting: /^ {1,4}(?=( {4})*[^ ])/g, listIsTask: /^\[[ xX]\] +\S/, listReplaceTask: /^\[[ xX]\] +/, listTaskCheckbox: /\[[ xX]\]/, anyLine: /\n.*\n/, hrefBrackets: /^<(.*)>$/, tableDelimiter: /[:|]/, tableAlignChars: /^\||\| *$/g, tableRowBlankLine: /\n[ \t]*$/, tableAlignRight: /^ *-+: *$/, tableAlignCenter: /^ *:-+: *$/, tableAlignLeft: /^ *:-+ *$/, startATag: /^<a /i, endATag: /^<\/a>/i, startPreScriptTag: /^<(pre|code|kbd|script)(\s|>)/i, endPreScriptTag: /^<\/(pre|code|kbd|script)(\s|>)/i, startAngleBracket: /^</, endAngleBracket: />$/, pedanticHrefTitle: /^([^'"]*[^\s])\s+(['"])(.*)\2/, unicodeAlphaNumeric: /[\p{L}\p{N}]/u, escapeTest: /[&<>"']/, escapeReplace: /[&<>"']/g, escapeTestNoEncode: /[<>"']|&(?!(#\d{1,7}|#[Xx][a-fA-F0-9]{1,6}|\w+);)/, escapeReplaceNoEncode: /[<>"']|&(?!(#\d{1,7}|#[Xx][a-fA-F0-9]{1,6}|\w+);)/g, caret: /(^|[^\[])\^/g, percentDecode: /%25/g, findPipe: /\|/g, splitPipe: / \|/, slashPipe: /\\\|/g, carriageReturn: /\r\n|\r/g, spaceLine: /^ +$/gm, notSpaceStart: /^\S*/, endingNewline: /\n$/, listItemRegex: (u3) => new RegExp(`^( {0,3}${u3})((?:[	 ][^\\n]*)?(?:\\n|$))`), nextBulletRegex: (u3) => new RegExp(`^ {0,${Math.min(3, u3 - 1)}}(?:[*+-]|\\d{1,9}[.)])((?:[ 	][^\\n]*)?(?:\\n|$))`), hrRegex: (u3) => new RegExp(`^ {0,${Math.min(3, u3 - 1)}}((?:- *){3,}|(?:_ *){3,}|(?:\\* *){3,})(?:\\n+|$)`), fencesBeginRegex: (u3) => new RegExp(`^ {0,${Math.min(3, u3 - 1)}}(?:\`\`\`|~~~)`), headingBeginRegex: (u3) => new RegExp(`^ {0,${Math.min(3, u3 - 1)}}#`), htmlBeginRegex: (u3) => new RegExp(`^ {0,${Math.min(3, u3 - 1)}}<(?:[a-z].*>|!--)`, "i"), blockquoteBeginRegex: (u3) => new RegExp(`^ {0,${Math.min(3, u3 - 1)}}>`) };
-var Re = /^(?:[ \t]*(?:\n|$))+/;
-var Oe = /^((?: {4}| {0,3}\t)[^\n]+(?:\n(?:[ \t]*(?:\n|$))*)?)+/;
-var Te = /^ {0,3}(`{3,}(?=[^`\n]*(?:\n|$))|~{3,})([^\n]*)(?:\n|$)(?:|([\s\S]*?)(?:\n|$))(?: {0,3}\1[~`]* *(?=\n|$)|$)/;
-var C = /^ {0,3}((?:-[\t ]*){3,}|(?:_[ \t]*){3,}|(?:\*[ \t]*){3,})(?:\n+|$)/;
-var we = /^ {0,3}(#{1,6})(?=\s|$)(.*)(?:\n+|$)/;
-var Q = / {0,3}(?:[*+-]|\d{1,9}[.)])/;
-var se = /^(?!bull |blockCode|fences|blockquote|heading|html|table)((?:.|\n(?!\s*?\n|bull |blockCode|fences|blockquote|heading|html|table))+?)\n {0,3}(=+|-+) *(?:\n+|$)/;
-var ie = k(se).replace(/bull/g, Q).replace(/blockCode/g, /(?: {4}| {0,3}\t)/).replace(/fences/g, / {0,3}(?:`{3,}|~{3,})/).replace(/blockquote/g, / {0,3}>/).replace(/heading/g, / {0,3}#{1,6}/).replace(/html/g, / {0,3}<[^\n>]+>\n/).replace(/\|table/g, "").getRegex();
-var ye = k(se).replace(/bull/g, Q).replace(/blockCode/g, /(?: {4}| {0,3}\t)/).replace(/fences/g, / {0,3}(?:`{3,}|~{3,})/).replace(/blockquote/g, / {0,3}>/).replace(/heading/g, / {0,3}#{1,6}/).replace(/html/g, / {0,3}<[^\n>]+>\n/).replace(/table/g, / {0,3}\|?(?:[:\- ]*\|)+[\:\- ]*\n/).getRegex();
-var j = /^([^\n]+(?:\n(?!hr|heading|lheading|blockquote|fences|list|html|table| +\n)[^\n]+)*)/;
-var Pe = /^[^\n]+/;
-var F = /(?!\s*\])(?:\\[\s\S]|[^\[\]\\])+/;
-var Se = k(/^ {0,3}\[(label)\]: *(?:\n[ \t]*)?([^<\s][^\s]*|<.*?>)(?:(?: +(?:\n[ \t]*)?| *\n[ \t]*)(title))? *(?:\n+|$)/).replace("label", F).replace("title", /(?:"(?:\\"?|[^"\\])*"|'[^'\n]*(?:\n[^'\n]+)*\n?'|\([^()]*\))/).getRegex();
-var $e = k(/^(bull)([ \t][^\n]+?)?(?:\n|$)/).replace(/bull/g, Q).getRegex();
-var v = "address|article|aside|base|basefont|blockquote|body|caption|center|col|colgroup|dd|details|dialog|dir|div|dl|dt|fieldset|figcaption|figure|footer|form|frame|frameset|h[1-6]|head|header|hr|html|iframe|legend|li|link|main|menu|menuitem|meta|nav|noframes|ol|optgroup|option|p|param|search|section|summary|table|tbody|td|tfoot|th|thead|title|tr|track|ul";
-var U = /<!--(?:-?>|[\s\S]*?(?:-->|$))/;
-var _e = k("^ {0,3}(?:<(script|pre|style|textarea)[\\s>][\\s\\S]*?(?:</\\1>[^\\n]*\\n+|$)|comment[^\\n]*(\\n+|$)|<\\?[\\s\\S]*?(?:\\?>\\n*|$)|<![A-Z][\\s\\S]*?(?:>\\n*|$)|<!\\[CDATA\\[[\\s\\S]*?(?:\\]\\]>\\n*|$)|</?(tag)(?: +|\\n|/?>)[\\s\\S]*?(?:(?:\\n[ 	]*)+\\n|$)|<(?!script|pre|style|textarea)([a-z][\\w-]*)(?:attribute)*? */?>(?=[ \\t]*(?:\\n|$))[\\s\\S]*?(?:(?:\\n[ 	]*)+\\n|$)|</(?!script|pre|style|textarea)[a-z][\\w-]*\\s*>(?=[ \\t]*(?:\\n|$))[\\s\\S]*?(?:(?:\\n[ 	]*)+\\n|$))", "i").replace("comment", U).replace("tag", v).replace("attribute", / +[a-zA-Z:_][\w.:-]*(?: *= *"[^"\n]*"| *= *'[^'\n]*'| *= *[^\s"'=<>`]+)?/).getRegex();
-var oe = k(j).replace("hr", C).replace("heading", " {0,3}#{1,6}(?:\\s|$)").replace("|lheading", "").replace("|table", "").replace("blockquote", " {0,3}>").replace("fences", " {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list", " {0,3}(?:[*+-]|1[.)])[ \\t]").replace("html", "</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag", v).getRegex();
-var Le = k(/^( {0,3}> ?(paragraph|[^\n]*)(?:\n|$))+/).replace("paragraph", oe).getRegex();
-var K = { blockquote: Le, code: Oe, def: Se, fences: Te, heading: we, hr: C, html: _e, lheading: ie, list: $e, newline: Re, paragraph: oe, table: _, text: Pe };
-var ne = k("^ *([^\\n ].*)\\n {0,3}((?:\\| *)?:?-+:? *(?:\\| *:?-+:? *)*(?:\\| *)?)(?:\\n((?:(?! *\\n|hr|heading|blockquote|code|fences|list|html).*(?:\\n|$))*)\\n*|$)").replace("hr", C).replace("heading", " {0,3}#{1,6}(?:\\s|$)").replace("blockquote", " {0,3}>").replace("code", "(?: {4}| {0,3}	)[^\\n]").replace("fences", " {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list", " {0,3}(?:[*+-]|1[.)])[ \\t]").replace("html", "</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag", v).getRegex();
-var Me = { ...K, lheading: ye, table: ne, paragraph: k(j).replace("hr", C).replace("heading", " {0,3}#{1,6}(?:\\s|$)").replace("|lheading", "").replace("table", ne).replace("blockquote", " {0,3}>").replace("fences", " {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list", " {0,3}(?:[*+-]|1[.)])[ \\t]").replace("html", "</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag", v).getRegex() };
-var ze = { ...K, html: k(`^ *(?:comment *(?:\\n|\\s*$)|<(tag)[\\s\\S]+?</\\1> *(?:\\n{2,}|\\s*$)|<tag(?:"[^"]*"|'[^']*'|\\s[^'"/>\\s]*)*?/?> *(?:\\n{2,}|\\s*$))`).replace("comment", U).replace(/tag/g, "(?!(?:a|em|strong|small|s|cite|q|dfn|abbr|data|time|code|var|samp|kbd|sub|sup|i|b|u|mark|ruby|rt|rp|bdi|bdo|span|br|wbr|ins|del|img)\\b)\\w+(?!:|[^\\w\\s@]*@)\\b").getRegex(), def: /^ *\[([^\]]+)\]: *<?([^\s>]+)>?(?: +(["(][^\n]+[")]))? *(?:\n+|$)/, heading: /^(#{1,6})(.*)(?:\n+|$)/, fences: _, lheading: /^(.+?)\n {0,3}(=+|-+) *(?:\n+|$)/, paragraph: k(j).replace("hr", C).replace("heading", ` *#{1,6} *[^
-]`).replace("lheading", ie).replace("|table", "").replace("blockquote", " {0,3}>").replace("|fences", "").replace("|list", "").replace("|html", "").replace("|tag", "").getRegex() };
-var Ee = /^\\([!"#$%&'()*+,\-./:;<=>?@\[\]\\^_`{|}~])/;
-var Ie = /^(`+)([^`]|[^`][\s\S]*?[^`])\1(?!`)/;
-var ae = /^( {2,}|\\)\n(?!\s*$)/;
-var Ae = /^(`+|[^`])(?:(?= {2,}\n)|[\s\S]*?(?:(?=[\\<!\[`*_]|\b_|$)|[^ ](?= {2,}\n)))/;
-var z2 = /[\p{P}\p{S}]/u;
-var H = /[\s\p{P}\p{S}]/u;
-var W = /[^\s\p{P}\p{S}]/u;
-var Ce = k(/^((?![*_])punctSpace)/, "u").replace(/punctSpace/g, H).getRegex();
-var le = /(?!~)[\p{P}\p{S}]/u;
-var Be = /(?!~)[\s\p{P}\p{S}]/u;
-var De = /(?:[^\s\p{P}\p{S}]|~)/u;
-var qe = k(/link|precode-code|html/, "g").replace("link", /\[(?:[^\[\]`]|(?<a>`+)[^`]+\k<a>(?!`))*?\]\((?:\\[\s\S]|[^\\\(\)]|\((?:\\[\s\S]|[^\\\(\)])*\))*\)/).replace("precode-", be ? "(?<!`)()" : "(^^|[^`])").replace("code", /(?<b>`+)[^`]+\k<b>(?!`)/).replace("html", /<(?! )[^<>]*?>/).getRegex();
-var ue = /^(?:\*+(?:((?!\*)punct)|([^\s*]))?)|^_+(?:((?!_)punct)|([^\s_]))?/;
-var ve = k(ue, "u").replace(/punct/g, z2).getRegex();
-var He = k(ue, "u").replace(/punct/g, le).getRegex();
-var pe = "^[^_*]*?__[^_*]*?\\*[^_*]*?(?=__)|[^*]+(?=[^*])|(?!\\*)punct(\\*+)(?=[\\s]|$)|notPunctSpace(\\*+)(?!\\*)(?=punctSpace|$)|(?!\\*)punctSpace(\\*+)(?=notPunctSpace)|[\\s](\\*+)(?!\\*)(?=punct)|(?!\\*)punct(\\*+)(?!\\*)(?=punct)|notPunctSpace(\\*+)(?=notPunctSpace)";
-var Ze = k(pe, "gu").replace(/notPunctSpace/g, W).replace(/punctSpace/g, H).replace(/punct/g, z2).getRegex();
-var Ge = k(pe, "gu").replace(/notPunctSpace/g, De).replace(/punctSpace/g, Be).replace(/punct/g, le).getRegex();
-var Ne = k("^[^_*]*?\\*\\*[^_*]*?_[^_*]*?(?=\\*\\*)|[^_]+(?=[^_])|(?!_)punct(_+)(?=[\\s]|$)|notPunctSpace(_+)(?!_)(?=punctSpace|$)|(?!_)punctSpace(_+)(?=notPunctSpace)|[\\s](_+)(?!_)(?=punct)|(?!_)punct(_+)(?!_)(?=punct)", "gu").replace(/notPunctSpace/g, W).replace(/punctSpace/g, H).replace(/punct/g, z2).getRegex();
-var Qe = k(/^~~?(?:((?!~)punct)|[^\s~])/, "u").replace(/punct/g, z2).getRegex();
-var je = "^[^~]+(?=[^~])|(?!~)punct(~~?)(?=[\\s]|$)|notPunctSpace(~~?)(?!~)(?=punctSpace|$)|(?!~)punctSpace(~~?)(?=notPunctSpace)|[\\s](~~?)(?!~)(?=punct)|(?!~)punct(~~?)(?!~)(?=punct)|notPunctSpace(~~?)(?=notPunctSpace)";
-var Fe = k(je, "gu").replace(/notPunctSpace/g, W).replace(/punctSpace/g, H).replace(/punct/g, z2).getRegex();
-var Ue = k(/\\(punct)/, "gu").replace(/punct/g, z2).getRegex();
-var Ke = k(/^<(scheme:[^\s\x00-\x1f<>]*|email)>/).replace("scheme", /[a-zA-Z][a-zA-Z0-9+.-]{1,31}/).replace("email", /[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+(@)[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+(?![-_])/).getRegex();
-var We = k(U).replace("(?:-->|$)", "-->").getRegex();
-var Xe = k("^comment|^</[a-zA-Z][\\w:-]*\\s*>|^<[a-zA-Z][\\w-]*(?:attribute)*?\\s*/?>|^<\\?[\\s\\S]*?\\?>|^<![a-zA-Z]+\\s[\\s\\S]*?>|^<!\\[CDATA\\[[\\s\\S]*?\\]\\]>").replace("comment", We).replace("attribute", /\s+[a-zA-Z:_][\w.:-]*(?:\s*=\s*"[^"]*"|\s*=\s*'[^']*'|\s*=\s*[^\s"'=<>`]+)?/).getRegex();
-var q = /(?:\[(?:\\[\s\S]|[^\[\]\\])*\]|\\[\s\S]|`+(?!`)[^`]*?`+(?!`)|``+(?=\])|[^\[\]\\`])*?/;
-var Je = k(/^!?\[(label)\]\(\s*(href)(?:(?:[ \t]+(?:\n[ \t]*)?|\n[ \t]*)(title))?\s*\)/).replace("label", q).replace("href", /<(?:\\.|[^\n<>\\])+>|[^ \t\n\x00-\x1f]*/).replace("title", /"(?:\\"?|[^"\\])*"|'(?:\\'?|[^'\\])*'|\((?:\\\)?|[^)\\])*\)/).getRegex();
-var ce = k(/^!?\[(label)\]\[(ref)\]/).replace("label", q).replace("ref", F).getRegex();
-var he = k(/^!?\[(ref)\](?:\[\])?/).replace("ref", F).getRegex();
-var Ve = k("reflink|nolink(?!\\()", "g").replace("reflink", ce).replace("nolink", he).getRegex();
-var re = /[hH][tT][tT][pP][sS]?|[fF][tT][pP]/;
-var X = { _backpedal: _, anyPunctuation: Ue, autolink: Ke, blockSkip: qe, br: ae, code: Ie, del: _, delLDelim: _, delRDelim: _, emStrongLDelim: ve, emStrongRDelimAst: Ze, emStrongRDelimUnd: Ne, escape: Ee, link: Je, nolink: he, punctuation: Ce, reflink: ce, reflinkSearch: Ve, tag: Xe, text: Ae, url: _ };
-var Ye = { ...X, link: k(/^!?\[(label)\]\((.*?)\)/).replace("label", q).getRegex(), reflink: k(/^!?\[(label)\]\s*\[([^\]]*)\]/).replace("label", q).getRegex() };
-var N = { ...X, emStrongRDelimAst: Ge, emStrongLDelim: He, delLDelim: Qe, delRDelim: Fe, url: k(/^((?:protocol):\/\/|www\.)(?:[a-zA-Z0-9\-]+\.?)+[^\s<]*|^email/).replace("protocol", re).replace("email", /[A-Za-z0-9._+-]+(@)[a-zA-Z0-9-_]+(?:\.[a-zA-Z0-9-_]*[a-zA-Z0-9])+(?![-_])/).getRegex(), _backpedal: /(?:[^?!.,:;*_'"~()&]+|\([^)]*\)|&(?![a-zA-Z0-9]+;$)|[?!.,:;*_'"~)]+(?!$))+/, del: /^(~~?)(?=[^\s~])((?:\\[\s\S]|[^\\])*?(?:\\[\s\S]|[^\s~\\]))\1(?=[^~]|$)/, text: k(/^([`~]+|[^`~])(?:(?= {2,}\n)|(?=[a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-]+@)|[\s\S]*?(?:(?=[\\<!\[`*~_]|\b_|protocol:\/\/|www\.|$)|[^ ](?= {2,}\n)|[^a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-](?=[a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-]+@)))/).replace("protocol", re).getRegex() };
-var et = { ...N, br: k(ae).replace("{2,}", "*").getRegex(), text: k(N.text).replace("\\b_", "\\b_| {2,}\\n").replace(/\{2,\}/g, "*").getRegex() };
-var B = { normal: K, gfm: Me, pedantic: ze };
-var E = { normal: X, gfm: N, breaks: et, pedantic: Ye };
-var tt = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" };
-var ke = (u3) => tt[u3];
-function T(u3, e) {
-  if (e) {
-    if (m.escapeTest.test(u3)) return u3.replace(m.escapeReplace, ke);
-  } else if (m.escapeTestNoEncode.test(u3)) return u3.replace(m.escapeReplaceNoEncode, ke);
-  return u3;
-}
-function J(u3) {
-  try {
-    u3 = encodeURI(u3).replace(m.percentDecode, "%");
-  } catch {
-    return null;
-  }
-  return u3;
-}
-function V(u3, e) {
-  let t = u3.replace(m.findPipe, (i, s, a) => {
-    let o = false, l = s;
-    for (; --l >= 0 && a[l] === "\\"; ) o = !o;
-    return o ? "|" : " |";
-  }), n = t.split(m.splitPipe), r = 0;
-  if (n[0].trim() || n.shift(), n.length > 0 && !n.at(-1)?.trim() && n.pop(), e) if (n.length > e) n.splice(e);
-  else for (; n.length < e; ) n.push("");
-  for (; r < n.length; r++) n[r] = n[r].trim().replace(m.slashPipe, "|");
-  return n;
-}
-function I(u3, e, t) {
-  let n = u3.length;
-  if (n === 0) return "";
-  let r = 0;
-  for (; r < n; ) {
-    let i = u3.charAt(n - r - 1);
-    if (i === e && !t) r++;
-    else if (i !== e && t) r++;
-    else break;
-  }
-  return u3.slice(0, n - r);
-}
-function de(u3, e) {
-  if (u3.indexOf(e[1]) === -1) return -1;
-  let t = 0;
-  for (let n = 0; n < u3.length; n++) if (u3[n] === "\\") n++;
-  else if (u3[n] === e[0]) t++;
-  else if (u3[n] === e[1] && (t--, t < 0)) return n;
-  return t > 0 ? -2 : -1;
-}
-function ge(u3, e = 0) {
-  let t = e, n = "";
-  for (let r of u3) if (r === "	") {
-    let i = 4 - t % 4;
-    n += " ".repeat(i), t += i;
-  } else n += r, t++;
-  return n;
-}
-function fe(u3, e, t, n, r) {
-  let i = e.href, s = e.title || null, a = u3[1].replace(r.other.outputLinkReplace, "$1");
-  n.state.inLink = true;
-  let o = { type: u3[0].charAt(0) === "!" ? "image" : "link", raw: t, href: i, title: s, text: a, tokens: n.inlineTokens(a) };
-  return n.state.inLink = false, o;
-}
-function nt(u3, e, t) {
-  let n = u3.match(t.other.indentCodeCompensation);
-  if (n === null) return e;
-  let r = n[1];
-  return e.split(`
-`).map((i) => {
-    let s = i.match(t.other.beginningSpace);
-    if (s === null) return i;
-    let [a] = s;
-    return a.length >= r.length ? i.slice(r.length) : i;
-  }).join(`
-`);
-}
-var w = class {
-  options;
-  rules;
-  lexer;
-  constructor(e) {
-    this.options = e || O;
-  }
-  space(e) {
-    let t = this.rules.block.newline.exec(e);
-    if (t && t[0].length > 0) return { type: "space", raw: t[0] };
-  }
-  code(e) {
-    let t = this.rules.block.code.exec(e);
-    if (t) {
-      let n = t[0].replace(this.rules.other.codeRemoveIndent, "");
-      return { type: "code", raw: t[0], codeBlockStyle: "indented", text: this.options.pedantic ? n : I(n, `
-`) };
-    }
-  }
-  fences(e) {
-    let t = this.rules.block.fences.exec(e);
-    if (t) {
-      let n = t[0], r = nt(n, t[3] || "", this.rules);
-      return { type: "code", raw: n, lang: t[2] ? t[2].trim().replace(this.rules.inline.anyPunctuation, "$1") : t[2], text: r };
-    }
-  }
-  heading(e) {
-    let t = this.rules.block.heading.exec(e);
-    if (t) {
-      let n = t[2].trim();
-      if (this.rules.other.endingHash.test(n)) {
-        let r = I(n, "#");
-        (this.options.pedantic || !r || this.rules.other.endingSpaceChar.test(r)) && (n = r.trim());
-      }
-      return { type: "heading", raw: t[0], depth: t[1].length, text: n, tokens: this.lexer.inline(n) };
-    }
-  }
-  hr(e) {
-    let t = this.rules.block.hr.exec(e);
-    if (t) return { type: "hr", raw: I(t[0], `
-`) };
-  }
-  blockquote(e) {
-    let t = this.rules.block.blockquote.exec(e);
-    if (t) {
-      let n = I(t[0], `
-`).split(`
-`), r = "", i = "", s = [];
-      for (; n.length > 0; ) {
-        let a = false, o = [], l;
-        for (l = 0; l < n.length; l++) if (this.rules.other.blockquoteStart.test(n[l])) o.push(n[l]), a = true;
-        else if (!a) o.push(n[l]);
-        else break;
-        n = n.slice(l);
-        let p = o.join(`
-`), c = p.replace(this.rules.other.blockquoteSetextReplace, `
-    $1`).replace(this.rules.other.blockquoteSetextReplace2, "");
-        r = r ? `${r}
-${p}` : p, i = i ? `${i}
-${c}` : c;
-        let d = this.lexer.state.top;
-        if (this.lexer.state.top = true, this.lexer.blockTokens(c, s, true), this.lexer.state.top = d, n.length === 0) break;
-        let h = s.at(-1);
-        if (h?.type === "code") break;
-        if (h?.type === "blockquote") {
-          let R = h, f = R.raw + `
-` + n.join(`
-`), S = this.blockquote(f);
-          s[s.length - 1] = S, r = r.substring(0, r.length - R.raw.length) + S.raw, i = i.substring(0, i.length - R.text.length) + S.text;
-          break;
-        } else if (h?.type === "list") {
-          let R = h, f = R.raw + `
-` + n.join(`
-`), S = this.list(f);
-          s[s.length - 1] = S, r = r.substring(0, r.length - h.raw.length) + S.raw, i = i.substring(0, i.length - R.raw.length) + S.raw, n = f.substring(s.at(-1).raw.length).split(`
-`);
-          continue;
-        }
-      }
-      return { type: "blockquote", raw: r, tokens: s, text: i };
-    }
-  }
-  list(e) {
-    let t = this.rules.block.list.exec(e);
-    if (t) {
-      let n = t[1].trim(), r = n.length > 1, i = { type: "list", raw: "", ordered: r, start: r ? +n.slice(0, -1) : "", loose: false, items: [] };
-      n = r ? `\\d{1,9}\\${n.slice(-1)}` : `\\${n}`, this.options.pedantic && (n = r ? n : "[*+-]");
-      let s = this.rules.other.listItemRegex(n), a = false;
-      for (; e; ) {
-        let l = false, p = "", c = "";
-        if (!(t = s.exec(e)) || this.rules.block.hr.test(e)) break;
-        p = t[0], e = e.substring(p.length);
-        let d = ge(t[2].split(`
-`, 1)[0], t[1].length), h = e.split(`
-`, 1)[0], R = !d.trim(), f = 0;
-        if (this.options.pedantic ? (f = 2, c = d.trimStart()) : R ? f = t[1].length + 1 : (f = d.search(this.rules.other.nonSpaceChar), f = f > 4 ? 1 : f, c = d.slice(f), f += t[1].length), R && this.rules.other.blankLine.test(h) && (p += h + `
-`, e = e.substring(h.length + 1), l = true), !l) {
-          let S = this.rules.other.nextBulletRegex(f), Y = this.rules.other.hrRegex(f), ee = this.rules.other.fencesBeginRegex(f), te = this.rules.other.headingBeginRegex(f), me = this.rules.other.htmlBeginRegex(f), xe = this.rules.other.blockquoteBeginRegex(f);
-          for (; e; ) {
-            let Z = e.split(`
-`, 1)[0], A;
-            if (h = Z, this.options.pedantic ? (h = h.replace(this.rules.other.listReplaceNesting, "  "), A = h) : A = h.replace(this.rules.other.tabCharGlobal, "    "), ee.test(h) || te.test(h) || me.test(h) || xe.test(h) || S.test(h) || Y.test(h)) break;
-            if (A.search(this.rules.other.nonSpaceChar) >= f || !h.trim()) c += `
-` + A.slice(f);
-            else {
-              if (R || d.replace(this.rules.other.tabCharGlobal, "    ").search(this.rules.other.nonSpaceChar) >= 4 || ee.test(d) || te.test(d) || Y.test(d)) break;
-              c += `
-` + h;
-            }
-            R = !h.trim(), p += Z + `
-`, e = e.substring(Z.length + 1), d = A.slice(f);
-          }
-        }
-        i.loose || (a ? i.loose = true : this.rules.other.doubleBlankLine.test(p) && (a = true)), i.items.push({ type: "list_item", raw: p, task: !!this.options.gfm && this.rules.other.listIsTask.test(c), loose: false, text: c, tokens: [] }), i.raw += p;
-      }
-      let o = i.items.at(-1);
-      if (o) o.raw = o.raw.trimEnd(), o.text = o.text.trimEnd();
-      else return;
-      i.raw = i.raw.trimEnd();
-      for (let l of i.items) {
-        if (this.lexer.state.top = false, l.tokens = this.lexer.blockTokens(l.text, []), l.task) {
-          if (l.text = l.text.replace(this.rules.other.listReplaceTask, ""), l.tokens[0]?.type === "text" || l.tokens[0]?.type === "paragraph") {
-            l.tokens[0].raw = l.tokens[0].raw.replace(this.rules.other.listReplaceTask, ""), l.tokens[0].text = l.tokens[0].text.replace(this.rules.other.listReplaceTask, "");
-            for (let c = this.lexer.inlineQueue.length - 1; c >= 0; c--) if (this.rules.other.listIsTask.test(this.lexer.inlineQueue[c].src)) {
-              this.lexer.inlineQueue[c].src = this.lexer.inlineQueue[c].src.replace(this.rules.other.listReplaceTask, "");
-              break;
-            }
-          }
-          let p = this.rules.other.listTaskCheckbox.exec(l.raw);
-          if (p) {
-            let c = { type: "checkbox", raw: p[0] + " ", checked: p[0] !== "[ ]" };
-            l.checked = c.checked, i.loose ? l.tokens[0] && ["paragraph", "text"].includes(l.tokens[0].type) && "tokens" in l.tokens[0] && l.tokens[0].tokens ? (l.tokens[0].raw = c.raw + l.tokens[0].raw, l.tokens[0].text = c.raw + l.tokens[0].text, l.tokens[0].tokens.unshift(c)) : l.tokens.unshift({ type: "paragraph", raw: c.raw, text: c.raw, tokens: [c] }) : l.tokens.unshift(c);
-          }
-        }
-        if (!i.loose) {
-          let p = l.tokens.filter((d) => d.type === "space"), c = p.length > 0 && p.some((d) => this.rules.other.anyLine.test(d.raw));
-          i.loose = c;
-        }
-      }
-      if (i.loose) for (let l of i.items) {
-        l.loose = true;
-        for (let p of l.tokens) p.type === "text" && (p.type = "paragraph");
-      }
-      return i;
-    }
-  }
-  html(e) {
-    let t = this.rules.block.html.exec(e);
-    if (t) return { type: "html", block: true, raw: t[0], pre: t[1] === "pre" || t[1] === "script" || t[1] === "style", text: t[0] };
-  }
-  def(e) {
-    let t = this.rules.block.def.exec(e);
-    if (t) {
-      let n = t[1].toLowerCase().replace(this.rules.other.multipleSpaceGlobal, " "), r = t[2] ? t[2].replace(this.rules.other.hrefBrackets, "$1").replace(this.rules.inline.anyPunctuation, "$1") : "", i = t[3] ? t[3].substring(1, t[3].length - 1).replace(this.rules.inline.anyPunctuation, "$1") : t[3];
-      return { type: "def", tag: n, raw: t[0], href: r, title: i };
-    }
-  }
-  table(e) {
-    let t = this.rules.block.table.exec(e);
-    if (!t || !this.rules.other.tableDelimiter.test(t[2])) return;
-    let n = V(t[1]), r = t[2].replace(this.rules.other.tableAlignChars, "").split("|"), i = t[3]?.trim() ? t[3].replace(this.rules.other.tableRowBlankLine, "").split(`
-`) : [], s = { type: "table", raw: t[0], header: [], align: [], rows: [] };
-    if (n.length === r.length) {
-      for (let a of r) this.rules.other.tableAlignRight.test(a) ? s.align.push("right") : this.rules.other.tableAlignCenter.test(a) ? s.align.push("center") : this.rules.other.tableAlignLeft.test(a) ? s.align.push("left") : s.align.push(null);
-      for (let a = 0; a < n.length; a++) s.header.push({ text: n[a], tokens: this.lexer.inline(n[a]), header: true, align: s.align[a] });
-      for (let a of i) s.rows.push(V(a, s.header.length).map((o, l) => ({ text: o, tokens: this.lexer.inline(o), header: false, align: s.align[l] })));
-      return s;
-    }
-  }
-  lheading(e) {
-    let t = this.rules.block.lheading.exec(e);
-    if (t) {
-      let n = t[1].trim();
-      return { type: "heading", raw: t[0], depth: t[2].charAt(0) === "=" ? 1 : 2, text: n, tokens: this.lexer.inline(n) };
-    }
-  }
-  paragraph(e) {
-    let t = this.rules.block.paragraph.exec(e);
-    if (t) {
-      let n = t[1].charAt(t[1].length - 1) === `
-` ? t[1].slice(0, -1) : t[1];
-      return { type: "paragraph", raw: t[0], text: n, tokens: this.lexer.inline(n) };
-    }
-  }
-  text(e) {
-    let t = this.rules.block.text.exec(e);
-    if (t) return { type: "text", raw: t[0], text: t[0], tokens: this.lexer.inline(t[0]) };
-  }
-  escape(e) {
-    let t = this.rules.inline.escape.exec(e);
-    if (t) return { type: "escape", raw: t[0], text: t[1] };
-  }
-  tag(e) {
-    let t = this.rules.inline.tag.exec(e);
-    if (t) return !this.lexer.state.inLink && this.rules.other.startATag.test(t[0]) ? this.lexer.state.inLink = true : this.lexer.state.inLink && this.rules.other.endATag.test(t[0]) && (this.lexer.state.inLink = false), !this.lexer.state.inRawBlock && this.rules.other.startPreScriptTag.test(t[0]) ? this.lexer.state.inRawBlock = true : this.lexer.state.inRawBlock && this.rules.other.endPreScriptTag.test(t[0]) && (this.lexer.state.inRawBlock = false), { type: "html", raw: t[0], inLink: this.lexer.state.inLink, inRawBlock: this.lexer.state.inRawBlock, block: false, text: t[0] };
-  }
-  link(e) {
-    let t = this.rules.inline.link.exec(e);
-    if (t) {
-      let n = t[2].trim();
-      if (!this.options.pedantic && this.rules.other.startAngleBracket.test(n)) {
-        if (!this.rules.other.endAngleBracket.test(n)) return;
-        let s = I(n.slice(0, -1), "\\");
-        if ((n.length - s.length) % 2 === 0) return;
-      } else {
-        let s = de(t[2], "()");
-        if (s === -2) return;
-        if (s > -1) {
-          let o = (t[0].indexOf("!") === 0 ? 5 : 4) + t[1].length + s;
-          t[2] = t[2].substring(0, s), t[0] = t[0].substring(0, o).trim(), t[3] = "";
-        }
-      }
-      let r = t[2], i = "";
-      if (this.options.pedantic) {
-        let s = this.rules.other.pedanticHrefTitle.exec(r);
-        s && (r = s[1], i = s[3]);
-      } else i = t[3] ? t[3].slice(1, -1) : "";
-      return r = r.trim(), this.rules.other.startAngleBracket.test(r) && (this.options.pedantic && !this.rules.other.endAngleBracket.test(n) ? r = r.slice(1) : r = r.slice(1, -1)), fe(t, { href: r && r.replace(this.rules.inline.anyPunctuation, "$1"), title: i && i.replace(this.rules.inline.anyPunctuation, "$1") }, t[0], this.lexer, this.rules);
-    }
-  }
-  reflink(e, t) {
-    let n;
-    if ((n = this.rules.inline.reflink.exec(e)) || (n = this.rules.inline.nolink.exec(e))) {
-      let r = (n[2] || n[1]).replace(this.rules.other.multipleSpaceGlobal, " "), i = t[r.toLowerCase()];
-      if (!i) {
-        let s = n[0].charAt(0);
-        return { type: "text", raw: s, text: s };
-      }
-      return fe(n, i, n[0], this.lexer, this.rules);
-    }
-  }
-  emStrong(e, t, n = "") {
-    let r = this.rules.inline.emStrongLDelim.exec(e);
-    if (!r || !r[1] && !r[2] && !r[3] && !r[4] || r[4] && n.match(this.rules.other.unicodeAlphaNumeric)) return;
-    if (!(r[1] || r[3] || "") || !n || this.rules.inline.punctuation.exec(n)) {
-      let s = [...r[0]].length - 1, a, o, l = s, p = 0, c = r[0][0] === "*" ? this.rules.inline.emStrongRDelimAst : this.rules.inline.emStrongRDelimUnd;
-      for (c.lastIndex = 0, t = t.slice(-1 * e.length + s); (r = c.exec(t)) !== null; ) {
-        if (a = r[1] || r[2] || r[3] || r[4] || r[5] || r[6], !a) continue;
-        if (o = [...a].length, r[3] || r[4]) {
-          l += o;
-          continue;
-        } else if ((r[5] || r[6]) && s % 3 && !((s + o) % 3)) {
-          p += o;
-          continue;
-        }
-        if (l -= o, l > 0) continue;
-        o = Math.min(o, o + l + p);
-        let d = [...r[0]][0].length, h = e.slice(0, s + r.index + d + o);
-        if (Math.min(s, o) % 2) {
-          let f = h.slice(1, -1);
-          return { type: "em", raw: h, text: f, tokens: this.lexer.inlineTokens(f) };
-        }
-        let R = h.slice(2, -2);
-        return { type: "strong", raw: h, text: R, tokens: this.lexer.inlineTokens(R) };
-      }
-    }
-  }
-  codespan(e) {
-    let t = this.rules.inline.code.exec(e);
-    if (t) {
-      let n = t[2].replace(this.rules.other.newLineCharGlobal, " "), r = this.rules.other.nonSpaceChar.test(n), i = this.rules.other.startingSpaceChar.test(n) && this.rules.other.endingSpaceChar.test(n);
-      return r && i && (n = n.substring(1, n.length - 1)), { type: "codespan", raw: t[0], text: n };
-    }
-  }
-  br(e) {
-    let t = this.rules.inline.br.exec(e);
-    if (t) return { type: "br", raw: t[0] };
-  }
-  del(e, t, n = "") {
-    let r = this.rules.inline.delLDelim.exec(e);
-    if (!r) return;
-    if (!(r[1] || "") || !n || this.rules.inline.punctuation.exec(n)) {
-      let s = [...r[0]].length - 1, a, o, l = s, p = this.rules.inline.delRDelim;
-      for (p.lastIndex = 0, t = t.slice(-1 * e.length + s); (r = p.exec(t)) !== null; ) {
-        if (a = r[1] || r[2] || r[3] || r[4] || r[5] || r[6], !a || (o = [...a].length, o !== s)) continue;
-        if (r[3] || r[4]) {
-          l += o;
-          continue;
-        }
-        if (l -= o, l > 0) continue;
-        o = Math.min(o, o + l);
-        let c = [...r[0]][0].length, d = e.slice(0, s + r.index + c + o), h = d.slice(s, -s);
-        return { type: "del", raw: d, text: h, tokens: this.lexer.inlineTokens(h) };
-      }
-    }
-  }
-  autolink(e) {
-    let t = this.rules.inline.autolink.exec(e);
-    if (t) {
-      let n, r;
-      return t[2] === "@" ? (n = t[1], r = "mailto:" + n) : (n = t[1], r = n), { type: "link", raw: t[0], text: n, href: r, tokens: [{ type: "text", raw: n, text: n }] };
-    }
-  }
-  url(e) {
-    let t;
-    if (t = this.rules.inline.url.exec(e)) {
-      let n, r;
-      if (t[2] === "@") n = t[0], r = "mailto:" + n;
-      else {
-        let i;
-        do
-          i = t[0], t[0] = this.rules.inline._backpedal.exec(t[0])?.[0] ?? "";
-        while (i !== t[0]);
-        n = t[0], t[1] === "www." ? r = "http://" + t[0] : r = t[0];
-      }
-      return { type: "link", raw: t[0], text: n, href: r, tokens: [{ type: "text", raw: n, text: n }] };
-    }
-  }
-  inlineText(e) {
-    let t = this.rules.inline.text.exec(e);
-    if (t) {
-      let n = this.lexer.state.inRawBlock;
-      return { type: "text", raw: t[0], text: t[0], escaped: n };
-    }
-  }
-};
-var x = class u {
-  tokens;
-  options;
-  state;
-  inlineQueue;
-  tokenizer;
-  constructor(e) {
-    this.tokens = [], this.tokens.links = /* @__PURE__ */ Object.create(null), this.options = e || O, this.options.tokenizer = this.options.tokenizer || new w(), this.tokenizer = this.options.tokenizer, this.tokenizer.options = this.options, this.tokenizer.lexer = this, this.inlineQueue = [], this.state = { inLink: false, inRawBlock: false, top: true };
-    let t = { other: m, block: B.normal, inline: E.normal };
-    this.options.pedantic ? (t.block = B.pedantic, t.inline = E.pedantic) : this.options.gfm && (t.block = B.gfm, this.options.breaks ? t.inline = E.breaks : t.inline = E.gfm), this.tokenizer.rules = t;
-  }
-  static get rules() {
-    return { block: B, inline: E };
-  }
-  static lex(e, t) {
-    return new u(t).lex(e);
-  }
-  static lexInline(e, t) {
-    return new u(t).inlineTokens(e);
-  }
-  lex(e) {
-    e = e.replace(m.carriageReturn, `
-`), this.blockTokens(e, this.tokens);
-    for (let t = 0; t < this.inlineQueue.length; t++) {
-      let n = this.inlineQueue[t];
-      this.inlineTokens(n.src, n.tokens);
-    }
-    return this.inlineQueue = [], this.tokens;
-  }
-  blockTokens(e, t = [], n = false) {
-    for (this.tokenizer.lexer = this, this.options.pedantic && (e = e.replace(m.tabCharGlobal, "    ").replace(m.spaceLine, "")); e; ) {
-      let r;
-      if (this.options.extensions?.block?.some((s) => (r = s.call({ lexer: this }, e, t)) ? (e = e.substring(r.raw.length), t.push(r), true) : false)) continue;
-      if (r = this.tokenizer.space(e)) {
-        e = e.substring(r.raw.length);
-        let s = t.at(-1);
-        r.raw.length === 1 && s !== void 0 ? s.raw += `
-` : t.push(r);
-        continue;
-      }
-      if (r = this.tokenizer.code(e)) {
-        e = e.substring(r.raw.length);
-        let s = t.at(-1);
-        s?.type === "paragraph" || s?.type === "text" ? (s.raw += (s.raw.endsWith(`
-`) ? "" : `
-`) + r.raw, s.text += `
-` + r.text, this.inlineQueue.at(-1).src = s.text) : t.push(r);
-        continue;
-      }
-      if (r = this.tokenizer.fences(e)) {
-        e = e.substring(r.raw.length), t.push(r);
-        continue;
-      }
-      if (r = this.tokenizer.heading(e)) {
-        e = e.substring(r.raw.length), t.push(r);
-        continue;
-      }
-      if (r = this.tokenizer.hr(e)) {
-        e = e.substring(r.raw.length), t.push(r);
-        continue;
-      }
-      if (r = this.tokenizer.blockquote(e)) {
-        e = e.substring(r.raw.length), t.push(r);
-        continue;
-      }
-      if (r = this.tokenizer.list(e)) {
-        e = e.substring(r.raw.length), t.push(r);
-        continue;
-      }
-      if (r = this.tokenizer.html(e)) {
-        e = e.substring(r.raw.length), t.push(r);
-        continue;
-      }
-      if (r = this.tokenizer.def(e)) {
-        e = e.substring(r.raw.length);
-        let s = t.at(-1);
-        s?.type === "paragraph" || s?.type === "text" ? (s.raw += (s.raw.endsWith(`
-`) ? "" : `
-`) + r.raw, s.text += `
-` + r.raw, this.inlineQueue.at(-1).src = s.text) : this.tokens.links[r.tag] || (this.tokens.links[r.tag] = { href: r.href, title: r.title }, t.push(r));
-        continue;
-      }
-      if (r = this.tokenizer.table(e)) {
-        e = e.substring(r.raw.length), t.push(r);
-        continue;
-      }
-      if (r = this.tokenizer.lheading(e)) {
-        e = e.substring(r.raw.length), t.push(r);
-        continue;
-      }
-      let i = e;
-      if (this.options.extensions?.startBlock) {
-        let s = 1 / 0, a = e.slice(1), o;
-        this.options.extensions.startBlock.forEach((l) => {
-          o = l.call({ lexer: this }, a), typeof o == "number" && o >= 0 && (s = Math.min(s, o));
-        }), s < 1 / 0 && s >= 0 && (i = e.substring(0, s + 1));
-      }
-      if (this.state.top && (r = this.tokenizer.paragraph(i))) {
-        let s = t.at(-1);
-        n && s?.type === "paragraph" ? (s.raw += (s.raw.endsWith(`
-`) ? "" : `
-`) + r.raw, s.text += `
-` + r.text, this.inlineQueue.pop(), this.inlineQueue.at(-1).src = s.text) : t.push(r), n = i.length !== e.length, e = e.substring(r.raw.length);
-        continue;
-      }
-      if (r = this.tokenizer.text(e)) {
-        e = e.substring(r.raw.length);
-        let s = t.at(-1);
-        s?.type === "text" ? (s.raw += (s.raw.endsWith(`
-`) ? "" : `
-`) + r.raw, s.text += `
-` + r.text, this.inlineQueue.pop(), this.inlineQueue.at(-1).src = s.text) : t.push(r);
-        continue;
-      }
-      if (e) {
-        let s = "Infinite loop on byte: " + e.charCodeAt(0);
-        if (this.options.silent) {
-          console.error(s);
-          break;
-        } else throw new Error(s);
-      }
-    }
-    return this.state.top = true, t;
-  }
-  inline(e, t = []) {
-    return this.inlineQueue.push({ src: e, tokens: t }), t;
-  }
-  inlineTokens(e, t = []) {
-    this.tokenizer.lexer = this;
-    let n = e, r = null;
-    if (this.tokens.links) {
-      let o = Object.keys(this.tokens.links);
-      if (o.length > 0) for (; (r = this.tokenizer.rules.inline.reflinkSearch.exec(n)) !== null; ) o.includes(r[0].slice(r[0].lastIndexOf("[") + 1, -1)) && (n = n.slice(0, r.index) + "[" + "a".repeat(r[0].length - 2) + "]" + n.slice(this.tokenizer.rules.inline.reflinkSearch.lastIndex));
-    }
-    for (; (r = this.tokenizer.rules.inline.anyPunctuation.exec(n)) !== null; ) n = n.slice(0, r.index) + "++" + n.slice(this.tokenizer.rules.inline.anyPunctuation.lastIndex);
-    let i;
-    for (; (r = this.tokenizer.rules.inline.blockSkip.exec(n)) !== null; ) i = r[2] ? r[2].length : 0, n = n.slice(0, r.index + i) + "[" + "a".repeat(r[0].length - i - 2) + "]" + n.slice(this.tokenizer.rules.inline.blockSkip.lastIndex);
-    n = this.options.hooks?.emStrongMask?.call({ lexer: this }, n) ?? n;
-    let s = false, a = "";
-    for (; e; ) {
-      s || (a = ""), s = false;
-      let o;
-      if (this.options.extensions?.inline?.some((p) => (o = p.call({ lexer: this }, e, t)) ? (e = e.substring(o.raw.length), t.push(o), true) : false)) continue;
-      if (o = this.tokenizer.escape(e)) {
-        e = e.substring(o.raw.length), t.push(o);
-        continue;
-      }
-      if (o = this.tokenizer.tag(e)) {
-        e = e.substring(o.raw.length), t.push(o);
-        continue;
-      }
-      if (o = this.tokenizer.link(e)) {
-        e = e.substring(o.raw.length), t.push(o);
-        continue;
-      }
-      if (o = this.tokenizer.reflink(e, this.tokens.links)) {
-        e = e.substring(o.raw.length);
-        let p = t.at(-1);
-        o.type === "text" && p?.type === "text" ? (p.raw += o.raw, p.text += o.text) : t.push(o);
-        continue;
-      }
-      if (o = this.tokenizer.emStrong(e, n, a)) {
-        e = e.substring(o.raw.length), t.push(o);
-        continue;
-      }
-      if (o = this.tokenizer.codespan(e)) {
-        e = e.substring(o.raw.length), t.push(o);
-        continue;
-      }
-      if (o = this.tokenizer.br(e)) {
-        e = e.substring(o.raw.length), t.push(o);
-        continue;
-      }
-      if (o = this.tokenizer.del(e, n, a)) {
-        e = e.substring(o.raw.length), t.push(o);
-        continue;
-      }
-      if (o = this.tokenizer.autolink(e)) {
-        e = e.substring(o.raw.length), t.push(o);
-        continue;
-      }
-      if (!this.state.inLink && (o = this.tokenizer.url(e))) {
-        e = e.substring(o.raw.length), t.push(o);
-        continue;
-      }
-      let l = e;
-      if (this.options.extensions?.startInline) {
-        let p = 1 / 0, c = e.slice(1), d;
-        this.options.extensions.startInline.forEach((h) => {
-          d = h.call({ lexer: this }, c), typeof d == "number" && d >= 0 && (p = Math.min(p, d));
-        }), p < 1 / 0 && p >= 0 && (l = e.substring(0, p + 1));
-      }
-      if (o = this.tokenizer.inlineText(l)) {
-        e = e.substring(o.raw.length), o.raw.slice(-1) !== "_" && (a = o.raw.slice(-1)), s = true;
-        let p = t.at(-1);
-        p?.type === "text" ? (p.raw += o.raw, p.text += o.text) : t.push(o);
-        continue;
-      }
-      if (e) {
-        let p = "Infinite loop on byte: " + e.charCodeAt(0);
-        if (this.options.silent) {
-          console.error(p);
-          break;
-        } else throw new Error(p);
-      }
-    }
-    return t;
-  }
-};
-var y = class {
-  options;
-  parser;
-  constructor(e) {
-    this.options = e || O;
-  }
-  space(e) {
-    return "";
-  }
-  code({ text: e, lang: t, escaped: n }) {
-    let r = (t || "").match(m.notSpaceStart)?.[0], i = e.replace(m.endingNewline, "") + `
-`;
-    return r ? '<pre><code class="language-' + T(r) + '">' + (n ? i : T(i, true)) + `</code></pre>
-` : "<pre><code>" + (n ? i : T(i, true)) + `</code></pre>
-`;
-  }
-  blockquote({ tokens: e }) {
-    return `<blockquote>
-${this.parser.parse(e)}</blockquote>
-`;
-  }
-  html({ text: e }) {
-    return e;
-  }
-  def(e) {
-    return "";
-  }
-  heading({ tokens: e, depth: t }) {
-    return `<h${t}>${this.parser.parseInline(e)}</h${t}>
-`;
-  }
-  hr(e) {
-    return `<hr>
-`;
-  }
-  list(e) {
-    let t = e.ordered, n = e.start, r = "";
-    for (let a = 0; a < e.items.length; a++) {
-      let o = e.items[a];
-      r += this.listitem(o);
-    }
-    let i = t ? "ol" : "ul", s = t && n !== 1 ? ' start="' + n + '"' : "";
-    return "<" + i + s + `>
-` + r + "</" + i + `>
-`;
-  }
-  listitem(e) {
-    return `<li>${this.parser.parse(e.tokens)}</li>
-`;
-  }
-  checkbox({ checked: e }) {
-    return "<input " + (e ? 'checked="" ' : "") + 'disabled="" type="checkbox"> ';
-  }
-  paragraph({ tokens: e }) {
-    return `<p>${this.parser.parseInline(e)}</p>
-`;
-  }
-  table(e) {
-    let t = "", n = "";
-    for (let i = 0; i < e.header.length; i++) n += this.tablecell(e.header[i]);
-    t += this.tablerow({ text: n });
-    let r = "";
-    for (let i = 0; i < e.rows.length; i++) {
-      let s = e.rows[i];
-      n = "";
-      for (let a = 0; a < s.length; a++) n += this.tablecell(s[a]);
-      r += this.tablerow({ text: n });
-    }
-    return r && (r = `<tbody>${r}</tbody>`), `<table>
-<thead>
-` + t + `</thead>
-` + r + `</table>
-`;
-  }
-  tablerow({ text: e }) {
-    return `<tr>
-${e}</tr>
-`;
-  }
-  tablecell(e) {
-    let t = this.parser.parseInline(e.tokens), n = e.header ? "th" : "td";
-    return (e.align ? `<${n} align="${e.align}">` : `<${n}>`) + t + `</${n}>
-`;
-  }
-  strong({ tokens: e }) {
-    return `<strong>${this.parser.parseInline(e)}</strong>`;
-  }
-  em({ tokens: e }) {
-    return `<em>${this.parser.parseInline(e)}</em>`;
-  }
-  codespan({ text: e }) {
-    return `<code>${T(e, true)}</code>`;
-  }
-  br(e) {
-    return "<br>";
-  }
-  del({ tokens: e }) {
-    return `<del>${this.parser.parseInline(e)}</del>`;
-  }
-  link({ href: e, title: t, tokens: n }) {
-    let r = this.parser.parseInline(n), i = J(e);
-    if (i === null) return r;
-    e = i;
-    let s = '<a href="' + e + '"';
-    return t && (s += ' title="' + T(t) + '"'), s += ">" + r + "</a>", s;
-  }
-  image({ href: e, title: t, text: n, tokens: r }) {
-    r && (n = this.parser.parseInline(r, this.parser.textRenderer));
-    let i = J(e);
-    if (i === null) return T(n);
-    e = i;
-    let s = `<img src="${e}" alt="${T(n)}"`;
-    return t && (s += ` title="${T(t)}"`), s += ">", s;
-  }
-  text(e) {
-    return "tokens" in e && e.tokens ? this.parser.parseInline(e.tokens) : "escaped" in e && e.escaped ? e.text : T(e.text);
-  }
-};
-var $ = class {
-  strong({ text: e }) {
-    return e;
-  }
-  em({ text: e }) {
-    return e;
-  }
-  codespan({ text: e }) {
-    return e;
-  }
-  del({ text: e }) {
-    return e;
-  }
-  html({ text: e }) {
-    return e;
-  }
-  text({ text: e }) {
-    return e;
-  }
-  link({ text: e }) {
-    return "" + e;
-  }
-  image({ text: e }) {
-    return "" + e;
-  }
-  br() {
-    return "";
-  }
-  checkbox({ raw: e }) {
-    return e;
-  }
-};
-var b = class u2 {
-  options;
-  renderer;
-  textRenderer;
-  constructor(e) {
-    this.options = e || O, this.options.renderer = this.options.renderer || new y(), this.renderer = this.options.renderer, this.renderer.options = this.options, this.renderer.parser = this, this.textRenderer = new $();
-  }
-  static parse(e, t) {
-    return new u2(t).parse(e);
-  }
-  static parseInline(e, t) {
-    return new u2(t).parseInline(e);
-  }
-  parse(e) {
-    this.renderer.parser = this;
-    let t = "";
-    for (let n = 0; n < e.length; n++) {
-      let r = e[n];
-      if (this.options.extensions?.renderers?.[r.type]) {
-        let s = r, a = this.options.extensions.renderers[s.type].call({ parser: this }, s);
-        if (a !== false || !["space", "hr", "heading", "code", "table", "blockquote", "list", "html", "def", "paragraph", "text"].includes(s.type)) {
-          t += a || "";
-          continue;
-        }
-      }
-      let i = r;
-      switch (i.type) {
-        case "space": {
-          t += this.renderer.space(i);
-          break;
-        }
-        case "hr": {
-          t += this.renderer.hr(i);
-          break;
-        }
-        case "heading": {
-          t += this.renderer.heading(i);
-          break;
-        }
-        case "code": {
-          t += this.renderer.code(i);
-          break;
-        }
-        case "table": {
-          t += this.renderer.table(i);
-          break;
-        }
-        case "blockquote": {
-          t += this.renderer.blockquote(i);
-          break;
-        }
-        case "list": {
-          t += this.renderer.list(i);
-          break;
-        }
-        case "checkbox": {
-          t += this.renderer.checkbox(i);
-          break;
-        }
-        case "html": {
-          t += this.renderer.html(i);
-          break;
-        }
-        case "def": {
-          t += this.renderer.def(i);
-          break;
-        }
-        case "paragraph": {
-          t += this.renderer.paragraph(i);
-          break;
-        }
-        case "text": {
-          t += this.renderer.text(i);
-          break;
-        }
-        default: {
-          let s = 'Token with "' + i.type + '" type was not found.';
-          if (this.options.silent) return console.error(s), "";
-          throw new Error(s);
-        }
-      }
-    }
-    return t;
-  }
-  parseInline(e, t = this.renderer) {
-    this.renderer.parser = this;
-    let n = "";
-    for (let r = 0; r < e.length; r++) {
-      let i = e[r];
-      if (this.options.extensions?.renderers?.[i.type]) {
-        let a = this.options.extensions.renderers[i.type].call({ parser: this }, i);
-        if (a !== false || !["escape", "html", "link", "image", "strong", "em", "codespan", "br", "del", "text"].includes(i.type)) {
-          n += a || "";
-          continue;
-        }
-      }
-      let s = i;
-      switch (s.type) {
-        case "escape": {
-          n += t.text(s);
-          break;
-        }
-        case "html": {
-          n += t.html(s);
-          break;
-        }
-        case "link": {
-          n += t.link(s);
-          break;
-        }
-        case "image": {
-          n += t.image(s);
-          break;
-        }
-        case "checkbox": {
-          n += t.checkbox(s);
-          break;
-        }
-        case "strong": {
-          n += t.strong(s);
-          break;
-        }
-        case "em": {
-          n += t.em(s);
-          break;
-        }
-        case "codespan": {
-          n += t.codespan(s);
-          break;
-        }
-        case "br": {
-          n += t.br(s);
-          break;
-        }
-        case "del": {
-          n += t.del(s);
-          break;
-        }
-        case "text": {
-          n += t.text(s);
-          break;
-        }
-        default: {
-          let a = 'Token with "' + s.type + '" type was not found.';
-          if (this.options.silent) return console.error(a), "";
-          throw new Error(a);
-        }
-      }
-    }
-    return n;
-  }
-};
-var P = class {
-  options;
-  block;
-  constructor(e) {
-    this.options = e || O;
-  }
-  static passThroughHooks = /* @__PURE__ */ new Set(["preprocess", "postprocess", "processAllTokens", "emStrongMask"]);
-  static passThroughHooksRespectAsync = /* @__PURE__ */ new Set(["preprocess", "postprocess", "processAllTokens"]);
-  preprocess(e) {
-    return e;
-  }
-  postprocess(e) {
-    return e;
-  }
-  processAllTokens(e) {
-    return e;
-  }
-  emStrongMask(e) {
-    return e;
-  }
-  provideLexer(e = this.block) {
-    return e ? x.lex : x.lexInline;
-  }
-  provideParser(e = this.block) {
-    return e ? b.parse : b.parseInline;
-  }
-};
-var D = class {
-  defaults = M();
-  options = this.setOptions;
-  parse = this.parseMarkdown(true);
-  parseInline = this.parseMarkdown(false);
-  Parser = b;
-  Renderer = y;
-  TextRenderer = $;
-  Lexer = x;
-  Tokenizer = w;
-  Hooks = P;
-  constructor(...e) {
-    this.use(...e);
-  }
-  walkTokens(e, t) {
-    let n = [];
-    for (let r of e) switch (n = n.concat(t.call(this, r)), r.type) {
-      case "table": {
-        let i = r;
-        for (let s of i.header) n = n.concat(this.walkTokens(s.tokens, t));
-        for (let s of i.rows) for (let a of s) n = n.concat(this.walkTokens(a.tokens, t));
-        break;
-      }
-      case "list": {
-        let i = r;
-        n = n.concat(this.walkTokens(i.items, t));
-        break;
-      }
-      default: {
-        let i = r;
-        this.defaults.extensions?.childTokens?.[i.type] ? this.defaults.extensions.childTokens[i.type].forEach((s) => {
-          let a = i[s].flat(1 / 0);
-          n = n.concat(this.walkTokens(a, t));
-        }) : i.tokens && (n = n.concat(this.walkTokens(i.tokens, t)));
-      }
-    }
-    return n;
-  }
-  use(...e) {
-    let t = this.defaults.extensions || { renderers: {}, childTokens: {} };
-    return e.forEach((n) => {
-      let r = { ...n };
-      if (r.async = this.defaults.async || r.async || false, n.extensions && (n.extensions.forEach((i) => {
-        if (!i.name) throw new Error("extension name required");
-        if ("renderer" in i) {
-          let s = t.renderers[i.name];
-          s ? t.renderers[i.name] = function(...a) {
-            let o = i.renderer.apply(this, a);
-            return o === false && (o = s.apply(this, a)), o;
-          } : t.renderers[i.name] = i.renderer;
-        }
-        if ("tokenizer" in i) {
-          if (!i.level || i.level !== "block" && i.level !== "inline") throw new Error("extension level must be 'block' or 'inline'");
-          let s = t[i.level];
-          s ? s.unshift(i.tokenizer) : t[i.level] = [i.tokenizer], i.start && (i.level === "block" ? t.startBlock ? t.startBlock.push(i.start) : t.startBlock = [i.start] : i.level === "inline" && (t.startInline ? t.startInline.push(i.start) : t.startInline = [i.start]));
-        }
-        "childTokens" in i && i.childTokens && (t.childTokens[i.name] = i.childTokens);
-      }), r.extensions = t), n.renderer) {
-        let i = this.defaults.renderer || new y(this.defaults);
-        for (let s in n.renderer) {
-          if (!(s in i)) throw new Error(`renderer '${s}' does not exist`);
-          if (["options", "parser"].includes(s)) continue;
-          let a = s, o = n.renderer[a], l = i[a];
-          i[a] = (...p) => {
-            let c = o.apply(i, p);
-            return c === false && (c = l.apply(i, p)), c || "";
-          };
-        }
-        r.renderer = i;
-      }
-      if (n.tokenizer) {
-        let i = this.defaults.tokenizer || new w(this.defaults);
-        for (let s in n.tokenizer) {
-          if (!(s in i)) throw new Error(`tokenizer '${s}' does not exist`);
-          if (["options", "rules", "lexer"].includes(s)) continue;
-          let a = s, o = n.tokenizer[a], l = i[a];
-          i[a] = (...p) => {
-            let c = o.apply(i, p);
-            return c === false && (c = l.apply(i, p)), c;
-          };
-        }
-        r.tokenizer = i;
-      }
-      if (n.hooks) {
-        let i = this.defaults.hooks || new P();
-        for (let s in n.hooks) {
-          if (!(s in i)) throw new Error(`hook '${s}' does not exist`);
-          if (["options", "block"].includes(s)) continue;
-          let a = s, o = n.hooks[a], l = i[a];
-          P.passThroughHooks.has(s) ? i[a] = (p) => {
-            if (this.defaults.async && P.passThroughHooksRespectAsync.has(s)) return (async () => {
-              let d = await o.call(i, p);
-              return l.call(i, d);
-            })();
-            let c = o.call(i, p);
-            return l.call(i, c);
-          } : i[a] = (...p) => {
-            if (this.defaults.async) return (async () => {
-              let d = await o.apply(i, p);
-              return d === false && (d = await l.apply(i, p)), d;
-            })();
-            let c = o.apply(i, p);
-            return c === false && (c = l.apply(i, p)), c;
-          };
-        }
-        r.hooks = i;
-      }
-      if (n.walkTokens) {
-        let i = this.defaults.walkTokens, s = n.walkTokens;
-        r.walkTokens = function(a) {
-          let o = [];
-          return o.push(s.call(this, a)), i && (o = o.concat(i.call(this, a))), o;
-        };
-      }
-      this.defaults = { ...this.defaults, ...r };
-    }), this;
-  }
-  setOptions(e) {
-    return this.defaults = { ...this.defaults, ...e }, this;
-  }
-  lexer(e, t) {
-    return x.lex(e, t ?? this.defaults);
-  }
-  parser(e, t) {
-    return b.parse(e, t ?? this.defaults);
-  }
-  parseMarkdown(e) {
-    return (n, r) => {
-      let i = { ...r }, s = { ...this.defaults, ...i }, a = this.onError(!!s.silent, !!s.async);
-      if (this.defaults.async === true && i.async === false) return a(new Error("marked(): The async option was set to true by an extension. Remove async: false from the parse options object to return a Promise."));
-      if (typeof n > "u" || n === null) return a(new Error("marked(): input parameter is undefined or null"));
-      if (typeof n != "string") return a(new Error("marked(): input parameter is of type " + Object.prototype.toString.call(n) + ", string expected"));
-      if (s.hooks && (s.hooks.options = s, s.hooks.block = e), s.async) return (async () => {
-        let o = s.hooks ? await s.hooks.preprocess(n) : n, p = await (s.hooks ? await s.hooks.provideLexer(e) : e ? x.lex : x.lexInline)(o, s), c = s.hooks ? await s.hooks.processAllTokens(p) : p;
-        s.walkTokens && await Promise.all(this.walkTokens(c, s.walkTokens));
-        let h = await (s.hooks ? await s.hooks.provideParser(e) : e ? b.parse : b.parseInline)(c, s);
-        return s.hooks ? await s.hooks.postprocess(h) : h;
-      })().catch(a);
-      try {
-        s.hooks && (n = s.hooks.preprocess(n));
-        let l = (s.hooks ? s.hooks.provideLexer(e) : e ? x.lex : x.lexInline)(n, s);
-        s.hooks && (l = s.hooks.processAllTokens(l)), s.walkTokens && this.walkTokens(l, s.walkTokens);
-        let c = (s.hooks ? s.hooks.provideParser(e) : e ? b.parse : b.parseInline)(l, s);
-        return s.hooks && (c = s.hooks.postprocess(c)), c;
-      } catch (o) {
-        return a(o);
-      }
-    };
-  }
-  onError(e, t) {
-    return (n) => {
-      if (n.message += `
-Please report this to https://github.com/markedjs/marked.`, e) {
-        let r = "<p>An error occurred:</p><pre>" + T(n.message + "", true) + "</pre>";
-        return t ? Promise.resolve(r) : r;
-      }
-      if (t) return Promise.reject(n);
-      throw n;
-    };
-  }
-};
-var L = new D();
-function g(u3, e) {
-  return L.parse(u3, e);
-}
-g.options = g.setOptions = function(u3) {
-  return L.setOptions(u3), g.defaults = L.defaults, G(g.defaults), g;
-};
-g.getDefaults = M;
-g.defaults = O;
-g.use = function(...u3) {
-  return L.use(...u3), g.defaults = L.defaults, G(g.defaults), g;
-};
-g.walkTokens = function(u3, e) {
-  return L.walkTokens(u3, e);
-};
-g.parseInline = L.parseInline;
-g.Parser = b;
-g.parser = b.parse;
-g.Renderer = y;
-g.TextRenderer = $;
-g.Lexer = x;
-g.lexer = x.lex;
-g.Tokenizer = w;
-g.Hooks = P;
-g.parse = g;
-var Qt = g.options;
-var jt = g.setOptions;
-var Ft = g.use;
-var Ut = g.walkTokens;
-var Kt = g.parseInline;
-var Xt = b.parse;
-var Jt = x.lex;
-
-// node_modules/uuid/dist/esm/stringify.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/uuid/dist/esm/stringify.js
 var byteToHex = [];
 for (let i = 0; i < 256; ++i) {
   byteToHex.push((i + 256).toString(16).slice(1));
@@ -24079,7 +25724,7 @@ function unsafeStringify(arr, offset = 0) {
   return (byteToHex[arr[offset + 0]] + byteToHex[arr[offset + 1]] + byteToHex[arr[offset + 2]] + byteToHex[arr[offset + 3]] + "-" + byteToHex[arr[offset + 4]] + byteToHex[arr[offset + 5]] + "-" + byteToHex[arr[offset + 6]] + byteToHex[arr[offset + 7]] + "-" + byteToHex[arr[offset + 8]] + byteToHex[arr[offset + 9]] + "-" + byteToHex[arr[offset + 10]] + byteToHex[arr[offset + 11]] + byteToHex[arr[offset + 12]] + byteToHex[arr[offset + 13]] + byteToHex[arr[offset + 14]] + byteToHex[arr[offset + 15]]).toLowerCase();
 }
 
-// node_modules/uuid/dist/esm/rng.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/uuid/dist/esm/rng.js
 import { randomFillSync } from "crypto";
 var rnds8Pool = new Uint8Array(256);
 var poolPtr = rnds8Pool.length;
@@ -24091,11 +25736,11 @@ function rng() {
   return rnds8Pool.slice(poolPtr, poolPtr += 16);
 }
 
-// node_modules/uuid/dist/esm/native.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/uuid/dist/esm/native.js
 import { randomUUID } from "crypto";
 var native_default = { randomUUID };
 
-// node_modules/uuid/dist/esm/v4.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/uuid/dist/esm/v4.js
 function v4(options, buf, offset) {
   if (native_default.randomUUID && !buf && !options) {
     return native_default.randomUUID();
@@ -24122,20 +25767,28 @@ function v4(options, buf, offset) {
 var v4_default = v4;
 
 // serialize-card.ts
+import { readFileSync as readFileSync3 } from "node:fs";
 function normalizeUseWorktree(value) {
   if (value === null || value === void 0) return null;
   return Boolean(value);
 }
-function serializeUseWorktreeForDb(value) {
-  if (value === null) return null;
-  return value ? 1 : 0;
-}
 function normalizeProjectMode(value) {
   return value === "work" ? "work" : "development";
 }
+var ATTACHMENT_IMG = /<img\b[^>]*?\bsrc=["'](\/api\/cards\/[^"']+\/attachments\/[^"']+)["'][^>]*>/gi;
 function extractImagesFromHtml(html, fieldName) {
   const images = [];
   let index = 0;
+  for (const match of html.matchAll(ATTACHMENT_IMG)) {
+    const [ref] = attachmentRefs2(match[1]);
+    if (!ref) continue;
+    try {
+      const data = readFileSync3(ref.path).toString("base64");
+      images.push({ id: `${fieldName}_image_${index}`, data, mimeType: attachmentContentType2(ref.file), fieldName, index });
+      index++;
+    } catch {
+    }
+  }
   const imgRegex = /<img[^>]*src=["']data:(image\/[^;]+);base64,([^"']+)["'][^>]*>/gi;
   const cleanedHtml = html.replace(imgRegex, (match, mimeType, data) => {
     const id = `${fieldName}_image_${index}`;
@@ -24207,6 +25860,8 @@ var CAPABILITIES = {
   queueVerifyScope: ["cards", "queue_verify_scope"],
   /** queue_runtime (0024) — the app's live runs and queue state, mirrored for the terminal. */
   runtimeMirror: ["queue_runtime", "heartbeat_at"],
+  /** test_reports (0026) — pre-verify Test Report runs, written by save_tests' `report`. */
+  testReports: ["cards", "test_reports"],
   /** write_ack (0025) — what a session was told it may continue past, read by the edit hook. */
   writeAck: ["ideafy_sessions", "write_ack"]
 };
@@ -24234,12 +25889,12 @@ function missingCapabilityMessage(tool, capability) {
 }
 
 // output-paths.ts
-import { existsSync as existsSync2, realpathSync as realpathSync2, statSync as statSync2 } from "fs";
-import { homedir as homedir2 } from "os";
+import { existsSync as existsSync3, realpathSync as realpathSync2, statSync as statSync3 } from "fs";
+import { homedir as homedir4 } from "os";
 import { isAbsolute, relative, resolve, sep } from "path";
 var OutputPathError = class extends Error {
 };
-function parseOutputPaths(value) {
+function parseOutputPaths2(value) {
   if (typeof value !== "string" || !value) return [];
   try {
     const parsed = JSON.parse(value);
@@ -24253,7 +25908,7 @@ function resolveOutputPath(projectFolder, inputPath) {
   if (!trimmed) {
     throw new OutputPathError("save_output needs a path to the file that was written.");
   }
-  const expanded = trimmed === "~" || trimmed.startsWith("~/") ? resolve(homedir2(), trimmed.slice(2)) : trimmed;
+  const expanded = trimmed === "~" || trimmed.startsWith("~/") ? resolve(homedir4(), trimmed.slice(2)) : trimmed;
   const absolute = isAbsolute(expanded) ? resolve(expanded) : resolve(projectFolder, expanded);
   let projectReal;
   try {
@@ -24263,13 +25918,13 @@ function resolveOutputPath(projectFolder, inputPath) {
       `The card's project folder does not exist on this machine: ${projectFolder}. Nothing was recorded.`
     );
   }
-  if (!existsSync2(absolute)) {
+  if (!existsSync3(absolute)) {
     throw new OutputPathError(
       `File not found: ${absolute}. save_output records a file that already exists \u2014 write it first, then call save_output again.`
     );
   }
   const fileReal = realpathSync2(absolute);
-  if (!statSync2(fileReal).isFile()) {
+  if (!statSync3(fileReal).isFile()) {
     throw new OutputPathError(
       `Not a file: ${absolute}. save_output records one file at a time \u2014 call it once per file.`
     );
@@ -24292,7 +25947,7 @@ function recordOutputPath(db2, cardId, inputPath) {
     );
   }
   const card = db2.prepare(
-    `SELECT project_id as projectId, project_folder as projectFolder, output_paths as outputPaths
+    `SELECT project_id as projectId, project_folder as projectFolder
        FROM cards WHERE id = ?`
   ).get(cardId);
   if (!card) throw new OutputPathError(`Card not found: ${cardId}`);
@@ -24304,23 +25959,178 @@ function recordOutputPath(db2, cardId, inputPath) {
     );
   }
   const resolved = resolveOutputPath(projectFolder, inputPath);
-  const existing = parseOutputPaths(card.outputPaths);
-  if (existing.includes(resolved.relativePath)) {
-    return { ...resolved, outputPaths: existing, alreadyRecorded: true };
+  const added = addOutputPath2(db2, cardId, resolved.relativePath, (/* @__PURE__ */ new Date()).toISOString());
+  if (!added.ok) throw new OutputPathError(`Card not found: ${cardId}`);
+  return { ...resolved, outputPaths: added.outputPaths, alreadyRecorded: added.alreadyRecorded };
+}
+
+// queue-control.ts
+var QUEUE_CONTROL_TIMEOUT_MS = 2e3;
+function appPort(env = process.env) {
+  return env.IDEAFY_PORT?.trim() || "3030";
+}
+function summarize(action, snapshot) {
+  const waiting = snapshot.items?.length ?? 0;
+  const next = snapshot.items?.[0]?.displayId;
+  const state = snapshot.armed ? "The queue is running" : `The queue is paused${snapshot.pausedReason ? ` (${snapshot.pausedReason})` : ""}`;
+  const parts = [`${state}.`];
+  parts.push(waiting === 0 ? "Nothing is waiting." : `${waiting} waiting, ${next ?? "a card"} next.`);
+  if (snapshot.running?.displayId) {
+    parts.push(
+      action === "pause" ? `${snapshot.running.displayId} is still running; pausing does not stop it.` : `${snapshot.running.displayId} is running; the next card starts after it.`
+    );
   }
-  const outputPaths = [...existing, resolved.relativePath];
-  db2.prepare(`UPDATE cards SET output_paths = ?, updated_at = ? WHERE id = ?`).run(
-    JSON.stringify(outputPaths),
-    (/* @__PURE__ */ new Date()).toISOString(),
-    cardId
+  if (snapshot.armed && snapshot.heldBy) parts.push(`Held: ${snapshot.heldBy}.`);
+  return parts.join(" ");
+}
+async function setQueueRunning(action, options = {}) {
+  const port = options.port ?? appPort();
+  const doFetch = options.fetchImpl ?? fetch;
+  const url2 = `http://localhost:${port}/api/queue`;
+  const closed = {
+    ok: false,
+    text: `The Ideafy app is not open on port ${port}; the queue only runs inside it. Nothing was changed.` + (port === "3030" ? "" : " (IDEAFY_PORT is set; check it matches the app's port.)")
+  };
+  let response;
+  try {
+    response = await doFetch(url2, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action, source: "terminal" }),
+      signal: AbortSignal.timeout(options.timeoutMs ?? QUEUE_CONTROL_TIMEOUT_MS)
+    });
+  } catch {
+    return closed;
+  }
+  const body = await response.json().catch(() => null);
+  if (!response.ok || !body) {
+    return {
+      ok: false,
+      text: `The Ideafy app refused to ${action} the queue${body?.error ? `: ${body.error}` : ` (HTTP ${response.status})`}. Nothing was changed.`
+    };
+  }
+  return { ok: true, text: summarize(action, body) };
+}
+
+// test-report.ts
+import { readFileSync as readFileSync4 } from "node:fs";
+import { homedir as homedir5 } from "node:os";
+import path4 from "node:path";
+function readTerminalReport(db2, report) {
+  if (!hasCapability(db2, "testReports")) {
+    return { ok: false, message: missingCapabilityMessage("save_tests", "testReports") };
+  }
+  const parsed = parseTestReportItems2(report);
+  if (!parsed.ok) {
+    return {
+      ok: false,
+      message: `save_tests refused: report is ${parsed.error}. Send { "items": [{ "item", "status", "approach", "steps", "expected", "observed", "error", "command", "output", "screenshots" }] } \u2014 or leave report out. Nothing was written.`
+    };
+  }
+  return { ok: true, items: parsed.items };
+}
+function writeTerminalReport(db2, cardId, items, checklistApplied) {
+  const now = (/* @__PURE__ */ new Date()).toISOString();
+  const run = buildTestReportRun2({
+    items,
+    now,
+    platform: "claude",
+    source: "terminal",
+    evidence: "text",
+    scope: "run",
+    checklistApplied
+  });
+  run.items = importTerminalArtifacts2(run.items, testReportRunDir2(cardId, run.id));
+  const shots = run.items.reduce((n, item) => n + item.artifacts.length, 0);
+  if (shots > 0) run.evidence = "visual";
+  const saved = saveTestReport2(db2, { id: cardId, run, now });
+  if (!saved.ok) return " Test report not saved: card not found.";
+  removeTestReportRunDirs2(cardId, saved.dropped);
+  const count = (status) => run.items.filter((item) => item.status === status).length;
+  const asked = items.reduce((n, item) => n + item.artifacts.length, 0);
+  const dropped = asked - shots;
+  return ` Test report saved: ${run.items.length} item(s) \u2014 ${count("passed")} passed, ${count("failed")} failed, ${count("manual")} manual${shots ? `, ${shots} screenshot(s)` : ""}.` + (dropped > 0 ? ` ${dropped} screenshot(s) skipped: give each one as an absolute path to an existing image file.` : "");
+}
+var MAX_REPORT_SCREENSHOTS = 6;
+var STATUSES2 = ["passed", "failed", "manual"];
+function readTestReport(db2, card, opts = {}) {
+  const fail = (text) => ({ content: [{ type: "text", text }], isError: true });
+  if (!hasCapability(db2, "testReports")) {
+    return fail(
+      "get_test_report: this Ideafy database has no Test Reports yet (cards.test_reports). Update the Ideafy app \u2014 it adds the column on its next start."
+    );
+  }
+  const status = opts.status || null;
+  if (status && !STATUSES2.includes(status)) {
+    return fail(`get_test_report: status must be one of ${STATUSES2.join(", ")}.`);
+  }
+  const row = db2.prepare(`SELECT test_reports as testReports, test_scenarios as testScenarios FROM cards WHERE id = ?`).get(card.id);
+  const runs = parseTestReports2(row?.testReports);
+  if (!runs) {
+    return {
+      content: [
+        {
+          type: "text",
+          text: `${card.displayId} has no Test Report yet. A pre-verify, a Verify on screen or a Re-test writes one, as does save_tests with \`report\`.`
+        }
+      ]
+    };
+  }
+  const selected = selectTestReportRun2(runs, opts.run);
+  if ("error" in selected) return fail(`get_test_report: ${selected.error}`);
+  const run = runs[selected.index];
+  const content = [
+    {
+      type: "text",
+      text: formatTestReport2({
+        displayId: card.displayId,
+        runs,
+        index: selected.index,
+        status,
+        checklistHtml: row?.testScenarios ?? null,
+        screenshotsAttached: Boolean(opts.screenshots)
+      })
+    }
+  ];
+  if (!opts.screenshots) return { content };
+  const dir = testReportRunDir2(card.id, run.id, opts.homeDir ?? homedir5());
+  const wanted = run.items.flatMap(
+    (item, i) => !status || item.status === status ? item.artifacts.map((artifact) => ({ artifact, number: i + 1 })) : []
   );
-  return { ...resolved, outputPaths, alreadyRecorded: false };
+  let attached = 0;
+  let tried = 0;
+  for (const { artifact, number: number3 } of wanted) {
+    if (attached === MAX_REPORT_SCREENSHOTS) break;
+    tried++;
+    let data;
+    try {
+      data = readFileSync4(path4.join(dir, artifact.file)).toString("base64");
+    } catch {
+      continue;
+    }
+    const where = `item ${number3}${artifact.step ? `, step ${artifact.step}` : ""}`;
+    content.push({ type: "text", text: `Screenshot \xB7 ${where}${artifact.caption ? ` \u2014 ${artifact.caption}` : ""}` });
+    content.push({ type: "image", data, mimeType: attachmentContentType2(artifact.file) });
+    attached++;
+  }
+  const left = wanted.length - tried;
+  if (left > 0) {
+    content.push({
+      type: "text",
+      text: `${left} more screenshot(s) not shown; pass status to narrow the items.`
+    });
+  } else if (wanted.length === 0) {
+    content.push({ type: "text", text: "This run has no screenshots for these items." });
+  } else if (attached === 0) {
+    content.push({ type: "text", text: "This run's screenshot files are no longer on disk." });
+  }
+  return { content };
 }
 
 // git-helpers.ts
 import { execFile } from "child_process";
 import { promisify } from "util";
-import { existsSync as existsSync3, mkdirSync as mkdirSync2 } from "fs";
+import { existsSync as existsSync4, mkdirSync as mkdirSync4 } from "fs";
 import { join } from "path";
 var execFileAsync = promisify(execFile);
 async function git(cwd, ...args) {
@@ -24378,7 +26188,7 @@ function getWorktreePath(projectPath, branchName) {
 }
 async function worktreeExists(projectPath, worktreePath) {
   try {
-    if (!existsSync3(worktreePath)) return false;
+    if (!existsSync4(worktreePath)) return false;
     const { stdout } = await git(projectPath, "worktree", "list", "--porcelain");
     return stdout.includes(`worktree ${worktreePath}`);
   } catch {
@@ -24389,8 +26199,8 @@ async function createWorktree(projectPath, branchName) {
   const worktreePath = getWorktreePath(projectPath, branchName);
   const baseDir = getWorktreeBaseDir(projectPath);
   try {
-    if (!existsSync3(baseDir)) {
-      mkdirSync2(baseDir, { recursive: true });
+    if (!existsSync4(baseDir)) {
+      mkdirSync4(baseDir, { recursive: true });
     }
     if (await worktreeExists(projectPath, worktreePath)) {
       return { success: true, worktreePath };
@@ -24423,7 +26233,7 @@ async function listChangedFiles(repoPath, opts) {
     const defaultBranch = await getDefaultBranch(repoPath);
     let stdout;
     if (opts.worktreePath) {
-      if (!existsSync3(opts.worktreePath)) return [];
+      if (!existsSync4(opts.worktreePath)) return [];
       const { stdout: base } = await git(opts.worktreePath, "merge-base", defaultBranch, "HEAD");
       ({ stdout } = await git(opts.worktreePath, "diff", "--name-only", base.trim()));
     } else if (opts.branchName) {
@@ -24447,52 +26257,12 @@ async function listUncommittedFiles(cwd, files) {
     if (files && files.length > 0) args.push("--", ...files);
     const { stdout } = await git(cwd, ...args);
     return stdout.split("\n").filter((line) => line.length > 3).map((line) => {
-      const path2 = line.slice(3);
-      const arrow = path2.indexOf(" -> ");
-      return (arrow === -1 ? path2 : path2.slice(arrow + 4)).replace(/^"|"$/g, "");
+      const path5 = line.slice(3);
+      const arrow = path5.indexOf(" -> ");
+      return (arrow === -1 ? path5 : path5.slice(arrow + 4)).replace(/^"|"$/g, "");
     });
   } catch {
     return [];
-  }
-}
-async function ensureBranchInPlace(cwd, branchName) {
-  let didStash = false;
-  try {
-    const { stdout: statusOutput } = await git(cwd, "status", "--porcelain");
-    const hasChanges = statusOutput.trim() !== "";
-    if (hasChanges) {
-      await git(cwd, "stash", "push", "-m", "ideafy-ensure-branch-stash");
-      didStash = true;
-    }
-    if (await branchExists(cwd, branchName)) {
-      await git(cwd, "checkout", branchName);
-    } else {
-      const defaultBranch = await getDefaultBranch(cwd);
-      await git(cwd, "checkout", defaultBranch);
-      await git(cwd, "checkout", "-b", branchName);
-    }
-    if (didStash) {
-      try {
-        await git(cwd, "stash", "pop");
-      } catch {
-        return {
-          success: true,
-          error: "Branch ready but stash could not be applied. Run 'git stash pop' manually."
-        };
-      }
-    }
-    return { success: true };
-  } catch (error2) {
-    if (didStash) {
-      try {
-        await git(cwd, "stash", "pop");
-      } catch {
-      }
-    }
-    return {
-      success: false,
-      error: error2 instanceof Error ? error2.message : String(error2)
-    };
   }
 }
 function shouldUseWorktree2(card, project) {
@@ -24515,7 +26285,7 @@ function resolveEffectiveWorktree(card, project) {
 }
 
 // card-search.ts
-import { existsSync as existsSync4 } from "fs";
+import { existsSync as existsSync5 } from "fs";
 var foldCache = /* @__PURE__ */ new Map();
 function foldChar(c) {
   let ch = foldCache.get(c);
@@ -24621,7 +26391,7 @@ function findOverlap(cardFiles, callerFiles) {
 var OPEN_STATUSES = ["backlog", "bugs", "progress", "test"];
 var PLAN_STATUSES = /* @__PURE__ */ new Set(["backlog", "bugs", "progress"]);
 async function listOpenWork(db2, opts, deps) {
-  const pathExists = deps.pathExists ?? existsSync4;
+  const pathExists = deps.pathExists ?? existsSync5;
   const project = db2.prepare(`SELECT folder_path as folderPath, id_prefix as idPrefix FROM projects WHERE id = ?`).get(opts.projectId);
   if (!project) return [];
   const hasBranchColumns = hasCapability(db2, "branchStatus");
@@ -24716,8 +26486,35 @@ function projectIdOfCard(db2, cardId) {
   return row?.project_id ?? null;
 }
 
-// index.ts
-import { existsSync as existsSync5 } from "fs";
+// card-args.ts
+function createCardInput(db2, id, args) {
+  const projectId = args.projectId ?? null;
+  return {
+    id,
+    title: args.title,
+    description: markdownToTiptapHtml2(args.description ?? ""),
+    solutionSummary: linkCardsInHtml(db2, markdownToTiptapHtml2(args.solutionSummary ?? ""), projectId),
+    // Test scenarios are added after implementation via save_tests.
+    testScenarios: "",
+    status: args.status ?? "backlog",
+    complexity: args.complexity ?? "medium",
+    priority: args.priority ?? "medium",
+    projectId,
+    groupId: args.groupId ?? null
+  };
+}
+function updateCardFields(db2, id, updates) {
+  return {
+    title: updates.title,
+    description: typeof updates.description === "string" ? markdownToTiptapHtml2(updates.description) : void 0,
+    solutionSummary: typeof updates.solutionSummary === "string" ? linkCardsInHtml(db2, markdownToTiptapHtml2(updates.solutionSummary), projectIdOfCard(db2, id)) : void 0,
+    status: updates.status,
+    complexity: updates.complexity,
+    priority: updates.priority,
+    useWorktree: updates.useWorktree,
+    groupId: updates.groupId
+  };
+}
 
 // card-groups.ts
 function groupOrderSelect(db2) {
@@ -24754,7 +26551,7 @@ function listGroupsWithChains(db2, projectId) {
   const groups = listGroups2(db2, projectId);
   if (groups.length === 0) return [];
   const placeholders = groups.map(() => "?").join(", ");
-  const rows = db2.prepare(selectMembers(db2, `c.group_id IN (${placeholders})`)).all(...groups.map((g2) => g2.id));
+  const rows = db2.prepare(selectMembers(db2, `c.group_id IN (${placeholders})`)).all(...groups.map((g) => g.id));
   const byGroup = /* @__PURE__ */ new Map();
   for (const row of rows) {
     const bucket = byGroup.get(row.groupId);
@@ -24771,98 +26568,9 @@ function listGroupsWithChains(db2, projectId) {
     };
   });
 }
-function moveCardInChain3(db2, cardId, afterCardId) {
-  if (!hasCapability(db2, "groupOrder")) {
-    throw new CardGroupError2(
-      "This Ideafy database cannot store a chain order yet. Update the Ideafy app, then try again."
-    );
-  }
-  const { position, total, changed } = moveCardInChain2(db2, cardId, afterCardId);
-  return { position, total, changed };
-}
 
 // index.ts
 var TEST_STYLE_CONTRACT = buildTestStyleContract2();
-g.setOptions({
-  gfm: true,
-  breaks: true
-});
-function markdownToTiptapHtml(markdown) {
-  let html = g.parse(markdown);
-  html = html.replace(
-    /<ul>\s*((?:<li><input[^>]*type="checkbox"[^>]*>[\s\S]*?<\/li>\s*)+)<\/ul>/gi,
-    (match, items) => {
-      const taskItems = items.replace(
-        /<li><input([^>]*)type="checkbox"([^>]*)>([\s\S]*?)<\/li>/gi,
-        (itemMatch, before, after, text) => {
-          const isChecked = before.includes("checked") || after.includes("checked");
-          return `<li data-type="taskItem" data-checked="${isChecked}"><label><input type="checkbox"${isChecked ? ' checked="checked"' : ""}><span></span></label><div><p>${text.trim()}</p></div></li>`;
-        }
-      );
-      return `<ul data-type="taskList">${taskItems}</ul>`;
-    }
-  );
-  return html;
-}
-function normalizeTaskText(text) {
-  return text.replace(/<[^>]*>/g, " ").replace(/&[a-z]+;/gi, " ").toLowerCase().replace(/[.,;:!?/\\|()[\]{}<>@#$%^&*"'`~=+\-_]/g, " ").replace(/\s+/g, " ").trim();
-}
-function levenshtein(a, b2, cap) {
-  if (a === b2) return 0;
-  if (!a.length) return b2.length;
-  if (!b2.length) return a.length;
-  if (Math.abs(a.length - b2.length) > cap) return cap + 1;
-  let prev = new Array(b2.length + 1);
-  let curr = new Array(b2.length + 1);
-  for (let j2 = 0; j2 <= b2.length; j2++) prev[j2] = j2;
-  for (let i = 1; i <= a.length; i++) {
-    curr[0] = i;
-    let rowMin = curr[0];
-    for (let j2 = 1; j2 <= b2.length; j2++) {
-      const cost = a.charCodeAt(i - 1) === b2.charCodeAt(j2 - 1) ? 0 : 1;
-      curr[j2] = Math.min(curr[j2 - 1] + 1, prev[j2] + 1, prev[j2 - 1] + cost);
-      if (curr[j2] < rowMin) rowMin = curr[j2];
-    }
-    if (rowMin > cap) return cap + 1;
-    [prev, curr] = [curr, prev];
-  }
-  return prev[b2.length];
-}
-function tokenize(s) {
-  return s.split(" ").filter((t) => t.length >= 3);
-}
-function tokenOverlap(a, b2) {
-  if (!a.length || !b2.length) return 0;
-  const setA = new Set(a);
-  let intersect = 0;
-  for (const t of b2) if (setA.has(t)) intersect++;
-  return intersect / Math.max(a.length, b2.length);
-}
-function findFuzzyMatch(target, candidates) {
-  if (candidates.includes(target)) return target;
-  for (const c of candidates) {
-    if (c.length < 6 || target.length < 6) continue;
-    if (c.includes(target) || target.includes(c)) return c;
-  }
-  let best = null;
-  const targetTokens = tokenize(target);
-  for (const c of candidates) {
-    const maxLen = Math.max(c.length, target.length);
-    if (maxLen < 6) continue;
-    const cap = Math.max(2, Math.floor(maxLen * 0.2));
-    const d = levenshtein(target, c, cap);
-    if (d <= cap) {
-      const score = 1 - d / maxLen;
-      if (!best || score > best.score) best = { key: c, score };
-      continue;
-    }
-    const overlap = tokenOverlap(targetTokens, tokenize(c));
-    if (overlap >= 0.6) {
-      if (!best || overlap > best.score) best = { key: c, score: overlap };
-    }
-  }
-  return best?.key ?? null;
-}
 function markdownCheckboxStats(markdown) {
   const matches = markdown.match(/^\s*-\s*\[([ xX])\]/gm) || [];
   let checked = 0;
@@ -24871,102 +26579,9 @@ function markdownCheckboxStats(markdown) {
   }
   return { total: matches.length, checked };
 }
-function normalizeTestsHtml(html) {
-  if (!html) return html;
-  return html.replace(
-    /<ul\b([^>]*)>([\s\S]*?)<\/ul>/gi,
-    (match, attrs, inner) => {
-      if (/data-type\s*=\s*"taskList"/i.test(attrs)) return match;
-      if (/<li[^>]*data-type="taskItem"/i.test(inner)) return match;
-      if (!/<li\b/i.test(inner)) return match;
-      const taskItems = inner.replace(
-        /<li\b[^>]*>([\s\S]*?)<\/li>/gi,
-        (_m, body) => {
-          const trimmed = body.trim();
-          const paragraph = /<p\b/i.test(trimmed) ? trimmed : `<p>${trimmed}</p>`;
-          return `<li data-type="taskItem" data-checked="false"><label><input type="checkbox"><span></span></label><div>${paragraph}</div></li>`;
-        }
-      );
-      return `<ul data-type="taskList">${taskItems}</ul>`;
-    }
-  );
-}
-function extractTaskItems(html) {
-  const items = [];
-  const normalized = normalizeTestsHtml(html);
-  const regex = /<li\b([^>]*)>([\s\S]*?)<\/li>/gi;
-  let match;
-  while ((match = regex.exec(normalized)) !== null) {
-    const attrs = match[1];
-    if (!/data-type\s*=\s*"taskItem"/i.test(attrs)) continue;
-    const checkedMatch = attrs.match(/data-checked\s*=\s*"(true|false)"/i);
-    if (!checkedMatch) continue;
-    const body = match[2];
-    const textMatch = body.match(/<p\b[^>]*>([\s\S]*?)<\/p>/i);
-    if (!textMatch) continue;
-    const checked = checkedMatch[1] === "true";
-    const normalizedText = normalizeTaskText(textMatch[1]);
-    if (normalizedText) items.push({ normalized: normalizedText, checked });
-  }
-  return items;
-}
-function assessAppendOnlyRewrite(existingHtml, newHtml) {
-  const existingItems = extractTaskItems(existingHtml);
-  if (!existingItems.length) {
-    return { safe: true, retained: 0, existing: 0 };
-  }
-  const newItems = extractTaskItems(newHtml);
-  if (!newItems.length) {
-    return {
-      safe: false,
-      reason: "new test scenarios are empty \u2014 refusing to wipe existing list",
-      retained: 0,
-      existing: existingItems.length
-    };
-  }
-  const newKeys = newItems.map((i) => i.normalized);
-  let retained = 0;
-  for (const e of existingItems) {
-    if (findFuzzyMatch(e.normalized, newKeys)) retained++;
-  }
-  if (retained < existingItems.length) {
-    return {
-      safe: false,
-      reason: `append-only save_tests requires all existing checklist items to be preserved; retained ${retained}/${existingItems.length}`,
-      retained,
-      existing: existingItems.length
-    };
-  }
-  return { safe: true, retained, existing: existingItems.length };
-}
-function mergeTestCheckState(existingHtml, newHtml) {
-  if (!existingHtml || !newHtml) return newHtml;
-  const existingItems = extractTaskItems(existingHtml);
-  if (existingItems.length === 0) return normalizeTestsHtml(newHtml);
-  const existingKeys = existingItems.map((i) => i.normalized);
-  const checkedMap = /* @__PURE__ */ new Map();
-  for (const item of existingItems) checkedMap.set(item.normalized, item.checked);
-  return normalizeTestsHtml(newHtml).replace(
-    /<li([^>]*data-type="taskItem"[^>]*data-checked=")(?:true|false)("[^>]*>.*?<p>)(.*?)(<\/p>)/gi,
-    (fullMatch, prefix, middle, text, suffix) => {
-      const normalized = normalizeTaskText(text);
-      if (!normalized) return fullMatch;
-      const matchedKey = findFuzzyMatch(normalized, existingKeys);
-      const wasChecked = matchedKey ? checkedMap.get(matchedKey) : false;
-      if (wasChecked) {
-        const result = `<li${prefix}true${middle}${text}${suffix}`;
-        return result.replace(
-          /<input type="checkbox"(?:\s+checked="checked")?>/,
-          '<input type="checkbox" checked="checked">'
-        );
-      }
-      return fullMatch;
-    }
-  );
-}
 var __dirname = dirname(fileURLToPath(import.meta.url));
 function getDefaultDataDir() {
-  const home = homedir3();
+  const home = homedir6();
   switch (process.platform) {
     case "darwin":
       return resolve2(home, "Library/Application Support/ideafy");
@@ -24979,7 +26594,7 @@ function getDefaultDataDir() {
 function resolveDbPath() {
   const userDataEnv = process.env.IDEAFY_USER_DATA;
   const dir = userDataEnv ? resolve2(userDataEnv) : getDefaultDataDir();
-  mkdirSync3(dir, { recursive: true });
+  mkdirSync5(dir, { recursive: true });
   return resolve2(dir, "kanban.db");
 }
 var DB_PATH = resolveDbPath();
@@ -25032,7 +26647,7 @@ function resolveCardId(identifier) {
   }
   return null;
 }
-var STATUSES2 = [
+var STATUSES3 = [
   "ideation",
   "backlog",
   "bugs",
@@ -25041,24 +26656,13 @@ var STATUSES2 = [
   "completed",
   "withdrawn"
 ];
-function saveFieldAndMove(id, column, html, nextStatus) {
-  return transaction2(db, () => {
-    const row = db.prepare(`SELECT status FROM cards WHERE id = ?`).get(id);
-    if (!row) return false;
-    const now = (/* @__PURE__ */ new Date()).toISOString();
-    db.prepare(`UPDATE cards SET ${column} = ?, updated_at = ? WHERE id = ?`).run(html, now, id);
-    const target = nextStatus(row.status);
-    if (target) moveCard2(db, id, target, now);
-    return true;
-  });
-}
 function readStatus(id) {
   const row = db.prepare(`SELECT status FROM cards WHERE id = ?`).get(id);
   return row?.status ?? "unknown";
 }
 function cardFieldHtml(id, markdown) {
   const withFiles = materializeArtifactFences2(markdown, cardArtifactDir2(id));
-  const linked = linkCardsInHtml(db, markdownToTiptapHtml(withFiles), projectIdOfCard(db, id));
+  const linked = linkCardsInHtml(db, markdownToTiptapHtml2(withFiles), projectIdOfCard(db, id));
   return persistCardArtifacts2(linked, id);
 }
 function aiScoreColumn(conn) {
@@ -25080,13 +26684,40 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
     tools: [
       {
         name: "get_card",
-        description: "Get a kanban card by ID. When the card belongs to a group, `chain` gives its place in that chain: position/total, predecessors and successors in chain order (displayId, title, status), and `next`, the chain's first member that is neither completed nor withdrawn.",
+        description: "Get a kanban card by ID. When the card belongs to a group, `chain` gives its place in that chain: position/total, predecessors and successors in chain order (displayId, title, status), and `next`, the chain's first member that is neither completed nor withdrawn. When the card has a Test Report, `testReport` gives how many runs it holds and how the newest came out; read the runs themselves with get_test_report.",
         inputSchema: {
           type: "object",
           properties: {
             id: {
               type: "string",
               description: "Card ID: UUID, display ID (e.g., KAN-54), or task number"
+            }
+          },
+          required: ["id"]
+        }
+      },
+      {
+        name: "get_test_report",
+        description: "Read a card's Test Report: how its pre-verify, re-verify, Verify on screen and Re-test runs tested the checklist items. Read-only. Returns every run in one line (newest first, numbered as the Test Report tab numbers them: #1 is the oldest), then one run in full: the run's warnings, where the Tests tab's ticks disagree with it, and its items \u2014 failed and manual ones with approach, steps, expected vs observed, error, command and output; passed ones a line each. Read it before answering why a run failed or whether a ticked item really passed.",
+        inputSchema: {
+          type: "object",
+          properties: {
+            id: {
+              type: "string",
+              description: "Card ID: UUID, display ID (e.g., KAN-54), or task number"
+            },
+            run: {
+              type: "string",
+              description: 'Which run: its number as the tab shows it ("2" or "#2") or its run id. Default: the newest.'
+            },
+            status: {
+              type: "string",
+              enum: ["failed", "manual", "passed"],
+              description: "Only the items with this status, each in full. Default: every item, passed ones one line each."
+            },
+            screenshots: {
+              type: "boolean",
+              description: "Also return the run's screenshots for the items shown, as images (at most 6). Default: false."
             }
           },
           required: ["id"]
@@ -25339,7 +26970,9 @@ VOICE ACCENT (apply on top of the style contract \u2014 read project's voice via
 
 Append-only guard: if the card already has scenarios, EVERY existing item must still be present in your payload (fuzzy text match). Dropping even one item rejects the call \u2014 always send the existing list plus your additions.
 
-Deleting scenarios: the guard above is absolute, so the only way to remove an item is allowDeletion: true. Pass it only on a turn where the user explicitly asked you to remove, drop, or undo scenarios. It makes your payload a literal replacement of the checklist \u2014 checkbox states included \u2014 so copy every surviving item, text and [x]/[ ], exactly as it stands today.`,
+Deleting scenarios: the guard above is absolute, so the only way to remove an item is allowDeletion: true. Pass it only on a turn where the user explicitly asked you to remove, drop, or undo scenarios. It makes your payload a literal replacement of the checklist \u2014 checkbox states included \u2014 so copy every surviving item, text and [x]/[ ], exactly as it stands today.
+
+Test Report (report): when you have just verified checklist items yourself \u2014 you ran them, you did not only write them \u2014 pass a report of how. It shows on the card's Test Report tab, newest run first; it never ticks or unticks anything, the checklist stays the one source of what passed. Cover only the items you ran, normally the core-flow group (## Core flow / ## Temel ak\u0131\u015F). A failed item needs both observed and error. For an item checked without a browser, give command and output. Do not open a browser for screenshots unless the user explicitly asked to verify on screen; if they did and this session has no browser tool (e.g. Playwright MCP), say so and send a text report. Screenshots are absolute paths to image files you saved; they are copied to the card.`,
         inputSchema: {
           type: "object",
           properties: {
@@ -25354,6 +26987,43 @@ Deleting scenarios: the guard above is absolute, so the only way to remove an it
             allowDeletion: {
               type: "boolean",
               description: "Opt in to removing existing scenarios. Only set true when the user explicitly asked for a removal in this turn. Turns the payload into a literal replacement: whatever you send becomes the checklist, checkbox states and all. Omit for normal appends."
+            },
+            report: {
+              type: "object",
+              description: "Optional Test Report of items you just verified (see tool description). Omit when you only wrote scenarios.",
+              properties: {
+                items: {
+                  type: "array",
+                  items: {
+                    type: "object",
+                    properties: {
+                      item: { type: "string", description: "The checklist item, word for word." },
+                      status: { type: "string", enum: ["passed", "failed", "manual"] },
+                      approach: { type: "string", description: "One or two sentences: how you checked it." },
+                      steps: { type: "array", items: { type: "string" }, description: "One action each: URL opened, command run, what was clicked or typed." },
+                      expected: { type: "string" },
+                      observed: { type: "string" },
+                      error: { type: "string", description: "Required with observed when status is failed." },
+                      command: { type: "string" },
+                      output: { type: "string", description: "The few lines that prove the result." },
+                      screenshots: {
+                        type: "array",
+                        items: {
+                          type: "object",
+                          properties: {
+                            file: { type: "string", description: "Absolute path to an image file." },
+                            step: { type: "number", description: "1-based step it belongs under." },
+                            caption: { type: "string" }
+                          },
+                          required: ["file"]
+                        }
+                      }
+                    },
+                    required: ["item", "status"]
+                  }
+                }
+              },
+              required: ["items"]
             }
           },
           required: ["id", "testScenarios"]
@@ -25430,7 +27100,7 @@ The server writes the card's verdict, score, priority and complexity from those 
       },
       {
         name: "list_queue",
-        description: `List the run queue: the cards waiting for an autonomous run, in the order the app will start them \u2014 the order its queue popover shows. One queue serves every project; pass projectId to see one project's cards (rank stays the card's place in the whole queue). Each row: rank, id, displayId, title, status, projectId, kind (implementation = build from its plan; verify = pre-verify walk of a Human Test checklist's core flow) and runsInWorktree. runState is what the app last reported: "running" (armed, starts the next card when nothing is live), "held" (armed, but a terminal session is editing the next card's folder \u2014 heldBy says which), "paused" (waits for Resume \u2014 pausedReason says why), "app-closed" (the app is not running, so nothing starts) or "unknown" (an app too old to report it \u2014 do not guess). The app's warnings about files shared with live runs are not included; for file overlap with other open work, use list_open_work.`,
+        description: `List the run queue: the cards waiting for an autonomous run, in the order the app will start them \u2014 the order its queue popover shows. One queue serves every project; pass projectId to see one project's cards (rank stays the card's place in the whole queue). Each row: rank, id, displayId, title, status, projectId, kind (implementation = build from its plan; verify = pre-verify walk of a Human Test checklist's core flow) and runsInWorktree. runState is what the app last reported: "running" (armed, starts the next card when nothing is live), "held" (armed, but a terminal session is editing the next card's folder \u2014 heldBy says which), "paused" (waits for Resume \u2014 pausedReason says why), "app-closed" (the app is not running, so nothing starts) or "unknown" (an app too old to report it \u2014 do not guess). To pause or resume it, use pause_queue / resume_queue \u2014 only when the user asks. The app's warnings about files shared with live runs are not included; for file overlap with other open work, use list_open_work.`,
         inputSchema: {
           type: "object",
           properties: {
@@ -25443,7 +27113,7 @@ The server writes the card's verdict, score, priority and complexity from those 
       },
       {
         name: "check_write_conflicts",
-        description: `Check, before you edit code in a project, whether the Ideafy app would let a run write there now \u2014 the app's one-writer-per-folder rule. Reports: conflicts (a live autonomous run, quick fix, Tests chat or another terminal session working in the same folder without a worktree, or an armed queue whose next card would start in that folder \u2014 each with the app's own message), uncommitted (files git shows changed that this session did not edit; git cannot say whose they are), openWork (open cards whose plan or branch touches the files you pass), the queue's state, and appState ("closed" means the app is not running: no live run, no queue \u2014 not an error). The Ideafy edit hook blocks an Edit/Write that hits a conflict whether or not you called this. On a conflict, quote its message to the user and offer: wait, work in a worktree, or continue. Only after the user explicitly says to continue, call again with sessionId and acknowledge: true \u2014 that records the current conflicts (and the files you pass) as accepted for this session, and the hook lets those edits through; a different run or file asks again.`,
+        description: `Check, before you edit code in a project, whether the Ideafy app would let a run write there now \u2014 the app's one-writer-per-folder rule. Reports: conflicts (a live autonomous run, quick fix, Tests chat or another terminal session working in the same folder without a worktree, or an armed queue whose next card would start in that folder \u2014 each with the app's own message), uncommitted (files git shows changed that this session did not edit; git cannot say whose they are), a chain-order conflict when the card you are building (cardId, or the session's bound card) has a predecessor in its chain whose code is not in yet \u2014 a warning to confirm once, not another writer \u2014 openWork (open cards whose plan or branch touches the files you pass), the queue's state, and appState ("closed" means the app is not running: no live run, no queue \u2014 not an error). The Ideafy edit hook blocks an Edit/Write that hits a conflict whether or not you called this. On a conflict, quote its message to the user and offer: wait, work in a worktree, or continue. Only after the user explicitly says to continue, call again with sessionId and acknowledge: true \u2014 that records the current conflicts (and the files you pass) as accepted for this session, and the hook lets those edits through; a different run or file asks again.`,
         inputSchema: {
           type: "object",
           properties: {
@@ -25460,6 +27130,10 @@ The server writes the card's verdict, score, priority and complexity from those 
               type: "string",
               description: "This Claude Code session's id \u2014 the edit hook's message names it. Needed for acknowledge, and to leave out the files this session already edited."
             },
+            cardId: {
+              type: "string",
+              description: "The card you are building (UUID, display ID or task number). Defaults to the session's bound card. Adds the chain-order check; acknowledge then records it so the hook stops asking for this card."
+            },
             acknowledge: {
               type: "boolean",
               description: "Record the current conflicts and the files passed as accepted for this session. Only on the user's explicit OK."
@@ -25470,7 +27144,7 @@ The server writes the card's verdict, score, priority and complexity from those 
       },
       {
         name: "queue_card",
-        description: "Add a card to the run queue, or move one already queued. Queueing is consent to an unattended, code-writing run: never call this unless the user explicitly asked to queue this card. The app's Add to queue rules apply \u2014 a Backlog or In Progress card with a plan and no checklist yet (implementation), or a Human Test card whose checklist opens with Core flow / Temel ak\u0131\u015F and still has unticked items (pre-verify); a refusal says why and writes nothing. A queued pre-verify walks the core flow while it has unticked items, then the next group that does; scope all walks every group left in one run. What happens next is the app's call, not this tool's: if the app's queue is running, the card starts within about 10 seconds or once the run ahead of it ends; if it is paused, it waits for Resume in the app; if the app is closed, nothing starts, and the queue opens paused on the next launch. This tool cannot start, pause or resume the queue. Moving a card does not bump its updatedAt.",
+        description: "Add a card to the run queue, or move one already queued. Queueing is consent to an unattended, code-writing run: never call this unless the user explicitly asked to queue this card. The app's Add to queue rules apply \u2014 a Backlog or In Progress card with a plan and no checklist yet (implementation), or a Human Test card whose checklist opens with Core flow / Temel ak\u0131\u015F and still has unticked items (pre-verify); a refusal says why and writes nothing. A queued pre-verify walks the core flow while it has unticked items, then the next group that does; scope all walks every group left in one run. What happens next is the app's call, not this tool's: if the app's queue is running, the card starts within about 10 seconds or once the run ahead of it ends; if it is paused, it waits for Resume in the app; if the app is closed, nothing starts, and the queue opens paused on the next launch. This tool cannot start the queue; pause_queue and resume_queue do what the popover's Pause and Resume do. If the card jumps its chain (a predecessor whose code is not in yet), the result says so in the app's words: the card is queued anyway and the queue does not reorder for it \u2014 tell the user, and offer to move the predecessor ahead. Moving a card does not bump its updatedAt.",
         inputSchema: {
           type: "object",
           properties: {
@@ -25503,6 +27177,22 @@ The server writes the card's verdict, score, priority and complexity from those 
             }
           },
           required: ["cardId"]
+        }
+      },
+      {
+        name: "pause_queue",
+        description: `Pause the app's run queue, the same as Pause in its queue popover: the next queued card does not start until Resume. A run already going is not stopped. Pausing changes the user's queue, so call this only when the user explicitly asks to pause it. Works only while the Ideafy app is open, since the queue runs inside it; with the app closed it says so and changes nothing. The popover then shows "Paused from the terminal".`,
+        inputSchema: {
+          type: "object",
+          properties: {}
+        }
+      },
+      {
+        name: "resume_queue",
+        description: "Resume the app's run queue, the same as Resume in its queue popover: the next queued card starts once nothing else is running, unattended and writing code. Call this only when the user explicitly asks to resume or start the queue \u2014 the same consent queue_card needs. Works only while the Ideafy app is open; with the app closed it says so and changes nothing.",
+        inputSchema: {
+          type: "object",
+          properties: {}
         }
       },
       {
@@ -25604,7 +27294,7 @@ The server writes the card's verdict, score, priority and complexity from those 
       },
       {
         name: "ensure_branch",
-        description: "Ensure the current working directory is on the git branch this card is supposed to be implemented on. If the card/project has worktree enforcement enabled and the branch is missing, creates it (and a worktree when the project uses worktrees). Idempotent: returns a no-op message when already on the correct branch or when enforcement is disabled.",
+        description: "Ensure the current working directory is on the git branch this card is supposed to be implemented on. If the card/project has worktree enforcement enabled and the branch is missing, creates it in its own worktree (a worktree whenever the card resolves to one; the main checkout never changes branch). Idempotent: returns a no-op message when already on the correct branch or when enforcement is disabled.",
         inputSchema: {
           type: "object",
           properties: {
@@ -25651,6 +27341,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           };
         }
         const outputPathsColumn = hasCapability(db, "outputPaths") ? "output_paths as outputPaths," : "NULL as outputPaths,";
+        const testReportsColumn = hasCapability(db, "testReports") ? "test_reports as testReports," : "NULL as testReports,";
         const card = db.prepare(`
           SELECT
             id, title, description,
@@ -25668,6 +27359,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             git_worktree_status as gitWorktreeStatus,
             use_worktree as useWorktree,
             ${outputPathsColumn}
+            ${testReportsColumn}
             created_at as createdAt,
             updated_at as updatedAt
           FROM cards WHERE id = ?
@@ -25680,12 +27372,16 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         }
         const rawUseWorktree = card.useWorktree;
         card.useWorktree = normalizeUseWorktree(rawUseWorktree);
-        const outputPaths = parseOutputPaths(card.outputPaths);
+        const outputPaths = parseOutputPaths2(card.outputPaths);
         card.outputPaths = outputPaths.length ? outputPaths : null;
         const chain = getChainForCard(db, card);
         if (chain) {
           card.chain = chain;
         }
+        const cardWithReports = card;
+        const testReport = testReportCardSummary2(parseTestReports2(cardWithReports.testReports));
+        delete cardWithReports.testReports;
+        if (testReport) cardWithReports.testReport = testReport;
         const projectRow = card.projectId ? db.prepare(`SELECT * FROM projects WHERE id = ?`).get(card.projectId) : void 0;
         const voice = projectRow?.voice ?? "builder";
         card.project = {
@@ -25721,6 +27417,21 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         }
         return { content };
       }
+      case "get_test_report": {
+        const { id: rawId, run, status, screenshots } = args;
+        const id = resolveCardId(rawId);
+        const row = id ? db.prepare(
+          `SELECT c.title, c.task_number as taskNumber, p.id_prefix as idPrefix
+                 FROM cards c LEFT JOIN projects p ON p.id = c.project_id WHERE c.id = ?`
+        ).get(id) : void 0;
+        if (!id || !row) {
+          return {
+            content: [{ type: "text", text: `Card not found: ${rawId}` }],
+            isError: true
+          };
+        }
+        return readTestReport(db, { id, displayId: queueDisplayId2(row) }, { run, status, screenshots });
+      }
       case "update_card": {
         const { id: rawId, afterCardId: rawAfterCardId, ...updates } = args;
         const id = resolveCardId(rawId);
@@ -25750,7 +27461,6 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             isError: true
           };
         }
-        const markdownFields = ["description", "solutionSummary"];
         const fieldMap = {
           title: "title",
           description: "description",
@@ -25790,35 +27500,10 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           return {
             content: [{
               type: "text",
-              text: `update_card: "${updates.status}" is not a column. Valid columns: ${STATUSES2.join(", ")}.`
+              text: `update_card: "${updates.status}" is not a column. Valid columns: ${STATUSES3.join(", ")}.`
             }],
             isError: true
           };
-        }
-        if (updates.groupId !== void 0) {
-          updates.groupId = normalizeGroupId2(updates.groupId) ?? null;
-        }
-        if (updates.groupId !== void 0) {
-          const owner = db.prepare(`SELECT project_id FROM cards WHERE id = ?`).get(id);
-          assertGroupAssignable2(db, updates.groupId, owner?.project_id ?? null);
-        }
-        const now = (/* @__PURE__ */ new Date()).toISOString();
-        const setClauses = ["updated_at = ?"];
-        const values = [now];
-        for (const [key, value] of Object.entries(updates)) {
-          if (fieldMap[key] && value !== void 0) {
-            setClauses.push(`${fieldMap[key]} = ?`);
-            if (markdownFields.includes(key) && typeof value === "string") {
-              const htmlValue = markdownToTiptapHtml(value);
-              values.push(
-                key === "solutionSummary" ? linkCardsInHtml(db, htmlValue, updates.projectId ?? projectIdOfCard(db, id)) : htmlValue
-              );
-            } else if (key === "useWorktree") {
-              values.push(serializeUseWorktreeForDb(value));
-            } else {
-              values.push(value);
-            }
-          }
         }
         const writesStatus = typeof updates.status === "string";
         if (writesStatus && !hasCapability(db, "completedAt")) {
@@ -25827,7 +27512,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             isError: true
           };
         }
-        const writeFields = setClauses.length > 1;
+        const fields = updateCardFields(db, id, updates);
+        const writeFields = Object.values(fields).some((value) => value !== void 0);
         if (!writeFields && !reorder) {
           return {
             content: [{
@@ -25837,26 +27523,13 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             isError: true
           };
         }
-        const outcome = transaction2(db, () => {
-          if (writeFields) {
-            if (writesStatus) {
-              const current = db.prepare(`SELECT status, completed_at FROM cards WHERE id = ?`).get(id);
-              if (!current) return null;
-              setClauses.push("completed_at = ?");
-              values.push(
-                completedAtFor2(current.status, updates.status, current.completed_at, now)
-              );
-            }
-            const result = db.prepare(`
-              UPDATE cards SET ${setClauses.join(", ")} WHERE id = ?
-            `).run(...values, id);
-            if (Number(result.changes) === 0) return null;
-          }
-          return {
-            placed: reorder ? moveCardInChain3(db, id, afterCardId ?? null) : null
-          };
+        const outcome = updateCard2(db, {
+          id,
+          now: (/* @__PURE__ */ new Date()).toISOString(),
+          fields,
+          afterCardId: reorder ? afterCardId ?? null : void 0
         });
-        if (!outcome) {
+        if (!outcome.ok) {
           return {
             content: [{ type: "text", text: `Card not found: ${id}` }],
             isError: true
@@ -25881,11 +27554,11 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             isError: true
           };
         }
-        if (!STATUSES2.includes(status)) {
+        if (!STATUSES3.includes(status)) {
           return {
             content: [{
               type: "text",
-              text: `move_card: "${status}" is not a column. Valid columns: ${STATUSES2.join(", ")}.`
+              text: `move_card: "${status}" is not a column. Valid columns: ${STATUSES3.join(", ")}.`
             }],
             isError: true
           };
@@ -25990,10 +27663,10 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             isError: true
           };
         }
-        const unknown2 = (statuses ?? []).filter((s) => !STATUSES2.includes(s));
+        const unknown2 = (statuses ?? []).filter((s) => !STATUSES3.includes(s));
         if (unknown2.length) {
           return {
-            content: [{ type: "text", text: `Unknown status: ${unknown2.join(", ")}. Use one of: ${STATUSES2.join(", ")}.` }],
+            content: [{ type: "text", text: `Unknown status: ${unknown2.join(", ")}. Use one of: ${STATUSES3.join(", ")}.` }],
             isError: true
           };
         }
@@ -26051,7 +27724,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           return {
             content: [{
               type: "text",
-              text: `create_card: "${status}" is not a column. Valid columns: ${STATUSES2.join(", ")}.`
+              text: `create_card: "${status}" is not a column. Valid columns: ${STATUSES3.join(", ")}.`
             }],
             isError: true
           };
@@ -26062,56 +27735,18 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             isError: true
           };
         }
-        const groupId = normalizeGroupId2(rawGroupId) ?? null;
-        assertGroupAssignable2(db, groupId, projectId);
-        const storedComplexity = normalizeComplexity2(complexity);
-        if (!storedComplexity) {
+        const cardId = v4_default();
+        const created = createCard2(
+          db,
+          createCardInput(db, cardId, { title, description, solutionSummary, status, complexity, priority, projectId, groupId: rawGroupId }),
+          (/* @__PURE__ */ new Date()).toISOString()
+        );
+        if (!created.ok) {
           return {
             content: [{ type: "text", text: `create_card: complexity must be low, medium or high (got "${complexity}").` }],
             isError: true
           };
         }
-        const now = (/* @__PURE__ */ new Date()).toISOString();
-        let taskNumber = null;
-        let projectFolder = "";
-        if (projectId) {
-          const project = db.prepare(`
-            SELECT id, folder_path, next_task_number FROM projects WHERE id = ?
-          `).get(projectId);
-          if (project) {
-            taskNumber = project.next_task_number;
-            projectFolder = project.folder_path;
-            db.prepare(`
-              UPDATE projects SET next_task_number = ?, updated_at = ? WHERE id = ?
-            `).run(project.next_task_number + 1, now, projectId);
-          }
-        }
-        const cardId = v4_default();
-        const completedAt = completedAtOnCreate2(status, now);
-        db.prepare(`
-          INSERT INTO cards (
-            id, title, description, solution_summary, test_scenarios,
-            status, complexity, priority, project_folder, project_id,
-            group_id, task_number, created_at, updated_at${completedAt ? ", completed_at" : ""}
-          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?${completedAt ? ", ?" : ""})
-        `).run(
-          cardId,
-          title,
-          markdownToTiptapHtml(description),
-          linkCardsInHtml(db, markdownToTiptapHtml(solutionSummary), projectId),
-          "",
-          // Test scenarios added after implementation via save_tests
-          status,
-          storedComplexity,
-          priority,
-          projectFolder,
-          projectId,
-          groupId,
-          taskNumber,
-          now,
-          now,
-          ...completedAt ? [completedAt] : []
-        );
         const hint = buildPhaseHint2(status);
         const content = [
           {
@@ -26148,8 +27783,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           };
         }
         const htmlContent = cardFieldHtml(id, solutionSummary);
-        const saved = saveFieldAndMove(id, "solution_summary", htmlContent, statusAfterPlan2);
-        if (!saved) {
+        const saved = savePlan2(db, { id, html: htmlContent, now: (/* @__PURE__ */ new Date()).toISOString() });
+        if (!saved.ok) {
           return {
             content: [{ type: "text", text: `Card not found: ${id}` }],
             isError: true
@@ -26160,7 +27795,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         };
       }
       case "save_tests": {
-        const { id: rawId, testScenarios, allowDeletion } = args;
+        const { id: rawId, testScenarios, allowDeletion, report } = args;
         const id = resolveCardId(rawId);
         if (!id) {
           return {
@@ -26170,7 +27805,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         }
         const deletionRequested = allowDeletion === true;
         const existing = db.prepare(`SELECT test_scenarios FROM cards WHERE id = ?`).get(id);
-        const existingItems = extractTaskItems(existing?.test_scenarios || "");
+        const existingItems = extractTaskItems2(existing?.test_scenarios || "");
         const existingCheckedCount = existingItems.filter((item) => item.checked).length;
         const checkboxStats = markdownCheckboxStats(testScenarios);
         if (existingItems.length > 0 && checkboxStats.total === 0) {
@@ -26191,39 +27826,46 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             isError: true
           };
         }
-        const htmlContent = markdownToTiptapHtml(testScenarios);
-        if (!deletionRequested && existing?.test_scenarios) {
-          const assessment = assessAppendOnlyRewrite(existing.test_scenarios, htmlContent);
-          if (!assessment.safe) {
-            return {
-              content: [{
-                type: "text",
-                text: `save_tests refused: ${assessment.reason}. Call save_tests again with the full existing list plus your new additions (append-only). Existing items: ${assessment.existing}, retained in your payload: ${assessment.retained}. If the user explicitly asked you to remove scenarios, call save_tests again with allowDeletion: true and the exact list they want to keep.`
-              }],
-              isError: true
-            };
-          }
+        const parsedReport = report === void 0 || report === null ? null : readTerminalReport(db, report);
+        if (parsedReport && !parsedReport.ok) {
+          return { content: [{ type: "text", text: parsedReport.message }], isError: true };
         }
-        const mergedHtml = !deletionRequested && existing?.test_scenarios ? mergeTestCheckState(existing.test_scenarios, htmlContent) : htmlContent;
+        const htmlContent = markdownToTiptapHtml2(testScenarios);
         if (!hasCapability(db, "completedAt")) {
           return {
             content: [{ type: "text", text: missingCapabilityMessage("save_tests", "completedAt") }],
             isError: true
           };
         }
-        const saved = saveFieldAndMove(id, "test_scenarios", mergedHtml, statusAfterTests2);
-        if (!saved) {
+        const saved = saveTests2(db, {
+          id,
+          html: htmlContent,
+          now: (/* @__PURE__ */ new Date()).toISOString(),
+          guard: deletionRequested ? "replace" : "append-only"
+        });
+        if (!saved.ok && saved.reason === "unsafe") {
+          return {
+            content: [{
+              type: "text",
+              text: `save_tests refused: ${saved.detail}. Call save_tests again with the full existing list plus your new additions (append-only). Existing items: ${saved.existing}, retained in your payload: ${saved.retained}. If the user explicitly asked you to remove scenarios, call save_tests again with allowDeletion: true and the exact list they want to keep.`
+            }],
+            isError: true
+          };
+        }
+        if (!saved.ok) {
           return {
             content: [{ type: "text", text: `Card not found: ${id}` }],
             isError: true
           };
         }
         let summary = `Test scenarios saved to card ${id}. Card is in "${readStatus(id)}"`;
-        if (deletionRequested && existingItems.length > 0) {
-          const kept = assessAppendOnlyRewrite(existing?.test_scenarios || "", htmlContent).retained;
-          const removed = existingItems.length - kept;
-          summary += ` \u2014 allowDeletion: ${removed} of ${existingItems.length} existing scenario(s) removed, ${kept} kept`;
+        const before = extractTaskItems2(saved.previous).length;
+        if (deletionRequested && before > 0) {
+          const kept = assessAppendOnlyRewrite2(saved.previous, htmlContent).retained;
+          const removed = before - kept;
+          summary += ` \u2014 allowDeletion: ${removed} of ${before} existing scenario(s) removed, ${kept} kept`;
         }
+        if (parsedReport?.ok) summary += `.${writeTerminalReport(db, id, parsedReport.items, true)}`;
         return {
           content: [{ type: "text", text: summary }]
         };
@@ -26375,86 +28017,37 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           );
           branchGenerated = true;
         }
-        const useWorktreeMode = projectUseWorktrees ?? true;
         const nowIso = (/* @__PURE__ */ new Date()).toISOString();
-        if (useWorktreeMode) {
-          const expectedPath = card.gitWorktreePath || getWorktreePath(projectFolder, targetBranch);
-          if (await worktreeExists(projectFolder, expectedPath)) {
-            const branchInWorktree = await getCurrentBranch(expectedPath);
-            if (branchInWorktree === targetBranch) {
-              if (branchGenerated || card.gitBranchName !== targetBranch || card.gitWorktreePath !== expectedPath) {
-                db.prepare(
-                  `UPDATE cards
-                   SET git_branch_name = ?, git_branch_status = 'active',
-                       git_worktree_path = ?, git_worktree_status = 'active',
-                       updated_at = ?
-                   WHERE id = ?`
-                ).run(targetBranch, expectedPath, nowIso, cardId);
-              }
-              return {
-                content: [
-                  {
-                    type: "text",
-                    text: `Already on branch "${targetBranch}" in worktree ${expectedPath}. No changes made.`
-                  }
-                ]
-              };
+        const expectedPath = card.gitWorktreePath || getWorktreePath(projectFolder, targetBranch);
+        if (await worktreeExists(projectFolder, expectedPath)) {
+          const branchInWorktree = await getCurrentBranch(expectedPath);
+          if (branchInWorktree === targetBranch) {
+            if (branchGenerated || card.gitBranchName !== targetBranch || card.gitWorktreePath !== expectedPath) {
+              db.prepare(
+                `UPDATE cards
+                 SET git_branch_name = ?, git_branch_status = 'active',
+                     git_worktree_path = ?, git_worktree_status = 'active',
+                     updated_at = ?
+                 WHERE id = ?`
+              ).run(targetBranch, expectedPath, nowIso, cardId);
             }
-          }
-          const result = await createWorktree(projectFolder, targetBranch);
-          if (!result.success) {
             return {
               content: [
                 {
                   type: "text",
-                  text: `Failed to create worktree for branch "${targetBranch}": ${result.error ?? "unknown error"}`
+                  text: `Already on branch "${targetBranch}" in worktree ${expectedPath}. No changes made.`
                 }
-              ],
-              isError: true
+              ]
             };
           }
-          db.prepare(
-            `UPDATE cards
-             SET git_branch_name = ?, git_branch_status = 'active',
-                 git_worktree_path = ?, git_worktree_status = 'active',
-                 updated_at = ?
-             WHERE id = ?`
-          ).run(targetBranch, result.worktreePath, nowIso, cardId);
-          return {
-            content: [
-              {
-                type: "text",
-                text: `Worktree ready at ${result.worktreePath} on branch "${targetBranch}". cd into it to continue.`
-              }
-            ]
-          };
         }
-        const cwd = card.gitWorktreePath && existsSync5(card.gitWorktreePath) ? card.gitWorktreePath : projectFolder;
-        const currentBranch = await getCurrentBranch(cwd);
-        if (currentBranch === targetBranch) {
-          if (branchGenerated || card.gitBranchName !== targetBranch) {
-            db.prepare(
-              `UPDATE cards
-               SET git_branch_name = ?, git_branch_status = 'active', updated_at = ?
-               WHERE id = ?`
-            ).run(targetBranch, nowIso, cardId);
-          }
+        const result = await createWorktree(projectFolder, targetBranch);
+        if (!result.success) {
           return {
             content: [
               {
                 type: "text",
-                text: `Already on branch "${targetBranch}" in ${cwd}. No changes made.`
-              }
-            ]
-          };
-        }
-        const checkout = await ensureBranchInPlace(cwd, targetBranch);
-        if (!checkout.success) {
-          return {
-            content: [
-              {
-                type: "text",
-                text: `Failed to switch to branch "${targetBranch}" in ${cwd}: ${checkout.error ?? "unknown error"}`
+                text: `Failed to create worktree for branch "${targetBranch}": ${result.error ?? "unknown error"}`
               }
             ],
             isError: true
@@ -26462,15 +28055,16 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         }
         db.prepare(
           `UPDATE cards
-           SET git_branch_name = ?, git_branch_status = 'active', updated_at = ?
+           SET git_branch_name = ?, git_branch_status = 'active',
+               git_worktree_path = ?, git_worktree_status = 'active',
+               updated_at = ?
            WHERE id = ?`
-        ).run(targetBranch, nowIso, cardId);
-        const stashNote = checkout.error ? ` (${checkout.error})` : "";
+        ).run(targetBranch, result.worktreePath, nowIso, cardId);
         return {
           content: [
             {
               type: "text",
-              text: `Switched to branch "${targetBranch}" in ${cwd}.${stashNote}`
+              text: `Worktree ready at ${result.worktreePath} on branch "${targetBranch}". cd into it to continue.`
             }
           ]
         };
@@ -26599,7 +28193,7 @@ ${policy}` : `${bound} This column has no phase policy.`
         };
       }
       case "check_write_conflicts": {
-        const { projectId, files: rawFiles, sessionId, acknowledge } = args ?? {};
+        const { projectId, files: rawFiles, sessionId, acknowledge, cardId: rawCardId } = args ?? {};
         if (!projectId) {
           return { content: [{ type: "text", text: "check_write_conflicts needs a projectId." }], isError: true };
         }
@@ -26615,6 +28209,10 @@ ${policy}` : `${bound} This column has no phase policy.`
         }
         if (acknowledge && !hasCapability(db, "writeAck")) {
           return { content: [{ type: "text", text: missingCapabilityMessage("check_write_conflicts", "writeAck") }], isError: true };
+        }
+        const explicitCardId = rawCardId ? resolveCardId(rawCardId) : null;
+        if (rawCardId && !explicitCardId) {
+          return { content: [{ type: "text", text: `Card not found: ${rawCardId}` }], isError: true };
         }
         const folder = project.folderPath ?? "";
         const files = (Array.isArray(rawFiles) ? rawFiles : []).filter((f) => typeof f === "string" && f.trim().length > 0).map((f) => isAbsolute2(f) && folder ? relative2(folder, f) : f.replace(/^\.\//, ""));
@@ -26647,13 +28245,18 @@ ${policy}` : `${bound} This column has no phase policy.`
           conflicts.push(conflict);
           accepted.add(conflict.conflictId);
         }
+        const boundCardId = sessionId ? db.prepare("SELECT card_id AS cardId FROM ideafy_sessions WHERE session_id = ?").get(sessionId)?.cardId ?? null : null;
+        const buildingCardId = explicitCardId ?? boundCardId;
+        if (buildingCardId && !accepted.has(chainAckId2(buildingCardId))) {
+          const chain = chainWriteConflictFor2(db, buildingCardId);
+          if (chain) conflicts.push(chain);
+        }
         const checkout = inWorktree ? process.cwd() : folder;
         const ownFiles = new Set(self?.touchedFiles ?? []);
         const uncommitted = checkout && await isGitRepo(checkout) ? (await listUncommittedFiles(checkout, files.length ? files : null)).map((f) => inWorktree && folder ? relative2(folder, resolve2(checkout, f)) : f).filter((f) => !ownFiles.has(f)) : [];
-        const boundCardId = sessionId ? db.prepare("SELECT card_id AS cardId FROM ideafy_sessions WHERE session_id = ?").get(sessionId)?.cardId ?? null : null;
         const openWork = files.length ? (await listOpenWork(
           db,
-          { projectId, excludeCardId: boundCardId, files },
+          { projectId, excludeCardId: buildingCardId, files },
           { isGitRepo, changedFiles: listChangedFiles }
         )).filter((row) => row.overlap && row.overlap.length > 0).map((row) => ({ displayId: row.displayId, title: row.title, status: row.status, overlap: row.overlap })) : [];
         let acknowledged;
@@ -26668,7 +28271,8 @@ ${policy}` : `${bound} This column has no phase policy.`
         }
         const blocked = !acknowledge && (conflicts.length > 0 || uncommitted.some((f) => !ack.files.includes(f)));
         const appNote = runtime.appState === "closed" ? "The Ideafy app is closed: no run is live and the queue is not running." : runtime.appState === "unknown" ? "This Ideafy database has no live-run mirror yet (update the app): live runs and the queue state are unknown." : null;
-        const next = acknowledge ? "Recorded. The edit hook lets these through for this session; a different run or file will ask again." : blocked ? "Do not edit yet. Quote the conflict to the user and offer: wait, work in a worktree, or continue. Only on their explicit OK, call this again with sessionId and acknowledge: true." : openWork.length ? "No run is in the way. Open cards plan to touch the same files: mention them to the user before you edit." : "Clear to edit.";
+        const onlyChain = conflicts.length > 0 && conflicts.every((c) => c.reason === "chain-order") && !uncommitted.some((f) => !ack.files.includes(f));
+        const next = acknowledge ? "Recorded. The edit hook lets these through for this session; a different run or file will ask again." : onlyChain ? "Do not edit yet. Quote the chain warning to the user and ask whether to go ahead out of chain order. Only on their explicit OK, call this again with sessionId and acknowledge: true." : blocked ? "Do not edit yet. Quote the conflict to the user and offer: wait, work in a worktree, or continue. Only on their explicit OK, call this again with sessionId and acknowledge: true." : openWork.length ? "No run is in the way. Open cards plan to touch the same files: mention them to the user before you edit." : "Clear to edit.";
         return {
           content: [{
             type: "text",
@@ -26733,10 +28337,12 @@ ${policy}` : `${bound} This column has no phase policy.`
         }
         const total = listQueueRows2(db).length;
         const name2 = queueDisplayId2(result.row);
+        const running = readRuntime2(db).runs.filter((run) => run.source === "app" && run.cardId).map((run) => run.cardId);
+        const chainWarning = queuedChainWarningFor2(db, cardId, running);
         return {
           content: [{
             type: "text",
-            text: `${name2} ${result.moved ? "moved to" : "queued at"} #${result.rank} of ${total} in the run queue. It starts only through the Ideafy app: within about 10 seconds or after the run ahead if the app's queue is running, on Resume if it is paused, and not at all while the app is closed.`
+            text: `${name2} ${result.moved ? "moved to" : "queued at"} #${result.rank} of ${total} in the run queue. It starts only through the Ideafy app: within about 10 seconds or after the run ahead if the app's queue is running, on Resume if it is paused, and not at all while the app is closed.` + (chainWarning ? ` Chain order: ${chainWarning.message} It was queued anyway; tell the user, and offer to move the predecessor ahead.` : "")
           }]
         };
       }
@@ -26759,6 +28365,11 @@ ${policy}` : `${bound} This column has no phase policy.`
             text: removed ? `${rawCardId} was taken out of the run queue. A run already going on it was not touched.` : `${rawCardId} was not in the run queue. Nothing was written.`
           }]
         };
+      }
+      case "pause_queue":
+      case "resume_queue": {
+        const result = await setQueueRunning(name === "pause_queue" ? "pause" : "resume");
+        return { content: [{ type: "text", text: result.text }], ...result.ok ? {} : { isError: true } };
       }
       case "list_groups": {
         const { projectId } = args ?? {};
