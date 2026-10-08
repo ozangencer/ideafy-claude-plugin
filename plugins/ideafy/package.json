@@ -1,6 +1,6 @@
 {
   "name": "ideafy-claude-plugin",
-  "version": "0.1.27",
+  "version": "0.1.28",
   "description": "Ideafy Claude Code plugin. The MCP server in mcp/index.js is a single esbuild bundle with no runtime dependencies.",
   "private": true,
   "type": "module",

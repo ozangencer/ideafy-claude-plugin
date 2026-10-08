@@ -20837,6 +20837,14 @@ __export(test_style_exports, {
   buildTestStyleContractForCard: () => buildTestStyleContractForCard,
   detectCardLanguage: () => detectCardLanguage
 });
+
+// ../lib/autonomous-run/run-timeout.ts
+var MIN = 60 * 1e3;
+var DEFAULT_RUN_IDLE_TIMEOUT_MS = 8 * MIN;
+var OTHER_PHASE_HARD_LIMIT_MINUTES = 30;
+var VERIFY_HARD_LIMIT_MINUTES = OTHER_PHASE_HARD_LIMIT_MINUTES;
+
+// ../lib/prompts/test-style.ts
 var STYLE_CONTRACT_EN = `## Test scenario style (mandatory)
 
 Write scenarios as a manual tester walking the user through the feature, not as
@@ -20854,6 +20862,12 @@ everything after it is optional.
   core flow in other words is noise, and noise is why checklists go untouched.
 - A checklist past ~12 items is a signal that the card is too big \u2014 not that
   you were thorough.
+
+A single pre-verify run walks the core flow, and it is killed after about
+${VERIFY_HARD_LIMIT_MINUTES} minutes. Keep the core flow short enough to fit:
+a long-running step (a nested AI run, a production build, a dev server plus a
+browser) appears in it at most once, and the rest go to later groups. When that
+long run is the feature itself, it stays in the core flow.
 
 ### Use the card's real data, not placeholders
 
@@ -20920,6 +20934,12 @@ sonras\u0131ndaki her \u015Fey opsiyoneldir.
   o g\xFCr\xFClt\xFC.
 - ~12 maddeyi a\u015Fan bir \xE7eklist, kapsaml\u0131 davrand\u0131\u011F\u0131n\u0131n de\u011Fil, kart\u0131n fazla b\xFCy\xFCk
   oldu\u011Funun i\u015Faretidir.
+
+Temel ak\u0131\u015F\u0131 tek bir pre-verify ko\u015Fusu y\xFCr\xFCt\xFCr ve o ko\u015Fu yakla\u015F\u0131k
+${VERIFY_HARD_LIMIT_MINUTES} dakikada \xF6ld\xFCr\xFCl\xFCr. Temel ak\u0131\u015F\u0131 bu s\xFCreye s\u0131\u011Facak
+kadar k\u0131sa tut: uzun ko\u015Fan bir ad\u0131m (i\xE7 i\xE7e AI ko\u015Fusu, production build, dev
+server + taray\u0131c\u0131) Temel ak\u0131\u015Fta en fazla bir kez ge\xE7er, gerisi sonraki gruplara
+gider. O uzun ko\u015Fu feature'\u0131n kendisiyse Temel ak\u0131\u015Fta kal\u0131r.
 
 ### Placeholder de\u011Fil, kart\u0131n ger\xE7ek verisi
 
@@ -21256,23 +21276,24 @@ var PRIOR_DECISIONS_CHECK = `Check this card against the project's other cards b
 - If \`search_cards\` or \`list_open_work\` is not available, or returns an error, skip this whole check and go straight on to the evaluation or the plan. Do not make up for the missing tool: never open the database (\`kanban.db\`, \`sqlite3\`), never query the card tables or the app's local API, never walk the codebase looking for other cards.`;
 var CHAIN_CONTEXT = `Chain: when get_card returns a \`chain\` field for this card, or this prompt has a \`## Chain\` section, the card is one step of a chain of cards. Its predecessors and successors are related work even when \`search_cards\` does not find them, and this part applies even when the check above was skipped. Name each by its bare displayId; a member without one (a draft) by its title.
 - Listing them is not enough: open at most 3 of them with get_card \u2014 the direct successor (the first member after this card) if there is one, then the predecessors that are neither completed nor withdrawn, nearest first, up to that cap. A draft has no displayId and cannot be opened; name it and move on.
-- Read only their \`aiOpinion\` and \`solutionSummary\`, and ask one question: does this card's direction contradict what they decided, or break an assumption the successor is built on? That content contradiction is the only conflict meant here \u2014 a shared file is already \`list_open_work\`'s job.`;
+- Read only their \`aiOpinion\` and \`solutionSummary\`, and ask one question: does this card's direction contradict what they decided, or break an assumption the successor is built on? That content contradiction is the only conflict meant here \u2014 a shared file is already \`list_open_work\`'s job.
+- Only a yes to that question is a finding. A no is never written down: no "does not contradict", no note on how the member's design fits this card, no summary of what it does.`;
 var PRIOR_DECISIONS_RULE = `${PRIOR_DECISIONS_CHECK}
 - If an open card brings in something this card needs to work correctly, or breaks it, that is extra work. When it is a precondition for this card, add it as its own step under Implementation Steps labelled "(because of <displayId>)"; otherwise suggest it as a note for the other card. Never widen the scope silently.
 - Contradictions, precedents and overlaps go under Edge Cases; dependencies go under Dependencies. Do not add a heading for them. A card sits under one heading only: a dependency is not repeated in Edge Cases, and an overlap you checked and ruled out is not written down.
 If there is no contradiction, precedent, overlap or dependency, write nothing about it.
 
 ${CHAIN_CONTEXT}
-- Under Dependencies, list the chain's predecessors and successors in chain order, each with its status.
+- Under Dependencies, list the chain's predecessors and successors in chain order, each as its displayId and status, nothing more.
 - If a predecessor is neither completed nor withdrawn, add one sentence in the same section naming it as a sequencing risk: this card may land before work it builds on. It is a warning, not a blocker \u2014 do not stop, and do not reshape the plan around it.
-- A finding from the chain read goes onto that member's line under Dependencies as half a sentence. A contradiction also gets one sentence under Edge Cases \u2014 the one place a card may sit under two headings. With no finding, the chain lines stay exactly as they would have been.`;
+- A finding from the chain read goes onto that member's line under Dependencies as half a sentence. A contradiction also gets one sentence under Edge Cases \u2014 the one place a card may sit under two headings. With no finding, a chain line stays its displayId and status: no note on how the member relates to, feeds or shapes this card, even when you read it. If a plan step relies on a member, that step says so under Implementation Steps.`;
 var PRIOR_DECISIONS_EVALUATION_RULE = `${PRIOR_DECISIONS_CHECK}
 - Duplicates: call \`search_cards\` once more with the same keywords and \`statuses: ["ideation", "backlog"]\`. Those cards are ideas, not decisions; mention one only when it describes the same idea.
 - Report what you found under \`## Related Cards\`, one line per card: its displayId, the kind (contradiction, precedent, duplicate, overlap or dependency, written in the output language), then what it decided or touches and why it matters here. Every kind keeps its own word in the output language; contradiction and overlap never share one. In Turkish: \xE7eli\u015Fki, emsal, kopya, dosya \xE7ak\u0131\u015Fmas\u0131, ba\u011F\u0131ml\u0131l\u0131k; for the chain \xF6nc\xFCl, ard\u0131l. At most 3 lines, chain lines excluded.
 
 ${CHAIN_CONTEXT}
 - List the chain's predecessors and successors under \`## Related Cards\` too, in chain order, with the kind predecessor or successor (written in the output language) and each one's status. A chain member that is also a contradiction or an overlap gets one line, not two.
-- A finding from the chain read goes onto that member's predecessor or successor line, after its status, as half a sentence. It never opens a line of its own; with no finding the line stays as it is.
+- A finding from the chain read goes onto that member's predecessor or successor line, after its status, as half a sentence. It never opens a line of its own. With no finding the line stays its displayId, kind and status: no note on how the member relates to, feeds or shapes this card, even when you read it.
 
 If there is no contradiction, precedent, duplicate, overlap or dependency and the card is in no chain, leave \`## Related Cards\` out entirely.
 If the check was skipped because the tools were missing, \`## Related Cards\` holds only the chain lines \u2014 leave it out when there is no chain \u2014 and do not explain why.`;
@@ -21523,6 +21544,7 @@ __export(card_ops_exports, {
   readRuntime: () => readRuntime,
   readWriteAck: () => readWriteAck,
   restoreQueueCards: () => restoreQueueCards,
+  reviseTests: () => reviseTests,
   runChanges: () => runChanges,
   runtimeAssignments: () => runtimeAssignments,
   saveOpinion: () => saveOpinion,
@@ -21686,6 +21708,7 @@ __export(markdown_exports, {
   ensureHtml: () => ensureHtml,
   ensureTestScenariosHtml: () => ensureTestScenariosHtml,
   extractTaskItems: () => extractTaskItems,
+  findRevisionTargets: () => findRevisionTargets,
   isHtml: () => isHtml,
   markdownToTiptapHtml: () => markdownToTiptapHtml,
   matchTaskItem: () => matchTaskItem,
@@ -21695,6 +21718,7 @@ __export(markdown_exports, {
   mergeTestMarkdownSections: () => mergeTestMarkdownSections,
   normalizeTestsHtml: () => normalizeTestsHtml,
   plainTaskText: () => plainTaskText,
+  reviseTaskItems: () => reviseTaskItems,
   testScenariosToMarkdown: () => testScenariosToMarkdown,
   untickTaskItems: () => untickTaskItems
 });
@@ -23051,6 +23075,71 @@ function untickTaskItems(html, itemTexts) {
     }
   );
 }
+function taskItemSpans(html) {
+  const spans = [];
+  const open = new RegExp(TASK_ITEM_OPEN, "gi");
+  let match;
+  while ((match = open.exec(html)) !== null) {
+    const tags = /<\/?li\b[^>]*>/gi;
+    tags.lastIndex = match.index;
+    let depth2 = 0;
+    let tag;
+    while ((tag = tags.exec(html)) !== null) {
+      depth2 += tag[0][1] === "/" ? -1 : 1;
+      if (depth2 === 0) break;
+    }
+    if (!tag) break;
+    const end = tag.index + tag[0].length;
+    spans.push({ start: match.index, end });
+    open.lastIndex = end;
+  }
+  return spans;
+}
+function matchRevisions(normalizedHtml, revisions) {
+  const spans = taskItemSpans(normalizedHtml).map((span) => {
+    const text = normalizedHtml.slice(span.start, span.end).match(/<p[^>]*>([\s\S]*?)<\/p>/i)?.[1] ?? "";
+    return { ...span, key: normalizeTaskText(plainTaskText(text)) };
+  });
+  const taken = /* @__PURE__ */ new Set();
+  return revisions.map((revision) => {
+    const key = normalizeTaskText(plainTaskText(revision.from));
+    const span = key ? spans.find((s) => s.key === key && !taken.has(s.start)) : void 0;
+    if (!span) return null;
+    taken.add(span.start);
+    return span;
+  });
+}
+function findRevisionTargets(html, revisions) {
+  return matchRevisions(normalizeTestsHtml(html || ""), revisions).map((span) => span !== null);
+}
+function reviseTaskItems(html, revisions) {
+  const normalized = normalizeTestsHtml(html || "");
+  const matches = matchRevisions(normalized, revisions);
+  const replacements = /* @__PURE__ */ new Map();
+  const missing = [];
+  revisions.forEach((revision, index) => {
+    const span = matches[index];
+    const fresh = taskItemHtml(revision.to);
+    if (!span || !fresh) missing.push(revision.from);
+    else replacements.set(span.start, { end: span.end, html: fresh });
+  });
+  if (missing.length > 0 || replacements.size === 0) return { html, missing };
+  let out = "";
+  let cursor = 0;
+  for (const start of [...replacements.keys()].sort((a, b2) => a - b2)) {
+    const { end, html: fresh } = replacements.get(start);
+    out += normalized.slice(cursor, start) + fresh;
+    cursor = end;
+  }
+  return { html: out + normalized.slice(cursor), missing };
+}
+function taskItemHtml(text) {
+  const line = text.replace(/^\s*(?:[-*+]\s+)?(?:\[[ xX]\]\s*)?/, "").replace(/\s+/g, " ").trim();
+  if (!line) return null;
+  const html = markdownToTiptapHtml(`- [ ] ${line}`);
+  const span = taskItemSpans(html)[0];
+  return span ? html.slice(span.start, span.end) : null;
+}
 function countRetainedItems(existingHtml, newHtml) {
   const existing = extractTaskItems(existingHtml);
   const newItems = extractTaskItems(newHtml);
@@ -23917,7 +24006,8 @@ function saveTests(db2, args) {
         };
       }
     }
-    if (args.guard !== "replace" && previous) html = mergeTestCheckState(previous, html);
+    if (args.guard === "rewrite" && previous) html = mergeTestCheckState(html, previous);
+    else if (args.guard !== "replace" && previous) html = mergeTestCheckState(previous, html);
     let extra;
     if (args.finalize) {
       const finalized = args.finalize(html, previous);
@@ -23943,6 +24033,24 @@ function savePlanAndTests(db2, args) {
     const plan = savePlan(db2, { id: args.id, html: args.solutionSummary, now: args.now, moveTo: null, runtime: args.runtime });
     if (!plan.ok) return plan;
     return saveTests(db2, { id: args.id, html: args.testScenarios, now: args.now, guard: "replace", moveTo: args.moveTo });
+  });
+}
+
+// ../lib/card-ops/revise-tests.ts
+function reviseTests(db2, args) {
+  return transaction(db2, () => {
+    const row = getRow(
+      db2,
+      `SELECT test_scenarios FROM cards WHERE id = ?`,
+      args.id
+    );
+    if (!row) return { ok: false, reason: "not-found" };
+    if (args.revisions.length === 0) return { ok: false, reason: "missing", missing: [] };
+    const previous = row.test_scenarios ?? "";
+    const { html, missing } = reviseTaskItems(previous, args.revisions);
+    if (missing.length > 0) return { ok: false, reason: "missing", missing };
+    runChanges(db2, `UPDATE cards SET test_scenarios = ?, updated_at = ? WHERE id = ?`, html, args.now, args.id);
+    return { ok: true, html, previous, revised: args.revisions.length };
   });
 }
 
@@ -23993,7 +24101,9 @@ __export(test_report_exports, {
   prependTestReportRun: () => prependTestReportRun,
   readTestReportSummary: () => readTestReportSummary,
   summarizeTestReportRun: () => summarizeTestReportRun,
-  testReportConflicts: () => testReportConflicts
+  testReportConflicts: () => testReportConflicts,
+  testReportMissingItems: () => testReportMissingItems,
+  testReportSupersededItems: () => testReportSupersededItems
 });
 function isTestReportScope(value) {
   return value === "run" || value === "reverify" || value === "single" || value === "retest";
@@ -24189,6 +24299,20 @@ function testReportConflicts(run, checklistHtml) {
     if (item.status === "failed" && match.checked) conflicts.push({ item: item.item, kind: "failed-but-ticked" });
   }
   return conflicts;
+}
+function testReportMissingItems(run, checklistHtml) {
+  return new Set(run.items.filter((item) => !matchTaskItem(item.item, checklistHtml)).map((item) => item.item));
+}
+function testReportSupersededItems(runs, run, checklistHtml) {
+  const key = (item) => matchTaskItem(item, checklistHtml)?.normalized ?? null;
+  const newer = runs.slice(0, Math.max(runs.findIndex((r) => r.id === run.id), 0));
+  const tested = new Set(newer.flatMap((r) => r.items.map((item) => key(item.item))));
+  return new Set(
+    run.items.filter((item) => {
+      const k2 = key(item.item);
+      return k2 !== null && tested.has(k2);
+    }).map((item) => item.item)
+  );
 }
 function countByStatus(run) {
   const counts = { passed: 0, failed: 0, manual: 0 };
@@ -25662,6 +25786,7 @@ var {
   chainAckId: chainAckId2,
   savePlan: savePlan2,
   saveTests: saveTests2,
+  reviseTests: reviseTests2,
   updateCard: updateCard2,
   createCard: createCard2,
   addOutputPath: addOutputPath2,
@@ -26970,6 +27095,8 @@ VOICE ACCENT (apply on top of the style contract \u2014 read project's voice via
 
 Append-only guard: if the card already has scenarios, EVERY existing item must still be present in your payload (fuzzy text match). Dropping even one item rejects the call \u2014 always send the existing list plus your additions.
 
+Rewording scenarios already on the card: use revise_tests, never allowDeletion.
+
 Deleting scenarios: the guard above is absolute, so the only way to remove an item is allowDeletion: true. Pass it only on a turn where the user explicitly asked you to remove, drop, or undo scenarios. It makes your payload a literal replacement of the checklist \u2014 checkbox states included \u2014 so copy every surviving item, text and [x]/[ ], exactly as it stands today.
 
 Test Report (report): when you have just verified checklist items yourself \u2014 you ran them, you did not only write them \u2014 pass a report of how. It shows on the card's Test Report tab, newest run first; it never ticks or unticks anything, the checklist stays the one source of what passed. Cover only the items you ran, normally the core-flow group (## Core flow / ## Temel ak\u0131\u015F). A failed item needs both observed and error. For an item checked without a browser, give command and output. Do not open a browser for screenshots unless the user explicitly asked to verify on screen; if they did and this session has no browser tool (e.g. Playwright MCP), say so and send a text report. Screenshots are absolute paths to image files you saved; they are copied to the card.`,
@@ -27027,6 +27154,36 @@ Test Report (report): when you have just verified checklist items yourself \u201
             }
           },
           required: ["id", "testScenarios"]
+        }
+      },
+      {
+        name: "revise_tests",
+        description: `Rewrite checklist items that are already on a card, in place: each one keeps its group and position and comes back unticked with its new text. Every other item, tick and note stays as it is, and the card does not move.
+
+Use it when the user asks you in this turn to change the wording of existing scenarios \u2014 an Ask why found a scenario wrong, an item went stale after a change. To add scenarios use save_tests; to remove them, save_tests with allowDeletion. Do not reword an item by sending save_tests with allowDeletion.
+
+Quote each item word for word as it reads on the card now (get_card). If any item is not found, nothing is written and the result names it.`,
+        inputSchema: {
+          type: "object",
+          properties: {
+            id: {
+              type: "string",
+              description: "Card ID: UUID, display ID (e.g., KAN-54), or task number"
+            },
+            revisions: {
+              type: "array",
+              description: "The items to rewrite, in any order.",
+              items: {
+                type: "object",
+                properties: {
+                  item: { type: "string", description: "The checklist item as it reads now, word for word." },
+                  text: { type: "string", description: "Its new text: one line, without the checkbox." }
+                },
+                required: ["item", "text"]
+              }
+            }
+          },
+          required: ["id", "revisions"]
         }
       },
       {
@@ -27868,6 +28025,45 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         if (parsedReport?.ok) summary += `.${writeTerminalReport(db, id, parsedReport.items, true)}`;
         return {
           content: [{ type: "text", text: summary }]
+        };
+      }
+      case "revise_tests": {
+        const { id: rawId, revisions } = args;
+        const id = resolveCardId(rawId);
+        if (!id) {
+          return {
+            content: [{ type: "text", text: `Card not found: ${rawId}` }],
+            isError: true
+          };
+        }
+        const pairs = (Array.isArray(revisions) ? revisions : []).filter((r) => typeof r?.item === "string" && typeof r?.text === "string" && r.item.trim() && r.text.trim()).map((r) => ({ from: r.item, to: r.text }));
+        if (pairs.length === 0) {
+          return {
+            content: [{ type: "text", text: "revise_tests refused: send at least one { item, text } pair." }],
+            isError: true
+          };
+        }
+        const saved = reviseTests2(db, { id, revisions: pairs, now: (/* @__PURE__ */ new Date()).toISOString() });
+        if (!saved.ok && saved.reason === "missing") {
+          return {
+            content: [{
+              type: "text",
+              text: `revise_tests refused, nothing written: not on the checklist \u2014 ${saved.missing.map((m2) => `"${m2}"`).join(", ")}. Read the card with get_card and quote each item word for word as it reads now.`
+            }],
+            isError: true
+          };
+        }
+        if (!saved.ok) {
+          return {
+            content: [{ type: "text", text: `Card not found: ${id}` }],
+            isError: true
+          };
+        }
+        return {
+          content: [{
+            type: "text",
+            text: `Revised ${saved.revised} item(s) on card ${id} in place; they are unticked now. Card is in "${readStatus(id)}".`
+          }]
         };
       }
       case "save_opinion": {
