@@ -21,7 +21,11 @@ Then do what `create_card`'s result says. On a card opened without a plan outsid
 
 ## When to bind to an existing card
 
-If the user names an existing card ("this is for IDE-125"), skip creation — call `bind_session_to_card` directly.
+If the user names an existing card ("this is for IDE-125"), skip creation — call `bind_session_to_card` directly. It takes the display ID as well as the card's UUID.
+
+## Outside every project (global mode)
+
+A session started outside every registered project's folder gets a one-time "Global Ideafy mode" reminder. From there you manage every project's board but never edit a project's files: the edit hook refuses it. Find the project from a card code's prefix or with `list_projects` (pass `query` for a name); if more than one matches, ask. For questions across projects — what finished today, what waits in Human Test, how much is open — call `list_projects` first; it returns each project's open cards per column and today's completed cards. When the user wants code changed, hand it off: `queue_card` only on an explicit ask, or tell them to open a session in the project's folder.
 
 ## Phase-aware behaviour
 
@@ -45,4 +49,4 @@ A `chain-order` conflict is different: the card you are building has a predecess
 
 - Don't offer to create a card for quick lookup / read-only questions.
 - Don't re-offer in the same session if the user declined.
-- Don't assume a specific `projectId` — read it from the hook context or ask.
+- Don't assume a specific `projectId` — read it from the hook context, find it with `list_projects`, or ask.
