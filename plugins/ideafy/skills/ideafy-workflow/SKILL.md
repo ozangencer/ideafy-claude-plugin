@@ -51,7 +51,7 @@ A `chain-order` conflict is different: the card you are building has a predecess
 
 ## The run queue
 
-`list_queue` shows it; `queue_card` / `unqueue_card` change it; `pause_queue` / `resume_queue` do what the app's Pause and Resume do. Call any of these that change the queue only when the user explicitly asks. Pausing never stops a run already going, and with the app closed pause and resume change nothing. If `queue_card` says the card jumps its chain or a card it is blocked by, tell the user and offer to move the predecessor ahead.
+`list_queue` shows it; `queue_card` / `unqueue_card` change it; `pause_queue` / `resume_queue` do what the app's Pause and Resume do. Call any of these that change the queue only when the user explicitly asks. Pausing never stops a run already going, and with the app closed pause and resume change nothing. If `queue_card` says the card jumps its chain, tell the user and offer to move the predecessor ahead. A card waiting on a blocked-by predecessor stays queued but is passed over until that card lands (`list_queue` shows its `waitsOn`); a withdrawn predecessor holds it until the user removes or changes the link.
 
 ## Don't
 

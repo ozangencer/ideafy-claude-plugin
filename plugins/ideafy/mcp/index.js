@@ -21511,6 +21511,7 @@ __export(chain_order_exports, {
   compareByChainOrder: () => compareByChainOrder,
   hasLanded: () => hasLanded,
   isFinished: () => isFinished,
+  linkState: () => linkState,
   placeAfter: () => placeAfter
 });
 var isFinished = (card) => card.status === "completed" || card.status === "withdrawn";
@@ -21545,6 +21546,10 @@ function hasLanded(member) {
   if (isFinished(member)) return true;
   return member.status === "test" && member.gitBranchStatus !== "active";
 }
+function linkState(member) {
+  if (member.status === "withdrawn") return "withdrawn";
+  return hasLanded(member) ? "landed" : "open";
+}
 var MAX_NAMED = 3;
 function nameList(labels) {
   const shown = labels.slice(0, MAX_NAMED).join(", ");
@@ -21553,16 +21558,23 @@ function nameList(labels) {
 function chainOrderWarning(input) {
   const pending = (member) => member.id !== input.cardId && !hasLanded(member) && !input.skip?.has(member.id);
   const linkIds = /* @__PURE__ */ new Set();
+  const withdrawnLinks = [];
   const linked = (input.links ?? []).filter((member) => {
-    if (linkIds.has(member.id) || !pending(member)) return false;
+    if (linkIds.has(member.id) || member.id === input.cardId) return false;
+    const state = linkState(member);
+    if (state === "landed") return false;
     linkIds.add(member.id);
-    return true;
+    if (state === "withdrawn") {
+      withdrawnLinks.push(member);
+      return false;
+    }
+    return !input.skip?.has(member.id);
   });
   const ordered = [...input.members].sort(compareByChainOrder);
   const index = ordered.findIndex((member) => member.id === input.cardId);
   const chained = index <= 0 ? [] : ordered.slice(0, index).filter((member) => pending(member) && !linkIds.has(member.id));
   const open = [...linked, ...chained];
-  if (open.length === 0) return null;
+  if (open.length === 0 && withdrawnLinks.length === 0) return null;
   const label2 = (member) => {
     const ref = input.toRef(member);
     return ref.displayId ?? ref.title;
@@ -21570,6 +21582,11 @@ function chainOrderWarning(input) {
   const sentences = [];
   if (linked.length === 1) sentences.push(`${label2(linked[0])} blocks this card.`);
   else if (linked.length > 1) sentences.push(`${linked.length} cards block this card: ${nameList(linked.map(label2))}.`);
+  if (withdrawnLinks.length === 1) {
+    sentences.push(`${label2(withdrawnLinks[0])} was withdrawn; does this card still need it?`);
+  } else if (withdrawnLinks.length > 1) {
+    sentences.push(`${nameList(withdrawnLinks.map(label2))} were withdrawn; does this card still need them?`);
+  }
   if (chained.length === 1) {
     sentences.push(`${label2(chained[0])} is not done yet and comes before this card in the chain.`);
   } else if (chained.length > 1) {
@@ -21578,9 +21595,14 @@ function chainOrderWarning(input) {
   const unmerged = open.filter((member) => member.status === "test").map(label2);
   if (unmerged.length === 1) sentences.push(`${unmerged[0]}'s branch is not merged yet.`);
   else if (unmerged.length > 1) sentences.push(`${nameList(unmerged)} have branches not merged yet.`);
-  const behind = open.filter((member) => input.queuedBehind?.has(member.id)).map(label2);
+  const behind = chained.filter((member) => input.queuedBehind?.has(member.id)).map(label2);
   if (behind.length > 0) sentences.push(`Move ${nameList(behind)} ahead of it in the queue.`);
-  return { openAhead: open.map(input.toRef), blockers: linked.map(input.toRef), message: sentences.join(" ") };
+  return {
+    openAhead: open.map(input.toRef),
+    blockers: linked.map(input.toRef),
+    withdrawn: withdrawnLinks.map(input.toRef),
+    message: sentences.join(" ")
+  };
 }
 
 // ../lib/plan-files.ts
@@ -21696,6 +21718,7 @@ __export(card_ops_exports, {
   listQueueRows: () => listQueueRows,
   moveCard: () => moveCard,
   moveCardInChain: () => moveCardInChain,
+  nextQueueStep: () => nextQueueStep,
   normalizeGroupCode: () => normalizeGroupCode,
   normalizeGroupId: () => normalizeGroupId,
   opinionEditFields: () => opinionEditFields,
@@ -21705,10 +21728,13 @@ __export(card_ops_exports, {
   queueDisplayId: () => queueDisplayId,
   queueKindOf: () => queueKindOf,
   queueRowIneligibleReason: () => queueRowIneligibleReason,
+  queueWaitReason: () => queueWaitReason,
   queuedChainWarningFor: () => queuedChainWarningFor,
   queuedRunsInWorktree: () => queuedRunsInWorktree,
+  queuedWaitReason: () => queuedWaitReason,
   readRuntime: () => readRuntime,
   readWriteAck: () => readWriteAck,
+  readyAfterLinks: () => readyAfterLinks,
   removeDependency: () => removeDependency,
   resolveCardRef: () => resolveCardRef,
   resolveProjectByFolder: () => resolveProjectByFolder,
@@ -25367,7 +25393,7 @@ function toRef(row) {
     title: row.title,
     status: row.status,
     gitBranchStatus: row.gitBranchStatus,
-    landed: hasLanded(row),
+    landed: linkState(row) === "landed",
     note: row.note ?? null
   };
 }
@@ -25408,17 +25434,81 @@ function waitingOnLine(db2, cardId) {
   try {
     const card = getRow(db2, "SELECT status FROM cards WHERE id = ?", cardId);
     if (!card || card.status === "completed" || card.status === "withdrawn") return null;
-    const open = blockerRows(db2, cardId).filter((row) => !hasLanded(row));
-    if (open.length === 0) return null;
-    const parts = open.map((row) => {
-      const why = row.status === "test" ? "branch not merged yet" : `in ${row.status}`;
-      return `${sanitizeForReminder(label(row), 80)} (${why})`;
-    });
-    return `This card waits on ${parts.join(", ")}. Starting it now builds without that work; say so before writing code.`;
+    const rows = blockerRows(db2, cardId);
+    const name = (row) => sanitizeForReminder(label(row), 80);
+    const open = rows.filter((row) => linkState(row) === "open");
+    const withdrawn = rows.filter((row) => linkState(row) === "withdrawn");
+    const lines = [];
+    if (open.length > 0) {
+      const parts = open.map((row) => {
+        const why = row.status === "test" ? "branch not merged yet" : `in ${row.status}`;
+        return `${name(row)} (${why})`;
+      });
+      lines.push(`This card waits on ${parts.join(", ")}. Starting it now builds without that work; say so before writing code.`);
+    }
+    if (withdrawn.length > 0) {
+      lines.push(
+        `${withdrawn.map(name).join(", ")} ${withdrawn.length === 1 ? "was" : "were"} withdrawn; ask the user whether this card still needs ${withdrawn.length === 1 ? "it" : "them"} before writing code.`
+      );
+    }
+    return lines.length > 0 ? lines.join(" ") : null;
   } catch (error2) {
     console.warn("[dependencies] waiting line skipped:", error2);
     return null;
   }
+}
+function queueWaitReason(db2, cardId) {
+  try {
+    const rows = blockerRows(db2, cardId).filter((row) => linkState(row) !== "landed");
+    if (rows.length === 0) return null;
+    const first = rows[0];
+    const more = rows.length > 1 ? ` +${rows.length - 1}` : "";
+    if (linkState(first) === "withdrawn") return `waits on withdrawn ${label(first)}${more}`;
+    const why = first.status === "test" ? "branch not merged yet" : `in ${first.status}`;
+    return `waits on ${label(first)} (${why})${more}`;
+  } catch (error2) {
+    console.warn("[dependencies] queue wait reason skipped:", error2);
+    return null;
+  }
+}
+function readyAfterLinks(db2) {
+  if (!hasDependencyTable(db2)) return [];
+  const rows = allRows(
+    db2,
+    `SELECT d.card_id AS waitingId, w.project_id AS waitingProjectId, d.created_at AS linkedAt,
+            c.id, c.title, c.status, c.task_number AS taskNumber, p.id_prefix AS idPrefix,
+            c.git_branch_status AS gitBranchStatus, c.updated_at AS updatedAt, c.completed_at AS completedAt
+     FROM card_dependencies d
+     JOIN cards w ON w.id = d.card_id
+     JOIN cards c ON c.id = d.blocked_by_card_id
+     LEFT JOIN projects p ON p.id = c.project_id
+     WHERE w.status NOT IN ('completed', 'withdrawn') AND w.processing_type IS NULL
+     ORDER BY d.card_id, c.id`
+  );
+  const byCard = /* @__PURE__ */ new Map();
+  for (const row of rows) {
+    const bucket = byCard.get(row.waitingId);
+    if (bucket) bucket.push(row);
+    else byCard.set(row.waitingId, [row]);
+  }
+  const ready = [];
+  for (const [cardId, links] of byCard) {
+    if (!links.every((link) => linkState(link) === "landed")) continue;
+    const landedAt = links.reduce((max, link) => {
+      const at = link.status === "completed" && link.completedAt || link.updatedAt;
+      return at > max ? at : max;
+    }, "");
+    const linkedAt = links.reduce((max, link) => link.linkedAt > max ? link.linkedAt : max, "");
+    if (landedAt <= linkedAt) continue;
+    ready.push({
+      cardId,
+      projectId: links[0].waitingProjectId,
+      blockerIds: links.map((link) => link.id),
+      blockerNames: links.map(label),
+      landedAt
+    });
+  }
+  return ready;
 }
 function restoreDependencies(db2, links, now) {
   if (!hasDependencyTable(db2) || links.length === 0) return 0;
@@ -26057,6 +26147,23 @@ function queueRowIneligibleReason(row) {
 function queueKindOf(row) {
   return detectPhase(row) === "verify" ? "verify" : "implementation";
 }
+function queuedWaitReason(db2, row) {
+  return queueKindOf(row) === "verify" ? null : queueWaitReason(db2, row.id);
+}
+function nextQueueStep(db2) {
+  const rows = listQueueRows(db2);
+  let waiting = 0;
+  for (const row of rows) {
+    const reason = queueRowIneligibleReason(row);
+    if (reason) return { kind: "drop", row, reason };
+    if (queuedWaitReason(db2, row)) {
+      waiting++;
+      continue;
+    }
+    return { kind: "start", row };
+  }
+  return { kind: "idle", waiting };
+}
 function queuedRunsInWorktree(row) {
   const activeWorktree = !!row.gitWorktreePath && row.gitWorktreeStatus === "active";
   if (queueKindOf(row) === "verify") return activeWorktree;
@@ -26201,7 +26308,11 @@ function queuedChainWarningFor(db2, cardId, runningIds = []) {
     const skip = new Set(
       ahead.filter((row) => !selfInWorktree && !queuedRunsInWorktree(row) && queueKindOf(row) !== "verify").map((row) => row.id)
     );
-    return chainOrderWarningFor(db2, cardId, { skip, queuedBehind: new Set(behind.map((row) => row.id)) });
+    const warning = chainOrderWarningFor(db2, cardId, { skip, queuedBehind: new Set(behind.map((row) => row.id)) });
+    if (warning && (warning.blockers.length > 0 || warning.withdrawn.length > 0)) {
+      return { ...warning, message: `${warning.message} It will wait in the queue until then.` };
+    }
+    return warning;
   } catch (error2) {
     console.warn("[chain-order] queue warning skipped:", error2);
     return null;
@@ -27446,6 +27557,7 @@ var {
   queueDisplayId: queueDisplayId2,
   queueKindOf: queueKindOf2,
   queuedRunsInWorktree: queuedRunsInWorktree2,
+  queuedWaitReason: queuedWaitReason2,
   enqueueCard: enqueueCard2,
   dequeueCard: dequeueCard2,
   clearQueue: clearQueue2,
@@ -27935,7 +28047,7 @@ async function startCardRunTool(db2, input, deps = {}) {
     if (warning) {
       return {
         ok: true,
-        text: `start_card_run: ${name} was not started. ${warning.blockers.length > 0 ? "Order" : "Chain order"}: ${warning.message} Tell the user; if they want it started anyway, call start_card_run again with ackChainOrder: true.`
+        text: `start_card_run: ${name} was not started. ${warning.blockers.length > 0 || warning.withdrawn.length > 0 ? "Order" : "Chain order"}: ${warning.message} Tell the user; if they want it started anyway, call start_card_run again with ackChainOrder: true.`
       };
     }
   }
@@ -29008,7 +29120,7 @@ The server writes the card's verdict, score, priority and complexity from those 
       },
       {
         name: "list_queue",
-        description: `List the run queue: the cards waiting for an autonomous run, in the order the app will start them \u2014 the order its queue popover shows. One queue serves every project; pass projectId to see one project's cards (rank stays the card's place in the whole queue). Each row: rank, id, displayId, title, status, projectId, kind (implementation = build from its plan; verify = pre-verify walk of a Human Test checklist's core flow) and runsInWorktree. runState is what the app last reported: "running" (armed, starts the next card when nothing is live), "held" (armed, but a terminal session is editing the next card's folder \u2014 heldBy says which), "paused" (waits for Resume \u2014 pausedReason says why), "app-closed" (the app is not running, so nothing starts) or "unknown" (an app too old to report it \u2014 do not guess). To pause or resume it, use pause_queue / resume_queue \u2014 only when the user asks. The app's warnings about files shared with live runs are not included; for file overlap with other open work, use list_open_work.`,
+        description: `List the run queue: the cards waiting for an autonomous run, in the order the app will start them \u2014 the order its queue popover shows. One queue serves every project; pass projectId to see one project's cards (rank stays the card's place in the whole queue). Each row: rank, id, displayId, title, status, projectId, kind (implementation = build from its plan; verify = pre-verify walk of a Human Test checklist's core flow), runsInWorktree and waitsOn (set when a card waits on a blocked-by predecessor that has not landed or was withdrawn: the queue passes over it, keeps its place and starts it once that lands). runState is what the app last reported: "running" (armed, starts the next card when nothing is live), "held" (armed, but a terminal session is editing the next card's folder \u2014 heldBy says which), "waiting" (armed, but every queued card waits on another card), "paused" (waits for Resume \u2014 pausedReason says why), "app-closed" (the app is not running, so nothing starts) or "unknown" (an app too old to report it \u2014 do not guess). To pause or resume it, use pause_queue / resume_queue \u2014 only when the user asks. The app's warnings about files shared with live runs are not included; for file overlap with other open work, use list_open_work.`,
         inputSchema: {
           type: "object",
           properties: {
@@ -30265,10 +30377,12 @@ ${waiting}` : ""}` : choice === "silent" ? `${bound} This session is outside eve
           projectId: row.projectId,
           kind: queueKindOf2(row),
           ...queueKindOf2(row) === "verify" ? { verifyScope: row.queueVerifyScope ?? "next" } : {},
-          runsInWorktree: queuedRunsInWorktree2(row)
+          runsInWorktree: queuedRunsInWorktree2(row),
+          // Passed over until a blocked-by predecessor lands (IDE-472).
+          waitsOn: queuedWaitReason2(db, row)
         })).filter((item) => !projectId || item.projectId === projectId);
         const runtime = readRuntime2(db);
-        const runState = runtime.appState === "unknown" ? "unknown" : runtime.appState === "closed" ? "app-closed" : !runtime.armed ? "paused" : runtime.heldBy ? "held" : "running";
+        const runState = runtime.appState === "unknown" ? "unknown" : runtime.appState === "closed" ? "app-closed" : !runtime.armed ? "paused" : runtime.heldBy ? "held" : items.length > 0 && items.every((item) => item.waitsOn) ? "waiting" : "running";
         return {
           content: [{
             type: "text",
@@ -30438,7 +30552,7 @@ ${waiting}` : ""}` : choice === "silent" ? `${bound} This session is outside eve
         return {
           content: [{
             type: "text",
-            text: `${name2} ${result.moved ? "moved to" : "queued at"} #${result.rank} of ${total} in the run queue. ` + queueState + (chainWarning ? ` ${chainWarning.blockers.length > 0 ? "Order" : "Chain order"}: ${chainWarning.message} It was queued anyway; tell the user, and offer to move the predecessor ahead.` : "")
+            text: `${name2} ${result.moved ? "moved to" : "queued at"} #${result.rank} of ${total} in the run queue. ` + queueState + (chainWarning ? chainWarning.blockers.length > 0 || chainWarning.withdrawn.length > 0 ? ` Order: ${chainWarning.message} Tell the user; the queue starts the cards behind it meanwhile.` : ` Chain order: ${chainWarning.message} It was queued anyway; tell the user, and offer to move the predecessor ahead.` : "")
           }]
         };
       }
