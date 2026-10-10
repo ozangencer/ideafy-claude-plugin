@@ -10,11 +10,9 @@
 
 set -euo pipefail
 
-PORT="${IDEAFY_PORT:-3030}"
-APP_RUN="${IDEAFY_APP_RUN:-0}"
-URL="http://localhost:${PORT}/api/pre-edit-check?folderCheck=1&appRun=${APP_RUN}"
+# shellcheck source=ideafy-port.sh
+. "$(dirname "$0")/ideafy-port.sh"
 
-curl -sf -X POST \
-  -H "Content-Type: application/json" \
-  --data-binary @- \
-  "$URL" 2>/dev/null || true
+APP_RUN="${IDEAFY_APP_RUN:-0}"
+
+ideafy_post "/api/pre-edit-check?folderCheck=1&appRun=${APP_RUN}" || true

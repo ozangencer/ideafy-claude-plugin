@@ -10,11 +10,11 @@
 
 set -euo pipefail
 
-PORT="${IDEAFY_PORT:-3030}"
-CARD_HINT="${IDEAFY_CARD_ID:-}"
-URL="http://localhost:${PORT}/api/hook-context?card_hint=${CARD_HINT}"
+# shellcheck source=ideafy-port.sh
+. "$(dirname "$0")/ideafy-port.sh"
 
-DB="${HOME}/Library/Application Support/ideafy/kanban.db"
+CARD_HINT="${IDEAFY_CARD_ID:-}"
+DB="${IDEAFY_DATA_DIR}/kanban.db"
 PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$PWD}"
 
 # Is the current folder a registered Ideafy project? Match exactly, or treat the
@@ -31,13 +31,10 @@ is_tracked_folder() {
   [ -n "$match" ]
 }
 
-if ! curl -sf -X POST \
-    -H "Content-Type: application/json" \
-    --data-binary @- \
-    "$URL" 2>/dev/null; then
-  # Server is down. Only warn when this folder is genuinely a tracked project.
+if ! ideafy_post "/api/hook-context?card_hint=${CARD_HINT}"; then
+  # No port answered. Only warn when this folder is genuinely a tracked project.
   if is_tracked_folder; then
-    printf '<system-reminder>\nIdeafy local server is unreachable at http://localhost:%s. Card tracking, phase-aware policy, and session binding are OFF for this session until Ideafy is launched.\n\nAsk the user ONCE per session whether to launch Ideafy. Explain that this project is tracked by Ideafy but the server is not running, so you cannot create or update kanban cards for this session. On yes, call the Bash tool with: open -a Ideafy. Do not re-ask on later turns in this session even if this reminder keeps appearing while the server is starting up.\n</system-reminder>\n' "$PORT"
+    printf '<system-reminder>\nIdeafy local server is unreachable (tried port %s). Card tracking, phase-aware policy, and session binding are OFF for this session until Ideafy is launched.\n\nAsk the user ONCE per session whether to launch Ideafy. Explain that this project is tracked by Ideafy but the server is not running, so you cannot create or update kanban cards for this session. On yes, call the Bash tool with: open -b com.ozangencer.ideafy (Ideafy Team: open -b com.ozangencer.ideafy.team). Do not re-ask on later turns in this session even if this reminder keeps appearing while the server is starting up.\n</system-reminder>\n' "$(ideafy_ports | paste -sd / -)"
   fi
   exit 0
 fi

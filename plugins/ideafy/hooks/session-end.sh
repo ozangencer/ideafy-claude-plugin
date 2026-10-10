@@ -5,10 +5,7 @@
 
 set -euo pipefail
 
-PORT="${IDEAFY_PORT:-3030}"
-URL="http://localhost:${PORT}/api/session-end"
+# shellcheck source=ideafy-port.sh
+. "$(dirname "$0")/ideafy-port.sh"
 
-curl -sf -X POST \
-  -H "Content-Type: application/json" \
-  --data-binary @- \
-  "$URL" >/dev/null 2>&1 || true
+ideafy_post "/api/session-end" >/dev/null 2>&1 || true
