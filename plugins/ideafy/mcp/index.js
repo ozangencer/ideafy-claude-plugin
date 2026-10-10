@@ -27558,6 +27558,7 @@ var {
   queueKindOf: queueKindOf2,
   queuedRunsInWorktree: queuedRunsInWorktree2,
   queuedWaitReason: queuedWaitReason2,
+  nextQueueStep: nextQueueStep2,
   enqueueCard: enqueueCard2,
   dequeueCard: dequeueCard2,
   clearQueue: clearQueue2,
@@ -30548,11 +30549,14 @@ ${waiting}` : ""}` : choice === "silent" ? `${bound} This session is outside eve
         const runtime = readRuntime2(db);
         const running = runtime.runs.filter((run) => run.source === "app" && run.cardId).map((run) => run.cardId);
         const chainWarning = queuedChainWarningFor2(db, cardId, running);
-        const queueState = runtime.appState === "closed" ? "The Ideafy app is closed, so nothing starts; the queue opens paused on the next launch." : await armQueueIfIdle({ port: appPort(runtime) });
+        const armed = runtime.appState === "closed" ? "The Ideafy app is closed, so nothing starts; the queue opens paused on the next launch." : await armQueueIfIdle({ port: appPort(runtime) });
+        const step = runtime.appState === "closed" ? null : nextQueueStep2(db);
+        const queueState = step?.kind === "idle" && step.waiting > 0 && armed.startsWith("The queue is running; its next card") ? "The queue is armed, but nothing starts yet: every queued card waits on another card to land." : armed;
+        const behind = total - result.rank;
         return {
           content: [{
             type: "text",
-            text: `${name2} ${result.moved ? "moved to" : "queued at"} #${result.rank} of ${total} in the run queue. ` + queueState + (chainWarning ? chainWarning.blockers.length > 0 || chainWarning.withdrawn.length > 0 ? ` Order: ${chainWarning.message} Tell the user; the queue starts the cards behind it meanwhile.` : ` Chain order: ${chainWarning.message} It was queued anyway; tell the user, and offer to move the predecessor ahead.` : "")
+            text: `${name2} ${result.moved ? "moved to" : "queued at"} #${result.rank} of ${total} in the run queue. ` + queueState + (chainWarning ? chainWarning.blockers.length > 0 || chainWarning.withdrawn.length > 0 ? ` Order: ${chainWarning.message} Tell the user${behind > 0 ? "; the queue starts the cards behind it meanwhile" : ""}.` : ` Chain order: ${chainWarning.message} It was queued anyway; tell the user, and offer to move the predecessor ahead.` : "")
           }]
         };
       }
