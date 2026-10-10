@@ -24645,12 +24645,14 @@ function normalizeGroupId(value) {
   return typeof value === "string" && value.trim() ? value.trim() : null;
 }
 var CardGroupError = class extends Error {
-  constructor(message, kind = "invalid") {
+  constructor(message, kind = "invalid", clash) {
     super(message);
     this.kind = kind;
+    this.clash = clash;
     this.name = "CardGroupError";
   }
   kind;
+  clash;
 };
 function assertGroupsTable(db2) {
   const row = getRow(db2, `SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'card_groups'`);
@@ -24660,35 +24662,76 @@ function assertGroupsTable(db2) {
     );
   }
 }
+var archiveColumnCache = /* @__PURE__ */ new WeakMap();
+function hasArchiveColumn(db2) {
+  const cached2 = archiveColumnCache.get(db2);
+  if (cached2 !== void 0) return cached2;
+  const has = allRows(db2, `PRAGMA table_info(card_groups)`).some(
+    (column) => column.name === "archived_at"
+  );
+  archiveColumnCache.set(db2, has);
+  return has;
+}
 function assertProjectExists(db2, projectId) {
   if (!getRow(db2, `SELECT id FROM projects WHERE id = ?`, projectId)) {
     throw new CardGroupError(`Project not found: ${projectId}`);
   }
 }
-var SELECT_GROUPS = `
+function selectGroups(db2) {
+  return `
   SELECT
     g.id, g.project_id AS projectId, g.code, g.name, g.color, g.created_at AS createdAt,
+    ${hasArchiveColumn(db2) ? "g.archived_at" : "NULL"} AS archivedAt,
     (SELECT COUNT(*) FROM cards c WHERE c.group_id = g.id) AS memberCount
   FROM card_groups g
 `;
+}
 function getGroup(db2, id) {
   assertGroupsTable(db2);
-  return getRow(db2, `${SELECT_GROUPS} WHERE g.id = ?`, id) ?? null;
+  return getRow(db2, `${selectGroups(db2)} WHERE g.id = ?`, id) ?? null;
 }
-function listGroups(db2, projectId) {
+function listGroups(db2, projectId, { includeArchived = true } = {}) {
   assertGroupsTable(db2);
-  if (projectId) {
-    return allRows(
-      db2,
-      `${SELECT_GROUPS} WHERE g.project_id IS NULL OR g.project_id = ? ORDER BY g.code`,
-      projectId
-    );
-  }
-  return allRows(db2, `${SELECT_GROUPS} ORDER BY g.code`);
+  const rows = projectId ? allRows(
+    db2,
+    `${selectGroups(db2)} WHERE g.project_id IS NULL OR g.project_id = ? ORDER BY g.code`,
+    projectId
+  ) : allRows(db2, `${selectGroups(db2)} ORDER BY g.code`);
+  return includeArchived ? rows : rows.filter((g) => !g.archivedAt);
+}
+function memberProgress(db2, groupId) {
+  const row = getRow(
+    db2,
+    `SELECT COUNT(*) AS total, SUM(status NOT IN ('completed', 'withdrawn')) AS open FROM cards WHERE group_id = ?`,
+    groupId
+  );
+  return { total: Number(row?.total ?? 0), open: Number(row?.open ?? 0) };
 }
 function findCodeClash(db2, code, projectId, exceptId) {
-  const candidates = projectId ? listGroups(db2, projectId) : listGroups(db2);
+  const candidates = listGroups(db2, projectId ?? void 0, { includeArchived: false });
   return candidates.find((g) => g.id !== exceptId && g.code.toUpperCase() === code) ?? null;
+}
+function codeClashError(db2, code, clash) {
+  const { total, open } = memberProgress(db2, clash.id);
+  const finished = total > 0 && open === 0;
+  const detail = { id: clash.id, code: clash.code, name: clash.name, finished, done: total - open, total };
+  if (finished) {
+    return new CardGroupError(
+      `Code ${code} is taken by a finished chain: ${clash.id} (${clash.name}), ${total}/${total} cards completed or withdrawn. Do not add new work to it unless this card continues that exact work. To reuse the code, archive it with update_group({ id: "${clash.id}", archived: true }) and call create_group again, or pick another code (e.g. ${suggestCode(code)}).`,
+      "conflict",
+      detail
+    );
+  }
+  return new CardGroupError(
+    `A group with code ${code} already exists: ${clash.id} (${clash.name}). Use that id as groupId instead of creating a new one.`,
+    "conflict",
+    detail
+  );
+}
+function suggestCode(code) {
+  const match = /^(.*?)(\d+)$/.exec(code);
+  const next = match ? `${match[1]}${Number(match[2]) + 1}` : `${code}2`;
+  return next.length <= GROUP_CODE_MAX ? next : `${code.slice(0, GROUP_CODE_MAX - 1)}2`;
 }
 function assertGroupAssignable(db2, groupId, projectId) {
   if (groupId === null || groupId === void 0) return;
@@ -24701,6 +24744,12 @@ function assertGroupAssignable(db2, groupId, projectId) {
       `Group ${group.code} belongs to another project (${group.projectId}); this card is in ${projectId}.`
     );
   }
+  if (group.archivedAt) {
+    throw new CardGroupError(
+      `Group ${group.code} is archived. Unarchive it with update_group({ id: "${group.id}", archived: false }) or create a new group.`,
+      "conflict"
+    );
+  }
 }
 function createGroup(db2, input, now = (/* @__PURE__ */ new Date()).toISOString()) {
   assertGroupsTable(db2);
@@ -24711,12 +24760,7 @@ function createGroup(db2, input, now = (/* @__PURE__ */ new Date()).toISOString(
   const projectId = input.projectId || null;
   if (projectId) assertProjectExists(db2, projectId);
   const clash = findCodeClash(db2, code, projectId, null);
-  if (clash) {
-    throw new CardGroupError(
-      `A group with code ${code} already exists: ${clash.id} (${clash.name}). Use that id as groupId instead of creating a new one.`,
-      "conflict"
-    );
-  }
+  if (clash) throw codeClashError(db2, code, clash);
   const row = {
     id: globalThis.crypto.randomUUID(),
     projectId,
@@ -24726,7 +24770,8 @@ function createGroup(db2, input, now = (/* @__PURE__ */ new Date()).toISOString(
     // Not sent: the picker's default, so a terminal-made group does not show
     // up grey next to hand-made ones. An explicit null or "" means no color.
     color: input.color === void 0 ? DEFAULT_GROUP_COLOR : input.color || null,
-    createdAt: now
+    createdAt: now,
+    archivedAt: null
   };
   runChanges(
     db2,
@@ -24740,7 +24785,7 @@ function createGroup(db2, input, now = (/* @__PURE__ */ new Date()).toISOString(
   );
   return { ...row, memberCount: 0 };
 }
-function updateGroup(db2, id, updates) {
+function updateGroup(db2, id, updates, now = (/* @__PURE__ */ new Date()).toISOString()) {
   const existing = getGroup(db2, id);
   if (!existing) throw new CardGroupError(`Group not found: ${id}`, "not_found");
   const code = updates.code !== void 0 ? normalizeGroupCode(String(updates.code)) : existing.code;
@@ -24748,8 +24793,22 @@ function updateGroup(db2, id, updates) {
   if (!code || !name) throw new CardGroupError("Group code and name cannot be empty.");
   const color = updates.color !== void 0 ? updates.color || null : existing.color;
   const projectId = updates.projectId !== void 0 ? updates.projectId || null : existing.projectId;
-  if (code === existing.code && name === existing.name && color === existing.color && projectId === existing.projectId) {
+  const wasArchived = Boolean(existing.archivedAt);
+  const archived = updates.archived !== void 0 ? Boolean(updates.archived) : wasArchived;
+  if (code === existing.code && name === existing.name && color === existing.color && projectId === existing.projectId && archived === wasArchived) {
     return existing;
+  }
+  if (archived !== wasArchived && !hasArchiveColumn(db2)) {
+    throw new CardGroupError("This Ideafy database cannot archive groups yet. Update the Ideafy app, then try again.");
+  }
+  if (archived && !wasArchived) {
+    const { open } = memberProgress(db2, id);
+    if (open > 0) {
+      throw new CardGroupError(
+        `Group ${existing.code} has ${open} open card(s); finish or move them before archiving.`,
+        "conflict"
+      );
+    }
   }
   if (projectId !== existing.projectId && projectId) {
     assertProjectExists(db2, projectId);
@@ -24766,22 +24825,43 @@ function updateGroup(db2, id, updates) {
       );
     }
   }
-  if (code !== existing.code || projectId !== existing.projectId) {
+  const unarchiving = wasArchived && !archived;
+  if (!archived && (unarchiving || code !== existing.code || projectId !== existing.projectId)) {
     const clash = findCodeClash(db2, code, projectId, id);
+    if (clash && unarchiving && code === existing.code) {
+      throw new CardGroupError(
+        `Code ${code} is now used by group ${clash.id} (${clash.name}); change this group's code in the same call to unarchive it.`,
+        "conflict"
+      );
+    }
     if (clash) {
       throw new CardGroupError(`Code ${code} is already used by group ${clash.id} (${clash.name}).`, "conflict");
     }
   }
-  runChanges(
-    db2,
-    `UPDATE card_groups SET project_id = ?, code = ?, name = ?, color = ? WHERE id = ?`,
-    projectId,
-    code,
-    name,
-    color,
-    id
-  );
-  return { ...existing, projectId, code, name, color };
+  const archivedAt = archived ? existing.archivedAt ?? now : null;
+  if (hasArchiveColumn(db2)) {
+    runChanges(
+      db2,
+      `UPDATE card_groups SET project_id = ?, code = ?, name = ?, color = ?, archived_at = ? WHERE id = ?`,
+      projectId,
+      code,
+      name,
+      color,
+      archivedAt,
+      id
+    );
+  } else {
+    runChanges(
+      db2,
+      `UPDATE card_groups SET project_id = ?, code = ?, name = ?, color = ? WHERE id = ?`,
+      projectId,
+      code,
+      name,
+      color,
+      id
+    );
+  }
+  return { ...existing, projectId, code, name, color, archivedAt };
 }
 function deleteGroup(db2, id) {
   return transaction(db2, () => {
@@ -26679,6 +26759,25 @@ async function setQueueRunning(action, options = {}) {
   }
   return { ok: true, text: summarize(action, result.json) };
 }
+async function armQueueIfIdle(options = {}) {
+  const result = await callApp(
+    "PATCH",
+    "/api/queue",
+    { action: "arm", source: "terminal" },
+    { port: options.port, fetchImpl: options.fetchImpl, timeoutMs: options.timeoutMs ?? APP_CALL_TIMEOUT_MS }
+  );
+  if (result.kind === "unreachable") {
+    return "The Ideafy app did not answer, so nothing starts now; the queue opens paused on the next launch.";
+  }
+  if (result.kind === "refused") {
+    return "This Ideafy app cannot start the queue from a terminal; the card starts within about 10 seconds if the queue is already running, otherwise on Resume in the app.";
+  }
+  const snapshot = result.json;
+  if (!snapshot.armed) {
+    return `The queue stays paused${snapshot.pausedReason ? ` (${snapshot.pausedReason})` : ""}, as Add to queue would leave it; the card waits for Resume in the app. Do not resume it unless the user asks.`;
+  }
+  return snapshot.running?.displayId ? `The queue is running; ${snapshot.running.displayId} is running now and the queue starts its next card after it.` : "The queue is running; its next card starts within about 10 seconds.";
+}
 
 // card-handoff.ts
 var HANDOFF_TIMEOUT_MS = 6e4;
@@ -27316,8 +27415,8 @@ function getChainForCard(db2, card) {
   if (!context) return null;
   return { groupId: group.id, groupCode: group.code, groupName: group.name, ...context };
 }
-function listGroupsWithChains(db2, projectId) {
-  const groups = listGroups2(db2, projectId);
+function listGroupsWithChains(db2, projectId, includeArchived = false) {
+  const groups = listGroups2(db2, projectId, { includeArchived });
   if (groups.length === 0) return [];
   const placeholders = groups.map(() => "?").join(", ");
   const rows = db2.prepare(selectMembers(db2, `c.group_id IN (${placeholders})`)).all(...groups.map((g) => g.id));
@@ -27945,7 +28044,7 @@ The server writes the card's verdict, score, priority and complexity from those 
       },
       {
         name: "queue_card",
-        description: "Add a card to the run queue, or move one already queued. Queueing is consent to an unattended, code-writing run: never call this unless the user explicitly asked to queue this card. The app's Add to queue rules apply \u2014 a Backlog or In Progress card with a plan and no checklist yet (implementation), or a Human Test card whose checklist opens with Core flow / Temel ak\u0131\u015F and still has unticked items (pre-verify); a refusal says why and writes nothing. A queued pre-verify walks the core flow while it has unticked items, then the next group that does; scope all walks every group left in one run. What happens next is the app's call, not this tool's: if the app's queue is running, the card starts within about 10 seconds or once the run ahead of it ends; if it is paused, it waits for Resume in the app; if the app is closed, nothing starts, and the queue opens paused on the next launch. This tool cannot start the queue; pause_queue and resume_queue do what the popover's Pause and Resume do. If the card jumps its chain (a predecessor whose code is not in yet), the result says so in the app's words: the card is queued anyway and the queue does not reorder for it \u2014 tell the user, and offer to move the predecessor ahead. Moving a card does not bump its updatedAt.",
+        description: "Add a card to the run queue, or move one already queued. Queueing is consent to an unattended, code-writing run: never call this unless the user explicitly asked to queue this card. The app's Add to queue rules apply \u2014 a Backlog or In Progress card with a plan and no checklist yet (implementation), or a Human Test card whose checklist opens with Core flow / Temel ak\u0131\u015F and still has unticked items (pre-verify); a refusal says why and writes nothing. A queued pre-verify walks the core flow while it has unticked items, then the next group that does; scope all walks every group left in one run. Like the app's Add to queue, it starts an idle queue (stopped with no reason): the card starts within about 10 seconds or once the run ahead of it ends. A queue paused for a reason (Paused by you, Ideafy restarted, failed runs) stays paused and the card waits for Resume in the app; if the app is closed, nothing starts, and the queue opens paused on the next launch. The result says which happened. pause_queue and resume_queue do what the popover's Pause and Resume do. If the card jumps its chain (a predecessor whose code is not in yet), the result says so in the app's words: the card is queued anyway and the queue does not reorder for it \u2014 tell the user, and offer to move the predecessor ahead. Moving a card does not bump its updatedAt.",
         inputSchema: {
           type: "object",
           properties: {
@@ -28035,20 +28134,24 @@ The server writes the card's verdict, score, priority and complexity from those 
       },
       {
         name: "list_groups",
-        description: "List card groups with their id, code, name and member count, plus each chain's members in chain order (displayId, title, status, position) and `next`, the first member that is neither completed nor withdrawn. A group is a chain of cards that belong to one piece of work; the board folds its cards into one row. It is membership only: no status, no completion state, no date, so do not treat it as an epic. With projectId, returns what a card in that project can join: the project's own groups plus groups not tied to any project.",
+        description: "List card groups with their id, code, name and member count, plus each chain's members in chain order (displayId, title, status, position) and `next`, the first member that is neither completed nor withdrawn. A group is a chain of cards that belong to one piece of work; the board folds its cards into one row. It is membership only: no status, no completion state, no date, so do not treat it as an epic. With projectId, returns what a card in that project can join: the project's own groups plus groups not tied to any project. Archived groups are hidden unless includeArchived; archiving only stops a group being offered and frees its code, it is not a completion state. Each row carries archivedAt.",
         inputSchema: {
           type: "object",
           properties: {
             projectId: {
               type: "string",
               description: "Only groups a card in this project can join (optional)"
+            },
+            includeArchived: {
+              type: "boolean",
+              description: "Also list archived groups (default false)"
             }
           }
         }
       },
       {
         name: "create_group",
-        description: "Create a card group, then pass its id as groupId to create_card or update_card. Call list_groups first: a code already used in the same project is rejected and the error names the existing group to use instead. The code is normalised the way the app does it: uppercase letters and digits, at most 6 characters (e.g. MOBILE).",
+        description: "Create a card group, then pass its id as groupId to create_card or update_card. Call list_groups first: a code already used in the same project is rejected and the error names the existing group to use instead. A code held by a finished chain (every card completed or withdrawn) is reported as such: archive the old group with update_group or pick another code. Never add new work to a finished chain unless it continues that exact work. The code is normalised the way the app does it: uppercase letters and digits, at most 6 characters (e.g. MOBILE).",
         inputSchema: {
           type: "object",
           properties: {
@@ -28074,7 +28177,7 @@ The server writes the card's verdict, score, priority and complexity from those 
       },
       {
         name: "update_group",
-        description: "Rename a card group or change its code, color or project. Membership is changed per card with update_card's groupId, not here. Moving a group to a project is refused while it holds cards from another project; making it global (projectId null) always works.",
+        description: "Rename a card group or change its code, color or project, or archive it. Membership is changed per card with update_card's groupId, not here. Moving a group to a project is refused while it holds cards from another project; making it global (projectId null) always works. archived: true retires a group with no open cards: it is no longer offered, its code is free for a new group, and its old cards keep their code and name. archived: false brings it back, refused if another group took the code meanwhile unless you change the code in the same call.",
         inputSchema: {
           type: "object",
           properties: {
@@ -28097,6 +28200,10 @@ The server writes the card's verdict, score, priority and complexity from those 
             projectId: {
               type: ["string", "null"],
               description: "Project the group belongs to, or null to offer it in every project"
+            },
+            archived: {
+              type: "boolean",
+              description: "true archives the group (no open cards allowed), false unarchives it"
             }
           },
           required: ["id"]
@@ -29234,12 +29341,14 @@ ${policy}` : `${bound} This column has no phase policy.`
         }
         const total = listQueueRows2(db).length;
         const name2 = queueDisplayId2(result.row);
-        const running = readRuntime2(db).runs.filter((run) => run.source === "app" && run.cardId).map((run) => run.cardId);
+        const runtime = readRuntime2(db);
+        const running = runtime.runs.filter((run) => run.source === "app" && run.cardId).map((run) => run.cardId);
         const chainWarning = queuedChainWarningFor2(db, cardId, running);
+        const queueState = runtime.appState === "closed" ? "The Ideafy app is closed, so nothing starts; the queue opens paused on the next launch." : await armQueueIfIdle({ port: appPort(runtime) });
         return {
           content: [{
             type: "text",
-            text: `${name2} ${result.moved ? "moved to" : "queued at"} #${result.rank} of ${total} in the run queue. It starts only through the Ideafy app: within about 10 seconds or after the run ahead if the app's queue is running, on Resume if it is paused, and not at all while the app is closed.` + (chainWarning ? ` Chain order: ${chainWarning.message} It was queued anyway; tell the user, and offer to move the predecessor ahead.` : "")
+            text: `${name2} ${result.moved ? "moved to" : "queued at"} #${result.rank} of ${total} in the run queue. ` + queueState + (chainWarning ? ` Chain order: ${chainWarning.message} It was queued anyway; tell the user, and offer to move the predecessor ahead.` : "")
           }]
         };
       }
@@ -29284,8 +29393,8 @@ ${policy}` : `${bound} This column has no phase policy.`
         return { content: [{ type: "text", text: result.text }], ...result.ok ? {} : { isError: true } };
       }
       case "list_groups": {
-        const { projectId } = args ?? {};
-        const groups = listGroupsWithChains(db, projectId);
+        const { projectId, includeArchived } = args ?? {};
+        const groups = listGroupsWithChains(db, projectId, includeArchived === true);
         return {
           content: [{ type: "text", text: JSON.stringify(groups, null, 2) }]
         };
@@ -29306,14 +29415,17 @@ ${policy}` : `${bound} This column has no phase policy.`
           return {
             content: [{
               type: "text",
-              text: `update_group: nothing to update for group ${id}. Pass code, name, color or projectId.`
+              text: `update_group: nothing to update for group ${id}. Pass code, name, color, projectId or archived.`
             }],
             isError: true
           };
         }
         const group = updateGroup2(db, id, updates);
         return {
-          content: [{ type: "text", text: `Group ${group.id} updated: ${group.code} \xB7 ${group.name}.` }]
+          content: [{
+            type: "text",
+            text: group.archivedAt ? `Group ${group.id} updated: ${group.code} \xB7 ${group.name}, archived \u2014 no longer offered, code ${group.code} is free for a new group.` : `Group ${group.id} updated: ${group.code} \xB7 ${group.name}.`
+          }]
         };
       }
       case "delete_group": {
