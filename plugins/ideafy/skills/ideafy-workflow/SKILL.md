@@ -25,7 +25,7 @@ If the user names an existing card ("this is for IDE-125"), skip creation — ca
 
 ## Outside every project (global mode)
 
-A session started outside every registered project's folder gets a one-time "Global Ideafy mode" reminder. From there you manage every project's board but never edit a project's files: the edit hook refuses it. Find the project from a card code's prefix or with `list_projects` (pass `query` for a name); if more than one matches, ask. For questions across projects — what finished today, what waits in Human Test, how much is open — call `list_projects` first; it returns each project's open cards per column and today's completed cards. When the user wants code changed, hand it off: `queue_card` only on an explicit ask, or tell them to open a session in the project's folder.
+A session started outside every registered project's folder gets a one-time "Global Ideafy mode" reminder. From there you manage every project's board but never edit a project's files: the edit hook refuses it. Find the project from a card code's prefix or with `list_projects` (pass `query` for a name); if more than one matches, ask. For questions across projects — what finished today, what waits in Human Test, how much is open — call `list_projects` first; it returns each project's open cards per column and today's completed cards. When the user wants code changed, hand it off — ask which way: `start_card_run` starts the card's run now (only when they explicitly ask), `open_card_session` opens a session in the card's folder for working on it together, `queue_card` queues it (only when they explicitly ask). With the app closed none of these work; tell them to open a session in the project's folder.
 
 ## Phase-aware behaviour
 
@@ -40,6 +40,10 @@ Follow the rule `get_card` returns with the card — it covers `search_cards`, `
 Call `check_write_conflicts` with `projectId` and the files you plan to touch. It applies the app's one-writer-per-folder rule: a live run, the armed queue's next card or another terminal session in the same folder without a worktree, and uncommitted changes this session did not make. On a conflict, quote its message and offer: wait, work in a worktree, or continue. Only on the user's explicit OK call it again with `sessionId` and `acknowledge: true`. The edit hook blocks a conflicting Edit/Write either way, and its message names the `sessionId`.
 
 A `chain-order` conflict is different: the card you are building has a predecessor in its chain whose code is not in yet. Name the card that comes first and ask whether to go ahead out of order; on the user's OK, acknowledge it once (pass `cardId` if the session is not bound to the card).
+
+## Starting a run or a session
+
+`start_card_run` is the board's Play and `open_card_session` its Terminal button, pressed from here. Call them only when the user asks: a started run works unattended and writes code. On an implementation that jumps its chain, `start_card_run` returns the warning instead of starting; on the user's OK call it again with `ackChainOrder: true`.
 
 ## The run queue
 

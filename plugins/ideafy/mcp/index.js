@@ -21017,6 +21017,7 @@ __export(phase_policy_exports, {
   buildPhasePolicy: () => buildPhasePolicy,
   buildPhasePolicyBody: () => buildPhasePolicyBody,
   buildStandardPhaseLines: () => buildStandardPhaseLines,
+  handOffConsentLines: () => handOffConsentLines,
   isTerminalPhase: () => isTerminalPhase,
   phaseInstructionFor: () => phaseInstructionFor,
   safeDisplayId: () => safeDisplayId,
@@ -21171,12 +21172,17 @@ function buildPhasePolicyBody(card, branchPolicy, mode = "development") {
       "   it makes the board claim something that is not true."
     );
   }
-  lines.push(
-    `${next()}. Never call queue_card, pause_queue or resume_queue unless the user`,
-    "   explicitly asked to queue that card, or to pause or resume the queue. A",
-    "   queued card runs unattended once the app's queue reaches it."
-  );
+  lines.push(...handOffConsentLines(next()));
   return lines.join("\n");
+}
+function handOffConsentLines(clause) {
+  return [
+    `${clause}. Never call queue_card, start_card_run, open_card_session,`,
+    "   pause_queue or resume_queue unless the user explicitly asked to queue",
+    "   or start that card, to open a session for it, or to pause or resume the",
+    "   queue. A queued card runs unattended once the app's queue reaches it; a",
+    "   started one runs unattended at once."
+  ];
 }
 function buildPhasePolicy(card, branchPolicy, mode = "development") {
   const body = buildPhasePolicyBody(card, branchPolicy, mode);
@@ -21264,8 +21270,10 @@ var GLOBAL_PROJECT_LIST_LIMIT = 12;
 function globalDelegationOptions(folderPath) {
   const folder = folderPath ? sanitizeForReminder(folderPath, 200) : "<project folder>";
   return [
+    "start the card's run now with start_card_run \u2014 only when the user explicitly asks; it runs unattended",
+    "open a session in the card's folder with open_card_session, for working on it together",
     "queue the card with queue_card \u2014 only when the user explicitly asks; a queued card runs unattended",
-    `tell the user to open a session in the project's folder: cd ${folder} && claude`
+    `if the Ideafy app is closed, tell the user to open a session in the project's folder: cd ${folder} && claude`
   ];
 }
 function projectLine(project) {
@@ -21299,8 +21307,7 @@ function buildGlobalModePolicyBody(projects) {
     "   worktree rule and branch check do not apply out here, and the edit hook",
     "   will refuse the edit. When the user wants code changed, hand it off:",
     ...delegation,
-    "4. Never call queue_card, pause_queue or resume_queue unless the user",
-    "   explicitly asked to queue that card, or to pause or resume the queue.",
+    ...handOffConsentLines(4),
     "5. A Work project's output is written in its own folder, so its backlog",
     "   and revision work is handed off the same way.",
     "6. This is said once per session. A card bound from here gets its own",
@@ -21362,9 +21369,7 @@ function buildGlobalBoundPolicyBody(card, project, mode = "development") {
       "   When the user wants code changed, hand it off:",
       ...globalDelegationOptions(project.folderPath).map((option) => `     - ${option}`)
     ],
-    `${++clause}. Never call queue_card, pause_queue or resume_queue unless the user`,
-    "   explicitly asked to queue that card, or to pause or resume the queue. A",
-    "   queued card runs unattended once the app's queue reaches it."
+    ...handOffConsentLines(++clause)
   );
   return [...header, ...lines].join("\n");
 }
@@ -23194,10 +23199,10 @@ function closestTaskText(text, candidates) {
   const key = findFuzzyMatch(target2, keys.filter(Boolean));
   return key ? keys.indexOf(key) : -1;
 }
-function untickTaskItems(html, itemTexts) {
+function untickTaskItems(html, itemTexts2) {
   const keys = extractTaskItems(html).map((i) => i.normalized);
   const hits = new Set(
-    itemTexts.map((text) => normalizeTaskText(text)).filter(Boolean).map((target2) => findFuzzyMatch(target2, keys)).filter((key) => key !== null)
+    itemTexts2.map((text) => normalizeTaskText(text)).filter(Boolean).map((target2) => findFuzzyMatch(target2, keys)).filter((key) => key !== null)
   );
   if (hits.size === 0) return html;
   return normalizeTestsHtml(html).replace(
@@ -25168,9 +25173,23 @@ function terminalHoldFor(next, writers) {
 }
 
 // ../lib/prompts/utils.ts
+var utils_exports = {};
+__export(utils_exports, {
+  convertToTipTapTaskList: () => convertToTipTapTaskList,
+  escapeShellArg: () => escapeShellArg,
+  stripHtml: () => stripHtml
+});
 function stripHtml(html) {
   if (!html) return "";
   return html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+}
+function convertToTipTapTaskList(html) {
+  let result = html.replace(/<li><input[^>]*checked[^>]*>\s*/gi, '<li data-type="taskItem" data-checked="true">').replace(/<li><input[^>]*type="checkbox"[^>]*>\s*/gi, '<li data-type="taskItem" data-checked="false">');
+  result = result.replace(/<ul>(\s*<li data-type="taskItem")/g, '<ul data-type="taskList">$1');
+  return result;
+}
+function escapeShellArg(arg) {
+  return `'${arg.replace(/'/g, "'\\''")}'`;
 }
 
 // ../lib/prompts/phase.ts
@@ -25184,6 +25203,25 @@ function detectPhase(card) {
 }
 
 // ../lib/test-progress.ts
+var test_progress_exports = {};
+__export(test_progress_exports, {
+  canVerifyAllGroups: () => canVerifyAllGroups,
+  describeTestGroup: () => describeTestGroup,
+  distinctItems: () => distinctItems,
+  isVerifyScope: () => isVerifyScope,
+  nextVerifyGroup: () => nextVerifyGroup,
+  parseTestProgress: () => parseTestProgress,
+  pickCurrentItems: () => pickCurrentItems,
+  testGroupLabel: () => testGroupLabel,
+  tickedCoreItemTexts: () => tickedCoreItemTexts,
+  untickedIn: () => untickedIn,
+  untickedItemTexts: () => untickedItemTexts,
+  verifyAllLabel: () => verifyAllLabel,
+  verifyTargets: () => verifyTargets
+});
+function isVerifyScope(value) {
+  return value === "next" || value === "all";
+}
 var CORE_HEADING = /^(core\s*flow|temel\s*ak[ıi][şs])$/;
 var H2 = /<h2\b[^>]*>([\s\S]*?)<\/h2>/gi;
 function countChecks(html) {
@@ -25229,6 +25267,40 @@ function parseTestProgress(html) {
   if (!core) return { ...overall, groups };
   return { ...overall, core: { checked: core.checked, total: core.total }, groups };
 }
+var ITEM = /<li\b[^>]*data-checked="(true|false)"[^>]*>([\s\S]*?)<\/li>/gi;
+function itemTexts(html, groups, checked) {
+  const sections = splitSections(html);
+  const seen = /* @__PURE__ */ new Map();
+  const texts = [];
+  for (const section2 of sections) {
+    const occurrence = (seen.get(section2.label) ?? 0) + 1;
+    seen.set(section2.label, occurrence);
+    if (!groups.some((g) => g.heading.toLowerCase() === section2.label && g.occurrence === occurrence)) continue;
+    ITEM.lastIndex = 0;
+    let match;
+    while ((match = ITEM.exec(section2.body)) !== null) {
+      if (match[1] === "true" !== checked) continue;
+      const text = headingText(match[2]).replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#39;/g, "'");
+      if (text) texts.push(text);
+    }
+  }
+  return texts;
+}
+function untickedItemTexts(html, groups) {
+  return itemTexts(html, groups, false);
+}
+function tickedCoreItemTexts(html, progress) {
+  const core = progress?.groups.find((g) => g.core);
+  return core && core.checked > 0 ? itemTexts(html, [core], true) : [];
+}
+function distinctItems(items) {
+  return Array.from(new Set((items ?? []).map((item) => item.trim()).filter(Boolean)));
+}
+function pickCurrentItems(picked, current) {
+  const asked = distinctItems(picked);
+  const items = asked.filter((item) => current.includes(item));
+  return { items, dropped: asked.length - items.length };
+}
 function verifyTargets(progress, scope) {
   if (!progress?.core) return [];
   const coreIndex = progress.groups.findIndex((g) => g.core);
@@ -25237,6 +25309,34 @@ function verifyTargets(progress, scope) {
 }
 function nextVerifyGroup(progress) {
   return verifyTargets(progress, "next")[0] ?? null;
+}
+function canVerifyAllGroups(progress) {
+  return verifyTargets(progress, "all").length > 1;
+}
+function verifyAllLabel(progress) {
+  return nextVerifyGroup(progress)?.core ? "all groups" : "all remaining groups";
+}
+function untickedIn(groups) {
+  return groups.reduce((sum, g) => sum + (g.total - g.checked), 0);
+}
+var KNOWN_GROUP_LABELS = [
+  [CORE_HEADING, "Core flow"],
+  [/^(edge\s*cases?|kenar\s*durumlar[ıi]?)$/, "Edge cases"],
+  [/^(regression(\s*tests?)?|regresyon(\s*testleri)?)$/, "Regression"]
+];
+function testGroupLabel(group) {
+  const label = group.heading.toLowerCase();
+  const known = KNOWN_GROUP_LABELS.find(([pattern]) => pattern.test(label));
+  return known ? known[1] : group.heading;
+}
+function describeTestGroup(group, groups) {
+  const repeated = groups.some((g) => g !== group && g.heading.toLowerCase() === group.heading.toLowerCase());
+  if (!repeated) return `\`## ${group.heading}\``;
+  return `the ${ordinal(group.occurrence)} \`## ${group.heading}\` group`;
+}
+function ordinal(n) {
+  const suffix = n % 10 === 1 && n % 100 !== 11 ? "st" : n % 10 === 2 && n % 100 !== 12 ? "nd" : n % 10 === 3 && n % 100 !== 13 ? "rd" : "th";
+  return `${n}${suffix}`;
 }
 
 // ../lib/workspace.ts
@@ -25469,6 +25569,7 @@ function chainWriteConflictFor(db2, cardId) {
 }
 
 // ../lib/card-ops/runtime.ts
+var APP_PORT_SETTING_KEY = "app_port";
 var APP_HEARTBEAT_STALE_MS = 9e4;
 var TERMINAL_WRITER_TTL_MS = 10 * 6e4;
 function writeRuntime(db2, input) {
@@ -25503,6 +25604,17 @@ function writeRuntime(db2, input) {
       input.heldBy,
       input.now
     );
+    if (input.port) {
+      runChanges(
+        db2,
+        `INSERT INTO settings (key, value, updated_at) VALUES (?, ?, ?)
+         ON CONFLICT(key) DO UPDATE SET value = excluded.value, updated_at = excluded.updated_at
+         WHERE settings.value <> excluded.value`,
+        APP_PORT_SETTING_KEY,
+        input.port,
+        input.now
+      );
+    }
   });
 }
 function hasTable(db2, name) {
@@ -25526,6 +25638,7 @@ function readRuntime(db2, now = Date.now()) {
     pausedReason: null,
     heldBy: null,
     heartbeatAt,
+    port: null,
     runs: []
   });
   if (!hasTable(db2, "queue_runtime") || !hasTable(db2, "live_folder_runs")) return closed("unknown");
@@ -25551,12 +25664,14 @@ function readRuntime(db2, now = Date.now()) {
       touchedFiles: parseList(row.touchedFiles)
     })
   ).filter((run) => run.source !== "terminal" || now - Date.parse(run.seenAt) <= TERMINAL_WRITER_TTL_MS);
+  const port = hasTable(db2, "settings") ? getRow(db2, "SELECT value FROM settings WHERE key = ?", APP_PORT_SETTING_KEY)?.value ?? null : null;
   return {
     appState: "open",
     armed: !!state.armed,
     pausedReason: state.pausedReason,
     heldBy: state.heldBy,
     heartbeatAt: state.heartbeatAt,
+    port,
     runs
   };
 }
@@ -25693,7 +25808,7 @@ function sharedPrefixes(projects) {
 function globalEditDenial(args) {
   const { sessionProject, fileProject, enabled } = args;
   if (!enabled || sessionProject || !fileProject) return null;
-  return `Ideafy: this session is not in any Ideafy project's folder (global mode), so it cannot edit ${fileProject.name}'s code: that project's CLAUDE.md, worktree rule and branch check would not apply. Hand the work off instead: queue the card (only if the user asks), or tell the user to open a session in that folder (cd ${fileProject.folderPath} && claude). Do not retry the edit from here.`;
+  return `Ideafy: this session is not in any Ideafy project's folder (global mode), so it cannot edit ${fileProject.name}'s code: that project's CLAUDE.md, worktree rule and branch check would not apply. Hand the work off instead; ask the user which: ${globalDelegationOptions(fileProject.folderPath).join("; ")}. Do not retry the edit from here.`;
 }
 
 // ../lib/prompts/evaluation.ts
@@ -25963,6 +26078,180 @@ function testReportCardSummary(runs) {
   };
 }
 
+// ../lib/card-phase.ts
+var card_phase_exports = {};
+__export(card_phase_exports, {
+  BOARD_PHASE_ACTIONS: () => BOARD_PHASE_ACTIONS,
+  canEvaluateFor: () => canEvaluateFor,
+  canGenerateFor: () => canGenerateFor,
+  canPreVerify: () => canPreVerify,
+  canQuickFixFor: () => canQuickFixFor,
+  canRecheckOnScreen: () => canRecheckOnScreen,
+  canRunAutonomousFor: () => canRunAutonomousFor,
+  canStartCard: () => canStartCard,
+  canTestTogetherFor: () => canTestTogetherFor,
+  detectBoardPhase: () => detectBoardPhase,
+  getPhaseActionFlags: () => getPhaseActionFlags,
+  getPhaseLabels: () => getPhaseLabels,
+  isAutonomousAction: () => isAutonomousAction,
+  isPhaseActionShown: () => isPhaseActionShown,
+  terminalStartRefusal: () => terminalStartRefusal,
+  verifyRunBlurb: () => verifyRunBlurb
+});
+function detectBoardPhase(card, solutionText, testText) {
+  if (card.status === "progress") {
+    const hasTests2 = !!testText;
+    return hasTests2 ? "retest" : "implementation";
+  }
+  if (card.status === "test" && !!testText) return "verify";
+  const hasSolution = !!solutionText;
+  const hasTests = !!testText;
+  if (!hasSolution) return "planning";
+  if (!hasTests) return "implementation";
+  return "retest";
+}
+function getPhaseLabels(phase, mode = "development", verifyGroup = null) {
+  const labels = phaseLabels(phase, mode, verifyGroup);
+  const playHint = phase === "verify" && mode !== "work" && verifyGroup ? `${labels.play} \xB7 text or visual` : labels.play;
+  return { ...labels, playHint };
+}
+function phaseLabels(phase, mode, verifyGroup) {
+  if (mode === "work") {
+    if (phase === "planning") {
+      return { play: "Plan Task (Autonomous)", terminal: "Work on it (Interactive)" };
+    }
+    if (phase === "implementation") {
+      return { play: "Implement (Autonomous)", terminal: "Work on it (Interactive)" };
+    }
+    if (phase === "retest") {
+      return { play: "Re-test (Autonomous)", terminal: "Revise (Interactive)" };
+    }
+  }
+  switch (phase) {
+    case "planning":
+      return {
+        play: "Plan Task (Autonomous)",
+        terminal: "Plan Task (Interactive)"
+      };
+    case "implementation":
+      return {
+        play: "Implement (Autonomous)",
+        terminal: "Implement (Interactive)"
+      };
+    case "retest":
+      return {
+        play: "Re-test (Autonomous)",
+        terminal: "Fix Issues (Interactive)"
+      };
+    case "verify":
+      return {
+        // No group left to tick: the press can only re-check the core flow
+        // on screen, for the Test Report (IDE-468).
+        play: !verifyGroup ? "Re-check core flow on screen (Autonomous)" : !verifyGroup.core ? `Pre-verify: ${testGroupLabel(verifyGroup)} (Autonomous)` : "Pre-verify core flow (Autonomous)",
+        // Human Test'te terminal, çeklisti yürüten değil çeklistin dışına çıkan
+        // oturumdur: gündemi kullanıcı getirir, kartta yazmayan bir şeydir.
+        terminal: "Report an Issue (Interactive)"
+      };
+  }
+}
+function canPreVerify(card, testProgress) {
+  return card.status === "test" && !!nextVerifyGroup(testProgress);
+}
+function canRecheckOnScreen(card, testProgress, mode = "development") {
+  return mode !== "work" && card.status === "test" && (testProgress?.groups.find((g) => g.core)?.checked ?? 0) > 0;
+}
+function canStartCard(card) {
+  return !!(card.description && (card.projectId || card.projectFolder) && card.status !== "completed" && card.status !== "ideation");
+}
+function canRunAutonomousFor(card, testProgress, mode = "development") {
+  return canStartCard(card) && (card.status !== "test" || canPreVerify(card, testProgress) || canRecheckOnScreen(card, testProgress, mode));
+}
+function canTestTogetherFor(card, testScenariosText) {
+  return card.status === "test" && !!(card.testScenarios && testScenariosText !== "" && (card.projectId || card.projectFolder));
+}
+function verifyRunBlurb(scope, group) {
+  if (scope === "all" && group) {
+    return `The agent runs every group that still has unticked steps, starting with "${testGroupLabel(group)}", and ticks the steps that pass. Your own ticks stay untouched.`;
+  }
+  if (group && !group.core) {
+    return `The agent runs the "${testGroupLabel(group)}" group only and ticks the steps that pass. Other groups and your own ticks stay untouched.`;
+  }
+  return "The agent runs the core flow only and ticks the steps that pass. Later groups and your own ticks stay untouched.";
+}
+function canQuickFixFor(card) {
+  return card.status === "bugs" && !!(card.description && (card.projectId || card.projectFolder));
+}
+function canGenerateFor(card, mode) {
+  return mode === "work" && canStartCard(card) && (card.status === "backlog" || card.status === "bugs" || card.status === "progress");
+}
+function canEvaluateFor(card) {
+  return card.status === "ideation" && !!(card.description && (card.projectId || card.projectFolder));
+}
+function isAutonomousAction(action) {
+  return action === "play" || action === "quick-fix" || action === "evaluate" || action === "generate";
+}
+var BOARD_PHASE_ACTIONS = [
+  "discuss",
+  "evaluate",
+  "quick-fix",
+  "terminal",
+  "play",
+  "generate",
+  "test-together"
+];
+function getPhaseActionFlags(card, solutionText, testText, testProgress, mode = "development") {
+  const phase = detectBoardPhase(card, solutionText, testText);
+  const isWork = mode === "work";
+  return {
+    phase,
+    labels: getPhaseLabels(phase, mode, phase === "verify" ? nextVerifyGroup(testProgress) : null),
+    canStart: canStartCard(card),
+    // Autonomous implement writes code on a branch; a Work card has neither.
+    // Planning and pre-verify stay: both read and write the card, not a repo.
+    canRunAutonomous: canRunAutonomousFor(card, testProgress, mode) && !(isWork && phase === "implementation"),
+    canQuickFix: !isWork && canQuickFixFor(card),
+    canEvaluate: canEvaluateFor(card),
+    canTestTogether: !isWork && canTestTogetherFor(card, testText),
+    canGenerate: canGenerateFor(card, mode),
+    showDevControls: !isWork || card.gitWorktreeStatus === "active"
+  };
+}
+function isPhaseActionShown(action, flags, isLocked) {
+  switch (action) {
+    case "discuss":
+      return flags.canEvaluate && !isLocked;
+    case "evaluate":
+      return flags.canEvaluate;
+    case "quick-fix":
+      return flags.canQuickFix;
+    case "terminal":
+      return flags.canStart && !isLocked;
+    case "play":
+      return flags.canRunAutonomous && flags.phase !== "retest";
+    case "test-together":
+      return flags.canTestTogether && !isLocked;
+    case "generate":
+      return flags.canGenerate;
+  }
+}
+function terminalStartRefusal(card, solutionText, testText, testProgress, mode = "development") {
+  const full = card;
+  if (card.status === "withdrawn" || !canStartCard(full)) {
+    return card.description ? `the board offers no Start on a card in ${card.status}` : "the card has no description to use as prompt";
+  }
+  const flags = getPhaseActionFlags(full, solutionText, testText, testProgress, mode);
+  if (flags.phase === "retest") {
+    return "the card has a plan and a checklist, and the board's run for that is a session, not an autonomous run \u2014 use open_card_session";
+  }
+  if (mode === "work" && flags.phase === "implementation") {
+    return "a Work card's implementation is done in a session, not an autonomous run \u2014 use open_card_session";
+  }
+  if (card.status === "test" && !canPreVerify(full, testProgress)) {
+    return "nothing is left to pre-verify: every group is ticked, or the checklist has no Core flow / Temel ak\u0131\u015F group";
+  }
+  return null;
+}
+
 // shared.ts
 function unwrap(ns) {
   return Reflect.get(ns, "default") ?? ns;
@@ -26036,6 +26325,9 @@ var { parseTestReportItems: parseTestReportItems2, parseTestReports: parseTestRe
 var { formatTestReport: formatTestReport2, selectTestReportRun: selectTestReportRun2, testReportCardSummary: testReportCardSummary2 } = unwrap(test_report_text_exports);
 var { importTerminalArtifacts: importTerminalArtifacts2, removeTestReportRunDirs: removeTestReportRunDirs2, testReportRunDir: testReportRunDir2 } = unwrap(test_report_files_exports);
 var { attachmentRefs: attachmentRefs2, attachmentContentType: attachmentContentType2 } = unwrap(card_attachments_exports);
+var { canStartCard: canStartCard2, detectBoardPhase: detectBoardPhase2, terminalStartRefusal: terminalStartRefusal2 } = unwrap(card_phase_exports);
+var { parseTestProgress: parseTestProgress2 } = unwrap(test_progress_exports);
+var { stripHtml: stripHtml2 } = unwrap(utils_exports);
 
 // db.ts
 var MIN_NODE = [22, 5];
@@ -26318,11 +26610,40 @@ function recordOutputPath(db2, cardId, inputPath) {
   return { ...resolved, outputPaths: added.outputPaths, alreadyRecorded: added.alreadyRecorded };
 }
 
-// queue-control.ts
-var QUEUE_CONTROL_TIMEOUT_MS = 2e3;
-function appPort(env = process.env) {
-  return env.IDEAFY_PORT?.trim() || "3030";
+// app-http.ts
+var APP_CALL_TIMEOUT_MS = 2e3;
+var APP_CLOSED_TEXT = "Ideafy is not open. Ask the user whether to open the Ideafy app; nothing was changed.";
+function appPort(runtime = null, env = process.env) {
+  const fromEnv = env.IDEAFY_PORT?.trim();
+  if (fromEnv) return fromEnv;
+  if (runtime?.appState === "open" && runtime.port?.trim()) return runtime.port.trim();
+  return "3030";
 }
+async function callApp(method, path6, body, options = {}) {
+  const port = options.port ?? appPort();
+  const doFetch = options.fetchImpl ?? fetch;
+  let response;
+  try {
+    response = await doFetch(`http://127.0.0.1:${port}${path6}`, {
+      method,
+      headers: body === void 0 ? void 0 : { "Content-Type": "application/json" },
+      body: body === void 0 ? void 0 : JSON.stringify(body),
+      signal: AbortSignal.timeout(options.timeoutMs ?? APP_CALL_TIMEOUT_MS)
+    });
+  } catch (error2) {
+    const name = error2 instanceof Error ? error2.name : "";
+    return { kind: "unreachable", timedOut: name === "TimeoutError" || name === "AbortError" };
+  }
+  const json2 = await response.json().catch(() => null);
+  const isObject2 = json2 !== null && typeof json2 === "object" && !Array.isArray(json2);
+  if (!response.ok || !isObject2) {
+    const error2 = isObject2 && typeof json2.error === "string" ? json2.error : null;
+    return { kind: "refused", status: response.status, error: error2, json: isObject2 ? json2 : null };
+  }
+  return { kind: "ok", status: response.status, json: json2 };
+}
+
+// queue-control.ts
 function summarize(action, snapshot) {
   const waiting = snapshot.items?.length ?? 0;
   const next = snapshot.items?.[0]?.displayId;
@@ -26339,31 +26660,125 @@ function summarize(action, snapshot) {
 }
 async function setQueueRunning(action, options = {}) {
   const port = options.port ?? appPort();
-  const doFetch = options.fetchImpl ?? fetch;
-  const url2 = `http://localhost:${port}/api/queue`;
   const closed = {
     ok: false,
     text: `The Ideafy app is not open on port ${port}; the queue only runs inside it. Nothing was changed.` + (port === "3030" ? "" : " (IDEAFY_PORT is set; check it matches the app's port.)")
   };
-  let response;
-  try {
-    response = await doFetch(url2, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ action, source: "terminal" }),
-      signal: AbortSignal.timeout(options.timeoutMs ?? QUEUE_CONTROL_TIMEOUT_MS)
-    });
-  } catch {
-    return closed;
-  }
-  const body = await response.json().catch(() => null);
-  if (!response.ok || !body) {
+  const result = await callApp(
+    "PATCH",
+    "/api/queue",
+    { action, source: "terminal" },
+    { port, fetchImpl: options.fetchImpl, timeoutMs: options.timeoutMs ?? APP_CALL_TIMEOUT_MS }
+  );
+  if (result.kind === "unreachable") return closed;
+  if (result.kind === "refused") {
     return {
       ok: false,
-      text: `The Ideafy app refused to ${action} the queue${body?.error ? `: ${body.error}` : ` (HTTP ${response.status})`}. Nothing was changed.`
+      text: `The Ideafy app refused to ${action} the queue${result.error ? `: ${result.error}` : ` (HTTP ${result.status})`}. Nothing was changed.`
     };
   }
-  return { ok: true, text: summarize(action, body) };
+  return { ok: true, text: summarize(action, result.json) };
+}
+
+// card-handoff.ts
+var HANDOFF_TIMEOUT_MS = 6e4;
+function loadCard(db2, cardId) {
+  const row = db2.prepare(
+    `SELECT c.id, c.title, c.status, c.description, c.project_id AS projectId,
+              c.project_folder AS projectFolder, c.solution_summary AS solutionSummary,
+              c.test_scenarios AS testScenarios, c.processing_type AS processingType,
+              c.queue_position AS queuePosition,
+              CASE WHEN p.id_prefix IS NOT NULL AND c.task_number IS NOT NULL
+                   THEN p.id_prefix || '-' || c.task_number END AS displayId,
+              p.mode AS mode, p.folder_path AS folderPath
+       FROM cards c LEFT JOIN projects p ON p.id = c.project_id
+       WHERE c.id = ?`
+  ).get(cardId);
+  return row ?? null;
+}
+function asBoardCard(card) {
+  return card;
+}
+function modeOf(card) {
+  return card.mode === "work" ? "work" : "development";
+}
+function nameOf(card) {
+  return card.displayId ?? `"${card.title}"`;
+}
+function failureText(tool, name, result) {
+  if (result.kind === "ok") return null;
+  if (result.kind === "unreachable") {
+    return result.timedOut ? `${tool}: the Ideafy app did not answer in time, so it is not known whether ${name} started. Check the card with get_card before trying again.` : APP_CLOSED_TEXT;
+  }
+  const reason = (result.error ?? `HTTP ${result.status}`).replace(/[.\s]+$/, "");
+  return `${tool}: the app did not ${tool === "start_card_run" ? "start" : "open a session for"} ${name}: ${reason}. Nothing was changed.`;
+}
+async function startCardRunTool(db2, input, deps = {}) {
+  const card = loadCard(db2, input.cardId);
+  if (!card) return { ok: false, text: `Card not found: ${input.cardId}` };
+  const runtime = readRuntime2(db2);
+  if (runtime.appState !== "open") return { ok: false, text: APP_CLOSED_TEXT };
+  const name = nameOf(card);
+  const solutionText = stripHtml2(card.solutionSummary ?? "");
+  const testText = stripHtml2(card.testScenarios ?? "");
+  const progress = parseTestProgress2(card.testScenarios ?? "");
+  const refusal = terminalStartRefusal2(asBoardCard(card), solutionText, testText, progress, modeOf(card));
+  if (refusal) return { ok: false, text: `start_card_run: ${name} was not started: ${refusal}. Nothing was changed.` };
+  const phase = detectBoardPhase2(asBoardCard(card), solutionText, testText);
+  if (phase === "implementation" && !input.ackChainOrder) {
+    const warning = chainOrderWarningFor2(db2, card.id);
+    if (warning) {
+      return {
+        ok: true,
+        text: `start_card_run: ${name} was not started. Chain order: ${warning.message} Tell the user; if they want it started anyway, call start_card_run again with ackChainOrder: true.`
+      };
+    }
+  }
+  const verifyScope = card.status === "test" ? input.verifyScope : void 0;
+  const result = await callApp(
+    "POST",
+    `/api/cards/${encodeURIComponent(card.id)}/start`,
+    { detach: true, ...verifyScope ? { verifyScope } : {} },
+    { port: appPort(runtime, deps.env), fetchImpl: deps.fetchImpl, timeoutMs: deps.timeoutMs ?? HANDOFF_TIMEOUT_MS }
+  );
+  const failure = failureText("start_card_run", name, result);
+  if (failure || result.kind !== "ok") return { ok: false, text: failure ?? APP_CLOSED_TEXT };
+  const label = typeof result.json.label === "string" ? result.json.label : "The run";
+  const folder = card.folderPath ?? card.projectFolder;
+  return {
+    ok: true,
+    text: `${name}: ${label} started. It runs unattended in the card's worktree, or in ${folder ?? "the project folder"} when the card does not use one. Its result shows in the app's bell and on the card (get_card) when it ends.` + (card.queuePosition != null ? " It was in the run queue; starting it took it out." : "")
+  };
+}
+async function openCardSessionTool(db2, input, deps = {}) {
+  const card = loadCard(db2, input.cardId);
+  if (!card) return { ok: false, text: `Card not found: ${input.cardId}` };
+  const runtime = readRuntime2(db2);
+  if (runtime.appState !== "open") return { ok: false, text: APP_CLOSED_TEXT };
+  const name = nameOf(card);
+  if (card.status === "withdrawn" || !canStartCard2(asBoardCard(card))) {
+    const why = card.description ? `the board offers no session on a card in ${card.status}` : "the card has no description";
+    return { ok: false, text: `open_card_session: ${name}: ${why}. Nothing was changed.` };
+  }
+  if (card.processingType) {
+    return {
+      ok: false,
+      text: `open_card_session: a run is working on ${name} right now. Wait for it to end; nothing was changed.`
+    };
+  }
+  const result = await callApp("POST", `/api/cards/${encodeURIComponent(card.id)}/open-terminal`, void 0, {
+    port: appPort(runtime, deps.env),
+    fetchImpl: deps.fetchImpl,
+    timeoutMs: deps.timeoutMs ?? HANDOFF_TIMEOUT_MS
+  });
+  const failure = failureText("open_card_session", name, result);
+  if (failure || result.kind !== "ok") return { ok: false, text: failure ?? APP_CLOSED_TEXT };
+  const { phase, newStatus, workingDir, terminal } = result.json;
+  const moved = newStatus && newStatus !== card.status ? ` The card moved to ${newStatus}.` : "";
+  return {
+    ok: true,
+    text: `Opened a session for ${name} in ${terminal ?? "the user's terminal"}, working in ${workingDir ?? "the card's folder"}, bound to the card, in its ${phase ?? "current"} phase.${moved} The user works with it there; this session does not see that one.`
+  };
 }
 
 // test-report.ts
@@ -27579,6 +27994,43 @@ The server writes the card's verdict, score, priority and complexity from those 
         inputSchema: {
           type: "object",
           properties: {}
+        }
+      },
+      {
+        name: "start_card_run",
+        description: "Start a card's autonomous run now, the same as Play on the board: plan, implement or pre-verify, whichever the card's column calls for. Only when the user explicitly asks to start this card's run now \u2014 a started run works unattended in the card's folder or worktree and writes code. It does not touch the run queue (a queued card started here leaves the queue). Works only while the Ideafy app is open; with the app closed it says so and sends nothing. Refused where the board shows no Play, and when another run works in the same folder: the answer quotes the reason and nothing starts. On an implementation that jumps its chain it does not start and returns the warning instead: tell the user, and only on their OK call again with ackChainOrder: true. Answers as soon as the run is let go; its result shows in the app's bell and on the card when it ends.",
+        inputSchema: {
+          type: "object",
+          properties: {
+            cardId: {
+              type: "string",
+              description: "Card ID: UUID, display ID (e.g., KAN-54), or task number"
+            },
+            verifyScope: {
+              type: "string",
+              enum: ["next", "all"],
+              description: 'Human Test cards only: "next" (default) pre-verifies the next group with unticked items; "all" walks every group left in one run. Only pass "all" when the user asked for it.'
+            },
+            ackChainOrder: {
+              type: "boolean",
+              description: "Start even though a predecessor in the card's chain has not landed. Only after the user saw the warning and said to go ahead."
+            }
+          },
+          required: ["cardId"]
+        }
+      },
+      {
+        name: "open_card_session",
+        description: "Open an interactive Claude session for a card in the user's terminal, the same as the Terminal button on the board: it starts in the card's project folder or worktree and is bound to the card. Only when the user asks to work on the card together, in its own folder. Side effects the button has too: on a card with no plan the session opens in planning mode and the card moves to In Progress; for an implementation without a worktree one is created when the card uses worktrees. Not on Ideation or Completed cards, and not while a run works on the card. Works only while the Ideafy app is open; with the app closed it says so and opens nothing. This session does not see the new one.",
+        inputSchema: {
+          type: "object",
+          properties: {
+            cardId: {
+              type: "string",
+              description: "Card ID: UUID, display ID (e.g., KAN-54), or task number"
+            }
+          },
+          required: ["cardId"]
         }
       },
       {
@@ -28813,7 +29265,22 @@ ${policy}` : `${bound} This column has no phase policy.`
       }
       case "pause_queue":
       case "resume_queue": {
-        const result = await setQueueRunning(name === "pause_queue" ? "pause" : "resume");
+        const result = await setQueueRunning(name === "pause_queue" ? "pause" : "resume", {
+          port: appPort(readRuntime2(db))
+        });
+        return { content: [{ type: "text", text: result.text }], ...result.ok ? {} : { isError: true } };
+      }
+      case "start_card_run":
+      case "open_card_session": {
+        const { cardId: rawCardId, verifyScope, ackChainOrder } = args;
+        if (verifyScope !== void 0 && verifyScope !== "next" && verifyScope !== "all") {
+          return { content: [{ type: "text", text: `${name}: verifyScope must be "next" or "all". Nothing was changed.` }], isError: true };
+        }
+        const cardId = resolveCardId(rawCardId);
+        if (!cardId) {
+          return { content: [{ type: "text", text: `Card not found: ${rawCardId}` }], isError: true };
+        }
+        const result = name === "start_card_run" ? await startCardRunTool(db, { cardId, verifyScope, ackChainOrder: ackChainOrder === true }) : await openCardSessionTool(db, { cardId });
         return { content: [{ type: "text", text: result.text }], ...result.ok ? {} : { isError: true } };
       }
       case "list_groups": {
