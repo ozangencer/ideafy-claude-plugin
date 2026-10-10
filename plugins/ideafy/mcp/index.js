@@ -449,9 +449,9 @@ var require_codegen = __commonJS({
       }
     };
     var Label = class extends Node {
-      constructor(label) {
+      constructor(label2) {
         super();
-        this.label = label;
+        this.label = label2;
         this.names = {};
       }
       render({ _n }) {
@@ -459,14 +459,14 @@ var require_codegen = __commonJS({
       }
     };
     var Break = class extends Node {
-      constructor(label) {
+      constructor(label2) {
         super();
-        this.label = label;
+        this.label = label2;
         this.names = {};
       }
       render({ _n }) {
-        const label = this.label ? ` ${this.label}` : "";
-        return `break${label};` + _n;
+        const label2 = this.label ? ` ${this.label}` : "";
+        return `break${label2};` + _n;
       }
     };
     var Throw = class extends Node {
@@ -878,12 +878,12 @@ var require_codegen = __commonJS({
         return this._endBlockNode(For);
       }
       // `label` statement
-      label(label) {
-        return this._leafNode(new Label(label));
+      label(label2) {
+        return this._leafNode(new Label(label2));
       }
       // `break` statement
-      break(label) {
-        return this._leafNode(new Break(label));
+      break(label2) {
+        return this._leafNode(new Break(label2));
       }
       // `return` statement
       return(value) {
@@ -21458,8 +21458,8 @@ function decodeEntities(value) {
 }
 function cardMentionHtml(card) {
   const title = decodeEntities(card.title).trim();
-  const label = title ? `${card.displayId} \xB7 ${title}` : card.displayId;
-  return `<span data-type="cardMention" data-id="${escapeAttr(card.id)}" data-display-id="${escapeAttr(card.displayId)}" data-title="${escapeAttr(title)}" class="mention card-mention">[[${escapeText(label)}]]</span>`;
+  const label2 = title ? `${card.displayId} \xB7 ${title}` : card.displayId;
+  return `<span data-type="cardMention" data-id="${escapeAttr(card.id)}" data-display-id="${escapeAttr(card.displayId)}" data-title="${escapeAttr(title)}" class="mention card-mention">[[${escapeText(label2)}]]</span>`;
 }
 function linkCardReferences(html, resolve4) {
   if (!html || !/[A-Z]-\d/.test(html)) return html;
@@ -21528,11 +21528,11 @@ function placeAfter(members, cardId, afterCardId) {
   rest.splice(at, 0, cardId);
   return rest;
 }
-function buildChainContext(members, cardId, toRef3) {
+function buildChainContext(members, cardId, toRef4) {
   const ordered = [...members].sort(compareByChainOrder);
   const index = ordered.findIndex((member) => member.id === cardId);
   if (index === -1) return null;
-  const refs = ordered.map(toRef3);
+  const refs = ordered.map(toRef4);
   return {
     position: index + 1,
     total: refs.length,
@@ -21551,20 +21551,36 @@ function nameList(labels) {
   return labels.length > MAX_NAMED ? `${shown} +${labels.length - MAX_NAMED}` : shown;
 }
 function chainOrderWarning(input) {
+  const pending = (member) => member.id !== input.cardId && !hasLanded(member) && !input.skip?.has(member.id);
+  const linkIds = /* @__PURE__ */ new Set();
+  const linked = (input.links ?? []).filter((member) => {
+    if (linkIds.has(member.id) || !pending(member)) return false;
+    linkIds.add(member.id);
+    return true;
+  });
   const ordered = [...input.members].sort(compareByChainOrder);
   const index = ordered.findIndex((member) => member.id === input.cardId);
-  if (index <= 0) return null;
-  const open = ordered.slice(0, index).filter((member) => !hasLanded(member) && !input.skip?.has(member.id));
+  const chained = index <= 0 ? [] : ordered.slice(0, index).filter((member) => pending(member) && !linkIds.has(member.id));
+  const open = [...linked, ...chained];
   if (open.length === 0) return null;
-  const openAhead = open.map(input.toRef);
-  const label = (ref) => ref.displayId ?? ref.title;
-  const sentences = open.length === 1 ? [`${label(openAhead[0])} is not done yet and comes before this card in the chain.`] : [`${open.length} open cards come before this card in the chain: ${nameList(openAhead.map(label))}.`];
-  const unmerged = open.filter((member) => member.status === "test").map((member) => label(input.toRef(member)));
+  const label2 = (member) => {
+    const ref = input.toRef(member);
+    return ref.displayId ?? ref.title;
+  };
+  const sentences = [];
+  if (linked.length === 1) sentences.push(`${label2(linked[0])} blocks this card.`);
+  else if (linked.length > 1) sentences.push(`${linked.length} cards block this card: ${nameList(linked.map(label2))}.`);
+  if (chained.length === 1) {
+    sentences.push(`${label2(chained[0])} is not done yet and comes before this card in the chain.`);
+  } else if (chained.length > 1) {
+    sentences.push(`${chained.length} open cards come before this card in the chain: ${nameList(chained.map(label2))}.`);
+  }
+  const unmerged = open.filter((member) => member.status === "test").map(label2);
   if (unmerged.length === 1) sentences.push(`${unmerged[0]}'s branch is not merged yet.`);
   else if (unmerged.length > 1) sentences.push(`${nameList(unmerged)} have branches not merged yet.`);
-  const behind = open.filter((member) => input.queuedBehind?.has(member.id)).map((member) => label(input.toRef(member)));
+  const behind = open.filter((member) => input.queuedBehind?.has(member.id)).map(label2);
   if (behind.length > 0) sentences.push(`Move ${nameList(behind)} ahead of it in the queue.`);
-  return { openAhead, message: sentences.join(" ") };
+  return { openAhead: open.map(input.toRef), blockers: linked.map(input.toRef), message: sentences.join(" ") };
 }
 
 // ../lib/plan-files.ts
@@ -21639,6 +21655,7 @@ var card_ops_exports = {};
 __export(card_ops_exports, {
   APP_HEARTBEAT_STALE_MS: () => APP_HEARTBEAT_STALE_MS,
   CARD_RUNTIME_FIELDS: () => CARD_RUNTIME_FIELDS,
+  CardDependencyError: () => CardDependencyError,
   CardGroupError: () => CardGroupError,
   DEFAULT_GROUP_COLOR: () => DEFAULT_GROUP_COLOR,
   GLOBAL_AGENT_MODE_SETTING_KEY: () => GLOBAL_AGENT_MODE_SETTING_KEY,
@@ -21646,6 +21663,7 @@ __export(card_ops_exports, {
   MAX_CARD_TITLE_LENGTH: () => MAX_CARD_TITLE_LENGTH,
   TERMINAL_WRITER_TTL_MS: () => TERMINAL_WRITER_TTL_MS,
   acknowledgeWrite: () => acknowledgeWrite,
+  addDependency: () => addDependency,
   addOutputPath: () => addOutputPath,
   addTestReportWarnings: () => addTestReportWarnings,
   allRows: () => allRows,
@@ -21668,8 +21686,11 @@ __export(card_ops_exports, {
   getRow: () => getRow,
   globalAgentModeEnabled: () => globalAgentModeEnabled,
   globalEditDenial: () => globalEditDenial,
+  hasDependencyTable: () => hasDependencyTable,
   isStatus: () => isStatus,
   linkCardsInHtml: () => linkCardsInHtml,
+  listDependencies: () => listDependencies,
+  listDependencyEdges: () => listDependencyEdges,
   listGroups: () => listGroups,
   listProjects: () => listProjects,
   listQueueRows: () => listQueueRows,
@@ -21678,6 +21699,7 @@ __export(card_ops_exports, {
   normalizeGroupCode: () => normalizeGroupCode,
   normalizeGroupId: () => normalizeGroupId,
   opinionEditFields: () => opinionEditFields,
+  parseBlockedBy: () => parseBlockedBy,
   parseWriteAck: () => parseWriteAck,
   projectIdOfCard: () => projectIdOfCard,
   queueDisplayId: () => queueDisplayId,
@@ -21687,8 +21709,10 @@ __export(card_ops_exports, {
   queuedRunsInWorktree: () => queuedRunsInWorktree,
   readRuntime: () => readRuntime,
   readWriteAck: () => readWriteAck,
+  removeDependency: () => removeDependency,
   resolveCardRef: () => resolveCardRef,
   resolveProjectByFolder: () => resolveProjectByFolder,
+  restoreDependencies: () => restoreDependencies,
   restoreQueueCards: () => restoreQueueCards,
   reviseTests: () => reviseTests,
   runChanges: () => runChanges,
@@ -21700,6 +21724,7 @@ __export(card_ops_exports, {
   saveTests: () => saveTests,
   serializeBooleanForDb: () => serializeBooleanForDb,
   serializeUseWorktreeForDb: () => serializeUseWorktreeForDb,
+  setBlockedBy: () => setBlockedBy,
   setCardRuntime: () => setCardRuntime,
   sharedPrefixes: () => sharedPrefixes,
   statusAfterPlan: () => statusAfterPlan,
@@ -21708,6 +21733,7 @@ __export(card_ops_exports, {
   updateCard: () => updateCard,
   updateGroup: () => updateGroup,
   validateCardTitle: () => validateCardTitle,
+  waitingOnLine: () => waitingOnLine,
   writeRuntime: () => writeRuntime
 });
 
@@ -24022,9 +24048,9 @@ function escapeHtml(text) {
   return text.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 function artifactChipHtml(absolutePath, name) {
-  const label = name?.trim() || artifactBasename(absolutePath);
+  const label2 = name?.trim() || artifactBasename(absolutePath);
   const pathAttr = escapeHtml(absolutePath);
-  return `<span data-type="artifactMention" data-path="${pathAttr}" data-name="${escapeHtml(label)}" data-kind="${artifactKind(absolutePath)}" title="${pathAttr}" class="mention artifact-mention">${escapeHtml(label)}</span>`;
+  return `<span data-type="artifactMention" data-path="${pathAttr}" data-name="${escapeHtml(label2)}" data-kind="${artifactKind(absolutePath)}" title="${pathAttr}" class="mention artifact-mention">${escapeHtml(label2)}</span>`;
 }
 function fileLinksToArtifactChips(html) {
   if (!html || !html.includes("file://")) return html;
@@ -25134,6 +25160,281 @@ function moveCardInChain(db2, cardId, afterCardId, expectedGroupId) {
   });
 }
 
+// ../lib/card-ops/card-ref.ts
+var UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+var DISPLAY_ID = /^([A-Z][A-Z0-9]*)-(\d+)$/i;
+var TASK_NUMBER = /^(\d+)$/;
+function resolveCardRef(db2, ref, opts = {}) {
+  const value = ref.trim();
+  if (UUID.test(value)) return value;
+  const display = value.match(DISPLAY_ID);
+  if (display) {
+    return pick2(
+      allRows(
+        db2,
+        `SELECT c.id, c.project_id AS projectId FROM cards c
+           JOIN projects p ON p.id = c.project_id
+          WHERE UPPER(p.id_prefix) = ? AND c.task_number = ?`,
+        display[1].toUpperCase(),
+        Number(display[2])
+      ),
+      opts.projectId
+    );
+  }
+  const number3 = value.match(TASK_NUMBER);
+  if (number3) {
+    return pick2(
+      allRows(
+        db2,
+        `SELECT id, project_id AS projectId FROM cards WHERE task_number = ?`,
+        Number(number3[1])
+      ),
+      opts.projectId
+    );
+  }
+  return null;
+}
+function pick2(rows, projectId) {
+  if (projectId) {
+    const own = rows.find((row) => row.projectId === projectId);
+    if (own) return own.id;
+  }
+  return rows.length === 1 ? rows[0].id : null;
+}
+
+// ../lib/card-ops/dependencies.ts
+var CardDependencyError = class extends Error {
+  constructor(code, message) {
+    super(message);
+    this.code = code;
+    this.name = "CardDependencyError";
+  }
+  code;
+};
+var NOTE_MAX = 280;
+var presentTables = /* @__PURE__ */ new WeakMap();
+function hasDependencyTable(db2) {
+  if (presentTables.get(db2)) return true;
+  const found = !!getRow(db2, "SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'card_dependencies'");
+  if (found) presentTables.set(db2, true);
+  return found;
+}
+function assertTable(db2) {
+  if (!hasDependencyTable(db2)) {
+    throw new CardDependencyError(
+      "unsupported",
+      "This Ideafy database cannot store card dependencies yet. Update the Ideafy app \u2014 it adds the table on its next start \u2014 then try again. Nothing was written."
+    );
+  }
+}
+function parseBlockedBy(value) {
+  if (value === void 0) return void 0;
+  if (value === null) return [];
+  const items = Array.isArray(value) ? value : [value];
+  const entries = [];
+  for (const item of items) {
+    if (typeof item === "string") {
+      if (item.trim()) entries.push({ card: item.trim() });
+    } else if (item && typeof item === "object") {
+      const { card, note } = item;
+      if (typeof card === "string" && card.trim()) {
+        entries.push({ card: card.trim(), note: typeof note === "string" ? note : null });
+      }
+    }
+  }
+  return entries;
+}
+function cleanNote(note) {
+  const text = (note ?? "").replace(/\s+/g, " ").trim();
+  return text ? text.slice(0, NOTE_MAX) : null;
+}
+function cardRow(db2, id) {
+  return getRow(
+    db2,
+    `SELECT c.id, c.title, c.status, c.task_number AS taskNumber, p.id_prefix AS idPrefix,
+            c.git_branch_status AS gitBranchStatus
+     FROM cards c LEFT JOIN projects p ON p.id = c.project_id WHERE c.id = ?`,
+    id
+  );
+}
+var label = (row) => formatDisplayId(row.idPrefix, row.taskNumber) ?? `"${row.title}"`;
+function resolvePredecessor(db2, cardId, ref) {
+  const exact = cardRow(db2, ref.trim());
+  if (exact) return exact;
+  const own = getRow(db2, "SELECT project_id AS projectId FROM cards WHERE id = ?", cardId);
+  const id = resolveCardRef(db2, ref, { projectId: own?.projectId ?? null });
+  const row = id ? cardRow(db2, id) : void 0;
+  if (!row) throw new CardDependencyError("not-found", `Card not found: ${ref}`);
+  return row;
+}
+function waitPath(db2, from, to) {
+  const previous = /* @__PURE__ */ new Map([[from, null]]);
+  const queue = [from];
+  while (queue.length > 0) {
+    const current = queue.shift();
+    if (current === to) {
+      const path7 = [];
+      for (let step = current; step !== null; step = previous.get(step) ?? null) path7.unshift(step);
+      return path7;
+    }
+    for (const { next } of allRows(
+      db2,
+      "SELECT blocked_by_card_id AS next FROM card_dependencies WHERE card_id = ?",
+      current
+    )) {
+      if (!previous.has(next)) {
+        previous.set(next, current);
+        queue.push(next);
+      }
+    }
+  }
+  return null;
+}
+function linkOne(db2, cardId, entry, now) {
+  const card = cardRow(db2, cardId);
+  if (!card) throw new CardDependencyError("not-found", `Card not found: ${cardId}`);
+  const predecessor = resolvePredecessor(db2, cardId, entry.card);
+  if (predecessor.id === cardId) {
+    throw new CardDependencyError("self", `${label(card)} cannot wait on itself.`);
+  }
+  const path7 = waitPath(db2, predecessor.id, cardId);
+  if (path7) {
+    const names = path7.map((id) => {
+      const row = cardRow(db2, id);
+      return row ? label(row) : id;
+    });
+    throw new CardDependencyError(
+      "cycle",
+      `${label(predecessor)} already waits on ${label(card)} (${names.join(" \u2192 ")}); linking back would make a cycle. Nothing was written.`
+    );
+  }
+  const note = cleanNote(entry.note);
+  const existing = getRow(db2, "SELECT 1 FROM card_dependencies WHERE card_id = ? AND blocked_by_card_id = ?", cardId, predecessor.id);
+  if (existing) {
+    if (entry.note !== void 0) {
+      runChanges(db2, "UPDATE card_dependencies SET note = ? WHERE card_id = ? AND blocked_by_card_id = ?", note, cardId, predecessor.id);
+    }
+    return { blockedById: predecessor.id, created: false };
+  }
+  runChanges(
+    db2,
+    "INSERT INTO card_dependencies (card_id, blocked_by_card_id, note, created_at) VALUES (?, ?, ?, ?)",
+    cardId,
+    predecessor.id,
+    note,
+    now
+  );
+  return { blockedById: predecessor.id, created: true };
+}
+function addDependency(db2, args) {
+  assertTable(db2);
+  return transaction(db2, () => linkOne(db2, args.cardId, { card: args.blockedBy, note: args.note }, args.now));
+}
+function removeDependency(db2, args) {
+  assertTable(db2);
+  const predecessor = resolvePredecessor(db2, args.cardId, args.blockedBy);
+  const { changes } = runChanges(
+    db2,
+    "DELETE FROM card_dependencies WHERE card_id = ? AND blocked_by_card_id = ?",
+    args.cardId,
+    predecessor.id
+  );
+  return { blockedById: predecessor.id, removed: changes > 0 };
+}
+function setBlockedBy(db2, cardId, entries, now, mode) {
+  assertTable(db2);
+  return transaction(db2, () => {
+    const kept = entries.map((entry) => linkOne(db2, cardId, entry, now).blockedById);
+    if (mode === "replace") {
+      const keep = new Set(kept);
+      for (const { blockedById } of allRows(
+        db2,
+        "SELECT blocked_by_card_id AS blockedById FROM card_dependencies WHERE card_id = ?",
+        cardId
+      )) {
+        if (!keep.has(blockedById)) {
+          runChanges(db2, "DELETE FROM card_dependencies WHERE card_id = ? AND blocked_by_card_id = ?", cardId, blockedById);
+        }
+      }
+    }
+    return kept;
+  });
+}
+function toRef(row) {
+  return {
+    id: row.id,
+    displayId: formatDisplayId(row.idPrefix, row.taskNumber),
+    title: row.title,
+    status: row.status,
+    gitBranchStatus: row.gitBranchStatus,
+    landed: hasLanded(row),
+    note: row.note ?? null
+  };
+}
+var LINKED_SELECT = `
+  SELECT c.id, c.title, c.status, c.task_number AS taskNumber, p.id_prefix AS idPrefix,
+         c.git_branch_status AS gitBranchStatus, d.note
+  FROM card_dependencies d
+  JOIN cards c ON c.id = d.%JOIN%
+  LEFT JOIN projects p ON p.id = c.project_id
+  WHERE d.%WHERE% = ?
+  ORDER BY d.created_at, c.task_number`;
+function blockerRows(db2, cardId) {
+  if (!hasDependencyTable(db2)) return [];
+  return allRows(
+    db2,
+    LINKED_SELECT.replace("%JOIN%", "blocked_by_card_id").replace("%WHERE%", "card_id"),
+    cardId
+  );
+}
+function listDependencies(db2, cardId) {
+  if (!hasDependencyTable(db2)) return null;
+  const blocks = allRows(
+    db2,
+    LINKED_SELECT.replace("%JOIN%", "card_id").replace("%WHERE%", "blocked_by_card_id"),
+    cardId
+  );
+  return { blockedBy: blockerRows(db2, cardId).map(toRef), blocks: blocks.map(toRef) };
+}
+function listDependencyEdges(db2) {
+  if (!hasDependencyTable(db2)) return [];
+  return allRows(
+    db2,
+    `SELECT card_id AS cardId, blocked_by_card_id AS blockedByCardId, note, created_at AS createdAt
+     FROM card_dependencies ORDER BY created_at`
+  );
+}
+function waitingOnLine(db2, cardId) {
+  try {
+    const card = getRow(db2, "SELECT status FROM cards WHERE id = ?", cardId);
+    if (!card || card.status === "completed" || card.status === "withdrawn") return null;
+    const open = blockerRows(db2, cardId).filter((row) => !hasLanded(row));
+    if (open.length === 0) return null;
+    const parts = open.map((row) => {
+      const why = row.status === "test" ? "branch not merged yet" : `in ${row.status}`;
+      return `${sanitizeForReminder(label(row), 80)} (${why})`;
+    });
+    return `This card waits on ${parts.join(", ")}. Starting it now builds without that work; say so before writing code.`;
+  } catch (error2) {
+    console.warn("[dependencies] waiting line skipped:", error2);
+    return null;
+  }
+}
+function restoreDependencies(db2, links, now) {
+  if (!hasDependencyTable(db2) || links.length === 0) return 0;
+  let restored = 0;
+  for (const link of links) {
+    try {
+      transaction(db2, () => {
+        const { created } = linkOne(db2, link.cardId, { card: link.blockedByCardId, note: link.note }, link.createdAt || now);
+        if (created) restored++;
+      });
+    } catch {
+    }
+  }
+  return restored;
+}
+
 // ../lib/card-ops/create-card.ts
 function createCard(db2, given, now) {
   const input = externalizeFields(given.id, given, CARD_RICH_FIELDS);
@@ -25195,6 +25496,7 @@ function createCard(db2, given, now) {
       `INSERT INTO cards (${names.join(", ")}) VALUES (${names.map(() => "?").join(", ")})`,
       ...Object.values(columns)
     );
+    if (input.blockedBy && input.blockedBy.length > 0) setBlockedBy(db2, input.id, input.blockedBy, now, "add");
     return { ok: true, id: input.id, status, taskNumber, projectFolder, completedAt };
   });
 }
@@ -25348,12 +25650,13 @@ function updateCard(db2, args) {
       runChanges(db2, `UPDATE cards SET ${[...columns, "updated_at = ?"].join(", ")} WHERE id = ?`, ...values, now, id);
     }
     const placed = args.afterCardId !== void 0 ? moveCardInChain(db2, id, args.afterCardId) : null;
+    if (args.blockedBy !== void 0) setBlockedBy(db2, id, args.blockedBy, now, "replace");
     return {
       ok: true,
       status,
       taskNumber,
       groupId,
-      written: Object.keys(set2),
+      written: args.blockedBy !== void 0 ? [...Object.keys(set2), "blockedBy"] : Object.keys(set2),
       placed
     };
   });
@@ -25620,8 +25923,8 @@ var KNOWN_GROUP_LABELS = [
   [/^(regression(\s*tests?)?|regresyon(\s*testleri)?)$/, "Regression"]
 ];
 function testGroupLabel(group) {
-  const label = group.heading.toLowerCase();
-  const known = KNOWN_GROUP_LABELS.find(([pattern]) => pattern.test(label));
+  const label2 = group.heading.toLowerCase();
+  const known = KNOWN_GROUP_LABELS.find(([pattern]) => pattern.test(label2));
   return known ? known[1] : group.heading;
 }
 function describeTestGroup(group, groups) {
@@ -25861,16 +26164,25 @@ function chainMembers(db2, cardId) {
     card.groupId
   );
 }
-var toRef = (row) => ({
+var toRef2 = (row) => ({
   displayId: formatDisplayId(row.idPrefix, row.taskNumber),
   title: row.title,
   status: row.status
 });
+function linkedMembers(db2, cardId) {
+  try {
+    return blockerRows(db2, cardId).map((row) => ({ ...row, groupOrder: null }));
+  } catch (error2) {
+    console.warn("[chain-order] blocked-by links skipped:", error2);
+    return [];
+  }
+}
 function chainOrderWarningFor(db2, cardId, options = {}) {
   try {
+    const links = linkedMembers(db2, cardId);
     const members = chainMembers(db2, cardId);
-    if (members.length === 0) return null;
-    return chainOrderWarning({ members, cardId, toRef, ...options });
+    if (members.length === 0 && links.length === 0) return null;
+    return chainOrderWarning({ members, links, cardId, toRef: toRef2, ...options });
   } catch (error2) {
     console.warn("[chain-order] warning skipped:", error2);
     return null;
@@ -26079,7 +26391,7 @@ function acknowledgeWrite(db2, input) {
 // ../lib/card-ops/projects.ts
 import * as path3 from "path";
 var OPEN_COLUMNS = ["ideation", "backlog", "bugs", "progress", "test"];
-function toRef2(row) {
+function toRef3(row) {
   return {
     id: row.id,
     name: row.name,
@@ -26095,7 +26407,7 @@ function resolveProjectByFolder(db2, dir) {
   const root = path3.parse(current).root;
   for (let i = 0; i < 64; i++) {
     const row = statement.get(current);
-    if (row) return toRef2({ ...row });
+    if (row) return toRef3({ ...row });
     if (current === root) return null;
     const parent = path3.dirname(current);
     if (parent === current) return null;
@@ -26110,7 +26422,7 @@ function localMidnight(now) {
 }
 function listProjects(db2, options = {}) {
   const now = options.now ?? /* @__PURE__ */ new Date();
-  let projects = allRows(db2, "SELECT * FROM projects ORDER BY name COLLATE NOCASE").map(toRef2);
+  let projects = allRows(db2, "SELECT * FROM projects ORDER BY name COLLATE NOCASE").map(toRef3);
   const query = options.query?.trim().toLowerCase();
   if (query) {
     const exact = projects.filter((p) => p.idPrefix.toLowerCase() === query);
@@ -26199,48 +26511,6 @@ function linkCardsInHtml(db2, html, projectId) {
 }
 function projectIdOfCard(db2, cardId) {
   return getRow(db2, `SELECT project_id FROM cards WHERE id = ?`, cardId)?.project_id ?? null;
-}
-
-// ../lib/card-ops/card-ref.ts
-var UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-var DISPLAY_ID = /^([A-Z][A-Z0-9]*)-(\d+)$/i;
-var TASK_NUMBER = /^(\d+)$/;
-function resolveCardRef(db2, ref, opts = {}) {
-  const value = ref.trim();
-  if (UUID.test(value)) return value;
-  const display = value.match(DISPLAY_ID);
-  if (display) {
-    return pick2(
-      allRows(
-        db2,
-        `SELECT c.id, c.project_id AS projectId FROM cards c
-           JOIN projects p ON p.id = c.project_id
-          WHERE UPPER(p.id_prefix) = ? AND c.task_number = ?`,
-        display[1].toUpperCase(),
-        Number(display[2])
-      ),
-      opts.projectId
-    );
-  }
-  const number3 = value.match(TASK_NUMBER);
-  if (number3) {
-    return pick2(
-      allRows(
-        db2,
-        `SELECT id, project_id AS projectId FROM cards WHERE task_number = ?`,
-        Number(number3[1])
-      ),
-      opts.projectId
-    );
-  }
-  return null;
-}
-function pick2(rows, projectId) {
-  if (projectId) {
-    const own = rows.find((row) => row.projectId === projectId);
-    if (own) return own.id;
-  }
-  return rows.length === 1 ? rows[0].id : null;
 }
 
 // ../lib/card-ops/session-policy.ts
@@ -26452,8 +26722,8 @@ function itemText(item, number3, full) {
   const head = `${number3}. [${item.status}] ${item.item}`;
   if (!full) return head;
   const lines = [head];
-  const field = (label, value) => {
-    if (value) lines.push(`   ${label}: ${value}`);
+  const field = (label2, value) => {
+    if (value) lines.push(`   ${label2}: ${value}`);
   };
   field("Approach", item.approach);
   if (item.steps.length) {
@@ -27195,6 +27465,12 @@ var {
   acknowledgeWrite: acknowledgeWrite2,
   chainOrderWarningFor: chainOrderWarningFor2,
   queuedChainWarningFor: queuedChainWarningFor2,
+  CardDependencyError: CardDependencyError2,
+  addDependency: addDependency2,
+  removeDependency: removeDependency2,
+  parseBlockedBy: parseBlockedBy2,
+  listDependencies: listDependencies2,
+  waitingOnLine: waitingOnLine2,
   chainWriteConflictFor: chainWriteConflictFor2,
   chainAckId: chainAckId2,
   savePlan: savePlan2,
@@ -27417,7 +27693,9 @@ var CAPABILITIES = {
   /** test_reports (0026) — pre-verify Test Report runs, written by save_tests' `report`. */
   testReports: ["cards", "test_reports"],
   /** write_ack (0025) — what a session was told it may continue past, read by the edit hook. */
-  writeAck: ["ideafy_sessions", "write_ack"]
+  writeAck: ["ideafy_sessions", "write_ack"],
+  /** card_dependencies (0028) — blocked-by links between cards, written by add_dependency and blockedBy. */
+  dependencies: ["card_dependencies", "card_id"]
 };
 var knownColumns = /* @__PURE__ */ new WeakMap();
 function hasColumn(db2, table, column) {
@@ -27657,7 +27935,7 @@ async function startCardRunTool(db2, input, deps = {}) {
     if (warning) {
       return {
         ok: true,
-        text: `start_card_run: ${name} was not started. Chain order: ${warning.message} Tell the user; if they want it started anyway, call start_card_run again with ackChainOrder: true.`
+        text: `start_card_run: ${name} was not started. ${warning.blockers.length > 0 ? "Order" : "Chain order"}: ${warning.message} Tell the user; if they want it started anyway, call start_card_run again with ackChainOrder: true.`
       };
     }
   }
@@ -27670,11 +27948,11 @@ async function startCardRunTool(db2, input, deps = {}) {
   );
   const failure = failureText("start_card_run", name, result);
   if (failure || result.kind !== "ok") return { ok: false, text: failure ?? APP_CLOSED_TEXT };
-  const label = typeof result.json.label === "string" ? result.json.label : "The run";
+  const label2 = typeof result.json.label === "string" ? result.json.label : "The run";
   const folder = card.folderPath ?? card.projectFolder;
   return {
     ok: true,
-    text: `${name}: ${label} started. It runs unattended in the card's worktree, or in ${folder ?? "the project folder"} when the card does not use one. Its result shows in the app's bell and on the card (get_card) when it ends.` + (card.queuePosition != null ? " It was in the run queue; starting it took it out." : "")
+    text: `${name}: ${label2} started. It runs unattended in the card's worktree, or in ${folder ?? "the project folder"} when the card does not use one. Its result shows in the app's bell and on the card (get_card) when it ends.` + (card.queuePosition != null ? " It was in the run queue; starting it took it out." : "")
   };
 }
 async function openCardSessionTool(db2, input, deps = {}) {
@@ -28089,8 +28367,12 @@ function createCardInput(db2, id, args) {
     complexity: args.complexity ?? "medium",
     priority: args.priority ?? "medium",
     projectId,
-    groupId: args.groupId ?? null
+    groupId: args.groupId ?? null,
+    blockedBy: parseBlockedBy2(args.blockedBy)
   };
+}
+function updateCardBlockedBy(value) {
+  return parseBlockedBy2(value);
 }
 function updateCardFields(db2, id, updates) {
   return {
@@ -28229,7 +28511,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
     tools: [
       {
         name: "get_card",
-        description: "Get a kanban card by ID. When the card belongs to a group, `chain` gives its place in that chain: position/total, predecessors and successors in chain order (displayId, title, status), and `next`, the chain's first member that is neither completed nor withdrawn. When the card has a Test Report, `testReport` gives how many runs it holds and how the newest came out; read the runs themselves with get_test_report.",
+        description: "Get a kanban card by ID. When the card belongs to a group, `chain` gives its place in that chain: position/total, predecessors and successors in chain order (displayId, title, status), and `next`, the chain's first member that is neither completed nor withdrawn. When the card has blocked-by links, `blockedBy` lists the cards it waits on and `blocks` the cards waiting on it, each with displayId, title, status, `landed` (its code is already in what this card would start from) and the link's note. When the card has a Test Report, `testReport` gives how many runs it holds and how the newest came out; read the runs themselves with get_test_report.",
         inputSchema: {
           type: "object",
           properties: {
@@ -28270,7 +28552,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
       },
       {
         name: "update_card",
-        description: "Update a kanban card fields (title, description, solutionSummary, status, complexity, priority, useWorktree, groupId, afterCardId). For testScenarios, use save_tests instead \u2014 update_card rejects it to protect checkbox states. For outputPaths, use save_output \u2014 it validates the file against the project folder.",
+        description: "Update a kanban card fields (title, description, solutionSummary, status, complexity, priority, useWorktree, groupId, afterCardId, blockedBy). For testScenarios, use save_tests instead \u2014 update_card rejects it to protect checkbox states. For outputPaths, use save_output \u2014 it validates the file against the project folder.",
         inputSchema: {
           type: "object",
           properties: {
@@ -28316,6 +28598,18 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
             afterCardId: {
               type: ["string", "null"],
               description: `Move this card within its chain, the same as the board's "Move after\u2026": a card id or displayId from the same group puts it right behind that card, null puts it at the start. Omit to leave the order alone. With groupId in the same call, the card joins the new group first and is placed in that chain. Reordering does not bump the card's updatedAt.`
+            },
+            blockedBy: {
+              type: "array",
+              items: {
+                type: "object",
+                properties: {
+                  card: { type: "string", description: "The card it waits on: UUID, display ID (e.g. IDE-465) or task number." },
+                  note: { type: "string", description: "One line on why, shown on the card's chip and in the modal." }
+                },
+                required: ["card"]
+              },
+              description: "The whole set of cards this card waits on: links left out are removed, [] removes them all, omit to leave them alone. To add or drop one link without restating the rest, use add_dependency / remove_dependency."
             }
           },
           required: ["id"]
@@ -28338,6 +28632,31 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
             }
           },
           required: ["id", "status"]
+        }
+      },
+      {
+        name: "add_dependency",
+        description: `Record that a card waits on another (a blocked-by link): its start warning, Add to queue, queue_card and the terminal's edit check then name the predecessor until its code lands, and the board shows "blocked by" on the card. Links may cross chains and projects, unlike a chain. A link that would make a cycle (A waits on B, B on A) is refused and nothing is written. Linking the same pair again updates its note. Call it when the user names a dependency, or when an opinion or plan finds one and the user agrees.`,
+        inputSchema: {
+          type: "object",
+          properties: {
+            cardId: { type: "string", description: "The card that waits: UUID, display ID (e.g. IDE-469) or task number." },
+            blockedBy: { type: "string", description: "The card it waits on: UUID, display ID (e.g. IDE-465) or task number." },
+            note: { type: "string", description: "One line on why." }
+          },
+          required: ["cardId", "blockedBy"]
+        }
+      },
+      {
+        name: "remove_dependency",
+        description: "Drop a blocked-by link that add_dependency or blockedBy made. Says so when there was none.",
+        inputSchema: {
+          type: "object",
+          properties: {
+            cardId: { type: "string", description: "The card that waits: UUID, display ID or task number." },
+            blockedBy: { type: "string", description: "The card it waits on: UUID, display ID or task number." }
+          },
+          required: ["cardId", "blockedBy"]
         }
       },
       {
@@ -28461,6 +28780,18 @@ Reading the results: a newer decision overrides an older one (compare completedA
             groupId: {
               type: ["string", "null"],
               description: 'card_groups.id this card belongs to \u2014 the chain the board folds it into. Omit, null or "" for no group. Get ids from list_groups; create_group makes a new one. A group is membership only: it has no status, no completion state and no date of its own, so do not treat it as an epic.'
+            },
+            blockedBy: {
+              type: "array",
+              items: {
+                type: "object",
+                properties: {
+                  card: { type: "string", description: "The card it waits on: UUID, display ID (e.g. IDE-465) or task number." },
+                  note: { type: "string", description: "One line on why, shown on the card's chip and in the modal." }
+                },
+                required: ["card"]
+              },
+              description: "Cards this card waits on (blocked-by links). Use it when the work needs another card's code first; a known predecessor from an opinion or plan belongs here rather than only in prose. Links may cross chains and projects. A ref that names no card, or a link that would make a cycle, rejects the whole create."
             }
           },
           required: ["title", "projectId"]
@@ -29013,6 +29344,14 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         if (chain) {
           card.chain = chain;
         }
+        const dependencies = listDependencies2(db, card.id);
+        if (dependencies && (dependencies.blockedBy.length > 0 || dependencies.blocks.length > 0)) {
+          const brief = ({ gitBranchStatus: _branch, ...ref }) => ref;
+          Object.assign(card, {
+            blockedBy: dependencies.blockedBy.map(brief),
+            blocks: dependencies.blocks.map(brief)
+          });
+        }
         const cardWithReports = card;
         const testReport = testReportCardSummary2(parseTestReports2(cardWithReports.testReports));
         delete cardWithReports.testReports;
@@ -29068,7 +29407,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         return readTestReport(db, { id, displayId: queueDisplayId2(row) }, { run, status, screenshots });
       }
       case "update_card": {
-        const { id: rawId, afterCardId: rawAfterCardId, ...updates } = args;
+        const { id: rawId, afterCardId: rawAfterCardId, blockedBy: rawBlockedBy, ...updates } = args;
         const id = resolveCardRef2(db, rawId);
         if (!id) {
           return {
@@ -29087,6 +29426,13 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           }
         }
         const reorder = afterCardId !== void 0;
+        const blockedBy = updateCardBlockedBy(rawBlockedBy);
+        if (blockedBy !== void 0 && !hasCapability(db, "dependencies")) {
+          return {
+            content: [{ type: "text", text: missingCapabilityMessage("update_card", "dependencies") }],
+            isError: true
+          };
+        }
         if ("testScenarios" in updates) {
           return {
             content: [{
@@ -29113,7 +29459,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           return {
             content: [{
               type: "text",
-              text: `update_card does not accept: ${unknownKeys.join(", ")}. Accepted fields: ${[...Object.keys(fieldMap), "afterCardId"].join(", ")}. For testScenarios use save_tests; for aiOpinion use save_opinion; for outputPaths use save_output; for the run queue use queue_card / unqueue_card.`
+              text: `update_card does not accept: ${unknownKeys.join(", ")}. Accepted fields: ${[...Object.keys(fieldMap), "afterCardId", "blockedBy"].join(", ")}. For testScenarios use save_tests; for aiOpinion use save_opinion; for outputPaths use save_output; for the run queue use queue_card / unqueue_card.`
             }],
             isError: true
           };
@@ -29149,7 +29495,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         }
         const fields = updateCardFields(db, id, updates);
         const writeFields = Object.values(fields).some((value) => value !== void 0);
-        if (!writeFields && !reorder) {
+        if (!writeFields && !reorder && blockedBy === void 0) {
           return {
             content: [{
               type: "text",
@@ -29162,7 +29508,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           id,
           now: (/* @__PURE__ */ new Date()).toISOString(),
           fields,
-          afterCardId: reorder ? afterCardId ?? null : void 0
+          afterCardId: reorder ? afterCardId ?? null : void 0,
+          blockedBy
         });
         if (!outcome.ok) {
           return {
@@ -29172,6 +29519,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         }
         const written = Object.keys(updates).filter((key) => key in fieldMap);
         if (reorder) written.push("afterCardId");
+        if (blockedBy !== void 0) written.push("blockedBy");
         const placedNote = !outcome.placed ? "" : outcome.placed.changed ? ` Chain position ${outcome.placed.position}/${outcome.placed.total}.` : ` Already at chain position ${outcome.placed.position}/${outcome.placed.total}; the order was not rewritten.`;
         return {
           content: [{
@@ -29179,6 +29527,45 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             text: `Card ${id} updated (${written.join(", ")}).${placedNote} Card is in "${readStatus(id)}".`
           }]
         };
+      }
+      case "add_dependency":
+      case "remove_dependency": {
+        const { cardId: rawCardId, blockedBy, note } = args ?? {};
+        if (!hasCapability(db, "dependencies")) {
+          return { content: [{ type: "text", text: missingCapabilityMessage(name, "dependencies") }], isError: true };
+        }
+        if (!rawCardId || !blockedBy) {
+          return { content: [{ type: "text", text: `${name} needs cardId and blockedBy. Nothing was written.` }], isError: true };
+        }
+        const cardId = resolveCardRef2(db, rawCardId);
+        if (!cardId) {
+          return { content: [{ type: "text", text: `Card not found: ${rawCardId}` }], isError: true };
+        }
+        const nameOf2 = (id) => {
+          const row = db.prepare(`SELECT c.title, c.task_number AS taskNumber, p.id_prefix AS idPrefix FROM cards c LEFT JOIN projects p ON p.id = c.project_id WHERE c.id = ?`).get(id);
+          return row ? queueDisplayId2(row) : id;
+        };
+        try {
+          if (name === "add_dependency") {
+            const result2 = addDependency2(db, { cardId, blockedBy, note, now: (/* @__PURE__ */ new Date()).toISOString() });
+            const waits = `${nameOf2(cardId)} waits on ${nameOf2(result2.blockedById)}`;
+            return {
+              content: [{
+                type: "text",
+                text: result2.created ? `${waits} now. Starting or queueing ${nameOf2(cardId)} warns until ${nameOf2(result2.blockedById)}'s code lands.` : `${waits} already${note !== void 0 ? "; its note was updated" : ""}.`
+              }]
+            };
+          }
+          const result = removeDependency2(db, { cardId, blockedBy });
+          return {
+            content: [{
+              type: "text",
+              text: result.removed ? `${nameOf2(cardId)} no longer waits on ${nameOf2(result.blockedById)}.` : `${nameOf2(cardId)} did not wait on ${nameOf2(result.blockedById)}; nothing changed.`
+            }]
+          };
+        } catch (error2) {
+          return { content: [{ type: "text", text: `${name}: ${error2 instanceof Error ? error2.message : String(error2)}` }], isError: true };
+        }
       }
       case "move_card": {
         const { id: rawId, status } = args;
@@ -29356,7 +29743,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           complexity = "medium",
           priority = "medium",
           projectId = null,
-          groupId: rawGroupId = null
+          groupId: rawGroupId = null,
+          blockedBy
         } = args;
         const validTitle = assertValidCardTitle(title);
         if (!isStatus2(status)) {
@@ -29375,11 +29763,24 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           };
         }
         const cardId = v4_default();
-        const created = createCard2(
-          db,
-          createCardInput(db, cardId, { title: validTitle, description, solutionSummary, status, complexity, priority, projectId, groupId: rawGroupId }),
-          (/* @__PURE__ */ new Date()).toISOString()
-        );
+        const input = createCardInput(db, cardId, {
+          title: validTitle,
+          description,
+          solutionSummary,
+          status,
+          complexity,
+          priority,
+          projectId,
+          groupId: rawGroupId,
+          blockedBy
+        });
+        if (input.blockedBy?.length && !hasCapability(db, "dependencies")) {
+          return {
+            content: [{ type: "text", text: missingCapabilityMessage("create_card", "dependencies") }],
+            isError: true
+          };
+        }
+        const created = createCard2(db, input, (/* @__PURE__ */ new Date()).toISOString());
         if (!created.ok) {
           return {
             content: [{ type: "text", text: `create_card: complexity must be low, medium or high (got "${complexity}").` }],
@@ -29819,13 +30220,15 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           mode
         );
         const bound = `Session ${sessionId} bound to card ${card.id} ("${card.title}", column: ${card.status}, project mode: ${mode}).`;
+        const waiting = policy && choice === "phase" ? waitingOnLine2(db, card.id) : null;
         return {
           content: [
             {
               type: "text",
               text: policy ? `${bound} The phase policy below applies from this turn onward \u2014 follow it now, do not wait for the next turn.
 
-${policy}` : choice === "silent" ? `${bound} This session is outside every project and global mode is off, so no phase policy applies here.${project ? ` To work on the card, open a session in ${project.folderPath}.` : ""}` : `${bound} This column has no phase policy.`
+${policy}${waiting ? `
+${waiting}` : ""}` : choice === "silent" ? `${bound} This session is outside every project and global mode is off, so no phase policy applies here.${project ? ` To work on the card, open a session in ${project.folderPath}.` : ""}` : `${bound} This column has no phase policy.`
             }
           ]
         };
@@ -30035,7 +30438,7 @@ ${policy}` : choice === "silent" ? `${bound} This session is outside every proje
         return {
           content: [{
             type: "text",
-            text: `${name2} ${result.moved ? "moved to" : "queued at"} #${result.rank} of ${total} in the run queue. ` + queueState + (chainWarning ? ` Chain order: ${chainWarning.message} It was queued anyway; tell the user, and offer to move the predecessor ahead.` : "")
+            text: `${name2} ${result.moved ? "moved to" : "queued at"} #${result.rank} of ${total} in the run queue. ` + queueState + (chainWarning ? ` ${chainWarning.blockers.length > 0 ? "Order" : "Chain order"}: ${chainWarning.message} It was queued anyway; tell the user, and offer to move the predecessor ahead.` : "")
           }]
         };
       }

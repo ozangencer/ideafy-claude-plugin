@@ -35,11 +35,15 @@ Once bound, the server returns phase-specific reminders in later hook context. F
 
 Follow the rule `get_card` returns with the card — it covers `search_cards`, `list_open_work` and the chain, and on an ideation card the evaluation template too. `list_cards` returns summaries; pass `full: true` only when you need card bodies.
 
+## Dependencies between cards
+
+When a card needs another card's code first, record it as a blocked-by link instead of only writing it in prose: `blockedBy` on `create_card` / `update_card` (on update it is the whole set), or `add_dependency` / `remove_dependency` for one link. A predecessor an opinion or plan names belongs here once the user agrees. Links may cross chains and projects; a link that would make a cycle is refused. `get_card` shows `blockedBy` and `blocks`.
+
 ## Before you edit code
 
 Call `check_write_conflicts` with `projectId` and the files you plan to touch. It applies the app's one-writer-per-folder rule: a live run, the armed queue's next card or another terminal session in the same folder without a worktree, and uncommitted changes this session did not make. On a conflict, quote its message and offer: wait, work in a worktree, or continue. Only on the user's explicit OK call it again with `sessionId` and `acknowledge: true`. The edit hook blocks a conflicting Edit/Write either way, and its message names the `sessionId`.
 
-A `chain-order` conflict is different: the card you are building has a predecessor in its chain whose code is not in yet. Name the card that comes first and ask whether to go ahead out of order; on the user's OK, acknowledge it once (pass `cardId` if the session is not bound to the card).
+A `chain-order` conflict is different: the card you are building has a predecessor in its chain, or a card it is blocked by, whose code is not in yet. Name the card that comes first and ask whether to go ahead out of order; on the user's OK, acknowledge it once (pass `cardId` if the session is not bound to the card).
 
 ## Starting a run or a session
 
@@ -47,7 +51,7 @@ A `chain-order` conflict is different: the card you are building has a predecess
 
 ## The run queue
 
-`list_queue` shows it; `queue_card` / `unqueue_card` change it; `pause_queue` / `resume_queue` do what the app's Pause and Resume do. Call any of these that change the queue only when the user explicitly asks. Pausing never stops a run already going, and with the app closed pause and resume change nothing. If `queue_card` says the card jumps its chain, tell the user and offer to move the predecessor ahead.
+`list_queue` shows it; `queue_card` / `unqueue_card` change it; `pause_queue` / `resume_queue` do what the app's Pause and Resume do. Call any of these that change the queue only when the user explicitly asks. Pausing never stops a run already going, and with the app closed pause and resume change nothing. If `queue_card` says the card jumps its chain or a card it is blocked by, tell the user and offer to move the predecessor ahead.
 
 ## Don't
 
