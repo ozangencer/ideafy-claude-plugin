@@ -35,6 +35,10 @@ Once bound, the server returns phase-specific reminders in later hook context. F
 
 Follow the rule `get_card` returns with the card — it covers `search_cards`, `list_open_work` and the chain, and on an ideation card the evaluation template too. `list_cards` returns summaries; pass `full: true` only when you need card bodies.
 
+## A checklist behind the code
+
+When `get_card` returns `testsDrift`, commits have touched the card's files since its checklist was written and some items may be stale. Before walking or trusting the checklist, offer to check it: read the listed commits (`git show <sha> -- <file>`), then on the user's OK rewrite only the stale items with `revise_tests`, or call `revise_tests` with `confirmCurrent: true` and no revisions when nothing changed.
+
 ## Dependencies between cards
 
 When a card needs another card's code first, record it as a blocked-by link instead of only writing it in prose: `blockedBy` on `create_card` / `update_card` (on update it is the whole set), or `add_dependency` / `remove_dependency` for one link. A predecessor an opinion or plan names belongs here once the user agrees. Links may cross chains and projects; a link that would make a cycle is refused. `get_card` shows `blockedBy` and `blocks`.

@@ -21690,6 +21690,8 @@ __export(card_ops_exports, {
   addTestReportWarnings: () => addTestReportWarnings,
   allRows: () => allRows,
   assertGroupAssignable: () => assertGroupAssignable,
+  cardHead: () => cardHead,
+  cardRepoFolder: () => cardRepoFolder,
   chainAckId: () => chainAckId,
   chainOrderWarningFor: () => chainOrderWarningFor,
   chainWriteConflictFor: () => chainWriteConflictFor,
@@ -21708,6 +21710,7 @@ __export(card_ops_exports, {
   getRow: () => getRow,
   globalAgentModeEnabled: () => globalAgentModeEnabled,
   globalEditDenial: () => globalEditDenial,
+  hasBaseCommitColumns: () => hasBaseCommitColumns,
   hasDependencyTable: () => hasDependencyTable,
   isStatus: () => isStatus,
   linkCardsInHtml: () => linkCardsInHtml,
@@ -21753,8 +21756,10 @@ __export(card_ops_exports, {
   setBlockedBy: () => setBlockedBy,
   setCardRuntime: () => setCardRuntime,
   sharedPrefixes: () => sharedPrefixes,
+  stampBaseCommit: () => stampBaseCommit,
   statusAfterPlan: () => statusAfterPlan,
   statusAfterTests: () => statusAfterTests,
+  testsDriftFor: () => testsDriftFor,
   transaction: () => transaction,
   updateCard: () => updateCard,
   updateGroup: () => updateGroup,
@@ -24353,6 +24358,72 @@ function inlineAttachments(html, homeDir = homedir2()) {
   });
 }
 
+// ../lib/git/head.ts
+import { execFileSync } from "child_process";
+var TIMEOUT_MS = 2e3;
+function run(cwd, args) {
+  if (!cwd) return null;
+  try {
+    return execFileSync("git", args, {
+      cwd,
+      encoding: "utf8",
+      timeout: TIMEOUT_MS,
+      stdio: ["ignore", "pipe", "ignore"],
+      maxBuffer: 8 * 1024 * 1024
+    }).trim();
+  } catch {
+    return null;
+  }
+}
+function currentHead(cwd) {
+  const head = run(cwd, ["rev-parse", "HEAD"]);
+  return head && /^[0-9a-f]{40}$/.test(head) ? head : null;
+}
+function commitExists(cwd, sha) {
+  return run(cwd, ["cat-file", "-e", `${sha}^{commit}`]) !== null;
+}
+function gitRead(cwd, args) {
+  return run(cwd, args);
+}
+
+// ../lib/card-ops/base-commit.ts
+var COLUMN = {
+  plan: "plan_base_commit",
+  tests: "tests_base_commit"
+};
+var present = /* @__PURE__ */ new WeakMap();
+function hasBaseCommitColumns(db2) {
+  if (present.get(db2)) return true;
+  const columns = db2.prepare(`PRAGMA table_info("cards")`).all();
+  const found = columns.some((column) => column.name === "tests_base_commit");
+  if (found) present.set(db2, true);
+  return found;
+}
+function cardRepoFolder(db2, cardId) {
+  const row = getRow(
+    db2,
+    `SELECT c.git_worktree_path AS worktree, c.git_worktree_status AS worktreeStatus,
+            p.folder_path AS projectFolder, c.project_folder AS cardFolder
+     FROM cards c LEFT JOIN projects p ON p.id = c.project_id WHERE c.id = ?`,
+    cardId
+  );
+  if (!row) return null;
+  if (row.worktree && row.worktreeStatus === "active") return row.worktree;
+  return row.projectFolder || row.cardFolder || null;
+}
+function cardHead(db2, cardId) {
+  try {
+    const folder = cardRepoFolder(db2, cardId);
+    return folder ? currentHead(folder) : null;
+  } catch {
+    return null;
+  }
+}
+function stampBaseCommit(db2, cardId, field, head) {
+  if (!head || !hasBaseCommitColumns(db2)) return;
+  runChanges(db2, `UPDATE cards SET ${COLUMN[field]} = ? WHERE id = ?`, head, cardId);
+}
+
 // ../lib/card-ops/save-content.ts
 function target(moveTo, current, rule) {
   if (moveTo === void 0) return rule(current);
@@ -24361,6 +24432,7 @@ function target(moveTo, current, rule) {
 function savePlan(db2, args) {
   if (args.moveTo && !isStatus(args.moveTo)) return { ok: false, reason: "invalid-status" };
   const planHtml = externalizeInlineImages(args.id, args.html);
+  const head = cardHead(db2, args.id);
   return transaction(db2, () => {
     const row = getRow(
       db2,
@@ -24384,6 +24456,7 @@ function savePlan(db2, args) {
       args.now,
       args.id
     );
+    stampBaseCommit(db2, args.id, "plan", head);
     const to = target(args.moveTo, row.status, statusAfterPlan);
     if (to) moveCard(db2, args.id, to, args.now);
     return { ok: true, html: planHtml, previous: row.solution_summary ?? "", from: row.status, status: to ?? row.status };
@@ -24392,6 +24465,7 @@ function savePlan(db2, args) {
 function saveTests(db2, args) {
   if (args.moveTo && !isStatus(args.moveTo)) return { ok: false, reason: "invalid-status" };
   const incoming = externalizeInlineImages(args.id, args.html);
+  const head = cardHead(db2, args.id);
   return transaction(db2, () => {
     const row = getRow(
       db2,
@@ -24431,6 +24505,7 @@ function saveTests(db2, args) {
       args.now,
       args.id
     );
+    stampBaseCommit(db2, args.id, "tests", head);
     const to = target(args.moveTo, row.status, statusAfterTests);
     if (to) moveCard(db2, args.id, to, args.now);
     return { ok: true, html, previous, from: row.status, status: to ?? row.status };
@@ -24446,6 +24521,7 @@ function savePlanAndTests(db2, args) {
 
 // ../lib/card-ops/revise-tests.ts
 function reviseTests(db2, args) {
+  const head = cardHead(db2, args.id);
   return transaction(db2, () => {
     const row = getRow(
       db2,
@@ -24453,13 +24529,83 @@ function reviseTests(db2, args) {
       args.id
     );
     if (!row) return { ok: false, reason: "not-found" };
-    if (args.revisions.length === 0) return { ok: false, reason: "missing", missing: [] };
+    if (args.revisions.length === 0) {
+      if (!args.confirmCurrent) return { ok: false, reason: "missing", missing: [] };
+      stampBaseCommit(db2, args.id, "tests", head);
+      const html2 = row.test_scenarios ?? "";
+      return { ok: true, html: html2, previous: html2, revised: 0 };
+    }
     const previous = row.test_scenarios ?? "";
     const { html, missing } = reviseTaskItems(previous, args.revisions);
     if (missing.length > 0) return { ok: false, reason: "missing", missing };
     runChanges(db2, `UPDATE cards SET test_scenarios = ?, updated_at = ? WHERE id = ?`, html, args.now, args.id);
+    stampBaseCommit(db2, args.id, "tests", head);
     return { ok: true, html, previous, revised: args.revisions.length };
   });
+}
+
+// ../lib/prompts/utils.ts
+var utils_exports = {};
+__export(utils_exports, {
+  convertToTipTapTaskList: () => convertToTipTapTaskList,
+  escapeShellArg: () => escapeShellArg,
+  stripHtml: () => stripHtml
+});
+function stripHtml(html) {
+  if (!html) return "";
+  return html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+}
+function convertToTipTapTaskList(html) {
+  let result = html.replace(/<li><input[^>]*checked[^>]*>\s*/gi, '<li data-type="taskItem" data-checked="true">').replace(/<li><input[^>]*type="checkbox"[^>]*>\s*/gi, '<li data-type="taskItem" data-checked="false">');
+  result = result.replace(/<ul>(\s*<li data-type="taskItem")/g, '<ul data-type="taskList">$1');
+  return result;
+}
+function escapeShellArg(arg) {
+  return `'${arg.replace(/'/g, "'\\''")}'`;
+}
+
+// ../lib/card-ops/drift.ts
+var MAX_LISTED = 20;
+var MAX_FILES = 200;
+var GENERATED = [/^drizzle\/meta\//, /(^|\/)(package-lock\.json|pnpm-lock\.yaml|yarn\.lock|bun\.lockb)$/];
+var isGenerated = (file2) => GENERATED.some((pattern) => pattern.test(file2));
+var escapeRegExp = (text) => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+function testsDriftFor(db2, cardId) {
+  try {
+    if (!hasBaseCommitColumns(db2)) return null;
+    const row = getRow(
+      db2,
+      `SELECT c.tests_base_commit AS base, c.test_scenarios AS tests, c.solution_summary AS plan,
+              c.task_number AS taskNumber, p.id_prefix AS idPrefix,
+              p.folder_path AS projectFolder, c.project_folder AS cardFolder
+       FROM cards c LEFT JOIN projects p ON p.id = c.project_id WHERE c.id = ?`,
+      cardId
+    );
+    if (!row?.base || !stripHtml(row.tests ?? "")) return null;
+    const repo = row.projectFolder || row.cardFolder;
+    if (!repo || !commitExists(repo, row.base)) return null;
+    const displayId = formatDisplayId(row.idPrefix, row.taskNumber);
+    const files = new Set(extractPlanFiles(row.plan ?? ""));
+    if (displayId) {
+      const own = gitRead(repo, ["log", "--all", "-E", `--grep=^Card: ${escapeRegExp(displayId)}$`, "--name-only", "--format="]);
+      for (const line of (own ?? "").split("\n")) if (line.trim()) files.add(line.trim());
+    }
+    const watched = [...files].filter((file2) => !isGenerated(file2)).slice(0, MAX_FILES);
+    if (watched.length === 0) return null;
+    const log = gitRead(repo, ["log", "--format=%H%x1f%s%x1f%b%x1e", `${row.base}..HEAD`, "--", ...watched]);
+    if (log === null) return null;
+    const ownTrailer = displayId ? new RegExp(`^Card: ${escapeRegExp(displayId)}\\s*$`, "m") : null;
+    const commits = [];
+    for (const record2 of log.split("")) {
+      const [sha, subject, body] = record2.replace(/^\n+/, "").split("");
+      if (!sha || !/^[0-9a-f]{40}$/.test(sha.trim())) continue;
+      if (ownTrailer?.test(body ?? "")) continue;
+      commits.push({ sha: sha.trim(), subject: (subject ?? "").trim() });
+    }
+    return { base: row.base, files: watched, commits: commits.slice(0, MAX_LISTED), total: commits.length };
+  } catch {
+    return null;
+  }
 }
 
 // ../lib/output-paths.ts
@@ -24560,11 +24706,11 @@ function readTestReportSummary(value) {
   if (passed === null || failed === null || manual === null) return null;
   return { evidence: v2.evidence, scope: v2.scope, passed, failed, manual };
 }
-function summarizeTestReportRun(run) {
-  const count = (status) => run.items.filter((item) => item.status === status).length;
+function summarizeTestReportRun(run2) {
+  const count = (status) => run2.items.filter((item) => item.status === status).length;
   return {
-    evidence: run.evidence,
-    scope: run.scope,
+    evidence: run2.evidence,
+    scope: run2.scope,
     passed: count("passed"),
     failed: count("failed"),
     manual: count("manual")
@@ -24688,19 +24834,19 @@ function parseTestReports(value) {
   try {
     const parsed = JSON.parse(value);
     if (!Array.isArray(parsed)) return null;
-    const runs = parsed.map(normalizeRun).filter((run) => run !== null);
+    const runs = parsed.map(normalizeRun).filter((run2) => run2 !== null);
     return runs.length ? runs : null;
   } catch {
     return null;
   }
 }
-function prependTestReportRun(existing, run, max = MAX_TEST_REPORT_RUNS) {
-  const all = [run, ...existing.filter((r) => r.id !== run.id)];
+function prependTestReportRun(existing, run2, max = MAX_TEST_REPORT_RUNS) {
+  const all = [run2, ...existing.filter((r) => r.id !== run2.id)];
   return { runs: all.slice(0, max), dropped: all.slice(max) };
 }
-function testReportConflicts(run, checklistHtml) {
+function testReportConflicts(run2, checklistHtml) {
   const conflicts = [];
-  for (const item of run.items) {
+  for (const item of run2.items) {
     const match = matchTaskItem(item.item, checklistHtml);
     if (!match) continue;
     if (item.status === "passed" && !match.checked) conflicts.push({ item: item.item, kind: "passed-but-unticked" });
@@ -24708,23 +24854,23 @@ function testReportConflicts(run, checklistHtml) {
   }
   return conflicts;
 }
-function testReportMissingItems(run, checklistHtml) {
-  return new Set(run.items.filter((item) => !matchTaskItem(item.item, checklistHtml)).map((item) => item.item));
+function testReportMissingItems(run2, checklistHtml) {
+  return new Set(run2.items.filter((item) => !matchTaskItem(item.item, checklistHtml)).map((item) => item.item));
 }
-function testReportSupersededItems(runs, run, checklistHtml) {
+function testReportSupersededItems(runs, run2, checklistHtml) {
   const key = (item) => matchTaskItem(item, checklistHtml)?.normalized ?? null;
-  const newer = runs.slice(0, Math.max(runs.findIndex((r) => r.id === run.id), 0));
+  const newer = runs.slice(0, Math.max(runs.findIndex((r) => r.id === run2.id), 0));
   const tested = new Set(newer.flatMap((r) => r.items.map((item) => key(item.item))));
   return new Set(
-    run.items.filter((item) => {
+    run2.items.filter((item) => {
       const k2 = key(item.item);
       return k2 !== null && tested.has(k2);
     }).map((item) => item.item)
   );
 }
-function countByStatus(run) {
+function countByStatus(run2) {
   const counts = { passed: 0, failed: 0, manual: 0 };
-  for (const item of run.items) counts[item.status]++;
+  for (const item of run2.items) counts[item.status]++;
   return counts;
 }
 
@@ -24751,12 +24897,12 @@ function addTestReportWarnings(db2, args) {
     const existing = parseTestReports(row.test_reports) ?? [];
     let runs;
     let dropped = [];
-    if (existing.some((run) => run.id === args.runId)) {
+    if (existing.some((run2) => run2.id === args.runId)) {
       runs = existing.map(
-        (run) => run.id === args.runId ? { ...run, warnings: normalizeTestReportWarnings([...run.warnings ?? [], ...args.warnings]) } : run
+        (run2) => run2.id === args.runId ? { ...run2, warnings: normalizeTestReportWarnings([...run2.warnings ?? [], ...args.warnings]) } : run2
       );
     } else {
-      const run = buildTestReportRun({
+      const run2 = buildTestReportRun({
         id: args.runId,
         items: [],
         now: args.now,
@@ -24766,8 +24912,8 @@ function addTestReportWarnings(db2, args) {
         scope: "run",
         checklistApplied: true
       });
-      run.warnings = normalizeTestReportWarnings(args.warnings);
-      ({ runs, dropped } = prependTestReportRun(existing, run));
+      run2.warnings = normalizeTestReportWarnings(args.warnings);
+      ({ runs, dropped } = prependTestReportRun(existing, run2));
     }
     runChanges(
       db2,
@@ -25640,7 +25786,7 @@ function opinionEditFields(previous, next) {
 }
 
 // ../lib/card-ops/update-card.ts
-var COLUMN = {
+var COLUMN2 = {
   title: "title",
   description: "description",
   solutionSummary: "solution_summary",
@@ -25723,7 +25869,7 @@ function updateCard(db2, args) {
     const columns = [];
     const values = [];
     for (const [key, value] of Object.entries(set2)) {
-      columns.push(`${COLUMN[key]} = ?`);
+      columns.push(`${COLUMN2[key]} = ?`);
       values.push(key === "useWorktree" ? serializeUseWorktreeForDb(value) : value);
     }
     if (projectChanged) {
@@ -25819,22 +25965,22 @@ function conflictingLiveRun(self, live) {
   }
   return null;
 }
-function liveRunSubject(run) {
-  if (run.kind === "terminal") {
-    return run.displayId ? `${run.displayId}'s terminal session is editing` : "a terminal session is editing";
+function liveRunSubject(run2) {
+  if (run2.kind === "terminal") {
+    return run2.displayId ? `${run2.displayId}'s terminal session is editing` : "a terminal session is editing";
   }
-  const name = run.displayId ?? "a card";
-  if (run.kind === "tests-chat") return `${name}'s Tests chat is working`;
-  if (run.fromQueue) return `${name} is running from the queue`;
+  const name = run2.displayId ?? "a card";
+  if (run2.kind === "tests-chat") return `${name}'s Tests chat is working`;
+  if (run2.fromQueue) return `${name} is running from the queue`;
   return `${name} is running`;
 }
-function liveRunPhrase(run) {
-  const subject = liveRunSubject(run);
+function liveRunPhrase(run2) {
+  const subject = liveRunSubject(run2);
   return `${subject.charAt(0).toUpperCase()}${subject.slice(1)} in the same folder.`;
 }
 var TERMINAL_WRITE_OPTIONS = "Wait for it, work in a worktree, or continue only if the user confirms.";
 function writeConflictFor(input) {
-  const open = (run) => !input.acknowledged?.has(run.id);
+  const open = (run2) => !input.acknowledged?.has(run2.id);
   const live = conflictingLiveRun(input.self, input.live.filter(open));
   if (live) {
     return {
@@ -25858,26 +26004,6 @@ function terminalHoldFor(next, writers) {
   const writer = conflictingLiveRun(next, writers);
   if (!writer) return null;
   return `${next.displayId ?? "the next card"} waits: ${liveRunSubject(writer)} in the same folder`;
-}
-
-// ../lib/prompts/utils.ts
-var utils_exports = {};
-__export(utils_exports, {
-  convertToTipTapTaskList: () => convertToTipTapTaskList,
-  escapeShellArg: () => escapeShellArg,
-  stripHtml: () => stripHtml
-});
-function stripHtml(html) {
-  if (!html) return "";
-  return html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
-}
-function convertToTipTapTaskList(html) {
-  let result = html.replace(/<li><input[^>]*checked[^>]*>\s*/gi, '<li data-type="taskItem" data-checked="true">').replace(/<li><input[^>]*type="checkbox"[^>]*>\s*/gi, '<li data-type="taskItem" data-checked="false">');
-  result = result.replace(/<ul>(\s*<li data-type="taskItem")/g, '<ul data-type="taskList">$1');
-  return result;
-}
-function escapeShellArg(arg) {
-  return `'${arg.replace(/'/g, "'\\''")}'`;
 }
 
 // ../lib/prompts/phase.ts
@@ -26356,18 +26482,18 @@ function writeRuntime(db2, input) {
          (id, project_id, card_id, display_id, kind, runs_in_worktree, source, from_queue, touched_files, seen_at)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
     );
-    for (const run of input.runs) {
+    for (const run2 of input.runs) {
       insert.run(
-        run.id,
-        run.projectId,
-        run.cardId,
-        run.displayId,
-        run.kind,
-        run.runsInWorktree ? 1 : 0,
-        run.source,
-        run.fromQueue ? 1 : 0,
-        run.touchedFiles.length ? JSON.stringify(run.touchedFiles) : null,
-        run.seenAt
+        run2.id,
+        run2.projectId,
+        run2.cardId,
+        run2.displayId,
+        run2.kind,
+        run2.runsInWorktree ? 1 : 0,
+        run2.source,
+        run2.fromQueue ? 1 : 0,
+        run2.touchedFiles.length ? JSON.stringify(run2.touchedFiles) : null,
+        run2.seenAt
       );
     }
     runChanges(
@@ -26439,7 +26565,7 @@ function readRuntime(db2, now = Date.now()) {
       fromQueue: !!row.fromQueue,
       touchedFiles: parseList(row.touchedFiles)
     })
-  ).filter((run) => run.source !== "terminal" || now - Date.parse(run.seenAt) <= TERMINAL_WRITER_TTL_MS);
+  ).filter((run2) => run2.source !== "terminal" || now - Date.parse(run2.seenAt) <= TERMINAL_WRITER_TTL_MS);
   const port = hasTable(db2, "settings") ? getRow(db2, "SELECT value FROM settings WHERE key = ?", APP_PORT_SETTING_KEY)?.value ?? null : null;
   return {
     appState: "open",
@@ -26738,12 +26864,12 @@ function testReportRunDir(cardId, runId, homeDir = homedir3()) {
   return path4.join(cardArtifactDir(cardId, homeDir), TEST_REPORT_DIR, runId);
 }
 function removeTestReportRunDirs(cardId, runs, homeDir = homedir3()) {
-  for (const run of runs) {
-    if (!isTestReportRunId(run.id)) continue;
+  for (const run2 of runs) {
+    if (!isTestReportRunId(run2.id)) continue;
     try {
-      rmSync(testReportRunDir(cardId, run.id, homeDir), { recursive: true, force: true });
+      rmSync(testReportRunDir(cardId, run2.id, homeDir), { recursive: true, force: true });
     } catch (error2) {
-      console.warn(`[test-report] could not remove ${run.id} of ${cardId}:`, error2);
+      console.warn(`[test-report] could not remove ${run2.id} of ${cardId}:`, error2);
     }
   }
 }
@@ -26804,9 +26930,9 @@ var TEST_REPORT_SCOPE_LABEL = {
 function testReportRunNumber(index, total) {
   return total - index;
 }
-function selectTestReportRun(runs, run) {
-  if (run === void 0 || run === null || run === "") return { index: 0 };
-  const raw = String(run).trim();
+function selectTestReportRun(runs, run2) {
+  if (run2 === void 0 || run2 === null || run2 === "") return { index: 0 };
+  const raw = String(run2).trim();
   const byId = runs.findIndex((r) => r.id === raw);
   if (byId >= 0) return { index: byId };
   const numeric = /^#?(\d+)$/.exec(raw);
@@ -26817,14 +26943,14 @@ function selectTestReportRun(runs, run) {
   const range = runs.length === 1 ? "#1" : `#1 (oldest) to #${runs.length} (newest)`;
   return { error: `No run "${raw}" in this Test Report. It has ${range}, or pass a run id.` };
 }
-function countsText(run) {
-  const counts = countByStatus(run);
+function countsText(run2) {
+  const counts = countByStatus(run2);
   const parts = ["failed", "manual", "passed"].filter((status) => counts[status] > 0).map((status) => `${counts[status]} ${status}`);
   return parts.length ? parts.join(", ") : "no items";
 }
-function runLine(run, index, total) {
-  const origin = run.source === "terminal" ? "terminal" : "app";
-  return `#${testReportRunNumber(index, total)} \xB7 ${run.runAt} \xB7 ${TEST_REPORT_SCOPE_LABEL[run.scope]} \xB7 ${run.evidence} \xB7 ${origin} \xB7 ${countsText(run)}`;
+function runLine(run2, index, total) {
+  const origin = run2.source === "terminal" ? "terminal" : "app";
+  return `#${testReportRunNumber(index, total)} \xB7 ${run2.runAt} \xB7 ${TEST_REPORT_SCOPE_LABEL[run2.scope]} \xB7 ${run2.evidence} \xB7 ${origin} \xB7 ${countsText(run2)}`;
 }
 function indent(text, prefix) {
   return text.split("\n").map((line) => `${prefix}${line}`).join("\n");
@@ -26857,24 +26983,24 @@ function itemText(item, number3, full) {
 }
 function formatTestReport(input) {
   const { displayId, runs, index, status, checklistHtml, screenshotsAttached } = input;
-  const run = runs[index];
+  const run2 = runs[index];
   const total = runs.length;
   const out = [];
   out.push(`Test Report \xB7 ${displayId} \xB7 ${total} run${total === 1 ? "" : "s"}, newest first`);
   runs.forEach((r, i) => out.push(`${i === index ? "\u2192" : " "} ${runLine(r, i, total)}`));
   out.push("");
   out.push(
-    `Showing #${testReportRunNumber(index, total)} (${run.id}).${total > 1 ? ' Pass run: "#N" or a run id for another one.' : ""}`
+    `Showing #${testReportRunNumber(index, total)} (${run2.id}).${total > 1 ? ' Pass run: "#N" or a run id for another one.' : ""}`
   );
-  if (!run.checklistApplied) {
+  if (!run2.checklistApplied) {
     out.push("Its checklist was refused, so none of its ticks reached the Tests tab.");
   }
-  const warnings = run.warnings ?? [];
+  const warnings = run2.warnings ?? [];
   if (warnings.length) {
     out.push("", "Warnings from the run:");
     for (const warning of warnings) out.push(`- ${warning}`);
   }
-  const conflicts = checklistHtml ? testReportConflicts(run, checklistHtml) : [];
+  const conflicts = checklistHtml ? testReportConflicts(run2, checklistHtml) : [];
   if (conflicts.length) {
     out.push("", "Where the Tests tab disagrees with this run:");
     for (const conflict of conflicts) {
@@ -26883,7 +27009,7 @@ function formatTestReport(input) {
       );
     }
   }
-  const shown = run.items.map((item, i) => ({ item, number: i + 1 })).filter(({ item }) => !status || item.status === status);
+  const shown = run2.items.map((item, i) => ({ item, number: i + 1 })).filter(({ item }) => !status || item.status === status);
   out.push("", status ? `Items (${status} only):` : "Items:");
   if (!shown.length) {
     out.push(status ? `No ${status} items in this run.` : "This run has no items.");
@@ -27589,6 +27715,7 @@ var {
   savePlan: savePlan2,
   saveTests: saveTests2,
   reviseTests: reviseTests2,
+  testsDriftFor: testsDriftFor2,
   updateCard: updateCard2,
   createCard: createCard2,
   addOutputPath: addOutputPath2,
@@ -27808,7 +27935,9 @@ var CAPABILITIES = {
   /** write_ack (0025) — what a session was told it may continue past, read by the edit hook. */
   writeAck: ["ideafy_sessions", "write_ack"],
   /** card_dependencies (0028) — blocked-by links between cards, written by add_dependency and blockedBy. */
-  dependencies: ["card_dependencies", "card_id"]
+  dependencies: ["card_dependencies", "card_id"],
+  /** tests_base_commit (0029) — the commit a checklist was written against, for testsDrift and confirmCurrent. */
+  baseCommits: ["cards", "tests_base_commit"]
 };
 var knownColumns = /* @__PURE__ */ new WeakMap();
 function hasColumn(db2, table, column) {
@@ -27820,9 +27949,9 @@ function hasColumn(db2, table, column) {
   }
   if (known.has(key)) return true;
   const rows = db2.prepare(`PRAGMA table_info(${JSON.stringify(table)})`).all();
-  const present = rows.some((row) => row.name === column);
-  if (present) known.add(key);
-  return present;
+  const present2 = rows.some((row) => row.name === column);
+  if (present2) known.add(key);
+  return present2;
 }
 function hasCapability(db2, capability) {
   const [table, column] = CAPABILITIES[capability];
@@ -28118,7 +28247,7 @@ function readTerminalReport(db2, report) {
 }
 function writeTerminalReport(db2, cardId, items, checklistApplied) {
   const now = (/* @__PURE__ */ new Date()).toISOString();
-  const run = buildTestReportRun2({
+  const run2 = buildTestReportRun2({
     items,
     now,
     platform: "claude",
@@ -28127,16 +28256,16 @@ function writeTerminalReport(db2, cardId, items, checklistApplied) {
     scope: "run",
     checklistApplied
   });
-  run.items = importTerminalArtifacts2(run.items, testReportRunDir2(cardId, run.id));
-  const shots = run.items.reduce((n, item) => n + item.artifacts.length, 0);
-  if (shots > 0) run.evidence = "visual";
-  const saved = saveTestReport2(db2, { id: cardId, run, now });
+  run2.items = importTerminalArtifacts2(run2.items, testReportRunDir2(cardId, run2.id));
+  const shots = run2.items.reduce((n, item) => n + item.artifacts.length, 0);
+  if (shots > 0) run2.evidence = "visual";
+  const saved = saveTestReport2(db2, { id: cardId, run: run2, now });
   if (!saved.ok) return " Test report not saved: card not found.";
   removeTestReportRunDirs2(cardId, saved.dropped);
-  const count = (status) => run.items.filter((item) => item.status === status).length;
+  const count = (status) => run2.items.filter((item) => item.status === status).length;
   const asked = items.reduce((n, item) => n + item.artifacts.length, 0);
   const dropped = asked - shots;
-  return ` Test report saved: ${run.items.length} item(s) \u2014 ${count("passed")} passed, ${count("failed")} failed, ${count("manual")} manual${shots ? `, ${shots} screenshot(s)` : ""}.` + (dropped > 0 ? ` ${dropped} screenshot(s) skipped: give each one as an absolute path to an existing image file.` : "");
+  return ` Test report saved: ${run2.items.length} item(s) \u2014 ${count("passed")} passed, ${count("failed")} failed, ${count("manual")} manual${shots ? `, ${shots} screenshot(s)` : ""}.` + (dropped > 0 ? ` ${dropped} screenshot(s) skipped: give each one as an absolute path to an existing image file.` : "");
 }
 var MAX_REPORT_SCREENSHOTS = 6;
 var STATUSES2 = ["passed", "failed", "manual"];
@@ -28165,7 +28294,7 @@ function readTestReport(db2, card, opts = {}) {
   }
   const selected = selectTestReportRun2(runs, opts.run);
   if ("error" in selected) return fail(`get_test_report: ${selected.error}`);
-  const run = runs[selected.index];
+  const run2 = runs[selected.index];
   const content = [
     {
       type: "text",
@@ -28180,8 +28309,8 @@ function readTestReport(db2, card, opts = {}) {
     }
   ];
   if (!opts.screenshots) return { content };
-  const dir = testReportRunDir2(card.id, run.id, opts.homeDir ?? homedir5());
-  const wanted = run.items.flatMap(
+  const dir = testReportRunDir2(card.id, run2.id, opts.homeDir ?? homedir5());
+  const wanted = run2.items.flatMap(
     (item, i) => !status || item.status === status ? item.artifacts.map((artifact) => ({ artifact, number: i + 1 })) : []
   );
   let attached = 0;
@@ -28624,7 +28753,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
     tools: [
       {
         name: "get_card",
-        description: "Get a kanban card by ID. When the card belongs to a group, `chain` gives its place in that chain: position/total, predecessors and successors in chain order (displayId, title, status), and `next`, the chain's first member that is neither completed nor withdrawn. When the card has blocked-by links, `blockedBy` lists the cards it waits on and `blocks` the cards waiting on it, each with displayId, title, status, `landed` (its code is already in what this card would start from) and the link's note. When the card has a Test Report, `testReport` gives how many runs it holds and how the newest came out; read the runs themselves with get_test_report.",
+        description: "Get a kanban card by ID. When the card belongs to a group, `chain` gives its place in that chain: position/total, predecessors and successors in chain order (displayId, title, status), and `next`, the chain's first member that is neither completed nor withdrawn. When the card has blocked-by links, `blockedBy` lists the cards it waits on and `blocks` the cards waiting on it, each with displayId, title, status, `landed` (its code is already in what this card would start from) and the link's note. When the card has a Test Report, `testReport` gives how many runs it holds and how the newest came out; read the runs themselves with get_test_report. When commits have touched the card's files since its checklist was written, `testsDrift` lists them (base, files, commits, total): the checklist may have gone stale.",
         inputSchema: {
           type: "object",
           properties: {
@@ -29026,7 +29155,9 @@ Test Report (report): when you have just verified checklist items yourself \u201
 
 Use it when the user asks you in this turn to change the wording of existing scenarios \u2014 an Ask why found a scenario wrong, an item went stale after a change. To add scenarios use save_tests; to remove them, save_tests with allowDeletion. Do not reword an item by sending save_tests with allowDeletion.
 
-Quote each item word for word as it reads on the card now (get_card). If any item is not found, nothing is written and the result names it.`,
+Quote each item word for word as it reads on the card now (get_card). If any item is not found, nothing is written and the result names it.
+
+confirmCurrent: true says the checklist was checked against the code and is still right \u2014 after get_card's testsDrift, when no item needs changing. With it, revisions may be empty; the checklist's base commit moves to HEAD and testsDrift goes quiet. Revising items moves it too.`,
         inputSchema: {
           type: "object",
           properties: {
@@ -29045,9 +29176,13 @@ Quote each item word for word as it reads on the card now (get_card). If any ite
                 },
                 required: ["item", "text"]
               }
+            },
+            confirmCurrent: {
+              type: "boolean",
+              description: "The checklist matches the code now (see get_card's testsDrift). Allows empty revisions."
             }
           },
-          required: ["id", "revisions"]
+          required: ["id"]
         }
       },
       {
@@ -29465,6 +29600,10 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             blocks: dependencies.blocks.map(brief)
           });
         }
+        const testsDrift = testsDriftFor2(db, card.id);
+        if (testsDrift && testsDrift.total > 0) {
+          card.testsDrift = testsDrift;
+        }
         const cardWithReports = card;
         const testReport = testReportCardSummary2(parseTestReports2(cardWithReports.testReports));
         delete cardWithReports.testReports;
@@ -29495,6 +29634,12 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         if (evaluationNote) {
           content.push({ type: "text", text: evaluationNote });
         }
+        if (testsDrift && testsDrift.total > 0) {
+          content.push({
+            type: "text",
+            text: `testsDrift: ${testsDrift.total} commit(s) touched this card's files since its checklist was written. Before walking or trusting the checklist, offer the user to check it against them: read each with \`git show <sha> -- <file>\`, then, on their OK, rewrite only the items that went wrong with revise_tests \u2014 or, if none did, call revise_tests with confirmCurrent: true and no revisions.`
+          });
+        }
         for (const img of images) {
           content.push({
             type: "image",
@@ -29505,7 +29650,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         return { content };
       }
       case "get_test_report": {
-        const { id: rawId, run, status, screenshots } = args;
+        const { id: rawId, run: run2, status, screenshots } = args;
         const id = resolveCardRef2(db, rawId);
         const row = id ? db.prepare(
           `SELECT c.title, c.task_number as taskNumber, p.id_prefix as idPrefix
@@ -29517,7 +29662,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             isError: true
           };
         }
-        return readTestReport(db, { id, displayId: queueDisplayId2(row) }, { run, status, screenshots });
+        return readTestReport(db, { id, displayId: queueDisplayId2(row) }, { run: run2, status, screenshots });
       }
       case "update_card": {
         const { id: rawId, afterCardId: rawAfterCardId, blockedBy: rawBlockedBy, ...updates } = args;
@@ -30024,7 +30169,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         };
       }
       case "revise_tests": {
-        const { id: rawId, revisions } = args;
+        const { id: rawId, revisions, confirmCurrent } = args;
         const id = resolveCardRef2(db, rawId);
         if (!id) {
           return {
@@ -30033,13 +30178,16 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           };
         }
         const pairs = (Array.isArray(revisions) ? revisions : []).filter((r) => typeof r?.item === "string" && typeof r?.text === "string" && r.item.trim() && r.text.trim()).map((r) => ({ from: r.item, to: r.text }));
-        if (pairs.length === 0) {
+        if (pairs.length === 0 && !confirmCurrent) {
           return {
-            content: [{ type: "text", text: "revise_tests refused: send at least one { item, text } pair." }],
+            content: [{ type: "text", text: "revise_tests refused: send at least one { item, text } pair, or confirmCurrent: true." }],
             isError: true
           };
         }
-        const saved = reviseTests2(db, { id, revisions: pairs, now: (/* @__PURE__ */ new Date()).toISOString() });
+        if (pairs.length === 0 && !hasCapability(db, "baseCommits")) {
+          return { content: [{ type: "text", text: missingCapabilityMessage("revise_tests", "baseCommits") }], isError: true };
+        }
+        const saved = reviseTests2(db, { id, revisions: pairs, now: (/* @__PURE__ */ new Date()).toISOString(), confirmCurrent: !!confirmCurrent });
         if (!saved.ok && saved.reason === "missing") {
           return {
             content: [{
@@ -30058,7 +30206,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         return {
           content: [{
             type: "text",
-            text: `Revised ${saved.revised} item(s) on card ${id} in place; they are unticked now. Card is in "${readStatus(id)}".`
+            text: saved.revised === 0 ? `Card ${id}'s checklist is marked current against the code; nothing was rewritten. Card is in "${readStatus(id)}".` : `Revised ${saved.revised} item(s) on card ${id} in place; they are unticked now. Card is in "${readStatus(id)}".`
           }]
         };
       }
@@ -30429,7 +30577,7 @@ ${waiting}` : ""}` : choice === "silent" ? `${bound} This session is outside eve
         const inWorktree = fromRoot.split(sep2)[0] === ".worktrees";
         const runtime = readRuntime2(db);
         const selfId = `terminal:${sessionId ?? "this-session"}`;
-        const self = runtime.runs.find((run) => run.id === selfId);
+        const self = runtime.runs.find((run2) => run2.id === selfId);
         const live = runtime.runs;
         const waiting = hasCapability(db, "queueVerifyScope") ? listQueueRows2(db).map((row) => ({
           id: row.id,
@@ -30495,7 +30643,7 @@ ${waiting}` : ""}` : choice === "silent" ? `${bound} This session is outside eve
                   ...runtime.heldBy ? { heldBy: runtime.heldBy } : {}
                 },
                 conflicts: conflicts.map((c) => {
-                  const terminal = !sessionId && c.conflictId.startsWith("terminal:") ? runtime.runs.find((run) => run.id === c.conflictId) : void 0;
+                  const terminal = !sessionId && c.conflictId.startsWith("terminal:") ? runtime.runs.find((run2) => run2.id === c.conflictId) : void 0;
                   return {
                     reason: c.reason,
                     message: c.message,
@@ -30547,7 +30695,7 @@ ${waiting}` : ""}` : choice === "silent" ? `${bound} This session is outside eve
         const total = listQueueRows2(db).length;
         const name2 = queueDisplayId2(result.row);
         const runtime = readRuntime2(db);
-        const running = runtime.runs.filter((run) => run.source === "app" && run.cardId).map((run) => run.cardId);
+        const running = runtime.runs.filter((run2) => run2.source === "app" && run2.cardId).map((run2) => run2.cardId);
         const chainWarning = queuedChainWarningFor2(db, cardId, running);
         const armed = runtime.appState === "closed" ? "The Ideafy app is closed, so nothing starts; the queue opens paused on the next launch." : await armQueueIfIdle({ port: appPort(runtime) });
         const step = runtime.appState === "closed" ? null : nextQueueStep2(db);
