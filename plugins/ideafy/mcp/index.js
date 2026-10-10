@@ -3223,8 +3223,8 @@ var require_utils = __commonJS({
       }
       return ind;
     }
-    function removeDotSegments(path6) {
-      let input = path6;
+    function removeDotSegments(path7) {
+      let input = path7;
       const output = [];
       let nextSlash = -1;
       let len = 0;
@@ -3423,8 +3423,8 @@ var require_schemes = __commonJS({
         wsComponent.secure = void 0;
       }
       if (wsComponent.resourceName) {
-        const [path6, query] = wsComponent.resourceName.split("?");
-        wsComponent.path = path6 && path6 !== "/" ? path6 : void 0;
+        const [path7, query] = wsComponent.resourceName.split("?");
+        wsComponent.path = path7 && path7 !== "/" ? path7 : void 0;
         wsComponent.query = query;
         wsComponent.resourceName = void 0;
       }
@@ -7158,8 +7158,8 @@ function getErrorMap() {
 
 // node_modules/zod/v3/helpers/parseUtil.js
 var makeIssue = (params) => {
-  const { data, path: path6, errorMaps, issueData } = params;
-  const fullPath = [...path6, ...issueData.path || []];
+  const { data, path: path7, errorMaps, issueData } = params;
+  const fullPath = [...path7, ...issueData.path || []];
   const fullIssue = {
     ...issueData,
     path: fullPath
@@ -7274,11 +7274,11 @@ var errorUtil;
 
 // node_modules/zod/v3/types.js
 var ParseInputLazyPath = class {
-  constructor(parent, value, path6, key) {
+  constructor(parent, value, path7, key) {
     this._cachedPath = [];
     this.parent = parent;
     this.data = value;
-    this._path = path6;
+    this._path = path7;
     this._key = key;
   }
   get path() {
@@ -10922,10 +10922,10 @@ function mergeDefs(...defs) {
 function cloneDef(schema) {
   return mergeDefs(schema._zod.def);
 }
-function getElementAtPath(obj, path6) {
-  if (!path6)
+function getElementAtPath(obj, path7) {
+  if (!path7)
     return obj;
-  return path6.reduce((acc, key) => acc?.[key], obj);
+  return path7.reduce((acc, key) => acc?.[key], obj);
 }
 function promiseAllObject(promisesObj) {
   const keys = Object.keys(promisesObj);
@@ -11308,11 +11308,11 @@ function aborted(x2, startIndex = 0) {
   }
   return false;
 }
-function prefixIssues(path6, issues) {
+function prefixIssues(path7, issues) {
   return issues.map((iss) => {
     var _a2;
     (_a2 = iss).path ?? (_a2.path = []);
-    iss.path.unshift(path6);
+    iss.path.unshift(path7);
     return iss;
   });
 }
@@ -21616,8 +21616,8 @@ function extractPlanFiles(solutionHtml) {
   const section2 = text.match(/Files to Modify\s*\n([\s\S]*?)(?:\n(?:Implementation Steps|Edge Cases|Dependencies)\b|$)/i);
   return section2 ? pathTokens(section2[1]) : [];
 }
-function normalizePath(path6) {
-  return path6.trim().replace(/^\.\//, "").replace(/\/+$/, "");
+function normalizePath(path7) {
+  return path7.trim().replace(/^\.\//, "").replace(/\/+$/, "");
 }
 function pathsOverlap(a, b2) {
   const globRoot = (p) => /\/\*+$/.test(p) ? p.replace(/\/\*+$/, "/") : null;
@@ -21643,6 +21643,7 @@ __export(card_ops_exports, {
   DEFAULT_GROUP_COLOR: () => DEFAULT_GROUP_COLOR,
   GLOBAL_AGENT_MODE_SETTING_KEY: () => GLOBAL_AGENT_MODE_SETTING_KEY,
   GROUP_CODE_MAX: () => GROUP_CODE_MAX,
+  MAX_CARD_TITLE_LENGTH: () => MAX_CARD_TITLE_LENGTH,
   TERMINAL_WRITER_TTL_MS: () => TERMINAL_WRITER_TTL_MS,
   acknowledgeWrite: () => acknowledgeWrite,
   addOutputPath: () => addOutputPath,
@@ -21652,10 +21653,12 @@ __export(card_ops_exports, {
   chainAckId: () => chainAckId,
   chainOrderWarningFor: () => chainOrderWarningFor,
   chainWriteConflictFor: () => chainWriteConflictFor,
+  chooseBoundPolicy: () => chooseBoundPolicy,
   clearQueue: () => clearQueue,
   completedAtFor: () => completedAtFor,
   completedAtOnCreate: () => completedAtOnCreate,
   createCard: () => createCard,
+  createCardResolver: () => createCardResolver,
   createGroup: () => createGroup,
   deleteGroup: () => deleteGroup,
   dequeueCard: () => dequeueCard,
@@ -21666,6 +21669,7 @@ __export(card_ops_exports, {
   globalAgentModeEnabled: () => globalAgentModeEnabled,
   globalEditDenial: () => globalEditDenial,
   isStatus: () => isStatus,
+  linkCardsInHtml: () => linkCardsInHtml,
   listGroups: () => listGroups,
   listProjects: () => listProjects,
   listQueueRows: () => listQueueRows,
@@ -21675,6 +21679,7 @@ __export(card_ops_exports, {
   normalizeGroupId: () => normalizeGroupId,
   opinionEditFields: () => opinionEditFields,
   parseWriteAck: () => parseWriteAck,
+  projectIdOfCard: () => projectIdOfCard,
   queueDisplayId: () => queueDisplayId,
   queueKindOf: () => queueKindOf,
   queueRowIneligibleReason: () => queueRowIneligibleReason,
@@ -21682,6 +21687,7 @@ __export(card_ops_exports, {
   queuedRunsInWorktree: () => queuedRunsInWorktree,
   readRuntime: () => readRuntime,
   readWriteAck: () => readWriteAck,
+  resolveCardRef: () => resolveCardRef,
   resolveProjectByFolder: () => resolveProjectByFolder,
   restoreQueueCards: () => restoreQueueCards,
   reviseTests: () => reviseTests,
@@ -21701,6 +21707,7 @@ __export(card_ops_exports, {
   transaction: () => transaction,
   updateCard: () => updateCard,
   updateGroup: () => updateGroup,
+  validateCardTitle: () => validateCardTitle,
   writeRuntime: () => writeRuntime
 });
 
@@ -21738,6 +21745,101 @@ function transaction(db2, fn) {
 }
 
 // ../lib/types.ts
+var types_exports = {};
+__export(types_exports, {
+  AI_PLATFORM_OPTIONS: () => AI_PLATFORM_OPTIONS,
+  BOARD_VIEW_PREFERENCE_OPTIONS: () => BOARD_VIEW_PREFERENCE_OPTIONS,
+  COLUMNS: () => COLUMNS,
+  COLUMN_WIP_LIMITS: () => COLUMN_WIP_LIMITS,
+  COMPLETED_FILTER_OPTIONS: () => COMPLETED_FILTER_OPTIONS,
+  COMPLEXITY_OPTIONS: () => COMPLEXITY_OPTIONS,
+  DEFAULT_PROJECT_MODE: () => DEFAULT_PROJECT_MODE,
+  DEFAULT_SETTINGS: () => DEFAULT_SETTINGS,
+  DEFAULT_VOICE: () => DEFAULT_VOICE,
+  DEFAULT_WORK_TEMPLATES: () => DEFAULT_WORK_TEMPLATES,
+  PRIORITY_OPTIONS: () => PRIORITY_OPTIONS,
+  PROJECT_MODES: () => PROJECT_MODES,
+  PROJECT_MODE_OPTIONS: () => PROJECT_MODE_OPTIONS,
+  RUN_MODES: () => RUN_MODES,
+  RUN_MODE_LABELS: () => RUN_MODE_LABELS,
+  RUN_MODE_OPTIONS: () => RUN_MODE_OPTIONS,
+  SECTION_CONFIG: () => SECTION_CONFIG,
+  STATUS_COLORS: () => STATUS_COLORS,
+  STATUS_TEXT_COLORS: () => STATUS_TEXT_COLORS,
+  TERMINAL_OPTIONS: () => TERMINAL_OPTIONS,
+  VOICE_OPTIONS: () => VOICE_OPTIONS,
+  formatDisplayId: () => formatDisplayId,
+  getColumnTitle: () => getColumnTitle,
+  getColumns: () => getColumns,
+  getDisplayId: () => getDisplayId
+});
+var PROJECT_MODES = ["development", "work"];
+var DEFAULT_PROJECT_MODE = "development";
+var PROJECT_MODE_OPTIONS = [
+  {
+    value: "development",
+    label: "Development",
+    description: "Code in a git repo. Branches, worktrees, tests and a dev server."
+  },
+  {
+    value: "work",
+    label: "Work",
+    description: "Documents, research, mail, planning. Outputs are saved in this folder."
+  }
+];
+var DEFAULT_VOICE = "builder";
+var VOICE_OPTIONS = [
+  {
+    value: "entrepreneur",
+    label: "Entrepreneur",
+    description: "Product-first language. No file paths or code references. Focuses on user impact and trade-offs."
+  },
+  {
+    value: "builder",
+    label: "Builder",
+    description: "Plain-language technical. Names files and changes but skips spec bullets. Best for solo founders who code."
+  },
+  {
+    value: "engineer",
+    label: "Engineer",
+    description: "Terse, spec-style. Includes file:line, snippets, and trade-offs. Optimized for SWE workflow."
+  }
+];
+var RUN_MODES = ["server", "app", "xcode", "none"];
+var RUN_MODE_OPTIONS = [
+  {
+    value: "server",
+    label: "Open in browser",
+    description: "Starts the app and opens it in a browser tab. For websites and web apps."
+  },
+  {
+    value: "app",
+    label: "Open the app",
+    description: "Launches the app in its own window. No browser involved."
+  },
+  {
+    value: "xcode",
+    label: "Open in Xcode",
+    description: "Opens the test copy in Xcode, where you press \u2318R to run it yourself."
+  },
+  {
+    value: "none",
+    label: "Nothing",
+    description: "Hides the button for this project."
+  }
+];
+var RUN_MODE_LABELS = {
+  server: { start: "Start Dev Server", running: "Stop Server" },
+  app: { start: "Start App", running: "Stop App" },
+  xcode: { start: "Open in Xcode", running: "Open in Xcode" },
+  none: { start: "Run", running: "Run" }
+};
+function formatDisplayId(idPrefix, taskNumber) {
+  return idPrefix && taskNumber != null ? `${idPrefix}-${taskNumber}` : null;
+}
+function getDisplayId(card, project) {
+  return formatDisplayId(project?.idPrefix, card.taskNumber);
+}
 var COLUMNS = [
   { id: "ideation", title: "Ideation" },
   { id: "backlog", title: "Backlog" },
@@ -21756,6 +21858,119 @@ var WORK_COLUMNS = COLUMNS.map((column) => ({
   id: column.id,
   title: WORK_COLUMN_TITLES[column.id] ?? column.title
 }));
+function getColumns(mode) {
+  return mode === "work" ? WORK_COLUMNS : COLUMNS;
+}
+function getColumnTitle(status, mode) {
+  return getColumns(mode).find((column) => column.id === status)?.title ?? status;
+}
+var STATUS_COLORS = {
+  ideation: "bg-status-ideation",
+  backlog: "bg-status-backlog",
+  bugs: "bg-status-bugs",
+  progress: "bg-status-progress",
+  test: "bg-status-test",
+  completed: "bg-status-completed",
+  withdrawn: "bg-status-withdrawn"
+};
+var STATUS_TEXT_COLORS = {
+  ideation: "text-status-ideation",
+  backlog: "text-status-backlog",
+  bugs: "text-status-bugs",
+  progress: "text-status-progress",
+  test: "text-status-test",
+  completed: "text-status-completed",
+  withdrawn: "text-status-withdrawn"
+};
+var BOARD_VIEW_PREFERENCE_OPTIONS = [
+  { value: "focus", label: "Focus" },
+  { value: "all", label: "All columns" },
+  { value: "chains", label: "Chains" },
+  { value: "last", label: "Last used" }
+];
+var COLUMN_WIP_LIMITS = {
+  backlog: 15,
+  progress: 5,
+  test: 8
+};
+var DEFAULT_WORK_TEMPLATES = [
+  { id: "output", name: "Output", skill: null, promptPreset: "", outputExt: ".md" }
+];
+var DEFAULT_SETTINGS = {
+  aiPlatform: "claude",
+  skillsPath: "~/.claude/skills",
+  mcpConfigPath: "~/.claude.json",
+  terminalApp: "iterm2",
+  detectedTerminal: null,
+  systemNotifications: true,
+  activeWorkspace: "development",
+  showPluginItems: false,
+  workTemplates: DEFAULT_WORK_TEMPLATES,
+  globalAgentMode: true
+};
+var AI_PLATFORM_OPTIONS = [
+  { value: "claude", label: "Claude Code", description: "Anthropic's coding CLI" },
+  { value: "gemini", label: "Gemini CLI", description: "Google's AI coding CLI" },
+  { value: "codex", label: "Codex CLI", description: "OpenAI's coding CLI" },
+  { value: "opencode", label: "OpenCode", description: "OpenCode CLI" }
+];
+var TERMINAL_OPTIONS = [
+  { value: "iterm2", label: "iTerm2" },
+  { value: "ghostty", label: "Ghostty" },
+  { value: "terminal", label: "Terminal.app" },
+  { value: "warp", label: "Warp" },
+  { value: "cmux", label: "cmux" }
+];
+var SECTION_CONFIG = {
+  detail: {
+    label: "Detail",
+    icon: "FileText",
+    color: "#3b82f6",
+    // blue
+    placeholder: "Describe the task...",
+    chatPlaceholder: "Ask about this task..."
+  },
+  opinion: {
+    label: "AI's Opinion",
+    icon: "Brain",
+    color: "#a855f7",
+    // purple
+    placeholder: "AI's evaluation of this idea...",
+    chatPlaceholder: "Ask for technical analysis..."
+  },
+  solution: {
+    label: "Solution",
+    icon: "Lightbulb",
+    color: "#f59e0b",
+    // amber
+    placeholder: "Document the agreed solution...",
+    chatPlaceholder: "Refine the solution approach..."
+  },
+  tests: {
+    label: "Tests",
+    icon: "TestTube2",
+    color: "#22c55e",
+    // green
+    placeholder: "- [ ] Test case 1\n- [ ] Test case 2",
+    chatPlaceholder: "Add test scenarios..."
+  }
+};
+var COMPLETED_FILTER_OPTIONS = [
+  { value: "today", label: "Today" },
+  { value: "yesterday", label: "Yesterday" },
+  { value: "this_week", label: "This Week" },
+  { value: "all", label: "All Time" }
+];
+var COMPLEXITY_OPTIONS = [
+  { value: "low", label: "Low", color: "#22c55e" },
+  { value: "medium", label: "Medium", color: "#eab308" },
+  { value: "high", label: "High", color: "#ef4444" }
+];
+var PRIORITY_OPTIONS = [
+  { value: "low", label: "Low", color: "#6b7280" },
+  { value: "medium", label: "Medium", color: "#3b82f6" },
+  { value: "high", label: "High", color: "#ef4444" }
+];
 
 // ../lib/card-ops/move-card.ts
 var STATUSES = COLUMNS.map((column) => column.id);
@@ -23828,13 +24043,13 @@ var INLINE_CODE_RE = /(?<!<pre\b[^>]*>)<code\b[^>]*>([^<]*)<\/code>/gi;
 function replaceCodePaths(html, render) {
   if (!html || !html.includes("<code")) return html;
   return html.replace(INLINE_CODE_RE, (tag, inner) => {
-    const path6 = localPathFromText(decodeEntities4(inner));
-    return path6 && render(path6) || tag;
+    const path7 = localPathFromText(decodeEntities4(inner));
+    return path7 && render(path7) || tag;
   });
 }
 function codePathsToFileLinks(html, homeDir) {
-  return replaceCodePaths(html, (path6) => {
-    const absolute = path6.startsWith("~/") ? `${homeDir}/${path6.slice(2)}` : path6;
+  return replaceCodePaths(html, (path7) => {
+    const absolute = path7.startsWith("~/") ? `${homeDir}/${path7.slice(2)}` : path7;
     return `<a href="${escapeHtml(pathToFileUrl(absolute))}">${escapeHtml(artifactBasename(absolute))}</a>`;
   });
 }
@@ -25420,9 +25635,67 @@ function ordinal(n) {
 }
 
 // ../lib/workspace.ts
+var workspace_exports = {};
+__export(workspace_exports, {
+  OPEN_ADD_PROJECT_EVENT: () => OPEN_ADD_PROJECT_EVENT,
+  isCardInWorkspace: () => isCardInWorkspace,
+  normalizeProjectMode: () => normalizeProjectMode,
+  projectModeOf: () => projectModeOf,
+  projectsInWorkspace: () => projectsInWorkspace,
+  resolveEffectiveWorktree: () => resolveEffectiveWorktree,
+  shouldUseWorktree: () => shouldUseWorktree,
+  worktreeOverrideFor: () => worktreeOverrideFor
+});
+
+// ../lib/git/branch-name.ts
+var branch_name_exports = {};
+__export(branch_name_exports, {
+  generateBranchName: () => generateBranchName,
+  slugify: () => slugify2
+});
+function slugify2(text) {
+  return text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").substring(0, 50);
+}
+function generateBranchName(idPrefix, taskNumber, title) {
+  const slug = slugify2(title);
+  return `kanban/${idPrefix}-${taskNumber}-${slug}`;
+}
+
+// ../lib/workspace.ts
+var OPEN_ADD_PROJECT_EVENT = "ideafy:open-add-project";
+function normalizeProjectMode(v2, fallback = DEFAULT_PROJECT_MODE) {
+  return typeof v2 === "string" && PROJECT_MODES.includes(v2) ? v2 : fallback;
+}
+function projectModeOf(projectId, projects) {
+  if (!projectId) return DEFAULT_PROJECT_MODE;
+  return projects.find((project) => project.id === projectId)?.mode ?? DEFAULT_PROJECT_MODE;
+}
+function projectsInWorkspace(projects, workspace) {
+  return projects.filter((project) => (project.mode ?? DEFAULT_PROJECT_MODE) === workspace);
+}
+function isCardInWorkspace(card, projects, workspace) {
+  return projectModeOf(card.projectId, projects) === workspace;
+}
 function shouldUseWorktree(card, project) {
   if (project?.mode === "work") return false;
   return card.useWorktree ?? project?.useWorktrees ?? true;
+}
+function resolveEffectiveWorktree(card, project) {
+  const effective = shouldUseWorktree(card, project);
+  if (!effective) return { enforced: false, targetBranch: null };
+  if (card.gitBranchName) {
+    return { enforced: true, targetBranch: card.gitBranchName };
+  }
+  if (project && card.taskNumber != null) {
+    return {
+      enforced: true,
+      targetBranch: generateBranchName(project.idPrefix, card.taskNumber, card.title)
+    };
+  }
+  return { enforced: true, targetBranch: null };
+}
+function worktreeOverrideFor(choice, projectDefault) {
+  return choice === projectDefault ? null : choice;
 }
 
 // ../lib/card-ops/queue.ts
@@ -25460,7 +25733,7 @@ function getQueueRow(db2, cardId) {
   return raw ? toQueueRow(raw) : void 0;
 }
 function queueDisplayId(row) {
-  return row.idPrefix && row.taskNumber != null ? `${row.idPrefix}-${row.taskNumber}` : row.title;
+  return formatDisplayId(row.idPrefix, row.taskNumber) ?? row.title;
 }
 function queueRowIneligibleReason(row) {
   const progress = parseTestProgress(row.testScenarios ?? "");
@@ -25589,7 +25862,7 @@ function chainMembers(db2, cardId) {
   );
 }
 var toRef = (row) => ({
-  displayId: row.idPrefix && row.taskNumber != null ? `${row.idPrefix}-${row.taskNumber}` : null,
+  displayId: formatDisplayId(row.idPrefix, row.taskNumber),
   title: row.title,
   status: row.status
 });
@@ -25861,7 +26134,7 @@ function listProjects(db2, options = {}) {
     }
     const completedToday = completed.all(project.id, since).map(
       (row) => ({
-        displayId: row.taskNumber != null ? `${project.idPrefix}-${row.taskNumber}` : null,
+        displayId: formatDisplayId(project.idPrefix, row.taskNumber),
         title: row.title
       })
     );
@@ -25889,6 +26162,109 @@ function globalEditDenial(args) {
   const { sessionProject, fileProject, enabled } = args;
   if (!enabled || sessionProject || !fileProject) return null;
   return `Ideafy: this session is not in any Ideafy project's folder (global mode), so it cannot edit ${fileProject.name}'s code: that project's CLAUDE.md, worktree rule and branch check would not apply. Hand the work off instead; ask the user which: ${globalDelegationOptions(fileProject.folderPath).join("; ")}. Do not retry the edit from here.`;
+}
+
+// ../lib/card-ops/card-links.ts
+function createCardResolver(db2, projectId) {
+  let projects = null;
+  const cache = /* @__PURE__ */ new Map();
+  return (displayId) => {
+    if (cache.has(displayId)) return cache.get(displayId);
+    const match = displayId.match(/^([A-Z][A-Z0-9]*)-(\d+)$/);
+    let found = null;
+    if (match) {
+      projects ??= allRows(
+        db2,
+        `SELECT id, id_prefix as idPrefix FROM projects`
+      );
+      const [, prefix, number3] = match;
+      const owners = projects.filter((p) => p.idPrefix === prefix);
+      const owner = owners.find((p) => p.id === projectId) ?? (owners.length === 1 ? owners[0] : null);
+      if (owner) {
+        const card = getRow(
+          db2,
+          `SELECT id, title FROM cards WHERE project_id = ? AND task_number = ?`,
+          owner.id,
+          Number(number3)
+        );
+        if (card) found = { id: card.id, displayId, title: card.title };
+      }
+    }
+    cache.set(displayId, found);
+    return found;
+  };
+}
+function linkCardsInHtml(db2, html, projectId) {
+  return linkCardReferences(html, createCardResolver(db2, projectId));
+}
+function projectIdOfCard(db2, cardId) {
+  return getRow(db2, `SELECT project_id FROM cards WHERE id = ?`, cardId)?.project_id ?? null;
+}
+
+// ../lib/card-ops/card-ref.ts
+var UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+var DISPLAY_ID = /^([A-Z][A-Z0-9]*)-(\d+)$/i;
+var TASK_NUMBER = /^(\d+)$/;
+function resolveCardRef(db2, ref, opts = {}) {
+  const value = ref.trim();
+  if (UUID.test(value)) return value;
+  const display = value.match(DISPLAY_ID);
+  if (display) {
+    return pick2(
+      allRows(
+        db2,
+        `SELECT c.id, c.project_id AS projectId FROM cards c
+           JOIN projects p ON p.id = c.project_id
+          WHERE UPPER(p.id_prefix) = ? AND c.task_number = ?`,
+        display[1].toUpperCase(),
+        Number(display[2])
+      ),
+      opts.projectId
+    );
+  }
+  const number3 = value.match(TASK_NUMBER);
+  if (number3) {
+    return pick2(
+      allRows(
+        db2,
+        `SELECT id, project_id AS projectId FROM cards WHERE task_number = ?`,
+        Number(number3[1])
+      ),
+      opts.projectId
+    );
+  }
+  return null;
+}
+function pick2(rows, projectId) {
+  if (projectId) {
+    const own = rows.find((row) => row.projectId === projectId);
+    if (own) return own.id;
+  }
+  return rows.length === 1 ? rows[0].id : null;
+}
+
+// ../lib/card-ops/session-policy.ts
+function chooseBoundPolicy(args) {
+  const { sessionProjectId, cardProjectId, globalMode } = args;
+  if (sessionProjectId !== null && sessionProjectId === cardProjectId) return "phase";
+  if (globalMode && cardProjectId) return "global-bound";
+  if (sessionProjectId === null) return "silent";
+  return "phase";
+}
+
+// ../lib/card-ops/card-title.ts
+var MAX_CARD_TITLE_LENGTH = 500;
+function validateCardTitle(title) {
+  if (typeof title !== "string") return { ok: false, error: "Card title must be a string" };
+  const trimmed = title.trim();
+  if (!trimmed) return { ok: false, error: "Card title cannot be empty" };
+  if (trimmed.length > MAX_CARD_TITLE_LENGTH) {
+    return { ok: false, error: `Card title too long (max ${MAX_CARD_TITLE_LENGTH} characters)` };
+  }
+  if (/[<>\0]/.test(title)) {
+    return { ok: false, error: "Card title cannot contain '<', '>' or null bytes (HTML injection guard)" };
+  }
+  return { ok: true, title: trimmed };
 }
 
 // ../lib/prompts/evaluation.ts
@@ -26332,6 +26708,449 @@ function terminalStartRefusal(card, solutionText, testText, testProgress, mode =
   return null;
 }
 
+// ../lib/git/core.ts
+var core_exports3 = {};
+__export(core_exports3, {
+  buildCommitArgs: () => buildCommitArgs,
+  generateBranchName: () => generateBranchName,
+  git: () => git,
+  slugify: () => slugify2
+});
+import { execFile } from "child_process";
+import { promisify } from "util";
+var execFileAsync = promisify(execFile);
+async function git(cwd, ...args) {
+  return execFileAsync("git", args, { cwd });
+}
+function buildCommitArgs(commitMessage) {
+  const [title, ...bodyParts] = commitMessage.split("\n\n");
+  const body = bodyParts.join("\n\n");
+  const args = ["commit", "-m", title];
+  if (body) args.push("-m", body);
+  return args;
+}
+
+// ../lib/git/repo.ts
+var repo_exports = {};
+__export(repo_exports, {
+  branchExists: () => branchExists,
+  fetchRemote: () => fetchRemote,
+  getBranchStatus: () => getBranchStatus,
+  getCurrentBranch: () => getCurrentBranch,
+  getDefaultBranch: () => getDefaultBranch,
+  getMergeReality: () => getMergeReality,
+  getUnpushedStatus: () => getUnpushedStatus,
+  hasStagedChanges: () => hasStagedChanges,
+  isGitRepo: () => isGitRepo,
+  worktreeHasUncommittedChanges: () => worktreeHasUncommittedChanges
+});
+import { existsSync as existsSync3 } from "fs";
+async function isGitRepo(projectPath) {
+  try {
+    await git(projectPath, "rev-parse", "--git-dir");
+    return true;
+  } catch {
+    return false;
+  }
+}
+async function getCurrentBranch(projectPath) {
+  const { stdout } = await git(projectPath, "branch", "--show-current");
+  return stdout.trim();
+}
+async function branchExists(projectPath, branchName) {
+  try {
+    await git(
+      projectPath,
+      "show-ref",
+      "--verify",
+      "--quiet",
+      `refs/heads/${branchName}`
+    );
+    return true;
+  } catch {
+    return false;
+  }
+}
+async function getDefaultBranch(projectPath) {
+  try {
+    const { stdout } = await git(
+      projectPath,
+      "symbolic-ref",
+      "refs/remotes/origin/HEAD"
+    );
+    return stdout.trim().replace("refs/remotes/origin/", "").replace("refs/heads/", "");
+  } catch {
+    try {
+      await git(projectPath, "show-ref", "--verify", "--quiet", "refs/heads/main");
+      return "main";
+    } catch {
+      return "master";
+    }
+  }
+}
+async function getBranchStatus(projectPath, branchName) {
+  try {
+    const defaultBranch = await getDefaultBranch(projectPath);
+    const exists = await branchExists(projectPath, branchName);
+    if (!exists) {
+      return { ahead: 0, behind: 0, exists: false };
+    }
+    const { stdout } = await git(
+      projectPath,
+      "rev-list",
+      "--left-right",
+      "--count",
+      `${defaultBranch}...${branchName}`
+    );
+    const [behind, ahead] = stdout.trim().split(/\s+/).map(Number);
+    return { ahead: ahead || 0, behind: behind || 0, exists: true };
+  } catch {
+    return { ahead: 0, behind: 0, exists: false };
+  }
+}
+async function worktreeHasUncommittedChanges(worktreePath) {
+  if (!existsSync3(worktreePath)) return false;
+  try {
+    const { stdout } = await git(worktreePath, "status", "--porcelain", "-uno");
+    return stdout.trim().length > 0;
+  } catch {
+    return false;
+  }
+}
+async function getMergeReality(projectPath, branchName, worktreePath) {
+  const defaultBranch = await getDefaultBranch(projectPath);
+  const needsCommit = worktreePath ? await worktreeHasUncommittedChanges(worktreePath) : false;
+  const base = {
+    branchName,
+    defaultBranch,
+    exists: false,
+    ahead: 0,
+    behind: 0,
+    contentIdentical: false,
+    needsCommit,
+    state: "missing"
+  };
+  if (!await branchExists(projectPath, branchName)) {
+    return base;
+  }
+  const { ahead, behind } = await getBranchStatus(projectPath, branchName);
+  let contentIdentical = false;
+  try {
+    await git(projectPath, "diff", "--quiet", defaultBranch, branchName, "--");
+    contentIdentical = true;
+  } catch {
+    contentIdentical = false;
+  }
+  const merged = ahead === 0 || contentIdentical;
+  return {
+    ...base,
+    exists: true,
+    ahead,
+    behind,
+    contentIdentical,
+    // Uncommitted work in the worktree is still work: it would be committed
+    // and merged, so the branch is not done regardless of what the tips say.
+    state: merged && !needsCommit ? "nothing-to-merge" : "ready"
+  };
+}
+async function hasStagedChanges(projectPath) {
+  try {
+    await git(projectPath, "diff", "--cached", "--quiet");
+    return false;
+  } catch {
+    return true;
+  }
+}
+var UNSUPPORTED = {
+  supported: false,
+  defaultBranch: "",
+  count: 0,
+  commits: []
+};
+async function fetchRemote(projectPath) {
+  try {
+    await git(projectPath, "fetch", "--quiet", "origin");
+    return true;
+  } catch {
+    return false;
+  }
+}
+async function getUnpushedStatus(projectPath, options = {}) {
+  if (!existsSync3(projectPath) || !await isGitRepo(projectPath)) return UNSUPPORTED;
+  try {
+    const { stdout: remotes } = await git(projectPath, "remote");
+    if (!remotes.trim()) return UNSUPPORTED;
+  } catch {
+    return UNSUPPORTED;
+  }
+  const defaultBranch = await getDefaultBranch(projectPath);
+  const remoteRef = `refs/remotes/origin/${defaultBranch}`;
+  try {
+    await git(projectPath, "show-ref", "--verify", "--quiet", remoteRef);
+  } catch {
+    return UNSUPPORTED;
+  }
+  const revArgs = ["--branches", "HEAD", "--not", "--remotes"];
+  try {
+    if (!options.withCommits) {
+      const { stdout: stdout2 } = await git(projectPath, "rev-list", "--count", ...revArgs);
+      return {
+        supported: true,
+        defaultBranch,
+        count: Number.parseInt(stdout2.trim(), 10) || 0,
+        commits: []
+      };
+    }
+    const onDefault = /* @__PURE__ */ new Set();
+    if (await branchExists(projectPath, defaultBranch)) {
+      const { stdout: stdout2 } = await git(
+        projectPath,
+        "rev-list",
+        defaultBranch,
+        "--not",
+        "--remotes"
+      );
+      for (const line of stdout2.split("\n")) {
+        const hash2 = line.trim();
+        if (hash2) onDefault.add(hash2);
+      }
+    }
+    const { stdout } = await git(
+      projectPath,
+      "log",
+      "--pretty=format:%H%x1f%s%x1f%cI%x1f%S%x1f%b%x1e",
+      "--source",
+      ...revArgs
+    );
+    const commits = stdout.split("").filter((record2) => record2.trim() !== "").map((record2) => {
+      const [hash2, subject, date4, source, body] = record2.replace(/^\n/, "").split("");
+      const reached = (source ?? "").replace(/^refs\/heads\//, "");
+      return {
+        hash: hash2 ?? "",
+        subject: subject ?? "",
+        date: date4 ?? "",
+        body: (body ?? "").trim(),
+        branch: hash2 && onDefault.has(hash2) ? defaultBranch : reached
+      };
+    });
+    return { supported: true, defaultBranch, count: commits.length, commits };
+  } catch {
+    return UNSUPPORTED;
+  }
+}
+
+// ../lib/git/worktree.ts
+var worktree_exports = {};
+__export(worktree_exports, {
+  createWorktree: () => createWorktree,
+  findCardBranch: () => findCardBranch,
+  getWorktreeBaseDir: () => getWorktreeBaseDir,
+  getWorktreePath: () => getWorktreePath,
+  isCwdInsideWorktree: () => isCwdInsideWorktree,
+  listWorktrees: () => listWorktrees,
+  pruneWorktrees: () => pruneWorktrees,
+  removeWorktree: () => removeWorktree,
+  squashMergeFromWorktree: () => squashMergeFromWorktree,
+  worktreeExists: () => worktreeExists
+});
+import { existsSync as existsSync4, mkdirSync as mkdirSync4, realpathSync as realpathSync2 } from "fs";
+import path5, { join } from "path";
+function getWorktreeBaseDir(projectPath) {
+  return join(projectPath, ".worktrees", "kanban");
+}
+function getWorktreePath(projectPath, branchName) {
+  const branchPart = branchName.startsWith("kanban/") ? branchName.slice(7) : branchName;
+  return join(getWorktreeBaseDir(projectPath), branchPart);
+}
+async function worktreeExists(projectPath, worktreePath) {
+  try {
+    if (!existsSync4(worktreePath)) {
+      return false;
+    }
+    const { stdout } = await git(projectPath, "worktree", "list", "--porcelain");
+    return stdout.includes(`worktree ${worktreePath}`);
+  } catch {
+    return false;
+  }
+}
+async function listWorktrees(projectPath) {
+  try {
+    const { stdout } = await git(projectPath, "worktree", "list", "--porcelain");
+    const worktrees = [];
+    const entries = stdout.trim().split("\n\n");
+    for (const entry of entries) {
+      if (!entry.trim()) continue;
+      const lines = entry.split("\n");
+      const info = {
+        isLocked: false,
+        isPrunable: false
+      };
+      for (const line of lines) {
+        if (line.startsWith("worktree ")) {
+          info.path = line.slice(9);
+        } else if (line.startsWith("HEAD ")) {
+          info.commit = line.slice(5);
+        } else if (line.startsWith("branch refs/heads/")) {
+          info.branch = line.slice(18);
+        } else if (line === "locked") {
+          info.isLocked = true;
+        } else if (line === "prunable") {
+          info.isPrunable = true;
+        }
+      }
+      if (info.path && info.commit) {
+        worktrees.push(info);
+      }
+    }
+    return worktrees;
+  } catch {
+    return [];
+  }
+}
+async function createWorktree(projectPath, branchName) {
+  const worktreePath = getWorktreePath(projectPath, branchName);
+  const baseDir = getWorktreeBaseDir(projectPath);
+  try {
+    if (!existsSync4(baseDir)) {
+      mkdirSync4(baseDir, { recursive: true });
+      console.log(`[Git Worktree] Created base directory: ${baseDir}`);
+    }
+    if (await worktreeExists(projectPath, worktreePath)) {
+      console.log(`[Git Worktree] Worktree already exists: ${worktreePath}`);
+      return { success: true, worktreePath };
+    }
+    if (await branchExists(projectPath, branchName)) {
+      console.log(`[Git Worktree] Creating worktree for existing branch: ${branchName}`);
+      await git(projectPath, "worktree", "add", worktreePath, branchName);
+    } else {
+      const defaultBranch = await getDefaultBranch(projectPath);
+      console.log(`[Git Worktree] Creating new branch and worktree: ${branchName} from ${defaultBranch}`);
+      await git(
+        projectPath,
+        "worktree",
+        "add",
+        "-b",
+        branchName,
+        worktreePath,
+        defaultBranch
+      );
+    }
+    console.log(`[Git Worktree] Created worktree at: ${worktreePath}`);
+    return { success: true, worktreePath };
+  } catch (error2) {
+    console.error(`[Git Worktree] Failed to create worktree:`, error2);
+    return {
+      success: false,
+      worktreePath,
+      error: error2 instanceof Error ? error2.message : String(error2)
+    };
+  }
+}
+async function removeWorktree(projectPath, worktreePath) {
+  try {
+    if (!await worktreeExists(projectPath, worktreePath)) {
+      console.log(`[Git Worktree] Worktree doesn't exist, skipping removal: ${worktreePath}`);
+      return { success: true };
+    }
+    console.log(`[Git Worktree] Removing worktree: ${worktreePath}`);
+    await git(projectPath, "worktree", "remove", "--force", worktreePath);
+    console.log(`[Git Worktree] Worktree removed successfully`);
+    return { success: true };
+  } catch (error2) {
+    console.error(`[Git Worktree] Failed to remove worktree:`, error2);
+    return {
+      success: false,
+      error: error2 instanceof Error ? error2.message : String(error2)
+    };
+  }
+}
+function isCwdInsideWorktree(worktreePath) {
+  const resolve4 = (p) => {
+    try {
+      return realpathSync2(p);
+    } catch {
+      return path5.resolve(p);
+    }
+  };
+  const cwd = resolve4(process.cwd());
+  const wt = resolve4(worktreePath);
+  if (cwd === wt) return true;
+  return cwd.startsWith(wt + path5.sep);
+}
+async function pruneWorktrees(projectPath) {
+  try {
+    console.log(`[Git Worktree] Pruning stale worktrees...`);
+    await git(projectPath, "worktree", "prune");
+    return { success: true };
+  } catch (error2) {
+    return {
+      success: false,
+      error: error2 instanceof Error ? error2.message : String(error2)
+    };
+  }
+}
+async function squashMergeFromWorktree(projectPath, branchName, commitMessage) {
+  try {
+    const { stdout: statusOutput } = await git(projectPath, "status", "--porcelain");
+    if (statusOutput.trim() !== "") {
+      console.log("[Git Worktree] Uncommitted changes found in main repo, blocking merge");
+      return {
+        success: false,
+        error: "There are uncommitted changes in the main repository. Please commit your changes first.",
+        uncommittedInMain: true
+      };
+    }
+    const defaultBranch = await getDefaultBranch(projectPath);
+    const currentBranch = await getCurrentBranch(projectPath);
+    if (currentBranch !== defaultBranch) {
+      console.log(`[Git Worktree] Checking out to ${defaultBranch}...`);
+      await git(projectPath, "checkout", defaultBranch);
+    }
+    console.log(`[Git Worktree] Squash merging ${branchName}...`);
+    await git(projectPath, "merge", "--squash", branchName);
+    if (await hasStagedChanges(projectPath)) {
+      await git(projectPath, ...buildCommitArgs(commitMessage));
+      console.log("[Git Worktree] Squash merge committed successfully");
+      return { success: true };
+    }
+    console.log("[Git Worktree] No changes to commit - branch has no commits different from main");
+    return {
+      success: false,
+      error: "No changes to merge - branch has no commits different from main"
+    };
+  } catch (error2) {
+    return {
+      success: false,
+      error: error2 instanceof Error ? error2.message : String(error2)
+    };
+  }
+}
+async function findCardBranch(projectPath, idPrefix, taskNumber) {
+  const prefix = `kanban/${idPrefix}-${taskNumber}-`;
+  const names = /* @__PURE__ */ new Set();
+  try {
+    const { stdout } = await git(
+      projectPath,
+      "branch",
+      "--list",
+      "--format=%(refname:short)",
+      `${prefix}*`
+    );
+    for (const line of stdout.split("\n")) {
+      const name = line.trim();
+      if (name.startsWith(prefix)) names.add(name);
+    }
+  } catch {
+    return null;
+  }
+  if (names.size !== 1) return null;
+  const [branchName] = names;
+  const worktree = (await listWorktrees(projectPath)).find(
+    (w2) => w2.branch === branchName && !w2.isPrunable && existsSync4(w2.path)
+  );
+  return { branchName, worktreePath: worktree?.path ?? null };
+}
+
 // shared.ts
 function unwrap(ns) {
   return Reflect.get(ns, "default") ?? ns;
@@ -26390,7 +27209,13 @@ var {
   resolveProjectByFolder: resolveProjectByFolder2,
   listProjects: listProjects2,
   sharedPrefixes: sharedPrefixes2,
-  globalAgentModeEnabled: globalAgentModeEnabled2
+  globalAgentModeEnabled: globalAgentModeEnabled2,
+  createCardResolver: createCardResolver2,
+  linkCardsInHtml: linkCardsInHtml2,
+  projectIdOfCard: projectIdOfCard2,
+  resolveCardRef: resolveCardRef2,
+  chooseBoundPolicy: chooseBoundPolicy2,
+  validateCardTitle: validateCardTitle2
 } = unwrap(card_ops_exports);
 var { writeConflictFor: writeConflictFor2 } = unwrap(card_queue_exports);
 var { normalizeComplexity: normalizeComplexity2, describeOpinionMarkers: describeOpinionMarkers2 } = unwrap(opinion_markers_exports);
@@ -26408,6 +27233,12 @@ var { attachmentRefs: attachmentRefs2, attachmentContentType: attachmentContentT
 var { canStartCard: canStartCard2, detectBoardPhase: detectBoardPhase2, terminalStartRefusal: terminalStartRefusal2 } = unwrap(card_phase_exports);
 var { parseTestProgress: parseTestProgress2 } = unwrap(test_progress_exports);
 var { stripHtml: stripHtml2 } = unwrap(utils_exports);
+var { git: git2 } = unwrap(core_exports3);
+var { isGitRepo: isGitRepo2, getCurrentBranch: getCurrentBranch2, branchExists: branchExists2, getDefaultBranch: getDefaultBranch2 } = unwrap(repo_exports);
+var { getWorktreeBaseDir: getWorktreeBaseDir2, getWorktreePath: getWorktreePath2, worktreeExists: worktreeExists2 } = unwrap(worktree_exports);
+var { slugify: slugify3, generateBranchName: generateBranchName2 } = unwrap(branch_name_exports);
+var { shouldUseWorktree: shouldUseWorktree2, resolveEffectiveWorktree: resolveEffectiveWorktree2, normalizeProjectMode: normalizeProjectMode2 } = unwrap(workspace_exports);
+var { COLUMNS: COLUMNS2, formatDisplayId: formatDisplayId2 } = unwrap(types_exports);
 
 // db.ts
 var MIN_NODE = [22, 5];
@@ -26426,9 +27257,9 @@ function loadSqlite() {
     );
   }
 }
-function openDatabase(path6) {
+function openDatabase(path7) {
   const { DatabaseSync } = loadSqlite();
-  const db2 = new DatabaseSync(path6);
+  const db2 = new DatabaseSync(path7);
   db2.exec("PRAGMA journal_mode = WAL");
   db2.exec("PRAGMA foreign_keys = ON");
   db2.exec("PRAGMA busy_timeout = 5000");
@@ -26439,7 +27270,7 @@ function openDatabase(path6) {
 import { resolve as resolve3, dirname as dirname2, relative as relative2, isAbsolute as isAbsolute2, sep as sep2 } from "path";
 import { fileURLToPath } from "url";
 import { homedir as homedir6 } from "os";
-import { mkdirSync as mkdirSync5 } from "fs";
+import { mkdirSync as mkdirSync6 } from "fs";
 
 // node_modules/uuid/dist/esm/stringify.js
 var byteToHex = [];
@@ -26497,9 +27328,6 @@ import { readFileSync as readFileSync3 } from "node:fs";
 function normalizeUseWorktree(value) {
   if (value === null || value === void 0) return null;
   return Boolean(value);
-}
-function normalizeProjectMode(value) {
-  return value === "work" ? "work" : "development";
 }
 var ATTACHMENT_IMG = /<img\b[^>]*?\bsrc=["'](\/api\/cards\/[^"']+\/attachments\/[^"']+)["'][^>]*>/gi;
 function extractImagesFromHtml(html, fieldName) {
@@ -26615,7 +27443,7 @@ function missingCapabilityMessage(tool, capability) {
 }
 
 // output-paths.ts
-import { existsSync as existsSync3, realpathSync as realpathSync2, statSync as statSync3 } from "fs";
+import { existsSync as existsSync5, realpathSync as realpathSync3, statSync as statSync3 } from "fs";
 import { homedir as homedir4 } from "os";
 import { isAbsolute, relative, resolve as resolve2, sep } from "path";
 var OutputPathError = class extends Error {
@@ -26638,18 +27466,18 @@ function resolveOutputPath(projectFolder, inputPath) {
   const absolute = isAbsolute(expanded) ? resolve2(expanded) : resolve2(projectFolder, expanded);
   let projectReal;
   try {
-    projectReal = realpathSync2(projectFolder);
+    projectReal = realpathSync3(projectFolder);
   } catch {
     throw new OutputPathError(
       `The card's project folder does not exist on this machine: ${projectFolder}. Nothing was recorded.`
     );
   }
-  if (!existsSync3(absolute)) {
+  if (!existsSync5(absolute)) {
     throw new OutputPathError(
       `File not found: ${absolute}. save_output records a file that already exists \u2014 write it first, then call save_output again.`
     );
   }
-  const fileReal = realpathSync2(absolute);
+  const fileReal = realpathSync3(absolute);
   if (!statSync3(fileReal).isFile()) {
     throw new OutputPathError(
       `Not a file: ${absolute}. save_output records one file at a time \u2014 call it once per file.`
@@ -26699,12 +27527,12 @@ function appPort(runtime = null, env = process.env) {
   if (runtime?.appState === "open" && runtime.port?.trim()) return runtime.port.trim();
   return "3030";
 }
-async function callApp(method, path6, body, options = {}) {
+async function callApp(method, path7, body, options = {}) {
   const port = options.port ?? appPort();
   const doFetch = options.fetchImpl ?? fetch;
   let response;
   try {
-    response = await doFetch(`http://127.0.0.1:${port}${path6}`, {
+    response = await doFetch(`http://127.0.0.1:${port}${path7}`, {
       method,
       headers: body === void 0 ? void 0 : { "Content-Type": "application/json" },
       body: body === void 0 ? void 0 : JSON.stringify(body),
@@ -26883,7 +27711,7 @@ async function openCardSessionTool(db2, input, deps = {}) {
 // test-report.ts
 import { readFileSync as readFileSync4 } from "node:fs";
 import { homedir as homedir5 } from "node:os";
-import path5 from "node:path";
+import path6 from "node:path";
 function readTerminalReport(db2, report) {
   if (!hasCapability(db2, "testReports")) {
     return { ok: false, message: missingCapabilityMessage("save_tests", "testReports") };
@@ -26972,7 +27800,7 @@ function readTestReport(db2, card, opts = {}) {
     tried++;
     let data;
     try {
-      data = readFileSync4(path5.join(dir, artifact.file)).toString("base64");
+      data = readFileSync4(path6.join(dir, artifact.file)).toString("base64");
     } catch {
       continue;
     }
@@ -26996,88 +27824,29 @@ function readTestReport(db2, card, opts = {}) {
 }
 
 // git-helpers.ts
-import { execFile } from "child_process";
-import { promisify } from "util";
-import { existsSync as existsSync4, mkdirSync as mkdirSync4 } from "fs";
-import { join } from "path";
-var execFileAsync = promisify(execFile);
-async function git(cwd, ...args) {
-  return execFileAsync("git", args, { cwd });
-}
-function slugify2(text) {
-  return text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").substring(0, 50);
-}
-function generateBranchName(idPrefix, taskNumber, title) {
-  return `kanban/${idPrefix}-${taskNumber}-${slugify2(title)}`;
-}
-async function isGitRepo(cwd) {
+import { existsSync as existsSync6, mkdirSync as mkdirSync5 } from "fs";
+async function getCurrentBranch3(cwd) {
   try {
-    await git(cwd, "rev-parse", "--git-dir");
-    return true;
-  } catch {
-    return false;
-  }
-}
-async function getCurrentBranch(cwd) {
-  try {
-    const { stdout } = await git(cwd, "branch", "--show-current");
-    return stdout.trim();
+    return await getCurrentBranch2(cwd);
   } catch {
     return "";
   }
 }
-async function branchExists(cwd, branchName) {
+async function createWorktree2(projectPath, branchName) {
+  const worktreePath = getWorktreePath2(projectPath, branchName);
+  const baseDir = getWorktreeBaseDir2(projectPath);
   try {
-    await git(cwd, "show-ref", "--verify", "--quiet", `refs/heads/${branchName}`);
-    return true;
-  } catch {
-    return false;
-  }
-}
-async function getDefaultBranch(cwd) {
-  try {
-    const { stdout } = await git(cwd, "symbolic-ref", "refs/remotes/origin/HEAD");
-    return stdout.trim().replace("refs/remotes/origin/", "").replace("refs/heads/", "");
-  } catch {
-    try {
-      await git(cwd, "show-ref", "--verify", "--quiet", "refs/heads/main");
-      return "main";
-    } catch {
-      return "master";
+    if (!existsSync6(baseDir)) {
+      mkdirSync5(baseDir, { recursive: true });
     }
-  }
-}
-function getWorktreeBaseDir(projectPath) {
-  return join(projectPath, ".worktrees", "kanban");
-}
-function getWorktreePath(projectPath, branchName) {
-  const branchPart = branchName.startsWith("kanban/") ? branchName.slice(7) : branchName;
-  return join(getWorktreeBaseDir(projectPath), branchPart);
-}
-async function worktreeExists(projectPath, worktreePath) {
-  try {
-    if (!existsSync4(worktreePath)) return false;
-    const { stdout } = await git(projectPath, "worktree", "list", "--porcelain");
-    return stdout.includes(`worktree ${worktreePath}`);
-  } catch {
-    return false;
-  }
-}
-async function createWorktree(projectPath, branchName) {
-  const worktreePath = getWorktreePath(projectPath, branchName);
-  const baseDir = getWorktreeBaseDir(projectPath);
-  try {
-    if (!existsSync4(baseDir)) {
-      mkdirSync4(baseDir, { recursive: true });
-    }
-    if (await worktreeExists(projectPath, worktreePath)) {
+    if (await worktreeExists2(projectPath, worktreePath)) {
       return { success: true, worktreePath };
     }
-    if (await branchExists(projectPath, branchName)) {
-      await git(projectPath, "worktree", "add", worktreePath, branchName);
+    if (await branchExists2(projectPath, branchName)) {
+      await git2(projectPath, "worktree", "add", worktreePath, branchName);
     } else {
-      const defaultBranch = await getDefaultBranch(projectPath);
-      await git(
+      const defaultBranch = await getDefaultBranch2(projectPath);
+      await git2(
         projectPath,
         "worktree",
         "add",
@@ -27098,14 +27867,14 @@ async function createWorktree(projectPath, branchName) {
 }
 async function listChangedFiles(repoPath, opts) {
   try {
-    const defaultBranch = await getDefaultBranch(repoPath);
+    const defaultBranch = await getDefaultBranch2(repoPath);
     let stdout;
     if (opts.worktreePath) {
-      if (!existsSync4(opts.worktreePath)) return [];
-      const { stdout: base } = await git(opts.worktreePath, "merge-base", defaultBranch, "HEAD");
-      ({ stdout } = await git(opts.worktreePath, "diff", "--name-only", base.trim()));
+      if (!existsSync6(opts.worktreePath)) return [];
+      const { stdout: base } = await git2(opts.worktreePath, "merge-base", defaultBranch, "HEAD");
+      ({ stdout } = await git2(opts.worktreePath, "diff", "--name-only", base.trim()));
     } else if (opts.branchName) {
-      ({ stdout } = await git(
+      ({ stdout } = await git2(
         repoPath,
         "diff",
         "--name-only",
@@ -27123,37 +27892,19 @@ async function listUncommittedFiles(cwd, files) {
   try {
     const args = ["status", "--porcelain", "--untracked-files=all"];
     if (files && files.length > 0) args.push("--", ...files);
-    const { stdout } = await git(cwd, ...args);
+    const { stdout } = await git2(cwd, ...args);
     return stdout.split("\n").filter((line) => line.length > 3).map((line) => {
-      const path6 = line.slice(3);
-      const arrow = path6.indexOf(" -> ");
-      return (arrow === -1 ? path6 : path6.slice(arrow + 4)).replace(/^"|"$/g, "");
+      const path7 = line.slice(3);
+      const arrow = path7.indexOf(" -> ");
+      return (arrow === -1 ? path7 : path7.slice(arrow + 4)).replace(/^"|"$/g, "");
     });
   } catch {
     return [];
   }
 }
-function shouldUseWorktree2(card, project) {
-  if (project?.mode === "work") return false;
-  return card.useWorktree ?? project?.useWorktrees ?? true;
-}
-function resolveEffectiveWorktree(card, project) {
-  const effective = shouldUseWorktree2(card, project);
-  if (!effective) return { enforced: false, targetBranch: null };
-  if (card.gitBranchName) {
-    return { enforced: true, targetBranch: card.gitBranchName };
-  }
-  if (project && card.taskNumber != null) {
-    return {
-      enforced: true,
-      targetBranch: generateBranchName(project.idPrefix, card.taskNumber, card.title)
-    };
-  }
-  return { enforced: true, targetBranch: null };
-}
 
 // card-search.ts
-import { existsSync as existsSync5 } from "fs";
+import { existsSync as existsSync7 } from "fs";
 var foldCache = /* @__PURE__ */ new Map();
 function foldChar(c) {
   let ch = foldCache.get(c);
@@ -27259,7 +28010,7 @@ function findOverlap(cardFiles, callerFiles) {
 var OPEN_STATUSES = ["backlog", "bugs", "progress", "test"];
 var PLAN_STATUSES = /* @__PURE__ */ new Set(["backlog", "bugs", "progress"]);
 async function listOpenWork(db2, opts, deps) {
-  const pathExists = deps.pathExists ?? existsSync5;
+  const pathExists = deps.pathExists ?? existsSync7;
   const project = db2.prepare(`SELECT folder_path as folderPath, id_prefix as idPrefix FROM projects WHERE id = ?`).get(opts.projectId);
   if (!project) return [];
   const hasBranchColumns = hasCapability(db2, "branchStatus");
@@ -27324,36 +28075,6 @@ async function listOpenWork(db2, opts, deps) {
   return result;
 }
 
-// card-link-resolver.ts
-function createCardResolver(db2, projectId) {
-  let projects = null;
-  const cache = /* @__PURE__ */ new Map();
-  return (displayId) => {
-    if (cache.has(displayId)) return cache.get(displayId);
-    const match = displayId.match(/^([A-Z][A-Z0-9]*)-(\d+)$/);
-    let found = null;
-    if (match) {
-      projects ??= db2.prepare(`SELECT id, id_prefix as idPrefix FROM projects`).all();
-      const [, prefix, number3] = match;
-      const owners = projects.filter((p) => p.idPrefix === prefix);
-      const owner = owners.find((p) => p.id === projectId) ?? (owners.length === 1 ? owners[0] : null);
-      if (owner) {
-        const card = db2.prepare(`SELECT id, title FROM cards WHERE project_id = ? AND task_number = ?`).get(owner.id, Number(number3));
-        if (card) found = { id: card.id, displayId, title: card.title };
-      }
-    }
-    cache.set(displayId, found);
-    return found;
-  };
-}
-function linkCardsInHtml(db2, html, projectId) {
-  return linkCardReferences2(html, createCardResolver(db2, projectId));
-}
-function projectIdOfCard(db2, cardId) {
-  const row = db2.prepare(`SELECT project_id FROM cards WHERE id = ?`).get(cardId);
-  return row?.project_id ?? null;
-}
-
 // card-args.ts
 function createCardInput(db2, id, args) {
   const projectId = args.projectId ?? null;
@@ -27361,7 +28082,7 @@ function createCardInput(db2, id, args) {
     id,
     title: args.title,
     description: markdownToTiptapHtml2(args.description ?? ""),
-    solutionSummary: linkCardsInHtml(db2, markdownToTiptapHtml2(args.solutionSummary ?? ""), projectId),
+    solutionSummary: linkCardsInHtml2(db2, markdownToTiptapHtml2(args.solutionSummary ?? ""), projectId),
     // Test scenarios are added after implementation via save_tests.
     testScenarios: "",
     status: args.status ?? "backlog",
@@ -27375,7 +28096,7 @@ function updateCardFields(db2, id, updates) {
   return {
     title: updates.title,
     description: typeof updates.description === "string" ? markdownToTiptapHtml2(updates.description) : void 0,
-    solutionSummary: typeof updates.solutionSummary === "string" ? linkCardsInHtml(db2, markdownToTiptapHtml2(updates.solutionSummary), projectIdOfCard(db2, id)) : void 0,
+    solutionSummary: typeof updates.solutionSummary === "string" ? linkCardsInHtml2(db2, markdownToTiptapHtml2(updates.solutionSummary), projectIdOfCard2(db2, id)) : void 0,
     status: updates.status,
     complexity: updates.complexity,
     priority: updates.priority,
@@ -27401,7 +28122,7 @@ function selectMembers(db2, where) {
 }
 function toChainRef(member) {
   return {
-    displayId: member.idPrefix && member.taskNumber != null ? `${member.idPrefix}-${member.taskNumber}` : null,
+    displayId: formatDisplayId2(member.idPrefix, member.taskNumber),
     title: member.title,
     status: member.status
   };
@@ -27462,7 +28183,7 @@ function getDefaultDataDir() {
 function resolveDbPath() {
   const userDataEnv = process.env.IDEAFY_USER_DATA;
   const dir = userDataEnv ? resolve3(userDataEnv) : getDefaultDataDir();
-  mkdirSync5(dir, { recursive: true });
+  mkdirSync6(dir, { recursive: true });
   return resolve3(dir, "kanban.db");
 }
 var DB_PATH = resolveDbPath();
@@ -27475,62 +28196,18 @@ var db = (() => {
   }
 })();
 function assertValidCardTitle(title) {
-  if (typeof title !== "string") {
-    throw new Error("Card title must be a string");
-  }
-  const trimmed = title.trim();
-  if (!trimmed) {
-    throw new Error("Card title cannot be empty");
-  }
-  if (trimmed.length > 500) {
-    throw new Error("Card title too long (max 500 characters)");
-  }
-  if (/[<>\0]/.test(title)) {
-    throw new Error(
-      "Card title cannot contain '<', '>' or null bytes (HTML injection guard)"
-    );
-  }
+  const check2 = validateCardTitle2(title);
+  if (!check2.ok) throw new Error(check2.error);
+  return check2.title;
 }
-function resolveCardId(identifier) {
-  const uuidRegex2 = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-  if (uuidRegex2.test(identifier)) {
-    return identifier;
-  }
-  const prefixMatch = identifier.match(/^([A-Z]+)-(\d+)$/i);
-  if (prefixMatch) {
-    const prefix = prefixMatch[1].toUpperCase();
-    const taskNumber = parseInt(prefixMatch[2], 10);
-    const project = db.prepare(`SELECT id FROM projects WHERE UPPER(id_prefix) = ?`).get(prefix);
-    if (project) {
-      const card = db.prepare(`SELECT id FROM cards WHERE task_number = ? AND project_id = ?`).get(taskNumber, project.id);
-      return card?.id || null;
-    }
-    return null;
-  }
-  const numberMatch = identifier.match(/^(\d+)$/);
-  if (numberMatch) {
-    const taskNumber = parseInt(numberMatch[1], 10);
-    const card = db.prepare(`SELECT id FROM cards WHERE task_number = ?`).get(taskNumber);
-    return card?.id || null;
-  }
-  return null;
-}
-var STATUSES3 = [
-  "ideation",
-  "backlog",
-  "bugs",
-  "progress",
-  "test",
-  "completed",
-  "withdrawn"
-];
+var COLUMN_IDS = COLUMNS2.map((column) => column.id);
 function readStatus(id) {
   const row = db.prepare(`SELECT status FROM cards WHERE id = ?`).get(id);
   return row?.status ?? "unknown";
 }
 function cardFieldHtml(id, markdown) {
   const withFiles = materializeArtifactFences2(markdown, cardArtifactDir2(id));
-  const linked = linkCardsInHtml(db, markdownToTiptapHtml2(withFiles), projectIdOfCard(db, id));
+  const linked = linkCardsInHtml2(db, markdownToTiptapHtml2(withFiles), projectIdOfCard2(db, id));
   return persistCardArtifacts2(linked, id);
 }
 function aiScoreColumn(conn) {
@@ -27615,7 +28292,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
             },
             status: {
               type: "string",
-              enum: ["ideation", "backlog", "bugs", "progress", "test", "completed", "withdrawn"],
+              enum: COLUMN_IDS,
               description: "Card status/column"
             },
             complexity: {
@@ -27656,7 +28333,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
             },
             status: {
               type: "string",
-              enum: ["ideation", "backlog", "bugs", "progress", "test", "completed", "withdrawn"],
+              enum: COLUMN_IDS,
               description: "Target status/column"
             }
           },
@@ -27671,7 +28348,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
           properties: {
             status: {
               type: "string",
-              enum: ["ideation", "backlog", "bugs", "progress", "test", "completed", "withdrawn"],
+              enum: COLUMN_IDS,
               description: "Filter by status (optional)"
             },
             projectId: {
@@ -27705,7 +28382,7 @@ Reading the results: a newer decision overrides an older one (compare completedA
               type: "array",
               items: {
                 type: "string",
-                enum: ["ideation", "backlog", "bugs", "progress", "test", "completed", "withdrawn"]
+                enum: COLUMN_IDS
               },
               description: `Columns to search. Default: ${DEFAULT_SEARCH_STATUSES.join(", ")}.`
             },
@@ -27764,7 +28441,7 @@ Reading the results: a newer decision overrides an older one (compare completedA
             },
             status: {
               type: "string",
-              enum: ["ideation", "backlog", "bugs", "progress", "test", "completed", "withdrawn"],
+              enum: COLUMN_IDS,
               description: "Card status/column (default: backlog)"
             },
             complexity: {
@@ -28291,7 +28968,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     switch (name) {
       case "get_card": {
         const { id: rawId } = args;
-        const id = resolveCardId(rawId);
+        const id = resolveCardRef2(db, rawId);
         if (!id) {
           return {
             content: [{ type: "text", text: `Card not found: ${rawId}` }],
@@ -28344,7 +29021,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         const voice = projectRow?.voice ?? "builder";
         card.project = {
           voice,
-          mode: normalizeProjectMode(projectRow?.mode)
+          mode: normalizeProjectMode2(projectRow?.mode)
         };
         const { cleanedCard, images } = extractCardImages(card);
         const content = [
@@ -28377,7 +29054,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       }
       case "get_test_report": {
         const { id: rawId, run, status, screenshots } = args;
-        const id = resolveCardId(rawId);
+        const id = resolveCardRef2(db, rawId);
         const row = id ? db.prepare(
           `SELECT c.title, c.task_number as taskNumber, p.id_prefix as idPrefix
                  FROM cards c LEFT JOIN projects p ON p.id = c.project_id WHERE c.id = ?`
@@ -28392,7 +29069,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       }
       case "update_card": {
         const { id: rawId, afterCardId: rawAfterCardId, ...updates } = args;
-        const id = resolveCardId(rawId);
+        const id = resolveCardRef2(db, rawId);
         if (!id) {
           return {
             content: [{ type: "text", text: `Card not found: ${rawId}` }],
@@ -28401,7 +29078,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         }
         let afterCardId = rawAfterCardId;
         if (typeof rawAfterCardId === "string") {
-          afterCardId = resolveCardId(rawAfterCardId);
+          afterCardId = resolveCardRef2(db, rawAfterCardId);
           if (!afterCardId) {
             return {
               content: [{ type: "text", text: `afterCardId not found: ${rawAfterCardId}` }],
@@ -28442,7 +29119,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           };
         }
         if (updates.title !== void 0) {
-          assertValidCardTitle(updates.title);
+          updates.title = assertValidCardTitle(updates.title);
         }
         if (updates.complexity !== void 0) {
           const stored = normalizeComplexity2(updates.complexity);
@@ -28458,7 +29135,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           return {
             content: [{
               type: "text",
-              text: `update_card: "${updates.status}" is not a column. Valid columns: ${STATUSES3.join(", ")}.`
+              text: `update_card: "${updates.status}" is not a column. Valid columns: ${COLUMN_IDS.join(", ")}.`
             }],
             isError: true
           };
@@ -28505,18 +29182,18 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       }
       case "move_card": {
         const { id: rawId, status } = args;
-        const id = resolveCardId(rawId);
+        const id = resolveCardRef2(db, rawId);
         if (!id) {
           return {
             content: [{ type: "text", text: `Card not found: ${rawId}` }],
             isError: true
           };
         }
-        if (!STATUSES3.includes(status)) {
+        if (!isStatus2(status)) {
           return {
             content: [{
               type: "text",
-              text: `move_card: "${status}" is not a column. Valid columns: ${STATUSES3.join(", ")}.`
+              text: `move_card: "${status}" is not a column. Valid columns: ${COLUMN_IDS.join(", ")}.`
             }],
             isError: true
           };
@@ -28625,10 +29302,10 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             isError: true
           };
         }
-        const unknown2 = (statuses ?? []).filter((s) => !STATUSES3.includes(s));
+        const unknown2 = (statuses ?? []).filter((s) => !isStatus2(s));
         if (unknown2.length) {
           return {
-            content: [{ type: "text", text: `Unknown status: ${unknown2.join(", ")}. Use one of: ${STATUSES3.join(", ")}.` }],
+            content: [{ type: "text", text: `Unknown status: ${unknown2.join(", ")}. Use one of: ${COLUMN_IDS.join(", ")}.` }],
             isError: true
           };
         }
@@ -28636,7 +29313,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           query,
           projectId,
           statuses,
-          excludeCardId: excludeCardId ? resolveCardId(excludeCardId) : null,
+          excludeCardId: excludeCardId ? resolveCardRef2(db, excludeCardId) : null,
           limit
         });
         return {
@@ -28658,10 +29335,10 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           db,
           {
             projectId,
-            excludeCardId: excludeCardId ? resolveCardId(excludeCardId) : null,
+            excludeCardId: excludeCardId ? resolveCardRef2(db, excludeCardId) : null,
             files: Array.isArray(files) ? files.filter((f) => typeof f === "string") : null
           },
-          { isGitRepo, changedFiles: listChangedFiles }
+          { isGitRepo: isGitRepo2, changedFiles: listChangedFiles }
         );
         return {
           content: [{
@@ -28681,12 +29358,12 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           projectId = null,
           groupId: rawGroupId = null
         } = args;
-        assertValidCardTitle(title);
+        const validTitle = assertValidCardTitle(title);
         if (!isStatus2(status)) {
           return {
             content: [{
               type: "text",
-              text: `create_card: "${status}" is not a column. Valid columns: ${STATUSES3.join(", ")}.`
+              text: `create_card: "${status}" is not a column. Valid columns: ${COLUMN_IDS.join(", ")}.`
             }],
             isError: true
           };
@@ -28700,7 +29377,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         const cardId = v4_default();
         const created = createCard2(
           db,
-          createCardInput(db, cardId, { title, description, solutionSummary, status, complexity, priority, projectId, groupId: rawGroupId }),
+          createCardInput(db, cardId, { title: validTitle, description, solutionSummary, status, complexity, priority, projectId, groupId: rawGroupId }),
           (/* @__PURE__ */ new Date()).toISOString()
         );
         if (!created.ok) {
@@ -28713,7 +29390,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         const content = [
           {
             type: "text",
-            text: hint ? `Card created: ${cardId} (${title}). ${hint}` : `Card created: ${cardId} (${title})`
+            text: hint ? `Card created: ${cardId} (${validTitle}). ${hint}` : `Card created: ${cardId} (${validTitle})`
           }
         ];
         const opinionClause = buildCreatedCardOpinionClause2(status, hasHtmlText(solutionSummary));
@@ -28731,7 +29408,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       }
       case "save_plan": {
         const { id: rawId, solutionSummary } = args;
-        const id = resolveCardId(rawId);
+        const id = resolveCardRef2(db, rawId);
         if (!id) {
           return {
             content: [{ type: "text", text: `Card not found: ${rawId}` }],
@@ -28758,7 +29435,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       }
       case "save_tests": {
         const { id: rawId, testScenarios, allowDeletion, report } = args;
-        const id = resolveCardId(rawId);
+        const id = resolveCardRef2(db, rawId);
         if (!id) {
           return {
             content: [{ type: "text", text: `Card not found: ${rawId}` }],
@@ -28834,7 +29511,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       }
       case "revise_tests": {
         const { id: rawId, revisions } = args;
-        const id = resolveCardId(rawId);
+        const id = resolveCardRef2(db, rawId);
         if (!id) {
           return {
             content: [{ type: "text", text: `Card not found: ${rawId}` }],
@@ -28873,7 +29550,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       }
       case "save_opinion": {
         const { id: rawId, aiOpinion, aiVerdict } = args;
-        const id = resolveCardId(rawId);
+        const id = resolveCardRef2(db, rawId);
         if (!id) {
           return {
             content: [{ type: "text", text: `Card not found: ${rawId}` }],
@@ -28909,7 +29586,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       }
       case "save_output": {
         const { id: rawId, path: rawPath } = args;
-        const id = resolveCardId(rawId);
+        const id = resolveCardRef2(db, rawId);
         if (!id) {
           return {
             content: [{ type: "text", text: `Card not found: ${rawId}` }],
@@ -28928,7 +29605,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       }
       case "ensure_branch": {
         const { cardId: rawId } = args;
-        const cardId = resolveCardId(rawId);
+        const cardId = resolveCardRef2(db, rawId);
         if (!cardId) {
           return {
             content: [{ type: "text", text: `Card not found: ${rawId}` }],
@@ -28987,7 +29664,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             isError: true
           };
         }
-        if (!await isGitRepo(projectFolder)) {
+        if (!await isGitRepo2(projectFolder)) {
           return {
             content: [
               {
@@ -29011,7 +29688,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
               isError: true
             };
           }
-          targetBranch = generateBranchName(
+          targetBranch = generateBranchName2(
             project.idPrefix,
             card.taskNumber,
             card.title
@@ -29019,9 +29696,9 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           branchGenerated = true;
         }
         const nowIso = (/* @__PURE__ */ new Date()).toISOString();
-        const expectedPath = card.gitWorktreePath || getWorktreePath(projectFolder, targetBranch);
-        if (await worktreeExists(projectFolder, expectedPath)) {
-          const branchInWorktree = await getCurrentBranch(expectedPath);
+        const expectedPath = card.gitWorktreePath || getWorktreePath2(projectFolder, targetBranch);
+        if (await worktreeExists2(projectFolder, expectedPath)) {
+          const branchInWorktree = await getCurrentBranch3(expectedPath);
           if (branchInWorktree === targetBranch) {
             if (branchGenerated || card.gitBranchName !== targetBranch || card.gitWorktreePath !== expectedPath) {
               db.prepare(
@@ -29042,7 +29719,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             };
           }
         }
-        const result = await createWorktree(projectFolder, targetBranch);
+        const result = await createWorktree2(projectFolder, targetBranch);
         if (!result.success) {
           return {
             content: [
@@ -29078,7 +29755,10 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             isError: true
           };
         }
-        const resolvedCardId = resolveCardId(cardId) ?? cardId;
+        const existing = db.prepare(`SELECT session_id, cwd FROM ideafy_sessions WHERE session_id = ?`).get(sessionId);
+        const sessionDir = existing?.cwd || process.cwd();
+        const sessionProjectId = resolveProjectByFolder2(db, sessionDir)?.id ?? null;
+        const resolvedCardId = resolveCardRef2(db, cardId, { projectId: sessionProjectId }) ?? cardId;
         const card = db.prepare(
           `SELECT id, project_id as projectId, title, status, task_number as taskNumber,
                     use_worktree as useWorktree, git_branch_name as gitBranchName
@@ -29091,7 +29771,6 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           };
         }
         const now = (/* @__PURE__ */ new Date()).toISOString();
-        const existing = db.prepare(`SELECT session_id, cwd FROM ideafy_sessions WHERE session_id = ?`).get(sessionId);
         if (existing) {
           db.prepare(
             `UPDATE ideafy_sessions SET project_id = ?, state = 'bound', card_id = ?, updated_at = ? WHERE session_id = ?`
@@ -29106,17 +29785,25 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           // not exist yet on a DB the app has not migrated.
           `SELECT *, id_prefix as idPrefix, use_worktrees as useWorktrees, folder_path as folderPath FROM projects WHERE id = ?`
         ).get(card.projectId) : void 0;
-        const mode = normalizeProjectMode(project?.mode);
-        const displayId = project && card.taskNumber != null ? `${project.idPrefix}-${card.taskNumber}` : null;
-        const sessionDir = existing?.cwd || process.cwd();
-        const outsideProject = project !== void 0 && resolveProjectByFolder2(db, sessionDir)?.id !== card.projectId && globalAgentModeEnabled2(db);
-        const policy = outsideProject ? buildGlobalBoundPolicyBody2(
-          { id: card.id, title: card.title, status: card.status, displayId },
+        const mode = normalizeProjectMode2(project?.mode);
+        const policyCard = {
+          id: card.id,
+          title: card.title,
+          status: card.status,
+          displayId: formatDisplayId2(project?.idPrefix, card.taskNumber)
+        };
+        const choice = chooseBoundPolicy2({
+          sessionProjectId,
+          cardProjectId: project ? card.projectId : null,
+          globalMode: globalAgentModeEnabled2(db)
+        });
+        const policy = choice === "silent" ? null : choice === "global-bound" && project ? buildGlobalBoundPolicyBody2(
+          policyCard,
           { name: project.name, folderPath: project.folderPath },
           mode
         ) : buildPhasePolicyBody2(
-          { id: card.id, title: card.title, status: card.status, displayId },
-          card.status === "progress" ? resolveEffectiveWorktree(
+          policyCard,
+          card.status === "progress" ? resolveEffectiveWorktree2(
             {
               useWorktree: normalizeUseWorktree(card.useWorktree),
               gitBranchName: card.gitBranchName,
@@ -29138,7 +29825,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
               type: "text",
               text: policy ? `${bound} The phase policy below applies from this turn onward \u2014 follow it now, do not wait for the next turn.
 
-${policy}` : `${bound} This column has no phase policy.`
+${policy}` : choice === "silent" ? `${bound} This session is outside every project and global mode is off, so no phase policy applies here.${project ? ` To work on the card, open a session in ${project.folderPath}.` : ""}` : `${bound} This column has no phase policy.`
             }
           ]
         };
@@ -29214,7 +29901,7 @@ ${policy}` : `${bound} This column has no phase policy.`
         if (acknowledge && !hasCapability(db, "writeAck")) {
           return { content: [{ type: "text", text: missingCapabilityMessage("check_write_conflicts", "writeAck") }], isError: true };
         }
-        const explicitCardId = rawCardId ? resolveCardId(rawCardId) : null;
+        const explicitCardId = rawCardId ? resolveCardRef2(db, rawCardId) : null;
         if (rawCardId && !explicitCardId) {
           return { content: [{ type: "text", text: `Card not found: ${rawCardId}` }], isError: true };
         }
@@ -29257,11 +29944,11 @@ ${policy}` : `${bound} This column has no phase policy.`
         }
         const checkout = inWorktree ? process.cwd() : folder;
         const ownFiles = new Set(self?.touchedFiles ?? []);
-        const uncommitted = checkout && await isGitRepo(checkout) ? (await listUncommittedFiles(checkout, files.length ? files : null)).map((f) => inWorktree && folder ? relative2(folder, resolve3(checkout, f)) : f).filter((f) => !ownFiles.has(f)) : [];
+        const uncommitted = checkout && await isGitRepo2(checkout) ? (await listUncommittedFiles(checkout, files.length ? files : null)).map((f) => inWorktree && folder ? relative2(folder, resolve3(checkout, f)) : f).filter((f) => !ownFiles.has(f)) : [];
         const openWork = files.length ? (await listOpenWork(
           db,
           { projectId, excludeCardId: buildingCardId, files },
-          { isGitRepo, changedFiles: listChangedFiles }
+          { isGitRepo: isGitRepo2, changedFiles: listChangedFiles }
         )).filter((row) => row.overlap && row.overlap.length > 0).map((row) => ({ displayId: row.displayId, title: row.title, status: row.status, overlap: row.overlap })) : [];
         let acknowledged;
         if (acknowledge && sessionId) {
@@ -29324,13 +30011,13 @@ ${policy}` : `${bound} This column has no phase policy.`
         if (rawScope !== void 0 && rawScope !== "next" && rawScope !== "all") {
           return { content: [{ type: "text", text: `queue_card: scope must be "next" or "all". Nothing was written.` }], isError: true };
         }
-        const cardId = resolveCardId(rawCardId);
+        const cardId = resolveCardRef2(db, rawCardId);
         if (!cardId) {
           return { content: [{ type: "text", text: `Card not found: ${rawCardId}` }], isError: true };
         }
         let afterCardId = rawAfterCardId;
         if (typeof rawAfterCardId === "string") {
-          afterCardId = resolveCardId(rawAfterCardId);
+          afterCardId = resolveCardRef2(db, rawAfterCardId);
           if (!afterCardId) {
             return { content: [{ type: "text", text: `afterCardId not found: ${rawAfterCardId}` }], isError: true };
           }
@@ -29360,7 +30047,7 @@ ${policy}` : `${bound} This column has no phase policy.`
           };
         }
         const { cardId: rawCardId } = args;
-        const cardId = resolveCardId(rawCardId);
+        const cardId = resolveCardRef2(db, rawCardId);
         if (!cardId) {
           return { content: [{ type: "text", text: `Card not found: ${rawCardId}` }], isError: true };
         }
@@ -29385,7 +30072,7 @@ ${policy}` : `${bound} This column has no phase policy.`
         if (verifyScope !== void 0 && verifyScope !== "next" && verifyScope !== "all") {
           return { content: [{ type: "text", text: `${name}: verifyScope must be "next" or "all". Nothing was changed.` }], isError: true };
         }
-        const cardId = resolveCardId(rawCardId);
+        const cardId = resolveCardRef2(db, rawCardId);
         if (!cardId) {
           return { content: [{ type: "text", text: `Card not found: ${rawCardId}` }], isError: true };
         }
