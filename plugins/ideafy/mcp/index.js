@@ -23508,18 +23508,32 @@ function taskItemSpans(html) {
   }
   return spans;
 }
+function noteSpans(html) {
+  const spans = [];
+  const tags = /<(\/?)li\b[^>]*>|<p\b[^>]*>([\s\S]*?)<\/p>/gi;
+  let depth2 = 0;
+  let tag;
+  while ((tag = tags.exec(html)) !== null) {
+    if (tag[2] === void 0) depth2 = Math.max(0, depth2 + (tag[1] ? -1 : 1));
+    else if (depth2 === 0) spans.push({ start: tag.index, end: tag.index + tag[0].length, text: tag[2] });
+  }
+  return spans;
+}
 function matchRevisions(normalizedHtml, revisions) {
-  const spans = taskItemSpans(normalizedHtml).map((span) => {
+  const keyOf = (html) => normalizeTaskText(plainTaskText(html.replace(/<br\s*\/?>/gi, " ")));
+  const items = taskItemSpans(normalizedHtml).map((span) => {
     const text = normalizedHtml.slice(span.start, span.end).match(/<p[^>]*>([\s\S]*?)<\/p>/i)?.[1] ?? "";
-    return { ...span, key: normalizeTaskText(plainTaskText(text)) };
+    return { ...span, kind: "item", key: keyOf(text) };
   });
+  const notes = noteSpans(normalizedHtml).map((span) => ({ start: span.start, end: span.end, kind: "note", key: keyOf(span.text) }));
   const taken = /* @__PURE__ */ new Set();
   return revisions.map((revision) => {
-    const key = normalizeTaskText(plainTaskText(revision.from));
-    const span = key ? spans.find((s) => s.key === key && !taken.has(s.start)) : void 0;
+    const key = keyOf(revision.from);
+    const free = (s) => s.key === key && !taken.has(s.start);
+    const span = key ? items.find(free) ?? notes.find(free) : void 0;
     if (!span) return null;
     taken.add(span.start);
-    return span;
+    return { start: span.start, end: span.end, kind: span.kind };
   });
 }
 function findRevisionTargets(html, revisions) {
@@ -23532,7 +23546,7 @@ function reviseTaskItems(html, revisions) {
   const missing = [];
   revisions.forEach((revision, index) => {
     const span = matches[index];
-    const fresh = taskItemHtml(revision.to);
+    const fresh = span?.kind === "note" ? noteHtml(revision.to) : taskItemHtml(revision.to);
     if (!span || !fresh) missing.push(revision.from);
     else replacements.set(span.start, { end: span.end, html: fresh });
   });
@@ -23552,6 +23566,12 @@ function taskItemHtml(text) {
   const html = markdownToTiptapHtml(`- [ ] ${line}`);
   const span = taskItemSpans(html)[0];
   return span ? html.slice(span.start, span.end) : null;
+}
+function noteHtml(text) {
+  const line = text.replace(/^\s*(?:[-*+]\s+)?(?:\[[ xX]\]\s*)?/, "").replace(/\s+/g, " ").trim();
+  if (!line) return null;
+  const html = markdownToTiptapHtml(line).trim();
+  return /^<p>[\s\S]*<\/p>$/i.test(html) && !/<\/p>[\s\S]*<p>/i.test(html) ? html : null;
 }
 function countRetainedItems(existingHtml, newHtml) {
   const existing = extractTaskItems(existingHtml);
@@ -29151,11 +29171,11 @@ Test Report (report): when you have just verified checklist items yourself \u201
       },
       {
         name: "revise_tests",
-        description: `Rewrite checklist items that are already on a card, in place: each one keeps its group and position and comes back unticked with its new text. Every other item, tick and note stays as it is, and the card does not move.
+        description: `Rewrite checklist items that are already on a card, in place: each one keeps its group and position and comes back unticked with its new text. A note without a box \u2014 an \`If it breaks:\` / \`Patlarsa:\` line, a group's explanation \u2014 can be rewritten the same way and stays a note. Every other item, tick and note stays as it is, and the card does not move.
 
 Use it when the user asks you in this turn to change the wording of existing scenarios \u2014 an Ask why found a scenario wrong, an item went stale after a change. To add scenarios use save_tests; to remove them, save_tests with allowDeletion. Do not reword an item by sending save_tests with allowDeletion.
 
-Quote each item word for word as it reads on the card now (get_card). If any item is not found, nothing is written and the result names it.
+Quote each item word for word as it reads on the card now (get_card), a note whole. If any item is not found, nothing is written and the result names it.
 
 confirmCurrent: true says the checklist was checked against the code and is still right \u2014 after get_card's testsDrift, when no item needs changing. With it, revisions may be empty; the checklist's base commit moves to HEAD and testsDrift goes quiet. Revising items moves it too.`,
         inputSchema: {
@@ -29171,7 +29191,7 @@ confirmCurrent: true says the checklist was checked against the code and is stil
               items: {
                 type: "object",
                 properties: {
-                  item: { type: "string", description: "The checklist item as it reads now, word for word." },
+                  item: { type: "string", description: "The checklist item (or note) as it reads now, word for word." },
                   text: { type: "string", description: "Its new text: one line, without the checkbox." }
                 },
                 required: ["item", "text"]
@@ -29637,7 +29657,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         if (testsDrift && testsDrift.total > 0) {
           content.push({
             type: "text",
-            text: `testsDrift: ${testsDrift.total} commit(s) touched this card's files since its checklist was written. Before walking or trusting the checklist, offer the user to check it against them: read each with \`git show <sha> -- <file>\`, then, on their OK, rewrite only the items that went wrong with revise_tests \u2014 or, if none did, call revise_tests with confirmCurrent: true and no revisions.`
+            text: `testsDrift: ${testsDrift.total} commit(s) touched this card's files since its checklist was written. Before walking or trusting the checklist, offer the user to check it against them: read each with \`git show <sha> -- <file>\`, then, on their OK, rewrite only the items or notes (If it breaks: lines) that went wrong with revise_tests \u2014 or, if none did, call revise_tests with confirmCurrent: true and no revisions.`
           });
         }
         for (const img of images) {
@@ -30206,7 +30226,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         return {
           content: [{
             type: "text",
-            text: saved.revised === 0 ? `Card ${id}'s checklist is marked current against the code; nothing was rewritten. Card is in "${readStatus(id)}".` : `Revised ${saved.revised} item(s) on card ${id} in place; they are unticked now. Card is in "${readStatus(id)}".`
+            text: saved.revised === 0 ? `Card ${id}'s checklist is marked current against the code; nothing was rewritten. Card is in "${readStatus(id)}".` : `Revised ${saved.revised} item(s) on card ${id} in place; revised items are unticked now, notes stay notes. Card is in "${readStatus(id)}".`
           }]
         };
       }
