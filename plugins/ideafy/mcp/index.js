@@ -21447,6 +21447,33 @@ __export(card_links_exports, {
   cardMentionHtml: () => cardMentionHtml,
   linkCardReferences: () => linkCardReferences
 });
+
+// ../lib/html-text.ts
+var NAMED = {
+  amp: "&",
+  lt: "<",
+  gt: ">",
+  quot: '"',
+  apos: "'",
+  nbsp: " "
+};
+var ENTITY = /&(#\d+|#x[0-9a-f]+|amp|lt|gt|quot|apos|nbsp);/gi;
+function decodeHtmlEntities(text) {
+  return text.replace(ENTITY, (match, body) => {
+    if (body[0] !== "#") return NAMED[body.toLowerCase()] ?? match;
+    const hex3 = body[1] === "x" || body[1] === "X";
+    const code = parseInt(body.slice(hex3 ? 2 : 1), hex3 ? 16 : 10);
+    return code > 0 && code <= 1114111 ? String.fromCodePoint(code) : match;
+  });
+}
+function plainTextLabel(html, maxChars) {
+  const text = decodeHtmlEntities(html.replace(/<[^>]*>/g, "")).replace(/\s+/g, " ").trim();
+  if (maxChars === void 0) return text;
+  const chars = Array.from(text);
+  return chars.length > maxChars ? `${chars.slice(0, maxChars).join("").trimEnd()}\u2026` : text;
+}
+
+// ../lib/card-links.ts
 var REFERENCE = /\[\[\s*([A-Z][A-Z0-9]*-\d+)(?:\s*[·|:—–-][^\]]*)?\s*\]\]|\b([A-Z][A-Z0-9]*-\d+)\b/g;
 var SKIP_TAGS = /* @__PURE__ */ new Set(["code", "pre", "a"]);
 var VOID_TAGS = /* @__PURE__ */ new Set(["br", "hr", "img", "input", "wbr", "col", "source"]);
@@ -21456,11 +21483,8 @@ function escapeText(value) {
 function escapeAttr(value) {
   return escapeText(value).replace(/"/g, "&quot;");
 }
-function decodeEntities(value) {
-  return value.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, "&");
-}
 function cardMentionHtml(card) {
-  const title = decodeEntities(card.title).trim();
+  const title = decodeHtmlEntities(card.title).trim();
   const label2 = title ? `${card.displayId} \xB7 ${title}` : card.displayId;
   return `<span data-type="cardMention" data-id="${escapeAttr(card.id)}" data-display-id="${escapeAttr(card.displayId)}" data-title="${escapeAttr(title)}" class="mention card-mention">[[${escapeText(label2)}]]</span>`;
 }
@@ -21618,21 +21642,9 @@ __export(plan_files_exports, {
   sharedPlanFiles: () => sharedPlanFiles
 });
 var BASE64_IMG = /<img[^>]*src=["']data:[^"']*["'][^>]*>/gi;
-var ENTITIES = {
-  "&nbsp;": " ",
-  "&amp;": "&",
-  "&lt;": "<",
-  "&gt;": ">",
-  "&quot;": '"',
-  "&#39;": "'",
-  "&apos;": "'"
-};
-function decodeEntities2(text) {
-  return text.replace(/&(nbsp|amp|lt|gt|quot|apos|#39);/g, (m2) => ENTITIES[m2] ?? m2);
-}
 function htmlToText(html) {
   if (!html) return "";
-  return decodeEntities2(
+  return decodeHtmlEntities(
     html.replace(BASE64_IMG, " ").replace(/<br\s*\/?>/gi, "\n").replace(/<\/(p|li|h[1-6]|div|tr|pre|blockquote)>/gi, "\n").replace(/<[^>]*>/g, "")
   ).replace(/[ \t]+/g, " ").replace(/\n\s*/g, "\n").trim();
 }
@@ -21673,6 +21685,28 @@ function sharedPlanFiles(a, b2) {
   const other = b2.map(normalizePath);
   const shared = a.map(normalizePath).filter((file2) => other.some((o) => pathsOverlap(file2, o)));
   return Array.from(new Set(shared));
+}
+
+// ../lib/card-number-query.ts
+var card_number_query_exports = {};
+__export(card_number_query_exports, {
+  matchesCardNumber: () => matchesCardNumber,
+  parseCardNumberQuery: () => parseCardNumberQuery
+});
+var DISPLAY_ID = /^([A-Z][A-Z0-9]*)-(\d+)$/i;
+var TASK_NUMBER = /^(\d+)$/;
+function parseCardNumberQuery(query) {
+  const value = query.trim();
+  const display = value.match(DISPLAY_ID);
+  if (display) return { prefix: display[1].toUpperCase(), taskNumber: Number(display[2]) };
+  const bare = value.match(TASK_NUMBER);
+  if (bare) return { prefix: null, taskNumber: Number(bare[1]) };
+  return null;
+}
+function matchesCardNumber(parsed, card) {
+  if (!parsed || card.taskNumber == null || card.taskNumber !== parsed.taskNumber) return false;
+  if (parsed.prefix === null) return true;
+  return !!card.idPrefix && card.idPrefix.toUpperCase() === parsed.prefix;
 }
 
 // ../lib/card-ops/index.ts
@@ -23723,16 +23757,13 @@ function testScenariosToMarkdown(html) {
   return parts.join("\n");
 }
 function plainTaskText(rawText) {
-  return decodeEntities3(rawText.replace(/<[^>]*>/g, "")).replace(/\s+/g, " ").trim();
-}
-function decodeEntities3(text) {
-  return text.replace(/&#(\d+);/g, (_m, code) => String.fromCharCode(parseInt(code, 10))).replace(/&#x([0-9a-f]+);/gi, (_m, code) => String.fromCharCode(parseInt(code, 16))).replace(/&nbsp;/gi, " ").replace(/&quot;/gi, '"').replace(/&apos;/gi, "'").replace(/&lt;/gi, "<").replace(/&gt;/gi, ">").replace(/&amp;/gi, "&");
+  return decodeHtmlEntities(rawText.replace(/<[^>]*>/g, "")).replace(/\s+/g, " ").trim();
 }
 function normalizeHeading(text) {
-  return decodeEntities3(text.replace(/<[^>]*>/g, "")).replace(/[*_`]/g, "").replace(/\s+/g, " ").trim().replace(/\s*:$/, "").toLocaleLowerCase("tr");
+  return decodeHtmlEntities(text.replace(/<[^>]*>/g, "")).replace(/[*_`]/g, "").replace(/\s+/g, " ").trim().replace(/\s*:$/, "").toLocaleLowerCase("tr");
 }
 function dedupeKey(text) {
-  return normalizeTaskText(decodeEntities3(text.replace(/<[^>]*>/g, " "))) || null;
+  return normalizeTaskText(decodeHtmlEntities(text.replace(/<[^>]*>/g, " "))) || null;
 }
 function sectionEnd(blocks, headingIdx) {
   const level = blocks[headingIdx].level;
@@ -24098,7 +24129,7 @@ function artifactKind(absolutePath) {
   if (DOC_EXT.has(ext)) return "doc";
   return "file";
 }
-function decodeEntities4(text) {
+function decodeEntities(text) {
   return text.replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
 }
 function escapeHtml(text) {
@@ -24114,9 +24145,9 @@ function fileLinksToArtifactChips(html) {
   return html.replace(
     /<a\b[^>]*href="(file:\/\/[^"]*)"[^>]*>([\s\S]*?)<\/a>/gi,
     (tag, href, inner) => {
-      const absolute = fileUrlToPath(decodeEntities4(href));
+      const absolute = fileUrlToPath(decodeEntities(href));
       if (!absolute) return tag;
-      const text = decodeEntities4(inner.replace(/<[^>]*>/g, "").trim());
+      const text = decodeEntities(inner.replace(/<[^>]*>/g, "").trim());
       const name = !text || text.startsWith("/") || text.startsWith("file://") ? void 0 : text;
       return artifactChipHtml(absolute, name);
     }
@@ -24126,7 +24157,7 @@ var INLINE_CODE_RE = /(?<!<pre\b[^>]*>)<code\b[^>]*>([^<]*)<\/code>/gi;
 function replaceCodePaths(html, render) {
   if (!html || !html.includes("<code")) return html;
   return html.replace(INLINE_CODE_RE, (tag, inner) => {
-    const path7 = localPathFromText(decodeEntities4(inner));
+    const path7 = localPathFromText(decodeEntities(inner));
     return path7 && render(path7) || tag;
   });
 }
@@ -25360,12 +25391,12 @@ function moveCardInChain(db2, cardId, afterCardId, expectedGroupId) {
 
 // ../lib/card-ops/card-ref.ts
 var UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-var DISPLAY_ID = /^([A-Z][A-Z0-9]*)-(\d+)$/i;
-var TASK_NUMBER = /^(\d+)$/;
+var DISPLAY_ID2 = /^([A-Z][A-Z0-9]*)-(\d+)$/i;
+var TASK_NUMBER2 = /^(\d+)$/;
 function resolveCardRef(db2, ref, opts = {}) {
   const value = ref.trim();
   if (UUID.test(value)) return value;
-  const display = value.match(DISPLAY_ID);
+  const display = value.match(DISPLAY_ID2);
   if (display) {
     return pick2(
       allRows(
@@ -25379,7 +25410,7 @@ function resolveCardRef(db2, ref, opts = {}) {
       opts.projectId
     );
   }
-  const number3 = value.match(TASK_NUMBER);
+  const number3 = value.match(TASK_NUMBER2);
   if (number3) {
     return pick2(
       allRows(
@@ -26209,7 +26240,7 @@ function countChecks(html) {
   return { checked, total: checked + unchecked };
 }
 function headingText(raw) {
-  return raw.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/^#+\s*/, "").replace(/\s+/g, " ").trim();
+  return plainTextLabel(raw).replace(/^#+\s*/, "");
 }
 function splitSections(html) {
   const headings = [];
@@ -26259,7 +26290,7 @@ function itemTexts(html, groups, checked) {
     let match;
     while ((match = ITEM.exec(section2.body)) !== null) {
       if (match[1] === "true" !== checked) continue;
-      const text = headingText(match[2]).replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#39;/g, "'");
+      const text = headingText(match[2]);
       if (text) texts.push(text);
     }
   }
@@ -27866,6 +27897,7 @@ var { PRIOR_DECISIONS_RULE: PRIOR_DECISIONS_RULE2, CHAIN_IMPLEMENTATION_RULE: CH
 var { linkCardReferences: linkCardReferences2 } = unwrap(card_links_exports);
 var { buildChainContext: buildChainContext2, compareByChainOrder: compareByChainOrder2, isFinished: isFinished2, placeAfter: placeAfter2 } = unwrap(chain_order_exports);
 var { extractPlanFiles: extractPlanFiles2, htmlToText: htmlToText2, normalizePath: normalizePath2, pathsOverlap: pathsOverlap2 } = unwrap(plan_files_exports);
+var { parseCardNumberQuery: parseCardNumberQuery2, matchesCardNumber: matchesCardNumber2 } = unwrap(card_number_query_exports);
 var {
   transaction: transaction2,
   moveCard: moveCard2,
@@ -28671,9 +28703,11 @@ var DEFAULT_SEARCH_LIMIT = 8;
 var MAX_SEARCH_LIMIT = 25;
 var TITLE_WEIGHT = 3;
 var BODY_WEIGHT = 1;
+var NUMBER_WEIGHT = 1e3;
 function searchCards(db2, opts) {
   const terms = queryTerms(opts.query);
   if (terms.length === 0) return [];
+  const numberQuery = parseCardNumberQuery2(opts.query);
   const statuses = opts.statuses?.length ? opts.statuses : [...DEFAULT_SEARCH_STATUSES];
   const limit = Math.min(Math.max(1, Math.floor(opts.limit ?? DEFAULT_SEARCH_LIMIT)), MAX_SEARCH_LIMIT);
   const completedAt = hasCapability(db2, "completedAt") ? "completed_at" : "NULL";
@@ -28695,7 +28729,7 @@ function searchCards(db2, opts) {
     const foldedTitle = foldText(title);
     const bodies = [row.aiOpinion, row.solutionSummary, row.description].map((html) => htmlToText2(html).replace(/\s+/g, " ")).filter((text) => text.length > 0);
     const foldedBodies = bodies.map(foldText);
-    let score = 0;
+    let score = matchesCardNumber2(numberQuery, { idPrefix: prefix, taskNumber: row.taskNumber }) ? NUMBER_WEIGHT : 0;
     for (const term of terms) {
       if (foldedTitle.includes(term)) score += TITLE_WEIGHT;
       if (foldedBodies.some((body) => body.includes(term))) score += BODY_WEIGHT;
@@ -29181,7 +29215,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
       },
       {
         name: "search_cards",
-        description: `Search one project's cards for earlier decisions before you evaluate an idea or write a plan. Matches the query's words (case- and accent-insensitive) against each card's title, description, plan and AI opinion; a title match ranks higher. Returns short rows \u2014 displayId, title, status, aiVerdict, aiScore, completedAt, updatedAt and a ~240-character snippet \u2014 never the full card. Open a row with get_card when the snippet is not enough.
+        description: `Search one project's cards for earlier decisions before you evaluate an idea or write a plan. Matches the query's words (case- and accent-insensitive) against each card's title, description, plan and AI opinion; a title match ranks higher. A query that is a card's number (IDE-504, ide-504 or 504) also finds that card and puts it first. Returns short rows \u2014 displayId, title, status, aiVerdict, aiScore, completedAt, updatedAt and a ~240-character snippet \u2014 never the full card. Open a row with get_card when the snippet is not enough.
 
 Reading the results: a newer decision overrides an older one (compare completedAt/updatedAt); \`withdrawn\` means the approach was tried and abandoned; \`progress\` / \`test\` are decisions still in flight.`,
         inputSchema: {
