@@ -21826,6 +21826,7 @@ __export(card_ops_exports, {
   opinionEditFields: () => opinionEditFields,
   parseBlockedBy: () => parseBlockedBy,
   parseWriteAck: () => parseWriteAck,
+  persistCardFieldArtifacts: () => persistCardFieldArtifacts,
   projectIdOfCard: () => projectIdOfCard,
   queueDisplayId: () => queueDisplayId,
   queueKindOf: () => queueKindOf,
@@ -24080,7 +24081,7 @@ __export(artifact_links_exports, {
   persistCardArtifacts: () => persistCardArtifacts
 });
 import { copyFileSync, existsSync, mkdirSync, readFileSync, realpathSync, statSync, writeFileSync } from "fs";
-import { homedir } from "os";
+import { homedir, tmpdir } from "os";
 import path from "path";
 
 // ../lib/artifact-fence.ts
@@ -24173,11 +24174,21 @@ function fileUrlToPath(href) {
 function pathToFileUrl(absolutePath) {
   return `file://${absolutePath.split("/").map(encodeURIComponent).join("/")}`;
 }
-var LOCAL_PATH_RE = /^(~\/|\/(Users|home|tmp|private|var\/folders|Volumes)\/)\S/;
-function localPathFromText(text) {
-  if (!text || text.includes("\n")) return null;
-  const trimmed = text.trim();
-  return LOCAL_PATH_RE.test(trimmed) ? trimmed : null;
+var SENSITIVE_DIRS = [
+  [".ssh"],
+  [".aws"],
+  [".gnupg"],
+  [".config"],
+  ["Library", "Application Support"],
+  ["Library", "Keychains"]
+];
+var SENSITIVE_NAME_RE = /^\.env$|^\.env\.|\.env$|credentials|secret|token|^id_(rsa|dsa|ecdsa|ed25519)|\.(pem|key|p12|pfx)$|^\.netrc$|^\.npmrc$/i;
+function isSensitivePath(filePath) {
+  const segments = filePath.split("/").filter(Boolean);
+  if (SENSITIVE_NAME_RE.test(segments[segments.length - 1] ?? "")) return true;
+  return SENSITIVE_DIRS.some(
+    (dir) => segments.some((_2, i) => dir.every((part, j2) => segments[i + j2] === part))
+  );
 }
 function artifactBasename(absolutePath) {
   const parts = absolutePath.split("/").filter(Boolean);
@@ -24213,20 +24224,6 @@ function fileLinksToArtifactChips(html) {
       return artifactChipHtml(absolute, name);
     }
   );
-}
-var INLINE_CODE_RE = /(?<!<pre\b[^>]*>)<code\b[^>]*>([^<]*)<\/code>/gi;
-function replaceCodePaths(html, render) {
-  if (!html || !html.includes("<code")) return html;
-  return html.replace(INLINE_CODE_RE, (tag, inner) => {
-    const path7 = localPathFromText(decodeEntities(inner));
-    return path7 && render(path7) || tag;
-  });
-}
-function codePathsToFileLinks(html, homeDir) {
-  return replaceCodePaths(html, (path7) => {
-    const absolute = path7.startsWith("~/") ? `${homeDir}/${path7.slice(2)}` : path7;
-    return `<a href="${escapeHtml(pathToFileUrl(absolute))}">${escapeHtml(artifactBasename(absolute))}</a>`;
-  });
 }
 
 // ../lib/artifact-links.ts
@@ -24296,21 +24293,36 @@ function materializeArtifactFences(text, cardDir) {
 function escapeAttr2(value) {
   return value.replace(/&/g, "&amp;").replace(/"/g, "&quot;");
 }
-function persistArtifacts(html, cardDir) {
-  return fileLinksToArtifactChips(persistArtifactLinks(html, cardDir));
+function escapeText2(value) {
+  return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
-function persistCardArtifacts(html, cardId, homeDir) {
-  const linked = codePathsToFileLinks(html, homeDir ?? homedir());
-  if (!linked.includes("file://")) return linked;
-  const cardDir = cardArtifactDir(cardId, homeDir);
+var SYSTEM_TEMP_DIRS = ["/tmp", "/var/folders"];
+function realRoots(paths) {
+  const roots = [];
+  for (const p of paths) {
+    if (!p) continue;
+    try {
+      roots.push(realpathSync(p));
+    } catch {
+    }
+  }
+  return roots;
+}
+function persistArtifacts(html, cardDir, sources = {}) {
+  return fileLinksToArtifactChips(persistArtifactLinks(html, cardDir, sources));
+}
+function persistCardArtifacts(html, cardId, sources = {}) {
+  if (!html || !html.includes("file://")) return html;
+  const cardDir = cardArtifactDir(cardId, sources.homeDir);
   try {
     mkdirSync(cardDir, { recursive: true });
   } catch (error2) {
     console.error("Failed to create the card folder:", cardDir, error2);
   }
-  return persistArtifacts(linked, cardDir);
+  return persistArtifacts(html, cardDir, sources);
 }
-function persistArtifactLinks(html, cardDir) {
+var FILE_ANCHOR_RE = /<a\b[^>]*href=(["'])(file:\/\/[^"']*)\1[^>]*>[\s\S]*?<\/a>/gi;
+function persistArtifactLinks(html, cardDir, sources = {}) {
   if (!html || !html.includes("file://")) return html;
   let realCardDir;
   try {
@@ -24318,18 +24330,41 @@ function persistArtifactLinks(html, cardDir) {
   } catch {
     return html;
   }
-  return html.replace(/href=(["'])(file:\/\/[^"']*)\1/gi, (match, quote, rawHref) => {
+  const roots = [
+    realCardDir,
+    ...realRoots(sources.projectFolders ?? []),
+    ...realRoots(sources.tempDirs ?? [tmpdir(), ...SYSTEM_TEMP_DIRS])
+  ];
+  const realOf = (source) => {
+    try {
+      return realpathSync(source);
+    } catch {
+      return null;
+    }
+  };
+  const withoutSecrets = html.replace(FILE_ANCHOR_RE, (anchor, _quote, rawHref) => {
+    const source = fileUrlToPath(rawHref.replace(/&amp;/g, "&"));
+    if (!source) return anchor;
+    const real = realOf(source);
+    if (isInside(real ?? path.resolve(source), realCardDir)) return anchor;
+    if (!isSensitivePath(source) && !(real && isSensitivePath(real))) return anchor;
+    return `<code>${escapeText2(source)}</code>`;
+  });
+  return withoutSecrets.replace(/href=(["'])(file:\/\/[^"']*)\1/gi, (match, quote, rawHref) => {
     const source = fileUrlToPath(rawHref.replace(/&amp;/g, "&"));
     if (!source) return match;
-    let realSource;
+    const realSource = realOf(source);
+    if (!realSource) return match;
     try {
-      realSource = realpathSync(source);
       const stat = statSync(realSource);
       if (!stat.isFile() || stat.size > MAX_ARTIFACT_BYTES) return match;
     } catch {
       return match;
     }
-    if (isInside(realSource, realCardDir) && !isInside(realSource, path.join(realCardDir, SCRATCH_DIR))) {
+    if (!roots.some((root) => isInside(realSource, root))) return match;
+    const inCard = isInside(realSource, realCardDir);
+    if (!inCard && (isSensitivePath(source) || isSensitivePath(realSource))) return match;
+    if (inCard && !isInside(realSource, path.join(realCardDir, SCRATCH_DIR))) {
       return match;
     }
     try {
@@ -27015,6 +27050,18 @@ function projectIdOfCard(db2, cardId) {
   return getRow(db2, `SELECT project_id FROM cards WHERE id = ?`, cardId)?.project_id ?? null;
 }
 
+// ../lib/card-ops/artifacts.ts
+function persistCardFieldArtifacts(db2, cardId, html, sources = {}) {
+  if (!html || !html.includes("file://")) return html;
+  const row = getRow(
+    db2,
+    `SELECT p.folder_path AS projectFolder, c.project_folder AS cardFolder
+     FROM cards c LEFT JOIN projects p ON p.id = c.project_id WHERE c.id = ?`,
+    cardId
+  );
+  return persistCardArtifacts(html, cardId, { ...sources, projectFolders: [row?.projectFolder, row?.cardFolder] });
+}
+
 // ../lib/card-ops/session-policy.ts
 function chooseBoundPolicy(args) {
   const { sessionProjectId, cardProjectId, globalMode } = args;
@@ -28028,6 +28075,7 @@ var {
   createCardResolver: createCardResolver2,
   linkCardsInHtml: linkCardsInHtml2,
   projectIdOfCard: projectIdOfCard2,
+  persistCardFieldArtifacts: persistCardFieldArtifacts2,
   resolveCardRef: resolveCardRef2,
   chooseBoundPolicy: chooseBoundPolicy2,
   validateCardTitle: validateCardTitle2
@@ -28036,7 +28084,7 @@ var { writeConflictFor: writeConflictFor2 } = unwrap(card_queue_exports);
 var { normalizeComplexity: normalizeComplexity2, describeOpinionMarkers: describeOpinionMarkers2 } = unwrap(opinion_markers_exports);
 var { EVALUATION_OUTPUT_SCHEMA: EVALUATION_OUTPUT_SCHEMA2, EVALUATION_HEADINGS_RULE: EVALUATION_HEADINGS_RULE2, buildEvaluationGuide: buildEvaluationGuide2 } = unwrap(evaluation_exports);
 var { MOCKUP_OFFER_HINT: MOCKUP_OFFER_HINT2 } = unwrap(mockup_request_exports);
-var { cardArtifactDir: cardArtifactDir2, materializeArtifactFences: materializeArtifactFences2, persistCardArtifacts: persistCardArtifacts2 } = unwrap(artifact_links_exports);
+var { cardArtifactDir: cardArtifactDir2, materializeArtifactFences: materializeArtifactFences2 } = unwrap(artifact_links_exports);
 var {
   markdownToTiptapHtml: markdownToTiptapHtml2,
   extractTaskItems: extractTaskItems2,
@@ -29039,7 +29087,7 @@ function readStatus(id) {
 function cardFieldHtml(id, markdown) {
   const withFiles = materializeArtifactFences2(markdown, cardArtifactDir2(id));
   const linked = linkCardsInHtml2(db, markdownToTiptapHtml2(withFiles), projectIdOfCard2(db, id));
-  return persistCardArtifacts2(linked, id);
+  return persistCardFieldArtifacts2(db, id, linked);
 }
 var DEPENDS_ON_SCHEMA = {
   type: "array",
@@ -29403,7 +29451,7 @@ Reading the results: a newer decision overrides an older one (compare completedA
       },
       {
         name: "save_plan",
-        description: `Save a solution plan to a card. A card in Ideation, Backlog or Bugs moves to In Progress; anywhere else it stays in its column. Use this when you've completed planning a task. A mockup or any other file linked in the plan (a file:// link, a backticked absolute path, or a \`\`\`html artifact="name.html" block) is copied into the card's folder and shown as a chip, the way the app's Apply keeps it.
+        description: `Save a solution plan to a card. A card in Ideation, Backlog or Bugs moves to In Progress; anywhere else it stays in its column. Use this when you've completed planning a task. A mockup or any other file linked in the plan (a file:// link to a file in the project or a temp folder, or a \`\`\`html artifact="name.html" block) is copied into the card's folder and shown as a chip, the way the app's Apply keeps it. A backticked path is only text, and a key, credential or settings file (~/.ssh, ~/.aws, ~/Library/Application Support, .env \u2026) is never copied.
 
 NOT the exit from Ideation. A card in the \`ideation\` column has not been evaluated yet: it needs save_opinion first, then the user's yes to move_card. Calling save_plan on an ideation card skips the evaluation the user asked for and jumps the card two columns at once \u2014 check the card's column before you call this.
 
@@ -29566,7 +29614,7 @@ All three voices still produce the same sections of the template (see aiOpinion)
 
 BEFORE YOU WRITE: get_card returns the full evaluation rule with an ideation card that has no opinion yet \u2014 follow it. When you re-evaluate a card that already has one, run the same check before writing: search_cards for earlier decisions and duplicates, list_open_work for overlapping work, and the chain get_card returns; report what you found under Related Cards.
 
-A mockup or any other file linked in the opinion (a file:// link, a backticked absolute path, or a \`\`\`html artifact="name.html" block) is copied into the card's folder and shown as a chip, the way the app's Apply keeps it.`,
+A mockup or any other file linked in the opinion (a file:// link to a file in the project or a temp folder, or a \`\`\`html artifact="name.html" block) is copied into the card's folder and shown as a chip, the way the app's Apply keeps it. A backticked path is only text, and a key, credential or settings file (~/.ssh, ~/.aws, ~/Library/Application Support, .env \u2026) is never copied.`,
         inputSchema: {
           type: "object",
           properties: {
