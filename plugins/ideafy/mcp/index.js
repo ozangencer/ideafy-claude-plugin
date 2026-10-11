@@ -21260,11 +21260,15 @@ function buildCreationOfferPolicy(project, signals) {
 var global_mode_exports = {};
 __export(global_mode_exports, {
   GLOBAL_PROJECT_LIST_LIMIT: () => GLOBAL_PROJECT_LIST_LIMIT,
+  GLOBAL_SKILL_NAME: () => GLOBAL_SKILL_NAME,
   buildGlobalBoundPolicy: () => buildGlobalBoundPolicy,
   buildGlobalBoundPolicyBody: () => buildGlobalBoundPolicyBody,
   buildGlobalModePolicy: () => buildGlobalModePolicy,
   buildGlobalModePolicyBody: () => buildGlobalModePolicyBody,
-  globalDelegationOptions: () => globalDelegationOptions
+  buildGlobalSkillMd: () => buildGlobalSkillMd,
+  buildMcpServerInstructions: () => buildMcpServerInstructions,
+  globalDelegationOptions: () => globalDelegationOptions,
+  globalModeRuleLines: () => globalModeRuleLines
 });
 var GLOBAL_PROJECT_LIST_LIMIT = 12;
 function globalDelegationOptions(folderPath) {
@@ -21287,13 +21291,20 @@ function buildGlobalModePolicyBody(projects) {
   const shown = projects.slice(0, GLOBAL_PROJECT_LIST_LIMIT);
   const rest = projects.length - shown.length;
   const listing = shown.length ? [...shown.map(projectLine), ...rest > 0 ? [`     - \u2026and ${rest} more: call list_projects for the full list.`] : []] : ["     - (no projects registered yet)"];
-  const delegation = globalDelegationOptions().map((option) => `     - ${option}`);
   return [
     "Global Ideafy mode: this session is not in any Ideafy project's folder.",
     "You can manage every project's board from here. Projects:",
     ...listing,
     "",
     "Policy for this session:",
+    ...globalModeRuleLines({ hook: true }),
+    "6. This is said once per session. A card bound from here gets its own",
+    "   policy on every turn."
+  ].join("\n");
+}
+function globalModeRuleLines({ hook }) {
+  const delegation = globalDelegationOptions().map((option) => `     - ${option}`);
+  return [
     "1. Find the project from what the user says: a card code (IDE-432) names",
     "   its project by prefix; otherwise call list_projects with a query. If",
     "   more than one project matches, ask which one. Never guess.",
@@ -21304,15 +21315,19 @@ function buildGlobalModePolicyBody(projects) {
     "   project's open cards per column and the cards completed today. Call",
     "   list_cards with a status only for titles list_projects does not give.",
     "3. Do NOT edit a project's files from this session. Its CLAUDE.md,",
-    "   worktree rule and branch check do not apply out here, and the edit hook",
-    "   will refuse the edit. When the user wants code changed, hand it off:",
+    ...hook ? [
+      "   worktree rule and branch check do not apply out here, and the edit hook",
+      "   will refuse the edit. When the user wants code changed, hand it off:"
+    ] : [
+      "   worktree rule and branch check do not apply out here, and no hook",
+      "   stops the edit here: the rule is yours to keep. When the user wants",
+      "   code changed, hand it off:"
+    ],
     ...delegation,
     ...handOffConsentLines(4),
     "5. A Work project's output is written in its own folder, so its backlog",
-    "   and revision work is handed off the same way.",
-    "6. This is said once per session. A card bound from here gets its own",
-    "   policy on every turn."
-  ].join("\n");
+    "   and revision work is handed off the same way."
+  ];
 }
 function buildGlobalModePolicy(projects) {
   return `<system-reminder>
@@ -21379,6 +21394,51 @@ function buildGlobalBoundPolicy(card, project, mode = "development") {
 ${body}
 </system-reminder>
 `;
+}
+function buildMcpServerInstructions() {
+  return [
+    "Ideafy is the user's kanban board for all of their projects; these tools read and write it.",
+    "",
+    "Where this session runs decides the rules:",
+    "- Inside a registered project's folder (get_project_by_folder with the working directory finds it): work on that project. In Claude Code the Ideafy hook adds the project's and the bound card's policy on every turn; follow it.",
+    "- Anywhere else (a terminal started outside every project, or a client with no project folder such as Claude Desktop) is global Ideafy mode. No hook speaks here, so these rules are the whole policy:",
+    ...globalModeRuleLines({ hook: false }),
+    "",
+    "The rest of the workflow comes back in tool results: get_card carries the rules for writing an opinion or a plan, create_card says what to do next. Follow what a result says."
+  ].join("\n");
+}
+var GLOBAL_SKILL_NAME = "ideafy-global";
+var GLOBAL_SKILL_DESCRIPTION = "Manage the user's Ideafy kanban board across all of their projects from anywhere: Claude Desktop, or a terminal outside a project folder. Use when the user mentions Ideafy, names one of their Ideafy projects, or gives a card code like IDE-432: list projects, open, move or read cards, write opinions and plans, ask what finished today or waits in Human Test, or hand a card's code work off to a run or a session in its folder.";
+function buildGlobalSkillMd() {
+  return [
+    "---",
+    `name: ${GLOBAL_SKILL_NAME}`,
+    `description: ${GLOBAL_SKILL_DESCRIPTION}`,
+    "---",
+    "",
+    "# Ideafy, outside a project",
+    "",
+    "This skill needs the Ideafy MCP server (tools such as list_projects, get_card, create_card). If those tools are missing, tell the user to add it from Ideafy \u2192 Settings \u2192 General \u2192 Use Ideafy outside a project, and stop.",
+    "",
+    "## First step",
+    "",
+    "If this session has a working folder, call get_project_by_folder with it. On found: true you are inside that project: work on it as usual and leave the rest of this skill aside. On found: false, or with no working folder at all (Claude Desktop), you are in global Ideafy mode.",
+    "",
+    "## Global mode rules",
+    "",
+    ...globalModeRuleLines({ hook: false }),
+    "",
+    "## The rest comes from the tools",
+    "",
+    "The Ideafy MCP server's instructions and its tool results carry the rest of the workflow: get_card returns the rules for writing an opinion or a plan, create_card says what to do next, a tool that refuses says why. Follow what a result says rather than guessing the workflow.",
+    "",
+    "## Examples",
+    "",
+    '- "Open a bug card in Lokma: blank screen after login." \u2192 list_projects with query "Lokma"; one match \u2192 create_card with status bugs in that project, then do what its result says. Queue it only if the user asked.',
+    '- "What finished today, what waits in Human Test?" \u2192 list_projects, then answer per project.',
+    `- "Let's work on IDE-432 together." \u2192 offer open_card_session (a session in the card's folder); with the Ideafy app closed, tell the user to run cd <project folder> && claude.`,
+    ""
+  ].join("\n");
 }
 
 // ../lib/prompts/opinion.ts
@@ -24004,14 +24064,15 @@ __export(card_attachments_exports, {
 });
 import { createHash } from "crypto";
 import { copyFileSync as copyFileSync2, existsSync as existsSync2, mkdirSync as mkdirSync2, readFileSync as readFileSync2, renameSync, writeFileSync as writeFileSync2 } from "fs";
-import { homedir as homedir2 } from "os";
 import path2 from "path";
 
 // ../lib/artifact-links.ts
 var artifact_links_exports = {};
 __export(artifact_links_exports, {
+  CARD_FOLDERS_ROOT_ENV: () => CARD_FOLDERS_ROOT_ENV,
   SCRATCH_DIR: () => SCRATCH_DIR,
   cardArtifactDir: () => cardArtifactDir,
+  cardFoldersRoot: () => cardFoldersRoot,
   destinationFor: () => destinationFor,
   materializeArtifactFences: () => materializeArtifactFences,
   persistArtifactLinks: () => persistArtifactLinks,
@@ -24171,8 +24232,16 @@ function codePathsToFileLinks(html, homeDir) {
 // ../lib/artifact-links.ts
 var MAX_ARTIFACT_BYTES = 50 * 1024 * 1024;
 var SCRATCH_DIR = "scratch";
-function cardArtifactDir(cardId, homeDir = homedir()) {
-  return path.join(homeDir, ".ideafy", "images", cardId);
+var CARD_FOLDERS_ROOT_ENV = "IDEAFY_CARD_FOLDERS_ROOT";
+function cardFoldersRoot(homeDir) {
+  if (homeDir === void 0) {
+    const fromEnv = process.env[CARD_FOLDERS_ROOT_ENV]?.trim();
+    if (fromEnv) return path.resolve(fromEnv);
+  }
+  return path.join(homeDir ?? homedir(), ".ideafy", "images");
+}
+function cardArtifactDir(cardId, homeDir) {
+  return path.join(cardFoldersRoot(homeDir), cardId);
 }
 function isInside(child, parent) {
   return child === parent || child.startsWith(parent + path.sep);
@@ -24230,8 +24299,8 @@ function escapeAttr2(value) {
 function persistArtifacts(html, cardDir) {
   return fileLinksToArtifactChips(persistArtifactLinks(html, cardDir));
 }
-function persistCardArtifacts(html, cardId, homeDir = homedir()) {
-  const linked = codePathsToFileLinks(html, homeDir);
+function persistCardArtifacts(html, cardId, homeDir) {
+  const linked = codePathsToFileLinks(html, homeDir ?? homedir());
   if (!linked.includes("file://")) return linked;
   const cardDir = cardArtifactDir(cardId, homeDir);
   try {
@@ -24301,10 +24370,10 @@ function attachmentContentType(name) {
 function attachmentUrl(cardId, file2) {
   return `/api/cards/${cardId}/attachments/${file2}`;
 }
-function attachmentDir(cardId, homeDir = homedir2()) {
+function attachmentDir(cardId, homeDir) {
   return path2.join(cardArtifactDir(cardId, homeDir), ATTACHMENTS_DIR);
 }
-function attachmentPath(cardId, file2, homeDir = homedir2()) {
+function attachmentPath(cardId, file2, homeDir) {
   if (!CARD_ID.test(cardId) || !isAttachmentName(file2)) return null;
   return path2.join(attachmentDir(cardId, homeDir), file2);
 }
@@ -24317,7 +24386,7 @@ function sniff(bytes) {
   }
   return null;
 }
-function storeAttachment(cardId, bytes, homeDir = homedir2()) {
+function storeAttachment(cardId, bytes, homeDir) {
   if (!CARD_ID.test(cardId)) return null;
   const ext = sniff(bytes);
   if (!ext) return null;
@@ -24353,7 +24422,7 @@ function adoptForeign(cardId, url2, ownerId, file2, homeDir) {
     return url2;
   }
 }
-function externalizeInlineImages(cardId, html, homeDir = homedir2()) {
+function externalizeInlineImages(cardId, html, homeDir) {
   if (!html) return html;
   let out = html;
   if (out.includes("data:image/")) {
@@ -24375,7 +24444,7 @@ function externalizeInlineImages(cardId, html, homeDir = homedir2()) {
   return out;
 }
 var CARD_RICH_FIELDS = ["description", "solutionSummary", "testScenarios", "aiOpinion"];
-function externalizeFields(cardId, fields, names, homeDir = homedir2()) {
+function externalizeFields(cardId, fields, names, homeDir) {
   let out = fields;
   for (const name of names) {
     const value = out[name];
@@ -24388,7 +24457,7 @@ function externalizeFields(cardId, fields, names, homeDir = homedir2()) {
   }
   return out;
 }
-function attachmentRefs(html, homeDir = homedir2()) {
+function attachmentRefs(html, homeDir) {
   if (!html || !html.includes("/attachments/")) return [];
   const refs = [];
   const seen = /* @__PURE__ */ new Set();
@@ -24402,7 +24471,7 @@ function attachmentRefs(html, homeDir = homedir2()) {
   }
   return refs;
 }
-function inlineAttachments(html, homeDir = homedir2()) {
+function inlineAttachments(html, homeDir) {
   if (!html || !html.includes("/attachments/")) return html ?? "";
   return html.replace(ATTACHMENT_URL, (url2, cardId, file2) => {
     const p = attachmentPath(cardId, file2, homeDir);
@@ -27084,13 +27153,13 @@ __export(test_report_files_exports, {
   testReportRunDir: () => testReportRunDir
 });
 import { copyFileSync as copyFileSync3, mkdirSync as mkdirSync3, rmSync, statSync as statSync2 } from "fs";
-import { homedir as homedir3 } from "os";
+import { homedir as homedir2 } from "os";
 import path4 from "path";
 var MAX_SCREENSHOT_BYTES = 20 * 1024 * 1024;
-function testReportRunDir(cardId, runId, homeDir = homedir3()) {
+function testReportRunDir(cardId, runId, homeDir) {
   return path4.join(cardArtifactDir(cardId, homeDir), TEST_REPORT_DIR, runId);
 }
-function removeTestReportRunDirs(cardId, runs, homeDir = homedir3()) {
+function removeTestReportRunDirs(cardId, runs, homeDir) {
   for (const run2 of runs) {
     if (!isTestReportRunId(run2.id)) continue;
     try {
@@ -27120,7 +27189,7 @@ function importTerminalArtifacts(items, runDir) {
   return items.map((item) => ({
     ...item,
     artifacts: item.artifacts.flatMap((artifact) => {
-      const source = artifact.file.startsWith("~/") ? path4.join(homedir3(), artifact.file.slice(2)) : artifact.file;
+      const source = artifact.file.startsWith("~/") ? path4.join(homedir2(), artifact.file.slice(2)) : artifact.file;
       if (!path4.isAbsolute(source) || !isFile(source)) return [];
       const ext = path4.extname(source).toLowerCase();
       const file2 = `shot-${++n}${ext}`;
@@ -27891,7 +27960,7 @@ function unwrap(ns) {
 }
 var { buildTestStyleContract: buildTestStyleContract2 } = unwrap(test_style_exports);
 var { buildPhaseHint: buildPhaseHint2, buildPhasePolicyBody: buildPhasePolicyBody2, buildCreatedCardOpinionClause: buildCreatedCardOpinionClause2 } = unwrap(phase_policy_exports);
-var { buildGlobalBoundPolicyBody: buildGlobalBoundPolicyBody2 } = unwrap(global_mode_exports);
+var { buildGlobalBoundPolicyBody: buildGlobalBoundPolicyBody2, buildMcpServerInstructions: buildMcpServerInstructions2 } = unwrap(global_mode_exports);
 var { AI_OPINION_PLANNING_RULE: AI_OPINION_PLANNING_RULE2 } = unwrap(opinion_exports);
 var { PRIOR_DECISIONS_RULE: PRIOR_DECISIONS_RULE2, CHAIN_IMPLEMENTATION_RULE: CHAIN_IMPLEMENTATION_RULE2 } = unwrap(prior_decisions_exports);
 var { linkCardReferences: linkCardReferences2 } = unwrap(card_links_exports);
@@ -28016,7 +28085,7 @@ function openDatabase(path7) {
 // index.ts
 import { resolve as resolve3, dirname as dirname2, relative as relative2, isAbsolute as isAbsolute2, sep as sep2 } from "path";
 import { fileURLToPath } from "url";
-import { homedir as homedir6 } from "os";
+import { homedir as homedir4 } from "os";
 import { mkdirSync as mkdirSync6 } from "fs";
 
 // node_modules/uuid/dist/esm/stringify.js
@@ -28201,7 +28270,7 @@ function missingCapabilityMessage(tool, capability) {
 
 // output-paths.ts
 import { existsSync as existsSync5, realpathSync as realpathSync3, statSync as statSync3 } from "fs";
-import { homedir as homedir4 } from "os";
+import { homedir as homedir3 } from "os";
 import { isAbsolute, relative, resolve as resolve2, sep } from "path";
 var OutputPathError = class extends Error {
 };
@@ -28219,7 +28288,7 @@ function resolveOutputPath(projectFolder, inputPath) {
   if (!trimmed) {
     throw new OutputPathError("save_output needs a path to the file that was written.");
   }
-  const expanded = trimmed === "~" || trimmed.startsWith("~/") ? resolve2(homedir4(), trimmed.slice(2)) : trimmed;
+  const expanded = trimmed === "~" || trimmed.startsWith("~/") ? resolve2(homedir3(), trimmed.slice(2)) : trimmed;
   const absolute = isAbsolute(expanded) ? resolve2(expanded) : resolve2(projectFolder, expanded);
   let projectReal;
   try {
@@ -28467,7 +28536,6 @@ async function openCardSessionTool(db2, input, deps = {}) {
 
 // test-report.ts
 import { readFileSync as readFileSync4 } from "node:fs";
-import { homedir as homedir5 } from "node:os";
 import path6 from "node:path";
 function readTerminalReport(db2, report) {
   if (!hasCapability(db2, "testReports")) {
@@ -28546,7 +28614,7 @@ function readTestReport(db2, card, opts = {}) {
     }
   ];
   if (!opts.screenshots) return { content };
-  const dir = testReportRunDir2(card.id, run2.id, opts.homeDir ?? homedir5());
+  const dir = testReportRunDir2(card.id, run2.id, opts.homeDir);
   const wanted = run2.items.flatMap(
     (item, i) => !status || item.status === status ? item.artifacts.map((artifact) => ({ artifact, number: i + 1 })) : []
   );
@@ -28933,7 +29001,7 @@ function markdownCheckboxStats(markdown) {
 }
 var __dirname = dirname2(fileURLToPath(import.meta.url));
 function getDefaultDataDir() {
-  const home = homedir6();
+  const home = homedir4();
   switch (process.platform) {
     case "darwin":
       return resolve3(home, "Library/Application Support/ideafy");
@@ -29035,7 +29103,11 @@ var server = new Server(
   {
     capabilities: {
       tools: {}
-    }
+    },
+    // Every client gets these on connect, hook or no hook: the only way the
+    // global mode rules reach Claude Desktop and a CLI started outside a
+    // project (IDE-452). Built from the same lines as the hook's text.
+    instructions: buildMcpServerInstructions2()
   }
 );
 server.setRequestHandler(ListToolsRequestSchema, async () => {
@@ -29786,7 +29858,7 @@ The server writes the card's verdict, score, priority and complexity from those 
       },
       {
         name: "get_project_by_folder",
-        description: "Find a project by a folder path: the project whose folder is that path or one of its parents, so a sub-folder or a card worktree resolves too. Use this to check if the current working directory is registered as a kanban project.",
+        description: "Find a project by a folder path: the project whose folder is that path or one of its parents, so a sub-folder or a card worktree resolves too. Use this to check if the current working directory is registered as a kanban project. found: false is global mode, not a dead end: find the project the user means with list_projects.",
         inputSchema: {
           type: "object",
           properties: {
@@ -31126,7 +31198,9 @@ ${waiting}` : ""}` : choice === "silent" ? `${bound} This session is outside eve
               type: "text",
               text: JSON.stringify({
                 found: false,
-                message: "Bu proje kanban'da kayitli degil. Oncelikle projeyi kanban'a eklemen gerekiyor."
+                // Not a dead end: outside every project is global mode, where
+                // the board is still reachable through list_projects.
+                message: "No registered Ideafy project contains this folder. If the user is talking about a project or a card code (IDE-432), this is global mode: find the project with list_projects (ask when more than one matches) and work on its board from here, handing code work off. Only if the user means this folder itself does it need adding as a project in the Ideafy app first."
               })
             }]
           };
