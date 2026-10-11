@@ -21397,6 +21397,7 @@ var AI_OPINION_PLANNING_RULE = `Base the plan on the card's AI Opinion (\`aiOpin
 var prior_decisions_exports = {};
 __export(prior_decisions_exports, {
   CHAIN_IMPLEMENTATION_RULE: () => CHAIN_IMPLEMENTATION_RULE,
+  DEPENDS_ON_RULE: () => DEPENDS_ON_RULE,
   PRIOR_DECISIONS_EVALUATION_RULE: () => PRIOR_DECISIONS_EVALUATION_RULE,
   PRIOR_DECISIONS_RULE: () => PRIOR_DECISIONS_RULE
 });
@@ -21413,9 +21414,11 @@ var CHAIN_CONTEXT = `Chain: when get_card returns a \`chain\` field for this car
 - Listing them is not enough: open at most 3 of them with get_card \u2014 the direct successor (the first member after this card) if there is one, then the predecessors that are neither completed nor withdrawn, nearest first, up to that cap. A draft has no displayId and cannot be opened; name it and move on.
 - Read only their \`aiOpinion\` and \`solutionSummary\`, and ask one question: does this card's direction contradict what they decided, or break an assumption the successor is built on? That content contradiction is the only conflict meant here \u2014 a shared file is already \`list_open_work\`'s job.
 - Only a yes to that question is a finding. A no is never written down: no "does not contradict", no note on how the member's design fits this card, no summary of what it does.`;
+var DEPENDS_ON_RULE = (tool, where) => `For ${where} \u2014 a card this one needs that has not landed yet \u2014 also pass it in ${tool}'s \`dependsOn\` as \`{ card: "<displayId>", note: "<half a sentence on why>" }\`: the user sees it as a suggested link and decides; nothing is linked without them. Never pass an overlap, a precedent, a contradiction, a duplicate or a chain member.`;
 var PRIOR_DECISIONS_RULE = `${PRIOR_DECISIONS_CHECK}
 - If an open card brings in something this card needs to work correctly, or breaks it, that is extra work. When it is a precondition for this card, add it as its own step under Implementation Steps labelled "(because of <displayId>)"; otherwise suggest it as a note for the other card. Never widen the scope silently.
 - Contradictions, precedents and overlaps go under Edge Cases; dependencies go under Dependencies. Do not add a heading for them. A card sits under one heading only: a dependency is not repeated in Edge Cases, and an overlap you checked and ruled out is not written down.
+- When you save the plan with save_plan: ${DEPENDS_ON_RULE("save_plan", "each card under Dependencies that is not in this card's chain")}
 If there is no contradiction, precedent, overlap or dependency, write nothing about it.
 
 ${CHAIN_CONTEXT}
@@ -21712,10 +21715,12 @@ __export(card_ops_exports, {
   globalEditDenial: () => globalEditDenial,
   hasBaseCommitColumns: () => hasBaseCommitColumns,
   hasDependencyTable: () => hasDependencyTable,
+  hasSuggestionTable: () => hasSuggestionTable,
   isStatus: () => isStatus,
   linkCardsInHtml: () => linkCardsInHtml,
   listDependencies: () => listDependencies,
   listDependencyEdges: () => listDependencyEdges,
+  listDependencySuggestions: () => listDependencySuggestions,
   listGroups: () => listGroups,
   listProjects: () => listProjects,
   listQueueRows: () => listQueueRows,
@@ -21759,6 +21764,7 @@ __export(card_ops_exports, {
   stampBaseCommit: () => stampBaseCommit,
   statusAfterPlan: () => statusAfterPlan,
   statusAfterTests: () => statusAfterTests,
+  suggestDependencies: () => suggestDependencies,
   testsDriftFor: () => testsDriftFor,
   transaction: () => transaction,
   updateCard: () => updateCard,
@@ -25405,11 +25411,21 @@ var CardDependencyError = class extends Error {
 };
 var NOTE_MAX = 280;
 var presentTables = /* @__PURE__ */ new WeakMap();
-function hasDependencyTable(db2) {
-  if (presentTables.get(db2)) return true;
-  const found = !!getRow(db2, "SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'card_dependencies'");
-  if (found) presentTables.set(db2, true);
+function hasTable(db2, table) {
+  let known = presentTables.get(db2);
+  if (known?.has(table)) return true;
+  const found = !!getRow(db2, "SELECT name FROM sqlite_master WHERE type = 'table' AND name = ?", table);
+  if (found) {
+    if (!known) presentTables.set(db2, known = /* @__PURE__ */ new Set());
+    known.add(table);
+  }
   return found;
+}
+function hasDependencyTable(db2) {
+  return hasTable(db2, "card_dependencies");
+}
+function hasSuggestionTable(db2) {
+  return hasTable(db2, "card_dependency_suggestions");
 }
 function assertTable(db2) {
   if (!hasDependencyTable(db2)) {
@@ -25500,6 +25516,9 @@ function linkOne(db2, cardId, entry, now) {
       `${label(predecessor)} already waits on ${label(card)} (${names.join(" \u2192 ")}); linking back would make a cycle. Nothing was written.`
     );
   }
+  if (hasSuggestionTable(db2)) {
+    runChanges(db2, "DELETE FROM card_dependency_suggestions WHERE card_id = ? AND blocked_by_card_id = ?", cardId, predecessor.id);
+  }
   const note = cleanNote(entry.note);
   const existing = getRow(db2, "SELECT 1 FROM card_dependencies WHERE card_id = ? AND blocked_by_card_id = ?", cardId, predecessor.id);
   if (existing) {
@@ -25525,13 +25544,139 @@ function addDependency(db2, args) {
 function removeDependency(db2, args) {
   assertTable(db2);
   const predecessor = resolvePredecessor(db2, args.cardId, args.blockedBy);
-  const { changes } = runChanges(
+  return transaction(db2, () => {
+    const { changes } = runChanges(
+      db2,
+      "DELETE FROM card_dependencies WHERE card_id = ? AND blocked_by_card_id = ?",
+      args.cardId,
+      predecessor.id
+    );
+    let dismissed = false;
+    if (hasSuggestionTable(db2)) {
+      dismissed = runChanges(
+        db2,
+        "UPDATE card_dependency_suggestions SET status = 'dismissed' WHERE card_id = ? AND blocked_by_card_id = ? AND status = 'pending'",
+        args.cardId,
+        predecessor.id
+      ).changes > 0;
+      if (changes > 0 && !dismissed) {
+        runChanges(
+          db2,
+          `INSERT INTO card_dependency_suggestions (card_id, blocked_by_card_id, note, status, created_at)
+           VALUES (?, ?, NULL, 'dismissed', ?) ON CONFLICT (card_id, blocked_by_card_id) DO UPDATE SET status = 'dismissed'`,
+          args.cardId,
+          predecessor.id,
+          args.now
+        );
+      }
+    }
+    return { blockedById: predecessor.id, removed: changes > 0, dismissed };
+  });
+}
+function groupOf(db2, id) {
+  return getRow(db2, "SELECT group_id AS groupId FROM cards WHERE id = ?", id)?.groupId ?? null;
+}
+function suggestionBlocker({ card, predecessor }, db2) {
+  if (predecessor.id === card.id) return "self";
+  if (card.groupId && card.groupId === predecessor.groupId) return "same-chain";
+  if (getRow(db2, "SELECT 1 FROM card_dependencies WHERE card_id = ? AND blocked_by_card_id = ?", card.id, predecessor.id)) {
+    return "linked";
+  }
+  const state = linkState(predecessor);
+  if (state !== "open") return state;
+  if (waitPath(db2, predecessor.id, card.id)) return "cycle";
+  return null;
+}
+function toSuggestion(row) {
+  return {
+    id: row.id,
+    displayId: formatDisplayId(row.idPrefix, row.taskNumber),
+    title: row.title,
+    status: row.status,
+    note: row.note ?? null
+  };
+}
+function suggestDependencies(db2, args) {
+  if (!hasSuggestionTable(db2) || !hasDependencyTable(db2)) {
+    throw new CardDependencyError(
+      "unsupported",
+      "This Ideafy database cannot store suggested links yet. Update the Ideafy app \u2014 it adds the table on its next start."
+    );
+  }
+  return transaction(db2, () => {
+    const outcome = { suggested: [], skipped: [] };
+    const cardGroup = groupOf(db2, args.cardId);
+    for (const entry of args.entries) {
+      let predecessor;
+      try {
+        predecessor = resolvePredecessor(db2, args.cardId, entry.card);
+      } catch {
+        outcome.skipped.push({ card: entry.card, reason: "not-found" });
+        continue;
+      }
+      const name = label(predecessor);
+      const target2 = { card: { id: args.cardId, groupId: cardGroup }, predecessor: { ...predecessor, groupId: groupOf(db2, predecessor.id) } };
+      const blocker = suggestionBlocker(target2, db2);
+      if (blocker) {
+        outcome.skipped.push({ card: name, reason: blocker });
+        continue;
+      }
+      const existing = getRow(
+        db2,
+        "SELECT status, note FROM card_dependency_suggestions WHERE card_id = ? AND blocked_by_card_id = ?",
+        args.cardId,
+        predecessor.id
+      );
+      if (existing?.status === "dismissed") {
+        outcome.skipped.push({ card: name, reason: "dismissed" });
+        continue;
+      }
+      const note = entry.note !== void 0 ? cleanNote(entry.note) : existing?.note ?? null;
+      if (existing) {
+        runChanges(
+          db2,
+          "UPDATE card_dependency_suggestions SET note = ? WHERE card_id = ? AND blocked_by_card_id = ?",
+          note,
+          args.cardId,
+          predecessor.id
+        );
+      } else {
+        runChanges(
+          db2,
+          `INSERT INTO card_dependency_suggestions (card_id, blocked_by_card_id, note, status, created_at)
+           VALUES (?, ?, ?, 'pending', ?)`,
+          args.cardId,
+          predecessor.id,
+          note,
+          args.now
+        );
+      }
+      outcome.suggested = outcome.suggested.filter((s) => s.id !== predecessor.id);
+      outcome.suggested.push(toSuggestion({ ...predecessor, note }));
+    }
+    return outcome;
+  });
+}
+function listDependencySuggestions(db2, cardId) {
+  if (!hasSuggestionTable(db2) || !hasDependencyTable(db2)) return [];
+  const card = getRow(
     db2,
-    "DELETE FROM card_dependencies WHERE card_id = ? AND blocked_by_card_id = ?",
-    args.cardId,
-    predecessor.id
+    "SELECT status, group_id AS groupId FROM cards WHERE id = ?",
+    cardId
   );
-  return { blockedById: predecessor.id, removed: changes > 0 };
+  if (!card || card.status === "completed" || card.status === "withdrawn") return [];
+  const rows = allRows(
+    db2,
+    `SELECT c.id, c.title, c.status, c.task_number AS taskNumber, p.id_prefix AS idPrefix,
+            c.git_branch_status AS gitBranchStatus, c.group_id AS groupId, s.note
+     FROM card_dependency_suggestions s
+     JOIN cards c ON c.id = s.blocked_by_card_id
+     LEFT JOIN projects p ON p.id = c.project_id
+     WHERE s.card_id = ? AND s.status = 'pending'
+     ORDER BY s.created_at, c.task_number`,
+    cardId
+  );
+  return rows.filter((predecessor) => !suggestionBlocker({ card: { id: cardId, groupId: card.groupId }, predecessor }, db2)).map(toSuggestion);
 }
 function setBlockedBy(db2, cardId, entries, now, mode) {
   assertTable(db2);
@@ -26539,7 +26684,7 @@ function writeRuntime(db2, input) {
     }
   });
 }
-function hasTable(db2, name) {
+function hasTable2(db2, name) {
   return !!getRow(db2, "SELECT name FROM sqlite_master WHERE type = 'table' AND name = ?", name);
 }
 function stringList(value) {
@@ -26563,7 +26708,7 @@ function readRuntime(db2, now = Date.now()) {
     port: null,
     runs: []
   });
-  if (!hasTable(db2, "queue_runtime") || !hasTable(db2, "live_folder_runs")) return closed("unknown");
+  if (!hasTable2(db2, "queue_runtime") || !hasTable2(db2, "live_folder_runs")) return closed("unknown");
   const state = getRow(
     db2,
     "SELECT armed, paused_reason AS pausedReason, held_by AS heldBy, heartbeat_at AS heartbeatAt FROM queue_runtime WHERE id = 1"
@@ -26586,7 +26731,7 @@ function readRuntime(db2, now = Date.now()) {
       touchedFiles: parseList(row.touchedFiles)
     })
   ).filter((run2) => run2.source !== "terminal" || now - Date.parse(run2.seenAt) <= TERMINAL_WRITER_TTL_MS);
-  const port = hasTable(db2, "settings") ? getRow(db2, "SELECT value FROM settings WHERE key = ?", APP_PORT_SETTING_KEY)?.value ?? null : null;
+  const port = hasTable2(db2, "settings") ? getRow(db2, "SELECT value FROM settings WHERE key = ?", APP_PORT_SETTING_KEY)?.value ?? null : null;
   return {
     appState: "open",
     armed: !!state.armed,
@@ -26859,7 +27004,7 @@ ${lines.join("\n")}
 Next open card in the chain: ${next}
 `;
 }
-var EVALUATION_SAVE_INSTRUCTION = `Then write the evaluation in this template and save it with save_opinion (aiOpinion as markdown). ${EVALUATION_HEADINGS_RULE}
+var EVALUATION_SAVE_INSTRUCTION = `Then write the evaluation in this template and save it with save_opinion (aiOpinion as markdown). ${DEPENDS_ON_RULE("save_opinion", "a Related Cards line of the kind dependency")} ${EVALUATION_HEADINGS_RULE}
 
 ${EVALUATION_OUTPUT_SCHEMA}`;
 function buildEvaluationGuide() {
@@ -27729,6 +27874,8 @@ var {
   removeDependency: removeDependency2,
   parseBlockedBy: parseBlockedBy2,
   listDependencies: listDependencies2,
+  suggestDependencies: suggestDependencies2,
+  listDependencySuggestions: listDependencySuggestions2,
   waitingOnLine: waitingOnLine2,
   chainWriteConflictFor: chainWriteConflictFor2,
   chainAckId: chainAckId2,
@@ -27956,6 +28103,8 @@ var CAPABILITIES = {
   writeAck: ["ideafy_sessions", "write_ack"],
   /** card_dependencies (0028) — blocked-by links between cards, written by add_dependency and blockedBy. */
   dependencies: ["card_dependencies", "card_id"],
+  /** card_dependency_suggestions (0030) — links an opinion or plan suggested, written by their `dependsOn`. */
+  dependencySuggestions: ["card_dependency_suggestions", "card_id"],
   /** tests_base_commit (0029) — the commit a checklist was written against, for testsDrift and confirmCurrent. */
   baseCommits: ["cards", "tests_base_commit"]
 };
@@ -28754,6 +28903,57 @@ function cardFieldHtml(id, markdown) {
   const linked = linkCardsInHtml2(db, markdownToTiptapHtml2(withFiles), projectIdOfCard2(db, id));
   return persistCardArtifacts2(linked, id);
 }
+var DEPENDS_ON_SCHEMA = {
+  type: "array",
+  items: {
+    type: "object",
+    properties: {
+      card: { type: "string", description: "The card this one needs first: display ID (e.g. IDE-465), UUID or task number." },
+      note: { type: "string", description: "Half a sentence on why." }
+    },
+    required: ["card"]
+  },
+  description: "Optional. Cards this one waits on that the text names as a dependency and that have not landed yet. Each becomes a suggested link the user accepts (Add link on the card, add_dependency here) or turns down (Dismiss, remove_dependency) \u2014 never a link by itself. Leave out overlaps, precedents, contradictions, duplicates and chain members. A suggestion the user already turned down is not made again."
+};
+var SKIP_REASONS = {
+  "not-found": "no such card",
+  self: "it is this card",
+  "same-chain": "same chain, already ordered",
+  linked: "already linked",
+  landed: "already landed",
+  withdrawn: "withdrawn",
+  cycle: "linking it would make a cycle",
+  dismissed: "the user turned it down before"
+};
+function suggestionNote(cardId, raw) {
+  const entries = parseBlockedBy2(raw);
+  if (!entries || entries.length === 0) return null;
+  if (!hasCapability(db, "dependencySuggestions") || !hasCapability(db, "dependencies")) {
+    return `dependsOn was not stored: ${missingCapabilityMessage("dependsOn", "dependencySuggestions")}`;
+  }
+  let outcome;
+  try {
+    outcome = suggestDependencies2(db, { cardId, entries, now: (/* @__PURE__ */ new Date()).toISOString() });
+  } catch (error2) {
+    return `dependsOn was not stored: ${error2 instanceof Error ? error2.message : String(error2)}`;
+  }
+  const self = queueDisplayIdOf(cardId);
+  const lines = [];
+  if (outcome.suggested.length > 0) {
+    const named = outcome.suggested.map((s) => `${s.displayId ?? `"${s.title}"`}${s.note ? ` (${s.note})` : ""}`).join(", ");
+    lines.push(
+      `Suggested link${outcome.suggested.length > 1 ? "s" : ""}: ${self} waits on ${named}. In a conversation, ask the user in one sentence whether to add ${outcome.suggested.length > 1 ? "each" : "it"} as a link: on yes call add_dependency, on no call remove_dependency so it is not suggested again. In a one-shot run, leave it: the card shows the suggestion with Add link and Dismiss.`
+    );
+  }
+  if (outcome.skipped.length > 0) {
+    lines.push(`Not suggested: ${outcome.skipped.map((s) => `${s.card} (${SKIP_REASONS[s.reason]})`).join(", ")}.`);
+  }
+  return lines.join(" ") || null;
+}
+function queueDisplayIdOf(id) {
+  const row = db.prepare(`SELECT c.title, c.task_number AS taskNumber, p.id_prefix AS idPrefix FROM cards c LEFT JOIN projects p ON p.id = c.project_id WHERE c.id = ?`).get(id);
+  return row ? queueDisplayId2(row) : id;
+}
 function aiScoreColumn(conn) {
   return hasCapability(conn, "aiScore") ? "ai_score as aiScore," : "NULL as aiScore,";
 }
@@ -28773,7 +28973,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
     tools: [
       {
         name: "get_card",
-        description: "Get a kanban card by ID. When the card belongs to a group, `chain` gives its place in that chain: position/total, predecessors and successors in chain order (displayId, title, status), and `next`, the chain's first member that is neither completed nor withdrawn. When the card has blocked-by links, `blockedBy` lists the cards it waits on and `blocks` the cards waiting on it, each with displayId, title, status, `landed` (its code is already in what this card would start from) and the link's note. When the card has a Test Report, `testReport` gives how many runs it holds and how the newest came out; read the runs themselves with get_test_report. When commits have touched the card's files since its checklist was written, `testsDrift` lists them (base, files, commits, total): the checklist may have gone stale.",
+        description: "Get a kanban card by ID. When the card belongs to a group, `chain` gives its place in that chain: position/total, predecessors and successors in chain order (displayId, title, status), and `next`, the chain's first member that is neither completed nor withdrawn. When the card has blocked-by links, `blockedBy` lists the cards it waits on and `blocks` the cards waiting on it, each with displayId, title, status, `landed` (its code is already in what this card would start from) and the link's note. When an opinion or plan suggested a link the user has not answered yet, `suggestedBlockedBy` lists those cards with the reason: ask the user, then add_dependency on yes or remove_dependency on no. When the card has a Test Report, `testReport` gives how many runs it holds and how the newest came out; read the runs themselves with get_test_report. When commits have touched the card's files since its checklist was written, `testsDrift` lists them (base, files, commits, total): the checklist may have gone stale.",
         inputSchema: {
           type: "object",
           properties: {
@@ -28898,7 +29098,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
       },
       {
         name: "add_dependency",
-        description: `Record that a card waits on another (a blocked-by link): its start warning, Add to queue, queue_card and the terminal's edit check then name the predecessor until its code lands, and the board shows "blocked by" on the card. Links may cross chains and projects, unlike a chain. A link that would make a cycle (A waits on B, B on A) is refused and nothing is written. Linking the same pair again updates its note. Call it when the user names a dependency, or when an opinion or plan finds one and the user agrees.`,
+        description: `Record that a card waits on another (a blocked-by link): its start warning, Add to queue, queue_card and the terminal's edit check then name the predecessor until its code lands, and the board shows "blocked by" on the card. Links may cross chains and projects, unlike a chain. A link that would make a cycle (A waits on B, B on A) is refused and nothing is written. Linking the same pair again updates its note. Call it when the user names a dependency, or when an opinion or plan finds one and the user agrees. It also accepts a suggested link (get_card's suggestedBlockedBy) for the same pair.`,
         inputSchema: {
           type: "object",
           properties: {
@@ -28911,7 +29111,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
       },
       {
         name: "remove_dependency",
-        description: "Drop a blocked-by link that add_dependency or blockedBy made. Says so when there was none.",
+        description: "Drop a blocked-by link that add_dependency or blockedBy made, or turn down a suggested link (get_card's suggestedBlockedBy) the user said no to. Either way the pair is not suggested again when an opinion or plan is saved. Says so when there was neither.",
         inputSchema: {
           type: "object",
           properties: {
@@ -29090,7 +29290,8 @@ ${PRIOR_DECISIONS_RULE2}`,
             solutionSummary: {
               type: "string",
               description: "Detailed implementation plan in markdown. MUST include: (1) Brief summary of the approach, (2) Current architecture understanding with relevant code flow (e.g. `Settings UI \u2192 POST /api/... \u2192 provider.method()`), (3) Step-by-step implementation with specific file paths, function names, and code snippets showing the planned changes, (4) Changed files table (| File | Change |), (5) Important notes or caveats. Write prose-level detail with code examples, not just headings or bullet points. Adapt the tone to the project's voice (see tool description)."
-            }
+            },
+            dependsOn: DEPENDS_ON_SCHEMA
           },
           required: ["id", "solutionSummary"]
         }
@@ -29243,7 +29444,8 @@ The server writes the card's verdict, score, priority and complexity from those 
               type: "string",
               enum: ["positive", "negative", "maybe"],
               description: "Optional fallback, used only when the opinion names no verdict ([VERDICT:] marker or Summary Verdict word). strong_yes/yes \u2192 positive, maybe \u2192 maybe, no/strong_no \u2192 negative. Maybe stays maybe whatever the score."
-            }
+            },
+            dependsOn: DEPENDS_ON_SCHEMA
           },
           required: ["id", "aiOpinion"]
         }
@@ -29620,6 +29822,10 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             blocks: dependencies.blocks.map(brief)
           });
         }
+        const suggestedBlockedBy = listDependencySuggestions2(db, card.id);
+        if (suggestedBlockedBy.length > 0) {
+          card.suggestedBlockedBy = suggestedBlockedBy;
+        }
         const testsDrift = testsDriftFor2(db, card.id);
         if (testsDrift && testsDrift.total > 0) {
           card.testsDrift = testsDrift;
@@ -29819,10 +30025,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         if (!cardId) {
           return { content: [{ type: "text", text: `Card not found: ${rawCardId}` }], isError: true };
         }
-        const nameOf2 = (id) => {
-          const row = db.prepare(`SELECT c.title, c.task_number AS taskNumber, p.id_prefix AS idPrefix FROM cards c LEFT JOIN projects p ON p.id = c.project_id WHERE c.id = ?`).get(id);
-          return row ? queueDisplayId2(row) : id;
-        };
+        const nameOf2 = queueDisplayIdOf;
         try {
           if (name === "add_dependency") {
             const result2 = addDependency2(db, { cardId, blockedBy, note, now: (/* @__PURE__ */ new Date()).toISOString() });
@@ -29834,11 +30037,11 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
               }]
             };
           }
-          const result = removeDependency2(db, { cardId, blockedBy });
+          const result = removeDependency2(db, { cardId, blockedBy, now: (/* @__PURE__ */ new Date()).toISOString() });
           return {
             content: [{
               type: "text",
-              text: result.removed ? `${nameOf2(cardId)} no longer waits on ${nameOf2(result.blockedById)}.` : `${nameOf2(cardId)} did not wait on ${nameOf2(result.blockedById)}; nothing changed.`
+              text: result.removed ? `${nameOf2(cardId)} no longer waits on ${nameOf2(result.blockedById)}.` : result.dismissed ? `The suggested link was turned down: ${nameOf2(cardId)} does not wait on ${nameOf2(result.blockedById)}, and it will not be suggested again.` : `${nameOf2(cardId)} did not wait on ${nameOf2(result.blockedById)}; nothing changed.`
             }]
           };
         } catch (error2) {
@@ -30086,7 +30289,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         return { content };
       }
       case "save_plan": {
-        const { id: rawId, solutionSummary } = args;
+        const { id: rawId, solutionSummary, dependsOn } = args;
         const id = resolveCardRef2(db, rawId);
         if (!id) {
           return {
@@ -30108,8 +30311,9 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             isError: true
           };
         }
+        const suggested = suggestionNote(id, dependsOn);
         return {
-          content: [{ type: "text", text: `Plan saved to card ${id}. Card is in "${readStatus(id)}".` }]
+          content: [{ type: "text", text: `Plan saved to card ${id}. Card is in "${readStatus(id)}".${suggested ? ` ${suggested}` : ""}` }]
         };
       }
       case "save_tests": {
@@ -30231,7 +30435,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         };
       }
       case "save_opinion": {
-        const { id: rawId, aiOpinion, aiVerdict } = args;
+        const { id: rawId, aiOpinion, aiVerdict, dependsOn } = args;
         const id = resolveCardRef2(db, rawId);
         if (!id) {
           return {
@@ -30259,10 +30463,11 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             isError: true
           };
         }
+        const suggested = suggestionNote(id, dependsOn);
         return {
           content: [{
             type: "text",
-            text: `AI opinion saved to card ${id} (${describeOpinionMarkers2(result) || "no verdict or score read"}). Card is still in "${readStatus(id)}" \u2014 this tool does not move cards. Ask the user before calling move_card.`
+            text: `AI opinion saved to card ${id} (${describeOpinionMarkers2(result) || "no verdict or score read"}). Card is still in "${readStatus(id)}" \u2014 this tool does not move cards. Ask the user before calling move_card.` + (suggested ? ` ${suggested}` : "")
           }]
         };
       }

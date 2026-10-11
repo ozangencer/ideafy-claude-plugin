@@ -41,7 +41,7 @@ When `get_card` returns `testsDrift`, commits have touched the card's files sinc
 
 ## Dependencies between cards
 
-When a card needs another card's code first, record it as a blocked-by link instead of only writing it in prose: `blockedBy` on `create_card` / `update_card` (on update it is the whole set), or `add_dependency` / `remove_dependency` for one link. A predecessor an opinion or plan names belongs here once the user agrees. Links may cross chains and projects; a link that would make a cycle is refused. `get_card` shows `blockedBy` and `blocks`.
+When a card needs another card's code first, record it as a blocked-by link instead of only writing it in prose: `blockedBy` on `create_card` / `update_card` (on update it is the whole set), or `add_dependency` / `remove_dependency` for one link. A predecessor an opinion or plan finds goes in `save_opinion` / `save_plan`'s `dependsOn`: it becomes a suggested link (`get_card`'s `suggestedBlockedBy`, Add link / Dismiss on the card), never a link by itself. Ask the user in one sentence; `add_dependency` on yes, `remove_dependency` on no (a turned-down pair is not suggested again). Links may cross chains and projects; a link that would make a cycle is refused. `get_card` shows `blockedBy` and `blocks`.
 
 ## Before you edit code
 
