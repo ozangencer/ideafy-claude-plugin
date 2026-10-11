@@ -43,6 +43,10 @@ When `get_card` returns `testsDrift`, commits have touched the card's files sinc
 
 When a card needs another card's code first, record it as a blocked-by link instead of only writing it in prose: `blockedBy` on `create_card` / `update_card` (on update it is the whole set), or `add_dependency` / `remove_dependency` for one link. A predecessor an opinion or plan finds goes in `save_opinion` / `save_plan`'s `dependsOn`: it becomes a suggested link (`get_card`'s `suggestedBlockedBy`, Add link / Dismiss on the card), never a link by itself. Ask the user in one sentence; `add_dependency` on yes, `remove_dependency` on no (a turned-down pair is not suggested again). Links may cross chains and projects; a link that would make a cycle is refused. `get_card` shows `blockedBy` and `blocks`.
 
+## Mockups
+
+When a card changes UI and its target tab (the AI Opinion on an ideation card, the plan after that) has no mockup yet, ask in one sentence whether the user wants an HTML mockup; never draw one unasked. On yes, put the whole file first in the `save_opinion` / `save_plan` text as one ```` ```html artifact="short-name.html" ```` block followed by a `## Mockup` heading. Ideafy saves it into the card folder and shows it as a link, the same as the app's Mockup button beside the chat's Send.
+
 ## Before you edit code
 
 Call `check_write_conflicts` with `projectId` and the files you plan to touch. It applies the app's one-writer-per-folder rule: a live run, the armed queue's next card or another terminal session in the same folder without a worktree, and uncommitted changes this session did not make. On a conflict, quote its message and offer: wait, work in a worktree, or continue. Only on the user's explicit OK call it again with `sessionId` and `acknowledge: true`. The edit hook blocks a conflicting Edit/Write either way, and its message names the `sessionId`.

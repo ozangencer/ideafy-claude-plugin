@@ -27013,6 +27013,37 @@ function buildEvaluationGuide() {
 ${EVALUATION_SAVE_INSTRUCTION}`;
 }
 
+// ../lib/prompts/mockup-request.ts
+var mockup_request_exports = {};
+__export(mockup_request_exports, {
+  MOCKUP_OFFER_HINT: () => MOCKUP_OFFER_HINT,
+  buildMockupRequest: () => buildMockupRequest,
+  hasMockupArtifact: () => hasMockupArtifact,
+  mockupTargetSection: () => mockupTargetSection
+});
+function mockupTargetSection(status) {
+  return status === "ideation" ? "opinion" : "solution";
+}
+function buildMockupRequest(focus) {
+  const request = "Draw an HTML mockup for this card.";
+  const trimmed = focus?.trim();
+  return trimmed ? `${request}
+Focus only on: ${trimmed}` : request;
+}
+var HTML_FILE = /\.html?(?:[?#].*)?$/i;
+function hasMockupArtifact(html) {
+  if (!html) return false;
+  for (const tag of html.match(/<span\b[^>]*data-type="artifactMention"[^>]*>/gi) ?? []) {
+    const path7 = tag.match(/data-path="([^"]*)"/i)?.[1];
+    if (path7 && HTML_FILE.test(path7)) return true;
+  }
+  for (const match of html.matchAll(/file:\/\/[^"'\s)<]+/gi)) {
+    if (HTML_FILE.test(match[0])) return true;
+  }
+  return false;
+}
+var MOCKUP_OFFER_HINT = `Mockup: if this card changes UI and its target tab (AI Opinion on an ideation card, the plan after that) has no mockup yet, ask the user in one sentence whether they want an HTML mockup. Only on yes, put the whole file in the save_opinion / save_plan text as one fenced block, \`\`\`html artifact="short-name.html"\`, as its first item followed by a \`## Mockup\` heading; Ideafy saves it into the card folder and shows it as a link. Never draw one unasked.`;
+
 // ../lib/test-report-files.ts
 var test_report_files_exports = {};
 __export(test_report_files_exports, {
@@ -27903,6 +27934,7 @@ var {
 var { writeConflictFor: writeConflictFor2 } = unwrap(card_queue_exports);
 var { normalizeComplexity: normalizeComplexity2, describeOpinionMarkers: describeOpinionMarkers2 } = unwrap(opinion_markers_exports);
 var { EVALUATION_OUTPUT_SCHEMA: EVALUATION_OUTPUT_SCHEMA2, EVALUATION_HEADINGS_RULE: EVALUATION_HEADINGS_RULE2, buildEvaluationGuide: buildEvaluationGuide2 } = unwrap(evaluation_exports);
+var { MOCKUP_OFFER_HINT: MOCKUP_OFFER_HINT2 } = unwrap(mockup_request_exports);
 var { cardArtifactDir: cardArtifactDir2, materializeArtifactFences: materializeArtifactFences2, persistCardArtifacts: persistCardArtifacts2 } = unwrap(artifact_links_exports);
 var {
   markdownToTiptapHtml: markdownToTiptapHtml2,
@@ -28057,7 +28089,9 @@ function buildOpinionPlanningNote(card) {
   if (!PLANNING_STATUSES.has(card.status)) return null;
   if (!hasHtmlText(card.aiOpinion)) return null;
   return `If you are writing a plan for this card:
-${AI_OPINION_PLANNING_RULE2}`;
+${AI_OPINION_PLANNING_RULE2}
+
+${MOCKUP_OFFER_HINT2}`;
 }
 function buildPriorDecisionsNote(card) {
   if (!PLANNING_STATUSES.has(card.status)) return null;
@@ -28069,7 +28103,9 @@ function buildEvaluationNote(card, statuses = ["ideation", "backlog"]) {
   if (hasHtmlText(card.aiOpinion)) return null;
   if (card.status !== "ideation" && hasHtmlText(card.solutionSummary)) return null;
   return `If you are evaluating this idea:
-${buildEvaluationGuide2()}`;
+${buildEvaluationGuide2()}
+
+${MOCKUP_OFFER_HINT2}`;
 }
 function buildChainImplementationNote(card, chain) {
   if (!chain) return null;
