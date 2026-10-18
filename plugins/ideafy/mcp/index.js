@@ -27817,14 +27817,31 @@ __export(test_report_text_exports, {
   formatTestReport: () => formatTestReport,
   selectTestReportRun: () => selectTestReportRun,
   testReportCardSummary: () => testReportCardSummary,
+  testReportRunLabel: () => testReportRunLabel,
   testReportRunNumber: () => testReportRunNumber
 });
+
+// ../lib/plan-deviations.ts
+var PLAN_DEVIATIONS_FENCE = "plan-deviations";
+var PLAN_DEVIATION_PREFIX = "Plan deviation: ";
+var FENCE2 = new RegExp(
+  "^[ \\t]*(`{3,})[ \\t]*" + PLAN_DEVIATIONS_FENCE + "[^\\n]*\\n([\\s\\S]*?)(?:^[ \\t]*\\1[ \\t]*$|(?![\\s\\S]))",
+  "gm"
+);
+var PLAN_DRIFT_IMPLEMENTATION_RULE = `Plan drift: when get_card returns a \`planDrift\` field, the plan was written before those commits. The code wins \u2014 read them with \`git show <sha> -- <file>\` before you follow the plan, and do not edit the plan. After the checklist, add one fenced \`\`\`${PLAN_DEVIATIONS_FENCE} block with one line per place you deviated from the plan (what the plan said, what you did instead, why). With no \`planDrift\` field, or no deviation, leave the block out.`;
+
+// ../lib/test-report-text.ts
 var TEST_REPORT_SCOPE_LABEL = {
   run: "pre-verify",
   reverify: "re-verify after fix",
   single: "verify on screen",
   retest: "re-test after your fix"
 };
+function testReportRunLabel(run2) {
+  const warnings = run2.warnings ?? [];
+  const onlyDeviations = run2.items.length === 0 && warnings.length > 0 && warnings.every((w2) => w2.startsWith(PLAN_DEVIATION_PREFIX));
+  return onlyDeviations ? "plan deviations" : TEST_REPORT_SCOPE_LABEL[run2.scope];
+}
 function testReportRunNumber(index, total) {
   return total - index;
 }
@@ -27848,7 +27865,7 @@ function countsText(run2) {
 }
 function runLine(run2, index, total) {
   const origin = run2.source === "terminal" ? "terminal" : "app";
-  return `#${testReportRunNumber(index, total)} \xB7 ${run2.runAt} \xB7 ${TEST_REPORT_SCOPE_LABEL[run2.scope]} \xB7 ${run2.evidence} \xB7 ${origin} \xB7 ${countsText(run2)}`;
+  return `#${testReportRunNumber(index, total)} \xB7 ${run2.runAt} \xB7 ${testReportRunLabel(run2)} \xB7 ${run2.evidence} \xB7 ${origin} \xB7 ${countsText(run2)}`;
 }
 function indent(text, prefix) {
   return text.split("\n").map((line) => `${prefix}${line}`).join("\n");
@@ -27931,7 +27948,7 @@ function testReportCardSummary(runs) {
     latest: {
       number: runs.length,
       runAt: latest.runAt,
-      scope: TEST_REPORT_SCOPE_LABEL[latest.scope],
+      scope: testReportRunLabel(latest),
       evidence: latest.evidence,
       ...countByStatus(latest)
     },
