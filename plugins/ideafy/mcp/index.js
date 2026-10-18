@@ -21802,11 +21802,13 @@ __export(card_ops_exports, {
   clearQueue: () => clearQueue,
   completedAtFor: () => completedAtFor,
   completedAtOnCreate: () => completedAtOnCreate,
+  confirmPlanCurrent: () => confirmPlanCurrent,
   createCard: () => createCard,
   createCardResolver: () => createCardResolver,
   createGroup: () => createGroup,
   deleteGroup: () => deleteGroup,
   dequeueCard: () => dequeueCard,
+  driftSince: () => driftSince,
   enqueueCard: () => enqueueCard,
   getGroup: () => getGroup,
   getQueueRow: () => getQueueRow,
@@ -21835,6 +21837,8 @@ __export(card_ops_exports, {
   parseUndoSnapshot: () => parseUndoSnapshot,
   parseWriteAck: () => parseWriteAck,
   persistCardFieldArtifacts: () => persistCardFieldArtifacts,
+  planDriftFor: () => planDriftFor,
+  planDriftLine: () => planDriftLine,
   projectIdOfCard: () => projectIdOfCard,
   queueDisplayId: () => queueDisplayId,
   queueKindOf: () => queueKindOf,
@@ -24647,6 +24651,13 @@ function stampBaseCommit(db2, cardId, field, head) {
   if (!head || !hasBaseCommitColumns(db2)) return;
   runChanges(db2, `UPDATE cards SET ${COLUMN[field]} = ? WHERE id = ?`, head, cardId);
 }
+function confirmPlanCurrent(db2, cardId) {
+  const head = cardHead(db2, cardId);
+  const row = getRow(db2, `SELECT id FROM cards WHERE id = ?`, cardId);
+  if (!row) return { ok: false, reason: "not-found" };
+  stampBaseCommit(db2, cardId, "plan", head);
+  return { ok: true };
+}
 
 // ../lib/test-report.ts
 var test_report_exports = {};
@@ -25357,20 +25368,23 @@ var MAX_FILES = 200;
 var GENERATED = [/^drizzle\/meta\//, /(^|\/)(package-lock\.json|pnpm-lock\.yaml|yarn\.lock|bun\.lockb)$/];
 var isGenerated = (file2) => GENERATED.some((pattern) => pattern.test(file2));
 var escapeRegExp = (text) => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-function testsDriftFor(db2, cardId) {
+function driftSince(db2, cardId, field) {
   try {
     if (!hasBaseCommitColumns(db2)) return null;
     const row = getRow(
       db2,
-      `SELECT c.tests_base_commit AS base, c.test_scenarios AS tests, c.solution_summary AS plan,
+      `SELECT c.tests_base_commit AS testsBase, c.plan_base_commit AS planBase,
+              c.test_scenarios AS tests, c.solution_summary AS plan,
               c.task_number AS taskNumber, p.id_prefix AS idPrefix,
               p.folder_path AS projectFolder, c.project_folder AS cardFolder
        FROM cards c LEFT JOIN projects p ON p.id = c.project_id WHERE c.id = ?`,
       cardId
     );
-    if (!row?.base || !stripHtml(row.tests ?? "")) return null;
+    if (!row) return null;
+    const base = field === "plan" ? row.planBase : row.testsBase;
+    if (!base || !stripHtml((field === "plan" ? row.plan : row.tests) ?? "")) return null;
     const repo = row.projectFolder || row.cardFolder;
-    if (!repo || !commitExists(repo, row.base)) return null;
+    if (!repo || !commitExists(repo, base)) return null;
     const displayId = formatDisplayId(row.idPrefix, row.taskNumber);
     const files = new Set(extractPlanFiles(row.plan ?? ""));
     if (displayId) {
@@ -25379,7 +25393,7 @@ function testsDriftFor(db2, cardId) {
     }
     const watched = [...files].filter((file2) => !isGenerated(file2)).slice(0, MAX_FILES);
     if (watched.length === 0) return null;
-    const log = gitRead(repo, ["log", "--format=%H%x1f%s%x1f%b%x1e", `${row.base}..HEAD`, "--", ...watched]);
+    const log = gitRead(repo, ["log", "--format=%H%x1f%s%x1f%b%x1e", `${base}..HEAD`, "--", ...watched]);
     if (log === null) return null;
     const ownTrailer = displayId ? new RegExp(`^Card: ${escapeRegExp(displayId)}\\s*$`, "m") : null;
     const commits = [];
@@ -25389,7 +25403,20 @@ function testsDriftFor(db2, cardId) {
       if (ownTrailer?.test(body ?? "")) continue;
       commits.push({ sha: sha.trim(), subject: (subject ?? "").trim() });
     }
-    return { base: row.base, files: watched, commits: commits.slice(0, MAX_LISTED), total: commits.length };
+    return { base, files: watched, commits: commits.slice(0, MAX_LISTED), total: commits.length };
+  } catch {
+    return null;
+  }
+}
+var testsDriftFor = (db2, cardId) => driftSince(db2, cardId, "tests");
+var planDriftFor = (db2, cardId) => driftSince(db2, cardId, "plan");
+function planDriftLine(db2, cardId) {
+  try {
+    const row = getRow(db2, `SELECT status FROM cards WHERE id = ?`, cardId);
+    if (!row?.status || !["backlog", "bugs", "progress"].includes(row.status)) return null;
+    const drift = planDriftFor(db2, cardId);
+    if (!drift || drift.total === 0) return null;
+    return `Plan drift: ${drift.total} commit(s) touched this card's files since its plan was written \u2014 the code wins; read them with git show before following the plan (get_card lists them as planDrift).`;
   } catch {
     return null;
   }
@@ -28807,6 +28834,9 @@ var {
   saveTests: saveTests2,
   reviseTests: reviseTests2,
   testsDriftFor: testsDriftFor2,
+  planDriftFor: planDriftFor2,
+  planDriftLine: planDriftLine2,
+  confirmPlanCurrent: confirmPlanCurrent2,
   updateCard: updateCard2,
   createCard: createCard2,
   addOutputPath: addOutputPath2,
@@ -28838,7 +28868,7 @@ var {
   extractTaskItems: extractTaskItems2,
   assessAppendOnlyRewrite: assessAppendOnlyRewrite2
 } = unwrap(markdown_exports);
-var { parseTestReportItems: parseTestReportItems2, parseTestReports: parseTestReports2, buildTestReportRun: buildTestReportRun2, MAX_ARTIFACTS_PER_ITEM: MAX_ARTIFACTS_PER_ITEM2 } = unwrap(test_report_exports);
+var { parseTestReportItems: parseTestReportItems2, parseTestReports: parseTestReports2, buildTestReportRun: buildTestReportRun2, normalizeTestReportWarnings: normalizeTestReportWarnings2, MAX_ARTIFACTS_PER_ITEM: MAX_ARTIFACTS_PER_ITEM2 } = unwrap(test_report_exports);
 var { formatTestReport: formatTestReport2, selectTestReportRun: selectTestReportRun2, testReportCardSummary: testReportCardSummary2 } = unwrap(test_report_text_exports);
 var { importTerminalArtifacts: importTerminalArtifacts2, removeTestReportRunDirs: removeTestReportRunDirs2, testReportRunDir: testReportRunDir2 } = unwrap(test_report_files_exports);
 var { attachmentRefs: attachmentRefs2, attachmentContentType: attachmentContentType2 } = unwrap(card_attachments_exports);
@@ -29337,6 +29367,11 @@ function readTerminalReport(db2, report) {
   if (!hasCapability(db2, "testReports")) {
     return { ok: false, message: missingCapabilityMessage("save_tests", "testReports") };
   }
+  const warnings = report && typeof report === "object" && !Array.isArray(report) ? normalizeTestReportWarnings2(report.warnings) : [];
+  const listed = report && typeof report === "object" ? report.items : void 0;
+  if (warnings.length > 0 && (listed === void 0 || Array.isArray(listed) && listed.length === 0)) {
+    return { ok: true, items: [], warnings };
+  }
   const parsed = parseTestReportItems2(report);
   if (!parsed.ok) {
     return {
@@ -29344,9 +29379,9 @@ function readTerminalReport(db2, report) {
       message: `save_tests refused: report is ${parsed.error}. Send { "items": [{ "item", "status", "approach", "steps", "expected", "observed", "error", "command", "output", "screenshots" }] } \u2014 or leave report out. Nothing was written.`
     };
   }
-  return { ok: true, items: parsed.items };
+  return { ok: true, items: parsed.items, warnings };
 }
-function writeTerminalReport(db2, cardId, items, checklistApplied) {
+function writeTerminalReport(db2, cardId, items, checklistApplied, warnings = []) {
   const now = (/* @__PURE__ */ new Date()).toISOString();
   const run2 = buildTestReportRun2({
     items,
@@ -29357,6 +29392,7 @@ function writeTerminalReport(db2, cardId, items, checklistApplied) {
     scope: "run",
     checklistApplied
   });
+  if (warnings.length > 0) run2.warnings = warnings;
   run2.items = importTerminalArtifacts2(run2.items, testReportRunDir2(cardId, run2.id));
   const shots = run2.items.reduce((n, item) => n + item.artifacts.length, 0);
   if (shots > 0) run2.evidence = "visual";
@@ -29366,7 +29402,7 @@ function writeTerminalReport(db2, cardId, items, checklistApplied) {
   const count = (status) => run2.items.filter((item) => item.status === status).length;
   const asked = items.reduce((n, item) => n + item.artifacts.length, 0);
   const dropped = asked - shots;
-  return ` Test report saved: ${run2.items.length} item(s) \u2014 ${count("passed")} passed, ${count("failed")} failed, ${count("manual")} manual${shots ? `, ${shots} screenshot(s)` : ""}.` + (dropped > 0 ? ` ${dropped} screenshot(s) skipped: give each one as an absolute path to an existing image file.` : "");
+  return ` Test report saved: ${run2.items.length} item(s) \u2014 ${count("passed")} passed, ${count("failed")} failed, ${count("manual")} manual${shots ? `, ${shots} screenshot(s)` : ""}${warnings.length ? `, ${warnings.length} warning(s)` : ""}.` + (dropped > 0 ? ` ${dropped} screenshot(s) skipped: give each one as an absolute path to an existing image file.` : "");
 }
 var MAX_REPORT_SCREENSHOTS = 6;
 var STATUSES2 = ["passed", "failed", "manual"];
@@ -29914,7 +29950,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
     tools: [
       {
         name: "get_card",
-        description: "Get a kanban card by ID. When the card belongs to a chain, `chain` gives its place in that chain: position/total, predecessors and successors in chain order (displayId, title, status), and `next`, the chain's first member that is neither completed nor withdrawn. When the card has blocked-by links, `blockedBy` lists the cards it waits on and `blocks` the cards waiting on it, each with displayId, title, status, `landed` (its code is already in what this card would start from) and the link's note. When an opinion or plan suggested a link the user has not answered yet, `suggestedBlockedBy` lists those cards with the reason: ask the user, then add_dependency on yes or remove_dependency on no. When the card has a Test Report, `testReport` gives how many runs it holds and how the newest came out; read the runs themselves with get_test_report. When commits have touched the card's files since its checklist was written, `testsDrift` lists them (base, files, commits, total): the checklist may have gone stale. `authorship` says who wrote and who last edited each tab (`you` or `ideafy`, with the date) and who ticked each checked item, so you can see what the user changed by hand.",
+        description: "Get a kanban card by ID. When the card belongs to a chain, `chain` gives its place in that chain: position/total, predecessors and successors in chain order (displayId, title, status), and `next`, the chain's first member that is neither completed nor withdrawn. When the card has blocked-by links, `blockedBy` lists the cards it waits on and `blocks` the cards waiting on it, each with displayId, title, status, `landed` (its code is already in what this card would start from) and the link's note. When an opinion or plan suggested a link the user has not answered yet, `suggestedBlockedBy` lists those cards with the reason: ask the user, then add_dependency on yes or remove_dependency on no. When the card has a Test Report, `testReport` gives how many runs it holds and how the newest came out; read the runs themselves with get_test_report. When commits have touched the card's files since its checklist was written, `testsDrift` lists them (base, files, commits, total): the checklist may have gone stale. `planDrift` does the same since its plan was written: the code wins over the plan. `authorship` says who wrote and who last edited each tab (`you` or `ideafy`, with the date) and who ticked each checked item, so you can see what the user changed by hand.",
         inputSchema: {
           type: "object",
           properties: {
@@ -30230,6 +30266,8 @@ AI OPINION CONTRACT (mandatory \u2014 get_card returns the card's \`aiOpinion\` 
 
 ${AI_OPINION_PLANNING_RULE2}
 
+STILL CURRENT: when get_card returns planDrift and the plan was checked against those commits and is still right, call save_plan with confirmCurrent: true and no solutionSummary \u2014 only the plan's base commit moves to HEAD and planDrift goes quiet; the card does not move. Saving a new plan moves it too.
+
 PRIOR DECISIONS (check before you draft):
 
 ${PRIOR_DECISIONS_RULE2}`,
@@ -30244,9 +30282,13 @@ ${PRIOR_DECISIONS_RULE2}`,
               type: "string",
               description: "Detailed implementation plan in markdown. MUST include: (1) Brief summary of the approach, (2) Current architecture understanding with relevant code flow (e.g. `Settings UI \u2192 POST /api/... \u2192 provider.method()`), (3) Step-by-step implementation with specific file paths, function names, and code snippets showing the planned changes, (4) Changed files table (| File | Change |), (5) Important notes or caveats. Write prose-level detail with code examples, not just headings or bullet points. Adapt the tone to the project's voice (see tool description)."
             },
-            dependsOn: DEPENDS_ON_SCHEMA
+            dependsOn: DEPENDS_ON_SCHEMA,
+            confirmCurrent: {
+              type: "boolean",
+              description: "The plan matches the code now (see get_card's planDrift). Without solutionSummary, only the plan's base commit moves to HEAD: the text, the column and the links stay."
+            }
           },
-          required: ["id", "solutionSummary"]
+          required: ["id"]
         }
       },
       {
@@ -30315,6 +30357,11 @@ Test Report (report): when you have just verified checklist items yourself \u201
                     },
                     required: ["item", "status"]
                   }
+                },
+                warnings: {
+                  type: "array",
+                  items: { type: "string" },
+                  description: 'Run-level notes no item carries \u2014 e.g. one "Plan deviation: \u2026" line per place you deviated from a plan get_card flagged with planDrift. With warnings, items may be empty.'
                 }
               },
               required: ["items"]
@@ -30783,6 +30830,10 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         if (testsDrift && testsDrift.total > 0) {
           card.testsDrift = testsDrift;
         }
+        const planDrift = planDriftFor2(db, card.id);
+        if (planDrift && planDrift.total > 0) {
+          card.planDrift = planDrift;
+        }
         const cardWithReports = card;
         const testReport = testReportCardSummary2(parseTestReports2(cardWithReports.testReports));
         delete cardWithReports.testReports;
@@ -30821,6 +30872,12 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           content.push({
             type: "text",
             text: `testsDrift: ${testsDrift.total} commit(s) touched this card's files since its checklist was written. Before walking or trusting the checklist, offer the user to check it against them: read each with \`git show <sha> -- <file>\`, then, on their OK, rewrite only the items or notes (If it breaks: lines) that went wrong with revise_tests \u2014 or, if none did, call revise_tests with confirmCurrent: true and no revisions.`
+          });
+        }
+        if (planDrift && planDrift.total > 0) {
+          content.push({
+            type: "text",
+            text: `planDrift: ${planDrift.total} commit(s) touched this card's files since its plan was written. The plan predates them and the code wins. Read each with \`git show <sha> -- <file>\` before following the plan, do not edit the plan, and report every place you deviated from it \u2014 in an autonomous run as the fenced plan-deviations block the prompt asks for; in a terminal session tell the user, and pass the same lines as \`warnings\` in save_tests' \`report\`. If the plan turns out to be still right, save_plan with confirmCurrent: true and no solutionSummary quiets this.`
           });
         }
         for (const img of images) {
@@ -31270,12 +31327,27 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         return { content };
       }
       case "save_plan": {
-        const { id: rawId, solutionSummary, dependsOn } = args;
+        const { id: rawId, solutionSummary, dependsOn, confirmCurrent } = args;
         const id = resolveCardRef2(db, rawId);
         if (!id) {
           return {
             content: [{ type: "text", text: `Card not found: ${rawId}` }],
             isError: true
+          };
+        }
+        if (typeof solutionSummary !== "string" || !solutionSummary.trim()) {
+          if (!confirmCurrent) {
+            return {
+              content: [{ type: "text", text: "save_plan refused: send solutionSummary, or confirmCurrent: true to mark the current plan as still right." }],
+              isError: true
+            };
+          }
+          const confirmed = confirmPlanCurrent2(db, id);
+          if (!confirmed.ok) {
+            return { content: [{ type: "text", text: `Card not found: ${id}` }], isError: true };
+          }
+          return {
+            content: [{ type: "text", text: `Plan on card ${id} marked as still current; its base commit is now HEAD. Card is in "${readStatus(id)}".` }]
           };
         }
         if (!hasCapability(db, "completedAt")) {
@@ -31369,7 +31441,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           const removed = before - kept;
           summary += ` \u2014 allowDeletion: ${removed} of ${before} existing scenario(s) removed, ${kept} kept`;
         }
-        if (parsedReport?.ok) summary += `.${writeTerminalReport(db, id, parsedReport.items, true)}`;
+        if (parsedReport?.ok) summary += `.${writeTerminalReport(db, id, parsedReport.items, true, parsedReport.warnings)}`;
         return {
           content: [{ type: "text", text: summary }]
         };
@@ -31695,7 +31767,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           mode
         );
         const bound = `Session ${sessionId} bound to card ${card.id} ("${card.title}", column: ${card.status}, project mode: ${mode}).`;
-        const waiting = policy && choice === "phase" ? waitingOnLine2(db, card.id) : null;
+        const waiting = policy && choice === "phase" ? [waitingOnLine2(db, card.id), planDriftLine2(db, card.id)].filter(Boolean).join("\n") || null : null;
         return {
           content: [
             {
