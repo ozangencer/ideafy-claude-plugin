@@ -3223,8 +3223,8 @@ var require_utils = __commonJS({
       }
       return ind;
     }
-    function removeDotSegments(path8) {
-      let input = path8;
+    function removeDotSegments(path9) {
+      let input = path9;
       const output = [];
       let nextSlash = -1;
       let len = 0;
@@ -3423,8 +3423,8 @@ var require_schemes = __commonJS({
         wsComponent.secure = void 0;
       }
       if (wsComponent.resourceName) {
-        const [path8, query] = wsComponent.resourceName.split("?");
-        wsComponent.path = path8 && path8 !== "/" ? path8 : void 0;
+        const [path9, query] = wsComponent.resourceName.split("?");
+        wsComponent.path = path9 && path9 !== "/" ? path9 : void 0;
         wsComponent.query = query;
         wsComponent.resourceName = void 0;
       }
@@ -7158,8 +7158,8 @@ function getErrorMap() {
 
 // ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/helpers/parseUtil.js
 var makeIssue = (params) => {
-  const { data, path: path8, errorMaps, issueData } = params;
-  const fullPath = [...path8, ...issueData.path || []];
+  const { data, path: path9, errorMaps, issueData } = params;
+  const fullPath = [...path9, ...issueData.path || []];
   const fullIssue = {
     ...issueData,
     path: fullPath
@@ -7274,11 +7274,11 @@ var errorUtil;
 
 // ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/types.js
 var ParseInputLazyPath = class {
-  constructor(parent, value, path8, key) {
+  constructor(parent, value, path9, key) {
     this._cachedPath = [];
     this.parent = parent;
     this.data = value;
-    this._path = path8;
+    this._path = path9;
     this._key = key;
   }
   get path() {
@@ -10922,10 +10922,10 @@ function mergeDefs(...defs) {
 function cloneDef(schema) {
   return mergeDefs(schema._zod.def);
 }
-function getElementAtPath(obj, path8) {
-  if (!path8)
+function getElementAtPath(obj, path9) {
+  if (!path9)
     return obj;
-  return path8.reduce((acc, key) => acc?.[key], obj);
+  return path9.reduce((acc, key) => acc?.[key], obj);
 }
 function promiseAllObject(promisesObj) {
   const keys = Object.keys(promisesObj);
@@ -11308,11 +11308,11 @@ function aborted(x2, startIndex = 0) {
   }
   return false;
 }
-function prefixIssues(path8, issues) {
+function prefixIssues(path9, issues) {
   return issues.map((iss) => {
     var _a2;
     (_a2 = iss).path ?? (_a2.path = []);
-    iss.path.unshift(path8);
+    iss.path.unshift(path9);
     return iss;
   });
 }
@@ -21695,6 +21695,7 @@ function chainOrderWarning(input) {
 // ../lib/plan-files.ts
 var plan_files_exports = {};
 __export(plan_files_exports, {
+  countPlanSteps: () => countPlanSteps,
   extractPlanFiles: () => extractPlanFiles,
   htmlToText: () => htmlToText,
   normalizePath: () => normalizePath,
@@ -21729,8 +21730,8 @@ function extractPlanFiles(solutionHtml) {
   const section2 = text.match(/Files to Modify\s*\n([\s\S]*?)(?:\n(?:Implementation Steps|Edge Cases|Dependencies)\b|$)/i);
   return section2 ? pathTokens(section2[1]) : [];
 }
-function normalizePath(path8) {
-  return path8.trim().replace(/^\.\//, "").replace(/\/+$/, "");
+function normalizePath(path9) {
+  return path9.trim().replace(/^\.\//, "").replace(/\/+$/, "");
 }
 function pathsOverlap(a, b2) {
   const globRoot = (p) => /\/\*+$/.test(p) ? p.replace(/\/\*+$/, "/") : null;
@@ -21745,6 +21746,32 @@ function sharedPlanFiles(a, b2) {
   const other = b2.map(normalizePath);
   const shared = a.map(normalizePath).filter((file2) => other.some((o) => pathsOverlap(file2, o)));
   return Array.from(new Set(shared));
+}
+var STEPS_HEADING = /<h[1-6][^>]*>\s*(?:implementation\s+steps|uygulama\s+adımları)\s*<\/h[1-6]>/iu;
+function countPlanSteps(solutionHtml) {
+  if (!solutionHtml) return null;
+  const heading = STEPS_HEADING.exec(solutionHtml);
+  if (!heading) return null;
+  const after = solutionHtml.slice(heading.index + heading[0].length);
+  const next = /<h[12][^>]*>/i.exec(after);
+  const body = next ? after.slice(0, next.index) : after;
+  const ol = /<ol\b[^>]*>([\s\S]*?)<\/ol>/i.exec(body);
+  if (ol) {
+    let depth2 = 0;
+    let count = 0;
+    for (const tag of ol[1].matchAll(/<(\/?)(ul|ol|li)\b[^>]*>/gi)) {
+      const closing = tag[1] === "/";
+      if (tag[2].toLowerCase() === "li") {
+        if (!closing && depth2 === 0) count++;
+      } else depth2 += closing ? -1 : 1;
+    }
+    if (count > 0) return count;
+  }
+  const h3 = body.match(/<h3\b/gi)?.length ?? 0;
+  if (h3 > 0) return h3;
+  const paragraphs = [...body.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/gi)].map((m2) => htmlToText(m2[1])).filter((text) => text && !/^(files|dosyalar)\s*:/i.test(text));
+  const numbered = paragraphs.filter((text) => /^\d+[.)]\s/.test(text)).length;
+  return numbered > 0 ? numbered : paragraphs.length || null;
 }
 
 // ../lib/card-number-query.ts
@@ -21793,6 +21820,7 @@ __export(card_ops_exports, {
   assertGroupAssignable: () => assertGroupAssignable,
   authorFromSource: () => authorFromSource,
   authorshipRows: () => authorshipRows,
+  branchStoryCounts: () => branchStoryCounts,
   cardAuthorship: () => cardAuthorship,
   cardHead: () => cardHead,
   cardRepoFolder: () => cardRepoFolder,
@@ -21828,6 +21856,7 @@ __export(card_ops_exports, {
   listGroups: () => listGroups,
   listProjects: () => listProjects,
   listQueueRows: () => listQueueRows,
+  loadStoryInputs: () => loadStoryInputs,
   moveCard: () => moveCard,
   moveCardInChain: () => moveCardInChain,
   nextQueueStep: () => nextQueueStep,
@@ -22085,9 +22114,12 @@ var DEFAULT_SETTINGS = {
 };
 var AI_PLATFORM_OPTIONS = [
   { value: "claude", label: "Claude Code", description: "Anthropic's coding CLI" },
-  { value: "gemini", label: "Gemini CLI", description: "Google's AI coding CLI" },
   { value: "codex", label: "Codex CLI", description: "OpenAI's coding CLI" },
-  { value: "opencode", label: "OpenCode", description: "OpenCode CLI" }
+  { value: "antigravity", label: "Antigravity CLI", description: "Google's agent CLI (agy)" },
+  { value: "opencode", label: "OpenCode", description: "OpenCode CLI" },
+  // Kept for Code Assist Standard/Enterprise and API-key users; personal
+  // accounts lost Gemini CLI in June 2026 (IDE-583).
+  { value: "gemini", label: "Gemini CLI (legacy)", description: "Google's previous coding CLI" }
 ];
 var TERMINAL_OPTIONS = [
   { value: "iterm2", label: "iTerm2" },
@@ -25469,6 +25501,56 @@ function planDriftLine(db2, cardId) {
   }
 }
 
+// ../lib/card-ops/story.ts
+var GIT_TTL_MS = 3e4;
+var gitCache = /* @__PURE__ */ new Map();
+function defaultBranch(repo) {
+  const remote = gitRead(repo, ["symbolic-ref", "--short", "refs/remotes/origin/HEAD"]);
+  if (remote) return remote.replace(/^origin\//, "");
+  for (const name of ["main", "master"]) {
+    if (gitRead(repo, ["show-ref", "--verify", "--quiet", `refs/heads/${name}`]) !== null) return name;
+  }
+  return null;
+}
+function branchStoryCounts(repo, branch) {
+  const head = gitRead(repo, ["rev-parse", "--verify", "--quiet", `refs/heads/${branch}`]);
+  if (!head) return { exists: false, ahead: 0, files: 0 };
+  const key = `${repo}\0${branch}\0${head}`;
+  const cached2 = gitCache.get(key);
+  if (cached2 && Date.now() - cached2.at < GIT_TTL_MS) return cached2.value;
+  const base = defaultBranch(repo);
+  if (!base) return null;
+  const ahead = Number(gitRead(repo, ["rev-list", "--count", `${base}..${branch}`]) ?? NaN);
+  const names = gitRead(repo, ["diff", "--name-only", `${base}...${branch}`]);
+  if (!Number.isFinite(ahead) || names === null) return null;
+  const value = { exists: true, ahead, files: names.split("\n").filter((line) => line.trim()).length };
+  gitCache.set(key, { at: Date.now(), value });
+  return value;
+}
+function loadStoryInputs(db2, cardId) {
+  try {
+    const row = getRow(
+      db2,
+      `SELECT c.git_branch_name AS branch, p.folder_path AS projectFolder, c.project_folder AS cardFolder
+       FROM cards c LEFT JOIN projects p ON p.id = c.project_id WHERE c.id = ?`,
+      cardId
+    );
+    if (!row) return { opinionUserMessages: null, git: null };
+    const messages = getRow(
+      db2,
+      `SELECT COUNT(*) AS n FROM conversations WHERE card_id = ? AND section_type = 'opinion' AND role = 'user'`,
+      cardId
+    );
+    const repo = row.projectFolder || row.cardFolder;
+    return {
+      opinionUserMessages: messages ? Number(messages.n) : null,
+      git: row.branch && repo ? branchStoryCounts(repo, row.branch) : null
+    };
+  } catch {
+    return { opinionUserMessages: null, git: null };
+  }
+}
+
 // ../lib/output-paths.ts
 function parseOutputPaths(value) {
   if (!value) return null;
@@ -25550,6 +25632,7 @@ function addTestReportWarnings(db2, args) {
 // ../lib/opinion-markers.ts
 var opinion_markers_exports = {};
 __export(opinion_markers_exports, {
+  countOpinionConcerns: () => countOpinionConcerns,
   describeOpinionMarkers: () => describeOpinionMarkers,
   normalizeComplexity: () => normalizeComplexity,
   parseAiVerdict: () => parseAiVerdict,
@@ -25666,6 +25749,31 @@ function describeOpinionMarkers(markers) {
     markers.complexity && `complexity ${markers.complexity}`
   ].filter(Boolean);
   return parts.join(" \xB7 ");
+}
+var CONCERNS_HEADING = new RegExp("^#{1,6}\\s*(?:concerns|endi\u015Feler|kayg\u0131lar)(?!\\p{L})(.*)$", "imu");
+function countOpinionConcerns(markdownOrHtml) {
+  if (!markdownOrHtml) return null;
+  const isHtml2 = /<[a-z][^>]*>/i.test(markdownOrHtml);
+  if (isHtml2) {
+    const heading = new RegExp("<h[1-6][^>]*>\\s*(?:concerns|endi\u015Feler|kayg\u0131lar)(?!\\p{L})[\\s\\S]*?<\\/h[1-6]>", "iu").exec(markdownOrHtml);
+    if (!heading) return null;
+    const after = markdownOrHtml.slice(heading.index + heading[0].length);
+    const next = /<h[1-6][^>]*>/i.exec(after);
+    const body2 = next ? after.slice(0, next.index) : after;
+    let depth2 = 0;
+    let count = 0;
+    for (const tag of body2.matchAll(/<(\/?)(ul|ol|li)\b[^>]*>/gi)) {
+      const closing = tag[1] === "/";
+      const name = tag[2].toLowerCase();
+      if (name === "li") {
+        if (!closing && depth2 === 1) count++;
+      } else depth2 += closing ? -1 : 1;
+    }
+    return count;
+  }
+  const body = section(withoutCode(markdownOrHtml), CONCERNS_HEADING);
+  if (body === null) return null;
+  return body.split("\n").filter((line) => /^(?:[-*+]|\d+[.)])\s+\S/.test(line)).length;
 }
 
 // ../lib/card-ops/groups.ts
@@ -26082,9 +26190,9 @@ function waitPath(db2, from, to) {
   while (queue.length > 0) {
     const current = queue.shift();
     if (current === to) {
-      const path8 = [];
-      for (let step = current; step !== null; step = previous.get(step) ?? null) path8.unshift(step);
-      return path8;
+      const path9 = [];
+      for (let step = current; step !== null; step = previous.get(step) ?? null) path9.unshift(step);
+      return path9;
     }
     for (const { next } of allRows(
       db2,
@@ -26106,9 +26214,9 @@ function linkOne(db2, cardId, entry, now) {
   if (predecessor.id === cardId) {
     throw new CardDependencyError("self", `${label(card)} cannot wait on itself.`);
   }
-  const path8 = waitPath(db2, predecessor.id, cardId);
-  if (path8) {
-    const names = path8.map((id) => {
+  const path9 = waitPath(db2, predecessor.id, cardId);
+  if (path9) {
+    const names = path9.map((id) => {
       const row = cardRow(db2, id);
       return row ? label(row) : id;
     });
@@ -27565,6 +27673,52 @@ function projectIdOfCard(db2, cardId) {
   return getRow(db2, `SELECT project_id FROM cards WHERE id = ?`, cardId)?.project_id ?? null;
 }
 
+// ../lib/linked-folders.ts
+import { existsSync as existsSync3, realpathSync as realpathSync2, statSync as statSync2 } from "fs";
+import { homedir as homedir2 } from "os";
+import path4 from "path";
+function parseLinkedFolders(raw) {
+  if (!raw) return [];
+  try {
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed.filter((p) => typeof p === "string" && path4.isAbsolute(p)) : [];
+  } catch {
+    return [];
+  }
+}
+function isInside2(child, parent) {
+  return child === parent || child.startsWith(parent + path4.sep);
+}
+function linkedFolderProblem(folder, homeDir = homedir2()) {
+  if (!folder || !path4.isAbsolute(folder)) return "Use an absolute folder path";
+  let real;
+  try {
+    real = realpathSync2(folder);
+    if (!statSync2(real).isDirectory()) return "Not a folder";
+  } catch {
+    return "Folder not found";
+  }
+  if (isSensitivePath(folder) || isSensitivePath(real)) return "This folder may hold secrets";
+  let realHome = homeDir;
+  try {
+    realHome = realpathSync2(homeDir);
+  } catch {
+  }
+  if (isInside2(realHome, real)) return "Link a project folder, not your home folder or above";
+  return null;
+}
+function realLinkedFolders(raw, homeDir) {
+  const roots = [];
+  for (const folder of parseLinkedFolders(raw)) {
+    if (linkedFolderProblem(folder, homeDir)) continue;
+    try {
+      roots.push(realpathSync2(folder));
+    } catch {
+    }
+  }
+  return roots;
+}
+
 // ../lib/card-ops/artifacts.ts
 function persistCardFieldArtifacts(db2, cardId, html, sources = {}) {
   if (!html || !html.includes("file://")) return html;
@@ -27574,7 +27728,22 @@ function persistCardFieldArtifacts(db2, cardId, html, sources = {}) {
      FROM cards c LEFT JOIN projects p ON p.id = c.project_id WHERE c.id = ?`,
     cardId
   );
-  return persistCardArtifacts(html, cardId, { ...sources, projectFolders: [row?.projectFolder, row?.cardFolder] });
+  return persistCardArtifacts(html, cardId, {
+    ...sources,
+    projectFolders: [row?.projectFolder, row?.cardFolder, ...linkedFoldersOf(db2, cardId, sources.homeDir)]
+  });
+}
+function linkedFoldersOf(db2, cardId, homeDir) {
+  try {
+    const row = getRow(
+      db2,
+      `SELECT p.linked_folders AS linkedFolders FROM cards c JOIN projects p ON p.id = c.project_id WHERE c.id = ?`,
+      cardId
+    );
+    return realLinkedFolders(row?.linkedFolders, homeDir);
+  } catch {
+    return [];
+  }
 }
 
 // ../lib/card-ops/session-policy.ts
@@ -27601,407 +27770,12 @@ function validateCardTitle(title) {
   return { ok: true, title: trimmed };
 }
 
-// ../lib/prompts/evaluation.ts
-var evaluation_exports = {};
-__export(evaluation_exports, {
-  EVALUATION_HEADINGS_RULE: () => EVALUATION_HEADINGS_RULE,
-  EVALUATION_OUTPUT_SCHEMA: () => EVALUATION_OUTPUT_SCHEMA,
-  EVALUATION_SAVE_INSTRUCTION: () => EVALUATION_SAVE_INSTRUCTION,
-  buildChainSection: () => buildChainSection,
-  buildEvaluationGuide: () => buildEvaluationGuide,
-  buildPriorDecisionsSection: () => buildPriorDecisionsSection
+// ../lib/card-story.ts
+var card_story_exports = {};
+__export(card_story_exports, {
+  EMPTY_STORY_INPUTS: () => EMPTY_STORY_INPUTS,
+  buildCardStory: () => buildCardStory
 });
-var EVALUATION_OUTPUT_SCHEMA = `## Summary Verdict
-[VERDICT: strong_yes/yes/maybe/no/strong_no] \u2014 one sentence: Strong Yes / Yes / Maybe / No / Strong No, and why.
-
-## Related Cards
-[Optional \u2014 only when an earlier card contradicts this idea, set a precedent for it, already describes the same idea, open work overlaps it or brings in something it relies on, or when the card is in a chain, and only when it would change the verdict or a recommendation. One line per card: displayId, the kind (contradiction, precedent, duplicate, overlap, dependency, predecessor or successor), what it decided or touches, and why it matters here. Chain predecessors and successors are listed in chain order with their status. Leave the whole section out otherwise.]
-
-## Strengths
-- Key strengths of the idea
-
-## Concerns
-- Main concerns, risks, or issues
-
-## Recommendations
-- What to consider before implementing, suggested modifications
-
-## Priority
-[PRIORITY: low/medium/high] \u2014 reasoning. Be honest, not everything is high priority.
-
-## Complexity
-[COMPLEXITY: trivial/low/medium/high/very_high] \u2014 assessment.
-(trivial = few lines, low = simple, medium = moderate, high = significant, very_high = major)
-
-## Final Score
-[SCORE: X/10] \u2014 brief justification
-
-The four bracketed markers \u2014 [VERDICT: \u2026], [PRIORITY: \u2026], [COMPLEXITY: \u2026], [SCORE: X/10] \u2014 each hold exactly one value and stay in English whatever language the rest is written in. The card's verdict, score, priority and complexity are read from them.`;
-var EVALUATION_HEADINGS_RULE = "Markdown with exactly these sections (Related Cards is the only optional one). Keep every `##` heading exactly as written, in English, even when you write the content in another language: the app reads the verdict and the scores from them.";
-function buildPriorDecisionsSection(card) {
-  if (!card.projectId) return "";
-  return `
-## Earlier Decisions
-Card id: ${card.id} \xB7 projectId: ${card.projectId}
-
-${PRIOR_DECISIONS_EVALUATION_RULE}
-`;
-}
-function chainLine(ref) {
-  const name = ref.displayId ? `${ref.displayId} \xB7 ${ref.title}` : `${ref.title} (draft, no displayId)`;
-  return `${name} \u2014 ${ref.status}`;
-}
-function buildChainSection(chain) {
-  if (!chain) return "";
-  const lines = [
-    ...chain.predecessors.map((ref, i) => `${i + 1}. ${chainLine(ref)}`),
-    `${chain.position}. (this card)`,
-    ...chain.successors.map((ref, i) => `${chain.position + i + 1}. ${chainLine(ref)}`)
-  ];
-  const next = chain.next ? chainLine(chain.next) : "none \u2014 every member is completed or withdrawn";
-  return `
-## Chain
-This card is ${chain.position}/${chain.total} in chain ${chain.groupCode} (${chain.groupName}), in chain order:
-${lines.join("\n")}
-Next open card in the chain: ${next}
-`;
-}
-var EVALUATION_SAVE_INSTRUCTION = `Then write the evaluation in this template and save it with save_opinion (aiOpinion as markdown). ${DEPENDS_ON_RULE("save_opinion", "a Related Cards line of the kind dependency")} ${EVALUATION_HEADINGS_RULE}
-
-${EVALUATION_OUTPUT_SCHEMA}`;
-function buildEvaluationGuide() {
-  return `${PRIOR_DECISIONS_EVALUATION_RULE}
-
-${EVALUATION_SAVE_INSTRUCTION}`;
-}
-
-// ../lib/prompts/mockup-request.ts
-var mockup_request_exports = {};
-__export(mockup_request_exports, {
-  MOCKUP_OFFER_HINT: () => MOCKUP_OFFER_HINT,
-  buildMockupRequest: () => buildMockupRequest,
-  cardMockups: () => cardMockups,
-  cardMockupsWithSource: () => cardMockupsWithSource,
-  hasMockupArtifact: () => hasMockupArtifact,
-  listMockupArtifacts: () => listMockupArtifacts,
-  mockupTargetSection: () => mockupTargetSection
-});
-function mockupTargetSection(status) {
-  return status === "ideation" ? "opinion" : "solution";
-}
-function buildMockupRequest(focus) {
-  const request = "Draw an HTML mockup for this card.";
-  const trimmed = focus?.trim();
-  return trimmed ? `${request}
-Focus only on: ${trimmed}` : request;
-}
-var HTML_FILE = /\.html?(?:[?#].*)?$/i;
-function listMockupArtifacts(html) {
-  if (!html) return [];
-  const found = [];
-  for (const match of html.matchAll(/<span\b[^>]*data-type="artifactMention"[^>]*>/gi)) {
-    const path8 = match[0].match(/data-path="([^"]*)"/i)?.[1];
-    if (path8 && HTML_FILE.test(path8)) found.push({ at: match.index ?? 0, path: decodeEntities2(path8) });
-  }
-  for (const match of html.matchAll(/file:\/\/[^"'\s)<]+/gi)) {
-    if (!HTML_FILE.test(match[0])) continue;
-    const path8 = fileUrlToPath(decodeEntities2(match[0]));
-    if (path8) found.push({ at: match.index ?? 0, path: path8 });
-  }
-  const seen = /* @__PURE__ */ new Set();
-  const paths = [];
-  for (const { path: path8 } of found.sort((a, b2) => a.at - b2.at)) {
-    if (seen.has(path8)) continue;
-    seen.add(path8);
-    paths.push(path8);
-  }
-  return paths;
-}
-function decodeEntities2(text) {
-  return text.replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&#39;/g, "'");
-}
-function hasMockupArtifact(html) {
-  return listMockupArtifacts(html).length > 0;
-}
-function cardMockups(card) {
-  const all = [card.aiOpinion, card.solutionSummary, card.description].flatMap(listMockupArtifacts);
-  return [...new Set(all)];
-}
-function cardMockupsWithSource(card) {
-  const sourceOf = /* @__PURE__ */ new Map();
-  for (const [source, html] of [
-    ["solution", card.solutionSummary],
-    ["opinion", card.aiOpinion],
-    ["description", card.description]
-  ]) {
-    for (const path8 of listMockupArtifacts(html)) {
-      if (!sourceOf.has(path8)) sourceOf.set(path8, source);
-    }
-  }
-  const planHasOne = [...sourceOf.values()].includes("solution");
-  if (!planHasOne) {
-    return cardMockups(card).map((path8) => ({ path: path8, source: sourceOf.get(path8), dimmed: false }));
-  }
-  return [...sourceOf].map(([path8, source]) => ({ path: path8, source, dimmed: source !== "solution" }));
-}
-var MOCKUP_OFFER_HINT = `Mockup: if this card changes UI and its target tab (AI Opinion on an ideation card, the plan after that) has no mockup yet, ask the user in one sentence whether they want an HTML mockup. Only on yes, put the whole file in the save_opinion / save_plan text as one fenced block, \`\`\`html artifact="short-name.html"\`, as its first item followed by a \`## Mockup\` heading; Ideafy saves it into the card folder and shows it as a link. Never draw one unasked. If the tab already has a mockup and the user asks for a new one, replace its link and its \`## Mockup\` section in place, keep the rest of the text as it is, and leave the old file on disk.`;
-
-// ../lib/card-mockups.ts
-var card_mockups_exports = {};
-__export(card_mockups_exports, {
-  mockupState: () => mockupState,
-  resolveCardMockupFile: () => resolveCardMockupFile
-});
-import { existsSync as existsSync3, realpathSync as realpathSync2, statSync as statSync2 } from "fs";
-import path4 from "path";
-function isInside2(child, parent) {
-  return child === parent || child.startsWith(parent + path4.sep);
-}
-function realDir(dir) {
-  try {
-    return realpathSync2(dir);
-  } catch {
-    return null;
-  }
-}
-function mockupState(cardId, absPath, cardDir = cardArtifactDir(cardId)) {
-  if (!path4.isAbsolute(absPath) || absPath.includes("\0")) return { state: "missing" };
-  let real;
-  try {
-    real = realpathSync2(absPath);
-    if (!statSync2(real).isFile()) return { state: "missing" };
-  } catch {
-    return { state: "missing" };
-  }
-  const root = realDir(cardDir);
-  if (!root || !isInside2(real, root) || real === root) return { state: "outside" };
-  return { state: "preview", relPath: path4.relative(root, real).split(path4.sep).join("/") };
-}
-function resolveCardMockupFile(cardId, segments, cardDir = cardArtifactDir(cardId)) {
-  if (segments.length === 0) return null;
-  for (const segment of segments) {
-    if (!segment || segment === "." || segment === ".." || segment.includes("\0") || /[\\/]/.test(segment)) {
-      return null;
-    }
-  }
-  const root = realDir(cardDir);
-  if (!root) return null;
-  const candidate = path4.join(root, ...segments);
-  if (!existsSync3(candidate)) return null;
-  const real = realpathSync2(candidate);
-  if (!isInside2(real, root) || real === root || !statSync2(real).isFile()) return null;
-  return real;
-}
-
-// ../lib/test-report-files.ts
-var test_report_files_exports = {};
-__export(test_report_files_exports, {
-  importTerminalArtifacts: () => importTerminalArtifacts,
-  keepWrittenArtifacts: () => keepWrittenArtifacts,
-  removeTestReportRunDirs: () => removeTestReportRunDirs,
-  testReportRunDir: () => testReportRunDir
-});
-import { copyFileSync as copyFileSync3, mkdirSync as mkdirSync3, rmSync, statSync as statSync3 } from "fs";
-import { homedir as homedir2 } from "os";
-import path5 from "path";
-var MAX_SCREENSHOT_BYTES = 20 * 1024 * 1024;
-function testReportRunDir(cardId, runId, homeDir) {
-  return path5.join(cardArtifactDir(cardId, homeDir), TEST_REPORT_DIR, runId);
-}
-function removeTestReportRunDirs(cardId, runs, homeDir) {
-  for (const run2 of runs) {
-    if (!isTestReportRunId(run2.id)) continue;
-    try {
-      rmSync(testReportRunDir(cardId, run2.id, homeDir), { recursive: true, force: true });
-    } catch (error2) {
-      console.warn(`[test-report] could not remove ${run2.id} of ${cardId}:`, error2);
-    }
-  }
-}
-function isFile(p) {
-  try {
-    const stat = statSync3(p);
-    return stat.isFile() && stat.size <= MAX_SCREENSHOT_BYTES;
-  } catch {
-    return false;
-  }
-}
-function keepWrittenArtifacts(items, runDir) {
-  return items.map((item) => ({
-    ...item,
-    artifacts: item.artifacts.map((artifact) => ({ ...artifact, file: path5.basename(artifact.file) })).filter((artifact) => isTestReportImageName(artifact.file) && isFile(path5.join(runDir, artifact.file)))
-  }));
-}
-function importTerminalArtifacts(items, runDir) {
-  let made = false;
-  let n = 0;
-  return items.map((item) => ({
-    ...item,
-    artifacts: item.artifacts.flatMap((artifact) => {
-      const source = artifact.file.startsWith("~/") ? path5.join(homedir2(), artifact.file.slice(2)) : artifact.file;
-      if (!path5.isAbsolute(source) || !isFile(source)) return [];
-      const ext = path5.extname(source).toLowerCase();
-      const file2 = `shot-${++n}${ext}`;
-      if (!isTestReportImageName(file2)) return [];
-      try {
-        if (!made) {
-          mkdirSync3(runDir, { recursive: true });
-          made = true;
-        }
-        copyFileSync3(source, path5.join(runDir, file2));
-        return [{ ...artifact, file: file2 }];
-      } catch {
-        return [];
-      }
-    })
-  }));
-}
-
-// ../lib/test-report-text.ts
-var test_report_text_exports = {};
-__export(test_report_text_exports, {
-  TEST_REPORT_SCOPE_LABEL: () => TEST_REPORT_SCOPE_LABEL,
-  formatTestReport: () => formatTestReport,
-  selectTestReportRun: () => selectTestReportRun,
-  testReportCardSummary: () => testReportCardSummary,
-  testReportRunLabel: () => testReportRunLabel,
-  testReportRunNumber: () => testReportRunNumber
-});
-
-// ../lib/plan-deviations.ts
-var PLAN_DEVIATIONS_FENCE = "plan-deviations";
-var PLAN_DEVIATION_PREFIX = "Plan deviation: ";
-var FENCE2 = new RegExp(
-  "^[ \\t]*(`{3,})[ \\t]*" + PLAN_DEVIATIONS_FENCE + "[^\\n]*\\n([\\s\\S]*?)(?:^[ \\t]*\\1[ \\t]*$|(?![\\s\\S]))",
-  "gm"
-);
-var PLAN_DRIFT_IMPLEMENTATION_RULE = `Plan drift: when get_card returns a \`planDrift\` field, the plan was written before those commits. The code wins \u2014 read them with \`git show <sha> -- <file>\` before you follow the plan, and do not edit the plan. After the checklist, add one fenced \`\`\`${PLAN_DEVIATIONS_FENCE} block with one line per place you deviated from the plan (what the plan said, what you did instead, why). With no \`planDrift\` field, or no deviation, leave the block out.`;
-
-// ../lib/test-report-text.ts
-var TEST_REPORT_SCOPE_LABEL = {
-  run: "pre-verify",
-  reverify: "re-verify after fix",
-  single: "verify on screen",
-  retest: "re-test after your fix"
-};
-function testReportRunLabel(run2) {
-  const warnings = run2.warnings ?? [];
-  const onlyDeviations = run2.items.length === 0 && warnings.length > 0 && warnings.every((w2) => w2.startsWith(PLAN_DEVIATION_PREFIX));
-  return onlyDeviations ? "plan deviations" : TEST_REPORT_SCOPE_LABEL[run2.scope];
-}
-function testReportRunNumber(index, total) {
-  return total - index;
-}
-function selectTestReportRun(runs, run2) {
-  if (run2 === void 0 || run2 === null || run2 === "") return { index: 0 };
-  const raw = String(run2).trim();
-  const byId = runs.findIndex((r) => r.id === raw);
-  if (byId >= 0) return { index: byId };
-  const numeric = /^#?(\d+)$/.exec(raw);
-  if (numeric) {
-    const number3 = Number(numeric[1]);
-    if (number3 >= 1 && number3 <= runs.length) return { index: runs.length - number3 };
-  }
-  const range = runs.length === 1 ? "#1" : `#1 (oldest) to #${runs.length} (newest)`;
-  return { error: `No run "${raw}" in this Test Report. It has ${range}, or pass a run id.` };
-}
-function countsText(run2) {
-  const counts = countByStatus(run2);
-  const parts = ["failed", "manual", "passed"].filter((status) => counts[status] > 0).map((status) => `${counts[status]} ${status}`);
-  return parts.length ? parts.join(", ") : "no items";
-}
-function runLine(run2, index, total) {
-  const origin = run2.source === "terminal" ? "terminal" : "app";
-  return `#${testReportRunNumber(index, total)} \xB7 ${run2.runAt} \xB7 ${testReportRunLabel(run2)} \xB7 ${run2.evidence} \xB7 ${origin} \xB7 ${countsText(run2)}`;
-}
-function indent(text, prefix) {
-  return text.split("\n").map((line) => `${prefix}${line}`).join("\n");
-}
-function itemText(item, number3, full) {
-  const head = `${number3}. [${item.status}] ${item.item}`;
-  if (!full) return head;
-  const lines = [head];
-  const field = (label2, value) => {
-    if (value) lines.push(`   ${label2}: ${value}`);
-  };
-  field("Approach", item.approach);
-  if (item.steps.length) {
-    lines.push("   Steps:");
-    item.steps.forEach((step, i) => lines.push(`     ${i + 1}. ${step}`));
-  }
-  field("Expected", item.expected);
-  field("Observed", item.observed);
-  field("Error", item.error);
-  field("Command", item.command);
-  if (item.output) lines.push("   Output:", indent(item.output, "     "));
-  field("Note", item.note);
-  if (item.artifacts.length) {
-    const captions = item.artifacts.map((a) => a.caption).filter(Boolean);
-    lines.push(
-      `   Screenshots: ${item.artifacts.length}${captions.length ? ` (${captions.join("; ")})` : ""}`
-    );
-  }
-  return lines.join("\n");
-}
-function formatTestReport(input) {
-  const { displayId, runs, index, status, checklistHtml, screenshotsAttached } = input;
-  const run2 = runs[index];
-  const total = runs.length;
-  const out = [];
-  out.push(`Test Report \xB7 ${displayId} \xB7 ${total} run${total === 1 ? "" : "s"}, newest first`);
-  runs.forEach((r, i) => out.push(`${i === index ? "\u2192" : " "} ${runLine(r, i, total)}`));
-  out.push("");
-  out.push(
-    `Showing #${testReportRunNumber(index, total)} (${run2.id}).${total > 1 ? ' Pass run: "#N" or a run id for another one.' : ""}`
-  );
-  if (!run2.checklistApplied) {
-    out.push("Its checklist was refused, so none of its ticks reached the Tests tab.");
-  }
-  const warnings = run2.warnings ?? [];
-  if (warnings.length) {
-    out.push("", "Warnings from the run:");
-    for (const warning of warnings) out.push(`- ${warning}`);
-  }
-  const conflicts = checklistHtml ? testReportConflicts(run2, checklistHtml) : [];
-  if (conflicts.length) {
-    out.push("", "Where the Tests tab disagrees with this run:");
-    for (const conflict of conflicts) {
-      out.push(
-        conflict.kind === "failed-but-ticked" ? `- failed in this run, ticked in Tests: ${conflict.item}` : `- passed in this run, unticked in Tests: ${conflict.item}`
-      );
-    }
-  }
-  const shown = run2.items.map((item, i) => ({ item, number: i + 1 })).filter(({ item }) => !status || item.status === status);
-  out.push("", status ? `Items (${status} only):` : "Items:");
-  if (!shown.length) {
-    out.push(status ? `No ${status} items in this run.` : "This run has no items.");
-  }
-  for (const { item, number: number3 } of shown) {
-    out.push(itemText(item, number3, Boolean(status) || item.status !== "passed"));
-  }
-  if (!status && shown.some(({ item }) => item.status === "passed")) {
-    out.push("", 'Passed items are one line each; pass status: "passed" for their detail.');
-  }
-  if (!screenshotsAttached && shown.some(({ item }) => item.artifacts.length > 0)) {
-    out.push("Pass screenshots: true to see the screenshots.");
-  }
-  return out.join("\n");
-}
-function testReportCardSummary(runs) {
-  if (!runs?.length) return null;
-  const latest = runs[0];
-  return {
-    runs: runs.length,
-    latest: {
-      number: runs.length,
-      runAt: latest.runAt,
-      scope: testReportRunLabel(latest),
-      evidence: latest.evidence,
-      ...countByStatus(latest)
-    },
-    read: "get_test_report for the items, what each run observed and where the Tests tab disagrees"
-  };
-}
 
 // ../lib/card-phase.ts
 var card_phase_exports = {};
@@ -28197,6 +27971,7 @@ var STEP_DESC = {
   withdraw: "Set it aside, keep its history",
   merge: "Land the branch on main",
   complete: "Close the card, nothing to merge",
+  "didnt-work": "Send it back to Bugs",
   report: "Screens and notes from the last run"
 };
 var PLAY_DESC = {
@@ -28356,6 +28131,14 @@ function nextStepFor(card, flags, ctx) {
       kind: "you",
       disabledReason: ctx.running ? "A run is going" : void 0
     });
+    if (!ctx.hasBranch) {
+      row(together, {
+        id: "didnt-work",
+        title: ctx.mode === "work" ? "Needs revisions" : "Didn't work",
+        kind: "you",
+        disabledReason: ctx.running ? "A run is going" : void 0
+      });
+    }
     if (ctx.hasReport !== false) row(together, { id: "report", title: "Open the test report", kind: "you" });
   }
   const rows = /* @__PURE__ */ new Map();
@@ -28394,6 +28177,746 @@ function nextStepFor(card, flags, ctx) {
   return { primary, ideafy, together };
 }
 
+// ../lib/card-age.ts
+function formatAgeShort(days) {
+  if (days < 7) return `${days}d`;
+  if (days < 31) return `${Math.floor(days / 7)}w`;
+  if (days < 365) return `${Math.floor(days / 30)}mo`;
+  return `${Math.floor(days / 365)}y`;
+}
+function cardLastActivityAt(card) {
+  return card.updatedAt || card.createdAt;
+}
+
+// ../lib/board-focus.ts
+var YOUR_TURN_ORDER = [
+  "blocked",
+  // A conversation waiting on your answer loses its context the longer it
+  // waits, so it outranks a finished run that will read the same tomorrow.
+  "your-reply",
+  "your-review",
+  "your-test",
+  "your-decision"
+];
+function isYourTurn(state) {
+  return YOUR_TURN_ORDER.includes(state);
+}
+var isFinished2 = (status) => status === "completed" || status === "withdrawn";
+function getFocusState(card) {
+  if (isFinished2(card.status)) return "waiting";
+  if (card.processingType) return "agent-running";
+  if (card.rebaseConflict) return "blocked";
+  if (card.status === "progress") return "your-review";
+  if (card.status === "test") return "your-test";
+  if (card.status === "ideation" && card.aiVerdict) return "your-decision";
+  return "waiting";
+}
+var PROCESSING_LABELS = {
+  autonomous: "running autonomously",
+  "quick-fix": "quick fix",
+  "verify-fix": "fixing what pre-verify found",
+  evaluate: "evaluating",
+  generate: "generating"
+};
+function formatSince(iso, now = Date.now()) {
+  if (!iso) return "unknown";
+  const then = new Date(iso).getTime();
+  if (Number.isNaN(then)) return "unknown";
+  const minutes = Math.max(0, Math.floor((now - then) / 6e4));
+  if (minutes < 60) return `${minutes}m ago`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours}h ago`;
+  return `${formatAgeShort(Math.floor(hours / 24))} ago`;
+}
+function latestReportFailed(card) {
+  const run2 = card.testReports?.[0];
+  return run2 ? run2.items.filter((item) => item.status === "failed").length : 0;
+}
+function failedOnScreenLabel(failed) {
+  return `${failed} failed on screen`;
+}
+function yourTestLine(card, now) {
+  const progress = parseTestProgress(card.testScenarios);
+  if (!progress) return `no checklist yet \xB7 ${formatSince(cardLastActivityAt(card), now)}`;
+  if (progress.core) {
+    const left2 = progress.core.total - progress.core.checked;
+    if (left2 > 0) {
+      return `${progress.core.checked}/${progress.core.total} core \u2713 \xB7 ${left2} left for you`;
+    }
+    const optionalLeft = progress.total - progress.core.total - (progress.checked - progress.core.checked);
+    return optionalLeft > 0 ? `core flow done \xB7 ${optionalLeft} optional left` : "core flow done";
+  }
+  const left = progress.total - progress.checked;
+  return left > 0 ? `${progress.checked}/${progress.total} checked \xB7 ${left} left for you` : `${progress.checked}/${progress.total} checked`;
+}
+function focusDetail(card, now = Date.now(), state = getFocusState(card), reply) {
+  switch (state) {
+    case "blocked": {
+      const files = card.conflictFiles?.length ?? 0;
+      return files > 0 ? `rebase conflict \xB7 ${files} file${files === 1 ? "" : "s"}` : "rebase conflict";
+    }
+    case "your-review": {
+      const agentRan = card.gitWorktreeStatus === "active";
+      return `${agentRan ? "agent done" : "in progress"} \xB7 ${formatSince(
+        cardLastActivityAt(card),
+        now
+      )}`;
+    }
+    case "your-test": {
+      const failed = latestReportFailed(card);
+      const line = yourTestLine(card, now);
+      return failed > 0 ? `${failedOnScreenLabel(failed)} \xB7 ${line}` : line;
+    }
+    case "your-reply":
+      return reply ? replyLine(reply, now) : `new reply \xB7 ${formatSince(cardLastActivityAt(card), now)}`;
+    case "your-decision":
+      if (card.aiVerdict === "positive") return "verdict: yes \xB7 move to backlog?";
+      if (card.aiVerdict === "maybe") return "verdict: maybe \xB7 discuss?";
+      return "verdict: no \xB7 withdraw?";
+    case "agent-running":
+      return `${PROCESSING_LABELS[card.processingType ?? ""] ?? "running"} \xB7 started ${formatSince(
+        cardLastActivityAt(card),
+        now
+      )}`;
+    default:
+      return formatSince(cardLastActivityAt(card), now);
+  }
+}
+function replyLine(reply, now = Date.now()) {
+  return `${reply.label} \xB7 ${formatSince(reply.at, now)}`;
+}
+var NEUTRAL_STEP_WHO = {
+  stop: "ai",
+  queued: "ai",
+  unlock: "you",
+  locked: "you",
+  "chat-running": "you"
+};
+function nextTurnFor(card, ctx = {}) {
+  if (isFinished2(card.status)) return null;
+  const mode = ctx.mode ?? "development";
+  const testProgress = ctx.testProgress === void 0 ? parseTestProgress(card.testScenarios) : ctx.testProgress;
+  const solutionText = stripHtml((card.solutionSummary || "").replace(/&nbsp;/g, " "));
+  const testText = stripHtml((card.testScenarios || "").replace(/&nbsp;/g, " "));
+  const flags = getPhaseActionFlags(card, solutionText, testText, testProgress, mode);
+  const { primary } = nextStepFor(card, flags, {
+    mode,
+    running: ctx.running ?? !!card.processingType,
+    chatting: ctx.chatting ?? false,
+    softLock: false,
+    locked: ctx.locked ?? false,
+    queueRank: ctx.queueRank ?? 0,
+    canQueue: false,
+    blocker: ctx.blocker ?? null,
+    hasOpinion: !!stripHtml(card.aiOpinion || ""),
+    testProgress,
+    hasBranch: ctx.hasBranch ?? (!!card.gitBranchName || card.gitWorktreeStatus === "active"),
+    surface: "desktop"
+  });
+  if (!primary) return null;
+  const who = primary.kind === "neutral" ? NEUTRAL_STEP_WHO[primary.id] ?? "you" : primary.kind;
+  return { who, label: primary.title };
+}
+
+// ../lib/card-story.ts
+var EMPTY_STORY_INPUTS = { opinionUserMessages: null, git: null };
+var plural = (n, word) => `${n} ${word}${n === 1 ? "" : "s"}`;
+var hasText = (html) => !!stripHtml((html || "").replace(/&nbsp;/g, " ")).trim();
+function shortDate(iso) {
+  const date4 = new Date(iso);
+  if (Number.isNaN(date4.getTime())) return "";
+  return date4.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+}
+function verdictStep(card) {
+  const happened = hasText(card.aiOpinion);
+  const concerns = countOpinionConcerns(card.aiOpinion);
+  const score = card.aiScore != null ? `${card.aiScore}/10` : "verdict";
+  return {
+    id: "verdict",
+    who: "ai",
+    label: "Verdict",
+    sub: happened ? concerns != null ? `${score} \xB7 ${plural(concerns, "concern")}` : score : "",
+    happened,
+    tab: "opinion"
+  };
+}
+function arguedStep(inputs) {
+  const n = inputs.opinionUserMessages;
+  return {
+    id: "argued",
+    who: "you",
+    label: "Argued",
+    sub: n == null ? "\u2026" : n > 0 ? plural(n, "message") : "",
+    // Unknown until the fetch lands: shown as done with "…", not as skipped.
+    happened: n == null || n > 0,
+    tab: "opinion"
+  };
+}
+function planStep(card) {
+  const happened = hasText(card.solutionSummary);
+  const steps = countPlanSteps(card.solutionSummary);
+  return {
+    id: "plan",
+    who: "ai",
+    label: "Plan",
+    sub: happened ? steps != null ? plural(steps, "step") : "plan written" : "",
+    happened,
+    tab: "solution"
+  };
+}
+function builtStep(card, inputs) {
+  const merged = card.gitBranchStatus === "merged";
+  const rolledBack = card.gitBranchStatus === "rolled_back";
+  const git3 = inputs.git;
+  let sub = "";
+  if (git3?.exists) sub = `${plural(git3.ahead, "commit")} \xB7 ${plural(git3.files, "file")}`;
+  else if (merged) sub = "merged";
+  else if (rolledBack) sub = "rolled back";
+  else if (card.gitBranchName && !git3) sub = "\u2026";
+  return {
+    id: "built",
+    who: "ai",
+    label: "Built",
+    sub,
+    happened: merged || rolledBack || (git3?.exists ?? false) || !!card.gitBranchName || card.gitWorktreeStatus != null,
+    tab: "solution"
+  };
+}
+function proofStep(card) {
+  const run2 = card.testReports?.[0];
+  let sub = "";
+  if (run2) {
+    const passed = run2.items.filter((item) => item.status === "passed").length;
+    const shots = run2.items.reduce((sum, item) => sum + item.artifacts.length, 0);
+    sub = `${passed}/${run2.items.length} passed${shots > 0 ? ` \xB7 ${plural(shots, "shot")}` : ""}`;
+  }
+  return { id: "proof", who: "ai", label: "Proof", sub, happened: !!run2, tab: "report" };
+}
+function yourTestStep(card, id, label2) {
+  const progress = parseTestProgress(card.testScenarios);
+  const left = progress ? progress.total - progress.checked : 0;
+  return {
+    id,
+    who: "you",
+    label: label2,
+    sub: progress ? left > 0 ? `${left} unticked` : "all ticked" : "",
+    happened: !!progress && progress.checked > 0 || card.status === "completed",
+    tab: "tests"
+  };
+}
+function developmentSteps(card, inputs) {
+  const merged = card.gitBranchStatus === "merged";
+  return [
+    { id: "idea", who: "you", label: "Idea", sub: shortDate(card.createdAt), happened: true, tab: "detail" },
+    verdictStep(card),
+    arguedStep(inputs),
+    planStep(card),
+    builtStep(card, inputs),
+    proofStep(card),
+    yourTestStep(card, "your-test", "Your test"),
+    {
+      id: "merge",
+      who: "you",
+      label: "Merge",
+      sub: merged ? "merged" : card.status === "completed" ? "completed" : "",
+      happened: merged || card.status === "completed",
+      tab: "tests"
+    }
+  ];
+}
+function workSteps(card, inputs) {
+  const outputs = card.outputPaths?.length ?? 0;
+  return [
+    { id: "idea", who: "you", label: "Idea", sub: shortDate(card.createdAt), happened: true, tab: "detail" },
+    verdictStep(card),
+    arguedStep(inputs),
+    planStep(card),
+    {
+      id: "draft",
+      who: "ai",
+      label: "Draft",
+      sub: outputs > 0 ? plural(outputs, "file") : "",
+      happened: outputs > 0,
+      tab: "detail"
+    },
+    yourTestStep(card, "review", "Review"),
+    {
+      id: "done",
+      who: "you",
+      label: "Done",
+      sub: card.status === "completed" ? "completed" : "",
+      happened: card.status === "completed",
+      tab: "tests"
+    }
+  ];
+}
+function nowStepId(card, work, running) {
+  switch (card.status) {
+    case "ideation":
+      return hasText(card.aiOpinion) ? "argued" : "verdict";
+    case "backlog":
+    case "bugs":
+      return "plan";
+    case "progress":
+      return work ? "draft" : "built";
+    case "test":
+      if (work) return "review";
+      return running ? "proof" : "your-test";
+    default:
+      return null;
+  }
+}
+function bannerFor(card, ctx, now) {
+  if (card.status === "completed" || card.status === "withdrawn") return null;
+  const running = ctx.running ?? !!card.processingType;
+  if (running) return { kind: "ai", detail: focusDetail(card, now, "agent-running") };
+  const turn = nextTurnFor(card, ctx);
+  if ((ctx.queueRank ?? 0) > 0) {
+    return { kind: "queued", rank: ctx.queueRank ?? 0, detail: turn?.label ?? "waiting in the queue" };
+  }
+  const state = getFocusState(card);
+  const unread = ctx.unread;
+  if (!isYourTurn(state) && !unread && turn?.who !== "you") return null;
+  let detail = isYourTurn(state) ? focusDetail(card, now, state) : turn?.label ?? "";
+  let failed = null;
+  if (state === "your-test") {
+    const count = latestReportFailed(card);
+    if (count > 0) {
+      failed = failedOnScreenLabel(count);
+      detail = detail.startsWith(`${failed} \xB7 `) ? detail.slice(failed.length + 3) : detail;
+    }
+  }
+  return { kind: "you", detail, failed, since: unread ? replyLine(unread, now) : null };
+}
+function buildCardStory(card, inputs = EMPTY_STORY_INPUTS, ctx = {}) {
+  const now = ctx.now ?? Date.now();
+  const work = (ctx.mode ?? "development") === "work";
+  const running = ctx.running ?? !!card.processingType;
+  const drafts = work ? workSteps(card, inputs) : developmentSteps(card, inputs);
+  const nowId = nowStepId(card, work, running);
+  const nowIndex = nowId ? drafts.findIndex((d2) => d2.id === nowId) : drafts.length;
+  const steps = drafts.map((draft, index) => {
+    let state;
+    if (index === nowIndex) state = "now";
+    else if (index < nowIndex) state = draft.happened ? "done" : "skipped";
+    else state = card.status === "withdrawn" ? "skipped" : "todo";
+    if (draft.id === "merge" && card.gitBranchStatus === "rolled_back" && state !== "now") state = "skipped";
+    return {
+      id: draft.id,
+      who: draft.who,
+      state,
+      label: draft.label,
+      sub: state === "skipped" ? "skipped" : state === "todo" ? "" : draft.sub,
+      tab: draft.tab
+    };
+  });
+  return { steps, now: nowId, banner: bannerFor(card, ctx, now) };
+}
+
+// ../lib/prompts/evaluation.ts
+var evaluation_exports = {};
+__export(evaluation_exports, {
+  EVALUATION_HEADINGS_RULE: () => EVALUATION_HEADINGS_RULE,
+  EVALUATION_OUTPUT_SCHEMA: () => EVALUATION_OUTPUT_SCHEMA,
+  EVALUATION_SAVE_INSTRUCTION: () => EVALUATION_SAVE_INSTRUCTION,
+  buildChainSection: () => buildChainSection,
+  buildEvaluationGuide: () => buildEvaluationGuide,
+  buildPriorDecisionsSection: () => buildPriorDecisionsSection
+});
+var EVALUATION_OUTPUT_SCHEMA = `## Summary Verdict
+[VERDICT: strong_yes/yes/maybe/no/strong_no] \u2014 one sentence: Strong Yes / Yes / Maybe / No / Strong No, and why.
+
+## Related Cards
+[Optional \u2014 only when an earlier card contradicts this idea, set a precedent for it, already describes the same idea, open work overlaps it or brings in something it relies on, or when the card is in a chain, and only when it would change the verdict or a recommendation. One line per card: displayId, the kind (contradiction, precedent, duplicate, overlap, dependency, predecessor or successor), what it decided or touches, and why it matters here. Chain predecessors and successors are listed in chain order with their status. Leave the whole section out otherwise.]
+
+## Strengths
+- Key strengths of the idea
+
+## Concerns
+- Main concerns, risks, or issues
+
+## Recommendations
+- What to consider before implementing, suggested modifications
+
+## Priority
+[PRIORITY: low/medium/high] \u2014 reasoning. Be honest, not everything is high priority.
+
+## Complexity
+[COMPLEXITY: trivial/low/medium/high/very_high] \u2014 assessment.
+(trivial = few lines, low = simple, medium = moderate, high = significant, very_high = major)
+
+## Final Score
+[SCORE: X/10] \u2014 brief justification
+
+The four bracketed markers \u2014 [VERDICT: \u2026], [PRIORITY: \u2026], [COMPLEXITY: \u2026], [SCORE: X/10] \u2014 each hold exactly one value and stay in English whatever language the rest is written in. The card's verdict, score, priority and complexity are read from them.`;
+var EVALUATION_HEADINGS_RULE = "Markdown with exactly these sections (Related Cards is the only optional one). Keep every `##` heading exactly as written, in English, even when you write the content in another language: the app reads the verdict and the scores from them.";
+function buildPriorDecisionsSection(card) {
+  if (!card.projectId) return "";
+  return `
+## Earlier Decisions
+Card id: ${card.id} \xB7 projectId: ${card.projectId}
+
+${PRIOR_DECISIONS_EVALUATION_RULE}
+`;
+}
+function chainLine(ref) {
+  const name = ref.displayId ? `${ref.displayId} \xB7 ${ref.title}` : `${ref.title} (draft, no displayId)`;
+  return `${name} \u2014 ${ref.status}`;
+}
+function buildChainSection(chain) {
+  if (!chain) return "";
+  const lines = [
+    ...chain.predecessors.map((ref, i) => `${i + 1}. ${chainLine(ref)}`),
+    `${chain.position}. (this card)`,
+    ...chain.successors.map((ref, i) => `${chain.position + i + 1}. ${chainLine(ref)}`)
+  ];
+  const next = chain.next ? chainLine(chain.next) : "none \u2014 every member is completed or withdrawn";
+  return `
+## Chain
+This card is ${chain.position}/${chain.total} in chain ${chain.groupCode} (${chain.groupName}), in chain order:
+${lines.join("\n")}
+Next open card in the chain: ${next}
+`;
+}
+var EVALUATION_SAVE_INSTRUCTION = `Then write the evaluation in this template and save it with save_opinion (aiOpinion as markdown). ${DEPENDS_ON_RULE("save_opinion", "a Related Cards line of the kind dependency")} ${EVALUATION_HEADINGS_RULE}
+
+${EVALUATION_OUTPUT_SCHEMA}`;
+function buildEvaluationGuide() {
+  return `${PRIOR_DECISIONS_EVALUATION_RULE}
+
+${EVALUATION_SAVE_INSTRUCTION}`;
+}
+
+// ../lib/prompts/mockup-request.ts
+var mockup_request_exports = {};
+__export(mockup_request_exports, {
+  LINKED_FILE_RULE: () => LINKED_FILE_RULE,
+  MOCKUP_OFFER_HINT: () => MOCKUP_OFFER_HINT,
+  buildMockupRequest: () => buildMockupRequest,
+  cardMockups: () => cardMockups,
+  cardMockupsWithSource: () => cardMockupsWithSource,
+  hasMockupArtifact: () => hasMockupArtifact,
+  listMockupArtifacts: () => listMockupArtifacts,
+  mockupTargetSection: () => mockupTargetSection
+});
+function mockupTargetSection(status) {
+  return status === "ideation" ? "opinion" : "solution";
+}
+function buildMockupRequest(focus) {
+  const request = "Draw an HTML mockup for this card.";
+  const trimmed = focus?.trim();
+  return trimmed ? `${request}
+Focus only on: ${trimmed}` : request;
+}
+var HTML_FILE = /\.html?(?:[?#].*)?$/i;
+function listMockupArtifacts(html) {
+  if (!html) return [];
+  const found = [];
+  for (const match of html.matchAll(/<span\b[^>]*data-type="artifactMention"[^>]*>/gi)) {
+    const path9 = match[0].match(/data-path="([^"]*)"/i)?.[1];
+    if (path9 && HTML_FILE.test(path9)) found.push({ at: match.index ?? 0, path: decodeEntities2(path9) });
+  }
+  for (const match of html.matchAll(/file:\/\/[^"'\s)<]+/gi)) {
+    if (!HTML_FILE.test(match[0])) continue;
+    const path9 = fileUrlToPath(decodeEntities2(match[0]));
+    if (path9) found.push({ at: match.index ?? 0, path: path9 });
+  }
+  const seen = /* @__PURE__ */ new Set();
+  const paths = [];
+  for (const { path: path9 } of found.sort((a, b2) => a.at - b2.at)) {
+    if (seen.has(path9)) continue;
+    seen.add(path9);
+    paths.push(path9);
+  }
+  return paths;
+}
+function decodeEntities2(text) {
+  return text.replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&#39;/g, "'");
+}
+function hasMockupArtifact(html) {
+  return listMockupArtifacts(html).length > 0;
+}
+function cardMockups(card) {
+  const all = [card.aiOpinion, card.solutionSummary, card.description].flatMap(listMockupArtifacts);
+  return [...new Set(all)];
+}
+function cardMockupsWithSource(card) {
+  const sourceOf = /* @__PURE__ */ new Map();
+  for (const [source, html] of [
+    ["solution", card.solutionSummary],
+    ["opinion", card.aiOpinion],
+    ["description", card.description]
+  ]) {
+    for (const path9 of listMockupArtifacts(html)) {
+      if (!sourceOf.has(path9)) sourceOf.set(path9, source);
+    }
+  }
+  const planHasOne = [...sourceOf.values()].includes("solution");
+  if (!planHasOne) {
+    return cardMockups(card).map((path9) => ({ path: path9, source: sourceOf.get(path9), dimmed: false }));
+  }
+  return [...sourceOf].map(([path9, source]) => ({ path: path9, source, dimmed: source !== "solution" }));
+}
+var MOCKUP_OFFER_HINT = `Mockup: if this card changes UI and its target tab (AI Opinion on an ideation card, the plan after that) has no mockup yet, ask the user in one sentence whether they want an HTML mockup. Only on yes, put the whole file in the save_opinion / save_plan text as one fenced block, \`\`\`html artifact="short-name.html"\`, as its first item followed by a \`## Mockup\` heading; Ideafy saves it into the card folder and shows it as a link. Never draw one unasked. If the tab already has a mockup and the user asks for a new one, replace its link and its \`## Mockup\` section in place, keep the rest of the text as it is, and leave the old file on disk.`;
+var LINKED_FILE_RULE = `Linking a file that already exists, such as a mockup in a sibling design repo: link it with its absolute path as a file:// link. The card opens it only when it sits in the project folder, the card folder or one of the project's Linked Folders (project settings). Outside those the chip draws dead, so tell the user which folder to link instead of linking it anyway.`;
+
+// ../lib/card-mockups.ts
+var card_mockups_exports = {};
+__export(card_mockups_exports, {
+  mockupState: () => mockupState,
+  resolveCardMockupFile: () => resolveCardMockupFile
+});
+import { existsSync as existsSync4, realpathSync as realpathSync3, statSync as statSync3 } from "fs";
+import path5 from "path";
+function isInside3(child, parent) {
+  return child === parent || child.startsWith(parent + path5.sep);
+}
+function realDir(dir) {
+  try {
+    return realpathSync3(dir);
+  } catch {
+    return null;
+  }
+}
+function mockupState(cardId, absPath, cardDir = cardArtifactDir(cardId)) {
+  if (!path5.isAbsolute(absPath) || absPath.includes("\0")) return { state: "missing" };
+  let real;
+  try {
+    real = realpathSync3(absPath);
+    if (!statSync3(real).isFile()) return { state: "missing" };
+  } catch {
+    return { state: "missing" };
+  }
+  const root = realDir(cardDir);
+  if (!root || !isInside3(real, root) || real === root) return { state: "outside" };
+  return { state: "preview", relPath: path5.relative(root, real).split(path5.sep).join("/") };
+}
+function resolveCardMockupFile(cardId, segments, cardDir = cardArtifactDir(cardId)) {
+  if (segments.length === 0) return null;
+  for (const segment of segments) {
+    if (!segment || segment === "." || segment === ".." || segment.includes("\0") || /[\\/]/.test(segment)) {
+      return null;
+    }
+  }
+  const root = realDir(cardDir);
+  if (!root) return null;
+  const candidate = path5.join(root, ...segments);
+  if (!existsSync4(candidate)) return null;
+  const real = realpathSync3(candidate);
+  if (!isInside3(real, root) || real === root || !statSync3(real).isFile()) return null;
+  return real;
+}
+
+// ../lib/test-report-files.ts
+var test_report_files_exports = {};
+__export(test_report_files_exports, {
+  importTerminalArtifacts: () => importTerminalArtifacts,
+  keepWrittenArtifacts: () => keepWrittenArtifacts,
+  removeTestReportRunDirs: () => removeTestReportRunDirs,
+  testReportRunDir: () => testReportRunDir
+});
+import { copyFileSync as copyFileSync3, mkdirSync as mkdirSync3, rmSync, statSync as statSync4 } from "fs";
+import { homedir as homedir3 } from "os";
+import path6 from "path";
+var MAX_SCREENSHOT_BYTES = 20 * 1024 * 1024;
+function testReportRunDir(cardId, runId, homeDir) {
+  return path6.join(cardArtifactDir(cardId, homeDir), TEST_REPORT_DIR, runId);
+}
+function removeTestReportRunDirs(cardId, runs, homeDir) {
+  for (const run2 of runs) {
+    if (!isTestReportRunId(run2.id)) continue;
+    try {
+      rmSync(testReportRunDir(cardId, run2.id, homeDir), { recursive: true, force: true });
+    } catch (error2) {
+      console.warn(`[test-report] could not remove ${run2.id} of ${cardId}:`, error2);
+    }
+  }
+}
+function isFile(p) {
+  try {
+    const stat = statSync4(p);
+    return stat.isFile() && stat.size <= MAX_SCREENSHOT_BYTES;
+  } catch {
+    return false;
+  }
+}
+function keepWrittenArtifacts(items, runDir) {
+  return items.map((item) => ({
+    ...item,
+    artifacts: item.artifacts.map((artifact) => ({ ...artifact, file: path6.basename(artifact.file) })).filter((artifact) => isTestReportImageName(artifact.file) && isFile(path6.join(runDir, artifact.file)))
+  }));
+}
+function importTerminalArtifacts(items, runDir) {
+  let made = false;
+  let n = 0;
+  return items.map((item) => ({
+    ...item,
+    artifacts: item.artifacts.flatMap((artifact) => {
+      const source = artifact.file.startsWith("~/") ? path6.join(homedir3(), artifact.file.slice(2)) : artifact.file;
+      if (!path6.isAbsolute(source) || !isFile(source)) return [];
+      const ext = path6.extname(source).toLowerCase();
+      const file2 = `shot-${++n}${ext}`;
+      if (!isTestReportImageName(file2)) return [];
+      try {
+        if (!made) {
+          mkdirSync3(runDir, { recursive: true });
+          made = true;
+        }
+        copyFileSync3(source, path6.join(runDir, file2));
+        return [{ ...artifact, file: file2 }];
+      } catch {
+        return [];
+      }
+    })
+  }));
+}
+
+// ../lib/test-report-text.ts
+var test_report_text_exports = {};
+__export(test_report_text_exports, {
+  TEST_REPORT_SCOPE_LABEL: () => TEST_REPORT_SCOPE_LABEL,
+  formatTestReport: () => formatTestReport,
+  selectTestReportRun: () => selectTestReportRun,
+  testReportCardSummary: () => testReportCardSummary,
+  testReportRunLabel: () => testReportRunLabel,
+  testReportRunNumber: () => testReportRunNumber
+});
+
+// ../lib/plan-deviations.ts
+var PLAN_DEVIATIONS_FENCE = "plan-deviations";
+var PLAN_DEVIATION_PREFIX = "Plan deviation: ";
+var FENCE2 = new RegExp(
+  "^[ \\t]*(`{3,})[ \\t]*" + PLAN_DEVIATIONS_FENCE + "[^\\n]*\\n([\\s\\S]*?)(?:^[ \\t]*\\1[ \\t]*$|(?![\\s\\S]))",
+  "gm"
+);
+var PLAN_DRIFT_IMPLEMENTATION_RULE = `Plan drift: when get_card returns a \`planDrift\` field, the plan was written before those commits. The code wins \u2014 read them with \`git show <sha> -- <file>\` before you follow the plan, and do not edit the plan. After the checklist, add one fenced \`\`\`${PLAN_DEVIATIONS_FENCE} block with one line per place you deviated from the plan (what the plan said, what you did instead, why). With no \`planDrift\` field, or no deviation, leave the block out.`;
+
+// ../lib/test-report-text.ts
+var TEST_REPORT_SCOPE_LABEL = {
+  run: "pre-verify",
+  reverify: "re-verify after fix",
+  single: "verify on screen",
+  retest: "re-test after your fix"
+};
+function testReportRunLabel(run2) {
+  const warnings = run2.warnings ?? [];
+  const onlyDeviations = run2.items.length === 0 && warnings.length > 0 && warnings.every((w2) => w2.startsWith(PLAN_DEVIATION_PREFIX));
+  return onlyDeviations ? "plan deviations" : TEST_REPORT_SCOPE_LABEL[run2.scope];
+}
+function testReportRunNumber(index, total) {
+  return total - index;
+}
+function selectTestReportRun(runs, run2) {
+  if (run2 === void 0 || run2 === null || run2 === "") return { index: 0 };
+  const raw = String(run2).trim();
+  const byId = runs.findIndex((r) => r.id === raw);
+  if (byId >= 0) return { index: byId };
+  const numeric = /^#?(\d+)$/.exec(raw);
+  if (numeric) {
+    const number3 = Number(numeric[1]);
+    if (number3 >= 1 && number3 <= runs.length) return { index: runs.length - number3 };
+  }
+  const range = runs.length === 1 ? "#1" : `#1 (oldest) to #${runs.length} (newest)`;
+  return { error: `No run "${raw}" in this Test Report. It has ${range}, or pass a run id.` };
+}
+function countsText(run2) {
+  const counts = countByStatus(run2);
+  const parts = ["failed", "manual", "passed"].filter((status) => counts[status] > 0).map((status) => `${counts[status]} ${status}`);
+  return parts.length ? parts.join(", ") : "no items";
+}
+function runLine(run2, index, total) {
+  const origin = run2.source === "terminal" ? "terminal" : "app";
+  return `#${testReportRunNumber(index, total)} \xB7 ${run2.runAt} \xB7 ${testReportRunLabel(run2)} \xB7 ${run2.evidence} \xB7 ${origin} \xB7 ${countsText(run2)}`;
+}
+function indent(text, prefix) {
+  return text.split("\n").map((line) => `${prefix}${line}`).join("\n");
+}
+function itemText(item, number3, full) {
+  const head = `${number3}. [${item.status}] ${item.item}`;
+  if (!full) return head;
+  const lines = [head];
+  const field = (label2, value) => {
+    if (value) lines.push(`   ${label2}: ${value}`);
+  };
+  field("Approach", item.approach);
+  if (item.steps.length) {
+    lines.push("   Steps:");
+    item.steps.forEach((step, i) => lines.push(`     ${i + 1}. ${step}`));
+  }
+  field("Expected", item.expected);
+  field("Observed", item.observed);
+  field("Error", item.error);
+  field("Command", item.command);
+  if (item.output) lines.push("   Output:", indent(item.output, "     "));
+  field("Note", item.note);
+  if (item.artifacts.length) {
+    const captions = item.artifacts.map((a) => a.caption).filter(Boolean);
+    lines.push(
+      `   Screenshots: ${item.artifacts.length}${captions.length ? ` (${captions.join("; ")})` : ""}`
+    );
+  }
+  return lines.join("\n");
+}
+function formatTestReport(input) {
+  const { displayId, runs, index, status, checklistHtml, screenshotsAttached } = input;
+  const run2 = runs[index];
+  const total = runs.length;
+  const out = [];
+  out.push(`Test Report \xB7 ${displayId} \xB7 ${total} run${total === 1 ? "" : "s"}, newest first`);
+  runs.forEach((r, i) => out.push(`${i === index ? "\u2192" : " "} ${runLine(r, i, total)}`));
+  out.push("");
+  out.push(
+    `Showing #${testReportRunNumber(index, total)} (${run2.id}).${total > 1 ? ' Pass run: "#N" or a run id for another one.' : ""}`
+  );
+  if (!run2.checklistApplied) {
+    out.push("Its checklist was refused, so none of its ticks reached the Tests tab.");
+  }
+  const warnings = run2.warnings ?? [];
+  if (warnings.length) {
+    out.push("", "Warnings from the run:");
+    for (const warning of warnings) out.push(`- ${warning}`);
+  }
+  const conflicts = checklistHtml ? testReportConflicts(run2, checklistHtml) : [];
+  if (conflicts.length) {
+    out.push("", "Where the Tests tab disagrees with this run:");
+    for (const conflict of conflicts) {
+      out.push(
+        conflict.kind === "failed-but-ticked" ? `- failed in this run, ticked in Tests: ${conflict.item}` : `- passed in this run, unticked in Tests: ${conflict.item}`
+      );
+    }
+  }
+  const shown = run2.items.map((item, i) => ({ item, number: i + 1 })).filter(({ item }) => !status || item.status === status);
+  out.push("", status ? `Items (${status} only):` : "Items:");
+  if (!shown.length) {
+    out.push(status ? `No ${status} items in this run.` : "This run has no items.");
+  }
+  for (const { item, number: number3 } of shown) {
+    out.push(itemText(item, number3, Boolean(status) || item.status !== "passed"));
+  }
+  if (!status && shown.some(({ item }) => item.status === "passed")) {
+    out.push("", 'Passed items are one line each; pass status: "passed" for their detail.');
+  }
+  if (!screenshotsAttached && shown.some(({ item }) => item.artifacts.length > 0)) {
+    out.push("Pass screenshots: true to see the screenshots.");
+  }
+  return out.join("\n");
+}
+function testReportCardSummary(runs) {
+  if (!runs?.length) return null;
+  const latest = runs[0];
+  return {
+    runs: runs.length,
+    latest: {
+      number: runs.length,
+      runAt: latest.runAt,
+      scope: testReportRunLabel(latest),
+      evidence: latest.evidence,
+      ...countByStatus(latest)
+    },
+    read: "get_test_report for the items, what each run observed and where the Tests tab disagrees"
+  };
+}
+
 // ../lib/git/core.ts
 var core_exports3 = {};
 __export(core_exports3, {
@@ -28430,7 +28953,7 @@ __export(repo_exports, {
   isGitRepo: () => isGitRepo,
   worktreeHasUncommittedChanges: () => worktreeHasUncommittedChanges
 });
-import { existsSync as existsSync4 } from "fs";
+import { existsSync as existsSync5 } from "fs";
 async function isGitRepo(projectPath) {
   try {
     await git(projectPath, "rev-parse", "--git-dir");
@@ -28476,7 +28999,7 @@ async function getDefaultBranch(projectPath) {
 }
 async function getBranchStatus(projectPath, branchName) {
   try {
-    const defaultBranch = await getDefaultBranch(projectPath);
+    const defaultBranch2 = await getDefaultBranch(projectPath);
     const exists = await branchExists(projectPath, branchName);
     if (!exists) {
       return { ahead: 0, behind: 0, exists: false };
@@ -28486,7 +29009,7 @@ async function getBranchStatus(projectPath, branchName) {
       "rev-list",
       "--left-right",
       "--count",
-      `${defaultBranch}...${branchName}`
+      `${defaultBranch2}...${branchName}`
     );
     const [behind, ahead] = stdout.trim().split(/\s+/).map(Number);
     return { ahead: ahead || 0, behind: behind || 0, exists: true };
@@ -28495,7 +29018,7 @@ async function getBranchStatus(projectPath, branchName) {
   }
 }
 async function worktreeHasUncommittedChanges(worktreePath) {
-  if (!existsSync4(worktreePath)) return false;
+  if (!existsSync5(worktreePath)) return false;
   try {
     const { stdout } = await git(worktreePath, "status", "--porcelain", "-uno");
     return stdout.trim().length > 0;
@@ -28504,11 +29027,11 @@ async function worktreeHasUncommittedChanges(worktreePath) {
   }
 }
 async function getMergeReality(projectPath, branchName, worktreePath) {
-  const defaultBranch = await getDefaultBranch(projectPath);
+  const defaultBranch2 = await getDefaultBranch(projectPath);
   const needsCommit = worktreePath ? await worktreeHasUncommittedChanges(worktreePath) : false;
   const base = {
     branchName,
-    defaultBranch,
+    defaultBranch: defaultBranch2,
     exists: false,
     ahead: 0,
     behind: 0,
@@ -28522,7 +29045,7 @@ async function getMergeReality(projectPath, branchName, worktreePath) {
   const { ahead, behind } = await getBranchStatus(projectPath, branchName);
   let contentIdentical = false;
   try {
-    await git(projectPath, "diff", "--quiet", defaultBranch, branchName, "--");
+    await git(projectPath, "diff", "--quiet", defaultBranch2, branchName, "--");
     contentIdentical = true;
   } catch {
     contentIdentical = false;
@@ -28562,15 +29085,15 @@ async function fetchRemote(projectPath) {
   }
 }
 async function getUnpushedStatus(projectPath, options = {}) {
-  if (!existsSync4(projectPath) || !await isGitRepo(projectPath)) return UNSUPPORTED;
+  if (!existsSync5(projectPath) || !await isGitRepo(projectPath)) return UNSUPPORTED;
   try {
     const { stdout: remotes } = await git(projectPath, "remote");
     if (!remotes.trim()) return UNSUPPORTED;
   } catch {
     return UNSUPPORTED;
   }
-  const defaultBranch = await getDefaultBranch(projectPath);
-  const remoteRef = `refs/remotes/origin/${defaultBranch}`;
+  const defaultBranch2 = await getDefaultBranch(projectPath);
+  const remoteRef = `refs/remotes/origin/${defaultBranch2}`;
   try {
     await git(projectPath, "show-ref", "--verify", "--quiet", remoteRef);
   } catch {
@@ -28582,17 +29105,17 @@ async function getUnpushedStatus(projectPath, options = {}) {
       const { stdout: stdout2 } = await git(projectPath, "rev-list", "--count", ...revArgs);
       return {
         supported: true,
-        defaultBranch,
+        defaultBranch: defaultBranch2,
         count: Number.parseInt(stdout2.trim(), 10) || 0,
         commits: []
       };
     }
     const onDefault = /* @__PURE__ */ new Set();
-    if (await branchExists(projectPath, defaultBranch)) {
+    if (await branchExists(projectPath, defaultBranch2)) {
       const { stdout: stdout2 } = await git(
         projectPath,
         "rev-list",
-        defaultBranch,
+        defaultBranch2,
         "--not",
         "--remotes"
       );
@@ -28616,10 +29139,10 @@ async function getUnpushedStatus(projectPath, options = {}) {
         subject: subject ?? "",
         date: date4 ?? "",
         body: (body ?? "").trim(),
-        branch: hash2 && onDefault.has(hash2) ? defaultBranch : reached
+        branch: hash2 && onDefault.has(hash2) ? defaultBranch2 : reached
       };
     });
-    return { supported: true, defaultBranch, count: commits.length, commits };
+    return { supported: true, defaultBranch: defaultBranch2, count: commits.length, commits };
   } catch {
     return UNSUPPORTED;
   }
@@ -28639,8 +29162,8 @@ __export(worktree_exports, {
   squashMergeFromWorktree: () => squashMergeFromWorktree,
   worktreeExists: () => worktreeExists
 });
-import { existsSync as existsSync5, mkdirSync as mkdirSync4, realpathSync as realpathSync3 } from "fs";
-import path6, { join } from "path";
+import { existsSync as existsSync6, mkdirSync as mkdirSync4, realpathSync as realpathSync4 } from "fs";
+import path7, { join } from "path";
 function getWorktreeBaseDir(projectPath) {
   return join(projectPath, ".worktrees", "kanban");
 }
@@ -28650,7 +29173,7 @@ function getWorktreePath(projectPath, branchName) {
 }
 async function worktreeExists(projectPath, worktreePath) {
   try {
-    if (!existsSync5(worktreePath)) {
+    if (!existsSync6(worktreePath)) {
       return false;
     }
     const { stdout } = await git(projectPath, "worktree", "list", "--porcelain");
@@ -28697,7 +29220,7 @@ async function createWorktree(projectPath, branchName) {
   const worktreePath = getWorktreePath(projectPath, branchName);
   const baseDir = getWorktreeBaseDir(projectPath);
   try {
-    if (!existsSync5(baseDir)) {
+    if (!existsSync6(baseDir)) {
       mkdirSync4(baseDir, { recursive: true });
       console.log(`[Git Worktree] Created base directory: ${baseDir}`);
     }
@@ -28709,8 +29232,8 @@ async function createWorktree(projectPath, branchName) {
       console.log(`[Git Worktree] Creating worktree for existing branch: ${branchName}`);
       await git(projectPath, "worktree", "add", worktreePath, branchName);
     } else {
-      const defaultBranch = await getDefaultBranch(projectPath);
-      console.log(`[Git Worktree] Creating new branch and worktree: ${branchName} from ${defaultBranch}`);
+      const defaultBranch2 = await getDefaultBranch(projectPath);
+      console.log(`[Git Worktree] Creating new branch and worktree: ${branchName} from ${defaultBranch2}`);
       await git(
         projectPath,
         "worktree",
@@ -28718,7 +29241,7 @@ async function createWorktree(projectPath, branchName) {
         "-b",
         branchName,
         worktreePath,
-        defaultBranch
+        defaultBranch2
       );
     }
     console.log(`[Git Worktree] Created worktree at: ${worktreePath}`);
@@ -28753,15 +29276,15 @@ async function removeWorktree(projectPath, worktreePath) {
 function isCwdInsideWorktree(worktreePath) {
   const resolve4 = (p) => {
     try {
-      return realpathSync3(p);
+      return realpathSync4(p);
     } catch {
-      return path6.resolve(p);
+      return path7.resolve(p);
     }
   };
   const cwd = resolve4(process.cwd());
   const wt = resolve4(worktreePath);
   if (cwd === wt) return true;
-  return cwd.startsWith(wt + path6.sep);
+  return cwd.startsWith(wt + path7.sep);
 }
 async function pruneWorktrees(projectPath) {
   try {
@@ -28786,11 +29309,11 @@ async function squashMergeFromWorktree(projectPath, branchName, commitMessage) {
         uncommittedInMain: true
       };
     }
-    const defaultBranch = await getDefaultBranch(projectPath);
+    const defaultBranch2 = await getDefaultBranch(projectPath);
     const currentBranch = await getCurrentBranch(projectPath);
-    if (currentBranch !== defaultBranch) {
-      console.log(`[Git Worktree] Checking out to ${defaultBranch}...`);
-      await git(projectPath, "checkout", defaultBranch);
+    if (currentBranch !== defaultBranch2) {
+      console.log(`[Git Worktree] Checking out to ${defaultBranch2}...`);
+      await git(projectPath, "checkout", defaultBranch2);
     }
     console.log(`[Git Worktree] Squash merging ${branchName}...`);
     await git(projectPath, "merge", "--squash", branchName);
@@ -28832,7 +29355,7 @@ async function findCardBranch(projectPath, idPrefix, taskNumber) {
   if (names.size !== 1) return null;
   const [branchName] = names;
   const worktree = (await listWorktrees(projectPath)).find(
-    (w2) => w2.branch === branchName && !w2.isPrunable && existsSync5(w2.path)
+    (w2) => w2.branch === branchName && !w2.isPrunable && existsSync6(w2.path)
   );
   return { branchName, worktreePath: worktree?.path ?? null };
 }
@@ -28847,8 +29370,8 @@ var { buildGlobalBoundPolicyBody: buildGlobalBoundPolicyBody2, buildMcpServerIns
 var { AI_OPINION_PLANNING_RULE: AI_OPINION_PLANNING_RULE2 } = unwrap(opinion_exports);
 var { PRIOR_DECISIONS_RULE: PRIOR_DECISIONS_RULE2, CHAIN_IMPLEMENTATION_RULE: CHAIN_IMPLEMENTATION_RULE2 } = unwrap(prior_decisions_exports);
 var { linkCardReferences: linkCardReferences2 } = unwrap(card_links_exports);
-var { buildChainContext: buildChainContext2, compareByChainOrder: compareByChainOrder2, isFinished: isFinished2, placeAfter: placeAfter2 } = unwrap(chain_order_exports);
-var { extractPlanFiles: extractPlanFiles2, htmlToText: htmlToText2, normalizePath: normalizePath2, pathsOverlap: pathsOverlap2 } = unwrap(plan_files_exports);
+var { buildChainContext: buildChainContext2, compareByChainOrder: compareByChainOrder2, isFinished: isFinished3, placeAfter: placeAfter2 } = unwrap(chain_order_exports);
+var { extractPlanFiles: extractPlanFiles2, htmlToText: htmlToText2, normalizePath: normalizePath2, pathsOverlap: pathsOverlap2, countPlanSteps: countPlanSteps2 } = unwrap(plan_files_exports);
 var { parseCardNumberQuery: parseCardNumberQuery2, matchesCardNumber: matchesCardNumber2 } = unwrap(card_number_query_exports);
 var {
   transaction: transaction2,
@@ -28920,12 +29443,14 @@ var {
   chooseBoundPolicy: chooseBoundPolicy2,
   validateCardTitle: validateCardTitle2,
   cardAuthorship: cardAuthorship2,
+  loadStoryInputs: loadStoryInputs2,
   IDEAFY_AUTHOR: IDEAFY_AUTHOR2
 } = unwrap(card_ops_exports);
 var { writeConflictFor: writeConflictFor2 } = unwrap(card_queue_exports);
-var { normalizeComplexity: normalizeComplexity2, describeOpinionMarkers: describeOpinionMarkers2 } = unwrap(opinion_markers_exports);
+var { normalizeComplexity: normalizeComplexity2, describeOpinionMarkers: describeOpinionMarkers2, countOpinionConcerns: countOpinionConcerns2 } = unwrap(opinion_markers_exports);
+var { buildCardStory: buildCardStory2 } = unwrap(card_story_exports);
 var { EVALUATION_OUTPUT_SCHEMA: EVALUATION_OUTPUT_SCHEMA2, EVALUATION_HEADINGS_RULE: EVALUATION_HEADINGS_RULE2, buildEvaluationGuide: buildEvaluationGuide2 } = unwrap(evaluation_exports);
-var { MOCKUP_OFFER_HINT: MOCKUP_OFFER_HINT2, cardMockups: cardMockups2 } = unwrap(mockup_request_exports);
+var { LINKED_FILE_RULE: LINKED_FILE_RULE2, MOCKUP_OFFER_HINT: MOCKUP_OFFER_HINT2, cardMockups: cardMockups2 } = unwrap(mockup_request_exports);
 var { mockupState: mockupState2 } = unwrap(card_mockups_exports);
 var { cardArtifactDir: cardArtifactDir2, materializeArtifactFences: materializeArtifactFences2 } = unwrap(artifact_links_exports);
 var {
@@ -28964,9 +29489,9 @@ function loadSqlite() {
     );
   }
 }
-function openDatabase(path8) {
+function openDatabase(path9) {
   const { DatabaseSync } = loadSqlite();
-  const db2 = new DatabaseSync(path8);
+  const db2 = new DatabaseSync(path9);
   db2.exec("PRAGMA journal_mode = WAL");
   db2.exec("PRAGMA foreign_keys = ON");
   db2.exec("PRAGMA busy_timeout = 5000");
@@ -28976,7 +29501,7 @@ function openDatabase(path8) {
 // index.ts
 import { resolve as resolve3, dirname as dirname2, relative as relative2, isAbsolute as isAbsolute2, sep as sep2 } from "path";
 import { fileURLToPath } from "url";
-import { homedir as homedir4 } from "os";
+import { homedir as homedir5 } from "os";
 import { mkdirSync as mkdirSync6 } from "fs";
 
 // ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/uuid/dist/esm/stringify.js
@@ -29083,7 +29608,9 @@ function buildOpinionPlanningNote(card) {
   return `If you are writing a plan for this card:
 ${AI_OPINION_PLANNING_RULE2}
 
-${MOCKUP_OFFER_HINT2}`;
+${MOCKUP_OFFER_HINT2}
+
+${LINKED_FILE_RULE2}`;
 }
 function buildPriorDecisionsNote(card) {
   if (!PLANNING_STATUSES.has(card.status)) return null;
@@ -29097,7 +29624,9 @@ function buildEvaluationNote(card, statuses = ["ideation", "backlog"]) {
   return `If you are evaluating this idea:
 ${buildEvaluationGuide2()}
 
-${MOCKUP_OFFER_HINT2}`;
+${MOCKUP_OFFER_HINT2}
+
+${LINKED_FILE_RULE2}`;
 }
 function buildChainImplementationNote(card, chain) {
   if (!chain) return null;
@@ -29160,8 +29689,8 @@ function missingCapabilityMessage(tool, capability) {
 }
 
 // output-paths.ts
-import { existsSync as existsSync6, realpathSync as realpathSync4, statSync as statSync4 } from "fs";
-import { homedir as homedir3 } from "os";
+import { existsSync as existsSync7, realpathSync as realpathSync5, statSync as statSync5 } from "fs";
+import { homedir as homedir4 } from "os";
 import { isAbsolute, relative, resolve as resolve2, sep } from "path";
 var OutputPathError = class extends Error {
 };
@@ -29179,23 +29708,23 @@ function resolveOutputPath(projectFolder, inputPath) {
   if (!trimmed) {
     throw new OutputPathError("save_output needs a path to the file that was written.");
   }
-  const expanded = trimmed === "~" || trimmed.startsWith("~/") ? resolve2(homedir3(), trimmed.slice(2)) : trimmed;
+  const expanded = trimmed === "~" || trimmed.startsWith("~/") ? resolve2(homedir4(), trimmed.slice(2)) : trimmed;
   const absolute = isAbsolute(expanded) ? resolve2(expanded) : resolve2(projectFolder, expanded);
   let projectReal;
   try {
-    projectReal = realpathSync4(projectFolder);
+    projectReal = realpathSync5(projectFolder);
   } catch {
     throw new OutputPathError(
       `The card's project folder does not exist on this machine: ${projectFolder}. Nothing was recorded.`
     );
   }
-  if (!existsSync6(absolute)) {
+  if (!existsSync7(absolute)) {
     throw new OutputPathError(
       `File not found: ${absolute}. save_output records a file that already exists \u2014 write it first, then call save_output again.`
     );
   }
-  const fileReal = realpathSync4(absolute);
-  if (!statSync4(fileReal).isFile()) {
+  const fileReal = realpathSync5(absolute);
+  if (!statSync5(fileReal).isFile()) {
     throw new OutputPathError(
       `Not a file: ${absolute}. save_output records one file at a time \u2014 call it once per file.`
     );
@@ -29244,12 +29773,12 @@ function appPort(runtime = null, env = process.env) {
   if (runtime?.appState === "open" && runtime.port?.trim()) return runtime.port.trim();
   return "3030";
 }
-async function callApp(method, path8, body, options = {}) {
+async function callApp(method, path9, body, options = {}) {
   const port = options.port ?? appPort();
   const doFetch = options.fetchImpl ?? fetch;
   let response;
   try {
-    response = await doFetch(`http://127.0.0.1:${port}${path8}`, {
+    response = await doFetch(`http://127.0.0.1:${port}${path9}`, {
       method,
       headers: body === void 0 ? void 0 : { "Content-Type": "application/json" },
       body: body === void 0 ? void 0 : JSON.stringify(body),
@@ -29427,7 +29956,7 @@ async function openCardSessionTool(db2, input, deps = {}) {
 
 // test-report.ts
 import { readFileSync as readFileSync4 } from "node:fs";
-import path7 from "node:path";
+import path8 from "node:path";
 function readTerminalReport(db2, report) {
   if (!hasCapability(db2, "testReports")) {
     return { ok: false, message: missingCapabilityMessage("save_tests", "testReports") };
@@ -29522,7 +30051,7 @@ function readTestReport(db2, card, opts = {}) {
     tried++;
     let data;
     try {
-      data = readFileSync4(path7.join(dir, artifact.file)).toString("base64");
+      data = readFileSync4(path8.join(dir, artifact.file)).toString("base64");
     } catch {
       continue;
     }
@@ -29546,7 +30075,7 @@ function readTestReport(db2, card, opts = {}) {
 }
 
 // git-helpers.ts
-import { existsSync as existsSync7, mkdirSync as mkdirSync5 } from "fs";
+import { existsSync as existsSync8, mkdirSync as mkdirSync5 } from "fs";
 async function getCurrentBranch3(cwd) {
   try {
     return await getCurrentBranch2(cwd);
@@ -29558,7 +30087,7 @@ async function createWorktree2(projectPath, branchName) {
   const worktreePath = getWorktreePath2(projectPath, branchName);
   const baseDir = getWorktreeBaseDir2(projectPath);
   try {
-    if (!existsSync7(baseDir)) {
+    if (!existsSync8(baseDir)) {
       mkdirSync5(baseDir, { recursive: true });
     }
     if (await worktreeExists2(projectPath, worktreePath)) {
@@ -29567,7 +30096,7 @@ async function createWorktree2(projectPath, branchName) {
     if (await branchExists2(projectPath, branchName)) {
       await git2(projectPath, "worktree", "add", worktreePath, branchName);
     } else {
-      const defaultBranch = await getDefaultBranch2(projectPath);
+      const defaultBranch2 = await getDefaultBranch2(projectPath);
       await git2(
         projectPath,
         "worktree",
@@ -29575,7 +30104,7 @@ async function createWorktree2(projectPath, branchName) {
         "-b",
         branchName,
         worktreePath,
-        defaultBranch
+        defaultBranch2
       );
     }
     return { success: true, worktreePath };
@@ -29589,18 +30118,18 @@ async function createWorktree2(projectPath, branchName) {
 }
 async function listChangedFiles(repoPath, opts) {
   try {
-    const defaultBranch = await getDefaultBranch2(repoPath);
+    const defaultBranch2 = await getDefaultBranch2(repoPath);
     let stdout;
     if (opts.worktreePath) {
-      if (!existsSync7(opts.worktreePath)) return [];
-      const { stdout: base } = await git2(opts.worktreePath, "merge-base", defaultBranch, "HEAD");
+      if (!existsSync8(opts.worktreePath)) return [];
+      const { stdout: base } = await git2(opts.worktreePath, "merge-base", defaultBranch2, "HEAD");
       ({ stdout } = await git2(opts.worktreePath, "diff", "--name-only", base.trim()));
     } else if (opts.branchName) {
       ({ stdout } = await git2(
         repoPath,
         "diff",
         "--name-only",
-        `${defaultBranch}...${opts.branchName}`
+        `${defaultBranch2}...${opts.branchName}`
       ));
     } else {
       return [];
@@ -29616,9 +30145,9 @@ async function listUncommittedFiles(cwd, files) {
     if (files && files.length > 0) args.push("--", ...files);
     const { stdout } = await git2(cwd, ...args);
     return stdout.split("\n").filter((line) => line.length > 3).map((line) => {
-      const path8 = line.slice(3);
-      const arrow = path8.indexOf(" -> ");
-      return (arrow === -1 ? path8 : path8.slice(arrow + 4)).replace(/^"|"$/g, "");
+      const path9 = line.slice(3);
+      const arrow = path9.indexOf(" -> ");
+      return (arrow === -1 ? path9 : path9.slice(arrow + 4)).replace(/^"|"$/g, "");
     });
   } catch {
     return [];
@@ -29626,7 +30155,7 @@ async function listUncommittedFiles(cwd, files) {
 }
 
 // card-search.ts
-import { existsSync as existsSync8 } from "fs";
+import { existsSync as existsSync9 } from "fs";
 var foldCache = /* @__PURE__ */ new Map();
 function foldChar(c) {
   let ch = foldCache.get(c);
@@ -29734,7 +30263,7 @@ function findOverlap(cardFiles, callerFiles) {
 var OPEN_STATUSES = ["backlog", "bugs", "progress", "test"];
 var PLAN_STATUSES = /* @__PURE__ */ new Set(["backlog", "bugs", "progress"]);
 async function listOpenWork(db2, opts, deps) {
-  const pathExists = deps.pathExists ?? existsSync8;
+  const pathExists = deps.pathExists ?? existsSync9;
   const project = db2.prepare(`SELECT folder_path as folderPath, id_prefix as idPrefix FROM projects WHERE id = ?`).get(opts.projectId);
   if (!project) return [];
   const hasBranchColumns = hasCapability(db2, "branchStatus");
@@ -29880,7 +30409,7 @@ function listGroupsWithChains(db2, projectId, includeArchived = false) {
     const refs = ordered.map(toChainRef);
     return {
       ...group,
-      next: refs.find((ref) => !isFinished2(ref)) ?? null,
+      next: refs.find((ref) => !isFinished3(ref)) ?? null,
       members: refs.map((ref, index) => ({ ...ref, position: index + 1 }))
     };
   });
@@ -29898,7 +30427,7 @@ function markdownCheckboxStats(markdown) {
 }
 var __dirname = dirname2(fileURLToPath(import.meta.url));
 function getDefaultDataDir() {
-  const home = homedir4();
+  const home = homedir5();
   switch (process.platform) {
     case "darwin":
       return resolve3(home, "Library/Application Support/ideafy");
@@ -30015,7 +30544,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
     tools: [
       {
         name: "get_card",
-        description: "Get a kanban card by ID. When the card belongs to a chain, `chain` gives its place in that chain: position/total, predecessors and successors in chain order (displayId, title, status), and `next`, the chain's first member that is neither completed nor withdrawn. When the card has blocked-by links, `blockedBy` lists the cards it waits on and `blocks` the cards waiting on it, each with displayId, title, status, `landed` (its code is already in what this card would start from) and the link's note. When an opinion or plan suggested a link the user has not answered yet, `suggestedBlockedBy` lists those cards with the reason: ask the user, then add_dependency on yes or remove_dependency on no. When the card has a Test Report, `testReport` gives how many runs it holds and how the newest came out; read the runs themselves with get_test_report. When commits have touched the card's files since its checklist was written, `testsDrift` lists them (base, files, commits, total): the checklist may have gone stale. `planDrift` does the same since its plan was written: the code wins over the plan. `authorship` says who wrote and who last edited each tab (`you` or `ideafy`, with the date) and who ticked each checked item, so you can see what the user changed by hand.",
+        description: "Get a kanban card by ID. When the card belongs to a chain, `chain` gives its place in that chain: position/total, predecessors and successors in chain order (displayId, title, status), and `next`, the chain's first member that is neither completed nor withdrawn. When the card has blocked-by links, `blockedBy` lists the cards it waits on and `blocks` the cards waiting on it, each with displayId, title, status, `landed` (its code is already in what this card would start from) and the link's note. When an opinion or plan suggested a link the user has not answered yet, `suggestedBlockedBy` lists those cards with the reason: ask the user, then add_dependency on yes or remove_dependency on no. When the card has a Test Report, `testReport` gives how many runs it holds and how the newest came out; read the runs themselves with get_test_report. When commits have touched the card's files since its checklist was written, `testsDrift` lists them (base, files, commits, total): the checklist may have gone stale. `planDrift` does the same since its plan was written: the code wins over the plan. `authorship` says who wrote and who last edited each tab (`you` or `ideafy`, with the date) and who ticked each checked item, so you can see what the user changed by hand. `story` is the card's eight steps (Idea, Verdict, Argued, Plan, Built, Proof, Your test, Merge; seven on a Work card) with who moves at each and its state (done, now, todo, skipped), the step in play as `now`, and `banner`, whose move it is in the words of the app's turn banner (null when nobody's).",
         inputSchema: {
           type: "object",
           properties: {
@@ -30906,7 +31435,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           card.planDrift = planDrift;
         }
         const cardWithReports = card;
-        const testReport = testReportCardSummary2(parseTestReports2(cardWithReports.testReports));
+        const reportRuns = parseTestReports2(cardWithReports.testReports);
+        const testReport = testReportCardSummary2(reportRuns);
         delete cardWithReports.testReports;
         if (testReport) cardWithReports.testReport = testReport;
         const authorship = cardAuthorship2(db, card.id);
@@ -30919,6 +31449,18 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           voice,
           mode: normalizeProjectMode2(projectRow?.mode)
         };
+        const storyRow = db.prepare(
+          `SELECT git_branch_name AS gitBranchName, git_branch_status AS gitBranchStatus,
+                    processing_type AS processingType, rebase_conflict AS rebaseConflict,
+                    test_scenarios AS testScenarios, solution_summary AS solutionSummary
+             FROM cards WHERE id = ?`
+        ).get(card.id);
+        const queueIndex = listQueueRows2(db).findIndex((row) => row.id === card.id);
+        card.story = buildCardStory2(
+          { ...card, ...storyRow, rebaseConflict: !!storyRow?.rebaseConflict, testReports: reportRuns },
+          loadStoryInputs2(db, card.id),
+          { mode: normalizeProjectMode2(projectRow?.mode), queueRank: queueIndex + 1 }
+        );
         const { cleanedCard, images } = extractCardImages(card);
         const content = [
           { type: "text", text: JSON.stringify(cleanedCard, null, 2) }
@@ -31378,10 +31920,12 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           };
         }
         const hint = buildPhaseHint2(status);
+        const prefix = created.taskNumber != null && projectId ? db.prepare(`SELECT id_prefix AS idPrefix FROM projects WHERE id = ?`).get(projectId)?.idPrefix : null;
+        const displayId = prefix && created.taskNumber != null ? ` \xB7 ${prefix}-${created.taskNumber}` : "";
         const content = [
           {
             type: "text",
-            text: hint ? `Card created: ${cardId} (${validTitle}). ${hint}` : `Card created: ${cardId} (${validTitle})`
+            text: hint ? `Card created: ${cardId}${displayId} (${validTitle}). ${hint}` : `Card created: ${cardId}${displayId} (${validTitle})`
           }
         ];
         const opinionClause = buildCreatedCardOpinionClause2(status, hasHtmlText(solutionSummary));
