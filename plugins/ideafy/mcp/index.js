@@ -30,9 +30,9 @@ var __toESM = (mod, isNodeMode, target2) => (target2 = mod != null ? __create(__
   mod
 ));
 
-// node_modules/ajv/dist/compile/codegen/code.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/code.js
 var require_code = __commonJS({
-  "node_modules/ajv/dist/compile/codegen/code.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/code.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.regexpCode = exports.getEsmExportName = exports.getProperty = exports.safeStringify = exports.stringify = exports.strConcat = exports.addCodeArg = exports.str = exports._ = exports.nil = exports._Code = exports.Name = exports.IDENTIFIER = exports._CodeOrName = void 0;
@@ -184,9 +184,9 @@ var require_code = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/codegen/scope.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/scope.js
 var require_scope = __commonJS({
-  "node_modules/ajv/dist/compile/codegen/scope.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/scope.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.ValueScope = exports.ValueScopeName = exports.Scope = exports.varKinds = exports.UsedValueState = void 0;
@@ -329,9 +329,9 @@ var require_scope = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/codegen/index.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/index.js
 var require_codegen = __commonJS({
-  "node_modules/ajv/dist/compile/codegen/index.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.or = exports.and = exports.not = exports.CodeGen = exports.operators = exports.varKinds = exports.ValueScopeName = exports.ValueScope = exports.Scope = exports.Name = exports.regexpCode = exports.stringify = exports.getProperty = exports.nil = exports.strConcat = exports.str = exports._ = void 0;
@@ -1049,9 +1049,9 @@ var require_codegen = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/util.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/util.js
 var require_util = __commonJS({
-  "node_modules/ajv/dist/compile/util.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/util.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.checkStrictMode = exports.getErrorPath = exports.Type = exports.useFunc = exports.setEvaluated = exports.evaluatedPropsToName = exports.mergeEvaluated = exports.eachItem = exports.unescapeJsonPointer = exports.escapeJsonPointer = exports.escapeFragment = exports.unescapeFragment = exports.schemaRefOrVal = exports.schemaHasRulesButRef = exports.schemaHasRules = exports.checkUnknownRules = exports.alwaysValidSchema = exports.toHash = void 0;
@@ -1216,9 +1216,9 @@ var require_util = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/names.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/names.js
 var require_names = __commonJS({
-  "node_modules/ajv/dist/compile/names.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/names.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -1255,9 +1255,9 @@ var require_names = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/errors.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/errors.js
 var require_errors = __commonJS({
-  "node_modules/ajv/dist/compile/errors.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/errors.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.extendErrors = exports.resetErrorsCount = exports.reportExtraError = exports.reportError = exports.keyword$DataError = exports.keywordError = void 0;
@@ -1377,9 +1377,9 @@ var require_errors = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/validate/boolSchema.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/boolSchema.js
 var require_boolSchema = __commonJS({
-  "node_modules/ajv/dist/compile/validate/boolSchema.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/boolSchema.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.boolOrEmptySchema = exports.topBoolOrEmptySchema = void 0;
@@ -1428,9 +1428,9 @@ var require_boolSchema = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/rules.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/rules.js
 var require_rules = __commonJS({
-  "node_modules/ajv/dist/compile/rules.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/rules.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.getRules = exports.isJSONType = void 0;
@@ -1459,9 +1459,9 @@ var require_rules = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/validate/applicability.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/applicability.js
 var require_applicability = __commonJS({
-  "node_modules/ajv/dist/compile/validate/applicability.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/applicability.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.shouldUseRule = exports.shouldUseGroup = exports.schemaHasRulesForType = void 0;
@@ -1482,9 +1482,9 @@ var require_applicability = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/validate/dataType.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/dataType.js
 var require_dataType = __commonJS({
-  "node_modules/ajv/dist/compile/validate/dataType.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/dataType.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.reportTypeError = exports.checkDataTypes = exports.checkDataType = exports.coerceAndCheckDataType = exports.getJSONTypes = exports.getSchemaTypes = exports.DataType = void 0;
@@ -1666,9 +1666,9 @@ var require_dataType = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/validate/defaults.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/defaults.js
 var require_defaults = __commonJS({
-  "node_modules/ajv/dist/compile/validate/defaults.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/defaults.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.assignDefaults = void 0;
@@ -1703,9 +1703,9 @@ var require_defaults = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/code.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/code.js
 var require_code2 = __commonJS({
-  "node_modules/ajv/dist/vocabularies/code.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/code.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.validateUnion = exports.validateArray = exports.usePattern = exports.callValidateCode = exports.schemaProperties = exports.allSchemaProperties = exports.noPropertyInData = exports.propertyInData = exports.isOwnProperty = exports.hasPropFunc = exports.reportMissingProp = exports.checkMissingProp = exports.checkReportMissingProp = void 0;
@@ -1836,9 +1836,9 @@ var require_code2 = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/validate/keyword.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/keyword.js
 var require_keyword = __commonJS({
-  "node_modules/ajv/dist/compile/validate/keyword.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/keyword.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.validateKeywordUsage = exports.validSchemaType = exports.funcKeywordCode = exports.macroKeywordCode = void 0;
@@ -1954,9 +1954,9 @@ var require_keyword = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/validate/subschema.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/subschema.js
 var require_subschema = __commonJS({
-  "node_modules/ajv/dist/compile/validate/subschema.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/subschema.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.extendSubschemaMode = exports.extendSubschemaData = exports.getSubschema = void 0;
@@ -2037,9 +2037,9 @@ var require_subschema = __commonJS({
   }
 });
 
-// node_modules/fast-deep-equal/index.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-deep-equal/index.js
 var require_fast_deep_equal = __commonJS({
-  "node_modules/fast-deep-equal/index.js"(exports, module) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-deep-equal/index.js"(exports, module) {
     "use strict";
     module.exports = function equal(a, b2) {
       if (a === b2) return true;
@@ -2072,9 +2072,9 @@ var require_fast_deep_equal = __commonJS({
   }
 });
 
-// node_modules/json-schema-traverse/index.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/json-schema-traverse/index.js
 var require_json_schema_traverse = __commonJS({
-  "node_modules/json-schema-traverse/index.js"(exports, module) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/json-schema-traverse/index.js"(exports, module) {
     "use strict";
     var traverse = module.exports = function(schema, opts, cb) {
       if (typeof opts == "function") {
@@ -2160,9 +2160,9 @@ var require_json_schema_traverse = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/resolve.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/resolve.js
 var require_resolve = __commonJS({
-  "node_modules/ajv/dist/compile/resolve.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/resolve.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.getSchemaRefs = exports.resolveUrl = exports.normalizeId = exports._getFullPath = exports.getFullPath = exports.inlineRef = void 0;
@@ -2316,9 +2316,9 @@ var require_resolve = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/validate/index.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/index.js
 var require_validate = __commonJS({
-  "node_modules/ajv/dist/compile/validate/index.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.getData = exports.KeywordCxt = exports.validateFunctionCode = void 0;
@@ -2824,9 +2824,9 @@ var require_validate = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/runtime/validation_error.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/validation_error.js
 var require_validation_error = __commonJS({
-  "node_modules/ajv/dist/runtime/validation_error.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/validation_error.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var ValidationError = class extends Error {
@@ -2840,9 +2840,9 @@ var require_validation_error = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/ref_error.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/ref_error.js
 var require_ref_error = __commonJS({
-  "node_modules/ajv/dist/compile/ref_error.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/ref_error.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var resolve_1 = require_resolve();
@@ -2857,9 +2857,9 @@ var require_ref_error = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/index.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/index.js
 var require_compile = __commonJS({
-  "node_modules/ajv/dist/compile/index.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.resolveSchema = exports.getCompilingSchema = exports.resolveRef = exports.compileSchema = exports.SchemaEnv = void 0;
@@ -3081,9 +3081,9 @@ var require_compile = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/refs/data.json
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/refs/data.json
 var require_data = __commonJS({
-  "node_modules/ajv/dist/refs/data.json"(exports, module) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/refs/data.json"(exports, module) {
     module.exports = {
       $id: "https://raw.githubusercontent.com/ajv-validator/ajv/master/lib/refs/data.json#",
       description: "Meta-schema for $data reference (JSON AnySchema extension proposal)",
@@ -3100,9 +3100,9 @@ var require_data = __commonJS({
   }
 });
 
-// node_modules/fast-uri/lib/utils.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/lib/utils.js
 var require_utils = __commonJS({
-  "node_modules/fast-uri/lib/utils.js"(exports, module) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/lib/utils.js"(exports, module) {
     "use strict";
     var isUUID = RegExp.prototype.test.bind(/^[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}$/iu);
     var isIPv4 = RegExp.prototype.test.bind(/^(?:(?:25[0-5]|2[0-4]\d|1\d{2}|[1-9]\d|\d)\.){3}(?:25[0-5]|2[0-4]\d|1\d{2}|[1-9]\d|\d)$/u);
@@ -3223,8 +3223,8 @@ var require_utils = __commonJS({
       }
       return ind;
     }
-    function removeDotSegments(path7) {
-      let input = path7;
+    function removeDotSegments(path8) {
+      let input = path8;
       const output = [];
       let nextSlash = -1;
       let len = 0;
@@ -3357,9 +3357,9 @@ var require_utils = __commonJS({
   }
 });
 
-// node_modules/fast-uri/lib/schemes.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/lib/schemes.js
 var require_schemes = __commonJS({
-  "node_modules/fast-uri/lib/schemes.js"(exports, module) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/lib/schemes.js"(exports, module) {
     "use strict";
     var { isUUID } = require_utils();
     var URN_REG = /([\da-z][\d\-a-z]{0,31}):((?:[\w!$'()*+,\-.:;=@]|%[\da-f]{2})+)/iu;
@@ -3423,8 +3423,8 @@ var require_schemes = __commonJS({
         wsComponent.secure = void 0;
       }
       if (wsComponent.resourceName) {
-        const [path7, query] = wsComponent.resourceName.split("?");
-        wsComponent.path = path7 && path7 !== "/" ? path7 : void 0;
+        const [path8, query] = wsComponent.resourceName.split("?");
+        wsComponent.path = path8 && path8 !== "/" ? path8 : void 0;
         wsComponent.query = query;
         wsComponent.resourceName = void 0;
       }
@@ -3567,9 +3567,9 @@ var require_schemes = __commonJS({
   }
 });
 
-// node_modules/fast-uri/index.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/index.js
 var require_fast_uri = __commonJS({
-  "node_modules/fast-uri/index.js"(exports, module) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/index.js"(exports, module) {
     "use strict";
     var { normalizeIPv6, removeDotSegments, recomposeAuthority, normalizeComponentEncoding, isIPv4, nonSimpleDomain } = require_utils();
     var { SCHEMES, getSchemeHandler } = require_schemes();
@@ -3822,9 +3822,9 @@ var require_fast_uri = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/runtime/uri.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/uri.js
 var require_uri = __commonJS({
-  "node_modules/ajv/dist/runtime/uri.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/uri.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var uri = require_fast_uri();
@@ -3833,9 +3833,9 @@ var require_uri = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/core.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/core.js
 var require_core = __commonJS({
-  "node_modules/ajv/dist/core.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/core.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.CodeGen = exports.Name = exports.nil = exports.stringify = exports.str = exports._ = exports.KeywordCxt = void 0;
@@ -4444,9 +4444,9 @@ var require_core = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/core/id.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/id.js
 var require_id = __commonJS({
-  "node_modules/ajv/dist/vocabularies/core/id.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/id.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var def = {
@@ -4459,9 +4459,9 @@ var require_id = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/core/ref.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/ref.js
 var require_ref = __commonJS({
-  "node_modules/ajv/dist/vocabularies/core/ref.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/ref.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.callRef = exports.getValidate = void 0;
@@ -4581,9 +4581,9 @@ var require_ref = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/core/index.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/index.js
 var require_core2 = __commonJS({
-  "node_modules/ajv/dist/vocabularies/core/index.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var id_1 = require_id();
@@ -4602,9 +4602,9 @@ var require_core2 = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/validation/limitNumber.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitNumber.js
 var require_limitNumber = __commonJS({
-  "node_modules/ajv/dist/vocabularies/validation/limitNumber.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitNumber.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -4634,9 +4634,9 @@ var require_limitNumber = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/validation/multipleOf.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/multipleOf.js
 var require_multipleOf = __commonJS({
-  "node_modules/ajv/dist/vocabularies/validation/multipleOf.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/multipleOf.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -4662,9 +4662,9 @@ var require_multipleOf = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/runtime/ucs2length.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/ucs2length.js
 var require_ucs2length = __commonJS({
-  "node_modules/ajv/dist/runtime/ucs2length.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/ucs2length.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     function ucs2length(str2) {
@@ -4688,9 +4688,9 @@ var require_ucs2length = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/validation/limitLength.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitLength.js
 var require_limitLength = __commonJS({
-  "node_modules/ajv/dist/vocabularies/validation/limitLength.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitLength.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -4720,9 +4720,9 @@ var require_limitLength = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/validation/pattern.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/pattern.js
 var require_pattern = __commonJS({
-  "node_modules/ajv/dist/vocabularies/validation/pattern.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/pattern.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -4757,9 +4757,9 @@ var require_pattern = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/validation/limitProperties.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitProperties.js
 var require_limitProperties = __commonJS({
-  "node_modules/ajv/dist/vocabularies/validation/limitProperties.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitProperties.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -4786,9 +4786,9 @@ var require_limitProperties = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/validation/required.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/required.js
 var require_required = __commonJS({
-  "node_modules/ajv/dist/vocabularies/validation/required.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/required.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -4868,9 +4868,9 @@ var require_required = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/validation/limitItems.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitItems.js
 var require_limitItems = __commonJS({
-  "node_modules/ajv/dist/vocabularies/validation/limitItems.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitItems.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -4897,9 +4897,9 @@ var require_limitItems = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/runtime/equal.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/equal.js
 var require_equal = __commonJS({
-  "node_modules/ajv/dist/runtime/equal.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/equal.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var equal = require_fast_deep_equal();
@@ -4908,9 +4908,9 @@ var require_equal = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/validation/uniqueItems.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/uniqueItems.js
 var require_uniqueItems = __commonJS({
-  "node_modules/ajv/dist/vocabularies/validation/uniqueItems.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/uniqueItems.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var dataType_1 = require_dataType();
@@ -4975,9 +4975,9 @@ var require_uniqueItems = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/validation/const.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/const.js
 var require_const = __commonJS({
-  "node_modules/ajv/dist/vocabularies/validation/const.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/const.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5004,9 +5004,9 @@ var require_const = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/validation/enum.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/enum.js
 var require_enum = __commonJS({
-  "node_modules/ajv/dist/vocabularies/validation/enum.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/enum.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5053,9 +5053,9 @@ var require_enum = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/validation/index.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/index.js
 var require_validation = __commonJS({
-  "node_modules/ajv/dist/vocabularies/validation/index.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var limitNumber_1 = require_limitNumber();
@@ -5091,9 +5091,9 @@ var require_validation = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/additionalItems.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/additionalItems.js
 var require_additionalItems = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/additionalItems.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/additionalItems.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.validateAdditionalItems = void 0;
@@ -5144,9 +5144,9 @@ var require_additionalItems = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/items.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/items.js
 var require_items = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/items.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/items.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.validateTuple = void 0;
@@ -5201,9 +5201,9 @@ var require_items = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/prefixItems.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/prefixItems.js
 var require_prefixItems = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/prefixItems.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/prefixItems.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var items_1 = require_items();
@@ -5218,9 +5218,9 @@ var require_prefixItems = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/items2020.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/items2020.js
 var require_items2020 = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/items2020.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/items2020.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5253,9 +5253,9 @@ var require_items2020 = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/contains.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/contains.js
 var require_contains = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/contains.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/contains.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5347,9 +5347,9 @@ var require_contains = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/dependencies.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/dependencies.js
 var require_dependencies = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/dependencies.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/dependencies.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.validateSchemaDeps = exports.validatePropertyDeps = exports.error = void 0;
@@ -5441,9 +5441,9 @@ var require_dependencies = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/propertyNames.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/propertyNames.js
 var require_propertyNames = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/propertyNames.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/propertyNames.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5484,9 +5484,9 @@ var require_propertyNames = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/additionalProperties.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/additionalProperties.js
 var require_additionalProperties = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/additionalProperties.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/additionalProperties.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -5590,9 +5590,9 @@ var require_additionalProperties = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/properties.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/properties.js
 var require_properties = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/properties.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/properties.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var validate_1 = require_validate();
@@ -5648,9 +5648,9 @@ var require_properties = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/patternProperties.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/patternProperties.js
 var require_patternProperties = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/patternProperties.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/patternProperties.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -5722,9 +5722,9 @@ var require_patternProperties = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/not.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/not.js
 var require_not = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/not.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/not.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var util_1 = require_util();
@@ -5753,9 +5753,9 @@ var require_not = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/anyOf.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/anyOf.js
 var require_anyOf = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/anyOf.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/anyOf.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -5770,9 +5770,9 @@ var require_anyOf = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/oneOf.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/oneOf.js
 var require_oneOf = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/oneOf.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/oneOf.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5828,9 +5828,9 @@ var require_oneOf = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/allOf.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/allOf.js
 var require_allOf = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/allOf.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/allOf.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var util_1 = require_util();
@@ -5855,9 +5855,9 @@ var require_allOf = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/if.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/if.js
 var require_if = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/if.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/if.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5924,9 +5924,9 @@ var require_if = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/thenElse.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/thenElse.js
 var require_thenElse = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/thenElse.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/thenElse.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var util_1 = require_util();
@@ -5942,9 +5942,9 @@ var require_thenElse = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/index.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/index.js
 var require_applicator = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/index.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var additionalItems_1 = require_additionalItems();
@@ -5990,9 +5990,9 @@ var require_applicator = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/format/format.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/format/format.js
 var require_format = __commonJS({
-  "node_modules/ajv/dist/vocabularies/format/format.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/format/format.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -6080,9 +6080,9 @@ var require_format = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/format/index.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/format/index.js
 var require_format2 = __commonJS({
-  "node_modules/ajv/dist/vocabularies/format/index.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/format/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var format_1 = require_format();
@@ -6091,9 +6091,9 @@ var require_format2 = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/metadata.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/metadata.js
 var require_metadata = __commonJS({
-  "node_modules/ajv/dist/vocabularies/metadata.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/metadata.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.contentVocabulary = exports.metadataVocabulary = void 0;
@@ -6114,9 +6114,9 @@ var require_metadata = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/draft7.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/draft7.js
 var require_draft7 = __commonJS({
-  "node_modules/ajv/dist/vocabularies/draft7.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/draft7.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var core_1 = require_core2();
@@ -6136,9 +6136,9 @@ var require_draft7 = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/discriminator/types.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/discriminator/types.js
 var require_types = __commonJS({
-  "node_modules/ajv/dist/vocabularies/discriminator/types.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/discriminator/types.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.DiscrError = void 0;
@@ -6150,9 +6150,9 @@ var require_types = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/discriminator/index.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/discriminator/index.js
 var require_discriminator = __commonJS({
-  "node_modules/ajv/dist/vocabularies/discriminator/index.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/discriminator/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -6255,9 +6255,9 @@ var require_discriminator = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/refs/json-schema-draft-07.json
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/refs/json-schema-draft-07.json
 var require_json_schema_draft_07 = __commonJS({
-  "node_modules/ajv/dist/refs/json-schema-draft-07.json"(exports, module) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/refs/json-schema-draft-07.json"(exports, module) {
     module.exports = {
       $schema: "http://json-schema.org/draft-07/schema#",
       $id: "http://json-schema.org/draft-07/schema#",
@@ -6412,9 +6412,9 @@ var require_json_schema_draft_07 = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/ajv.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/ajv.js
 var require_ajv = __commonJS({
-  "node_modules/ajv/dist/ajv.js"(exports, module) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/ajv.js"(exports, module) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.MissingRefError = exports.ValidationError = exports.CodeGen = exports.Name = exports.nil = exports.stringify = exports.str = exports._ = exports.KeywordCxt = exports.Ajv = void 0;
@@ -6482,9 +6482,9 @@ var require_ajv = __commonJS({
   }
 });
 
-// node_modules/ajv-formats/dist/formats.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/formats.js
 var require_formats = __commonJS({
-  "node_modules/ajv-formats/dist/formats.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/formats.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.formatNames = exports.fastFormats = exports.fullFormats = void 0;
@@ -6685,9 +6685,9 @@ var require_formats = __commonJS({
   }
 });
 
-// node_modules/ajv-formats/dist/limit.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/limit.js
 var require_limit = __commonJS({
-  "node_modules/ajv-formats/dist/limit.js"(exports) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/limit.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.formatLimitDefinition = void 0;
@@ -6757,9 +6757,9 @@ var require_limit = __commonJS({
   }
 });
 
-// node_modules/ajv-formats/dist/index.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/index.js
 var require_dist = __commonJS({
-  "node_modules/ajv-formats/dist/index.js"(exports, module) {
+  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/index.js"(exports, module) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var formats_1 = require_formats();
@@ -6799,7 +6799,7 @@ var require_dist = __commonJS({
   }
 });
 
-// node_modules/zod/v3/helpers/util.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/helpers/util.js
 var util;
 (function(util2) {
   util2.assertEqual = (_2) => {
@@ -6933,7 +6933,7 @@ var getParsedType = (data) => {
   }
 };
 
-// node_modules/zod/v3/ZodError.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/ZodError.js
 var ZodIssueCode = util.arrayToEnum([
   "invalid_type",
   "invalid_literal",
@@ -7047,7 +7047,7 @@ ZodError.create = (issues) => {
   return error2;
 };
 
-// node_modules/zod/v3/locales/en.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/locales/en.js
 var errorMap = (issue2, _ctx) => {
   let message;
   switch (issue2.code) {
@@ -7150,16 +7150,16 @@ var errorMap = (issue2, _ctx) => {
 };
 var en_default = errorMap;
 
-// node_modules/zod/v3/errors.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/errors.js
 var overrideErrorMap = en_default;
 function getErrorMap() {
   return overrideErrorMap;
 }
 
-// node_modules/zod/v3/helpers/parseUtil.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/helpers/parseUtil.js
 var makeIssue = (params) => {
-  const { data, path: path7, errorMaps, issueData } = params;
-  const fullPath = [...path7, ...issueData.path || []];
+  const { data, path: path8, errorMaps, issueData } = params;
+  const fullPath = [...path8, ...issueData.path || []];
   const fullIssue = {
     ...issueData,
     path: fullPath
@@ -7265,20 +7265,20 @@ var isDirty = (x2) => x2.status === "dirty";
 var isValid = (x2) => x2.status === "valid";
 var isAsync = (x2) => typeof Promise !== "undefined" && x2 instanceof Promise;
 
-// node_modules/zod/v3/helpers/errorUtil.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/helpers/errorUtil.js
 var errorUtil;
 (function(errorUtil2) {
   errorUtil2.errToObj = (message) => typeof message === "string" ? { message } : message || {};
   errorUtil2.toString = (message) => typeof message === "string" ? message : message?.message;
 })(errorUtil || (errorUtil = {}));
 
-// node_modules/zod/v3/types.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/types.js
 var ParseInputLazyPath = class {
-  constructor(parent, value, path7, key) {
+  constructor(parent, value, path8, key) {
     this._cachedPath = [];
     this.parent = parent;
     this.data = value;
-    this._path = path7;
+    this._path = path8;
     this._key = key;
   }
   get path() {
@@ -10675,7 +10675,7 @@ var nullableType = ZodNullable.create;
 var preprocessType = ZodEffects.createWithPreprocess;
 var pipelineType = ZodPipeline.create;
 
-// node_modules/zod/v4/core/core.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/core.js
 var NEVER = Object.freeze({
   status: "aborted"
 });
@@ -10749,7 +10749,7 @@ function config(newConfig) {
   return globalConfig;
 }
 
-// node_modules/zod/v4/core/util.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/util.js
 var util_exports = {};
 __export(util_exports, {
   BIGINT_FORMAT_RANGES: () => BIGINT_FORMAT_RANGES,
@@ -10922,10 +10922,10 @@ function mergeDefs(...defs) {
 function cloneDef(schema) {
   return mergeDefs(schema._zod.def);
 }
-function getElementAtPath(obj, path7) {
-  if (!path7)
+function getElementAtPath(obj, path8) {
+  if (!path8)
     return obj;
-  return path7.reduce((acc, key) => acc?.[key], obj);
+  return path8.reduce((acc, key) => acc?.[key], obj);
 }
 function promiseAllObject(promisesObj) {
   const keys = Object.keys(promisesObj);
@@ -11308,11 +11308,11 @@ function aborted(x2, startIndex = 0) {
   }
   return false;
 }
-function prefixIssues(path7, issues) {
+function prefixIssues(path8, issues) {
   return issues.map((iss) => {
     var _a2;
     (_a2 = iss).path ?? (_a2.path = []);
-    iss.path.unshift(path7);
+    iss.path.unshift(path8);
     return iss;
   });
 }
@@ -11428,7 +11428,7 @@ var Class = class {
   }
 };
 
-// node_modules/zod/v4/core/errors.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/errors.js
 var initializer = (inst, def) => {
   inst.name = "$ZodError";
   Object.defineProperty(inst, "_zod", {
@@ -11494,7 +11494,7 @@ function formatError(error2, mapper = (issue2) => issue2.message) {
   return fieldErrors;
 }
 
-// node_modules/zod/v4/core/parse.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/parse.js
 var _parse = (_Err) => (schema, value, _ctx, _params) => {
   const ctx = _ctx ? Object.assign(_ctx, { async: false }) : { async: false };
   const result = schema._zod.run({ value, issues: [] }, ctx);
@@ -11574,7 +11574,7 @@ var _safeDecodeAsync = (_Err) => async (schema, value, _ctx) => {
   return _safeParseAsync(_Err)(schema, value, _ctx);
 };
 
-// node_modules/zod/v4/core/regexes.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/regexes.js
 var regexes_exports = {};
 __export(regexes_exports, {
   base64: () => base64,
@@ -11731,7 +11731,7 @@ var sha512_hex = /^[0-9a-fA-F]{128}$/;
 var sha512_base64 = /* @__PURE__ */ fixedBase64(86, "==");
 var sha512_base64url = /* @__PURE__ */ fixedBase64url(86);
 
-// node_modules/zod/v4/core/checks.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/checks.js
 var $ZodCheck = /* @__PURE__ */ $constructor("$ZodCheck", (inst, def) => {
   var _a2;
   inst._zod ?? (inst._zod = {});
@@ -12279,7 +12279,7 @@ var $ZodCheckOverwrite = /* @__PURE__ */ $constructor("$ZodCheckOverwrite", (ins
   };
 });
 
-// node_modules/zod/v4/core/doc.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/doc.js
 var Doc = class {
   constructor(args = []) {
     this.content = [];
@@ -12315,14 +12315,14 @@ var Doc = class {
   }
 };
 
-// node_modules/zod/v4/core/versions.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/versions.js
 var version = {
   major: 4,
   minor: 3,
   patch: 6
 };
 
-// node_modules/zod/v4/core/schemas.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/schemas.js
 var $ZodType = /* @__PURE__ */ $constructor("$ZodType", (inst, def) => {
   var _a2;
   inst ?? (inst = {});
@@ -14293,7 +14293,7 @@ function handleRefineResult(result, payload, input, inst) {
   }
 }
 
-// node_modules/zod/v4/locales/en.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/locales/en.js
 var error = () => {
   const Sizable = {
     string: { unit: "characters", verb: "to have" },
@@ -14402,7 +14402,7 @@ function en_default2() {
   };
 }
 
-// node_modules/zod/v4/core/registries.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/registries.js
 var _a;
 var $ZodRegistry = class {
   constructor() {
@@ -14450,7 +14450,7 @@ function registry() {
 (_a = globalThis).__zod_globalRegistry ?? (_a.__zod_globalRegistry = registry());
 var globalRegistry = globalThis.__zod_globalRegistry;
 
-// node_modules/zod/v4/core/api.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/api.js
 // @__NO_SIDE_EFFECTS__
 function _string(Class2, params) {
   return new Class2({
@@ -15254,7 +15254,7 @@ function _stringFormat(Class2, format, fnOrRegex, _params = {}) {
   return inst;
 }
 
-// node_modules/zod/v4/core/to-json-schema.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/to-json-schema.js
 function initializeContext(params) {
   let target2 = params?.target ?? "draft-2020-12";
   if (target2 === "draft-4")
@@ -15606,7 +15606,7 @@ var createStandardJSONSchemaMethod = (schema, io, processors = {}) => (params) =
   return finalize(ctx, schema);
 };
 
-// node_modules/zod/v4/core/json-schema-processors.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/json-schema-processors.js
 var formatMap = {
   guid: "uuid",
   url: "uri",
@@ -16082,7 +16082,7 @@ var lazyProcessor = (schema, ctx, _json, params) => {
   seen.ref = innerType;
 };
 
-// node_modules/@modelcontextprotocol/sdk/dist/esm/server/zod-compat.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/zod-compat.js
 function isZ4Schema(s) {
   const schema = s;
   return !!schema._zod;
@@ -16145,7 +16145,7 @@ function getLiteralValue(schema) {
   return void 0;
 }
 
-// node_modules/zod/v4/classic/schemas.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/schemas.js
 var schemas_exports3 = {};
 __export(schemas_exports3, {
   ZodAny: () => ZodAny2,
@@ -16314,7 +16314,7 @@ __export(schemas_exports3, {
   xor: () => xor
 });
 
-// node_modules/zod/v4/classic/checks.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/checks.js
 var checks_exports2 = {};
 __export(checks_exports2, {
   endsWith: () => _endsWith,
@@ -16348,7 +16348,7 @@ __export(checks_exports2, {
   uppercase: () => _uppercase
 });
 
-// node_modules/zod/v4/classic/iso.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/iso.js
 var iso_exports2 = {};
 __export(iso_exports2, {
   ZodISODate: () => ZodISODate,
@@ -16389,7 +16389,7 @@ function duration2(params) {
   return _isoDuration(ZodISODuration, params);
 }
 
-// node_modules/zod/v4/classic/errors.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/errors.js
 var initializer2 = (inst, issues) => {
   $ZodError.init(inst, issues);
   inst.name = "ZodError";
@@ -16429,7 +16429,7 @@ var ZodRealError = $constructor("ZodError", initializer2, {
   Parent: Error
 });
 
-// node_modules/zod/v4/classic/parse.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/parse.js
 var parse2 = /* @__PURE__ */ _parse(ZodRealError);
 var parseAsync2 = /* @__PURE__ */ _parseAsync(ZodRealError);
 var safeParse3 = /* @__PURE__ */ _safeParse(ZodRealError);
@@ -16443,7 +16443,7 @@ var safeDecode2 = /* @__PURE__ */ _safeDecode(ZodRealError);
 var safeEncodeAsync2 = /* @__PURE__ */ _safeEncodeAsync(ZodRealError);
 var safeDecodeAsync2 = /* @__PURE__ */ _safeDecodeAsync(ZodRealError);
 
-// node_modules/zod/v4/classic/schemas.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/schemas.js
 var ZodType2 = /* @__PURE__ */ $constructor("ZodType", (inst, def) => {
   $ZodType.init(inst, def);
   Object.assign(inst["~standard"], {
@@ -17522,22 +17522,22 @@ function preprocess(fn, schema) {
   return pipe(transform(fn), schema);
 }
 
-// node_modules/zod/v4/classic/compat.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/compat.js
 var ZodFirstPartyTypeKind2;
 /* @__PURE__ */ (function(ZodFirstPartyTypeKind3) {
 })(ZodFirstPartyTypeKind2 || (ZodFirstPartyTypeKind2 = {}));
 
-// node_modules/zod/v4/classic/from-json-schema.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/from-json-schema.js
 var z = {
   ...schemas_exports3,
   ...checks_exports2,
   iso: iso_exports2
 };
 
-// node_modules/zod/v4/classic/external.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/external.js
 config(en_default2());
 
-// node_modules/@modelcontextprotocol/sdk/dist/esm/types.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/types.js
 var LATEST_PROTOCOL_VERSION = "2025-11-25";
 var SUPPORTED_PROTOCOL_VERSIONS = [LATEST_PROTOCOL_VERSION, "2025-06-18", "2025-03-26", "2024-11-05", "2024-10-07"];
 var RELATED_TASK_META_KEY = "io.modelcontextprotocol/related-task";
@@ -19056,15 +19056,15 @@ var UrlElicitationRequiredError = class extends McpError {
   }
 };
 
-// node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/interfaces.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/interfaces.js
 function isTerminal(status) {
   return status === "completed" || status === "failed" || status === "cancelled";
 }
 
-// node_modules/zod-to-json-schema/dist/esm/parsers/string.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod-to-json-schema/dist/esm/parsers/string.js
 var ALPHA_NUMERIC = new Set("ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvxyz0123456789");
 
-// node_modules/@modelcontextprotocol/sdk/dist/esm/server/zod-json-schema-compat.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/zod-json-schema-compat.js
 function getMethodLiteral(schema) {
   const shape = getObjectShape(schema);
   const methodSchema = shape?.method;
@@ -19085,7 +19085,7 @@ function parseWithCompat(schema, data) {
   return result.data;
 }
 
-// node_modules/@modelcontextprotocol/sdk/dist/esm/shared/protocol.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/shared/protocol.js
 var DEFAULT_REQUEST_TIMEOUT_MSEC = 6e4;
 var Protocol = class {
   constructor(_options) {
@@ -20039,7 +20039,7 @@ function mergeCapabilities(base, additional) {
   return result;
 }
 
-// node_modules/@modelcontextprotocol/sdk/dist/esm/validation/ajv-provider.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/validation/ajv-provider.js
 var import_ajv = __toESM(require_ajv(), 1);
 var import_ajv_formats = __toESM(require_dist(), 1);
 function createDefaultAjvInstance() {
@@ -20107,7 +20107,7 @@ var AjvJsonSchemaValidator = class {
   }
 };
 
-// node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/server.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/server.js
 var ExperimentalServerTasks = class {
   constructor(_server) {
     this._server = _server;
@@ -20320,7 +20320,7 @@ var ExperimentalServerTasks = class {
   }
 };
 
-// node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/helpers.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/helpers.js
 function assertToolsCallTaskCapability(requests, method, entityName) {
   if (!requests) {
     throw new Error(`${entityName} does not support task creation (required for ${method})`);
@@ -20355,7 +20355,7 @@ function assertClientRequestTaskCapability(requests, method, entityName) {
   }
 }
 
-// node_modules/@modelcontextprotocol/sdk/dist/esm/server/index.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/index.js
 var Server = class extends Protocol {
   /**
    * Initializes this server with the given name and version information.
@@ -20735,10 +20735,10 @@ var Server = class extends Protocol {
   }
 };
 
-// node_modules/@modelcontextprotocol/sdk/dist/esm/server/stdio.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/stdio.js
 import process3 from "node:process";
 
-// node_modules/@modelcontextprotocol/sdk/dist/esm/shared/stdio.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/shared/stdio.js
 var ReadBuffer = class {
   append(chunk) {
     this._buffer = this._buffer ? Buffer.concat([this._buffer, chunk]) : chunk;
@@ -20766,7 +20766,7 @@ function serializeMessage(message) {
   return JSON.stringify(message) + "\n";
 }
 
-// node_modules/@modelcontextprotocol/sdk/dist/esm/server/stdio.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/stdio.js
 var StdioServerTransport = class {
   constructor(_stdin = process3.stdin, _stdout = process3.stdout) {
     this._stdin = _stdin;
@@ -21057,7 +21057,7 @@ function buildCreatedCardOpinionClause(status, hasPlan) {
   return [
     "The user's yes to opening this card covers its AI Opinion too. In this same turn, without asking,",
     "write the opinion with the evaluation rule below and save it with save_opinion; only after that",
-    "propose save_plan. If the card was opened into a group, call get_card on it first for its chain.",
+    "propose save_plan. If the card was opened into a chain, call get_card on it first for its chain.",
     "Fill Concerns with your own doubts about the idea \u2014 do not restate the case you argued in the",
     `conversation. Skip the opinion if the user asked to open the card without one ("opinion's\u0131z a\xE7",`,
     '"h\u0131zl\u0131ca at", "no opinion", "just drop it in").',
@@ -21729,8 +21729,8 @@ function extractPlanFiles(solutionHtml) {
   const section2 = text.match(/Files to Modify\s*\n([\s\S]*?)(?:\n(?:Implementation Steps|Edge Cases|Dependencies)\b|$)/i);
   return section2 ? pathTokens(section2[1]) : [];
 }
-function normalizePath(path7) {
-  return path7.trim().replace(/^\.\//, "").replace(/\/+$/, "");
+function normalizePath(path8) {
+  return path8.trim().replace(/^\.\//, "").replace(/\/+$/, "");
 }
 function pathsOverlap(a, b2) {
   const globRoot = (p) => /\/\*+$/.test(p) ? p.replace(/\/\*+$/, "/") : null;
@@ -21773,20 +21773,26 @@ function matchesCardNumber(parsed, card) {
 var card_ops_exports = {};
 __export(card_ops_exports, {
   APP_HEARTBEAT_STALE_MS: () => APP_HEARTBEAT_STALE_MS,
+  AUTHORSHIP_FIELDS: () => AUTHORSHIP_FIELDS,
   CARD_RUNTIME_FIELDS: () => CARD_RUNTIME_FIELDS,
   CardDependencyError: () => CardDependencyError,
   CardGroupError: () => CardGroupError,
   DEFAULT_GROUP_COLOR: () => DEFAULT_GROUP_COLOR,
   GLOBAL_AGENT_MODE_SETTING_KEY: () => GLOBAL_AGENT_MODE_SETTING_KEY,
   GROUP_CODE_MAX: () => GROUP_CODE_MAX,
+  IDEAFY_AUTHOR: () => IDEAFY_AUTHOR,
   MAX_CARD_TITLE_LENGTH: () => MAX_CARD_TITLE_LENGTH,
   TERMINAL_WRITER_TTL_MS: () => TERMINAL_WRITER_TTL_MS,
+  YOU_AUTHOR: () => YOU_AUTHOR,
   acknowledgeWrite: () => acknowledgeWrite,
   addDependency: () => addDependency,
   addOutputPath: () => addOutputPath,
   addTestReportWarnings: () => addTestReportWarnings,
   allRows: () => allRows,
   assertGroupAssignable: () => assertGroupAssignable,
+  authorFromSource: () => authorFromSource,
+  authorshipRows: () => authorshipRows,
+  cardAuthorship: () => cardAuthorship,
   cardHead: () => cardHead,
   cardRepoFolder: () => cardRepoFolder,
   chainAckId: () => chainAckId,
@@ -21807,6 +21813,7 @@ __export(card_ops_exports, {
   getRow: () => getRow,
   globalAgentModeEnabled: () => globalAgentModeEnabled,
   globalEditDenial: () => globalEditDenial,
+  hasAuthorshipTable: () => hasAuthorshipTable,
   hasBaseCommitColumns: () => hasBaseCommitColumns,
   hasDependencyTable: () => hasDependencyTable,
   hasSuggestionTable: () => hasSuggestionTable,
@@ -21825,6 +21832,7 @@ __export(card_ops_exports, {
   normalizeGroupId: () => normalizeGroupId,
   opinionEditFields: () => opinionEditFields,
   parseBlockedBy: () => parseBlockedBy,
+  parseUndoSnapshot: () => parseUndoSnapshot,
   parseWriteAck: () => parseWriteAck,
   persistCardFieldArtifacts: () => persistCardFieldArtifacts,
   projectIdOfCard: () => projectIdOfCard,
@@ -21838,10 +21846,12 @@ __export(card_ops_exports, {
   readRuntime: () => readRuntime,
   readWriteAck: () => readWriteAck,
   readyAfterLinks: () => readyAfterLinks,
+  recordAuthorship: () => recordAuthorship,
   removeDependency: () => removeDependency,
   resolveCardRef: () => resolveCardRef,
   resolveProjectByFolder: () => resolveProjectByFolder,
   restoreDependencies: () => restoreDependencies,
+  restoreField: () => restoreField,
   restoreQueueCards: () => restoreQueueCards,
   reviseTests: () => reviseTests,
   runChanges: () => runChanges,
@@ -21861,7 +21871,9 @@ __export(card_ops_exports, {
   statusAfterTests: () => statusAfterTests,
   suggestDependencies: () => suggestDependencies,
   testsDriftFor: () => testsDriftFor,
+  tickChanges: () => tickChanges,
   transaction: () => transaction,
+  undoSnapshot: () => undoSnapshot,
   updateCard: () => updateCard,
   updateGroup: () => updateGroup,
   validateCardTitle: () => validateCardTitle,
@@ -22222,6 +22234,7 @@ __export(markdown_exports, {
   ensureHtml: () => ensureHtml,
   ensureTestScenariosHtml: () => ensureTestScenariosHtml,
   extractTaskItems: () => extractTaskItems,
+  findDroppedTaskItems: () => findDroppedTaskItems,
   findRevisionTargets: () => findRevisionTargets,
   isHtml: () => isHtml,
   markdownToTiptapHtml: () => markdownToTiptapHtml,
@@ -22234,10 +22247,11 @@ __export(markdown_exports, {
   plainTaskText: () => plainTaskText,
   reviseTaskItems: () => reviseTaskItems,
   testScenariosToMarkdown: () => testScenariosToMarkdown,
+  tokenizeHtmlSections: () => tokenizeHtmlSections,
   untickTaskItems: () => untickTaskItems
 });
 
-// ../node_modules/marked/lib/marked.esm.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/node_modules/marked/lib/marked.esm.js
 function L() {
   return { async: false, breaks: false, extensions: null, gfm: true, hooks: null, pedantic: false, renderer: null, silent: false, tokenizer: null, walkTokens: null };
 }
@@ -23685,6 +23699,10 @@ function countRetainedItems(existingHtml, newHtml) {
   }
   return { retained, existing: existing.length };
 }
+function findDroppedTaskItems(existingHtml, newHtml) {
+  const newKeys = extractTaskItems(newHtml).map((i) => i.normalized);
+  return extractTaskItems(existingHtml).filter((e) => !findFuzzyMatch(e.normalized, newKeys));
+}
 function assessTestRewrite(existingHtml, newHtml) {
   const existingItems = extractTaskItems(existingHtml);
   if (!existingItems.length) return { safe: true, retained: 0, existing: 0 };
@@ -24076,6 +24094,8 @@ __export(artifact_links_exports, {
   cardFoldersRoot: () => cardFoldersRoot,
   destinationFor: () => destinationFor,
   materializeArtifactFences: () => materializeArtifactFences,
+  materializeReplyArtifacts: () => materializeReplyArtifacts,
+  moveLinksIntoApplyBlock: () => moveLinksIntoApplyBlock,
   persistArtifactLinks: () => persistArtifactLinks,
   persistArtifacts: () => persistArtifacts,
   persistCardArtifacts: () => persistCardArtifacts
@@ -24262,8 +24282,12 @@ function sameBytes(candidate, contents) {
   return statSync(candidate).size === contents.length && readFileSync(candidate).equals(contents);
 }
 function materializeArtifactFences(text, cardDir) {
+  return saveArtifactFences(text, cardDir).text;
+}
+function saveArtifactFences(text, cardDir) {
+  const links = [];
   const fences = extractArtifactFences(text).filter((fence) => fence.closed);
-  if (fences.length === 0) return text;
+  if (fences.length === 0) return { text, links };
   const scratchDir = path.join(cardDir, SCRATCH_DIR);
   let out = "";
   let cursor = 0;
@@ -24282,13 +24306,52 @@ function materializeArtifactFences(text, cardDir) {
       mkdirSync(scratchDir, { recursive: true });
       const target2 = destinationFor(fence.filename, scratchDir, (candidate) => sameBytes(candidate, contents));
       if (!existsSync(target2)) writeFileSync(target2, contents);
-      out += `[${path.basename(target2)}](${pathToFileUrl(target2)})`;
+      const link = `[${path.basename(target2)}](${pathToFileUrl(target2)})`;
+      links.push({ start: out.length, end: out.length + link.length });
+      out += link;
     } catch (error2) {
       console.error("Failed to save artifact block:", fence.filename, error2);
       out += original;
     }
   }
-  return out + text.slice(cursor);
+  return { text: out + text.slice(cursor), links };
+}
+var APPLY_OPEN_RE = /<!--\s*ideafy:apply\s*-->/gi;
+var APPLY_CLOSE_RE = /<!--\s*\/ideafy:apply\s*-->/i;
+function applyBlockSpan(text) {
+  let openEnd = -1;
+  for (const m2 of Array.from(text.matchAll(APPLY_OPEN_RE))) openEnd = m2.index + m2[0].length;
+  if (openEnd === -1) return null;
+  const close = text.slice(openEnd).match(APPLY_CLOSE_RE);
+  return { openEnd, closeStart: close ? openEnd + close.index : text.length };
+}
+function moveLinksIntoApplyBlock(text, links) {
+  const block = applyBlockSpan(text);
+  if (!block) return text;
+  const outside = links.filter((l) => l.end <= block.openEnd || l.start >= block.closeStart);
+  if (outside.length === 0) return text;
+  const moved = outside.map((l) => text.slice(l.start, l.end));
+  let out = text;
+  for (const { start, end } of [...outside].sort((a, b2) => b2.start - a.start)) {
+    const lineStart = out.lastIndexOf("\n", start - 1) + 1;
+    const newline = out.indexOf("\n", end);
+    const lineEnd = newline === -1 ? out.length : newline;
+    if ((out.slice(lineStart, start) + out.slice(end, lineEnd)).trim()) {
+      out = out.slice(0, start) + out.slice(end);
+      continue;
+    }
+    let removeEnd = Math.min(lineEnd + 1, out.length);
+    if (out[removeEnd] === "\n" && out.slice(0, lineStart).endsWith("\n\n")) removeEnd++;
+    out = out.slice(0, lineStart) + out.slice(removeEnd);
+  }
+  const { openEnd } = applyBlockSpan(out);
+  return `${out.slice(0, openEnd)}
+${moved.join("\n\n")}
+${out.slice(openEnd)}`;
+}
+function materializeReplyArtifacts(text, cardDir) {
+  const saved = saveArtifactFences(text, cardDir);
+  return moveLinksIntoApplyBlock(saved.text, saved.links);
 }
 function escapeAttr2(value) {
   return value.replace(/&/g, "&amp;").replace(/"/g, "&quot;");
@@ -24585,216 +24648,6 @@ function stampBaseCommit(db2, cardId, field, head) {
   runChanges(db2, `UPDATE cards SET ${COLUMN[field]} = ? WHERE id = ?`, head, cardId);
 }
 
-// ../lib/card-ops/save-content.ts
-function target(moveTo, current, rule) {
-  if (moveTo === void 0) return rule(current);
-  return moveTo;
-}
-function savePlan(db2, args) {
-  if (args.moveTo && !isStatus(args.moveTo)) return { ok: false, reason: "invalid-status" };
-  const planHtml = externalizeInlineImages(args.id, args.html);
-  const head = cardHead(db2, args.id);
-  return transaction(db2, () => {
-    const row = getRow(
-      db2,
-      `SELECT status, solution_summary FROM cards WHERE id = ?`,
-      args.id
-    );
-    if (!row) return { ok: false, reason: "not-found" };
-    const runtime = runtimeAssignments(args.runtime);
-    runChanges(
-      db2,
-      `UPDATE cards SET
-         solution_summary = ?,
-         complexity = COALESCE(?, complexity),
-         priority = COALESCE(?, priority),
-         ${[...runtime.sql, "updated_at = ?"].join(", ")}
-       WHERE id = ?`,
-      planHtml,
-      args.complexity ?? null,
-      args.priority ?? null,
-      ...runtime.values,
-      args.now,
-      args.id
-    );
-    stampBaseCommit(db2, args.id, "plan", head);
-    const to = target(args.moveTo, row.status, statusAfterPlan);
-    if (to) moveCard(db2, args.id, to, args.now);
-    return { ok: true, html: planHtml, previous: row.solution_summary ?? "", from: row.status, status: to ?? row.status };
-  });
-}
-function saveTests(db2, args) {
-  if (args.moveTo && !isStatus(args.moveTo)) return { ok: false, reason: "invalid-status" };
-  const incoming = externalizeInlineImages(args.id, args.html);
-  const head = cardHead(db2, args.id);
-  return transaction(db2, () => {
-    const row = getRow(
-      db2,
-      `SELECT status, test_scenarios FROM cards WHERE id = ?`,
-      args.id
-    );
-    if (!row) return { ok: false, reason: "not-found" };
-    const previous = row.test_scenarios ?? "";
-    let html = incoming;
-    if (args.guard === "append-only" || args.guard === "rewrite") {
-      const assessment = args.guard === "append-only" ? assessAppendOnlyRewrite(previous, html) : assessTestRewrite(args.baseline ?? previous, html);
-      if (!assessment.safe) {
-        return {
-          ok: false,
-          reason: "unsafe",
-          detail: assessment.reason ?? "unsafe rewrite",
-          retained: assessment.retained,
-          existing: assessment.existing,
-          previous
-        };
-      }
-    }
-    if (args.guard === "rewrite" && previous) html = mergeTestCheckState(html, previous);
-    else if (args.guard !== "replace" && previous) html = mergeTestCheckState(previous, html);
-    let extra;
-    if (args.finalize) {
-      const finalized = args.finalize(html, previous);
-      if (typeof finalized === "string") html = finalized;
-      else ({ html, runtime: extra } = finalized);
-    }
-    const runtime = runtimeAssignments({ ...args.runtime, ...extra });
-    runChanges(
-      db2,
-      `UPDATE cards SET test_scenarios = ?, ${[...runtime.sql, "updated_at = ?"].join(", ")} WHERE id = ?`,
-      html,
-      ...runtime.values,
-      args.now,
-      args.id
-    );
-    stampBaseCommit(db2, args.id, "tests", head);
-    const to = target(args.moveTo, row.status, statusAfterTests);
-    if (to) moveCard(db2, args.id, to, args.now);
-    return { ok: true, html, previous, from: row.status, status: to ?? row.status };
-  });
-}
-function savePlanAndTests(db2, args) {
-  return transaction(db2, () => {
-    const plan = savePlan(db2, { id: args.id, html: args.solutionSummary, now: args.now, moveTo: null, runtime: args.runtime });
-    if (!plan.ok) return plan;
-    return saveTests(db2, { id: args.id, html: args.testScenarios, now: args.now, guard: "replace", moveTo: args.moveTo });
-  });
-}
-
-// ../lib/card-ops/revise-tests.ts
-function reviseTests(db2, args) {
-  const head = cardHead(db2, args.id);
-  return transaction(db2, () => {
-    const row = getRow(
-      db2,
-      `SELECT test_scenarios FROM cards WHERE id = ?`,
-      args.id
-    );
-    if (!row) return { ok: false, reason: "not-found" };
-    if (args.revisions.length === 0) {
-      if (!args.confirmCurrent) return { ok: false, reason: "missing", missing: [] };
-      stampBaseCommit(db2, args.id, "tests", head);
-      const html2 = row.test_scenarios ?? "";
-      return { ok: true, html: html2, previous: html2, revised: 0 };
-    }
-    const previous = row.test_scenarios ?? "";
-    const { html, missing } = reviseTaskItems(previous, args.revisions);
-    if (missing.length > 0) return { ok: false, reason: "missing", missing };
-    runChanges(db2, `UPDATE cards SET test_scenarios = ?, updated_at = ? WHERE id = ?`, html, args.now, args.id);
-    stampBaseCommit(db2, args.id, "tests", head);
-    return { ok: true, html, previous, revised: args.revisions.length };
-  });
-}
-
-// ../lib/prompts/utils.ts
-var utils_exports = {};
-__export(utils_exports, {
-  convertToTipTapTaskList: () => convertToTipTapTaskList,
-  escapeShellArg: () => escapeShellArg,
-  stripHtml: () => stripHtml
-});
-function stripHtml(html) {
-  if (!html) return "";
-  return html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
-}
-function convertToTipTapTaskList(html) {
-  let result = html.replace(/<li><input[^>]*checked[^>]*>\s*/gi, '<li data-type="taskItem" data-checked="true">').replace(/<li><input[^>]*type="checkbox"[^>]*>\s*/gi, '<li data-type="taskItem" data-checked="false">');
-  result = result.replace(/<ul>(\s*<li data-type="taskItem")/g, '<ul data-type="taskList">$1');
-  return result;
-}
-function escapeShellArg(arg) {
-  return `'${arg.replace(/'/g, "'\\''")}'`;
-}
-
-// ../lib/card-ops/drift.ts
-var MAX_LISTED = 20;
-var MAX_FILES = 200;
-var GENERATED = [/^drizzle\/meta\//, /(^|\/)(package-lock\.json|pnpm-lock\.yaml|yarn\.lock|bun\.lockb)$/];
-var isGenerated = (file2) => GENERATED.some((pattern) => pattern.test(file2));
-var escapeRegExp = (text) => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-function testsDriftFor(db2, cardId) {
-  try {
-    if (!hasBaseCommitColumns(db2)) return null;
-    const row = getRow(
-      db2,
-      `SELECT c.tests_base_commit AS base, c.test_scenarios AS tests, c.solution_summary AS plan,
-              c.task_number AS taskNumber, p.id_prefix AS idPrefix,
-              p.folder_path AS projectFolder, c.project_folder AS cardFolder
-       FROM cards c LEFT JOIN projects p ON p.id = c.project_id WHERE c.id = ?`,
-      cardId
-    );
-    if (!row?.base || !stripHtml(row.tests ?? "")) return null;
-    const repo = row.projectFolder || row.cardFolder;
-    if (!repo || !commitExists(repo, row.base)) return null;
-    const displayId = formatDisplayId(row.idPrefix, row.taskNumber);
-    const files = new Set(extractPlanFiles(row.plan ?? ""));
-    if (displayId) {
-      const own = gitRead(repo, ["log", "--all", "-E", `--grep=^Card: ${escapeRegExp(displayId)}$`, "--name-only", "--format="]);
-      for (const line of (own ?? "").split("\n")) if (line.trim()) files.add(line.trim());
-    }
-    const watched = [...files].filter((file2) => !isGenerated(file2)).slice(0, MAX_FILES);
-    if (watched.length === 0) return null;
-    const log = gitRead(repo, ["log", "--format=%H%x1f%s%x1f%b%x1e", `${row.base}..HEAD`, "--", ...watched]);
-    if (log === null) return null;
-    const ownTrailer = displayId ? new RegExp(`^Card: ${escapeRegExp(displayId)}\\s*$`, "m") : null;
-    const commits = [];
-    for (const record2 of log.split("")) {
-      const [sha, subject, body] = record2.replace(/^\n+/, "").split("");
-      if (!sha || !/^[0-9a-f]{40}$/.test(sha.trim())) continue;
-      if (ownTrailer?.test(body ?? "")) continue;
-      commits.push({ sha: sha.trim(), subject: (subject ?? "").trim() });
-    }
-    return { base: row.base, files: watched, commits: commits.slice(0, MAX_LISTED), total: commits.length };
-  } catch {
-    return null;
-  }
-}
-
-// ../lib/output-paths.ts
-function parseOutputPaths(value) {
-  if (!value) return null;
-  try {
-    const parsed = JSON.parse(value);
-    if (!Array.isArray(parsed)) return null;
-    const paths = parsed.filter((entry) => typeof entry === "string");
-    return paths.length ? paths : null;
-  } catch {
-    return null;
-  }
-}
-
-// ../lib/card-ops/output-paths.ts
-function addOutputPath(db2, id, relativePath, now) {
-  return transaction(db2, () => {
-    const row = getRow(db2, `SELECT output_paths FROM cards WHERE id = ?`, id);
-    if (!row) return { ok: false, reason: "not-found" };
-    const existing = parseOutputPaths(row.output_paths) ?? [];
-    if (existing.includes(relativePath)) return { ok: true, outputPaths: existing, alreadyRecorded: true };
-    const outputPaths = [...existing, relativePath];
-    runChanges(db2, `UPDATE cards SET output_paths = ?, updated_at = ? WHERE id = ?`, JSON.stringify(outputPaths), now, id);
-    return { ok: true, outputPaths, alreadyRecorded: false };
-  });
-}
-
 // ../lib/test-report.ts
 var test_report_exports = {};
 __export(test_report_exports, {
@@ -25033,6 +24886,539 @@ function countByStatus(run2) {
   const counts = { passed: 0, failed: 0, manual: 0 };
   for (const item of run2.items) counts[item.status]++;
   return counts;
+}
+
+// ../lib/card-authorship.ts
+var DEFAULT_WRITER = {
+  description: "you",
+  aiOpinion: "ideafy",
+  solutionSummary: "ideafy",
+  testScenarios: "ideafy"
+};
+var SECTION = {
+  description: "detail",
+  aiOpinion: "opinion",
+  solutionSummary: "solution",
+  testScenarios: "tests"
+};
+function sameItem(a, b2) {
+  return closestTaskText(a, [b2]) === 0;
+}
+function derivedTick(item, runs) {
+  const run2 = runs[0];
+  const passed = run2?.checklistApplied && run2.items.some((i) => i.status === "passed" && sameItem(i.item, item));
+  return passed ? { item, by: "ideafy", at: run2.runAt } : { item, by: "you", at: null };
+}
+function summarizeAuthorship(input) {
+  const rows = [...input.rows].sort((a, b2) => a.at < b2.at ? -1 : a.at > b2.at ? 1 : 0);
+  const tabs = {};
+  for (const field of Object.keys(DEFAULT_WRITER)) {
+    const content = input.fields[field];
+    if (!content || !plainTextLabel(content)) continue;
+    const own = rows.filter((r) => r.field === field && r.action !== "tick" && r.action !== "untick" && r.item === null);
+    let written;
+    for (const row of own) if (row.action === "write") written = row;
+    const tab = written ? { writtenBy: written.actor, writtenAt: written.at } : { writtenBy: DEFAULT_WRITER[field], writtenAt: null };
+    let edited;
+    for (const row of own) {
+      if (row.action === "write") continue;
+      if (written && row.at < written.at) continue;
+      edited = row;
+    }
+    if (edited) {
+      tab.editedBy = edited.actor;
+      tab.editedAt = edited.at;
+      tab.editAction = edited.action;
+    }
+    const replies = (input.conversations ?? []).filter(
+      (c) => c.sectionType === SECTION[field] && c.role === "assistant"
+    ).length;
+    if (replies > 0) tab.replies = replies;
+    tabs[field] = tab;
+  }
+  const ticks = [];
+  const checklist = input.fields.testScenarios ?? "";
+  const testRows = rows.filter((r) => r.field === "testScenarios" && r.item !== null);
+  for (const entry of extractTaskItems(checklist)) {
+    if (!entry.checked) continue;
+    const item = plainTextLabel(entry.rawText);
+    const revisedAt = testRows.filter((r) => r.action === "edit" && sameItem(r.item, item)).reduce((latest, r) => r.at > latest ? r.at : latest, "");
+    const last = testRows.filter((r) => (r.action === "tick" || r.action === "untick") && r.at >= revisedAt && sameItem(r.item, item)).pop();
+    ticks.push(
+      last?.action === "tick" ? { item, by: last.actor, at: last.at } : derivedTick(item, input.testReports ?? [])
+    );
+  }
+  return { tabs, ticks };
+}
+
+// ../lib/card-ops/authorship.ts
+var AUTHORSHIP_FIELDS = ["description", "aiOpinion", "solutionSummary", "testScenarios"];
+var EDIT_COALESCE_MS = 5 * 60 * 1e3;
+var present2 = /* @__PURE__ */ new WeakSet();
+function hasAuthorshipTable(db2) {
+  if (present2.has(db2)) return true;
+  const found = !!getRow(db2, "SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'card_authorship'");
+  if (found) present2.add(db2);
+  return found;
+}
+function textOf(html) {
+  return plainTextLabel(html ?? "");
+}
+function keyedItems(html) {
+  const seen = /* @__PURE__ */ new Map();
+  const keyed = /* @__PURE__ */ new Map();
+  for (const item of extractTaskItems(html)) {
+    const n = seen.get(item.normalized) ?? 0;
+    seen.set(item.normalized, n + 1);
+    keyed.set(`${item.normalized}#${n}`, { checked: item.checked, rawText: item.rawText });
+  }
+  return keyed;
+}
+function tickChanges(before, after) {
+  const old = keyedItems(before);
+  const changes = [];
+  for (const [key, item] of keyedItems(after)) {
+    const was = old.get(key)?.checked ?? false;
+    if (item.checked !== was) changes.push({ item: plainTextLabel(item.rawText), checked: item.checked });
+  }
+  return changes;
+}
+function insert(db2, cardId, row) {
+  runChanges(
+    db2,
+    `INSERT INTO card_authorship (card_id, field, actor, action, item, at) VALUES (?, ?, ?, ?, ?, ?)`,
+    cardId,
+    row.field,
+    row.actor,
+    row.action,
+    row.item,
+    row.at
+  );
+}
+function coalesces(db2, cardId, field, actor, now) {
+  const last = getRow(
+    db2,
+    `SELECT actor, action, at FROM card_authorship
+     WHERE card_id = ? AND field = ? AND action NOT IN ('tick', 'untick')
+     ORDER BY at DESC, id DESC LIMIT 1`,
+    cardId,
+    field
+  );
+  if (!last || last.actor !== actor || last.action !== "edit") return false;
+  return new Date(now).getTime() - new Date(last.at).getTime() < EDIT_COALESCE_MS;
+}
+function recordAuthorship(db2, args) {
+  if (!hasAuthorshipTable(db2)) return;
+  const { cardId, author, now } = args;
+  const { actor } = author;
+  if (args.revisedItems) {
+    for (const item of args.revisedItems) {
+      insert(db2, cardId, { field: "testScenarios", actor, action: "edit", item: plainTextLabel(item), at: now });
+    }
+  }
+  for (const field of AUTHORSHIP_FIELDS) {
+    const next = args.after[field];
+    if (next === void 0) continue;
+    const previous = args.before[field] ?? "";
+    if (!args.ticksOnly && !args.revisedItems && textOf(previous) !== textOf(next)) {
+      const action = author.via ?? (textOf(next) && (!textOf(previous) || args.replaces) ? "write" : "edit");
+      if (!textOf(next) || action !== "edit" || !coalesces(db2, cardId, field, actor, now)) {
+        insert(db2, cardId, { field, actor, action, item: null, at: now });
+      }
+    }
+    if (field === "testScenarios") {
+      for (const change of tickChanges(previous, next ?? "")) {
+        insert(db2, cardId, {
+          field,
+          actor,
+          action: change.checked ? "tick" : "untick",
+          item: change.item,
+          at: now
+        });
+      }
+    }
+  }
+}
+function authorshipRows(db2, cardId) {
+  if (!hasAuthorshipTable(db2)) return [];
+  return allRows(
+    db2,
+    `SELECT field, actor, action, item, at FROM card_authorship WHERE card_id = ? ORDER BY at, id`,
+    cardId
+  );
+}
+function cardAuthorship(db2, cardId) {
+  const card = getRow(db2, `SELECT * FROM cards WHERE id = ?`, cardId);
+  if (!card) return null;
+  const conversations = allRows(
+    db2,
+    `SELECT section_type AS sectionType, role FROM conversations WHERE card_id = ?`,
+    cardId
+  );
+  return summarizeAuthorship({
+    rows: authorshipRows(db2, cardId),
+    fields: {
+      description: card.description,
+      aiOpinion: card.ai_opinion,
+      solutionSummary: card.solution_summary,
+      testScenarios: card.test_scenarios
+    },
+    conversations,
+    testReports: parseTestReports(card.test_reports)
+  });
+}
+function authorFromSource(source) {
+  return source === "enrich" || source === "title-suggest" ? { actor: "ideafy", via: "enrich" } : { actor: "you" };
+}
+var IDEAFY_AUTHOR = { actor: "ideafy" };
+var YOU_AUTHOR = { actor: "you" };
+
+// ../lib/card-ops/save-content.ts
+function target(moveTo, current, rule) {
+  if (moveTo === void 0) return rule(current);
+  return moveTo;
+}
+function savePlan(db2, args) {
+  if (args.moveTo && !isStatus(args.moveTo)) return { ok: false, reason: "invalid-status" };
+  const planHtml = externalizeInlineImages(args.id, args.html);
+  const head = cardHead(db2, args.id);
+  return transaction(db2, () => {
+    const row = getRow(
+      db2,
+      `SELECT status, solution_summary FROM cards WHERE id = ?`,
+      args.id
+    );
+    if (!row) return { ok: false, reason: "not-found" };
+    const runtime = runtimeAssignments(args.runtime);
+    runChanges(
+      db2,
+      `UPDATE cards SET
+         solution_summary = ?,
+         complexity = COALESCE(?, complexity),
+         priority = COALESCE(?, priority),
+         ${[...runtime.sql, "updated_at = ?"].join(", ")}
+       WHERE id = ?`,
+      planHtml,
+      args.complexity ?? null,
+      args.priority ?? null,
+      ...runtime.values,
+      args.now,
+      args.id
+    );
+    stampBaseCommit(db2, args.id, "plan", head);
+    recordAuthorship(db2, {
+      cardId: args.id,
+      author: args.author,
+      now: args.now,
+      before: { solutionSummary: row.solution_summary },
+      after: { solutionSummary: planHtml },
+      replaces: true
+    });
+    const to = target(args.moveTo, row.status, statusAfterPlan);
+    if (to) moveCard(db2, args.id, to, args.now);
+    return { ok: true, html: planHtml, previous: row.solution_summary ?? "", from: row.status, status: to ?? row.status };
+  });
+}
+function saveTests(db2, args) {
+  if (args.moveTo && !isStatus(args.moveTo)) return { ok: false, reason: "invalid-status" };
+  const incoming = externalizeInlineImages(args.id, args.html);
+  const head = cardHead(db2, args.id);
+  return transaction(db2, () => {
+    const row = getRow(
+      db2,
+      `SELECT status, test_scenarios FROM cards WHERE id = ?`,
+      args.id
+    );
+    if (!row) return { ok: false, reason: "not-found" };
+    const previous = row.test_scenarios ?? "";
+    let html = incoming;
+    if (args.guard === "append-only" || args.guard === "rewrite") {
+      const assessment = args.guard === "append-only" ? assessAppendOnlyRewrite(previous, html) : assessTestRewrite(args.baseline ?? previous, html);
+      if (!assessment.safe) {
+        return {
+          ok: false,
+          reason: "unsafe",
+          detail: assessment.reason ?? "unsafe rewrite",
+          retained: assessment.retained,
+          existing: assessment.existing,
+          previous
+        };
+      }
+    }
+    if (args.guard === "rewrite" && previous) html = mergeTestCheckState(html, previous);
+    else if (args.guard !== "replace" && previous) html = mergeTestCheckState(previous, html);
+    let extra;
+    if (args.finalize) {
+      const finalized = args.finalize(html, previous);
+      if (typeof finalized === "string") html = finalized;
+      else ({ html, runtime: extra } = finalized);
+    }
+    const runtime = runtimeAssignments({ ...args.runtime, ...extra });
+    runChanges(
+      db2,
+      `UPDATE cards SET test_scenarios = ?, ${[...runtime.sql, "updated_at = ?"].join(", ")} WHERE id = ?`,
+      html,
+      ...runtime.values,
+      args.now,
+      args.id
+    );
+    stampBaseCommit(db2, args.id, "tests", head);
+    recordAuthorship(db2, {
+      cardId: args.id,
+      author: args.author,
+      now: args.now,
+      before: { testScenarios: previous },
+      after: { testScenarios: html },
+      replaces: args.guard === "replace" || args.guard === "append-only",
+      ticksOnly: args.guard === "rewrite"
+    });
+    const to = target(args.moveTo, row.status, statusAfterTests);
+    if (to) moveCard(db2, args.id, to, args.now);
+    return { ok: true, html, previous, from: row.status, status: to ?? row.status };
+  });
+}
+function savePlanAndTests(db2, args) {
+  return transaction(db2, () => {
+    const plan = savePlan(db2, {
+      id: args.id,
+      html: args.solutionSummary,
+      now: args.now,
+      author: args.author,
+      moveTo: null,
+      runtime: args.runtime
+    });
+    if (!plan.ok) return plan;
+    return saveTests(db2, {
+      id: args.id,
+      html: args.testScenarios,
+      now: args.now,
+      author: args.author,
+      guard: "replace",
+      moveTo: args.moveTo
+    });
+  });
+}
+
+// ../lib/card-ops/revise-tests.ts
+function reviseTests(db2, args) {
+  const head = cardHead(db2, args.id);
+  return transaction(db2, () => {
+    const row = getRow(
+      db2,
+      `SELECT test_scenarios FROM cards WHERE id = ?`,
+      args.id
+    );
+    if (!row) return { ok: false, reason: "not-found" };
+    if (args.revisions.length === 0) {
+      if (!args.confirmCurrent) return { ok: false, reason: "missing", missing: [] };
+      stampBaseCommit(db2, args.id, "tests", head);
+      const html2 = row.test_scenarios ?? "";
+      return { ok: true, html: html2, previous: html2, revised: 0 };
+    }
+    const previous = row.test_scenarios ?? "";
+    const { html, missing } = reviseTaskItems(previous, args.revisions);
+    if (missing.length > 0) return { ok: false, reason: "missing", missing };
+    runChanges(db2, `UPDATE cards SET test_scenarios = ?, updated_at = ? WHERE id = ?`, html, args.now, args.id);
+    stampBaseCommit(db2, args.id, "tests", head);
+    recordAuthorship(db2, {
+      cardId: args.id,
+      author: args.author,
+      now: args.now,
+      before: { testScenarios: previous },
+      after: { testScenarios: html },
+      revisedItems: args.revisions.map((revision) => revision.to)
+    });
+    return { ok: true, html, previous, revised: args.revisions.length };
+  });
+}
+
+// ../lib/card-ops/restore-field.ts
+var COLUMN2 = {
+  description: "description",
+  solutionSummary: "solution_summary",
+  aiOpinion: "ai_opinion",
+  testScenarios: "test_scenarios"
+};
+var BASE_COMMIT = {
+  solutionSummary: "plan_base_commit",
+  testScenarios: "tests_base_commit"
+};
+var OPINION_KEYS = ["verdict", "score", "priority", "complexity"];
+function readRow(db2, id, field) {
+  const base = BASE_COMMIT[field];
+  const baseSql = base && hasBaseCommitColumns(db2) ? `, ${base} AS base_commit` : "";
+  return getRow(
+    db2,
+    `SELECT ${COLUMN2[field]} AS html, status, ai_verdict AS verdict, ai_score AS score, priority, complexity${baseSql}
+     FROM cards WHERE id = ?`,
+    id
+  );
+}
+function snapshotOf(row, field) {
+  const snapshot = { html: row.html ?? "" };
+  if (field === "solutionSummary") snapshot.status = row.status;
+  if (row.base_commit !== void 0) snapshot.baseCommit = row.base_commit;
+  if (field === "aiOpinion") {
+    snapshot.verdict = row.verdict;
+    snapshot.score = row.score;
+    snapshot.priority = row.priority;
+    snapshot.complexity = row.complexity;
+  }
+  return snapshot;
+}
+function undoSnapshot(db2, id, field) {
+  const row = readRow(db2, id, field);
+  return row ? snapshotOf(row, field) : null;
+}
+function restoreField(db2, args) {
+  const { id, field, previous, expected, now } = args;
+  return transaction(db2, () => {
+    const row = readRow(db2, id, field);
+    if (!row) return { ok: false, reason: "not-found" };
+    if ((row.html ?? "") !== expected.html) return { ok: false, reason: "changed" };
+    if (field === "aiOpinion" && OPINION_KEYS.some((key) => (row[key] ?? null) !== (expected[key] ?? null))) {
+      return { ok: false, reason: "changed" };
+    }
+    runChanges(db2, `UPDATE cards SET ${COLUMN2[field]} = ?, updated_at = ? WHERE id = ?`, previous.html, now, id);
+    recordAuthorship(db2, {
+      cardId: id,
+      author: args.author,
+      now,
+      before: { [field]: row.html },
+      after: { [field]: previous.html }
+    });
+    if (field === "aiOpinion") {
+      runChanges(
+        db2,
+        `UPDATE cards SET ai_verdict = ?, ai_score = ?, priority = COALESCE(?, priority), complexity = COALESCE(?, complexity) WHERE id = ?`,
+        previous.verdict ?? null,
+        previous.score ?? null,
+        previous.priority ?? null,
+        previous.complexity ?? null,
+        id
+      );
+    }
+    const base = BASE_COMMIT[field];
+    if (base && row.base_commit !== void 0 && previous.baseCommit !== void 0) {
+      runChanges(db2, `UPDATE cards SET ${base} = ? WHERE id = ?`, previous.baseCommit, id);
+    }
+    if (field === "solutionSummary" && isStatus(previous.status) && expected.status !== previous.status && row.status === expected.status) {
+      const moved = moveCard(db2, id, previous.status, now);
+      if (moved.ok && moved.changed) return { ok: true, movedBack: previous.status };
+    }
+    return { ok: true };
+  });
+}
+function parseUndoSnapshot(raw) {
+  if (!raw || typeof raw !== "object") return null;
+  const value = raw;
+  if (typeof value.html !== "string") return null;
+  const snapshot = { html: value.html };
+  const text = (v2) => v2 === null || typeof v2 === "string";
+  if (value.status !== void 0) {
+    if (!isStatus(value.status)) return null;
+    snapshot.status = value.status;
+  }
+  for (const key of ["baseCommit", "verdict", "priority", "complexity"]) {
+    if (value[key] === void 0) continue;
+    if (!text(value[key])) return null;
+    snapshot[key] = value[key];
+  }
+  if (value.score !== void 0) {
+    if (value.score !== null && typeof value.score !== "number") return null;
+    snapshot.score = value.score;
+  }
+  return snapshot;
+}
+
+// ../lib/prompts/utils.ts
+var utils_exports = {};
+__export(utils_exports, {
+  convertToTipTapTaskList: () => convertToTipTapTaskList,
+  escapeShellArg: () => escapeShellArg,
+  stripHtml: () => stripHtml
+});
+function stripHtml(html) {
+  if (!html) return "";
+  return html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+}
+function convertToTipTapTaskList(html) {
+  let result = html.replace(/<li><input[^>]*checked[^>]*>\s*/gi, '<li data-type="taskItem" data-checked="true">').replace(/<li><input[^>]*type="checkbox"[^>]*>\s*/gi, '<li data-type="taskItem" data-checked="false">');
+  result = result.replace(/<ul>(\s*<li data-type="taskItem")/g, '<ul data-type="taskList">$1');
+  return result;
+}
+function escapeShellArg(arg) {
+  return `'${arg.replace(/'/g, "'\\''")}'`;
+}
+
+// ../lib/card-ops/drift.ts
+var MAX_LISTED = 20;
+var MAX_FILES = 200;
+var GENERATED = [/^drizzle\/meta\//, /(^|\/)(package-lock\.json|pnpm-lock\.yaml|yarn\.lock|bun\.lockb)$/];
+var isGenerated = (file2) => GENERATED.some((pattern) => pattern.test(file2));
+var escapeRegExp = (text) => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+function testsDriftFor(db2, cardId) {
+  try {
+    if (!hasBaseCommitColumns(db2)) return null;
+    const row = getRow(
+      db2,
+      `SELECT c.tests_base_commit AS base, c.test_scenarios AS tests, c.solution_summary AS plan,
+              c.task_number AS taskNumber, p.id_prefix AS idPrefix,
+              p.folder_path AS projectFolder, c.project_folder AS cardFolder
+       FROM cards c LEFT JOIN projects p ON p.id = c.project_id WHERE c.id = ?`,
+      cardId
+    );
+    if (!row?.base || !stripHtml(row.tests ?? "")) return null;
+    const repo = row.projectFolder || row.cardFolder;
+    if (!repo || !commitExists(repo, row.base)) return null;
+    const displayId = formatDisplayId(row.idPrefix, row.taskNumber);
+    const files = new Set(extractPlanFiles(row.plan ?? ""));
+    if (displayId) {
+      const own = gitRead(repo, ["log", "--all", "-E", `--grep=^Card: ${escapeRegExp(displayId)}$`, "--name-only", "--format="]);
+      for (const line of (own ?? "").split("\n")) if (line.trim()) files.add(line.trim());
+    }
+    const watched = [...files].filter((file2) => !isGenerated(file2)).slice(0, MAX_FILES);
+    if (watched.length === 0) return null;
+    const log = gitRead(repo, ["log", "--format=%H%x1f%s%x1f%b%x1e", `${row.base}..HEAD`, "--", ...watched]);
+    if (log === null) return null;
+    const ownTrailer = displayId ? new RegExp(`^Card: ${escapeRegExp(displayId)}\\s*$`, "m") : null;
+    const commits = [];
+    for (const record2 of log.split("")) {
+      const [sha, subject, body] = record2.replace(/^\n+/, "").split("");
+      if (!sha || !/^[0-9a-f]{40}$/.test(sha.trim())) continue;
+      if (ownTrailer?.test(body ?? "")) continue;
+      commits.push({ sha: sha.trim(), subject: (subject ?? "").trim() });
+    }
+    return { base: row.base, files: watched, commits: commits.slice(0, MAX_LISTED), total: commits.length };
+  } catch {
+    return null;
+  }
+}
+
+// ../lib/output-paths.ts
+function parseOutputPaths(value) {
+  if (!value) return null;
+  try {
+    const parsed = JSON.parse(value);
+    if (!Array.isArray(parsed)) return null;
+    const paths = parsed.filter((entry) => typeof entry === "string");
+    return paths.length ? paths : null;
+  } catch {
+    return null;
+  }
+}
+
+// ../lib/card-ops/output-paths.ts
+function addOutputPath(db2, id, relativePath, now) {
+  return transaction(db2, () => {
+    const row = getRow(db2, `SELECT output_paths FROM cards WHERE id = ?`, id);
+    if (!row) return { ok: false, reason: "not-found" };
+    const existing = parseOutputPaths(row.output_paths) ?? [];
+    if (existing.includes(relativePath)) return { ok: true, outputPaths: existing, alreadyRecorded: true };
+    const outputPaths = [...existing, relativePath];
+    runChanges(db2, `UPDATE cards SET output_paths = ?, updated_at = ? WHERE id = ?`, JSON.stringify(outputPaths), now, id);
+    return { ok: true, outputPaths, alreadyRecorded: false };
+  });
 }
 
 // ../lib/card-ops/save-test-report.ts
@@ -25297,7 +25683,7 @@ function codeClashError(db2, code, clash) {
     );
   }
   return new CardGroupError(
-    `A group with code ${code} already exists: ${clash.id} (${clash.name}). Use that id as groupId instead of creating a new one.`,
+    `A chain with code ${code} already exists: ${clash.id} (${clash.name}). Use that id as groupId instead of creating a new one.`,
     "conflict",
     detail
   );
@@ -25311,16 +25697,16 @@ function assertGroupAssignable(db2, groupId, projectId) {
   if (groupId === null || groupId === void 0) return;
   const group = getGroup(db2, groupId);
   if (!group) {
-    throw new CardGroupError(`Group not found: ${groupId}. Call list_groups for valid ids, or create_group first.`);
+    throw new CardGroupError(`Chain not found: ${groupId}. Call list_groups for valid ids, or create_group first.`);
   }
   if (group.projectId && projectId && group.projectId !== projectId) {
     throw new CardGroupError(
-      `Group ${group.code} belongs to another project (${group.projectId}); this card is in ${projectId}.`
+      `Chain ${group.code} belongs to another project (${group.projectId}); this card is in ${projectId}.`
     );
   }
   if (group.archivedAt) {
     throw new CardGroupError(
-      `Group ${group.code} is archived. Unarchive it with update_group({ id: "${group.id}", archived: false }) or create a new group.`,
+      `Chain ${group.code} is archived. Unarchive it with update_group({ id: "${group.id}", archived: false }) or create a new chain.`,
       "conflict"
     );
   }
@@ -25329,7 +25715,7 @@ function createGroup(db2, input, now = (/* @__PURE__ */ new Date()).toISOString(
   assertGroupsTable(db2);
   const code = normalizeGroupCode(input.code ?? "");
   if (!code) {
-    throw new CardGroupError("Group code is required: letters and digits, up to 6 characters (e.g. MOBILE).");
+    throw new CardGroupError("Chain code is required: letters and digits, up to 6 characters (e.g. MOBILE).");
   }
   const projectId = input.projectId || null;
   if (projectId) assertProjectExists(db2, projectId);
@@ -25361,10 +25747,10 @@ function createGroup(db2, input, now = (/* @__PURE__ */ new Date()).toISOString(
 }
 function updateGroup(db2, id, updates, now = (/* @__PURE__ */ new Date()).toISOString()) {
   const existing = getGroup(db2, id);
-  if (!existing) throw new CardGroupError(`Group not found: ${id}`, "not_found");
+  if (!existing) throw new CardGroupError(`Chain not found: ${id}`, "not_found");
   const code = updates.code !== void 0 ? normalizeGroupCode(String(updates.code)) : existing.code;
   const name = updates.name !== void 0 ? String(updates.name).trim() : existing.name;
-  if (!code || !name) throw new CardGroupError("Group code and name cannot be empty.");
+  if (!code || !name) throw new CardGroupError("Chain code and name cannot be empty.");
   const color = updates.color !== void 0 ? updates.color || null : existing.color;
   const projectId = updates.projectId !== void 0 ? updates.projectId || null : existing.projectId;
   const wasArchived = Boolean(existing.archivedAt);
@@ -25379,7 +25765,7 @@ function updateGroup(db2, id, updates, now = (/* @__PURE__ */ new Date()).toISOS
     const { open } = memberProgress(db2, id);
     if (open > 0) {
       throw new CardGroupError(
-        `Group ${existing.code} has ${open} open card(s); finish or move them before archiving.`,
+        `Chain ${existing.code} has ${open} open card(s); finish or move them before archiving.`,
         "conflict"
       );
     }
@@ -25394,7 +25780,7 @@ function updateGroup(db2, id, updates, now = (/* @__PURE__ */ new Date()).toISOS
     );
     if (Number(strays?.count ?? 0) > 0) {
       throw new CardGroupError(
-        `Group ${existing.code} has ${strays.count} card(s) from another project; move them out of the group first, or keep it global.`,
+        `Chain ${existing.code} has ${strays.count} card(s) from another project; move them out of the chain first, or keep it global.`,
         "conflict"
       );
     }
@@ -25403,13 +25789,19 @@ function updateGroup(db2, id, updates, now = (/* @__PURE__ */ new Date()).toISOS
   if (!archived && (unarchiving || code !== existing.code || projectId !== existing.projectId)) {
     const clash = findCodeClash(db2, code, projectId, id);
     if (clash && unarchiving && code === existing.code) {
+      if (memberProgress(db2, clash.id).total === 0) {
+        throw new CardGroupError(
+          `Code ${code} is held by an empty chain ${clash.id} (${clash.name}) with no cards. Delete it with delete_group({ id: "${clash.id}" }) and unarchive again, or change this chain's code in the same call.`,
+          "conflict"
+        );
+      }
       throw new CardGroupError(
-        `Code ${code} is now used by group ${clash.id} (${clash.name}); change this group's code in the same call to unarchive it.`,
+        `Code ${code} is now used by chain ${clash.id} (${clash.name}); change this chain's code in the same call to unarchive it.`,
         "conflict"
       );
     }
     if (clash) {
-      throw new CardGroupError(`Code ${code} is already used by group ${clash.id} (${clash.name}).`, "conflict");
+      throw new CardGroupError(`Code ${code} is already used by chain ${clash.id} (${clash.name}).`, "conflict");
     }
   }
   const archivedAt = archived ? existing.archivedAt ?? now : null;
@@ -25440,7 +25832,7 @@ function updateGroup(db2, id, updates, now = (/* @__PURE__ */ new Date()).toISOS
 function deleteGroup(db2, id) {
   return transaction(db2, () => {
     const group = getGroup(db2, id);
-    if (!group) throw new CardGroupError(`Group not found: ${id}`, "not_found");
+    if (!group) throw new CardGroupError(`Chain not found: ${id}`, "not_found");
     const { changes } = runChanges(db2, `UPDATE cards SET group_id = NULL WHERE group_id = ?`, id);
     runChanges(db2, `DELETE FROM card_groups WHERE id = ?`, id);
     return { group, releasedCards: changes };
@@ -25454,11 +25846,11 @@ function moveCardInChain(db2, cardId, afterCardId, expectedGroupId) {
     const card = getRow(db2, `SELECT group_id AS groupId FROM cards WHERE id = ?`, cardId);
     if (!card) throw new CardGroupError(`Card not found: ${cardId}`, "not_found");
     if (expectedGroupId !== void 0 && card.groupId !== expectedGroupId) {
-      throw new CardGroupError("Card is not in this group.");
+      throw new CardGroupError("Card is not in this chain.");
     }
     if (!card.groupId) {
       throw new CardGroupError(
-        "This card is in no group, so it has no chain to order. Pass groupId in the same call to add it to one."
+        "This card is in no chain, so it has nothing to order. Pass groupId in the same call to add it to one."
       );
     }
     const members = allRows(
@@ -25467,7 +25859,7 @@ function moveCardInChain(db2, cardId, afterCardId, expectedGroupId) {
       card.groupId
     );
     if (afterCardId !== null && !members.some((member) => member.id === afterCardId)) {
-      throw new CardGroupError("afterCardId is not in this card's group. Call list_groups to see the chain.");
+      throw new CardGroupError("afterCardId is not in this card's chain. Call list_groups to see the chain.");
     }
     const current = [...members].sort(compareByChainOrder);
     const ids = placeAfter(members, cardId, afterCardId);
@@ -25616,9 +26008,9 @@ function waitPath(db2, from, to) {
   while (queue.length > 0) {
     const current = queue.shift();
     if (current === to) {
-      const path7 = [];
-      for (let step = current; step !== null; step = previous.get(step) ?? null) path7.unshift(step);
-      return path7;
+      const path8 = [];
+      for (let step = current; step !== null; step = previous.get(step) ?? null) path8.unshift(step);
+      return path8;
     }
     for (const { next } of allRows(
       db2,
@@ -25640,9 +26032,9 @@ function linkOne(db2, cardId, entry, now) {
   if (predecessor.id === cardId) {
     throw new CardDependencyError("self", `${label(card)} cannot wait on itself.`);
   }
-  const path7 = waitPath(db2, predecessor.id, cardId);
-  if (path7) {
-    const names = path7.map((id) => {
+  const path8 = waitPath(db2, predecessor.id, cardId);
+  if (path8) {
+    const names = path8.map((id) => {
       const row = cardRow(db2, id);
       return row ? label(row) : id;
     });
@@ -25972,7 +26364,7 @@ function restoreDependencies(db2, links, now) {
 }
 
 // ../lib/card-ops/create-card.ts
-function createCard(db2, given, now) {
+function createCard(db2, given, now, author) {
   const input = externalizeFields(given.id, given, CARD_RICH_FIELDS);
   const status = input.status || "backlog";
   if (!isStatus(status)) return { ok: false, reason: "invalid-status" };
@@ -26033,6 +26425,18 @@ function createCard(db2, given, now) {
       ...Object.values(columns)
     );
     if (input.blockedBy && input.blockedBy.length > 0) setBlockedBy(db2, input.id, input.blockedBy, now, "add");
+    recordAuthorship(db2, {
+      cardId: input.id,
+      author,
+      now,
+      before: {},
+      after: {
+        description: input.description,
+        aiOpinion: input.aiOpinion,
+        solutionSummary: input.solutionSummary,
+        testScenarios: input.testScenarios
+      }
+    });
     return { ok: true, id: input.id, status, taskNumber, projectFolder, completedAt };
   });
 }
@@ -26042,6 +26446,12 @@ function saveOpinion(db2, args) {
   const markers = parseOpinionMarkers(args.source);
   const verdict = markers.verdict ?? args.fallbackVerdict ?? null;
   const keep = args.mode === "append";
+  const html = externalizeInlineImages(args.id, args.html);
+  return transaction(db2, () => writeOpinion(db2, args, html, verdict, markers, keep));
+}
+function writeOpinion(db2, args, html, verdict, markers, keep) {
+  const before = getRow(db2, `SELECT ai_opinion FROM cards WHERE id = ?`, args.id);
+  if (!before) return { ok: false, reason: "not-found" };
   const { changes } = runChanges(
     db2,
     `UPDATE cards SET
@@ -26052,7 +26462,7 @@ function saveOpinion(db2, args) {
        complexity = COALESCE(?, complexity),
        updated_at = ?
      WHERE id = ?`,
-    externalizeInlineImages(args.id, args.html),
+    html,
     verdict,
     markers.score,
     markers.priority,
@@ -26061,6 +26471,14 @@ function saveOpinion(db2, args) {
     args.id
   );
   if (changes === 0) return { ok: false, reason: "not-found" };
+  recordAuthorship(db2, {
+    cardId: args.id,
+    author: args.author,
+    now: args.now,
+    before: { aiOpinion: before.ai_opinion },
+    after: { aiOpinion: html },
+    replaces: !keep
+  });
   const row = getRow(
     db2,
     `SELECT ai_verdict AS verdict, ai_score AS score, priority, complexity FROM cards WHERE id = ?`,
@@ -26086,7 +26504,7 @@ function opinionEditFields(previous, next) {
 }
 
 // ../lib/card-ops/update-card.ts
-var COLUMN2 = {
+var COLUMN3 = {
   title: "title",
   description: "description",
   solutionSummary: "solution_summary",
@@ -26115,7 +26533,7 @@ function updateCard(db2, args) {
   return transaction(db2, () => {
     const existing = getRow(
       db2,
-      `SELECT status, completed_at, updated_at, test_scenarios, ai_opinion, priority, complexity,
+      `SELECT status, completed_at, updated_at, description, solution_summary, test_scenarios, ai_opinion, priority, complexity,
               project_id, group_id, task_number
        FROM cards WHERE id = ?`,
       id
@@ -26123,8 +26541,13 @@ function updateCard(db2, args) {
     if (!existing) return { ok: false, reason: "not-found" };
     const set2 = { ...fields };
     if (fields.testScenarios !== void 0 && existing.test_scenarios) {
-      const stale = !!args.baseUpdatedAt && args.baseUpdatedAt !== existing.updated_at;
-      set2.testScenarios = stale ? mergeStaleTestWrite(existing.test_scenarios, fields.testScenarios) : mergeTestCheckState(existing.test_scenarios, fields.testScenarios);
+      if (!args.baseUpdatedAt) {
+        set2.testScenarios = mergeTestCheckState(existing.test_scenarios, fields.testScenarios);
+      } else if (args.baseUpdatedAt !== existing.updated_at) {
+        set2.testScenarios = mergeStaleTestWrite(existing.test_scenarios, fields.testScenarios);
+      } else {
+        set2.testScenarios = normalizeTestsHtml(fields.testScenarios);
+      }
     }
     if (fields.aiOpinion !== void 0) {
       const edited = opinionEditFields(existing.ai_opinion, fields.aiOpinion);
@@ -26169,7 +26592,7 @@ function updateCard(db2, args) {
     const columns = [];
     const values = [];
     for (const [key, value] of Object.entries(set2)) {
-      columns.push(`${COLUMN2[key]} = ?`);
+      columns.push(`${COLUMN3[key]} = ?`);
       values.push(key === "useWorktree" ? serializeUseWorktreeForDb(value) : value);
     }
     if (projectChanged) {
@@ -26184,6 +26607,23 @@ function updateCard(db2, args) {
     }
     if (columns.length > 0) {
       runChanges(db2, `UPDATE cards SET ${[...columns, "updated_at = ?"].join(", ")} WHERE id = ?`, ...values, now, id);
+      recordAuthorship(db2, {
+        cardId: id,
+        author: args.author,
+        now,
+        before: {
+          description: existing.description,
+          aiOpinion: existing.ai_opinion,
+          solutionSummary: existing.solution_summary,
+          testScenarios: existing.test_scenarios
+        },
+        after: {
+          description: set2.description,
+          aiOpinion: set2.aiOpinion,
+          solutionSummary: set2.solutionSummary,
+          testScenarios: set2.testScenarios
+        }
+      });
     }
     const placed = args.afterCardId !== void 0 ? moveCardInChain(db2, id, args.afterCardId) : null;
     if (args.blockedBy !== void 0) setBlockedBy(db2, id, args.blockedBy, now, "replace");
@@ -26205,12 +26645,12 @@ __export(card_queue_exports, {
   TERMINAL_WRITE_OPTIONS: () => TERMINAL_WRITE_OPTIONS,
   compareByQueuePosition: () => compareByQueuePosition,
   conflictingLiveRun: () => conflictingLiveRun,
+  folderHoldFor: () => folderHoldFor,
   liveRunPhrase: () => liveRunPhrase,
   liveRunSubject: () => liveRunSubject,
   queueIneligibleReason: () => queueIneligibleReason,
   queueRanks: () => queueRanks,
   sharedWorkingCopyWith: () => sharedWorkingCopyWith,
-  terminalHoldFor: () => terminalHoldFor,
   writeConflictFor: () => writeConflictFor
 });
 var QUEUE_CLEARING_STATUSES = /* @__PURE__ */ new Set([
@@ -26300,10 +26740,11 @@ function writeConflictFor(input) {
     message: `The queue is running on main (${next.displayId ?? "a card"} is next). ${TERMINAL_WRITE_OPTIONS}`
   };
 }
-function terminalHoldFor(next, writers) {
+function folderHoldFor(next, writers) {
   const writer = conflictingLiveRun(next, writers);
   if (!writer) return null;
-  return `${next.displayId ?? "the next card"} waits: ${liveRunSubject(writer)} in the same folder`;
+  const folder = next.displayId ? `${next.displayId}'s folder` : "the next card's folder";
+  return `${liveRunSubject(writer)} in ${folder}`;
 }
 
 // ../lib/prompts/phase.ts
@@ -26777,13 +27218,13 @@ var TERMINAL_WRITER_TTL_MS = 10 * 6e4;
 function writeRuntime(db2, input) {
   transaction(db2, () => {
     runChanges(db2, "DELETE FROM live_folder_runs");
-    const insert = db2.prepare(
+    const insert2 = db2.prepare(
       `INSERT INTO live_folder_runs
          (id, project_id, card_id, display_id, kind, runs_in_worktree, source, from_queue, touched_files, seen_at)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
     );
     for (const run2 of input.runs) {
-      insert.run(
+      insert2.run(
         run2.id,
         run2.projectId,
         run2.cardId,
@@ -27165,7 +27606,10 @@ var mockup_request_exports = {};
 __export(mockup_request_exports, {
   MOCKUP_OFFER_HINT: () => MOCKUP_OFFER_HINT,
   buildMockupRequest: () => buildMockupRequest,
+  cardMockups: () => cardMockups,
+  cardMockupsWithSource: () => cardMockupsWithSource,
   hasMockupArtifact: () => hasMockupArtifact,
+  listMockupArtifacts: () => listMockupArtifacts,
   mockupTargetSection: () => mockupTargetSection
 });
 function mockupTargetSection(status) {
@@ -27178,18 +27622,102 @@ function buildMockupRequest(focus) {
 Focus only on: ${trimmed}` : request;
 }
 var HTML_FILE = /\.html?(?:[?#].*)?$/i;
-function hasMockupArtifact(html) {
-  if (!html) return false;
-  for (const tag of html.match(/<span\b[^>]*data-type="artifactMention"[^>]*>/gi) ?? []) {
-    const path7 = tag.match(/data-path="([^"]*)"/i)?.[1];
-    if (path7 && HTML_FILE.test(path7)) return true;
+function listMockupArtifacts(html) {
+  if (!html) return [];
+  const found = [];
+  for (const match of html.matchAll(/<span\b[^>]*data-type="artifactMention"[^>]*>/gi)) {
+    const path8 = match[0].match(/data-path="([^"]*)"/i)?.[1];
+    if (path8 && HTML_FILE.test(path8)) found.push({ at: match.index ?? 0, path: decodeEntities2(path8) });
   }
   for (const match of html.matchAll(/file:\/\/[^"'\s)<]+/gi)) {
-    if (HTML_FILE.test(match[0])) return true;
+    if (!HTML_FILE.test(match[0])) continue;
+    const path8 = fileUrlToPath(decodeEntities2(match[0]));
+    if (path8) found.push({ at: match.index ?? 0, path: path8 });
   }
-  return false;
+  const seen = /* @__PURE__ */ new Set();
+  const paths = [];
+  for (const { path: path8 } of found.sort((a, b2) => a.at - b2.at)) {
+    if (seen.has(path8)) continue;
+    seen.add(path8);
+    paths.push(path8);
+  }
+  return paths;
 }
-var MOCKUP_OFFER_HINT = `Mockup: if this card changes UI and its target tab (AI Opinion on an ideation card, the plan after that) has no mockup yet, ask the user in one sentence whether they want an HTML mockup. Only on yes, put the whole file in the save_opinion / save_plan text as one fenced block, \`\`\`html artifact="short-name.html"\`, as its first item followed by a \`## Mockup\` heading; Ideafy saves it into the card folder and shows it as a link. Never draw one unasked.`;
+function decodeEntities2(text) {
+  return text.replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&#39;/g, "'");
+}
+function hasMockupArtifact(html) {
+  return listMockupArtifacts(html).length > 0;
+}
+function cardMockups(card) {
+  const all = [card.aiOpinion, card.solutionSummary, card.description].flatMap(listMockupArtifacts);
+  return [...new Set(all)];
+}
+function cardMockupsWithSource(card) {
+  const sourceOf = /* @__PURE__ */ new Map();
+  for (const [source, html] of [
+    ["solution", card.solutionSummary],
+    ["opinion", card.aiOpinion],
+    ["description", card.description]
+  ]) {
+    for (const path8 of listMockupArtifacts(html)) {
+      if (!sourceOf.has(path8)) sourceOf.set(path8, source);
+    }
+  }
+  const planHasOne = [...sourceOf.values()].includes("solution");
+  if (!planHasOne) {
+    return cardMockups(card).map((path8) => ({ path: path8, source: sourceOf.get(path8), dimmed: false }));
+  }
+  return [...sourceOf].map(([path8, source]) => ({ path: path8, source, dimmed: source !== "solution" }));
+}
+var MOCKUP_OFFER_HINT = `Mockup: if this card changes UI and its target tab (AI Opinion on an ideation card, the plan after that) has no mockup yet, ask the user in one sentence whether they want an HTML mockup. Only on yes, put the whole file in the save_opinion / save_plan text as one fenced block, \`\`\`html artifact="short-name.html"\`, as its first item followed by a \`## Mockup\` heading; Ideafy saves it into the card folder and shows it as a link. Never draw one unasked. If the tab already has a mockup and the user asks for a new one, replace its link and its \`## Mockup\` section in place, keep the rest of the text as it is, and leave the old file on disk.`;
+
+// ../lib/card-mockups.ts
+var card_mockups_exports = {};
+__export(card_mockups_exports, {
+  mockupState: () => mockupState,
+  resolveCardMockupFile: () => resolveCardMockupFile
+});
+import { existsSync as existsSync3, realpathSync as realpathSync2, statSync as statSync2 } from "fs";
+import path4 from "path";
+function isInside2(child, parent) {
+  return child === parent || child.startsWith(parent + path4.sep);
+}
+function realDir(dir) {
+  try {
+    return realpathSync2(dir);
+  } catch {
+    return null;
+  }
+}
+function mockupState(cardId, absPath, cardDir = cardArtifactDir(cardId)) {
+  if (!path4.isAbsolute(absPath) || absPath.includes("\0")) return { state: "missing" };
+  let real;
+  try {
+    real = realpathSync2(absPath);
+    if (!statSync2(real).isFile()) return { state: "missing" };
+  } catch {
+    return { state: "missing" };
+  }
+  const root = realDir(cardDir);
+  if (!root || !isInside2(real, root) || real === root) return { state: "outside" };
+  return { state: "preview", relPath: path4.relative(root, real).split(path4.sep).join("/") };
+}
+function resolveCardMockupFile(cardId, segments, cardDir = cardArtifactDir(cardId)) {
+  if (segments.length === 0) return null;
+  for (const segment of segments) {
+    if (!segment || segment === "." || segment === ".." || segment.includes("\0") || /[\\/]/.test(segment)) {
+      return null;
+    }
+  }
+  const root = realDir(cardDir);
+  if (!root) return null;
+  const candidate = path4.join(root, ...segments);
+  if (!existsSync3(candidate)) return null;
+  const real = realpathSync2(candidate);
+  if (!isInside2(real, root) || real === root || !statSync2(real).isFile()) return null;
+  return real;
+}
 
 // ../lib/test-report-files.ts
 var test_report_files_exports = {};
@@ -27199,12 +27727,12 @@ __export(test_report_files_exports, {
   removeTestReportRunDirs: () => removeTestReportRunDirs,
   testReportRunDir: () => testReportRunDir
 });
-import { copyFileSync as copyFileSync3, mkdirSync as mkdirSync3, rmSync, statSync as statSync2 } from "fs";
+import { copyFileSync as copyFileSync3, mkdirSync as mkdirSync3, rmSync, statSync as statSync3 } from "fs";
 import { homedir as homedir2 } from "os";
-import path4 from "path";
+import path5 from "path";
 var MAX_SCREENSHOT_BYTES = 20 * 1024 * 1024;
 function testReportRunDir(cardId, runId, homeDir) {
-  return path4.join(cardArtifactDir(cardId, homeDir), TEST_REPORT_DIR, runId);
+  return path5.join(cardArtifactDir(cardId, homeDir), TEST_REPORT_DIR, runId);
 }
 function removeTestReportRunDirs(cardId, runs, homeDir) {
   for (const run2 of runs) {
@@ -27218,7 +27746,7 @@ function removeTestReportRunDirs(cardId, runs, homeDir) {
 }
 function isFile(p) {
   try {
-    const stat = statSync2(p);
+    const stat = statSync3(p);
     return stat.isFile() && stat.size <= MAX_SCREENSHOT_BYTES;
   } catch {
     return false;
@@ -27227,7 +27755,7 @@ function isFile(p) {
 function keepWrittenArtifacts(items, runDir) {
   return items.map((item) => ({
     ...item,
-    artifacts: item.artifacts.map((artifact) => ({ ...artifact, file: path4.basename(artifact.file) })).filter((artifact) => isTestReportImageName(artifact.file) && isFile(path4.join(runDir, artifact.file)))
+    artifacts: item.artifacts.map((artifact) => ({ ...artifact, file: path5.basename(artifact.file) })).filter((artifact) => isTestReportImageName(artifact.file) && isFile(path5.join(runDir, artifact.file)))
   }));
 }
 function importTerminalArtifacts(items, runDir) {
@@ -27236,9 +27764,9 @@ function importTerminalArtifacts(items, runDir) {
   return items.map((item) => ({
     ...item,
     artifacts: item.artifacts.flatMap((artifact) => {
-      const source = artifact.file.startsWith("~/") ? path4.join(homedir2(), artifact.file.slice(2)) : artifact.file;
-      if (!path4.isAbsolute(source) || !isFile(source)) return [];
-      const ext = path4.extname(source).toLowerCase();
+      const source = artifact.file.startsWith("~/") ? path5.join(homedir2(), artifact.file.slice(2)) : artifact.file;
+      if (!path5.isAbsolute(source) || !isFile(source)) return [];
+      const ext = path5.extname(source).toLowerCase();
       const file2 = `shot-${++n}${ext}`;
       if (!isTestReportImageName(file2)) return [];
       try {
@@ -27246,7 +27774,7 @@ function importTerminalArtifacts(items, runDir) {
           mkdirSync3(runDir, { recursive: true });
           made = true;
         }
-        copyFileSync3(source, path4.join(runDir, file2));
+        copyFileSync3(source, path5.join(runDir, file2));
         return [{ ...artifact, file: file2 }];
       } catch {
         return [];
@@ -27388,6 +27916,7 @@ function testReportCardSummary(runs) {
 var card_phase_exports = {};
 __export(card_phase_exports, {
   BOARD_PHASE_ACTIONS: () => BOARD_PHASE_ACTIONS,
+  QUICK_FIX_STATUSES: () => QUICK_FIX_STATUSES,
   canEvaluateFor: () => canEvaluateFor,
   canGenerateFor: () => canGenerateFor,
   canPreVerify: () => canPreVerify,
@@ -27401,6 +27930,7 @@ __export(card_phase_exports, {
   getPhaseLabels: () => getPhaseLabels,
   isAutonomousAction: () => isAutonomousAction,
   isPhaseActionShown: () => isPhaseActionShown,
+  nextStepFor: () => nextStepFor,
   terminalStartRefusal: () => terminalStartRefusal,
   verifyRunBlurb: () => verifyRunBlurb
 });
@@ -27424,39 +27954,32 @@ function getPhaseLabels(phase, mode = "development", verifyGroup = null) {
 function phaseLabels(phase, mode, verifyGroup) {
   if (mode === "work") {
     if (phase === "planning") {
-      return { play: "Plan Task (Autonomous)", terminal: "Work on it (Interactive)" };
+      return { play: "Write plan", terminal: "Work on it" };
     }
     if (phase === "implementation") {
-      return { play: "Implement (Autonomous)", terminal: "Work on it (Interactive)" };
+      return { play: "Implement", terminal: "Work on it" };
     }
     if (phase === "retest") {
-      return { play: "Re-test (Autonomous)", terminal: "Revise (Interactive)" };
+      return { play: "Re-test", terminal: "Revise" };
     }
   }
   switch (phase) {
+    // No "(Autonomous)" / "(Interactive)" suffix (IDE-485): the next-step
+    // menu's two sections say which kind a row is.
     case "planning":
-      return {
-        play: "Plan Task (Autonomous)",
-        terminal: "Plan Task (Interactive)"
-      };
+      return { play: "Write plan", terminal: "Plan together" };
     case "implementation":
-      return {
-        play: "Implement (Autonomous)",
-        terminal: "Implement (Interactive)"
-      };
+      return { play: "Implement", terminal: "Implement together" };
     case "retest":
-      return {
-        play: "Re-test (Autonomous)",
-        terminal: "Fix Issues (Interactive)"
-      };
+      return { play: "Re-test", terminal: "Fix together" };
     case "verify":
       return {
         // No group left to tick: the press can only re-check the core flow
         // on screen, for the Test Report (IDE-468).
-        play: !verifyGroup ? "Re-check core flow on screen (Autonomous)" : !verifyGroup.core ? `Pre-verify: ${testGroupLabel(verifyGroup)} (Autonomous)` : "Pre-verify core flow (Autonomous)",
+        play: !verifyGroup ? "Re-check core flow on screen" : !verifyGroup.core ? `Pre-verify ${testGroupLabel(verifyGroup)}` : "Pre-verify core flow",
         // Human Test'te terminal, çeklisti yürüten değil çeklistin dışına çıkan
         // oturumdur: gündemi kullanıcı getirir, kartta yazmayan bir şeydir.
-        terminal: "Report an Issue (Interactive)"
+        terminal: "Open in terminal"
       };
   }
 }
@@ -27484,8 +28007,9 @@ function verifyRunBlurb(scope, group) {
   }
   return "The agent runs the core flow only and ticks the steps that pass. Later groups and your own ticks stay untouched.";
 }
+var QUICK_FIX_STATUSES = ["bugs", "backlog"];
 function canQuickFixFor(card) {
-  return card.status === "bugs" && !!(card.description && (card.projectId || card.projectFolder));
+  return QUICK_FIX_STATUSES.includes(card.status) && !!(card.description && (card.projectId || card.projectFolder));
 }
 function canGenerateFor(card, mode) {
   return mode === "work" && canStartCard(card) && (card.status === "backlog" || card.status === "bugs" || card.status === "progress");
@@ -27557,6 +28081,227 @@ function terminalStartRefusal(card, solutionText, testText, testProgress, mode =
   }
   return null;
 }
+var STEP_DESC = {
+  stop: "Kill the run and release the card",
+  "chat-running": "Wait for the chat on this card to finish",
+  locked: "Someone else is working on this card",
+  unlock: "Release the card once the terminal session is done",
+  queued: "Will run automatically",
+  "start-now": "Leave the queue and run it now",
+  unqueue: "Keep the card, drop its queued run",
+  evaluate: "Ideafy writes an opinion with a verdict",
+  play: "",
+  "pre-verify-all": "Walk every group with unticked steps",
+  recheck: "Run the ticked core flow again in a browser",
+  "quick-fix": "Straight to code, no plan first",
+  generate: "Write the document from the description",
+  queue: "Runs when the queue reaches it",
+  autopilot: "Carry the card through every phase",
+  discuss: "Open a session about the idea",
+  argue: "Push back on the opinion in the card chat",
+  talk: "Settle the open questions in the card chat",
+  terminal: "",
+  "test-together": "Walk the checklist in a session",
+  accept: "Move it to Backlog",
+  withdraw: "Set it aside, keep its history",
+  merge: "Land the branch on main",
+  complete: "Close the card, nothing to merge",
+  report: "Screens and notes from the last run"
+};
+var PLAY_DESC = {
+  planning: "Ideafy writes the plan",
+  implementation: "Ideafy builds it from the plan",
+  retest: "",
+  verify: "Ideafy walks the group and ticks what passes"
+};
+var TERMINAL_DESC = {
+  planning: "Write the plan with Claude in a session",
+  implementation: "Build it with Claude in a session",
+  retest: "Fix the failed steps in a session",
+  verify: "Report an issue in a session"
+};
+function phasePrimary(card, flags, ctx, rows) {
+  const has = (id) => rows.has(id);
+  if (flags.canGenerate) return "generate";
+  if (card.status === "ideation") {
+    if (!ctx.hasOpinion) return has("evaluate") ? "evaluate" : "accept";
+    if (card.aiVerdict === "maybe") return "talk";
+    if (card.aiVerdict === "negative") return "withdraw";
+    return "accept";
+  }
+  if (card.status === "bugs" && has("quick-fix")) return "quick-fix";
+  if (card.status === "test") {
+    if (flags.phase === "verify" && nextVerifyGroup(ctx.testProgress)) return "play";
+    const progress = ctx.testProgress;
+    const allTicked = !!progress && progress.total > 0 && progress.checked === progress.total;
+    if (!allTicked && has("test-together")) return "test-together";
+    return ctx.hasBranch ? "merge" : "complete";
+  }
+  if (flags.phase === "retest") return has("terminal") ? "terminal" : null;
+  if (flags.canRunAutonomous && flags.phase !== "verify") return "play";
+  return has("terminal") ? "terminal" : null;
+}
+function nextStepFor(card, flags, ctx) {
+  const { phase, labels } = flags;
+  const open = card.status !== "completed" && card.status !== "withdrawn";
+  if (!open) return { primary: null, ideafy: [], together: [] };
+  const verifyGroup = phase === "verify" ? nextVerifyGroup(ctx.testProgress) : null;
+  const interactiveBlock = ctx.running ? "A run is going" : ctx.chatting ? "Chat running" : ctx.softLock ? "Someone else is working on this card" : ctx.locked ? "Session open" : ctx.surface === "mobile" ? "Works at your Mac" : void 0;
+  const autonomousBlock = ctx.running ? "A run is going" : ctx.chatting ? "Chat running" : ctx.softLock ? "Someone else is working on this card" : ctx.locked ? "Session open" : ctx.queueRank > 0 ? `Queued #${ctx.queueRank}` : void 0;
+  const mobileMeta = ctx.surface === "mobile" ? "at Mac" : void 0;
+  const ideafy = [];
+  const together = [];
+  const row = (list, r) => {
+    const full = { ...r, desc: r.desc ?? STEP_DESC[r.id] };
+    if (!full.disabledReason) delete full.disabledReason;
+    if (!full.meta) delete full.meta;
+    list.push(full);
+  };
+  if (flags.canEvaluate) {
+    row(ideafy, {
+      id: "evaluate",
+      title: ctx.hasOpinion ? "Re-evaluate" : "Evaluate",
+      kind: "ai",
+      disabledReason: autonomousBlock
+    });
+  }
+  if (flags.canGenerate) {
+    row(ideafy, { id: "generate", title: "Generate", kind: "ai", disabledReason: autonomousBlock });
+  }
+  const playOffered = flags.canStart && phase !== "retest" && !(ctx.mode === "work" && phase === "implementation");
+  if (playOffered && phase !== "verify") {
+    row(ideafy, {
+      id: "play",
+      title: labels.play,
+      desc: PLAY_DESC[phase],
+      kind: "ai",
+      disabledReason: autonomousBlock ?? (flags.canRunAutonomous ? void 0 : "Not available in this column")
+    });
+  }
+  if (flags.canQuickFix) {
+    row(ideafy, {
+      id: "quick-fix",
+      title: card.status === "bugs" ? "Fix" : "Quick fix, no plan",
+      kind: "ai",
+      disabledReason: autonomousBlock
+    });
+  }
+  if (phase === "verify" && ctx.mode !== "work") {
+    if (verifyGroup) {
+      row(ideafy, {
+        id: "play",
+        title: labels.play,
+        desc: PLAY_DESC.verify,
+        kind: "ai",
+        disabledReason: autonomousBlock
+      });
+      row(ideafy, {
+        id: "pre-verify-all",
+        title: "Pre-verify all groups",
+        kind: "ai",
+        disabledReason: autonomousBlock ?? (canVerifyAllGroups(ctx.testProgress) ? void 0 : "Only one group left")
+      });
+    }
+    row(ideafy, {
+      id: "recheck",
+      title: "Re-check core flow on screen",
+      kind: "ai",
+      disabledReason: autonomousBlock ?? (verifyGroup ? "Once every group is ticked" : canRecheckOnScreen(card, ctx.testProgress, ctx.mode) ? void 0 : "No ticked core flow step yet")
+    });
+  } else if (phase === "verify" && verifyGroup) {
+    row(ideafy, {
+      id: "play",
+      title: labels.play,
+      desc: PLAY_DESC.verify,
+      kind: "ai",
+      disabledReason: autonomousBlock
+    });
+  }
+  if (playOffered && ctx.mode !== "work") {
+    row(ideafy, {
+      id: "queue",
+      title: "Add to queue",
+      kind: "ai",
+      disabledReason: ctx.running ? "A run is going" : ctx.queueRank > 0 ? `Already queued #${ctx.queueRank}` : ctx.canQueue ? void 0 : phase === "planning" ? "Needs a plan first" : phase === "verify" ? "Nothing left to pre-verify" : "Not available in this column"
+    });
+  }
+  if (flags.canStart) {
+    row(ideafy, { id: "autopilot", title: "Send to Autopilot", kind: "ai", disabledReason: "Not built yet", meta: "soon" });
+  }
+  if (flags.canEvaluate) {
+    row(together, { id: "discuss", title: "Discuss the idea", kind: "you", disabledReason: interactiveBlock, meta: mobileMeta });
+  }
+  if (card.status === "ideation" && ctx.hasOpinion) {
+    if (card.aiVerdict === "maybe") row(together, { id: "talk", title: "Talk it through", kind: "you" });
+    else row(together, { id: "argue", title: "Argue back", kind: "you" });
+  }
+  if (flags.canStart) {
+    const terminalTitle = card.status === "bugs" && phase !== "retest" && ctx.mode !== "work" ? "Fix together" : labels.terminal;
+    row(together, {
+      id: "terminal",
+      title: terminalTitle,
+      desc: TERMINAL_DESC[phase],
+      kind: "you",
+      disabledReason: interactiveBlock,
+      meta: mobileMeta
+    });
+  }
+  if (flags.canTestTogether) {
+    row(together, { id: "test-together", title: "Test together", kind: "you", disabledReason: interactiveBlock, meta: mobileMeta });
+  }
+  if (card.status === "ideation") {
+    row(together, {
+      id: "accept",
+      title: "Accept to backlog",
+      kind: "you",
+      disabledReason: ctx.running ? "A run is going" : void 0
+    });
+    row(together, { id: "withdraw", title: "Withdraw", kind: "you" });
+  }
+  if (card.status === "test") {
+    row(together, {
+      id: ctx.hasBranch ? "merge" : "complete",
+      title: ctx.hasBranch ? "Merge" : "Complete",
+      kind: "you",
+      disabledReason: ctx.running ? "A run is going" : void 0
+    });
+    if (ctx.hasReport !== false) row(together, { id: "report", title: "Open the test report", kind: "you" });
+  }
+  const rows = /* @__PURE__ */ new Map();
+  for (const r of [...ideafy, ...together]) if (!rows.has(r.id)) rows.set(r.id, r);
+  let primary;
+  if (ctx.running) {
+    primary = { id: "stop", title: "Stop", desc: STEP_DESC.stop, kind: "neutral" };
+  } else if (ctx.chatting) {
+    primary = { id: "chat-running", title: "Chat running", desc: STEP_DESC["chat-running"], kind: "neutral", disabledReason: "Chat running" };
+  } else if (ctx.softLock) {
+    primary = { id: "locked", title: "Locked", desc: STEP_DESC.locked, kind: "neutral", disabledReason: STEP_DESC.locked };
+  } else if (ctx.locked) {
+    primary = { id: "unlock", title: "Unlock", desc: "Session open", kind: "neutral" };
+  } else if (ctx.queueRank > 0) {
+    primary = { id: "queued", title: `Queued #${ctx.queueRank}`, desc: STEP_DESC.queued, kind: "neutral", disabledReason: STEP_DESC.queued };
+  } else {
+    const id = phasePrimary(card, flags, ctx, rows);
+    const base = id ? rows.get(id) : void 0;
+    primary = base ? { ...base } : null;
+    if (primary && ctx.blocker) primary.disabledReason = `waits for ${ctx.blocker}`;
+  }
+  if (primary && rows.has(primary.id) && !ctx.blocker) {
+    const mark = (list) => {
+      const i = list.findIndex((r) => r.id === primary.id);
+      if (i >= 0) list[i] = { ...list[i], meta: "default" };
+    };
+    mark(ideafy);
+    mark(together);
+  }
+  if (ctx.queueRank > 0 && !ctx.running) {
+    ideafy.unshift(
+      { id: "start-now", title: "Start now", desc: STEP_DESC["start-now"], kind: "ai", meta: `#${ctx.queueRank}` },
+      { id: "unqueue", title: "Remove from queue", desc: STEP_DESC.unqueue, kind: "neutral" }
+    );
+  }
+  return { primary, ideafy, together };
+}
 
 // ../lib/git/core.ts
 var core_exports3 = {};
@@ -27594,7 +28339,7 @@ __export(repo_exports, {
   isGitRepo: () => isGitRepo,
   worktreeHasUncommittedChanges: () => worktreeHasUncommittedChanges
 });
-import { existsSync as existsSync3 } from "fs";
+import { existsSync as existsSync4 } from "fs";
 async function isGitRepo(projectPath) {
   try {
     await git(projectPath, "rev-parse", "--git-dir");
@@ -27659,7 +28404,7 @@ async function getBranchStatus(projectPath, branchName) {
   }
 }
 async function worktreeHasUncommittedChanges(worktreePath) {
-  if (!existsSync3(worktreePath)) return false;
+  if (!existsSync4(worktreePath)) return false;
   try {
     const { stdout } = await git(worktreePath, "status", "--porcelain", "-uno");
     return stdout.trim().length > 0;
@@ -27726,7 +28471,7 @@ async function fetchRemote(projectPath) {
   }
 }
 async function getUnpushedStatus(projectPath, options = {}) {
-  if (!existsSync3(projectPath) || !await isGitRepo(projectPath)) return UNSUPPORTED;
+  if (!existsSync4(projectPath) || !await isGitRepo(projectPath)) return UNSUPPORTED;
   try {
     const { stdout: remotes } = await git(projectPath, "remote");
     if (!remotes.trim()) return UNSUPPORTED;
@@ -27803,8 +28548,8 @@ __export(worktree_exports, {
   squashMergeFromWorktree: () => squashMergeFromWorktree,
   worktreeExists: () => worktreeExists
 });
-import { existsSync as existsSync4, mkdirSync as mkdirSync4, realpathSync as realpathSync2 } from "fs";
-import path5, { join } from "path";
+import { existsSync as existsSync5, mkdirSync as mkdirSync4, realpathSync as realpathSync3 } from "fs";
+import path6, { join } from "path";
 function getWorktreeBaseDir(projectPath) {
   return join(projectPath, ".worktrees", "kanban");
 }
@@ -27814,7 +28559,7 @@ function getWorktreePath(projectPath, branchName) {
 }
 async function worktreeExists(projectPath, worktreePath) {
   try {
-    if (!existsSync4(worktreePath)) {
+    if (!existsSync5(worktreePath)) {
       return false;
     }
     const { stdout } = await git(projectPath, "worktree", "list", "--porcelain");
@@ -27861,7 +28606,7 @@ async function createWorktree(projectPath, branchName) {
   const worktreePath = getWorktreePath(projectPath, branchName);
   const baseDir = getWorktreeBaseDir(projectPath);
   try {
-    if (!existsSync4(baseDir)) {
+    if (!existsSync5(baseDir)) {
       mkdirSync4(baseDir, { recursive: true });
       console.log(`[Git Worktree] Created base directory: ${baseDir}`);
     }
@@ -27917,15 +28662,15 @@ async function removeWorktree(projectPath, worktreePath) {
 function isCwdInsideWorktree(worktreePath) {
   const resolve4 = (p) => {
     try {
-      return realpathSync2(p);
+      return realpathSync3(p);
     } catch {
-      return path5.resolve(p);
+      return path6.resolve(p);
     }
   };
   const cwd = resolve4(process.cwd());
   const wt = resolve4(worktreePath);
   if (cwd === wt) return true;
-  return cwd.startsWith(wt + path5.sep);
+  return cwd.startsWith(wt + path6.sep);
 }
 async function pruneWorktrees(projectPath) {
   try {
@@ -27996,7 +28741,7 @@ async function findCardBranch(projectPath, idPrefix, taskNumber) {
   if (names.size !== 1) return null;
   const [branchName] = names;
   const worktree = (await listWorktrees(projectPath)).find(
-    (w2) => w2.branch === branchName && !w2.isPrunable && existsSync4(w2.path)
+    (w2) => w2.branch === branchName && !w2.isPrunable && existsSync5(w2.path)
   );
   return { branchName, worktreePath: worktree?.path ?? null };
 }
@@ -28078,12 +28823,15 @@ var {
   persistCardFieldArtifacts: persistCardFieldArtifacts2,
   resolveCardRef: resolveCardRef2,
   chooseBoundPolicy: chooseBoundPolicy2,
-  validateCardTitle: validateCardTitle2
+  validateCardTitle: validateCardTitle2,
+  cardAuthorship: cardAuthorship2,
+  IDEAFY_AUTHOR: IDEAFY_AUTHOR2
 } = unwrap(card_ops_exports);
 var { writeConflictFor: writeConflictFor2 } = unwrap(card_queue_exports);
 var { normalizeComplexity: normalizeComplexity2, describeOpinionMarkers: describeOpinionMarkers2 } = unwrap(opinion_markers_exports);
 var { EVALUATION_OUTPUT_SCHEMA: EVALUATION_OUTPUT_SCHEMA2, EVALUATION_HEADINGS_RULE: EVALUATION_HEADINGS_RULE2, buildEvaluationGuide: buildEvaluationGuide2 } = unwrap(evaluation_exports);
-var { MOCKUP_OFFER_HINT: MOCKUP_OFFER_HINT2 } = unwrap(mockup_request_exports);
+var { MOCKUP_OFFER_HINT: MOCKUP_OFFER_HINT2, cardMockups: cardMockups2 } = unwrap(mockup_request_exports);
+var { mockupState: mockupState2 } = unwrap(card_mockups_exports);
 var { cardArtifactDir: cardArtifactDir2, materializeArtifactFences: materializeArtifactFences2 } = unwrap(artifact_links_exports);
 var {
   markdownToTiptapHtml: markdownToTiptapHtml2,
@@ -28121,9 +28869,9 @@ function loadSqlite() {
     );
   }
 }
-function openDatabase(path7) {
+function openDatabase(path8) {
   const { DatabaseSync } = loadSqlite();
-  const db2 = new DatabaseSync(path7);
+  const db2 = new DatabaseSync(path8);
   db2.exec("PRAGMA journal_mode = WAL");
   db2.exec("PRAGMA foreign_keys = ON");
   db2.exec("PRAGMA busy_timeout = 5000");
@@ -28136,7 +28884,7 @@ import { fileURLToPath } from "url";
 import { homedir as homedir4 } from "os";
 import { mkdirSync as mkdirSync6 } from "fs";
 
-// node_modules/uuid/dist/esm/stringify.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/uuid/dist/esm/stringify.js
 var byteToHex = [];
 for (let i = 0; i < 256; ++i) {
   byteToHex.push((i + 256).toString(16).slice(1));
@@ -28145,7 +28893,7 @@ function unsafeStringify(arr, offset = 0) {
   return (byteToHex[arr[offset + 0]] + byteToHex[arr[offset + 1]] + byteToHex[arr[offset + 2]] + byteToHex[arr[offset + 3]] + "-" + byteToHex[arr[offset + 4]] + byteToHex[arr[offset + 5]] + "-" + byteToHex[arr[offset + 6]] + byteToHex[arr[offset + 7]] + "-" + byteToHex[arr[offset + 8]] + byteToHex[arr[offset + 9]] + "-" + byteToHex[arr[offset + 10]] + byteToHex[arr[offset + 11]] + byteToHex[arr[offset + 12]] + byteToHex[arr[offset + 13]] + byteToHex[arr[offset + 14]] + byteToHex[arr[offset + 15]]).toLowerCase();
 }
 
-// node_modules/uuid/dist/esm/rng.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/uuid/dist/esm/rng.js
 import { randomFillSync } from "crypto";
 var rnds8Pool = new Uint8Array(256);
 var poolPtr = rnds8Pool.length;
@@ -28157,11 +28905,11 @@ function rng() {
   return rnds8Pool.slice(poolPtr, poolPtr += 16);
 }
 
-// node_modules/uuid/dist/esm/native.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/uuid/dist/esm/native.js
 import { randomUUID } from "crypto";
 var native_default = { randomUUID };
 
-// node_modules/uuid/dist/esm/v4.js
+// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/uuid/dist/esm/v4.js
 function v4(options, buf, offset) {
   if (native_default.randomUUID && !buf && !options) {
     return native_default.randomUUID();
@@ -28303,9 +29051,9 @@ function hasColumn(db2, table, column) {
   }
   if (known.has(key)) return true;
   const rows = db2.prepare(`PRAGMA table_info(${JSON.stringify(table)})`).all();
-  const present2 = rows.some((row) => row.name === column);
-  if (present2) known.add(key);
-  return present2;
+  const present3 = rows.some((row) => row.name === column);
+  if (present3) known.add(key);
+  return present3;
 }
 function hasCapability(db2, capability) {
   const [table, column] = CAPABILITIES[capability];
@@ -28317,7 +29065,7 @@ function missingCapabilityMessage(tool, capability) {
 }
 
 // output-paths.ts
-import { existsSync as existsSync5, realpathSync as realpathSync3, statSync as statSync3 } from "fs";
+import { existsSync as existsSync6, realpathSync as realpathSync4, statSync as statSync4 } from "fs";
 import { homedir as homedir3 } from "os";
 import { isAbsolute, relative, resolve as resolve2, sep } from "path";
 var OutputPathError = class extends Error {
@@ -28340,19 +29088,19 @@ function resolveOutputPath(projectFolder, inputPath) {
   const absolute = isAbsolute(expanded) ? resolve2(expanded) : resolve2(projectFolder, expanded);
   let projectReal;
   try {
-    projectReal = realpathSync3(projectFolder);
+    projectReal = realpathSync4(projectFolder);
   } catch {
     throw new OutputPathError(
       `The card's project folder does not exist on this machine: ${projectFolder}. Nothing was recorded.`
     );
   }
-  if (!existsSync5(absolute)) {
+  if (!existsSync6(absolute)) {
     throw new OutputPathError(
       `File not found: ${absolute}. save_output records a file that already exists \u2014 write it first, then call save_output again.`
     );
   }
-  const fileReal = realpathSync3(absolute);
-  if (!statSync3(fileReal).isFile()) {
+  const fileReal = realpathSync4(absolute);
+  if (!statSync4(fileReal).isFile()) {
     throw new OutputPathError(
       `Not a file: ${absolute}. save_output records one file at a time \u2014 call it once per file.`
     );
@@ -28401,12 +29149,12 @@ function appPort(runtime = null, env = process.env) {
   if (runtime?.appState === "open" && runtime.port?.trim()) return runtime.port.trim();
   return "3030";
 }
-async function callApp(method, path7, body, options = {}) {
+async function callApp(method, path8, body, options = {}) {
   const port = options.port ?? appPort();
   const doFetch = options.fetchImpl ?? fetch;
   let response;
   try {
-    response = await doFetch(`http://127.0.0.1:${port}${path7}`, {
+    response = await doFetch(`http://127.0.0.1:${port}${path8}`, {
       method,
       headers: body === void 0 ? void 0 : { "Content-Type": "application/json" },
       body: body === void 0 ? void 0 : JSON.stringify(body),
@@ -28584,7 +29332,7 @@ async function openCardSessionTool(db2, input, deps = {}) {
 
 // test-report.ts
 import { readFileSync as readFileSync4 } from "node:fs";
-import path6 from "node:path";
+import path7 from "node:path";
 function readTerminalReport(db2, report) {
   if (!hasCapability(db2, "testReports")) {
     return { ok: false, message: missingCapabilityMessage("save_tests", "testReports") };
@@ -28673,7 +29421,7 @@ function readTestReport(db2, card, opts = {}) {
     tried++;
     let data;
     try {
-      data = readFileSync4(path6.join(dir, artifact.file)).toString("base64");
+      data = readFileSync4(path7.join(dir, artifact.file)).toString("base64");
     } catch {
       continue;
     }
@@ -28697,7 +29445,7 @@ function readTestReport(db2, card, opts = {}) {
 }
 
 // git-helpers.ts
-import { existsSync as existsSync6, mkdirSync as mkdirSync5 } from "fs";
+import { existsSync as existsSync7, mkdirSync as mkdirSync5 } from "fs";
 async function getCurrentBranch3(cwd) {
   try {
     return await getCurrentBranch2(cwd);
@@ -28709,7 +29457,7 @@ async function createWorktree2(projectPath, branchName) {
   const worktreePath = getWorktreePath2(projectPath, branchName);
   const baseDir = getWorktreeBaseDir2(projectPath);
   try {
-    if (!existsSync6(baseDir)) {
+    if (!existsSync7(baseDir)) {
       mkdirSync5(baseDir, { recursive: true });
     }
     if (await worktreeExists2(projectPath, worktreePath)) {
@@ -28743,7 +29491,7 @@ async function listChangedFiles(repoPath, opts) {
     const defaultBranch = await getDefaultBranch2(repoPath);
     let stdout;
     if (opts.worktreePath) {
-      if (!existsSync6(opts.worktreePath)) return [];
+      if (!existsSync7(opts.worktreePath)) return [];
       const { stdout: base } = await git2(opts.worktreePath, "merge-base", defaultBranch, "HEAD");
       ({ stdout } = await git2(opts.worktreePath, "diff", "--name-only", base.trim()));
     } else if (opts.branchName) {
@@ -28767,9 +29515,9 @@ async function listUncommittedFiles(cwd, files) {
     if (files && files.length > 0) args.push("--", ...files);
     const { stdout } = await git2(cwd, ...args);
     return stdout.split("\n").filter((line) => line.length > 3).map((line) => {
-      const path7 = line.slice(3);
-      const arrow = path7.indexOf(" -> ");
-      return (arrow === -1 ? path7 : path7.slice(arrow + 4)).replace(/^"|"$/g, "");
+      const path8 = line.slice(3);
+      const arrow = path8.indexOf(" -> ");
+      return (arrow === -1 ? path8 : path8.slice(arrow + 4)).replace(/^"|"$/g, "");
     });
   } catch {
     return [];
@@ -28777,7 +29525,7 @@ async function listUncommittedFiles(cwd, files) {
 }
 
 // card-search.ts
-import { existsSync as existsSync7 } from "fs";
+import { existsSync as existsSync8 } from "fs";
 var foldCache = /* @__PURE__ */ new Map();
 function foldChar(c) {
   let ch = foldCache.get(c);
@@ -28885,7 +29633,7 @@ function findOverlap(cardFiles, callerFiles) {
 var OPEN_STATUSES = ["backlog", "bugs", "progress", "test"];
 var PLAN_STATUSES = /* @__PURE__ */ new Set(["backlog", "bugs", "progress"]);
 async function listOpenWork(db2, opts, deps) {
-  const pathExists = deps.pathExists ?? existsSync7;
+  const pathExists = deps.pathExists ?? existsSync8;
   const project = db2.prepare(`SELECT folder_path as folderPath, id_prefix as idPrefix FROM projects WHERE id = ?`).get(opts.projectId);
   if (!project) return [];
   const hasBranchColumns = hasCapability(db2, "branchStatus");
@@ -29140,6 +29888,9 @@ function queueDisplayIdOf(id) {
   const row = db.prepare(`SELECT c.title, c.task_number AS taskNumber, p.id_prefix AS idPrefix FROM cards c LEFT JOIN projects p ON p.id = c.project_id WHERE c.id = ?`).get(id);
   return row ? queueDisplayId2(row) : id;
 }
+function mockupSourceColumns(full) {
+  return full ? "ai_opinion as aiOpinion," : "ai_opinion as aiOpinion, description, solution_summary as solutionSummary,";
+}
 function aiScoreColumn(conn) {
   return hasCapability(conn, "aiScore") ? "ai_score as aiScore," : "NULL as aiScore,";
 }
@@ -29163,7 +29914,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
     tools: [
       {
         name: "get_card",
-        description: "Get a kanban card by ID. When the card belongs to a group, `chain` gives its place in that chain: position/total, predecessors and successors in chain order (displayId, title, status), and `next`, the chain's first member that is neither completed nor withdrawn. When the card has blocked-by links, `blockedBy` lists the cards it waits on and `blocks` the cards waiting on it, each with displayId, title, status, `landed` (its code is already in what this card would start from) and the link's note. When an opinion or plan suggested a link the user has not answered yet, `suggestedBlockedBy` lists those cards with the reason: ask the user, then add_dependency on yes or remove_dependency on no. When the card has a Test Report, `testReport` gives how many runs it holds and how the newest came out; read the runs themselves with get_test_report. When commits have touched the card's files since its checklist was written, `testsDrift` lists them (base, files, commits, total): the checklist may have gone stale.",
+        description: "Get a kanban card by ID. When the card belongs to a chain, `chain` gives its place in that chain: position/total, predecessors and successors in chain order (displayId, title, status), and `next`, the chain's first member that is neither completed nor withdrawn. When the card has blocked-by links, `blockedBy` lists the cards it waits on and `blocks` the cards waiting on it, each with displayId, title, status, `landed` (its code is already in what this card would start from) and the link's note. When an opinion or plan suggested a link the user has not answered yet, `suggestedBlockedBy` lists those cards with the reason: ask the user, then add_dependency on yes or remove_dependency on no. When the card has a Test Report, `testReport` gives how many runs it holds and how the newest came out; read the runs themselves with get_test_report. When commits have touched the card's files since its checklist was written, `testsDrift` lists them (base, files, commits, total): the checklist may have gone stale. `authorship` says who wrote and who last edited each tab (`you` or `ideafy`, with the date) and who ticked each checked item, so you can see what the user changed by hand.",
         inputSchema: {
           type: "object",
           properties: {
@@ -29245,11 +29996,11 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
             },
             groupId: {
               type: ["string", "null"],
-              description: 'card_groups.id this card belongs to \u2014 the chain the board folds it into. null or "" removes it from its group. Get ids from list_groups; create_group makes a new one. A group is membership only: it has no status, no completion state and no date of its own, so do not treat it as an epic.'
+              description: 'card_groups.id this card belongs to \u2014 the chain the board folds it into (chains are stored as card groups, hence the field name). null or "" removes it from its chain. Get ids from list_groups; create_group makes a new one. A chain is membership only: it has no status, no completion state and no date of its own, so do not treat it as an epic.'
             },
             afterCardId: {
               type: ["string", "null"],
-              description: `Move this card within its chain, the same as the board's "Move after\u2026": a card id or displayId from the same group puts it right behind that card, null puts it at the start. Omit to leave the order alone. With groupId in the same call, the card joins the new group first and is placed in that chain. Reordering does not bump the card's updatedAt.`
+              description: `Move this card within its chain, the same as the board's "Move after\u2026": a card id or displayId from the same chain puts it right behind that card, null puts it at the start. Omit to leave the order alone. With groupId in the same call, the card joins the new chain first and is placed in it. Reordering does not bump the card's updatedAt.`
             },
             blockedBy: {
               type: "array",
@@ -29313,7 +30064,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
       },
       {
         name: "list_cards",
-        description: "List kanban cards, optionally filtered by status. Returns a summary per card (title, status, complexity, priority, worktree fields) without description, solutionSummary or testScenarios \u2014 open a card with get_card for its content, or pass full: true. To find cards about a topic, use search_cards instead.",
+        description: "List kanban cards, optionally filtered by status. Returns a summary per card (title, status, complexity, priority, worktree fields) without description, solutionSummary or testScenarios \u2014 open a card with get_card for its content, or pass full: true. To find cards about a topic, use search_cards instead. For a request like \"open MINDS' mockups\", pass withMockups with the chain's groupId (or noChain) and open the returned paths with `open`.",
         inputSchema: {
           type: "object",
           properties: {
@@ -29329,6 +30080,18 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
             full: {
               type: "boolean",
               description: "Also return description, solutionSummary and testScenarios (with their images). Large on a big project \u2014 default false."
+            },
+            withMockups: {
+              type: "boolean",
+              description: "Only cards that link an HTML mockup in their opinion, plan or description, each with mockups: [{ path, state }] \u2014 state is preview (in the card's folder), outside (elsewhere on disk) or missing. The same list the app's Chains view shows."
+            },
+            groupId: {
+              type: "string",
+              description: "Only the cards in this chain (its groupId, from list_groups)."
+            },
+            noChain: {
+              type: "boolean",
+              description: "Only the cards in no chain."
             }
           }
         }
@@ -29431,7 +30194,7 @@ Reading the results: a newer decision overrides an older one (compare completedA
             },
             groupId: {
               type: ["string", "null"],
-              description: 'card_groups.id this card belongs to \u2014 the chain the board folds it into. Omit, null or "" for no group. Get ids from list_groups; create_group makes a new one. A group is membership only: it has no status, no completion state and no date of its own, so do not treat it as an epic.'
+              description: 'card_groups.id this card belongs to \u2014 the chain the board folds it into (chains are stored as card groups, hence the field name). Omit, null or "" for no chain. Get ids from list_groups; create_group makes a new one. A chain is membership only: it has no status, no completion state and no date of its own, so do not treat it as an epic.'
             },
             blockedBy: {
               type: "array",
@@ -29668,7 +30431,7 @@ The server writes the card's verdict, score, priority and complexity from those 
       },
       {
         name: "list_queue",
-        description: `List the run queue: the cards waiting for an autonomous run, in the order the app will start them \u2014 the order its queue popover shows. One queue serves every project; pass projectId to see one project's cards (rank stays the card's place in the whole queue). Each row: rank, id, displayId, title, status, projectId, kind (implementation = build from its plan; verify = pre-verify walk of a Human Test checklist's core flow), runsInWorktree and waitsOn (set when a card waits on a blocked-by predecessor that has not landed or was withdrawn: the queue passes over it, keeps its place and starts it once that lands). runState is what the app last reported: "running" (armed, starts the next card when nothing is live), "held" (armed, but a terminal session is editing the next card's folder \u2014 heldBy says which), "waiting" (armed, but every queued card waits on another card), "paused" (waits for Resume \u2014 pausedReason says why), "app-closed" (the app is not running, so nothing starts) or "unknown" (an app too old to report it \u2014 do not guess). To pause or resume it, use pause_queue / resume_queue \u2014 only when the user asks. The app's warnings about files shared with live runs are not included; for file overlap with other open work, use list_open_work.`,
+        description: `List the run queue: the cards waiting for an autonomous run, in the order the app will start them \u2014 the order its queue popover shows. One queue serves every project; pass projectId to see one project's cards (rank stays the card's place in the whole queue). Each row: rank, id, displayId, title, status, projectId, kind (implementation = build from its plan; verify = pre-verify walk of a Human Test checklist's core flow), runsInWorktree and waitsOn (set when a card waits on a blocked-by predecessor that has not landed or was withdrawn: the queue passes over it, keeps its place and starts it once that lands). runState is what the app last reported: "running" (armed, starts the next card when its own last card has finished and nothing else writes in the next card's folder), "held" (armed, but a live run, Tests chat or terminal session is working in the next card's folder \u2014 heldBy says which; a run in its own worktree never holds it), "waiting" (armed, but every queued card waits on another card), "paused" (waits for Resume \u2014 pausedReason says why), "app-closed" (the app is not running, so nothing starts) or "unknown" (an app too old to report it \u2014 do not guess). To pause or resume it, use pause_queue / resume_queue \u2014 only when the user asks. The app's warnings about files shared with live runs are not included; for file overlap with other open work, use list_open_work.`,
         inputSchema: {
           type: "object",
           properties: {
@@ -29802,24 +30565,24 @@ The server writes the card's verdict, score, priority and complexity from those 
       },
       {
         name: "list_groups",
-        description: "List card groups with their id, code, name and member count, plus each chain's members in chain order (displayId, title, status, position) and `next`, the first member that is neither completed nor withdrawn. A group is a chain of cards that belong to one piece of work; the board folds its cards into one row. It is membership only: no status, no completion state, no date, so do not treat it as an epic. With projectId, returns what a card in that project can join: the project's own groups plus groups not tied to any project. Archived groups are hidden unless includeArchived; archiving only stops a group being offered and frees its code, it is not a completion state. Each row carries archivedAt.",
+        description: "List chains (stored as card groups; this tool and the groupId field keep that name) with their id, code, name and member count, plus each chain's members in chain order (displayId, title, status, position) and `next`, the first member that is neither completed nor withdrawn. A chain is a run of cards that belong to one piece of work; the board folds its cards into one row. It is membership only: no status, no completion state, no date, so do not treat it as an epic. With projectId, returns what a card in that project can join: the project's own chains plus chains not tied to any project. Archived chains are hidden unless includeArchived; archiving only stops a chain being offered and frees its code, it is not a completion state. Each row carries archivedAt.",
         inputSchema: {
           type: "object",
           properties: {
             projectId: {
               type: "string",
-              description: "Only groups a card in this project can join (optional)"
+              description: "Only chains a card in this project can join (optional)"
             },
             includeArchived: {
               type: "boolean",
-              description: "Also list archived groups (default false)"
+              description: "Also list archived chains (default false)"
             }
           }
         }
       },
       {
         name: "create_group",
-        description: "Create a card group, then pass its id as groupId to create_card or update_card. Call list_groups first: a code already used in the same project is rejected and the error names the existing group to use instead. A code held by a finished chain (every card completed or withdrawn) is reported as such: archive the old group with update_group or pick another code. Never add new work to a finished chain unless it continues that exact work. The code is normalised the way the app does it: uppercase letters and digits, at most 6 characters (e.g. MOBILE).",
+        description: "Create a chain (stored as a card group; the tool and the groupId field keep that name), then pass its id as groupId to create_card or update_card. Call list_groups first: a code already used in the same project is rejected and the error names the existing chain to use instead. A code held by a finished chain (every card completed or withdrawn) is reported as such: archive the old chain with update_group or pick another code. Never add new work to a finished chain unless it continues that exact work. The code is normalised the way the app does it: uppercase letters and digits, at most 6 characters (e.g. MOBILE).",
         inputSchema: {
           type: "object",
           properties: {
@@ -29829,11 +30592,11 @@ The server writes the card's verdict, score, priority and complexity from those 
             },
             name: {
               type: "string",
-              description: "Group heading on the board, e.g. 'Mobile app'. Defaults to the code."
+              description: "Chain heading on the board, e.g. 'Mobile app'. Defaults to the code."
             },
             projectId: {
               type: "string",
-              description: "Project the group belongs to. Omit for a group offered in every project."
+              description: "Project the chain belongs to. Omit for a chain offered in every project."
             },
             color: {
               type: "string",
@@ -29845,13 +30608,13 @@ The server writes the card's verdict, score, priority and complexity from those 
       },
       {
         name: "update_group",
-        description: "Rename a card group or change its code, color or project, or archive it. Membership is changed per card with update_card's groupId, not here. Moving a group to a project is refused while it holds cards from another project; making it global (projectId null) always works. archived: true retires a group with no open cards: it is no longer offered, its code is free for a new group, and its old cards keep their code and name. archived: false brings it back, refused if another group took the code meanwhile unless you change the code in the same call.",
+        description: "Rename a chain (stored as a card group) or change its code, color or project, or archive it. Membership is changed per card with update_card's groupId, not here. Moving a chain to a project is refused while it holds cards from another project; making it global (projectId null) always works. archived: true retires a chain with no open cards: it is no longer offered, its code is free for a new chain, and its old cards keep their code and name. archived: false brings it back, refused if another chain took the code meanwhile unless you change the code in the same call.",
         inputSchema: {
           type: "object",
           properties: {
             id: {
               type: "string",
-              description: "Group id from list_groups (required)"
+              description: "Chain id from list_groups (required)"
             },
             code: {
               type: "string",
@@ -29859,7 +30622,7 @@ The server writes the card's verdict, score, priority and complexity from those 
             },
             name: {
               type: "string",
-              description: "New group heading"
+              description: "New chain heading"
             },
             color: {
               type: ["string", "null"],
@@ -29867,11 +30630,11 @@ The server writes the card's verdict, score, priority and complexity from those 
             },
             projectId: {
               type: ["string", "null"],
-              description: "Project the group belongs to, or null to offer it in every project"
+              description: "Project the chain belongs to, or null to offer it in every project"
             },
             archived: {
               type: "boolean",
-              description: "true archives the group (no open cards allowed), false unarchives it"
+              description: "true archives the chain (no open cards allowed), false unarchives it"
             }
           },
           required: ["id"]
@@ -29879,13 +30642,13 @@ The server writes the card's verdict, score, priority and complexity from those 
       },
       {
         name: "delete_group",
-        description: "Delete a card group, the same as the card modal's Delete. Its cards are not deleted: they stay in their columns, in no group, and lose their chain position. The answer says how many cards were released.",
+        description: "Delete a chain (stored as a card group), the same as the card modal's Delete chain. Its cards are not deleted: they stay in their columns, in no chain, and lose their chain position. The answer says how many cards were released.",
         inputSchema: {
           type: "object",
           properties: {
             id: {
               type: "string",
-              description: "Group id from list_groups (required)"
+              description: "Chain id from list_groups (required)"
             }
           },
           required: ["id"]
@@ -30024,6 +30787,10 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         const testReport = testReportCardSummary2(parseTestReports2(cardWithReports.testReports));
         delete cardWithReports.testReports;
         if (testReport) cardWithReports.testReport = testReport;
+        const authorship = cardAuthorship2(db, card.id);
+        if (authorship && (Object.keys(authorship.tabs).length > 0 || authorship.ticks.length > 0)) {
+          card.authorship = authorship;
+        }
         const projectRow = card.projectId ? db.prepare(`SELECT * FROM projects WHERE id = ?`).get(card.projectId) : void 0;
         const voice = projectRow?.voice ?? "builder";
         card.project = {
@@ -30182,6 +30949,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           id,
           now: (/* @__PURE__ */ new Date()).toISOString(),
           fields,
+          author: IDEAFY_AUTHOR2,
           afterCardId: reorder ? afterCardId ?? null : void 0,
           blockedBy
         });
@@ -30274,13 +31042,14 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         };
       }
       case "list_cards": {
-        const { status, projectId, full } = args;
+        const { status, projectId, full, withMockups, groupId, noChain } = args;
         const contentColumns = full ? `description,
             solution_summary as solutionSummary,
             test_scenarios as testScenarios,` : "";
+        const mockupColumns = withMockups ? mockupSourceColumns(full === true) : "";
         let query = `
           SELECT
-            cards.id AS id, title, ${contentColumns}
+            cards.id AS id, title, ${contentColumns} ${mockupColumns}
             ${aiScoreColumn(db)}
             status, complexity, priority,
             CASE WHEN cards.task_number IS NOT NULL AND projects.id_prefix IS NOT NULL
@@ -30308,11 +31077,33 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           conditions.push("project_id = ?");
           params.push(projectId);
         }
+        if (groupId) {
+          conditions.push("group_id = ?");
+          params.push(groupId);
+        } else if (noChain) {
+          conditions.push("group_id IS NULL");
+        }
         if (conditions.length > 0) {
           query += " WHERE " + conditions.join(" AND ");
         }
         query += " ORDER BY cards.updated_at DESC";
-        const cards = db.prepare(query).all(...params);
+        let cards = db.prepare(query).all(...params);
+        if (withMockups) {
+          const withLinks = [];
+          for (const row of cards) {
+            const paths = cardMockups2(row);
+            if (paths.length === 0) continue;
+            const rest = row;
+            delete rest.aiOpinion;
+            if (!full) {
+              delete rest.description;
+              delete rest.solutionSummary;
+            }
+            rest.mockups = paths.map((p) => ({ path: p, state: mockupState2(row.id, p).state }));
+            withLinks.push(row);
+          }
+          cards = withLinks;
+        }
         for (const row of cards) {
           const raw = row.useWorktree;
           row.useWorktree = normalizeUseWorktree(raw);
@@ -30451,7 +31242,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             isError: true
           };
         }
-        const created = createCard2(db, input, (/* @__PURE__ */ new Date()).toISOString());
+        const created = createCard2(db, input, (/* @__PURE__ */ new Date()).toISOString(), IDEAFY_AUTHOR2);
         if (!created.ok) {
           return {
             content: [{ type: "text", text: `create_card: complexity must be low, medium or high (got "${complexity}").` }],
@@ -30494,7 +31285,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           };
         }
         const htmlContent = cardFieldHtml(id, solutionSummary);
-        const saved = savePlan2(db, { id, html: htmlContent, now: (/* @__PURE__ */ new Date()).toISOString() });
+        const saved = savePlan2(db, { id, html: htmlContent, now: (/* @__PURE__ */ new Date()).toISOString(), author: IDEAFY_AUTHOR2 });
         if (!saved.ok) {
           return {
             content: [{ type: "text", text: `Card not found: ${id}` }],
@@ -30553,6 +31344,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           id,
           html: htmlContent,
           now: (/* @__PURE__ */ new Date()).toISOString(),
+          author: IDEAFY_AUTHOR2,
           guard: deletionRequested ? "replace" : "append-only"
         });
         if (!saved.ok && saved.reason === "unsafe") {
@@ -30601,7 +31393,13 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         if (pairs.length === 0 && !hasCapability(db, "baseCommits")) {
           return { content: [{ type: "text", text: missingCapabilityMessage("revise_tests", "baseCommits") }], isError: true };
         }
-        const saved = reviseTests2(db, { id, revisions: pairs, now: (/* @__PURE__ */ new Date()).toISOString(), confirmCurrent: !!confirmCurrent });
+        const saved = reviseTests2(db, {
+          id,
+          revisions: pairs,
+          now: (/* @__PURE__ */ new Date()).toISOString(),
+          author: IDEAFY_AUTHOR2,
+          confirmCurrent: !!confirmCurrent
+        });
         if (!saved.ok && saved.reason === "missing") {
           return {
             content: [{
@@ -30645,7 +31443,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           html: htmlContent,
           source: aiOpinion,
           fallbackVerdict: aiVerdict ?? null,
-          now: (/* @__PURE__ */ new Date()).toISOString()
+          now: (/* @__PURE__ */ new Date()).toISOString(),
+          author: IDEAFY_AUTHOR2
         });
         if (!result.ok) {
           return {
