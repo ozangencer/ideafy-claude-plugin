@@ -21789,6 +21789,7 @@ __export(card_ops_exports, {
   addOutputPath: () => addOutputPath,
   addTestReportWarnings: () => addTestReportWarnings,
   allRows: () => allRows,
+  appendPlanRefresh: () => appendPlanRefresh,
   assertGroupAssignable: () => assertGroupAssignable,
   authorFromSource: () => authorFromSource,
   authorshipRows: () => authorshipRows,
@@ -24659,6 +24660,24 @@ function confirmPlanCurrent(db2, cardId) {
   return { ok: true };
 }
 
+// ../lib/prompts/plan-refresh.ts
+var PLAN_REFRESH_HEADING = { tr: "Koda g\xF6re g\xFCncellemeler", en: "Updates against code" };
+var HEADINGS = Object.values(PLAN_REFRESH_HEADING).map((h) => h.toLowerCase());
+var escapeRegExp = (text) => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+var HEADING_RE = new RegExp(
+  `(?:^[ \\t]*#{1,6}[ \\t]+|<h[1-6]\\b[^>]*>\\s*)(${HEADINGS.map(escapeRegExp).join("|")})\\s*(?:#*[ \\t]*$|</h[1-6]>)`,
+  "imu"
+);
+var SUBHEADING_SHA_RE = /(?:^[ \t]*#{2,6}[ \t]+[^\n]*?|<h[2-6]\b[^>]*>[^<]*?)(?:<code>)?`?\b([0-9a-f]{7,40})\b/imu;
+function planRefreshSection(text) {
+  const heading = HEADING_RE.exec(text ?? "");
+  if (!heading) return { found: false };
+  const start = heading.index + (heading[0].length - heading[0].trimStart().length);
+  const after = text.slice(heading.index + heading[0].length);
+  const sha = SUBHEADING_SHA_RE.exec(after)?.[1] ?? null;
+  return { found: true, start, sha };
+}
+
 // ../lib/test-report.ts
 var test_report_exports = {};
 __export(test_report_exports, {
@@ -25092,7 +25111,7 @@ function target(moveTo, current, rule) {
 function savePlan(db2, args) {
   if (args.moveTo && !isStatus(args.moveTo)) return { ok: false, reason: "invalid-status" };
   const planHtml = externalizeInlineImages(args.id, args.html);
-  const head = cardHead(db2, args.id);
+  const head = args.base === false ? null : args.base ?? cardHead(db2, args.id);
   return transaction(db2, () => {
     const row = getRow(
       db2,
@@ -25129,6 +25148,34 @@ function savePlan(db2, args) {
     if (to) moveCard(db2, args.id, to, args.now);
     return { ok: true, html: planHtml, previous: row.solution_summary ?? "", from: row.status, status: to ?? row.status };
   });
+}
+function appendPlanRefresh(db2, args) {
+  const section2 = planRefreshSection(args.html);
+  if (!section2.found) return { ok: false, reason: "not-refresh" };
+  const row = getRow(
+    db2,
+    `SELECT status, solution_summary FROM cards WHERE id = ?`,
+    args.id
+  );
+  if (!row) return { ok: false, reason: "not-found" };
+  const existing = row.solution_summary ?? "";
+  const merged = mergeHtmlSections(existing, args.html.slice(section2.start));
+  const base = refreshBase(db2, args.id, section2.sha);
+  if (merged.added === 0) {
+    stampBaseCommit(db2, args.id, "plan", base);
+    return { ok: true, html: existing, previous: existing, from: row.status, status: row.status, added: 0, base };
+  }
+  const saved = savePlan(db2, { id: args.id, html: merged.html, now: args.now, author: args.author, moveTo: null, base: base ?? false });
+  if (!saved.ok) return saved;
+  return { ...saved, added: merged.added, base };
+}
+function refreshBase(db2, cardId, sha) {
+  if (sha) {
+    const folder = cardRepoFolder(db2, cardId);
+    const full = folder ? gitRead(folder, ["rev-parse", "--verify", "--quiet", `${sha}^{commit}`]) : null;
+    if (full && /^[0-9a-f]{40}$/.test(full)) return full;
+  }
+  return cardHead(db2, cardId);
 }
 function saveTests(db2, args) {
   if (args.moveTo && !isStatus(args.moveTo)) return { ok: false, reason: "invalid-status" };
@@ -25367,7 +25414,7 @@ var MAX_LISTED = 20;
 var MAX_FILES = 200;
 var GENERATED = [/^drizzle\/meta\//, /(^|\/)(package-lock\.json|pnpm-lock\.yaml|yarn\.lock|bun\.lockb)$/];
 var isGenerated = (file2) => GENERATED.some((pattern) => pattern.test(file2));
-var escapeRegExp = (text) => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+var escapeRegExp2 = (text) => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 function driftSince(db2, cardId, field) {
   try {
     if (!hasBaseCommitColumns(db2)) return null;
@@ -25388,14 +25435,14 @@ function driftSince(db2, cardId, field) {
     const displayId = formatDisplayId(row.idPrefix, row.taskNumber);
     const files = new Set(extractPlanFiles(row.plan ?? ""));
     if (displayId) {
-      const own = gitRead(repo, ["log", "--all", "-E", `--grep=^Card: ${escapeRegExp(displayId)}$`, "--name-only", "--format="]);
+      const own = gitRead(repo, ["log", "--all", "-E", `--grep=^Card: ${escapeRegExp2(displayId)}$`, "--name-only", "--format="]);
       for (const line of (own ?? "").split("\n")) if (line.trim()) files.add(line.trim());
     }
     const watched = [...files].filter((file2) => !isGenerated(file2)).slice(0, MAX_FILES);
     if (watched.length === 0) return null;
     const log = gitRead(repo, ["log", "--format=%H%x1f%s%x1f%b%x1e", `${base}..HEAD`, "--", ...watched]);
     if (log === null) return null;
-    const ownTrailer = displayId ? new RegExp(`^Card: ${escapeRegExp(displayId)}\\s*$`, "m") : null;
+    const ownTrailer = displayId ? new RegExp(`^Card: ${escapeRegExp2(displayId)}\\s*$`, "m") : null;
     const commits = [];
     for (const record2 of log.split("")) {
       const [sha, subject, body] = record2.replace(/^\n+/, "").split("");
@@ -25403,7 +25450,7 @@ function driftSince(db2, cardId, field) {
       if (ownTrailer?.test(body ?? "")) continue;
       commits.push({ sha: sha.trim(), subject: (subject ?? "").trim() });
     }
-    return { base, files: watched, commits: commits.slice(0, MAX_LISTED), total: commits.length };
+    return { base, files: watched, commits: commits.slice(0, MAX_LISTED), total: commits.length, head: currentHead(repo) };
   } catch {
     return null;
   }
@@ -25416,7 +25463,7 @@ function planDriftLine(db2, cardId) {
     if (!row?.status || !["backlog", "bugs", "progress"].includes(row.status)) return null;
     const drift = planDriftFor(db2, cardId);
     if (!drift || drift.total === 0) return null;
-    return `Plan drift: ${drift.total} commit(s) touched this card's files since its plan was written \u2014 the code wins; read them with git show before following the plan (get_card lists them as planDrift).`;
+    return `Plan drift: ${drift.total} commit(s) touched this card's files since its plan was written \u2014 the code wins; read them with git show before following the plan (get_card lists them as planDrift). Once checked, confirm it is still current or add a dated "Updates against code" section (save_plan confirmCurrent / appendRefresh, with the user's OK).`;
   } catch {
     return null;
   }
@@ -28854,6 +28901,7 @@ var {
   planDriftFor: planDriftFor2,
   planDriftLine: planDriftLine2,
   confirmPlanCurrent: confirmPlanCurrent2,
+  appendPlanRefresh: appendPlanRefresh2,
   updateCard: updateCard2,
   createCard: createCard2,
   addOutputPath: addOutputPath2,
@@ -30285,6 +30333,8 @@ ${AI_OPINION_PLANNING_RULE2}
 
 STILL CURRENT: when get_card returns planDrift and the plan was checked against those commits and is still right, call save_plan with confirmCurrent: true and no solutionSummary \u2014 only the plan's base commit moves to HEAD and planDrift goes quiet; the card does not move. Saving a new plan moves it too.
 
+REFRESH: when get_card returns planDrift and some steps did go stale, do not rewrite the plan. Read the commits, then show the user one section for the end of the plan \u2014 the heading \`## Updates against code\` (\`## Koda g\xF6re g\xFCncellemeler\` on a Turkish card), the line "This section overrides the plan above; where they disagree, follow this." ("Bu b\xF6l\xFCm yukar\u0131daki plan\u0131 ge\xE7ersiz k\u0131lar; \xE7eli\u015Fkide bunu izle."), a dated subheading naming HEAD's short sha (\`### October 18, 2026 \xB7 against abc12345\`), and one point per stale step that names the step it overrides. If the plan already has that section, add only new points. On the user's OK call save_plan with appendRefresh: true and that section alone as solutionSummary: it is appended under the existing heading, the body stays, the card does not move, and the plan's base commit moves to the sha the subheading names, which quiets planDrift.
+
 PRIOR DECISIONS (check before you draft):
 
 ${PRIOR_DECISIONS_RULE2}`,
@@ -30303,6 +30353,10 @@ ${PRIOR_DECISIONS_RULE2}`,
             confirmCurrent: {
               type: "boolean",
               description: "The plan matches the code now (see get_card's planDrift). Without solutionSummary, only the plan's base commit moves to HEAD: the text, the column and the links stay."
+            },
+            appendRefresh: {
+              type: "boolean",
+              description: `solutionSummary is only an "Updates against code" / "Koda g\xF6re g\xFCncellemeler" section (see REFRESH): append it to the plan instead of replacing it, keep the card's column, and move the plan's base commit to the sha its dated subheading names (HEAD if none). Refused when the heading is missing.`
             }
           },
           required: ["id"]
@@ -30894,7 +30948,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         if (planDrift && planDrift.total > 0) {
           content.push({
             type: "text",
-            text: `planDrift: ${planDrift.total} commit(s) touched this card's files since its plan was written. The plan predates them and the code wins. Read each with \`git show <sha> -- <file>\` before following the plan, do not edit the plan, and report every place you deviated from it \u2014 in an autonomous run as the fenced plan-deviations block the prompt asks for; in a terminal session tell the user, and pass the same lines as \`warnings\` in save_tests' \`report\`. If the plan turns out to be still right, save_plan with confirmCurrent: true and no solutionSummary quiets this.`
+            text: `planDrift: ${planDrift.total} commit(s) touched this card's files since its plan was written. The plan predates them and the code wins. Read each with \`git show <sha> -- <file>\` before following the plan, do not edit the plan, and report every place you deviated from it \u2014 in an autonomous run as the fenced plan-deviations block the prompt asks for; in a terminal session tell the user, and pass the same lines as \`warnings\` in save_tests' \`report\`. If the plan turns out to be still right, save_plan with confirmCurrent: true and no solutionSummary quiets this. If steps did go stale and the user wants the plan brought up to date, show them a dated "Updates against code" section (see save_plan's REFRESH), and on their OK save it with save_plan appendRefresh: true \u2014 never rewrite the plan's body. HEAD is ${planDrift.head ? planDrift.head.slice(0, 8) : "unknown"}.`
           });
         }
         for (const img of images) {
@@ -31344,7 +31398,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         return { content };
       }
       case "save_plan": {
-        const { id: rawId, solutionSummary, dependsOn, confirmCurrent } = args;
+        const { id: rawId, solutionSummary, dependsOn, confirmCurrent, appendRefresh } = args;
         const id = resolveCardRef2(db, rawId);
         if (!id) {
           return {
@@ -31365,6 +31419,31 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           }
           return {
             content: [{ type: "text", text: `Plan on card ${id} marked as still current; its base commit is now HEAD. Card is in "${readStatus(id)}".` }]
+          };
+        }
+        if (appendRefresh) {
+          const refreshed = appendPlanRefresh2(db, {
+            id,
+            html: cardFieldHtml(id, solutionSummary),
+            now: (/* @__PURE__ */ new Date()).toISOString(),
+            author: IDEAFY_AUTHOR2
+          });
+          if (!refreshed.ok && refreshed.reason === "not-refresh") {
+            return {
+              content: [{
+                type: "text",
+                text: 'save_plan refused: appendRefresh needs a section headed "## Updates against code" ("## Koda g\xF6re g\xFCncellemeler" on a Turkish card) with a dated subheading naming the commit it was checked against. Nothing was written.'
+              }],
+              isError: true
+            };
+          }
+          if (!refreshed.ok) {
+            return { content: [{ type: "text", text: `Card not found: ${id}` }], isError: true };
+          }
+          const base = refreshed.base ? ` Its base commit is now ${refreshed.base.slice(0, 8)}.` : "";
+          const what = refreshed.added === 0 ? "Every point was already in the plan's update section; nothing was added." : "Update section appended to the plan.";
+          return {
+            content: [{ type: "text", text: `${what}${base} Card ${id} is in "${readStatus(id)}".` }]
           };
         }
         if (!hasCapability(db, "completedAt")) {
