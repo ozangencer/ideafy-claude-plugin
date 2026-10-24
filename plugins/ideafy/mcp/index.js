@@ -30,9 +30,9 @@ var __toESM = (mod, isNodeMode, target2) => (target2 = mod != null ? __create(__
   mod
 ));
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/code.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/code.js
 var require_code = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/code.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/code.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.regexpCode = exports.getEsmExportName = exports.getProperty = exports.safeStringify = exports.stringify = exports.strConcat = exports.addCodeArg = exports.str = exports._ = exports.nil = exports._Code = exports.Name = exports.IDENTIFIER = exports._CodeOrName = void 0;
@@ -184,9 +184,9 @@ var require_code = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/scope.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/scope.js
 var require_scope = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/scope.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/scope.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.ValueScope = exports.ValueScopeName = exports.Scope = exports.varKinds = exports.UsedValueState = void 0;
@@ -329,9 +329,9 @@ var require_scope = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/index.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/index.js
 var require_codegen = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/index.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.or = exports.and = exports.not = exports.CodeGen = exports.operators = exports.varKinds = exports.ValueScopeName = exports.ValueScope = exports.Scope = exports.Name = exports.regexpCode = exports.stringify = exports.getProperty = exports.nil = exports.strConcat = exports.str = exports._ = void 0;
@@ -1049,9 +1049,9 @@ var require_codegen = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/util.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/util.js
 var require_util = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/util.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/util.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.checkStrictMode = exports.getErrorPath = exports.Type = exports.useFunc = exports.setEvaluated = exports.evaluatedPropsToName = exports.mergeEvaluated = exports.eachItem = exports.unescapeJsonPointer = exports.escapeJsonPointer = exports.escapeFragment = exports.unescapeFragment = exports.schemaRefOrVal = exports.schemaHasRulesButRef = exports.schemaHasRules = exports.checkUnknownRules = exports.alwaysValidSchema = exports.toHash = void 0;
@@ -1216,9 +1216,9 @@ var require_util = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/names.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/names.js
 var require_names = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/names.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/names.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -1255,9 +1255,9 @@ var require_names = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/errors.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/errors.js
 var require_errors = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/errors.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/errors.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.extendErrors = exports.resetErrorsCount = exports.reportExtraError = exports.reportError = exports.keyword$DataError = exports.keywordError = void 0;
@@ -1377,9 +1377,9 @@ var require_errors = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/boolSchema.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/boolSchema.js
 var require_boolSchema = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/boolSchema.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/boolSchema.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.boolOrEmptySchema = exports.topBoolOrEmptySchema = void 0;
@@ -1428,9 +1428,9 @@ var require_boolSchema = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/rules.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/rules.js
 var require_rules = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/rules.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/rules.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.getRules = exports.isJSONType = void 0;
@@ -1459,9 +1459,9 @@ var require_rules = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/applicability.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/applicability.js
 var require_applicability = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/applicability.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/applicability.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.shouldUseRule = exports.shouldUseGroup = exports.schemaHasRulesForType = void 0;
@@ -1482,9 +1482,9 @@ var require_applicability = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/dataType.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/dataType.js
 var require_dataType = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/dataType.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/dataType.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.reportTypeError = exports.checkDataTypes = exports.checkDataType = exports.coerceAndCheckDataType = exports.getJSONTypes = exports.getSchemaTypes = exports.DataType = void 0;
@@ -1666,9 +1666,9 @@ var require_dataType = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/defaults.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/defaults.js
 var require_defaults = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/defaults.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/defaults.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.assignDefaults = void 0;
@@ -1703,9 +1703,9 @@ var require_defaults = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/code.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/code.js
 var require_code2 = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/code.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/code.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.validateUnion = exports.validateArray = exports.usePattern = exports.callValidateCode = exports.schemaProperties = exports.allSchemaProperties = exports.noPropertyInData = exports.propertyInData = exports.isOwnProperty = exports.hasPropFunc = exports.reportMissingProp = exports.checkMissingProp = exports.checkReportMissingProp = void 0;
@@ -1836,9 +1836,9 @@ var require_code2 = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/keyword.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/keyword.js
 var require_keyword = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/keyword.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/keyword.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.validateKeywordUsage = exports.validSchemaType = exports.funcKeywordCode = exports.macroKeywordCode = void 0;
@@ -1954,9 +1954,9 @@ var require_keyword = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/subschema.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/subschema.js
 var require_subschema = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/subschema.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/subschema.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.extendSubschemaMode = exports.extendSubschemaData = exports.getSubschema = void 0;
@@ -2037,9 +2037,9 @@ var require_subschema = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/fast-deep-equal/index.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-deep-equal/index.js
 var require_fast_deep_equal = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/fast-deep-equal/index.js"(exports, module) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-deep-equal/index.js"(exports, module) {
     "use strict";
     module.exports = function equal(a, b2) {
       if (a === b2) return true;
@@ -2072,9 +2072,9 @@ var require_fast_deep_equal = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/json-schema-traverse/index.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/json-schema-traverse/index.js
 var require_json_schema_traverse = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/json-schema-traverse/index.js"(exports, module) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/json-schema-traverse/index.js"(exports, module) {
     "use strict";
     var traverse = module.exports = function(schema, opts, cb) {
       if (typeof opts == "function") {
@@ -2160,9 +2160,9 @@ var require_json_schema_traverse = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/resolve.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/resolve.js
 var require_resolve = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/resolve.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/resolve.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.getSchemaRefs = exports.resolveUrl = exports.normalizeId = exports._getFullPath = exports.getFullPath = exports.inlineRef = void 0;
@@ -2316,9 +2316,9 @@ var require_resolve = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/index.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/index.js
 var require_validate = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/index.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.getData = exports.KeywordCxt = exports.validateFunctionCode = void 0;
@@ -2824,9 +2824,9 @@ var require_validate = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/validation_error.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/validation_error.js
 var require_validation_error = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/validation_error.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/validation_error.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var ValidationError = class extends Error {
@@ -2840,9 +2840,9 @@ var require_validation_error = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/ref_error.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/ref_error.js
 var require_ref_error = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/ref_error.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/ref_error.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var resolve_1 = require_resolve();
@@ -2857,9 +2857,9 @@ var require_ref_error = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/index.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/index.js
 var require_compile = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/index.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.resolveSchema = exports.getCompilingSchema = exports.resolveRef = exports.compileSchema = exports.SchemaEnv = void 0;
@@ -3081,9 +3081,9 @@ var require_compile = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/refs/data.json
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/refs/data.json
 var require_data = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/refs/data.json"(exports, module) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/refs/data.json"(exports, module) {
     module.exports = {
       $id: "https://raw.githubusercontent.com/ajv-validator/ajv/master/lib/refs/data.json#",
       description: "Meta-schema for $data reference (JSON AnySchema extension proposal)",
@@ -3100,9 +3100,9 @@ var require_data = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/fast-uri/lib/utils.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/lib/utils.js
 var require_utils = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/fast-uri/lib/utils.js"(exports, module) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/lib/utils.js"(exports, module) {
     "use strict";
     var isUUID = RegExp.prototype.test.bind(/^[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}$/iu);
     var isIPv4 = RegExp.prototype.test.bind(/^(?:(?:25[0-5]|2[0-4]\d|1\d{2}|[1-9]\d|\d)\.){3}(?:25[0-5]|2[0-4]\d|1\d{2}|[1-9]\d|\d)$/u);
@@ -3357,9 +3357,9 @@ var require_utils = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/fast-uri/lib/schemes.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/lib/schemes.js
 var require_schemes = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/fast-uri/lib/schemes.js"(exports, module) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/lib/schemes.js"(exports, module) {
     "use strict";
     var { isUUID } = require_utils();
     var URN_REG = /([\da-z][\d\-a-z]{0,31}):((?:[\w!$'()*+,\-.:;=@]|%[\da-f]{2})+)/iu;
@@ -3567,9 +3567,9 @@ var require_schemes = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/fast-uri/index.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/index.js
 var require_fast_uri = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/fast-uri/index.js"(exports, module) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/index.js"(exports, module) {
     "use strict";
     var { normalizeIPv6, removeDotSegments, recomposeAuthority, normalizeComponentEncoding, isIPv4, nonSimpleDomain } = require_utils();
     var { SCHEMES, getSchemeHandler } = require_schemes();
@@ -3822,9 +3822,9 @@ var require_fast_uri = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/uri.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/uri.js
 var require_uri = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/uri.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/uri.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var uri = require_fast_uri();
@@ -3833,9 +3833,9 @@ var require_uri = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/core.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/core.js
 var require_core = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/core.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/core.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.CodeGen = exports.Name = exports.nil = exports.stringify = exports.str = exports._ = exports.KeywordCxt = void 0;
@@ -4444,9 +4444,9 @@ var require_core = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/id.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/id.js
 var require_id = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/id.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/id.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var def = {
@@ -4459,9 +4459,9 @@ var require_id = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/ref.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/ref.js
 var require_ref = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/ref.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/ref.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.callRef = exports.getValidate = void 0;
@@ -4581,9 +4581,9 @@ var require_ref = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/index.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/index.js
 var require_core2 = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/index.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var id_1 = require_id();
@@ -4602,9 +4602,9 @@ var require_core2 = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitNumber.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitNumber.js
 var require_limitNumber = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitNumber.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitNumber.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -4634,9 +4634,9 @@ var require_limitNumber = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/multipleOf.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/multipleOf.js
 var require_multipleOf = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/multipleOf.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/multipleOf.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -4662,9 +4662,9 @@ var require_multipleOf = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/ucs2length.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/ucs2length.js
 var require_ucs2length = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/ucs2length.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/ucs2length.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     function ucs2length(str2) {
@@ -4688,9 +4688,9 @@ var require_ucs2length = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitLength.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitLength.js
 var require_limitLength = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitLength.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitLength.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -4720,9 +4720,9 @@ var require_limitLength = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/pattern.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/pattern.js
 var require_pattern = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/pattern.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/pattern.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -4757,9 +4757,9 @@ var require_pattern = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitProperties.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitProperties.js
 var require_limitProperties = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitProperties.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitProperties.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -4786,9 +4786,9 @@ var require_limitProperties = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/required.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/required.js
 var require_required = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/required.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/required.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -4868,9 +4868,9 @@ var require_required = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitItems.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitItems.js
 var require_limitItems = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitItems.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitItems.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -4897,9 +4897,9 @@ var require_limitItems = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/equal.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/equal.js
 var require_equal = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/equal.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/equal.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var equal = require_fast_deep_equal();
@@ -4908,9 +4908,9 @@ var require_equal = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/uniqueItems.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/uniqueItems.js
 var require_uniqueItems = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/uniqueItems.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/uniqueItems.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var dataType_1 = require_dataType();
@@ -4975,9 +4975,9 @@ var require_uniqueItems = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/const.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/const.js
 var require_const = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/const.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/const.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5004,9 +5004,9 @@ var require_const = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/enum.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/enum.js
 var require_enum = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/enum.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/enum.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5053,9 +5053,9 @@ var require_enum = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/index.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/index.js
 var require_validation = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/index.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var limitNumber_1 = require_limitNumber();
@@ -5091,9 +5091,9 @@ var require_validation = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/additionalItems.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/additionalItems.js
 var require_additionalItems = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/additionalItems.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/additionalItems.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.validateAdditionalItems = void 0;
@@ -5144,9 +5144,9 @@ var require_additionalItems = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/items.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/items.js
 var require_items = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/items.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/items.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.validateTuple = void 0;
@@ -5201,9 +5201,9 @@ var require_items = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/prefixItems.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/prefixItems.js
 var require_prefixItems = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/prefixItems.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/prefixItems.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var items_1 = require_items();
@@ -5218,9 +5218,9 @@ var require_prefixItems = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/items2020.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/items2020.js
 var require_items2020 = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/items2020.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/items2020.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5253,9 +5253,9 @@ var require_items2020 = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/contains.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/contains.js
 var require_contains = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/contains.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/contains.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5347,9 +5347,9 @@ var require_contains = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/dependencies.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/dependencies.js
 var require_dependencies = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/dependencies.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/dependencies.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.validateSchemaDeps = exports.validatePropertyDeps = exports.error = void 0;
@@ -5441,9 +5441,9 @@ var require_dependencies = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/propertyNames.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/propertyNames.js
 var require_propertyNames = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/propertyNames.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/propertyNames.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5484,9 +5484,9 @@ var require_propertyNames = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/additionalProperties.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/additionalProperties.js
 var require_additionalProperties = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/additionalProperties.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/additionalProperties.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -5590,9 +5590,9 @@ var require_additionalProperties = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/properties.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/properties.js
 var require_properties = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/properties.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/properties.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var validate_1 = require_validate();
@@ -5648,9 +5648,9 @@ var require_properties = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/patternProperties.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/patternProperties.js
 var require_patternProperties = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/patternProperties.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/patternProperties.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -5722,9 +5722,9 @@ var require_patternProperties = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/not.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/not.js
 var require_not = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/not.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/not.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var util_1 = require_util();
@@ -5753,9 +5753,9 @@ var require_not = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/anyOf.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/anyOf.js
 var require_anyOf = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/anyOf.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/anyOf.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -5770,9 +5770,9 @@ var require_anyOf = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/oneOf.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/oneOf.js
 var require_oneOf = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/oneOf.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/oneOf.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5828,9 +5828,9 @@ var require_oneOf = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/allOf.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/allOf.js
 var require_allOf = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/allOf.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/allOf.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var util_1 = require_util();
@@ -5855,9 +5855,9 @@ var require_allOf = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/if.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/if.js
 var require_if = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/if.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/if.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5924,9 +5924,9 @@ var require_if = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/thenElse.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/thenElse.js
 var require_thenElse = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/thenElse.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/thenElse.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var util_1 = require_util();
@@ -5942,9 +5942,9 @@ var require_thenElse = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/index.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/index.js
 var require_applicator = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/index.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var additionalItems_1 = require_additionalItems();
@@ -5990,9 +5990,9 @@ var require_applicator = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/format/format.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/format/format.js
 var require_format = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/format/format.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/format/format.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -6080,9 +6080,9 @@ var require_format = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/format/index.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/format/index.js
 var require_format2 = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/format/index.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/format/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var format_1 = require_format();
@@ -6091,9 +6091,9 @@ var require_format2 = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/metadata.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/metadata.js
 var require_metadata = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/metadata.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/metadata.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.contentVocabulary = exports.metadataVocabulary = void 0;
@@ -6114,9 +6114,9 @@ var require_metadata = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/draft7.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/draft7.js
 var require_draft7 = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/draft7.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/draft7.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var core_1 = require_core2();
@@ -6136,9 +6136,9 @@ var require_draft7 = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/discriminator/types.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/discriminator/types.js
 var require_types = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/discriminator/types.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/discriminator/types.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.DiscrError = void 0;
@@ -6150,9 +6150,9 @@ var require_types = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/discriminator/index.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/discriminator/index.js
 var require_discriminator = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/discriminator/index.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/discriminator/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -6255,9 +6255,9 @@ var require_discriminator = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/refs/json-schema-draft-07.json
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/refs/json-schema-draft-07.json
 var require_json_schema_draft_07 = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/refs/json-schema-draft-07.json"(exports, module) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/refs/json-schema-draft-07.json"(exports, module) {
     module.exports = {
       $schema: "http://json-schema.org/draft-07/schema#",
       $id: "http://json-schema.org/draft-07/schema#",
@@ -6412,9 +6412,9 @@ var require_json_schema_draft_07 = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/ajv.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/ajv.js
 var require_ajv = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/ajv.js"(exports, module) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/ajv.js"(exports, module) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.MissingRefError = exports.ValidationError = exports.CodeGen = exports.Name = exports.nil = exports.stringify = exports.str = exports._ = exports.KeywordCxt = exports.Ajv = void 0;
@@ -6482,9 +6482,9 @@ var require_ajv = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/formats.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/formats.js
 var require_formats = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/formats.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/formats.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.formatNames = exports.fastFormats = exports.fullFormats = void 0;
@@ -6685,9 +6685,9 @@ var require_formats = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/limit.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/limit.js
 var require_limit = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/limit.js"(exports) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/limit.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.formatLimitDefinition = void 0;
@@ -6757,9 +6757,9 @@ var require_limit = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/index.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/index.js
 var require_dist = __commonJS({
-  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/index.js"(exports, module) {
+  "../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/index.js"(exports, module) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var formats_1 = require_formats();
@@ -6799,7 +6799,7 @@ var require_dist = __commonJS({
   }
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v3/helpers/util.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/helpers/util.js
 var util;
 (function(util2) {
   util2.assertEqual = (_2) => {
@@ -6933,7 +6933,7 @@ var getParsedType = (data) => {
   }
 };
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v3/ZodError.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/ZodError.js
 var ZodIssueCode = util.arrayToEnum([
   "invalid_type",
   "invalid_literal",
@@ -7047,7 +7047,7 @@ ZodError.create = (issues) => {
   return error2;
 };
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v3/locales/en.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/locales/en.js
 var errorMap = (issue2, _ctx) => {
   let message;
   switch (issue2.code) {
@@ -7150,13 +7150,13 @@ var errorMap = (issue2, _ctx) => {
 };
 var en_default = errorMap;
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v3/errors.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/errors.js
 var overrideErrorMap = en_default;
 function getErrorMap() {
   return overrideErrorMap;
 }
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v3/helpers/parseUtil.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/helpers/parseUtil.js
 var makeIssue = (params) => {
   const { data, path: path9, errorMaps, issueData } = params;
   const fullPath = [...path9, ...issueData.path || []];
@@ -7265,14 +7265,14 @@ var isDirty = (x2) => x2.status === "dirty";
 var isValid = (x2) => x2.status === "valid";
 var isAsync = (x2) => typeof Promise !== "undefined" && x2 instanceof Promise;
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v3/helpers/errorUtil.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/helpers/errorUtil.js
 var errorUtil;
 (function(errorUtil2) {
   errorUtil2.errToObj = (message) => typeof message === "string" ? { message } : message || {};
   errorUtil2.toString = (message) => typeof message === "string" ? message : message?.message;
 })(errorUtil || (errorUtil = {}));
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v3/types.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/types.js
 var ParseInputLazyPath = class {
   constructor(parent, value, path9, key) {
     this._cachedPath = [];
@@ -10675,7 +10675,7 @@ var nullableType = ZodNullable.create;
 var preprocessType = ZodEffects.createWithPreprocess;
 var pipelineType = ZodPipeline.create;
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v4/core/core.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/core.js
 var NEVER = Object.freeze({
   status: "aborted"
 });
@@ -10749,7 +10749,7 @@ function config(newConfig) {
   return globalConfig;
 }
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v4/core/util.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/util.js
 var util_exports = {};
 __export(util_exports, {
   BIGINT_FORMAT_RANGES: () => BIGINT_FORMAT_RANGES,
@@ -11428,7 +11428,7 @@ var Class = class {
   }
 };
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v4/core/errors.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/errors.js
 var initializer = (inst, def) => {
   inst.name = "$ZodError";
   Object.defineProperty(inst, "_zod", {
@@ -11494,7 +11494,7 @@ function formatError(error2, mapper = (issue2) => issue2.message) {
   return fieldErrors;
 }
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v4/core/parse.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/parse.js
 var _parse = (_Err) => (schema, value, _ctx, _params) => {
   const ctx = _ctx ? Object.assign(_ctx, { async: false }) : { async: false };
   const result = schema._zod.run({ value, issues: [] }, ctx);
@@ -11574,7 +11574,7 @@ var _safeDecodeAsync = (_Err) => async (schema, value, _ctx) => {
   return _safeParseAsync(_Err)(schema, value, _ctx);
 };
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v4/core/regexes.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/regexes.js
 var regexes_exports = {};
 __export(regexes_exports, {
   base64: () => base64,
@@ -11731,7 +11731,7 @@ var sha512_hex = /^[0-9a-fA-F]{128}$/;
 var sha512_base64 = /* @__PURE__ */ fixedBase64(86, "==");
 var sha512_base64url = /* @__PURE__ */ fixedBase64url(86);
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v4/core/checks.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/checks.js
 var $ZodCheck = /* @__PURE__ */ $constructor("$ZodCheck", (inst, def) => {
   var _a2;
   inst._zod ?? (inst._zod = {});
@@ -12279,7 +12279,7 @@ var $ZodCheckOverwrite = /* @__PURE__ */ $constructor("$ZodCheckOverwrite", (ins
   };
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v4/core/doc.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/doc.js
 var Doc = class {
   constructor(args = []) {
     this.content = [];
@@ -12315,14 +12315,14 @@ var Doc = class {
   }
 };
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v4/core/versions.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/versions.js
 var version = {
   major: 4,
   minor: 3,
   patch: 6
 };
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v4/core/schemas.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/schemas.js
 var $ZodType = /* @__PURE__ */ $constructor("$ZodType", (inst, def) => {
   var _a2;
   inst ?? (inst = {});
@@ -14293,7 +14293,7 @@ function handleRefineResult(result, payload, input, inst) {
   }
 }
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v4/locales/en.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/locales/en.js
 var error = () => {
   const Sizable = {
     string: { unit: "characters", verb: "to have" },
@@ -14402,7 +14402,7 @@ function en_default2() {
   };
 }
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v4/core/registries.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/registries.js
 var _a;
 var $ZodRegistry = class {
   constructor() {
@@ -14450,7 +14450,7 @@ function registry() {
 (_a = globalThis).__zod_globalRegistry ?? (_a.__zod_globalRegistry = registry());
 var globalRegistry = globalThis.__zod_globalRegistry;
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v4/core/api.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/api.js
 // @__NO_SIDE_EFFECTS__
 function _string(Class2, params) {
   return new Class2({
@@ -15254,7 +15254,7 @@ function _stringFormat(Class2, format, fnOrRegex, _params = {}) {
   return inst;
 }
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v4/core/to-json-schema.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/to-json-schema.js
 function initializeContext(params) {
   let target2 = params?.target ?? "draft-2020-12";
   if (target2 === "draft-4")
@@ -15606,7 +15606,7 @@ var createStandardJSONSchemaMethod = (schema, io, processors = {}) => (params) =
   return finalize(ctx, schema);
 };
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v4/core/json-schema-processors.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/json-schema-processors.js
 var formatMap = {
   guid: "uuid",
   url: "uri",
@@ -16082,7 +16082,7 @@ var lazyProcessor = (schema, ctx, _json, params) => {
   seen.ref = innerType;
 };
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/zod-compat.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/zod-compat.js
 function isZ4Schema(s) {
   const schema = s;
   return !!schema._zod;
@@ -16145,7 +16145,7 @@ function getLiteralValue(schema) {
   return void 0;
 }
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/schemas.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/schemas.js
 var schemas_exports3 = {};
 __export(schemas_exports3, {
   ZodAny: () => ZodAny2,
@@ -16314,7 +16314,7 @@ __export(schemas_exports3, {
   xor: () => xor
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/checks.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/checks.js
 var checks_exports2 = {};
 __export(checks_exports2, {
   endsWith: () => _endsWith,
@@ -16348,7 +16348,7 @@ __export(checks_exports2, {
   uppercase: () => _uppercase
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/iso.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/iso.js
 var iso_exports2 = {};
 __export(iso_exports2, {
   ZodISODate: () => ZodISODate,
@@ -16389,7 +16389,7 @@ function duration2(params) {
   return _isoDuration(ZodISODuration, params);
 }
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/errors.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/errors.js
 var initializer2 = (inst, issues) => {
   $ZodError.init(inst, issues);
   inst.name = "ZodError";
@@ -16429,7 +16429,7 @@ var ZodRealError = $constructor("ZodError", initializer2, {
   Parent: Error
 });
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/parse.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/parse.js
 var parse2 = /* @__PURE__ */ _parse(ZodRealError);
 var parseAsync2 = /* @__PURE__ */ _parseAsync(ZodRealError);
 var safeParse3 = /* @__PURE__ */ _safeParse(ZodRealError);
@@ -16443,7 +16443,7 @@ var safeDecode2 = /* @__PURE__ */ _safeDecode(ZodRealError);
 var safeEncodeAsync2 = /* @__PURE__ */ _safeEncodeAsync(ZodRealError);
 var safeDecodeAsync2 = /* @__PURE__ */ _safeDecodeAsync(ZodRealError);
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/schemas.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/schemas.js
 var ZodType2 = /* @__PURE__ */ $constructor("ZodType", (inst, def) => {
   $ZodType.init(inst, def);
   Object.assign(inst["~standard"], {
@@ -17522,22 +17522,22 @@ function preprocess(fn, schema) {
   return pipe(transform(fn), schema);
 }
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/compat.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/compat.js
 var ZodFirstPartyTypeKind2;
 /* @__PURE__ */ (function(ZodFirstPartyTypeKind3) {
 })(ZodFirstPartyTypeKind2 || (ZodFirstPartyTypeKind2 = {}));
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/from-json-schema.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/from-json-schema.js
 var z = {
   ...schemas_exports3,
   ...checks_exports2,
   iso: iso_exports2
 };
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/external.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/external.js
 config(en_default2());
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/types.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/types.js
 var LATEST_PROTOCOL_VERSION = "2025-11-25";
 var SUPPORTED_PROTOCOL_VERSIONS = [LATEST_PROTOCOL_VERSION, "2025-06-18", "2025-03-26", "2024-11-05", "2024-10-07"];
 var RELATED_TASK_META_KEY = "io.modelcontextprotocol/related-task";
@@ -19056,15 +19056,15 @@ var UrlElicitationRequiredError = class extends McpError {
   }
 };
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/interfaces.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/interfaces.js
 function isTerminal(status) {
   return status === "completed" || status === "failed" || status === "cancelled";
 }
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod-to-json-schema/dist/esm/parsers/string.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod-to-json-schema/dist/esm/parsers/string.js
 var ALPHA_NUMERIC = new Set("ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvxyz0123456789");
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/zod-json-schema-compat.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/zod-json-schema-compat.js
 function getMethodLiteral(schema) {
   const shape = getObjectShape(schema);
   const methodSchema = shape?.method;
@@ -19085,7 +19085,7 @@ function parseWithCompat(schema, data) {
   return result.data;
 }
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/shared/protocol.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/shared/protocol.js
 var DEFAULT_REQUEST_TIMEOUT_MSEC = 6e4;
 var Protocol = class {
   constructor(_options) {
@@ -20039,7 +20039,7 @@ function mergeCapabilities(base, additional) {
   return result;
 }
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/validation/ajv-provider.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/validation/ajv-provider.js
 var import_ajv = __toESM(require_ajv(), 1);
 var import_ajv_formats = __toESM(require_dist(), 1);
 function createDefaultAjvInstance() {
@@ -20107,7 +20107,7 @@ var AjvJsonSchemaValidator = class {
   }
 };
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/server.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/server.js
 var ExperimentalServerTasks = class {
   constructor(_server) {
     this._server = _server;
@@ -20320,7 +20320,7 @@ var ExperimentalServerTasks = class {
   }
 };
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/helpers.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/helpers.js
 function assertToolsCallTaskCapability(requests, method, entityName) {
   if (!requests) {
     throw new Error(`${entityName} does not support task creation (required for ${method})`);
@@ -20355,7 +20355,7 @@ function assertClientRequestTaskCapability(requests, method, entityName) {
   }
 }
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/index.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/index.js
 var Server = class extends Protocol {
   /**
    * Initializes this server with the given name and version information.
@@ -20735,10 +20735,10 @@ var Server = class extends Protocol {
   }
 };
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/stdio.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/stdio.js
 import process3 from "node:process";
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/shared/stdio.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/shared/stdio.js
 var ReadBuffer = class {
   append(chunk) {
     this._buffer = this._buffer ? Buffer.concat([this._buffer, chunk]) : chunk;
@@ -20766,7 +20766,7 @@ function serializeMessage(message) {
   return JSON.stringify(message) + "\n";
 }
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/stdio.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/stdio.js
 var StdioServerTransport = class {
   constructor(_stdin = process3.stdin, _stdout = process3.stdout) {
     this._stdin = _stdin;
@@ -20838,6 +20838,153 @@ __export(test_style_exports, {
   detectCardLanguage: () => detectCardLanguage
 });
 
+// ../lib/opinion-markers.ts
+var opinion_markers_exports = {};
+__export(opinion_markers_exports, {
+  countOpinionConcerns: () => countOpinionConcerns,
+  describeOpinionMarkers: () => describeOpinionMarkers,
+  normalizeComplexity: () => normalizeComplexity,
+  parseAiVerdict: () => parseAiVerdict,
+  parseOpinionMarkers: () => parseOpinionMarkers,
+  parseVerdictWord: () => parseVerdictWord,
+  verdictWordToAiVerdict: () => verdictWordToAiVerdict
+});
+var WORD_ALIASES = {
+  "strong yes": "strong_yes",
+  "g\xFC\xE7l\xFC evet": "strong_yes",
+  yes: "yes",
+  evet: "yes",
+  maybe: "maybe",
+  belki: "maybe",
+  no: "no",
+  hay\u0131r: "no",
+  "strong no": "strong_no",
+  "g\xFC\xE7l\xFC hay\u0131r": "strong_no"
+};
+var WORD = new RegExp("(?<!\\p{L})(strong[\\s_]+yes|g\xFC\xE7l\xFC\\s+evet|strong[\\s_]+no|g\xFC\xE7l\xFC\\s+hay\u0131r|maybe|belki|yes|evet|no|hay\u0131r)(?!\\p{L})", "iu");
+var VERDICT_TAG = /\[VERDICT:\s*(strong[\s_-]?yes|yes|maybe|no|strong[\s_-]?no)\s*\]/i;
+var SCORE_TAG = /\[SCORE:\s*(\d{1,2}(?:\.\d+)?)\s*(?:\/\s*10)?\s*\]/i;
+var PRIORITY_TAG = /\[PRIORITY:\s*(low|medium|high)\s*\]/i;
+var COMPLEXITY_TAG = /\[COMPLEXITY:\s*(trivial|simple|low|medium|high|complex|very_high)\s*\]/i;
+var VERDICT_HEADING = new RegExp("^#{1,6}\\s*(?:summary\\s+verdict|\xF6zet\\s+karar\u0131)(?!\\p{L})(.*)$", "imu");
+var SCORE_HEADING = new RegExp("^#{1,6}\\s*(?:final\\s+score|final\\s+(?:skor|puan)\\p{L}*|son\\s+puan\\p{L}*)(?!\\p{L})(.*)$", "imu");
+var NEXT_HEADING = /^#{1,6}\s/m;
+var OUT_OF_TEN = /(?<![\d.])(\d{1,2}(?:\.\d+)?)\s*\/\s*10(?!\d)/;
+function normalize(input) {
+  if (!/<[a-z][^>]*>/i.test(input)) return input;
+  return input.replace(/<pre[\s\S]*?<\/pre>/gi, "\n").replace(/<code[\s\S]*?<\/code>/gi, "").replace(/<h[1-6][^>]*>/gi, "\n## ").replace(/<\/(h[1-6]|p|li|div)>|<br\s*\/?>/gi, "\n").replace(/<[^>]+>/g, "").replace(/&nbsp;/g, " ").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#(\d+);/g, (_2, code) => String.fromCodePoint(Number(code))).replace(/&amp;/g, "&");
+}
+function withoutCode(markdown) {
+  return markdown.replace(/```[\s\S]*?```/g, "\n").replace(/`[^`\n]*`/g, "");
+}
+function prepare(markdownOrHtml) {
+  return withoutCode(normalize(markdownOrHtml));
+}
+function section(text2, heading) {
+  const match = heading.exec(text2);
+  if (!match) return null;
+  const after = text2.slice(match.index + match[0].length);
+  const next = NEXT_HEADING.exec(after);
+  return `${match[1]}
+${next ? after.slice(0, next.index) : after}`;
+}
+function verdictWordIn(text2) {
+  const tag = VERDICT_TAG.exec(text2);
+  if (tag) return WORD_ALIASES[tag[1].toLowerCase().replace(/[\s_-]+/g, " ")] ?? null;
+  const body = section(text2, VERDICT_HEADING);
+  if (body === null) return null;
+  const match = WORD.exec(body);
+  if (!match) return null;
+  return WORD_ALIASES[match[1].toLocaleLowerCase("tr").replace(/[\s_]+/g, " ")] ?? null;
+}
+function toScore(raw) {
+  const value = Math.round(Number(raw));
+  return Number.isFinite(value) && value >= 0 && value <= 10 ? value : null;
+}
+function scoreIn(text2) {
+  const tag = SCORE_TAG.exec(text2);
+  if (tag) return toScore(tag[1]);
+  const body = section(text2, SCORE_HEADING);
+  if (body === null) return null;
+  const match = OUT_OF_TEN.exec(body);
+  return match ? toScore(match[1]) : null;
+}
+function parseVerdictWord(markdownOrHtml) {
+  return verdictWordIn(prepare(markdownOrHtml));
+}
+function verdictWordToAiVerdict(word) {
+  if (word === "strong_yes" || word === "yes") return "positive";
+  if (word === "no" || word === "strong_no") return "negative";
+  if (word === "maybe") return "maybe";
+  return null;
+}
+function parseAiVerdict(markdownOrHtml) {
+  return verdictWordToAiVerdict(parseVerdictWord(markdownOrHtml));
+}
+function normalizeComplexity(value) {
+  switch ((value ?? "").trim().toLowerCase()) {
+    case "trivial":
+    case "simple":
+    case "low":
+      return "low";
+    case "medium":
+      return "medium";
+    case "high":
+    case "complex":
+    case "very_high":
+      return "high";
+    default:
+      return null;
+  }
+}
+function parseOpinionMarkers(markdownOrHtml) {
+  const text2 = prepare(markdownOrHtml);
+  const verdictWord = verdictWordIn(text2);
+  const priority = PRIORITY_TAG.exec(text2);
+  const complexity = COMPLEXITY_TAG.exec(text2);
+  return {
+    verdictWord,
+    verdict: verdictWordToAiVerdict(verdictWord),
+    score: scoreIn(text2),
+    priority: priority ? priority[1].toLowerCase() : null,
+    complexity: complexity ? normalizeComplexity(complexity[1]) : null
+  };
+}
+function describeOpinionMarkers(markers) {
+  const parts = [
+    markers.verdict && `verdict: ${markers.verdict}`,
+    markers.score !== null && `score ${markers.score}/10`,
+    markers.priority && `priority ${markers.priority}`,
+    markers.complexity && `complexity ${markers.complexity}`
+  ].filter(Boolean);
+  return parts.join(" \xB7 ");
+}
+var CONCERNS_HEADING = new RegExp("^#{1,6}\\s*(?:concerns|endi\u015Feler|kayg\u0131lar)(?!\\p{L})(.*)$", "imu");
+function countOpinionConcerns(markdownOrHtml) {
+  if (!markdownOrHtml) return null;
+  const isHtml2 = /<[a-z][^>]*>/i.test(markdownOrHtml);
+  if (isHtml2) {
+    const heading = new RegExp("<h[1-6][^>]*>\\s*(?:concerns|endi\u015Feler|kayg\u0131lar)(?!\\p{L})[\\s\\S]*?<\\/h[1-6]>", "iu").exec(markdownOrHtml);
+    if (!heading) return null;
+    const after = markdownOrHtml.slice(heading.index + heading[0].length);
+    const next = /<h[1-6][^>]*>/i.exec(after);
+    const body2 = next ? after.slice(0, next.index) : after;
+    let depth2 = 0;
+    let count = 0;
+    for (const tag of body2.matchAll(/<(\/?)(ul|ol|li)\b[^>]*>/gi)) {
+      const closing = tag[1] === "/";
+      const name = tag[2].toLowerCase();
+      if (name === "li") {
+        if (!closing && depth2 === 1) count++;
+      } else depth2 += closing ? -1 : 1;
+    }
+    return count;
+  }
+  const body = section(withoutCode(markdownOrHtml), CONCERNS_HEADING);
+  if (body === null) return null;
+  return body.split("\n").filter((line) => /^(?:[-*+]|\d+[.)])\s+\S/.test(line)).length;
+}
+
 // ../lib/autonomous-run/run-timeout.ts
 var MIN = 60 * 1e3;
 var DEFAULT_RUN_IDLE_TIMEOUT_MS = 8 * MIN;
@@ -20896,6 +21043,11 @@ paths, session IDs, URLs, column names.
 - Mention UI elements by their visible labels, not CSS selectors.
 - Avoid implementation jargon (DB column names, internal function names) unless
   the test genuinely requires them.
+- End an item with the ASCII token \`[ui]\` when its result is something to see
+  on screen (a button, a strip, a dialog, a toast). Leave it off items checked
+  in a terminal, an MCP reply, a migration or a log. Autopilot takes
+  screenshots of \`[ui]\` items only, and a card is not Ready to merge until
+  each has one.
 
 ### Good examples (follow this style)
 
@@ -20971,6 +21123,10 @@ session ID, URL, kolon ad\u0131.
   sonu\xE7 a\xE7\u0131k de\u011Filse a\xE7\u0131k\xE7a yaz.
 - UI elementlerini g\xF6r\xFCnen label'lar\u0131yla belirt, CSS selector de\u011Fil.
 - \u0130\xE7 implementasyon jargonu (DB kolon ad\u0131, internal fonksiyon ad\u0131) gerekmedik\xE7e girme.
+- Sonucu ekranda g\xF6r\xFClen bir maddenin (buton, \u015Ferit, diyalog, toast) sonuna ASCII
+  \`[ui]\` token'\u0131n\u0131 yaz. Terminalde, MCP cevab\u0131nda, migration'da ya da logda
+  kontrol edilen maddelere yazma. Autopilot yaln\u0131zca \`[ui]\` maddelerinin ekran
+  g\xF6r\xFCnt\xFCs\xFCn\xFC al\u0131r; her birinin g\xF6r\xFCnt\xFCs\xFC olmadan kart Ready to merge olmaz.
 
 ### \u0130yi \xF6rnek (bu stile uy)
 
@@ -21292,7 +21448,7 @@ function globalDelegationOptions(folderPath) {
   return [
     "start the card's run now with start_card_run \u2014 only when the user explicitly asks; it runs unattended",
     "open a session in the card's folder with open_card_session, for working on it together",
-    "queue the card with queue_card \u2014 only when the user explicitly asks; a queued card runs unattended",
+    "queue the card with queue_card \u2014 only when the user explicitly asks; a queued card runs unattended. queue_card with autopilot: true is Send to Autopilot: only when the user asked for Autopilot; it carries the card unattended to Ready to merge and never merges",
     `if the Ideafy app is closed, tell the user to open a session in the project's folder: cd ${folder} && claude`
   ];
 }
@@ -21637,15 +21793,20 @@ __export(chain_order_exports, {
 // ../lib/test-progress.ts
 var test_progress_exports = {};
 __export(test_progress_exports, {
+  UI_ITEM_TOKEN: () => UI_ITEM_TOKEN,
+  allUiItemTexts: () => allUiItemTexts,
   canVerifyAllGroups: () => canVerifyAllGroups,
   describeTestGroup: () => describeTestGroup,
   distinctItems: () => distinctItems,
+  isUiItem: () => isUiItem,
   isVerifyScope: () => isVerifyScope,
   nextVerifyGroup: () => nextVerifyGroup,
   parseTestProgress: () => parseTestProgress,
   pickCurrentItems: () => pickCurrentItems,
+  stripUiToken: () => stripUiToken,
   testGroupLabel: () => testGroupLabel,
   tickedCoreItemTexts: () => tickedCoreItemTexts,
+  uiItemTexts: () => uiItemTexts,
   untickedIn: () => untickedIn,
   untickedItemTexts: () => untickedItemTexts,
   verifyAllLabel: () => verifyAllLabel,
@@ -21769,6 +21930,22 @@ function describeTestGroup(group, groups) {
 function ordinal(n) {
   const suffix = n % 10 === 1 && n % 100 !== 11 ? "st" : n % 10 === 2 && n % 100 !== 12 ? "nd" : n % 10 === 3 && n % 100 !== 13 ? "rd" : "th";
   return `${n}${suffix}`;
+}
+var UI_ITEM_TOKEN = "[ui]";
+var UI_TOKEN_PATTERN = /\s*\[ui\]\s*/gi;
+function isUiItem(text2) {
+  return /\[ui\]/i.test(text2);
+}
+function stripUiToken(text2) {
+  return text2.replace(UI_TOKEN_PATTERN, " ").replace(/\s+/g, " ").trim();
+}
+function uiItemTexts(html, groups) {
+  return untickedItemTexts(html, groups).filter(isUiItem);
+}
+function allUiItemTexts(html) {
+  const progress = parseTestProgress(html);
+  if (!progress) return [];
+  return [...itemTexts(html, progress.groups, true), ...itemTexts(html, progress.groups, false)].filter(isUiItem);
 }
 
 // ../lib/chain-order.ts
@@ -22036,6 +22213,7 @@ __export(card_ops_exports, {
   assertGroupAssignable: () => assertGroupAssignable,
   authorFromSource: () => authorFromSource,
   authorshipRows: () => authorshipRows,
+  autopilotRefusal: () => autopilotRefusal,
   branchStoryCounts: () => branchStoryCounts,
   cardAuthorship: () => cardAuthorship,
   cardHead: () => cardHead,
@@ -22044,6 +22222,7 @@ __export(card_ops_exports, {
   chainOrderWarningFor: () => chainOrderWarningFor,
   chainWriteConflictFor: () => chainWriteConflictFor,
   chooseBoundPolicy: () => chooseBoundPolicy,
+  clearAutopilot: () => clearAutopilot,
   clearQueue: () => clearQueue,
   completedAtFor: () => completedAtFor,
   completedAtOnCreate: () => completedAtOnCreate,
@@ -22056,6 +22235,7 @@ __export(card_ops_exports, {
   dismissSplitProposal: () => dismissSplitProposal,
   driftSince: () => driftSince,
   enqueueCard: () => enqueueCard,
+  getAutopilotState: () => getAutopilotState,
   getGroup: () => getGroup,
   getQueueRow: () => getQueueRow,
   getRow: () => getRow,
@@ -22120,6 +22300,7 @@ __export(card_ops_exports, {
   saveTests: () => saveTests,
   serializeBooleanForDb: () => serializeBooleanForDb,
   serializeUseWorktreeForDb: () => serializeUseWorktreeForDb,
+  setAutopilotStage: () => setAutopilotStage,
   setBlockedBy: () => setBlockedBy,
   setCardRuntime: () => setCardRuntime,
   sharedPrefixes: () => sharedPrefixes,
@@ -22127,8 +22308,11 @@ __export(card_ops_exports, {
   splitRelations: () => splitRelations,
   splitRoleLine: () => splitRoleLine,
   stampBaseCommit: () => stampBaseCommit,
+  startAutopilot: () => startAutopilot,
   statusAfterPlan: () => statusAfterPlan,
   statusAfterTests: () => statusAfterTests,
+  stopAutopilot: () => stopAutopilot,
+  strandedAutopilotCardIds: () => strandedAutopilotCardIds,
   suggestDependencies: () => suggestDependencies,
   testsDriftFor: () => testsDriftFor,
   tickChanges: () => tickChanges,
@@ -22514,7 +22698,7 @@ __export(markdown_exports, {
   untickTaskItems: () => untickTaskItems
 });
 
-// ../../../../../../vibecode/ideafy/node_modules/marked/lib/marked.esm.js
+// ../../../../Users/ozangencer/vibecode/ideafy/node_modules/marked/lib/marked.esm.js
 function L() {
   return { async: false, breaks: false, extensions: null, gfm: true, hooks: null, pedantic: false, renderer: null, silent: false, tokenizer: null, walkTokens: null };
 }
@@ -25855,153 +26039,6 @@ function addTestReportWarnings(db2, args) {
   });
 }
 
-// ../lib/opinion-markers.ts
-var opinion_markers_exports = {};
-__export(opinion_markers_exports, {
-  countOpinionConcerns: () => countOpinionConcerns,
-  describeOpinionMarkers: () => describeOpinionMarkers,
-  normalizeComplexity: () => normalizeComplexity,
-  parseAiVerdict: () => parseAiVerdict,
-  parseOpinionMarkers: () => parseOpinionMarkers,
-  parseVerdictWord: () => parseVerdictWord,
-  verdictWordToAiVerdict: () => verdictWordToAiVerdict
-});
-var WORD_ALIASES = {
-  "strong yes": "strong_yes",
-  "g\xFC\xE7l\xFC evet": "strong_yes",
-  yes: "yes",
-  evet: "yes",
-  maybe: "maybe",
-  belki: "maybe",
-  no: "no",
-  hay\u0131r: "no",
-  "strong no": "strong_no",
-  "g\xFC\xE7l\xFC hay\u0131r": "strong_no"
-};
-var WORD = new RegExp("(?<!\\p{L})(strong[\\s_]+yes|g\xFC\xE7l\xFC\\s+evet|strong[\\s_]+no|g\xFC\xE7l\xFC\\s+hay\u0131r|maybe|belki|yes|evet|no|hay\u0131r)(?!\\p{L})", "iu");
-var VERDICT_TAG = /\[VERDICT:\s*(strong[\s_-]?yes|yes|maybe|no|strong[\s_-]?no)\s*\]/i;
-var SCORE_TAG = /\[SCORE:\s*(\d{1,2}(?:\.\d+)?)\s*(?:\/\s*10)?\s*\]/i;
-var PRIORITY_TAG = /\[PRIORITY:\s*(low|medium|high)\s*\]/i;
-var COMPLEXITY_TAG = /\[COMPLEXITY:\s*(trivial|simple|low|medium|high|complex|very_high)\s*\]/i;
-var VERDICT_HEADING = new RegExp("^#{1,6}\\s*(?:summary\\s+verdict|\xF6zet\\s+karar\u0131)(?!\\p{L})(.*)$", "imu");
-var SCORE_HEADING = new RegExp("^#{1,6}\\s*(?:final\\s+score|final\\s+(?:skor|puan)\\p{L}*|son\\s+puan\\p{L}*)(?!\\p{L})(.*)$", "imu");
-var NEXT_HEADING = /^#{1,6}\s/m;
-var OUT_OF_TEN = /(?<![\d.])(\d{1,2}(?:\.\d+)?)\s*\/\s*10(?!\d)/;
-function normalize(input) {
-  if (!/<[a-z][^>]*>/i.test(input)) return input;
-  return input.replace(/<pre[\s\S]*?<\/pre>/gi, "\n").replace(/<code[\s\S]*?<\/code>/gi, "").replace(/<h[1-6][^>]*>/gi, "\n## ").replace(/<\/(h[1-6]|p|li|div)>|<br\s*\/?>/gi, "\n").replace(/<[^>]+>/g, "").replace(/&nbsp;/g, " ").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#(\d+);/g, (_2, code) => String.fromCodePoint(Number(code))).replace(/&amp;/g, "&");
-}
-function withoutCode(markdown) {
-  return markdown.replace(/```[\s\S]*?```/g, "\n").replace(/`[^`\n]*`/g, "");
-}
-function prepare(markdownOrHtml) {
-  return withoutCode(normalize(markdownOrHtml));
-}
-function section(text2, heading) {
-  const match = heading.exec(text2);
-  if (!match) return null;
-  const after = text2.slice(match.index + match[0].length);
-  const next = NEXT_HEADING.exec(after);
-  return `${match[1]}
-${next ? after.slice(0, next.index) : after}`;
-}
-function verdictWordIn(text2) {
-  const tag = VERDICT_TAG.exec(text2);
-  if (tag) return WORD_ALIASES[tag[1].toLowerCase().replace(/[\s_-]+/g, " ")] ?? null;
-  const body = section(text2, VERDICT_HEADING);
-  if (body === null) return null;
-  const match = WORD.exec(body);
-  if (!match) return null;
-  return WORD_ALIASES[match[1].toLocaleLowerCase("tr").replace(/[\s_]+/g, " ")] ?? null;
-}
-function toScore(raw) {
-  const value = Math.round(Number(raw));
-  return Number.isFinite(value) && value >= 0 && value <= 10 ? value : null;
-}
-function scoreIn(text2) {
-  const tag = SCORE_TAG.exec(text2);
-  if (tag) return toScore(tag[1]);
-  const body = section(text2, SCORE_HEADING);
-  if (body === null) return null;
-  const match = OUT_OF_TEN.exec(body);
-  return match ? toScore(match[1]) : null;
-}
-function parseVerdictWord(markdownOrHtml) {
-  return verdictWordIn(prepare(markdownOrHtml));
-}
-function verdictWordToAiVerdict(word) {
-  if (word === "strong_yes" || word === "yes") return "positive";
-  if (word === "no" || word === "strong_no") return "negative";
-  if (word === "maybe") return "maybe";
-  return null;
-}
-function parseAiVerdict(markdownOrHtml) {
-  return verdictWordToAiVerdict(parseVerdictWord(markdownOrHtml));
-}
-function normalizeComplexity(value) {
-  switch ((value ?? "").trim().toLowerCase()) {
-    case "trivial":
-    case "simple":
-    case "low":
-      return "low";
-    case "medium":
-      return "medium";
-    case "high":
-    case "complex":
-    case "very_high":
-      return "high";
-    default:
-      return null;
-  }
-}
-function parseOpinionMarkers(markdownOrHtml) {
-  const text2 = prepare(markdownOrHtml);
-  const verdictWord = verdictWordIn(text2);
-  const priority = PRIORITY_TAG.exec(text2);
-  const complexity = COMPLEXITY_TAG.exec(text2);
-  return {
-    verdictWord,
-    verdict: verdictWordToAiVerdict(verdictWord),
-    score: scoreIn(text2),
-    priority: priority ? priority[1].toLowerCase() : null,
-    complexity: complexity ? normalizeComplexity(complexity[1]) : null
-  };
-}
-function describeOpinionMarkers(markers) {
-  const parts = [
-    markers.verdict && `verdict: ${markers.verdict}`,
-    markers.score !== null && `score ${markers.score}/10`,
-    markers.priority && `priority ${markers.priority}`,
-    markers.complexity && `complexity ${markers.complexity}`
-  ].filter(Boolean);
-  return parts.join(" \xB7 ");
-}
-var CONCERNS_HEADING = new RegExp("^#{1,6}\\s*(?:concerns|endi\u015Feler|kayg\u0131lar)(?!\\p{L})(.*)$", "imu");
-function countOpinionConcerns(markdownOrHtml) {
-  if (!markdownOrHtml) return null;
-  const isHtml2 = /<[a-z][^>]*>/i.test(markdownOrHtml);
-  if (isHtml2) {
-    const heading = new RegExp("<h[1-6][^>]*>\\s*(?:concerns|endi\u015Feler|kayg\u0131lar)(?!\\p{L})[\\s\\S]*?<\\/h[1-6]>", "iu").exec(markdownOrHtml);
-    if (!heading) return null;
-    const after = markdownOrHtml.slice(heading.index + heading[0].length);
-    const next = /<h[1-6][^>]*>/i.exec(after);
-    const body2 = next ? after.slice(0, next.index) : after;
-    let depth2 = 0;
-    let count = 0;
-    for (const tag of body2.matchAll(/<(\/?)(ul|ol|li)\b[^>]*>/gi)) {
-      const closing = tag[1] === "/";
-      const name = tag[2].toLowerCase();
-      if (name === "li") {
-        if (!closing && depth2 === 1) count++;
-      } else depth2 += closing ? -1 : 1;
-    }
-    return count;
-  }
-  const body = section(withoutCode(markdownOrHtml), CONCERNS_HEADING);
-  if (body === null) return null;
-  return body.split("\n").filter((line) => /^(?:[-*+]|\d+[.)])\s+\S/.test(line)).length;
-}
-
 // ../lib/group-code.ts
 var GROUP_CODE_MAX = 6;
 function normalizeGroupCode(raw) {
@@ -27634,6 +27671,148 @@ function clearQueue(db2, keep = /* @__PURE__ */ new Set()) {
   });
 }
 
+// ../lib/autopilot.ts
+var AUTOPILOT_STAGES = ["implementing", "verifying", "fixing", "ready", "stopped"];
+function isAutopilotStage(value) {
+  return typeof value === "string" && AUTOPILOT_STAGES.includes(value);
+}
+function isActiveAutopilotStage(stage) {
+  return stage === "implementing" || stage === "verifying" || stage === "fixing";
+}
+function autopilotIneligibleReason(card) {
+  if (isActiveAutopilotStage(isAutopilotStage(card.stage) ? card.stage : null)) return "it is already on Autopilot";
+  if (card.projectMode === "work") return "Work projects have no Autopilot";
+  if (card.status === "ideation") return "Ideation cards need a plan first \u2014 planning comes with IDE-610";
+  if (card.status === "completed" || card.status === "withdrawn") return `it is in ${card.status}`;
+  if (card.processingType) return "a run is already going on it";
+  if (card.status === "test") {
+    if (!card.hasCoreFlow) return "its checklist has no core-flow group";
+    if (!card.activeWorktree) return "it has no worktree \u2014 a fix round would write to main";
+    return null;
+  }
+  if (!card.hasPlan) return "no plan yet \u2014 planning comes with IDE-610";
+  if (card.hasChecklist) return "it already has a test checklist";
+  if (card.status === "progress" && !card.activeWorktree && card.useWorktree === false) return "its work is on main";
+  return null;
+}
+
+// ../lib/card-ops/autopilot.ts
+var ROW_SELECT2 = `
+  SELECT c.id, c.title, c.status,
+         c.solution_summary AS solutionSummary,
+         c.test_scenarios AS testScenarios,
+         c.processing_type AS processingType,
+         c.use_worktree AS useWorktree,
+         c.git_worktree_path AS gitWorktreePath,
+         c.git_worktree_status AS gitWorktreeStatus,
+         c.task_number AS taskNumber,
+         p.id_prefix AS idPrefix,
+         p.mode AS projectMode,
+         c.autopilot_stage AS stage,
+         c.autopilot_stop_reason AS stopReason,
+         c.autopilot_retried AS retried,
+         c.autopilot_fix_used AS fixUsed
+  FROM cards c LEFT JOIN projects p ON p.id = c.project_id
+  WHERE c.id = ?`;
+function readRow2(db2, cardId) {
+  return getRow(db2, ROW_SELECT2, cardId);
+}
+function stateOf(row) {
+  return {
+    stage: isAutopilotStage(row.stage) ? row.stage : null,
+    stopReason: row.stopReason,
+    retried: !!row.retried,
+    fixUsed: !!row.fixUsed
+  };
+}
+function getAutopilotState(db2, cardId) {
+  const row = readRow2(db2, cardId);
+  return row ? stateOf(row) : { stage: null, stopReason: null, retried: false, fixUsed: false };
+}
+function ineligibleReason(row) {
+  const html = row.testScenarios ?? "";
+  return autopilotIneligibleReason({
+    status: row.status,
+    hasPlan: stripHtml(row.solutionSummary ?? "") !== "",
+    hasChecklist: stripHtml(html) !== "",
+    hasCoreFlow: !!parseTestProgress(html)?.core,
+    projectMode: row.projectMode,
+    useWorktree: row.useWorktree === null ? null : !!row.useWorktree,
+    activeWorktree: !!row.gitWorktreePath && row.gitWorktreeStatus === "active",
+    stage: row.stage,
+    processingType: row.processingType
+  });
+}
+function autopilotRefusal(db2, cardId) {
+  const row = readRow2(db2, cardId);
+  return row ? ineligibleReason(row) : "Card not found";
+}
+var Refused = class extends Error {
+};
+function startAutopilot(db2, cardId) {
+  const row = readRow2(db2, cardId);
+  if (!row) return { ok: false, reason: "not-found", message: "Card not found" };
+  const displayId = queueDisplayId(row);
+  const refusal = ineligibleReason(row);
+  if (refusal) return { ok: false, reason: "ineligible", message: `Cannot send ${displayId} to Autopilot: ${refusal}` };
+  const stage = row.status === "test" ? "verifying" : "implementing";
+  try {
+    return transaction(db2, () => {
+      db2.prepare(
+        `UPDATE cards SET use_worktree = 1, autopilot_stage = ?, autopilot_stop_reason = NULL,
+                autopilot_retried = 0, autopilot_fix_used = 0
+         WHERE id = ?`
+      ).run(stage, cardId);
+      const queued = enqueueCard(db2, cardId, null, "next");
+      if (!queued.ok) {
+        throw new Refused(`Cannot send ${displayId} to Autopilot: ${queued.message.replace(/^Cannot queue [^:]+: /, "")}`);
+      }
+      return { ok: true, stage, rank: queued.rank, displayId };
+    });
+  } catch (error2) {
+    if (error2 instanceof Refused) return { ok: false, reason: "ineligible", message: error2.message };
+    throw error2;
+  }
+}
+function setAutopilotStage(db2, cardId, stage, used = {}) {
+  db2.prepare(
+    `UPDATE cards SET autopilot_stage = ?, autopilot_stop_reason = NULL,
+            autopilot_retried = COALESCE(?, autopilot_retried),
+            autopilot_fix_used = COALESCE(?, autopilot_fix_used)
+     WHERE id = ?`
+  ).run(
+    stage,
+    used.retried === void 0 ? null : used.retried ? 1 : 0,
+    used.fixUsed === void 0 ? null : used.fixUsed ? 1 : 0,
+    cardId
+  );
+}
+function stopAutopilot(db2, cardId, reason) {
+  transaction(db2, () => {
+    db2.prepare(`UPDATE cards SET autopilot_stage = 'stopped', autopilot_stop_reason = ? WHERE id = ?`).run(reason, cardId);
+    dequeueCard(db2, cardId);
+  });
+}
+function clearAutopilot(db2, cardId, opts = {}) {
+  return transaction(db2, () => {
+    const had = !!readRow2(db2, cardId)?.stage;
+    db2.prepare(
+      `UPDATE cards SET autopilot_stage = NULL, autopilot_stop_reason = NULL,
+              autopilot_retried = NULL, autopilot_fix_used = NULL
+       WHERE id = ?`
+    ).run(cardId);
+    if (opts.dequeue !== false) dequeueCard(db2, cardId);
+    return had;
+  });
+}
+function strandedAutopilotCardIds(db2) {
+  return db2.prepare(
+    `SELECT id FROM cards
+       WHERE autopilot_stage IN ('implementing', 'verifying', 'fixing')
+         AND queue_position IS NULL AND processing_type IS NULL`
+  ).all().map((row) => row.id);
+}
+
 // ../lib/card-ops/chain.ts
 function chainMembers(db2, cardId) {
   const card = getRow(db2, "SELECT group_id AS groupId FROM cards WHERE id = ?", cardId);
@@ -28908,27 +29087,38 @@ async function mergeCard(db2, cardId, opts = {}) {
       log(`[Merge] Failed to delete branch: ${branchError}`);
     }
     await pruneWorktrees(workingDir, log);
+    const complete = opts.complete !== false;
     transaction(db2, () => {
-      setCardRuntime(db2, cardId, {
+      const runtime = {
         gitBranchStatus: "merged",
         gitWorktreeStatus: "removed",
         devServerPort: null,
         devServerPid: null,
         rebaseConflict: null,
         conflictFiles: null
-      });
-      moveCard(db2, cardId, "completed", now());
+      };
+      if (complete) {
+        setCardRuntime(db2, cardId, runtime);
+        moveCard(db2, cardId, "completed", now());
+      } else {
+        setCardRuntime(
+          db2,
+          cardId,
+          { ...runtime, gitBranchName: null, gitWorktreePath: null, gitWorktreeStatus: null },
+          now()
+        );
+      }
     });
-    log(`[Merge] Success - branch merged, worktree removed, branch deleted`);
+    log(`[Merge] Success - branch merged, worktree removed, branch deleted${complete ? "" : ", card kept in Human Test"}`);
     const stashRestoreWarning = await restoreStash();
     return {
       kind: "ok",
       cardId,
-      newStatus: "completed",
+      newStatus: complete ? "completed" : "test",
       branchName,
       targetBranch,
       displayId,
-      message: `Branch ${branchName} merged, worktree removed, branch deleted`,
+      message: complete ? `Branch ${branchName} merged, worktree removed, branch deleted` : `Branch ${branchName} merged, worktree removed, branch deleted; card stays in Human Test`,
       stashRestoreWarning
     };
   } catch (error2) {
@@ -29129,7 +29319,8 @@ var STEP_DESC = {
   "quick-fix": "Straight to code, no plan first",
   generate: "Write the document from the description",
   queue: "Runs when the queue reaches it",
-  autopilot: "Carry the card through every phase",
+  autopilot: "Implement, pre-verify every group, stop at Ready to merge",
+  "stop-autopilot": "Leave the card where it is; a run going finishes",
   discuss: "Open a session about the idea",
   argue: "Push back on the opinion in the card chat",
   talk: "Settle the open questions in the card chat",
@@ -29261,8 +29452,27 @@ function nextStepFor(card, flags, ctx) {
       disabledReason: ctx.running ? "A run is going" : ctx.queueRank > 0 ? `Already queued #${ctx.queueRank}` : ctx.canQueue ? void 0 : phase === "planning" ? "Needs a plan first" : phase === "verify" ? "Nothing left to pre-verify" : "Not available in this column"
     });
   }
-  if (flags.canStart) {
-    row(ideafy, { id: "autopilot", title: "Send to Autopilot", kind: "ai", disabledReason: "Not built yet", meta: "soon" });
+  if (isActiveAutopilotStage(card.autopilotStage ?? null)) {
+    row(ideafy, { id: "stop-autopilot", title: "Stop Autopilot", kind: "ai" });
+  } else if (flags.canStart && ctx.mode !== "work") {
+    const html = card.testScenarios ?? "";
+    const refusal = autopilotIneligibleReason({
+      status: card.status,
+      hasPlan: stripHtml(card.solutionSummary ?? "") !== "",
+      hasChecklist: stripHtml(html) !== "",
+      hasCoreFlow: !!ctx.testProgress?.core,
+      projectMode: ctx.mode,
+      useWorktree: card.useWorktree,
+      activeWorktree: !!card.gitWorktreePath && card.gitWorktreeStatus === "active",
+      stage: card.autopilotStage ?? null,
+      processingType: card.processingType
+    });
+    row(ideafy, {
+      id: "autopilot",
+      title: "Send to Autopilot",
+      kind: "ai",
+      disabledReason: autonomousBlock ?? (refusal ? refusal.charAt(0).toUpperCase() + refusal.slice(1) : void 0)
+    });
   }
   if (flags.canEvaluate) {
     row(together, { id: "discuss", title: "Discuss the idea", kind: "you", disabledReason: interactiveBlock, meta: mobileMeta });
@@ -29724,6 +29934,7 @@ var EVALUATION_OUTPUT_SCHEMA = `## Summary Verdict
 ## Complexity
 [COMPLEXITY: trivial/low/medium/high/very_high] \u2014 assessment.
 (trivial = few lines, low = simple, medium = moderate, high = significant, very_high = major)
+Give low (or trivial) only when the change is small and touches none of these: concurrency or async ordering, migrations or schema, auth and security, state shared between the app and MCP, stream parsers. A change that touches any of them is at least medium, however few lines it is.
 
 ## Final Score
 [SCORE: X/10] \u2014 brief justification
@@ -30290,7 +30501,9 @@ var {
   splitRoleLine: splitRoleLine2,
   splitCard: splitCard2,
   SplitCardError: SplitCardError2,
-  mergeCard: mergeCard2
+  mergeCard: mergeCard2,
+  startAutopilot: startAutopilot2,
+  getAutopilotState: getAutopilotState2
 } = unwrap(card_ops_exports);
 var { writeConflictFor: writeConflictFor2 } = unwrap(card_queue_exports);
 var { normalizeComplexity: normalizeComplexity2, describeOpinionMarkers: describeOpinionMarkers2, countOpinionConcerns: countOpinionConcerns2 } = unwrap(opinion_markers_exports);
@@ -30351,7 +30564,7 @@ import { fileURLToPath } from "url";
 import { homedir as homedir5 } from "os";
 import { mkdirSync as mkdirSync6 } from "fs";
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/uuid/dist/esm/stringify.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/uuid/dist/esm/stringify.js
 var byteToHex = [];
 for (let i = 0; i < 256; ++i) {
   byteToHex.push((i + 256).toString(16).slice(1));
@@ -30360,7 +30573,7 @@ function unsafeStringify(arr, offset = 0) {
   return (byteToHex[arr[offset + 0]] + byteToHex[arr[offset + 1]] + byteToHex[arr[offset + 2]] + byteToHex[arr[offset + 3]] + "-" + byteToHex[arr[offset + 4]] + byteToHex[arr[offset + 5]] + "-" + byteToHex[arr[offset + 6]] + byteToHex[arr[offset + 7]] + "-" + byteToHex[arr[offset + 8]] + byteToHex[arr[offset + 9]] + "-" + byteToHex[arr[offset + 10]] + byteToHex[arr[offset + 11]] + byteToHex[arr[offset + 12]] + byteToHex[arr[offset + 13]] + byteToHex[arr[offset + 14]] + byteToHex[arr[offset + 15]]).toLowerCase();
 }
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/uuid/dist/esm/rng.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/uuid/dist/esm/rng.js
 import { randomFillSync } from "crypto";
 var rnds8Pool = new Uint8Array(256);
 var poolPtr = rnds8Pool.length;
@@ -30372,11 +30585,11 @@ function rng() {
   return rnds8Pool.slice(poolPtr, poolPtr += 16);
 }
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/uuid/dist/esm/native.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/uuid/dist/esm/native.js
 import { randomUUID } from "crypto";
 var native_default = { randomUUID };
 
-// ../../../../../../vibecode/ideafy/mcp-server/node_modules/uuid/dist/esm/v4.js
+// ../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/uuid/dist/esm/v4.js
 function v4(options, buf, offset) {
   if (native_default.randomUUID && !buf && !options) {
     return native_default.randomUUID();
@@ -30514,7 +30727,9 @@ var CAPABILITIES = {
   /** split_from_card_id (0034) — the parent a card was broken out of, written by split_card. */
   splitFrom: ["cards", "split_from_card_id"],
   /** card_split_proposals (0034) — a break-up an opinion proposed, written by save_opinion's `splitInto`. */
-  splitProposals: ["card_split_proposals", "card_id"]
+  splitProposals: ["card_split_proposals", "card_id"],
+  /** autopilot_stage (0035) — the card's Autopilot stage, written by queue_card's `autopilot`. */
+  autopilot: ["cards", "autopilot_stage"]
 };
 var knownColumns = /* @__PURE__ */ new WeakMap();
 function hasColumn(db2, table, column) {
@@ -30814,6 +31029,15 @@ Warning: ${warning}` : text2;
 function mergeCardText(result) {
   switch (result.kind) {
     case "ok":
+      if (result.newStatus === "test") {
+        return {
+          ok: true,
+          text: withStashWarning(
+            `${result.displayId} merged into ${result.targetBranch} and left in Human Test. Branch ${result.branchName} and its worktree were deleted. Test it on main; if the test fails, the board's Didn't work sends it to Bugs and the squash stays on ${result.targetBranch}.`,
+            result.stashRestoreWarning
+          )
+        };
+      }
       return {
         ok: true,
         text: withStashWarning(
@@ -30878,6 +31102,7 @@ async function mergeCardTool(db2, args) {
   const result = await mergeCard2(db2, args.cardId, {
     commitFirst: args.commitFirst === true,
     targetBranch: args.targetBranch?.trim() || void 0,
+    complete: args.complete !== false,
     cwd: args.cwd,
     stopProcess: (pid) => stopProcessGroup2(pid)
   });
@@ -32137,6 +32362,10 @@ The server writes the card's verdict, score, priority and complexity from those 
               type: "string",
               enum: ["next", "all"],
               description: 'Human Test cards only: "next" (default) pre-verifies the next group with unticked items; "all" pre-verifies every group with unticked items in one run. Only pass "all" when the user asked for it. Omitted on a card already queued, its scope is kept.'
+            },
+            autopilot: {
+              type: "boolean",
+              description: "Send to Autopilot, the app's button of that name (IDE-608): only when the user explicitly asked for Autopilot on this card. The card goes to the FRONT of the queue and Ideafy carries it on its own, unattended \u2014 implementation in its worktree, then a pre-verify of each checklist group in turn, at most one automatic fix round \u2014 and stops at Ready to merge, or where it is with the reason on the card. It never merges. Takes a planned Backlog/Bugs card, an In Progress card with no checklist, or a Human Test card with a core flow and a worktree; Ideation, Work projects and cards with no plan are refused with the reason. afterCardId and scope are ignored with it."
             }
           },
           required: ["cardId"]
@@ -32197,7 +32426,7 @@ The server writes the card's verdict, score, priority and complexity from those 
       },
       {
         name: "merge_card",
-        description: "Merge & Complete from the terminal, the same as the button on a Human Test card. Call only when the user explicitly asked to merge this card; it squash-merges the card's branch into the default branch, deletes the worktree and branch, and moves the card to Completed. It cannot be undone from the board. Runs without the Ideafy app. Refused from a session inside the card's own worktree. On a rebase conflict it lists the files and the worktree: show them to the user. When the worktree has uncommitted changes it asks first: only on the user's OK call again with commitFirst: true. Uncommitted work in the main checkout is stashed and restored, never committed.",
+        description: "Merge & Complete from the terminal, the same as the button on a Human Test card. Call only when the user explicitly asked to merge this card; it squash-merges the card's branch into the default branch, deletes the worktree and branch, and moves the card to Completed. It cannot be undone from the board. Runs without the Ideafy app. Refused from a session inside the card's own worktree. On a rebase conflict it lists the files and the worktree: show them to the user. When the worktree has uncommitted changes it asks first: only on the user's OK call again with commitFirst: true. Uncommitted work in the main checkout is stashed and restored, never committed. With complete: false the card stays in Human Test instead of moving to Completed, to be tested on main; the worktree and branch are still deleted.",
         inputSchema: {
           type: "object",
           properties: {
@@ -32212,6 +32441,10 @@ The server writes the card's verdict, score, priority and complexity from those 
             targetBranch: {
               type: "string",
               description: "Branch to merge into instead of the default branch. It must already be checked out, in the main checkout or a worktree."
+            },
+            complete: {
+              type: "boolean",
+              description: "Default true. false keeps the card in Human Test after the merge, so the user can test it on main. Only when the user asked for that."
             }
           },
           required: ["cardId"]
@@ -32474,6 +32707,15 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         const authorship = cardAuthorship2(db, card.id);
         if (authorship && (Object.keys(authorship.tabs).length > 0 || authorship.ticks.length > 0)) {
           card.authorship = authorship;
+        }
+        if (hasCapability(db, "autopilot")) {
+          const autopilot = getAutopilotState2(db, card.id);
+          if (autopilot.stage) {
+            card.autopilot = {
+              stage: autopilot.stage,
+              stopReason: autopilot.stopReason
+            };
+          }
         }
         const projectRow = card.projectId ? db.prepare(`SELECT * FROM projects WHERE id = ?`).get(card.projectId) : void 0;
         const voice = projectRow?.voice ?? "builder";
@@ -33510,6 +33752,11 @@ ${waiting}` : ""}` : choice === "silent" ? `${bound} This session is outside eve
           };
         }
         const { projectId } = args ?? {};
+        const withAutopilot = hasCapability(db, "autopilot");
+        const autopilotField = (id) => {
+          const state = withAutopilot ? getAutopilotState2(db, id) : null;
+          return state?.stage ? { autopilot: { stage: state.stage, stopReason: state.stopReason } } : {};
+        };
         const items = listQueueRows2(db).map((row, index) => ({
           rank: index + 1,
           id: row.id,
@@ -33521,7 +33768,9 @@ ${waiting}` : ""}` : choice === "silent" ? `${bound} This session is outside eve
           ...queueKindOf2(row) === "verify" ? { verifyScope: row.queueVerifyScope ?? "next" } : {},
           runsInWorktree: queuedRunsInWorktree2(row),
           // Passed over until a blocked-by predecessor lands (IDE-472).
-          waitsOn: queuedWaitReason2(db, row)
+          waitsOn: queuedWaitReason2(db, row),
+          // On Autopilot (IDE-608): its stage and why it stopped.
+          ...autopilotField(row.id)
         })).filter((item) => !projectId || item.projectId === projectId);
         const runtime = readRuntime2(db);
         const runState = runtime.appState === "unknown" ? "unknown" : runtime.appState === "closed" ? "app-closed" : !runtime.armed ? "paused" : runtime.heldBy ? "held" : items.length > 0 && items.every((item) => item.waitsOn) ? "waiting" : "running";
@@ -33666,13 +33915,30 @@ ${waiting}` : ""}` : choice === "silent" ? `${bound} This session is outside eve
             isError: true
           };
         }
-        const { cardId: rawCardId, afterCardId: rawAfterCardId, scope: rawScope } = args;
+        const { cardId: rawCardId, afterCardId: rawAfterCardId, scope: rawScope, autopilot } = args;
         if (rawScope !== void 0 && rawScope !== "next" && rawScope !== "all") {
           return { content: [{ type: "text", text: `queue_card: scope must be "next" or "all". Nothing was written.` }], isError: true };
         }
         const cardId = resolveCardRef2(db, rawCardId);
         if (!cardId) {
           return { content: [{ type: "text", text: `Card not found: ${rawCardId}` }], isError: true };
+        }
+        if (autopilot === true) {
+          if (!hasCapability(db, "autopilot")) {
+            return { content: [{ type: "text", text: missingCapabilityMessage("queue_card", "autopilot") }], isError: true };
+          }
+          const started = startAutopilot2(db, cardId);
+          if (!started.ok) {
+            return { content: [{ type: "text", text: `queue_card: ${started.message}. Nothing was written.` }], isError: true };
+          }
+          const runtime2 = readRuntime2(db);
+          const armed2 = runtime2.appState === "closed" ? "The Ideafy app is closed, so nothing starts; the queue opens paused on the next launch." : await armQueueIfIdle({ port: appPort(runtime2) });
+          return {
+            content: [{
+              type: "text",
+              text: `${started.displayId} is on Autopilot (${started.stage}) at #${started.rank} in the run queue. ${armed2} It stops at Ready to merge or with a reason on the card; merging stays the user's call.`
+            }]
+          };
         }
         let afterCardId = rawAfterCardId;
         if (typeof rawAfterCardId === "string") {
@@ -33742,12 +34008,12 @@ ${waiting}` : ""}` : choice === "silent" ? `${bound} This session is outside eve
         return { content: [{ type: "text", text: result.text }], ...result.ok ? {} : { isError: true } };
       }
       case "merge_card": {
-        const { cardId: rawCardId, commitFirst, targetBranch } = args;
+        const { cardId: rawCardId, commitFirst, targetBranch, complete } = args;
         const cardId = resolveCardRef2(db, rawCardId);
         if (!cardId) {
           return { content: [{ type: "text", text: `Card not found: ${rawCardId}` }], isError: true };
         }
-        const result = await mergeCardTool(db, { cardId, commitFirst, targetBranch, cwd: process.cwd() });
+        const result = await mergeCardTool(db, { cardId, commitFirst, targetBranch, complete, cwd: process.cwd() });
         return { content: [{ type: "text", text: result.text }], ...result.ok ? {} : { isError: true } };
       }
       case "list_groups": {
