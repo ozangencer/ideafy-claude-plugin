@@ -4225,7 +4225,7 @@ var require_core = __commonJS({
       errorsText(errors = this.errors, { separator = ", ", dataVar = "data" } = {}) {
         if (!errors || errors.length === 0)
           return "No errors";
-        return errors.map((e) => `${dataVar}${e.instancePath} ${e.message}`).reduce((text, msg) => text + separator + msg);
+        return errors.map((e) => `${dataVar}${e.instancePath} ${e.message}`).reduce((text2, msg) => text2 + separator + msg);
       }
       $dataMetaSchema(metaSchema, keywordsJsonPointers) {
         const rules = this.RULES.all;
@@ -20997,10 +20997,10 @@ function buildTestStyleContract(opts = {}) {
   return body + languageRule;
 }
 function detectCardLanguage(card) {
-  const text = `${card.title ?? ""} ${card.description ?? ""}`.slice(0, 300);
-  if (!text.trim()) return "en";
-  if (/[çğıöşü]/i.test(text)) return "tr";
-  const stopwordCount = (text.toLowerCase().match(/\b(ve|bu|bir|için|ile|daha|ama|veya|ancak|nasıl|neden|olmalı|gerekir|göre)\b/g) || []).length;
+  const text2 = `${card.title ?? ""} ${card.description ?? ""}`.slice(0, 300);
+  if (!text2.trim()) return "en";
+  if (/[çğıöşü]/i.test(text2)) return "tr";
+  const stopwordCount = (text2.toLowerCase().match(/\b(ve|bu|bir|için|ile|daha|ama|veya|ancak|nasıl|neden|olmalı|gerekir|göre)\b/g) || []).length;
   if (stopwordCount >= 2) return "tr";
   return "en";
 }
@@ -21011,6 +21011,7 @@ function buildTestStyleContractForCard(card) {
 // ../lib/prompts/phase-policy.ts
 var phase_policy_exports = {};
 __export(phase_policy_exports, {
+  SPLIT_PARENT_RULE: () => SPLIT_PARENT_RULE,
   buildCreatedCardOpinionClause: () => buildCreatedCardOpinionClause,
   buildCreationOfferPolicy: () => buildCreationOfferPolicy,
   buildPhaseHint: () => buildPhaseHint,
@@ -21021,7 +21022,8 @@ __export(phase_policy_exports, {
   isTerminalPhase: () => isTerminalPhase,
   phaseInstructionFor: () => phaseInstructionFor,
   safeDisplayId: () => safeDisplayId,
-  sanitizeForReminder: () => sanitizeForReminder
+  sanitizeForReminder: () => sanitizeForReminder,
+  splitChildRule: () => splitChildRule
 });
 var PHASE_INSTRUCTIONS = {
   ideation: "evaluate the idea with the rule and template get_card returns for this card, then propose save_opinion. This tool does NOT move the card. Once the opinion is saved, ask separately whether to move the card \u2014 to 'backlog' if the verdict was positive, to 'withdrawn' if it was negative \u2014 and call move_card only on a clear yes. Never report the card as moved until move_card has returned.",
@@ -21069,6 +21071,10 @@ function sanitizeForReminder(value, maxLength = 120) {
   const collapsed = (value || "").replace(/[\r\n\u2028\u2029]+/g, " ").replace(/\s{2,}/g, " ").trim();
   const neutralized = collapsed.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, '\\"');
   return neutralized.length > maxLength ? `${neutralized.slice(0, maxLength)}\u2026` : neutralized;
+}
+var SPLIT_PARENT_RULE = "This card was split into the cards below. Your job is to join the pieces and show the idea works end to end. Do not redo what the child cards did: read their plans and changes first (get_card). Fix a joining gap in your own plan and commit; for a bigger gap, propose a new card.";
+function splitChildRule(parentName) {
+  return `Your scope is this card; ${parentName} joins the whole. Do not take on the parent card's work.`;
 }
 function buildTestPhaseLines(mode) {
   if (mode === "work") {
@@ -21459,7 +21465,9 @@ __export(prior_decisions_exports, {
   CHAIN_IMPLEMENTATION_RULE: () => CHAIN_IMPLEMENTATION_RULE,
   DEPENDS_ON_RULE: () => DEPENDS_ON_RULE,
   PRIOR_DECISIONS_EVALUATION_RULE: () => PRIOR_DECISIONS_EVALUATION_RULE,
-  PRIOR_DECISIONS_RULE: () => PRIOR_DECISIONS_RULE
+  PRIOR_DECISIONS_RULE: () => PRIOR_DECISIONS_RULE,
+  SPLIT_FENCE_FORMAT: () => SPLIT_FENCE_FORMAT,
+  SPLIT_PROPOSAL_RULE: () => SPLIT_PROPOSAL_RULE
 });
 var PRIOR_DECISIONS_CHECK = `Check this card against the project's other cards before you commit to an approach. Use this card's \`id\` and \`projectId\` (get_card returns both):
 - Past decisions: call \`search_cards\` with the \`projectId\`, 2-3 keywords from the task, and this card's \`id\` as \`excludeCardId\`. The search matches words literally, so when the cards are not written in English, search in their language as well as in English. Read each hit by its status:
@@ -21475,6 +21483,14 @@ var CHAIN_CONTEXT = `Chain: when get_card returns a \`chain\` field for this car
 - Read only their \`aiOpinion\` and \`solutionSummary\`, and ask one question: does this card's direction contradict what they decided, or break an assumption the successor is built on? That content contradiction is the only conflict meant here \u2014 a shared file is already \`list_open_work\`'s job.
 - Only a yes to that question is a finding. A no is never written down: no "does not contradict", no note on how the member's design fits this card, no summary of what it does.`;
 var DEPENDS_ON_RULE = (tool, where) => `For ${where} \u2014 a card this one needs that has not landed yet \u2014 also pass it in ${tool}'s \`dependsOn\` as \`{ card: "<displayId>", note: "<half a sentence on why>" }\`: the user sees it as a suggested link and decides; nothing is linked without them. Never pass an overlap, a precedent, a contradiction, a duplicate or a chain member.`;
+var SPLIT_FENCE_FORMAT = `\`\`\`ideafy-split
+{"reason": "<one sentence>", "cards": [{"title": "...", "scope": "<1-2 sentences>", "carries": "<the concerns and recommendations of this opinion this card takes>", "blockedBy": [<1-based places of earlier cards it waits on>], "reason": "<half a sentence>"}], "flows": ["<end-to-end flow the parent card checks once the cards land>"]}
+\`\`\``;
+var SPLIT_PROPOSAL_RULE = (where) => `Break-up: propose breaking this card into 2-8 cards only when it really holds more than one card's work \u2014 several parts that can each ship on their own, different layers (schema, server, UI) that can land separately, or parts with clearly different risks. A long description alone is no reason. Never propose it for a card that was itself broken out of another unless it is again that big. ` + (where === "tool" ? `Pass the proposal in save_opinion's \`splitInto\` ({ reason, cards: [{ title, scope, carries, blockedBy: [1-based places of earlier cards], reason }], flows }); when you write the opinion as your final message instead, put it after the template in this block:
+${SPLIT_FENCE_FORMAT}
+` : `Put the proposal after the evaluation in this block, once:
+${SPLIT_FENCE_FORMAT}
+To change a proposal the user is shaping with you, write only the updated block. `) + `Say in the opinion's Recommendations, in one sentence, that you propose breaking it up. The cards are opened only when the user accepts; a proposal the user turned down is not made again.`;
 var PRIOR_DECISIONS_RULE = `${PRIOR_DECISIONS_CHECK}
 - If an open card brings in something this card needs to work correctly, or breaks it, that is extra work. When it is a precondition for this card, add it as its own step under Implementation Steps labelled "(because of <displayId>)"; otherwise suggest it as a note for the other card. Never widen the scope silently.
 - Contradictions, precedents and overlaps go under Edge Cases; dependencies go under Dependencies. Do not add a heading for them. A card sits under one heading only: a dependency is not repeated in Edge Cases, and an overlap you checked and ruled out is not written down.
@@ -21518,8 +21534,8 @@ var NAMED = {
   nbsp: " "
 };
 var ENTITY = /&(#\d+|#x[0-9a-f]+|amp|lt|gt|quot|apos|nbsp);/gi;
-function decodeHtmlEntities(text) {
-  return text.replace(ENTITY, (match, body) => {
+function decodeHtmlEntities(text2) {
+  return text2.replace(ENTITY, (match, body) => {
     if (body[0] !== "#") return NAMED[body.toLowerCase()] ?? match;
     const hex3 = body[1] === "x" || body[1] === "X";
     const code = parseInt(body.slice(hex3 ? 2 : 1), hex3 ? 16 : 10);
@@ -21527,10 +21543,10 @@ function decodeHtmlEntities(text) {
   });
 }
 function plainTextLabel(html, maxChars) {
-  const text = decodeHtmlEntities(html.replace(/<[^>]*>/g, "")).replace(/\s+/g, " ").trim();
-  if (maxChars === void 0) return text;
-  const chars = Array.from(text);
-  return chars.length > maxChars ? `${chars.slice(0, maxChars).join("").trimEnd()}\u2026` : text;
+  const text2 = decodeHtmlEntities(html.replace(/<[^>]*>/g, "")).replace(/\s+/g, " ").trim();
+  if (maxChars === void 0) return text2;
+  const chars = Array.from(text2);
+  return chars.length > maxChars ? `${chars.slice(0, maxChars).join("").trimEnd()}\u2026` : text2;
 }
 
 // ../lib/card-links.ts
@@ -21598,9 +21614,152 @@ __export(chain_order_exports, {
   compareByChainOrder: () => compareByChainOrder,
   hasLanded: () => hasLanded,
   isFinished: () => isFinished,
+  isReadyForParent: () => isReadyForParent,
+  isSplitChildOf: () => isSplitChildOf,
   linkState: () => linkState,
-  placeAfter: () => placeAfter
+  openLinkReason: () => openLinkReason,
+  placeAfter: () => placeAfter,
+  testTicks: () => testTicks
 });
+
+// ../lib/test-progress.ts
+var test_progress_exports = {};
+__export(test_progress_exports, {
+  canVerifyAllGroups: () => canVerifyAllGroups,
+  describeTestGroup: () => describeTestGroup,
+  distinctItems: () => distinctItems,
+  isVerifyScope: () => isVerifyScope,
+  nextVerifyGroup: () => nextVerifyGroup,
+  parseTestProgress: () => parseTestProgress,
+  pickCurrentItems: () => pickCurrentItems,
+  testGroupLabel: () => testGroupLabel,
+  tickedCoreItemTexts: () => tickedCoreItemTexts,
+  untickedIn: () => untickedIn,
+  untickedItemTexts: () => untickedItemTexts,
+  verifyAllLabel: () => verifyAllLabel,
+  verifyTargets: () => verifyTargets
+});
+function isVerifyScope(value) {
+  return value === "next" || value === "all";
+}
+var CORE_HEADING = /^(core\s*flow|temel\s*ak[ıi][şs])$/;
+var H2 = /<h2\b[^>]*>([\s\S]*?)<\/h2>/gi;
+function countChecks(html) {
+  const checked = (html.match(/data-checked="true"/g) || []).length;
+  const unchecked = (html.match(/data-checked="false"/g) || []).length;
+  return { checked, total: checked + unchecked };
+}
+function headingText(raw) {
+  return plainTextLabel(raw).replace(/^#+\s*/, "");
+}
+function splitSections(html) {
+  const headings = [];
+  H2.lastIndex = 0;
+  let match;
+  while ((match = H2.exec(html)) !== null) {
+    headings.push({
+      heading: headingText(match[1]),
+      bodyStart: match.index + match[0].length
+    });
+  }
+  return headings.map((h, index) => {
+    const next = headings[index + 1];
+    const end = next ? html.lastIndexOf("<h2", next.bodyStart) : html.length;
+    return { heading: h.heading, label: h.heading.toLowerCase(), body: html.slice(h.bodyStart, end) };
+  });
+}
+function parseTestProgress(html) {
+  if (!html) return null;
+  const overall = countChecks(html);
+  if (overall.total === 0) return null;
+  const sections = splitSections(html);
+  const coreIndex = sections.findIndex((s) => CORE_HEADING.test(s.label));
+  const seen = /* @__PURE__ */ new Map();
+  const groups = [];
+  sections.forEach((section2, index) => {
+    const occurrence = (seen.get(section2.label) ?? 0) + 1;
+    seen.set(section2.label, occurrence);
+    const counts = countChecks(section2.body);
+    if (counts.total === 0) return;
+    groups.push({ heading: section2.heading, occurrence, core: index === coreIndex, ...counts });
+  });
+  const core = groups.find((g) => g.core);
+  if (!core) return { ...overall, groups };
+  return { ...overall, core: { checked: core.checked, total: core.total }, groups };
+}
+var ITEM = /<li\b[^>]*data-checked="(true|false)"[^>]*>([\s\S]*?)<\/li>/gi;
+function itemTexts(html, groups, checked) {
+  const sections = splitSections(html);
+  const seen = /* @__PURE__ */ new Map();
+  const texts = [];
+  for (const section2 of sections) {
+    const occurrence = (seen.get(section2.label) ?? 0) + 1;
+    seen.set(section2.label, occurrence);
+    if (!groups.some((g) => g.heading.toLowerCase() === section2.label && g.occurrence === occurrence)) continue;
+    ITEM.lastIndex = 0;
+    let match;
+    while ((match = ITEM.exec(section2.body)) !== null) {
+      if (match[1] === "true" !== checked) continue;
+      const text2 = headingText(match[2]);
+      if (text2) texts.push(text2);
+    }
+  }
+  return texts;
+}
+function untickedItemTexts(html, groups) {
+  return itemTexts(html, groups, false);
+}
+function tickedCoreItemTexts(html, progress) {
+  const core = progress?.groups.find((g) => g.core);
+  return core && core.checked > 0 ? itemTexts(html, [core], true) : [];
+}
+function distinctItems(items) {
+  return Array.from(new Set((items ?? []).map((item) => item.trim()).filter(Boolean)));
+}
+function pickCurrentItems(picked, current) {
+  const asked = distinctItems(picked);
+  const items = asked.filter((item) => current.includes(item));
+  return { items, dropped: asked.length - items.length };
+}
+function verifyTargets(progress, scope) {
+  if (!progress?.core) return [];
+  const coreIndex = progress.groups.findIndex((g) => g.core);
+  const open = progress.groups.slice(coreIndex).filter((g) => g.checked < g.total);
+  return scope === "all" ? open : open.slice(0, 1);
+}
+function nextVerifyGroup(progress) {
+  return verifyTargets(progress, "next")[0] ?? null;
+}
+function canVerifyAllGroups(progress) {
+  return verifyTargets(progress, "all").length > 1;
+}
+function verifyAllLabel(progress) {
+  return nextVerifyGroup(progress)?.core ? "all groups" : "all remaining groups";
+}
+function untickedIn(groups) {
+  return groups.reduce((sum, g) => sum + (g.total - g.checked), 0);
+}
+var KNOWN_GROUP_LABELS = [
+  [CORE_HEADING, "Core flow"],
+  [/^(edge\s*cases?|kenar\s*durumlar[ıi]?)$/, "Edge cases"],
+  [/^(regression(\s*tests?)?|regresyon(\s*testleri)?)$/, "Regression"]
+];
+function testGroupLabel(group) {
+  const label2 = group.heading.toLowerCase();
+  const known = KNOWN_GROUP_LABELS.find(([pattern]) => pattern.test(label2));
+  return known ? known[1] : group.heading;
+}
+function describeTestGroup(group, groups) {
+  const repeated = groups.some((g) => g !== group && g.heading.toLowerCase() === group.heading.toLowerCase());
+  if (!repeated) return `\`## ${group.heading}\``;
+  return `the ${ordinal(group.occurrence)} \`## ${group.heading}\` group`;
+}
+function ordinal(n) {
+  const suffix = n % 10 === 1 && n % 100 !== 11 ? "st" : n % 10 === 2 && n % 100 !== 12 ? "nd" : n % 10 === 3 && n % 100 !== 13 ? "rd" : "th";
+  return `${n}${suffix}`;
+}
+
+// ../lib/chain-order.ts
 var isFinished = (card) => card.status === "completed" || card.status === "withdrawn";
 function compareByChainOrder(a, b2) {
   const ao = a.groupOrder ?? Number.MAX_SAFE_INTEGER;
@@ -21616,11 +21775,11 @@ function placeAfter(members, cardId, afterCardId) {
   rest.splice(at, 0, cardId);
   return rest;
 }
-function buildChainContext(members, cardId, toRef4) {
+function buildChainContext(members, cardId, toRef5) {
   const ordered = [...members].sort(compareByChainOrder);
   const index = ordered.findIndex((member) => member.id === cardId);
   if (index === -1) return null;
-  const refs = ordered.map(toRef4);
+  const refs = ordered.map(toRef5);
   return {
     position: index + 1,
     total: refs.length,
@@ -21633,9 +21792,30 @@ function hasLanded(member) {
   if (isFinished(member)) return true;
   return member.status === "test" && member.gitBranchStatus !== "active";
 }
-function linkState(member) {
+function isReadyForParent(child) {
+  if (child.status === "completed") return true;
+  if (child.status !== "test" || child.gitBranchStatus === "active") return false;
+  const progress = parseTestProgress(child.testScenarios ?? "");
+  return !!progress && progress.total > 0 && progress.checked === progress.total;
+}
+function testTicks(member) {
+  const progress = parseTestProgress(member.testScenarios ?? "");
+  return progress && progress.total > 0 ? `${progress.checked}/${progress.total}` : null;
+}
+var isSplitChildOf = (member, waiterId) => !!waiterId && member.splitFromCardId === waiterId;
+function linkState(member, waiterId) {
   if (member.status === "withdrawn") return "withdrawn";
+  if (isSplitChildOf(member, waiterId)) return isReadyForParent(member) ? "landed" : "open";
   return hasLanded(member) ? "landed" : "open";
+}
+function openLinkReason(member, waiterId) {
+  if (member.status !== "test") return null;
+  if (member.gitBranchStatus === "active") return "branch not merged yet";
+  if (isSplitChildOf(member, waiterId)) {
+    const ticks = testTicks(member);
+    return ticks ? `tests ${ticks} ticked` : "no tests yet";
+  }
+  return null;
 }
 var MAX_NAMED = 3;
 function nameList(labels) {
@@ -21643,12 +21823,13 @@ function nameList(labels) {
   return labels.length > MAX_NAMED ? `${shown} +${labels.length - MAX_NAMED}` : shown;
 }
 function chainOrderWarning(input) {
-  const pending = (member) => member.id !== input.cardId && !hasLanded(member) && !input.skip?.has(member.id);
+  const done = (member) => isSplitChildOf(member, input.cardId) ? isReadyForParent(member) : hasLanded(member);
+  const pending = (member) => member.id !== input.cardId && !done(member) && !input.skip?.has(member.id);
   const linkIds = /* @__PURE__ */ new Set();
   const withdrawnLinks = [];
   const linked = (input.links ?? []).filter((member) => {
     if (linkIds.has(member.id) || member.id === input.cardId) return false;
-    const state = linkState(member);
+    const state = linkState(member, input.cardId);
     if (state === "landed") return false;
     linkIds.add(member.id);
     if (state === "withdrawn") {
@@ -21679,7 +21860,17 @@ function chainOrderWarning(input) {
   } else if (chained.length > 1) {
     sentences.push(`${chained.length} open cards come before this card in the chain: ${nameList(chained.map(label2))}.`);
   }
-  const unmerged = open.filter((member) => member.status === "test").map(label2);
+  const isTicking = (member) => member.status === "test" && member.gitBranchStatus !== "active" && isSplitChildOf(member, input.cardId);
+  const ticking = open.filter(isTicking);
+  if (ticking.length === 1) {
+    const ticks = testTicks(ticking[0]);
+    sentences.push(
+      ticks ? `${label2(ticking[0])}'s tests are not all ticked yet (${ticks}).` : `${label2(ticking[0])} has no tests yet.`
+    );
+  } else if (ticking.length > 1) {
+    sentences.push(`${nameList(ticking.map(label2))} have tests not all ticked yet.`);
+  }
+  const unmerged = open.filter((member) => member.status === "test" && !isTicking(member)).map(label2);
   if (unmerged.length === 1) sentences.push(`${unmerged[0]}'s branch is not merged yet.`);
   else if (unmerged.length > 1) sentences.push(`${nameList(unmerged)} have branches not merged yet.`);
   const behind = chained.filter((member) => input.queuedBehind?.has(member.id)).map(label2);
@@ -21711,23 +21902,23 @@ function htmlToText(html) {
 }
 var PATH_TOKEN = /^[\w@.\-[\]/*]+$/;
 var PATH_TAIL = /(\.[a-z0-9]{1,6}|\/\*+)$/i;
-function pathTokens(text) {
+function pathTokens(text2) {
   const found = [];
-  for (const raw of text.replace(/\([^)]*\)/g, " ").split(/[\s,;|]+/)) {
+  for (const raw of text2.replace(/\([^)]*\)/g, " ").split(/[\s,;|]+/)) {
     const token = raw.replace(/^[`'"“”:.]+|[`'"“”:.]+$/g, "");
     if (token && PATH_TOKEN.test(token) && PATH_TAIL.test(token)) found.push(token);
   }
   return Array.from(new Set(found));
 }
 function extractPlanFiles(solutionHtml) {
-  const text = htmlToText(solutionHtml);
-  if (!text) return [];
-  const filesLines = text.match(/^\s*(?:Files|Dosyalar)\s*:(.*)$/gim);
+  const text2 = htmlToText(solutionHtml);
+  if (!text2) return [];
+  const filesLines = text2.match(/^\s*(?:Files|Dosyalar)\s*:(.*)$/gim);
   if (filesLines?.length) {
     const last = filesLines[filesLines.length - 1];
     return pathTokens(last.slice(last.indexOf(":") + 1));
   }
-  const section2 = text.match(/Files to Modify\s*\n([\s\S]*?)(?:\n(?:Implementation Steps|Edge Cases|Dependencies)\b|$)/i);
+  const section2 = text2.match(/Files to Modify\s*\n([\s\S]*?)(?:\n(?:Implementation Steps|Edge Cases|Dependencies)\b|$)/i);
   return section2 ? pathTokens(section2[1]) : [];
 }
 function normalizePath(path9) {
@@ -21769,8 +21960,8 @@ function countPlanSteps(solutionHtml) {
   }
   const h3 = body.match(/<h3\b/gi)?.length ?? 0;
   if (h3 > 0) return h3;
-  const paragraphs = [...body.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/gi)].map((m2) => htmlToText(m2[1])).filter((text) => text && !/^(files|dosyalar)\s*:/i.test(text));
-  const numbered = paragraphs.filter((text) => /^\d+[.)]\s/.test(text)).length;
+  const paragraphs = [...body.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/gi)].map((m2) => htmlToText(m2[1])).filter((text2) => text2 && !/^(files|dosyalar)\s*:/i.test(text2));
+  const numbered = paragraphs.filter((text2) => /^\d+[.)]\s/.test(text2)).length;
   return numbered > 0 ? numbered : paragraphs.length || null;
 }
 
@@ -21809,6 +22000,7 @@ __export(card_ops_exports, {
   GROUP_CODE_MAX: () => GROUP_CODE_MAX,
   IDEAFY_AUTHOR: () => IDEAFY_AUTHOR,
   MAX_CARD_TITLE_LENGTH: () => MAX_CARD_TITLE_LENGTH,
+  SplitCardError: () => SplitCardError,
   TERMINAL_WRITER_TTL_MS: () => TERMINAL_WRITER_TTL_MS,
   YOU_AUTHOR: () => YOU_AUTHOR,
   acknowledgeWrite: () => acknowledgeWrite,
@@ -21837,16 +22029,19 @@ __export(card_ops_exports, {
   createGroup: () => createGroup,
   deleteGroup: () => deleteGroup,
   dequeueCard: () => dequeueCard,
+  dismissSplitProposal: () => dismissSplitProposal,
   driftSince: () => driftSince,
   enqueueCard: () => enqueueCard,
   getGroup: () => getGroup,
   getQueueRow: () => getQueueRow,
   getRow: () => getRow,
+  getSplitProposal: () => getSplitProposal,
   globalAgentModeEnabled: () => globalAgentModeEnabled,
   globalEditDenial: () => globalEditDenial,
   hasAuthorshipTable: () => hasAuthorshipTable,
   hasBaseCommitColumns: () => hasBaseCommitColumns,
   hasDependencyTable: () => hasDependencyTable,
+  hasSplitTables: () => hasSplitTables,
   hasSuggestionTable: () => hasSuggestionTable,
   isStatus: () => isStatus,
   linkCardsInHtml: () => linkCardsInHtml,
@@ -21866,6 +22061,7 @@ __export(card_ops_exports, {
   parseBlockedBy: () => parseBlockedBy,
   parseUndoSnapshot: () => parseUndoSnapshot,
   parseWriteAck: () => parseWriteAck,
+  pendingSplitCounts: () => pendingSplitCounts,
   persistCardFieldArtifacts: () => persistCardFieldArtifacts,
   planDriftFor: () => planDriftFor,
   planDriftLine: () => planDriftLine,
@@ -21893,6 +22089,7 @@ __export(card_ops_exports, {
   saveOpinion: () => saveOpinion,
   savePlan: () => savePlan,
   savePlanAndTests: () => savePlanAndTests,
+  saveSplitProposal: () => saveSplitProposal,
   saveTestReport: () => saveTestReport,
   saveTests: () => saveTests,
   serializeBooleanForDb: () => serializeBooleanForDb,
@@ -21900,6 +22097,9 @@ __export(card_ops_exports, {
   setBlockedBy: () => setBlockedBy,
   setCardRuntime: () => setCardRuntime,
   sharedPrefixes: () => sharedPrefixes,
+  splitCard: () => splitCard,
+  splitRelations: () => splitRelations,
+  splitRoleLine: () => splitRoleLine,
   stampBaseCommit: () => stampBaseCommit,
   statusAfterPlan: () => statusAfterPlan,
   statusAfterTests: () => statusAfterTests,
@@ -23480,12 +23680,12 @@ function convertCheckboxListHtmlToTaskList(html) {
       }
       const taskItems = items.replace(
         /<li\b([^>]*)>\s*<input([^>]*)type="checkbox"([^>]*)>\s*([\s\S]*?)<\/li>/gi,
-        (_itemMatch, liAttrs, before, after, text) => {
+        (_itemMatch, liAttrs, before, after, text2) => {
           if (/data-type\s*=\s*"taskItem"/i.test(liAttrs)) {
-            return `<li${liAttrs}><input${before}type="checkbox"${after}>${text}</li>`;
+            return `<li${liAttrs}><input${before}type="checkbox"${after}>${text2}</li>`;
           }
           const isChecked = /\bchecked\b/i.test(before) || /\bchecked\b/i.test(after);
-          const trimmed = text.trim();
+          const trimmed = text2.trim();
           const paragraph = /<p\b/i.test(trimmed) ? trimmed : `<p>${trimmed}</p>`;
           return `<li data-type="taskItem" data-checked="${isChecked}"><label><input type="checkbox"${isChecked ? ' checked="checked"' : ""}><span></span></label><div>${paragraph}</div></li>`;
         }
@@ -23531,8 +23731,8 @@ function normalizeTestsHtml(html) {
     }
   );
 }
-function normalizeTaskText(text) {
-  return text.replace(/<[^>]*>/g, " ").replace(/&[a-z]+;/gi, " ").toLowerCase().replace(/[.,;:!?/\\|()[\]{}<>@#$%^&*"'`~=+\-_]/g, " ").replace(/\s+/g, " ").trim();
+function normalizeTaskText(text2) {
+  return text2.replace(/<[^>]*>/g, " ").replace(/&[a-z]+;/gi, " ").toLowerCase().replace(/[.,;:!?/\\|()[\]{}<>@#$%^&*"'`~=+\-_]/g, " ").replace(/\s+/g, " ").trim();
 }
 function levenshtein(a, b2, cap) {
   if (a === b2) return 0;
@@ -23609,15 +23809,15 @@ function extractTaskItems(html) {
   }
   return items;
 }
-function matchTaskItem(text, html) {
-  const target2 = normalizeTaskText(text);
+function matchTaskItem(text2, html) {
+  const target2 = normalizeTaskText(text2);
   if (!target2) return null;
   const items = extractTaskItems(html);
   const key = findFuzzyMatch(target2, items.map((i) => i.normalized));
   return key ? items.find((i) => i.normalized === key) ?? null : null;
 }
-function closestTaskText(text, candidates) {
-  const target2 = normalizeTaskText(text);
+function closestTaskText(text2, candidates) {
+  const target2 = normalizeTaskText(text2);
   if (!target2) return -1;
   const keys = candidates.map(normalizeTaskText);
   const key = findFuzzyMatch(target2, keys.filter(Boolean));
@@ -23626,14 +23826,14 @@ function closestTaskText(text, candidates) {
 function untickTaskItems(html, itemTexts2) {
   const keys = extractTaskItems(html).map((i) => i.normalized);
   const hits = new Set(
-    itemTexts2.map((text) => normalizeTaskText(text)).filter(Boolean).map((target2) => findFuzzyMatch(target2, keys)).filter((key) => key !== null)
+    itemTexts2.map((text2) => normalizeTaskText(text2)).filter(Boolean).map((target2) => findFuzzyMatch(target2, keys)).filter((key) => key !== null)
   );
   if (hits.size === 0) return html;
   return normalizeTestsHtml(html).replace(
     taskItemCheckRegex(),
-    (fullMatch, prefix, middle, text, suffix) => {
-      if (!hits.has(normalizeTaskText(text))) return fullMatch;
-      return `<li${prefix}false${middle}${text}${suffix}`.replace(
+    (fullMatch, prefix, middle, text2, suffix) => {
+      if (!hits.has(normalizeTaskText(text2))) return fullMatch;
+      return `<li${prefix}false${middle}${text2}${suffix}`.replace(
         /<input type="checkbox"(?:\s+checked="checked")?>/,
         '<input type="checkbox">'
       );
@@ -23674,8 +23874,8 @@ function noteSpans(html) {
 function matchRevisions(normalizedHtml, revisions) {
   const keyOf = (html) => normalizeTaskText(plainTaskText(html.replace(/<br\s*\/?>/gi, " ")));
   const items = taskItemSpans(normalizedHtml).map((span) => {
-    const text = normalizedHtml.slice(span.start, span.end).match(/<p[^>]*>([\s\S]*?)<\/p>/i)?.[1] ?? "";
-    return { ...span, kind: "item", key: keyOf(text) };
+    const text2 = normalizedHtml.slice(span.start, span.end).match(/<p[^>]*>([\s\S]*?)<\/p>/i)?.[1] ?? "";
+    return { ...span, kind: "item", key: keyOf(text2) };
   });
   const notes = noteSpans(normalizedHtml).map((span) => ({ start: span.start, end: span.end, kind: "note", key: keyOf(span.text) }));
   const taken = /* @__PURE__ */ new Set();
@@ -23712,15 +23912,15 @@ function reviseTaskItems(html, revisions) {
   }
   return { html: out + normalized.slice(cursor), missing };
 }
-function taskItemHtml(text) {
-  const line = text.replace(/^\s*(?:[-*+]\s+)?(?:\[[ xX]\]\s*)?/, "").replace(/\s+/g, " ").trim();
+function taskItemHtml(text2) {
+  const line = text2.replace(/^\s*(?:[-*+]\s+)?(?:\[[ xX]\]\s*)?/, "").replace(/\s+/g, " ").trim();
   if (!line) return null;
   const html = markdownToTiptapHtml(`- [ ] ${line}`);
   const span = taskItemSpans(html)[0];
   return span ? html.slice(span.start, span.end) : null;
 }
-function noteHtml(text) {
-  const line = text.replace(/^\s*(?:[-*+]\s+)?(?:\[[ xX]\]\s*)?/, "").replace(/\s+/g, " ").trim();
+function noteHtml(text2) {
+  const line = text2.replace(/^\s*(?:[-*+]\s+)?(?:\[[ xX]\]\s*)?/, "").replace(/\s+/g, " ").trim();
   if (!line) return null;
   const html = markdownToTiptapHtml(line).trim();
   return /^<p>[\s\S]*<\/p>$/i.test(html) && !/<\/p>[\s\S]*<p>/i.test(html) ? html : null;
@@ -23795,13 +23995,13 @@ function mergeTestCheckState(existingHtml, newHtml) {
   for (const item of existingItems) checkedMap.set(item.normalized, item.checked);
   return normalizeTestsHtml(newHtml).replace(
     taskItemCheckRegex(),
-    (fullMatch, prefix, middle, text, suffix) => {
-      const normalized = normalizeTaskText(text);
+    (fullMatch, prefix, middle, text2, suffix) => {
+      const normalized = normalizeTaskText(text2);
       if (!normalized) return fullMatch;
       const matchedKey = findFuzzyMatch(normalized, existingKeys);
       const wasChecked = matchedKey ? checkedMap.get(matchedKey) : false;
       if (wasChecked) {
-        const result = `<li${prefix}true${middle}${text}${suffix}`;
+        const result = `<li${prefix}true${middle}${text2}${suffix}`;
         return result.replace(
           /<input type="checkbox"(?:\s+checked="checked")?>/,
           '<input type="checkbox" checked="checked">'
@@ -23821,14 +24021,14 @@ function mergeStaleTestWrite(existingHtml, formHtml) {
   const existingNormalized = normalizeTestsHtml(existingHtml);
   const updatedExisting = existingNormalized.replace(
     taskItemCheckRegex(),
-    (fullMatch, prefix, middle, text, suffix) => {
-      const normalized = normalizeTaskText(text);
+    (fullMatch, prefix, middle, text2, suffix) => {
+      const normalized = normalizeTaskText(text2);
       if (!normalized) return fullMatch;
       const matchedKey = findFuzzyMatch(normalized, formKeys);
       if (!matchedKey) return fullMatch;
       const formState = formByKey.get(matchedKey);
       if (!formState) return fullMatch;
-      const result = `<li${prefix}${formState.checked}${middle}${text}${suffix}`;
+      const result = `<li${prefix}${formState.checked}${middle}${text2}${suffix}`;
       return result.replace(
         /<input type="checkbox"(?:\s+checked="checked")?>/,
         formState.checked ? '<input type="checkbox" checked="checked">' : '<input type="checkbox">'
@@ -23855,18 +24055,18 @@ function testScenariosToMarkdown(html) {
     const [, hLevel, hText, liAttrs, liBody, pText] = match;
     if (hLevel) {
       const level = Math.min(parseInt(hLevel, 10), 6);
-      const text = hText.replace(/<[^>]*>/g, "").trim();
-      if (text) parts.push(`${"#".repeat(level)} ${text}`);
+      const text2 = hText.replace(/<[^>]*>/g, "").trim();
+      if (text2) parts.push(`${"#".repeat(level)} ${text2}`);
     } else if (liAttrs !== void 0) {
       const checkedMatch = liAttrs.match(/data-checked="(true|false)"/i);
       const checked = checkedMatch ? checkedMatch[1] === "true" : false;
       const inner = liBody.match(/<p[^>]*>([\s\S]*?)<\/p>/i);
-      const text = (inner ? inner[1] : liBody).replace(/<[^>]*>/g, "").trim();
-      if (text) parts.push(`- [${checked ? "x" : " "}] ${text}`);
+      const text2 = (inner ? inner[1] : liBody).replace(/<[^>]*>/g, "").trim();
+      if (text2) parts.push(`- [${checked ? "x" : " "}] ${text2}`);
     } else if (pText) {
-      const text = pText.replace(/<[^>]*>/g, "").trim();
-      if (text && !text.includes("[ ]") && !text.includes("[x]")) {
-        parts.push(text);
+      const text2 = pText.replace(/<[^>]*>/g, "").trim();
+      if (text2 && !text2.includes("[ ]") && !text2.includes("[x]")) {
+        parts.push(text2);
       }
     }
   }
@@ -23875,11 +24075,11 @@ function testScenariosToMarkdown(html) {
 function plainTaskText(rawText) {
   return decodeHtmlEntities(rawText.replace(/<[^>]*>/g, "")).replace(/\s+/g, " ").trim();
 }
-function normalizeHeading(text) {
-  return decodeHtmlEntities(text.replace(/<[^>]*>/g, "")).replace(/[*_`]/g, "").replace(/\s+/g, " ").trim().replace(/\s*:$/, "").toLocaleLowerCase("tr");
+function normalizeHeading(text2) {
+  return decodeHtmlEntities(text2.replace(/<[^>]*>/g, "")).replace(/[*_`]/g, "").replace(/\s+/g, " ").trim().replace(/\s*:$/, "").toLocaleLowerCase("tr");
 }
-function dedupeKey(text) {
-  return normalizeTaskText(decodeHtmlEntities(text.replace(/<[^>]*>/g, " "))) || null;
+function dedupeKey(text2) {
+  return normalizeTaskText(decodeHtmlEntities(text2.replace(/<[^>]*>/g, " "))) || null;
 }
 function sectionEnd(blocks, headingIdx) {
   const level = blocks[headingIdx].level;
@@ -23964,8 +24164,8 @@ function tokenizeMarkdownSections(markdown) {
   const flush = () => {
     if (!current.length) return;
     const raw = current.join("\n");
-    const text = currentIsList ? raw.replace(MD_TASK_PREFIX, "") : raw;
-    blocks.push({ key: null, level: 0, raw, dedupe: dedupeKey(text), list: currentIsList });
+    const text2 = currentIsList ? raw.replace(MD_TASK_PREFIX, "") : raw;
+    blocks.push({ key: null, level: 0, raw, dedupe: dedupeKey(text2), list: currentIsList });
     current = [];
     currentIsList = false;
   };
@@ -24035,8 +24235,8 @@ function splitTopLevelHtml(html) {
   while ((match = tagRe.exec(html)) !== null) {
     if (!match[2]) continue;
     if (depth2 === 0) {
-      const text = html.slice(lastEnd, match.index).trim();
-      if (text) parts.push(`<p>${text}</p>`);
+      const text2 = html.slice(lastEnd, match.index).trim();
+      if (text2) parts.push(`<p>${text2}</p>`);
       start = match.index;
     }
     const closing = match[1] === "/";
@@ -24158,15 +24358,15 @@ function sanitizeArtifactFilename(raw, lang = "") {
   stem = stem.replace(/\.+$/, "").slice(0, MAX_NAME_LENGTH - ext.length - 1) || "mockup";
   return `${stem}.${ext}`;
 }
-function extractArtifactFences(text) {
+function extractArtifactFences(text2) {
   const fences = [];
-  if (!text || !text.includes("artifact")) return fences;
+  if (!text2 || !text2.includes("artifact")) return fences;
   let open = null;
   let offset = 0;
-  while (offset <= text.length) {
-    const newline = text.indexOf("\n", offset);
-    const lineEnd = newline === -1 ? text.length : newline;
-    const line = text.slice(offset, lineEnd);
+  while (offset <= text2.length) {
+    const newline = text2.indexOf("\n", offset);
+    const lineEnd = newline === -1 ? text2.length : newline;
+    const line = text2.slice(offset, lineEnd);
     if (!open) {
       const match = line.match(FENCE_OPEN_RE);
       if (match && !(match[1][0] === "`" && match[2].includes("`"))) {
@@ -24176,7 +24376,7 @@ function extractArtifactFences(text) {
         open = {
           marker: match[1],
           start: offset,
-          bodyStart: newline === -1 ? text.length : newline + 1,
+          bodyStart: newline === -1 ? text2.length : newline + 1,
           filename: attr ? sanitizeArtifactFilename(attr[1] ?? attr[2] ?? "", lang) : null,
           artifact: !!attr
         };
@@ -24189,7 +24389,7 @@ function extractArtifactFences(text) {
             start: open.start,
             end: lineEnd,
             filename: open.filename,
-            body: text.slice(open.bodyStart, Math.max(open.bodyStart, offset - 1)),
+            body: text2.slice(open.bodyStart, Math.max(open.bodyStart, offset - 1)),
             closed: true
           });
         }
@@ -24202,9 +24402,9 @@ function extractArtifactFences(text) {
   if (open?.artifact) {
     fences.push({
       start: open.start,
-      end: text.length,
+      end: text2.length,
       filename: open.filename,
-      body: text.slice(open.bodyStart),
+      body: text2.slice(open.bodyStart),
       closed: false
     });
   }
@@ -24258,11 +24458,11 @@ function artifactKind(absolutePath) {
   if (DOC_EXT.has(ext)) return "doc";
   return "file";
 }
-function decodeEntities(text) {
-  return text.replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
+function decodeEntities(text2) {
+  return text2.replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
 }
-function escapeHtml(text) {
-  return text.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+function escapeHtml(text2) {
+  return text2.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 function artifactChipHtml(absolutePath, name) {
   const label2 = name?.trim() || artifactBasename(absolutePath);
@@ -24276,8 +24476,8 @@ function fileLinksToArtifactChips(html) {
     (tag, href, inner) => {
       const absolute = fileUrlToPath(decodeEntities(href));
       if (!absolute) return tag;
-      const text = decodeEntities(inner.replace(/<[^>]*>/g, "").trim());
-      const name = !text || text.startsWith("/") || text.startsWith("file://") ? void 0 : text;
+      const text2 = decodeEntities(inner.replace(/<[^>]*>/g, "").trim());
+      const name = !text2 || text2.startsWith("/") || text2.startsWith("file://") ? void 0 : text2;
       return artifactChipHtml(absolute, name);
     }
   );
@@ -24318,20 +24518,20 @@ function destinationFor(base, dir, isSame) {
 function sameBytes(candidate, contents) {
   return statSync(candidate).size === contents.length && readFileSync(candidate).equals(contents);
 }
-function materializeArtifactFences(text, cardDir) {
-  return saveArtifactFences(text, cardDir).text;
+function materializeArtifactFences(text2, cardDir) {
+  return saveArtifactFences(text2, cardDir).text;
 }
-function saveArtifactFences(text, cardDir) {
+function saveArtifactFences(text2, cardDir) {
   const links = [];
-  const fences = extractArtifactFences(text).filter((fence) => fence.closed);
-  if (fences.length === 0) return { text, links };
+  const fences = extractArtifactFences(text2).filter((fence) => fence.closed);
+  if (fences.length === 0) return { text: text2, links };
   const scratchDir = path.join(cardDir, SCRATCH_DIR);
   let out = "";
   let cursor = 0;
   for (const fence of fences) {
-    out += text.slice(cursor, fence.start);
+    out += text2.slice(cursor, fence.start);
     cursor = fence.end;
-    const original = text.slice(fence.start, fence.end);
+    const original = text2.slice(fence.start, fence.end);
     const contents = Buffer.from(fence.body.endsWith("\n") ? fence.body : `${fence.body}
 `, "utf8");
     if (!fence.filename || contents.length > ARTIFACT_FENCE_MAX_BYTES) {
@@ -24351,24 +24551,24 @@ function saveArtifactFences(text, cardDir) {
       out += original;
     }
   }
-  return { text: out + text.slice(cursor), links };
+  return { text: out + text2.slice(cursor), links };
 }
 var APPLY_OPEN_RE = /<!--\s*ideafy:apply\s*-->/gi;
 var APPLY_CLOSE_RE = /<!--\s*\/ideafy:apply\s*-->/i;
-function applyBlockSpan(text) {
+function applyBlockSpan(text2) {
   let openEnd = -1;
-  for (const m2 of Array.from(text.matchAll(APPLY_OPEN_RE))) openEnd = m2.index + m2[0].length;
+  for (const m2 of Array.from(text2.matchAll(APPLY_OPEN_RE))) openEnd = m2.index + m2[0].length;
   if (openEnd === -1) return null;
-  const close = text.slice(openEnd).match(APPLY_CLOSE_RE);
-  return { openEnd, closeStart: close ? openEnd + close.index : text.length };
+  const close = text2.slice(openEnd).match(APPLY_CLOSE_RE);
+  return { openEnd, closeStart: close ? openEnd + close.index : text2.length };
 }
-function moveLinksIntoApplyBlock(text, links) {
-  const block = applyBlockSpan(text);
-  if (!block) return text;
+function moveLinksIntoApplyBlock(text2, links) {
+  const block = applyBlockSpan(text2);
+  if (!block) return text2;
   const outside = links.filter((l) => l.end <= block.openEnd || l.start >= block.closeStart);
-  if (outside.length === 0) return text;
-  const moved = outside.map((l) => text.slice(l.start, l.end));
-  let out = text;
+  if (outside.length === 0) return text2;
+  const moved = outside.map((l) => text2.slice(l.start, l.end));
+  let out = text2;
   for (const { start, end } of [...outside].sort((a, b2) => b2.start - a.start)) {
     const lineStart = out.lastIndexOf("\n", start - 1) + 1;
     const newline = out.indexOf("\n", end);
@@ -24386,8 +24586,8 @@ function moveLinksIntoApplyBlock(text, links) {
 ${moved.join("\n\n")}
 ${out.slice(openEnd)}`;
 }
-function materializeReplyArtifacts(text, cardDir) {
-  const saved = saveArtifactFences(text, cardDir);
+function materializeReplyArtifacts(text2, cardDir) {
+  const saved = saveArtifactFences(text2, cardDir);
   return moveLinksIntoApplyBlock(saved.text, saved.links);
 }
 function escapeAttr2(value) {
@@ -24695,17 +24895,17 @@ function confirmPlanCurrent(db2, cardId) {
 // ../lib/prompts/plan-refresh.ts
 var PLAN_REFRESH_HEADING = { tr: "Koda g\xF6re g\xFCncellemeler", en: "Updates against code" };
 var HEADINGS = Object.values(PLAN_REFRESH_HEADING).map((h) => h.toLowerCase());
-var escapeRegExp = (text) => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+var escapeRegExp = (text2) => text2.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 var HEADING_RE = new RegExp(
   `(?:^[ \\t]*#{1,6}[ \\t]+|<h[1-6]\\b[^>]*>\\s*)(${HEADINGS.map(escapeRegExp).join("|")})\\s*(?:#*[ \\t]*$|</h[1-6]>)`,
   "imu"
 );
 var SUBHEADING_SHA_RE = /(?:^[ \t]*#{2,6}[ \t]+[^\n]*?|<h[2-6]\b[^>]*>[^<]*?)(?:<code>)?`?\b([0-9a-f]{7,40})\b/imu;
-function planRefreshSection(text) {
-  const heading = HEADING_RE.exec(text ?? "");
+function planRefreshSection(text2) {
+  const heading = HEADING_RE.exec(text2 ?? "");
   if (!heading) return { found: false };
   const start = heading.index + (heading[0].length - heading[0].trimStart().length);
-  const after = text.slice(heading.index + heading[0].length);
+  const after = text2.slice(heading.index + heading[0].length);
   const sha = SUBHEADING_SHA_RE.exec(after)?.[1] ?? null;
   return { found: true, start, sha };
 }
@@ -24796,13 +24996,13 @@ function isTestReportImageName(value) {
   return IMAGE_FILE.test(value) && !value.includes("..");
 }
 var FENCE = new RegExp("^[ \\t]*```+[ \\t]*" + TEST_REPORT_FENCE + "[^\\n]*\\n([\\s\\S]*?)^[ \\t]*```+[ \\t]*$", "gm");
-function extractTestReportFence(text) {
+function extractTestReportFence(text2) {
   let raw = null;
-  const stripped = text.replace(FENCE, (_match, body) => {
+  const stripped = text2.replace(FENCE, (_match, body) => {
     raw = body;
     return "";
   });
-  if (raw === null) return { text, raw: null };
+  if (raw === null) return { text: text2, raw: null };
   return { text: stripped.replace(/\n{3,}/g, "\n\n").trimEnd(), raw };
 }
 function str(value, max = MAX_TEXT) {
@@ -24813,9 +25013,9 @@ function str(value, max = MAX_TEXT) {
   return trimmed.length > max ? `${trimmed.slice(0, max)}\u2026` : trimmed;
 }
 function normalizeStatus(value) {
-  const text = typeof value === "string" ? value.trim().toLowerCase() : "";
-  if (["passed", "pass", "ok", "success", "ge\xE7ti"].includes(text)) return "passed";
-  if (["failed", "fail", "error", "kald\u0131"].includes(text)) return "failed";
+  const text2 = typeof value === "string" ? value.trim().toLowerCase() : "";
+  if (["passed", "pass", "ok", "success", "ge\xE7ti"].includes(text2)) return "passed";
+  if (["failed", "fail", "error", "kald\u0131"].includes(text2)) return "failed";
   return "manual";
 }
 function normalizeArtifacts(value) {
@@ -25404,14 +25604,14 @@ function parseUndoSnapshot(raw) {
   const value = raw;
   if (typeof value.html !== "string") return null;
   const snapshot = { html: value.html };
-  const text = (v2) => v2 === null || typeof v2 === "string";
+  const text2 = (v2) => v2 === null || typeof v2 === "string";
   if (value.status !== void 0) {
     if (!isStatus(value.status)) return null;
     snapshot.status = value.status;
   }
   for (const key of ["baseCommit", "verdict", "priority", "complexity"]) {
     if (value[key] === void 0) continue;
-    if (!text(value[key])) return null;
+    if (!text2(value[key])) return null;
     snapshot[key] = value[key];
   }
   if (value.score !== void 0) {
@@ -25446,7 +25646,7 @@ var MAX_LISTED = 20;
 var MAX_FILES = 200;
 var GENERATED = [/^drizzle\/meta\//, /(^|\/)(package-lock\.json|pnpm-lock\.yaml|yarn\.lock|bun\.lockb)$/];
 var isGenerated = (file2) => GENERATED.some((pattern) => pattern.test(file2));
-var escapeRegExp2 = (text) => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+var escapeRegExp2 = (text2) => text2.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 function driftSince(db2, cardId, field) {
   try {
     if (!hasBaseCommitColumns(db2)) return null;
@@ -25671,18 +25871,18 @@ function withoutCode(markdown) {
 function prepare(markdownOrHtml) {
   return withoutCode(normalize(markdownOrHtml));
 }
-function section(text, heading) {
-  const match = heading.exec(text);
+function section(text2, heading) {
+  const match = heading.exec(text2);
   if (!match) return null;
-  const after = text.slice(match.index + match[0].length);
+  const after = text2.slice(match.index + match[0].length);
   const next = NEXT_HEADING.exec(after);
   return `${match[1]}
 ${next ? after.slice(0, next.index) : after}`;
 }
-function verdictWordIn(text) {
-  const tag = VERDICT_TAG.exec(text);
+function verdictWordIn(text2) {
+  const tag = VERDICT_TAG.exec(text2);
   if (tag) return WORD_ALIASES[tag[1].toLowerCase().replace(/[\s_-]+/g, " ")] ?? null;
-  const body = section(text, VERDICT_HEADING);
+  const body = section(text2, VERDICT_HEADING);
   if (body === null) return null;
   const match = WORD.exec(body);
   if (!match) return null;
@@ -25692,10 +25892,10 @@ function toScore(raw) {
   const value = Math.round(Number(raw));
   return Number.isFinite(value) && value >= 0 && value <= 10 ? value : null;
 }
-function scoreIn(text) {
-  const tag = SCORE_TAG.exec(text);
+function scoreIn(text2) {
+  const tag = SCORE_TAG.exec(text2);
   if (tag) return toScore(tag[1]);
-  const body = section(text, SCORE_HEADING);
+  const body = section(text2, SCORE_HEADING);
   if (body === null) return null;
   const match = OUT_OF_TEN.exec(body);
   return match ? toScore(match[1]) : null;
@@ -25729,14 +25929,14 @@ function normalizeComplexity(value) {
   }
 }
 function parseOpinionMarkers(markdownOrHtml) {
-  const text = prepare(markdownOrHtml);
-  const verdictWord = verdictWordIn(text);
-  const priority = PRIORITY_TAG.exec(text);
-  const complexity = COMPLEXITY_TAG.exec(text);
+  const text2 = prepare(markdownOrHtml);
+  const verdictWord = verdictWordIn(text2);
+  const priority = PRIORITY_TAG.exec(text2);
+  const complexity = COMPLEXITY_TAG.exec(text2);
   return {
     verdictWord,
     verdict: verdictWordToAiVerdict(verdictWord),
-    score: scoreIn(text),
+    score: scoreIn(text2),
     priority: priority ? priority[1].toLowerCase() : null,
     complexity: complexity ? normalizeComplexity(complexity[1]) : null
   };
@@ -25776,12 +25976,14 @@ function countOpinionConcerns(markdownOrHtml) {
   return body.split("\n").filter((line) => /^(?:[-*+]|\d+[.)])\s+\S/.test(line)).length;
 }
 
-// ../lib/card-ops/groups.ts
-var DEFAULT_GROUP_COLOR = "#5e6ad2";
+// ../lib/group-code.ts
 var GROUP_CODE_MAX = 6;
 function normalizeGroupCode(raw) {
   return raw.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, GROUP_CODE_MAX);
 }
+
+// ../lib/card-ops/groups.ts
+var DEFAULT_GROUP_COLOR = "#5e6ad2";
 function normalizeGroupId(value) {
   if (value === void 0) return void 0;
   return typeof value === "string" && value.trim() ? value.trim() : null;
@@ -26162,8 +26364,8 @@ function parseBlockedBy(value) {
   return entries;
 }
 function cleanNote(note) {
-  const text = (note ?? "").replace(/\s+/g, " ").trim();
-  return text ? text.slice(0, NOTE_MAX) : null;
+  const text2 = (note ?? "").replace(/\s+/g, " ").trim();
+  return text2 ? text2.slice(0, NOTE_MAX) : null;
 }
 function cardRow(db2, id) {
   return getRow(
@@ -26406,20 +26608,30 @@ function setBlockedBy(db2, cardId, entries, now, mode) {
     return kept;
   });
 }
-function toRef(row) {
+function toRef(row, waiterId) {
   return {
     id: row.id,
     displayId: formatDisplayId(row.idPrefix, row.taskNumber),
     title: row.title,
     status: row.status,
     gitBranchStatus: row.gitBranchStatus,
-    landed: linkState(row) === "landed",
+    landed: linkState(row, waiterId) === "landed",
     note: row.note ?? null
   };
 }
+function hasSplitColumn(db2) {
+  return allRows(db2, "PRAGMA table_info(cards)").some((column) => column.name === "split_from_card_id");
+}
+function splitColumns(db2) {
+  if (!hasSplitColumn(db2)) {
+    return "NULL AS splitFromCardId, NULL AS testScenarios";
+  }
+  return `c.split_from_card_id AS splitFromCardId,
+         CASE WHEN c.split_from_card_id = d.card_id THEN c.test_scenarios END AS testScenarios`;
+}
 var LINKED_SELECT = `
   SELECT c.id, c.title, c.status, c.task_number AS taskNumber, p.id_prefix AS idPrefix,
-         c.git_branch_status AS gitBranchStatus, d.note
+         c.git_branch_status AS gitBranchStatus, d.note, %SPLIT%
   FROM card_dependencies d
   JOIN cards c ON c.id = d.%JOIN%
   LEFT JOIN projects p ON p.id = c.project_id
@@ -26429,7 +26641,7 @@ function blockerRows(db2, cardId) {
   if (!hasDependencyTable(db2)) return [];
   return allRows(
     db2,
-    LINKED_SELECT.replace("%JOIN%", "blocked_by_card_id").replace("%WHERE%", "card_id"),
+    LINKED_SELECT.replace("%JOIN%", "blocked_by_card_id").replace("%WHERE%", "card_id").replace("%SPLIT%", splitColumns(db2)),
     cardId
   );
 }
@@ -26437,10 +26649,13 @@ function listDependencies(db2, cardId) {
   if (!hasDependencyTable(db2)) return null;
   const blocks = allRows(
     db2,
-    LINKED_SELECT.replace("%JOIN%", "card_id").replace("%WHERE%", "blocked_by_card_id"),
+    LINKED_SELECT.replace("%JOIN%", "card_id").replace("%WHERE%", "blocked_by_card_id").replace("%SPLIT%", splitColumns(db2)),
     cardId
   );
-  return { blockedBy: blockerRows(db2, cardId).map(toRef), blocks: blocks.map(toRef) };
+  return {
+    blockedBy: blockerRows(db2, cardId).map((row) => toRef(row, cardId)),
+    blocks: blocks.map((row) => toRef(row))
+  };
 }
 function listDependencyEdges(db2) {
   if (!hasDependencyTable(db2)) return [];
@@ -26456,12 +26671,12 @@ function waitingOnLine(db2, cardId) {
     if (!card || card.status === "completed" || card.status === "withdrawn") return null;
     const rows = blockerRows(db2, cardId);
     const name = (row) => sanitizeForReminder(label(row), 80);
-    const open = rows.filter((row) => linkState(row) === "open");
-    const withdrawn = rows.filter((row) => linkState(row) === "withdrawn");
+    const open = rows.filter((row) => linkState(row, cardId) === "open");
+    const withdrawn = rows.filter((row) => linkState(row, cardId) === "withdrawn");
     const lines = [];
     if (open.length > 0) {
       const parts = open.map((row) => {
-        const why = row.status === "test" ? "branch not merged yet" : `in ${row.status}`;
+        const why = openLinkReason(row, cardId) ?? `in ${row.status}`;
         return `${name(row)} (${why})`;
       });
       lines.push(`This card waits on ${parts.join(", ")}. Starting it now builds without that work; say so before writing code.`);
@@ -26479,12 +26694,12 @@ function waitingOnLine(db2, cardId) {
 }
 function queueWaitReason(db2, cardId) {
   try {
-    const rows = blockerRows(db2, cardId).filter((row) => linkState(row) !== "landed");
+    const rows = blockerRows(db2, cardId).filter((row) => linkState(row, cardId) !== "landed");
     if (rows.length === 0) return null;
     const first = rows[0];
     const more = rows.length > 1 ? ` +${rows.length - 1}` : "";
-    if (linkState(first) === "withdrawn") return `waits on withdrawn ${label(first)}${more}`;
-    const why = first.status === "test" ? "branch not merged yet" : `in ${first.status}`;
+    if (linkState(first, cardId) === "withdrawn") return `waits on withdrawn ${label(first)}${more}`;
+    const why = openLinkReason(first, cardId) ?? `in ${first.status}`;
     return `waits on ${label(first)} (${why})${more}`;
   } catch (error2) {
     console.warn("[dependencies] queue wait reason skipped:", error2);
@@ -26497,7 +26712,8 @@ function readyAfterLinks(db2) {
     db2,
     `SELECT d.card_id AS waitingId, w.project_id AS waitingProjectId, d.created_at AS linkedAt,
             c.id, c.title, c.status, c.task_number AS taskNumber, p.id_prefix AS idPrefix,
-            c.git_branch_status AS gitBranchStatus, c.updated_at AS updatedAt, c.completed_at AS completedAt
+            c.git_branch_status AS gitBranchStatus, c.updated_at AS updatedAt, c.completed_at AS completedAt,
+            ${splitColumns(db2)}
      FROM card_dependencies d
      JOIN cards w ON w.id = d.card_id
      JOIN cards c ON c.id = d.blocked_by_card_id
@@ -26513,7 +26729,7 @@ function readyAfterLinks(db2) {
   }
   const ready = [];
   for (const [cardId, links] of byCard) {
-    if (!links.every((link) => linkState(link) === "landed")) continue;
+    if (!links.every((link) => linkState(link, cardId) === "landed")) continue;
     const landedAt = links.reduce((max, link) => {
       const at = link.status === "completed" && link.completedAt || link.updatedAt;
       return at > max ? at : max;
@@ -26595,6 +26811,7 @@ function createCard(db2, given, now, author) {
       ai_platform: input.aiPlatform || null,
       use_worktree: serializeUseWorktreeForDb(input.useWorktree ?? null),
       work_template_id: input.workTemplateId || null,
+      split_from_card_id: input.splitFromCardId || null,
       completed_at: completedAt
     };
     for (const [column, value] of Object.entries(optional2)) {
@@ -26623,13 +26840,234 @@ function createCard(db2, given, now, author) {
   });
 }
 
+// ../lib/split-proposal.ts
+function defaultSplitChain(title) {
+  return {
+    code: normalizeGroupCode(title) || "SPLIT",
+    name: title.length > 60 ? `${title.slice(0, 59)}\u2026` : title
+  };
+}
+var SPLIT_MIN_CARDS = 2;
+var SPLIT_MAX_CARDS = 8;
+function text(value, max) {
+  return typeof value === "string" ? value.replace(/\s+/g, " ").trim().slice(0, max) : "";
+}
+function parseSplitInto(value) {
+  if (!value || typeof value !== "object") return { ok: false, error: "splitInto must be an object with cards." };
+  const raw = value;
+  if (!Array.isArray(raw.cards)) return { ok: false, error: "splitInto.cards must be a list." };
+  const cards = [];
+  raw.cards.forEach((item, index) => {
+    if (!item || typeof item !== "object") return;
+    const card = item;
+    const title = text(card.title, 200);
+    if (!title) return;
+    const refs = Array.isArray(card.blockedBy) ? card.blockedBy : card.blockedBy === void 0 ? [] : [card.blockedBy];
+    const blockedBy = [...new Set(refs.map(Number).filter((n) => Number.isInteger(n) && n >= 1 && n <= index))];
+    cards.push({
+      title,
+      scope: text(card.scope, 1e3),
+      carries: text(card.carries, 2e3),
+      blockedBy,
+      reason: text(card.reason, 500)
+    });
+  });
+  if (cards.length < SPLIT_MIN_CARDS) {
+    return { ok: false, error: `splitInto needs at least ${SPLIT_MIN_CARDS} cards with a title.` };
+  }
+  if (cards.length > SPLIT_MAX_CARDS) {
+    return { ok: false, error: `splitInto takes at most ${SPLIT_MAX_CARDS} cards; a bigger split is a chain of its own.` };
+  }
+  const flows = (Array.isArray(raw.flows) ? raw.flows : []).map((flow) => text(flow, 500)).filter(Boolean);
+  return { ok: true, proposal: { reason: text(raw.reason, 1e3), cards, flows } };
+}
+
+// ../lib/split-fence.ts
+var SPLIT_FENCE_LANG = "ideafy-split";
+var FENCE_RE = /^ {0,3}(`{3,}|~{3,})[ \t]*ideafy-split[ \t]*\n([\s\S]*?)\n {0,3}\1[ \t]*(?:\n|$)/m;
+function extractSplitFence(text2) {
+  if (!text2 || !text2.includes(SPLIT_FENCE_LANG)) return { found: false, text: text2 };
+  let body = null;
+  let rest = text2;
+  for (; ; ) {
+    const match = FENCE_RE.exec(rest);
+    if (!match) break;
+    body = match[2];
+    rest = rest.slice(0, match.index) + rest.slice(match.index + match[0].length);
+  }
+  if (body === null) return { found: false, text: text2 };
+  const cleaned = rest.replace(/\n{3,}/g, "\n\n").trim();
+  let json2;
+  try {
+    json2 = JSON.parse(body);
+  } catch {
+    return { found: true, text: cleaned, error: "The ideafy-split block is not valid JSON." };
+  }
+  const parsed = parseSplitInto(json2);
+  return parsed.ok ? { found: true, text: cleaned, proposal: parsed.proposal } : { found: true, text: cleaned, error: parsed.error };
+}
+
+// ../lib/card-ops/split-proposals.ts
+function hasSplitTables(db2) {
+  return !!getRow(db2, "SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'card_split_proposals'");
+}
+function saveSplitProposal(db2, args) {
+  if (!hasSplitTables(db2)) return { saved: false, reason: "unsupported" };
+  const parsed = parseSplitInto(args.proposal);
+  if (!parsed.ok) return { saved: false, reason: "invalid", error: parsed.error };
+  const existing = getRow(
+    db2,
+    "SELECT status FROM card_split_proposals WHERE card_id = ?",
+    args.cardId
+  );
+  const reopen = existing?.status === "dismissed" && args.reopenDismissed === true;
+  if (existing && existing.status !== "pending" && !reopen) return { saved: false, reason: existing.status };
+  const payload = JSON.stringify(parsed.proposal);
+  if (existing) {
+    runChanges(
+      db2,
+      "UPDATE card_split_proposals SET payload = ?, status = 'pending', updated_at = ? WHERE card_id = ?",
+      payload,
+      args.now,
+      args.cardId
+    );
+  } else {
+    runChanges(
+      db2,
+      `INSERT INTO card_split_proposals (card_id, payload, status, created_at, updated_at) VALUES (?, ?, 'pending', ?, ?)`,
+      args.cardId,
+      payload,
+      args.now,
+      args.now
+    );
+  }
+  return { saved: true, proposal: parsed.proposal };
+}
+function getSplitProposal(db2, cardId) {
+  if (!hasSplitTables(db2)) return null;
+  const row = getRow(
+    db2,
+    `SELECT card_id AS cardId, payload, status, created_at AS createdAt, updated_at AS updatedAt
+     FROM card_split_proposals WHERE card_id = ?`,
+    cardId
+  );
+  if (!row) return null;
+  let proposal;
+  try {
+    proposal = JSON.parse(row.payload);
+  } catch {
+    return null;
+  }
+  return { cardId: row.cardId, status: row.status, proposal, createdAt: row.createdAt, updatedAt: row.updatedAt };
+}
+function dismissSplitProposal(db2, cardId, now) {
+  if (!hasSplitTables(db2)) return false;
+  const { changes } = runChanges(
+    db2,
+    "UPDATE card_split_proposals SET status = 'dismissed', updated_at = ? WHERE card_id = ? AND status = 'pending'",
+    now,
+    cardId
+  );
+  return changes > 0;
+}
+var PLAN_SUMMARY_MAX = 200;
+var FILES_MAX = 8;
+function toRef2(row) {
+  return {
+    id: row.id,
+    displayId: formatDisplayId(row.idPrefix, row.taskNumber),
+    title: row.title,
+    status: row.status
+  };
+}
+function planSummary(html) {
+  const text2 = plainTextLabel((html ?? "").replace(/^\s*<h1[^>]*>[\s\S]*?<\/h1>/i, ""), PLAN_SUMMARY_MAX);
+  return text2 || null;
+}
+function cappedFiles(html) {
+  const files = extractPlanFiles(html ?? "");
+  return files.length > FILES_MAX ? [...files.slice(0, FILES_MAX), `+${files.length - FILES_MAX}`] : files;
+}
+function toChild(row) {
+  const member = { status: row.status, gitBranchStatus: row.gitBranchStatus, testScenarios: row.testScenarios };
+  return {
+    ...toRef2(row),
+    ready: isReadyForParent(member),
+    tests: testTicks(member),
+    plan: planSummary(row.solutionSummary),
+    files: cappedFiles(row.solutionSummary)
+  };
+}
+var REF_SELECT = `SELECT c.id, c.title, c.status, c.task_number AS taskNumber, p.id_prefix AS idPrefix
+  FROM cards c LEFT JOIN projects p ON p.id = c.project_id`;
+var CHILD_SELECT = `SELECT c.id, c.title, c.status, c.task_number AS taskNumber, p.id_prefix AS idPrefix,
+    c.git_branch_status AS gitBranchStatus, c.test_scenarios AS testScenarios, c.solution_summary AS solutionSummary
+  FROM cards c LEFT JOIN projects p ON p.id = c.project_id`;
+var refName = (ref) => ref.displayId ?? ref.title;
+function splitRelations(db2, cardId) {
+  const columns = allRows(db2, "PRAGMA table_info(cards)");
+  if (!columns.some((column) => column.name === "split_from_card_id")) return null;
+  const own = getRow(db2, "SELECT split_from_card_id AS parentId FROM cards WHERE id = ?", cardId);
+  const children = allRows(db2, `${CHILD_SELECT} WHERE c.split_from_card_id = ? ORDER BY c.task_number`, cardId).map(toChild);
+  let parent = null;
+  if (own?.parentId) {
+    const row = getRow(db2, `${REF_SELECT} WHERE c.id = ?`, own.parentId);
+    parent = row ? toRef2(row) : { id: own.parentId, missing: true };
+  }
+  if (!parent && children.length === 0) return null;
+  const role = children.length > 0 ? SPLIT_PARENT_RULE : parent && !("missing" in parent) ? splitChildRule(refName(parent)) : null;
+  return { parent, children, role };
+}
+function splitRoleLine(db2, cardId) {
+  try {
+    const split = splitRelations(db2, cardId);
+    if (!split?.role) return null;
+    if (split.children.length > 0) {
+      const parts = split.children.map((child) => {
+        const state = child.ready ? "ready" : "not ready";
+        const ticks = child.tests ? `, tests ${child.tests}` : "";
+        return `${sanitizeForReminder(refName(child), 80)} (${child.status}${ticks}, ${state})`;
+      });
+      return `Split parent of ${parts.join(", ")}. ${SPLIT_PARENT_RULE}`;
+    }
+    const parent = split.parent;
+    return `Split out of ${sanitizeForReminder(refName(parent), 80)} \xB7 ${sanitizeForReminder(parent.title, 80)}. ${splitChildRule(sanitizeForReminder(refName(parent), 80))}`;
+  } catch (error2) {
+    console.warn("[split] role line skipped:", error2);
+    return null;
+  }
+}
+function pendingSplitCounts(db2) {
+  const counts = /* @__PURE__ */ new Map();
+  if (!hasSplitTables(db2)) return counts;
+  for (const row of allRows(
+    db2,
+    `SELECT card_id AS cardId, json_array_length(payload, '$.cards') AS n FROM card_split_proposals WHERE status = 'pending'`
+  )) {
+    counts.set(row.cardId, Number(row.n) || 0);
+  }
+  return counts;
+}
+
 // ../lib/card-ops/save-opinion.ts
+var SPLIT_FENCE_HTML_RE = /<pre[^>]*>\s*<code[^>]*language-ideafy-split[^>]*>[\s\S]*?<\/code>\s*<\/pre>/g;
 function saveOpinion(db2, args) {
-  const markers = parseOpinionMarkers(args.source);
+  const fence = extractSplitFence(args.source);
+  const source = fence.text;
+  const markers = parseOpinionMarkers(source);
   const verdict = markers.verdict ?? args.fallbackVerdict ?? null;
   const keep = args.mode === "append";
-  const html = externalizeInlineImages(args.id, args.html);
-  return transaction(db2, () => writeOpinion(db2, args, html, verdict, markers, keep));
+  const html = externalizeInlineImages(args.id, fence.found ? args.html.replace(SPLIT_FENCE_HTML_RE, "") : args.html);
+  return transaction(db2, () => {
+    const result = writeOpinion(db2, args, html, verdict, markers, keep);
+    if (!result.ok) return result;
+    const proposal = args.splitInto ?? (fence.found ? fence.proposal : void 0);
+    if (proposal !== void 0) {
+      return { ...result, split: saveSplitProposal(db2, { cardId: args.id, proposal, now: args.now }) };
+    }
+    if (fence.found && fence.error) return { ...result, split: { saved: false, reason: "invalid", error: fence.error } };
+    return result;
+  });
 }
 function writeOpinion(db2, args, html, verdict, markers, keep) {
   const before = getRow(db2, `SELECT ai_opinion FROM cards WHERE id = ?`, args.id);
@@ -26939,143 +27377,6 @@ function detectPhase(card) {
   return "retest";
 }
 
-// ../lib/test-progress.ts
-var test_progress_exports = {};
-__export(test_progress_exports, {
-  canVerifyAllGroups: () => canVerifyAllGroups,
-  describeTestGroup: () => describeTestGroup,
-  distinctItems: () => distinctItems,
-  isVerifyScope: () => isVerifyScope,
-  nextVerifyGroup: () => nextVerifyGroup,
-  parseTestProgress: () => parseTestProgress,
-  pickCurrentItems: () => pickCurrentItems,
-  testGroupLabel: () => testGroupLabel,
-  tickedCoreItemTexts: () => tickedCoreItemTexts,
-  untickedIn: () => untickedIn,
-  untickedItemTexts: () => untickedItemTexts,
-  verifyAllLabel: () => verifyAllLabel,
-  verifyTargets: () => verifyTargets
-});
-function isVerifyScope(value) {
-  return value === "next" || value === "all";
-}
-var CORE_HEADING = /^(core\s*flow|temel\s*ak[ıi][şs])$/;
-var H2 = /<h2\b[^>]*>([\s\S]*?)<\/h2>/gi;
-function countChecks(html) {
-  const checked = (html.match(/data-checked="true"/g) || []).length;
-  const unchecked = (html.match(/data-checked="false"/g) || []).length;
-  return { checked, total: checked + unchecked };
-}
-function headingText(raw) {
-  return plainTextLabel(raw).replace(/^#+\s*/, "");
-}
-function splitSections(html) {
-  const headings = [];
-  H2.lastIndex = 0;
-  let match;
-  while ((match = H2.exec(html)) !== null) {
-    headings.push({
-      heading: headingText(match[1]),
-      bodyStart: match.index + match[0].length
-    });
-  }
-  return headings.map((h, index) => {
-    const next = headings[index + 1];
-    const end = next ? html.lastIndexOf("<h2", next.bodyStart) : html.length;
-    return { heading: h.heading, label: h.heading.toLowerCase(), body: html.slice(h.bodyStart, end) };
-  });
-}
-function parseTestProgress(html) {
-  if (!html) return null;
-  const overall = countChecks(html);
-  if (overall.total === 0) return null;
-  const sections = splitSections(html);
-  const coreIndex = sections.findIndex((s) => CORE_HEADING.test(s.label));
-  const seen = /* @__PURE__ */ new Map();
-  const groups = [];
-  sections.forEach((section2, index) => {
-    const occurrence = (seen.get(section2.label) ?? 0) + 1;
-    seen.set(section2.label, occurrence);
-    const counts = countChecks(section2.body);
-    if (counts.total === 0) return;
-    groups.push({ heading: section2.heading, occurrence, core: index === coreIndex, ...counts });
-  });
-  const core = groups.find((g) => g.core);
-  if (!core) return { ...overall, groups };
-  return { ...overall, core: { checked: core.checked, total: core.total }, groups };
-}
-var ITEM = /<li\b[^>]*data-checked="(true|false)"[^>]*>([\s\S]*?)<\/li>/gi;
-function itemTexts(html, groups, checked) {
-  const sections = splitSections(html);
-  const seen = /* @__PURE__ */ new Map();
-  const texts = [];
-  for (const section2 of sections) {
-    const occurrence = (seen.get(section2.label) ?? 0) + 1;
-    seen.set(section2.label, occurrence);
-    if (!groups.some((g) => g.heading.toLowerCase() === section2.label && g.occurrence === occurrence)) continue;
-    ITEM.lastIndex = 0;
-    let match;
-    while ((match = ITEM.exec(section2.body)) !== null) {
-      if (match[1] === "true" !== checked) continue;
-      const text = headingText(match[2]);
-      if (text) texts.push(text);
-    }
-  }
-  return texts;
-}
-function untickedItemTexts(html, groups) {
-  return itemTexts(html, groups, false);
-}
-function tickedCoreItemTexts(html, progress) {
-  const core = progress?.groups.find((g) => g.core);
-  return core && core.checked > 0 ? itemTexts(html, [core], true) : [];
-}
-function distinctItems(items) {
-  return Array.from(new Set((items ?? []).map((item) => item.trim()).filter(Boolean)));
-}
-function pickCurrentItems(picked, current) {
-  const asked = distinctItems(picked);
-  const items = asked.filter((item) => current.includes(item));
-  return { items, dropped: asked.length - items.length };
-}
-function verifyTargets(progress, scope) {
-  if (!progress?.core) return [];
-  const coreIndex = progress.groups.findIndex((g) => g.core);
-  const open = progress.groups.slice(coreIndex).filter((g) => g.checked < g.total);
-  return scope === "all" ? open : open.slice(0, 1);
-}
-function nextVerifyGroup(progress) {
-  return verifyTargets(progress, "next")[0] ?? null;
-}
-function canVerifyAllGroups(progress) {
-  return verifyTargets(progress, "all").length > 1;
-}
-function verifyAllLabel(progress) {
-  return nextVerifyGroup(progress)?.core ? "all groups" : "all remaining groups";
-}
-function untickedIn(groups) {
-  return groups.reduce((sum, g) => sum + (g.total - g.checked), 0);
-}
-var KNOWN_GROUP_LABELS = [
-  [CORE_HEADING, "Core flow"],
-  [/^(edge\s*cases?|kenar\s*durumlar[ıi]?)$/, "Edge cases"],
-  [/^(regression(\s*tests?)?|regresyon(\s*testleri)?)$/, "Regression"]
-];
-function testGroupLabel(group) {
-  const label2 = group.heading.toLowerCase();
-  const known = KNOWN_GROUP_LABELS.find(([pattern]) => pattern.test(label2));
-  return known ? known[1] : group.heading;
-}
-function describeTestGroup(group, groups) {
-  const repeated = groups.some((g) => g !== group && g.heading.toLowerCase() === group.heading.toLowerCase());
-  if (!repeated) return `\`## ${group.heading}\``;
-  return `the ${ordinal(group.occurrence)} \`## ${group.heading}\` group`;
-}
-function ordinal(n) {
-  const suffix = n % 10 === 1 && n % 100 !== 11 ? "st" : n % 10 === 2 && n % 100 !== 12 ? "nd" : n % 10 === 3 && n % 100 !== 13 ? "rd" : "th";
-  return `${n}${suffix}`;
-}
-
 // ../lib/workspace.ts
 var workspace_exports = {};
 __export(workspace_exports, {
@@ -27095,8 +27396,8 @@ __export(branch_name_exports, {
   generateBranchName: () => generateBranchName,
   slugify: () => slugify2
 });
-function slugify2(text) {
-  return text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").substring(0, 50);
+function slugify2(text2) {
+  return text2.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").substring(0, 50);
 }
 function generateBranchName(idPrefix, taskNumber, title) {
   const slug = slugify2(title);
@@ -27311,16 +27612,19 @@ function clearQueue(db2, keep = /* @__PURE__ */ new Set()) {
 function chainMembers(db2, cardId) {
   const card = getRow(db2, "SELECT group_id AS groupId FROM cards WHERE id = ?", cardId);
   if (!card?.groupId) return [];
+  const split = hasSplitColumn(db2) ? `c.split_from_card_id AS splitFromCardId,
+            CASE WHEN c.split_from_card_id = ? THEN c.test_scenarios END AS testScenarios` : "NULL AS splitFromCardId, NULL AS testScenarios";
+  const params = hasSplitColumn(db2) ? [cardId, card.groupId] : [card.groupId];
   return allRows(
     db2,
     `SELECT c.id, c.title, c.status, c.task_number AS taskNumber, c.group_order AS groupOrder,
-            c.git_branch_status AS gitBranchStatus, p.id_prefix AS idPrefix
+            c.git_branch_status AS gitBranchStatus, p.id_prefix AS idPrefix, ${split}
      FROM cards c LEFT JOIN projects p ON p.id = c.project_id
      WHERE c.group_id = ?`,
-    card.groupId
+    ...params
   );
 }
-var toRef2 = (row) => ({
+var toRef3 = (row) => ({
   displayId: formatDisplayId(row.idPrefix, row.taskNumber),
   title: row.title,
   status: row.status
@@ -27338,7 +27642,7 @@ function chainOrderWarningFor(db2, cardId, options = {}) {
     const links = linkedMembers(db2, cardId);
     const members = chainMembers(db2, cardId);
     if (members.length === 0 && links.length === 0) return null;
-    return chainOrderWarning({ members, links, cardId, toRef: toRef2, ...options });
+    return chainOrderWarning({ members, links, cardId, toRef: toRef3, ...options });
   } catch (error2) {
     console.warn("[chain-order] warning skipped:", error2);
     return null;
@@ -27551,7 +27855,7 @@ function acknowledgeWrite(db2, input) {
 // ../lib/card-ops/projects.ts
 import * as path3 from "path";
 var OPEN_COLUMNS = ["ideation", "backlog", "bugs", "progress", "test"];
-function toRef3(row) {
+function toRef4(row) {
   return {
     id: row.id,
     name: row.name,
@@ -27567,7 +27871,7 @@ function resolveProjectByFolder(db2, dir) {
   const root = path3.parse(current).root;
   for (let i = 0; i < 64; i++) {
     const row = statement.get(current);
-    if (row) return toRef3({ ...row });
+    if (row) return toRef4({ ...row });
     if (current === root) return null;
     const parent = path3.dirname(current);
     if (parent === current) return null;
@@ -27582,7 +27886,7 @@ function localMidnight(now) {
 }
 function listProjects(db2, options = {}) {
   const now = options.now ?? /* @__PURE__ */ new Date();
-  let projects = allRows(db2, "SELECT * FROM projects ORDER BY name COLLATE NOCASE").map(toRef3);
+  let projects = allRows(db2, "SELECT * FROM projects ORDER BY name COLLATE NOCASE").map(toRef4);
   const query = options.query?.trim().toLowerCase();
   if (query) {
     const exact = projects.filter((p) => p.idPrefix.toLowerCase() === query);
@@ -27768,6 +28072,161 @@ function validateCardTitle(title) {
     return { ok: false, error: "Card title cannot contain '<', '>' or null bytes (HTML injection guard)" };
   }
   return { ok: true, title: trimmed };
+}
+
+// ../lib/card-ops/split-card.ts
+var SplitCardError = class extends Error {
+  constructor(message, kind = "invalid") {
+    super(message);
+    this.kind = kind;
+    this.name = "SplitCardError";
+  }
+  kind;
+};
+function escapeHtml2(text2) {
+  return text2.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+function childDescription(card, parentLabel) {
+  const parts = [];
+  if (card.scope) parts.push(`<p>${escapeHtml2(card.scope)}</p>`);
+  if (card.reason) parts.push(`<p><em>${escapeHtml2(card.reason)}</em></p>`);
+  if (card.carries) {
+    parts.push(`<h3>Carried from ${escapeHtml2(parentLabel)}</h3>`, `<p>${escapeHtml2(card.carries)}</p>`);
+  }
+  return parts.join("");
+}
+function flowsHtml(flows) {
+  const items = flows.map(
+    (flow) => `<li data-type="taskItem" data-checked="false"><label><input type="checkbox"><span></span></label><div><p>${escapeHtml2(flow)}</p></div></li>`
+  ).join("");
+  return `<h2>End-to-end</h2><ul data-type="taskList">${items}</ul>`;
+}
+function openChain(db2, parent, now, wanted = {}) {
+  const fallback = defaultSplitChain(parent.title);
+  const name = wanted.name?.trim() || fallback.name;
+  const chosen = normalizeGroupCode(wanted.code ?? "");
+  if (chosen) {
+    try {
+      return createGroup(db2, { code: chosen, name, projectId: parent.projectId }, now);
+    } catch (error2) {
+      if (error2 instanceof CardGroupError && error2.kind === "conflict") {
+        throw new SplitCardError(`The chain code ${chosen} is taken. Pick another code or an existing chain.`, "conflict");
+      }
+      throw error2;
+    }
+  }
+  const base = fallback.code;
+  for (let n = 1; n <= 9; n += 1) {
+    const code = n === 1 ? base : `${base.slice(0, GROUP_CODE_MAX - 1)}${n}`;
+    try {
+      return createGroup(db2, { code, name, projectId: parent.projectId }, now);
+    } catch (error2) {
+      if (!(error2 instanceof CardGroupError) || error2.kind !== "conflict") throw error2;
+    }
+  }
+  throw new SplitCardError(`No free chain code from "${base}". Pick an existing chain instead.`, "conflict");
+}
+function splitCard(db2, args) {
+  if (!hasSplitTables(db2)) {
+    throw new SplitCardError(
+      "This Ideafy database cannot store card break-ups yet. Update the Ideafy app \u2014 it adds the table on its next start.",
+      "unsupported"
+    );
+  }
+  const { cardId, choices = {}, now, author } = args;
+  return transaction(db2, () => {
+    const parent = getRow(
+      db2,
+      `SELECT c.id, c.title, c.status, c.project_id AS projectId, c.group_id AS groupId,
+              c.processing_type AS processingType, c.test_scenarios AS testScenarios,
+              c.task_number AS taskNumber, p.id_prefix AS idPrefix
+       FROM cards c LEFT JOIN projects p ON p.id = c.project_id WHERE c.id = ?`,
+      cardId
+    );
+    if (!parent) throw new SplitCardError(`Card not found: ${cardId}`, "not_found");
+    if (parent.processingType) {
+      throw new SplitCardError("This card has a run in progress. Break it into cards once the run is over.", "conflict");
+    }
+    const stored = getSplitProposal(db2, cardId);
+    if (!stored) throw new SplitCardError("This card has no break-up proposal.", "not_found");
+    if (stored.status !== "pending") {
+      throw new SplitCardError(`This card's break-up proposal is already ${stored.status}; nothing was opened.`, "conflict");
+    }
+    const parsed = parseSplitInto({
+      reason: stored.proposal.reason,
+      cards: choices.cards ?? stored.proposal.cards,
+      flows: choices.flows ?? stored.proposal.flows
+    });
+    if (!parsed.ok) throw new SplitCardError(parsed.error, "invalid");
+    const proposal = parsed.proposal;
+    const statuses = (choices.cards ?? []).map((card) => card.status);
+    let groupId;
+    let groupCode;
+    let newChain = false;
+    const chain = choices.chain ?? (parent.groupId ? { mode: "existing", groupId: parent.groupId } : { mode: "new" });
+    if (chain.mode === "existing") {
+      const group = getGroup(db2, chain.groupId);
+      if (!group) throw new SplitCardError(`Chain not found: ${chain.groupId}`, "not_found");
+      groupId = group.id;
+      groupCode = group.code;
+    } else {
+      const group = openChain(db2, parent, now, chain);
+      groupId = group.id;
+      groupCode = group.code;
+      newChain = true;
+    }
+    const parentLabel = formatDisplayId(parent.idPrefix, parent.taskNumber) ?? "the parent card";
+    const children = [];
+    proposal.cards.forEach((card, index) => {
+      const id = globalThis.crypto.randomUUID();
+      const status = statuses[index] === "ideation" ? "ideation" : "backlog";
+      const created = createCard(
+        db2,
+        {
+          id,
+          title: card.title,
+          description: childDescription(card, parentLabel),
+          status,
+          projectId: parent.projectId,
+          groupId,
+          blockedBy: card.blockedBy.map((n) => ({ card: children[n - 1].id, note: null })),
+          splitFromCardId: parent.id
+        },
+        now,
+        author
+      );
+      if (!created.ok) throw new SplitCardError(`Could not open "${card.title}": ${created.reason}`, "invalid");
+      children.push({ id, displayId: formatDisplayId(parent.idPrefix, created.taskNumber), title: card.title, status });
+    });
+    const moved = updateCard(db2, {
+      id: parent.id,
+      now,
+      author,
+      fields: { groupId, ...parent.status === "ideation" ? { status: "backlog" } : {} },
+      afterCardId: children[children.length - 1].id
+    });
+    if (!moved.ok) throw new SplitCardError(`Could not move the parent card: ${moved.reason}`, "invalid");
+    setBlockedBy(
+      db2,
+      parent.id,
+      children.map((child) => ({ card: child.id, note: "broken out of this card" })),
+      now,
+      "add"
+    );
+    if (proposal.flows.length > 0) {
+      const html = `${parent.testScenarios ?? ""}${flowsHtml(proposal.flows)}`;
+      const saved = saveTests(db2, { id: parent.id, html, now, author, guard: "merge", moveTo: null });
+      if (!saved.ok) throw new SplitCardError("Could not write the end-to-end flows to the parent's Tests.", "invalid");
+    }
+    runChanges(
+      db2,
+      "UPDATE card_split_proposals SET status = 'applied', payload = ?, updated_at = ? WHERE card_id = ?",
+      JSON.stringify(proposal),
+      now,
+      cardId
+    );
+    return { groupId, groupCode, newChain, children, parentStatus: moved.status };
+  });
 }
 
 // ../lib/card-story.ts
@@ -27967,6 +28426,7 @@ var STEP_DESC = {
   talk: "Settle the open questions in the card chat",
   terminal: "",
   "test-together": "Walk the checklist in a session",
+  "break-up": "Review the proposed cards, then open them",
   accept: "Move it to Backlog",
   withdraw: "Set it aside, keep its history",
   merge: "Land the branch on main",
@@ -27991,6 +28451,7 @@ function phasePrimary(card, flags, ctx, rows) {
   if (flags.canGenerate) return "generate";
   if (card.status === "ideation") {
     if (!ctx.hasOpinion) return has("evaluate") ? "evaluate" : "accept";
+    if (has("break-up")) return "break-up";
     if (card.aiVerdict === "maybe") return "talk";
     if (card.aiVerdict === "negative") return "withdraw";
     return "accept";
@@ -28114,6 +28575,14 @@ function nextStepFor(card, flags, ctx) {
   }
   if (flags.canTestTogether) {
     row(together, { id: "test-together", title: "Test together", kind: "you", disabledReason: interactiveBlock, meta: mobileMeta });
+  }
+  if (card.status === "ideation" && ctx.hasOpinion && (card.pendingSplitCards ?? 0) > 0) {
+    row(together, {
+      id: "break-up",
+      title: `Break into ${card.pendingSplitCards} cards`,
+      kind: "you",
+      disabledReason: ctx.running ? "A run is going" : void 0
+    });
   }
   if (card.status === "ideation") {
     row(together, {
@@ -28270,6 +28739,7 @@ function focusDetail(card, now = Date.now(), state = getFocusState(card), reply)
     case "your-reply":
       return reply ? replyLine(reply, now) : `new reply \xB7 ${formatSince(cardLastActivityAt(card), now)}`;
     case "your-decision":
+      if ((card.pendingSplitCards ?? 0) > 0) return `proposed as ${card.pendingSplitCards} cards \xB7 break it up?`;
       if (card.aiVerdict === "positive") return "verdict: yes \xB7 move to backlog?";
       if (card.aiVerdict === "maybe") return "verdict: maybe \xB7 discuss?";
       return "verdict: no \xB7 withdraw?";
@@ -28521,7 +28991,8 @@ __export(evaluation_exports, {
   EVALUATION_SAVE_INSTRUCTION: () => EVALUATION_SAVE_INSTRUCTION,
   buildChainSection: () => buildChainSection,
   buildEvaluationGuide: () => buildEvaluationGuide,
-  buildPriorDecisionsSection: () => buildPriorDecisionsSection
+  buildPriorDecisionsSection: () => buildPriorDecisionsSection,
+  buildSplitSection: () => buildSplitSection
 });
 var EVALUATION_OUTPUT_SCHEMA = `## Summary Verdict
 [VERDICT: strong_yes/yes/maybe/no/strong_no] \u2014 one sentence: Strong Yes / Yes / Maybe / No / Strong No, and why.
@@ -28578,7 +29049,42 @@ ${lines.join("\n")}
 Next open card in the chain: ${next}
 `;
 }
+function splitName(ref) {
+  return ref.displayId ? `${ref.displayId} \xB7 ${ref.title}` : `${ref.title} (draft, no displayId)`;
+}
+function buildSplitSection(split) {
+  if (!split) return "";
+  if (split.children.length > 0) {
+    const blocks = split.children.map((child) => {
+      const ticks = child.tests ? `tests ${child.tests}` : "no tests yet";
+      const lines = [`- ${splitName(child)} \u2014 ${child.status} \xB7 ${ticks} \xB7 ${child.ready ? "ready" : "not ready"}`];
+      if (child.plan) lines.push(`  Plan: ${child.plan}`);
+      if (child.files.length > 0) lines.push(`  Files: ${child.files.join(", ")}`);
+      return lines.join("\n");
+    });
+    return `
+## Split
+${split.role ?? ""}
+A child is ready once it is Completed, or in Human Test with every item ticked and its branch merged.
+${blocks.join("\n")}
+`;
+  }
+  if (!split.parent) return "";
+  if ("missing" in split.parent) {
+    return `
+## Split
+This card was broken out of a deleted card.
+`;
+  }
+  return `
+## Split
+This card was broken out of ${splitName(split.parent)}.
+${split.role ?? ""}
+`;
+}
 var EVALUATION_SAVE_INSTRUCTION = `Then write the evaluation in this template and save it with save_opinion (aiOpinion as markdown). ${DEPENDS_ON_RULE("save_opinion", "a Related Cards line of the kind dependency")} ${EVALUATION_HEADINGS_RULE}
+
+${SPLIT_PROPOSAL_RULE("tool")}
 
 ${EVALUATION_OUTPUT_SCHEMA}`;
 function buildEvaluationGuide() {
@@ -28630,8 +29136,8 @@ function listMockupArtifacts(html) {
   }
   return paths;
 }
-function decodeEntities2(text) {
-  return text.replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&#39;/g, "'");
+function decodeEntities2(text2) {
+  return text2.replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&#39;/g, "'");
 }
 function hasMockupArtifact(html) {
   return listMockupArtifacts(html).length > 0;
@@ -28828,8 +29334,8 @@ function runLine(run2, index, total) {
   const origin = run2.source === "terminal" ? "terminal" : "app";
   return `#${testReportRunNumber(index, total)} \xB7 ${run2.runAt} \xB7 ${testReportRunLabel(run2)} \xB7 ${run2.evidence} \xB7 ${origin} \xB7 ${countsText(run2)}`;
 }
-function indent(text, prefix) {
-  return text.split("\n").map((line) => `${prefix}${line}`).join("\n");
+function indent(text2, prefix) {
+  return text2.split("\n").map((line) => `${prefix}${line}`).join("\n");
 }
 function itemText(item, number3, full) {
   const head = `${number3}. [${item.status}] ${item.item}`;
@@ -29444,7 +29950,14 @@ var {
   validateCardTitle: validateCardTitle2,
   cardAuthorship: cardAuthorship2,
   loadStoryInputs: loadStoryInputs2,
-  IDEAFY_AUTHOR: IDEAFY_AUTHOR2
+  IDEAFY_AUTHOR: IDEAFY_AUTHOR2,
+  getSplitProposal: getSplitProposal2,
+  saveSplitProposal: saveSplitProposal2,
+  dismissSplitProposal: dismissSplitProposal2,
+  splitRelations: splitRelations2,
+  splitRoleLine: splitRoleLine2,
+  splitCard: splitCard2,
+  SplitCardError: SplitCardError2
 } = unwrap(card_ops_exports);
 var { writeConflictFor: writeConflictFor2 } = unwrap(card_queue_exports);
 var { normalizeComplexity: normalizeComplexity2, describeOpinionMarkers: describeOpinionMarkers2, countOpinionConcerns: countOpinionConcerns2 } = unwrap(opinion_markers_exports);
@@ -29663,7 +30176,11 @@ var CAPABILITIES = {
   /** card_dependency_suggestions (0030) — links an opinion or plan suggested, written by their `dependsOn`. */
   dependencySuggestions: ["card_dependency_suggestions", "card_id"],
   /** tests_base_commit (0029) — the commit a checklist was written against, for testsDrift and confirmCurrent. */
-  baseCommits: ["cards", "tests_base_commit"]
+  baseCommits: ["cards", "tests_base_commit"],
+  /** split_from_card_id (0034) — the parent a card was broken out of, written by split_card. */
+  splitFrom: ["cards", "split_from_card_id"],
+  /** card_split_proposals (0034) — a break-up an opinion proposed, written by save_opinion's `splitInto`. */
+  splitProposals: ["card_split_proposals", "card_id"]
 };
 var knownColumns = /* @__PURE__ */ new WeakMap();
 function hasColumn(db2, table, column) {
@@ -30001,7 +30518,7 @@ function writeTerminalReport(db2, cardId, items, checklistApplied, warnings = []
 var MAX_REPORT_SCREENSHOTS = 6;
 var STATUSES2 = ["passed", "failed", "manual"];
 function readTestReport(db2, card, opts = {}) {
-  const fail = (text) => ({ content: [{ type: "text", text }], isError: true });
+  const fail = (text2) => ({ content: [{ type: "text", text: text2 }], isError: true });
   if (!hasCapability(db2, "testReports")) {
     return fail(
       "get_test_report: this Ideafy database has no Test Reports yet (cards.test_reports). Update the Ideafy app \u2014 it adds the column on its next start."
@@ -30168,9 +30685,9 @@ function foldChar(c) {
   }
   return ch;
 }
-function foldText(text) {
-  const out = new Array(text.length);
-  for (let i = 0; i < text.length; i++) out[i] = foldChar(text[i]);
+function foldText(text2) {
+  const out = new Array(text2.length);
+  for (let i = 0; i < text2.length; i++) out[i] = foldChar(text2[i]);
   return out.join("");
 }
 function queryTerms(query) {
@@ -30179,11 +30696,11 @@ function queryTerms(query) {
 }
 var SNIPPET_LENGTH = 240;
 var SNIPPET_LEAD = 80;
-function snippetAround(text, at) {
+function snippetAround(text2, at) {
   const start = Math.max(0, at - SNIPPET_LEAD);
-  const end = Math.min(text.length, start + SNIPPET_LENGTH);
-  const body = text.slice(start, end).trim();
-  return `${start > 0 ? "\u2026" : ""}${body}${end < text.length ? "\u2026" : ""}`;
+  const end = Math.min(text2.length, start + SNIPPET_LENGTH);
+  const body = text2.slice(start, end).trim();
+  return `${start > 0 ? "\u2026" : ""}${body}${end < text2.length ? "\u2026" : ""}`;
 }
 function projectPrefix(db2, projectId) {
   const row = db2.prepare(`SELECT id_prefix as idPrefix FROM projects WHERE id = ?`).get(projectId);
@@ -30221,7 +30738,7 @@ function searchCards(db2, opts) {
   for (const row of rows) {
     const title = htmlToText2(row.title);
     const foldedTitle = foldText(title);
-    const bodies = [row.aiOpinion, row.solutionSummary, row.description].map((html) => htmlToText2(html).replace(/\s+/g, " ")).filter((text) => text.length > 0);
+    const bodies = [row.aiOpinion, row.solutionSummary, row.description].map((html) => htmlToText2(html).replace(/\s+/g, " ")).filter((text2) => text2.length > 0);
     const foldedBodies = bodies.map(foldText);
     let score = matchesCardNumber2(numberQuery, { idPrefix: prefix, taskNumber: row.taskNumber }) ? NUMBER_WEIGHT : 0;
     for (const term of terms) {
@@ -30479,6 +30996,46 @@ var DEPENDS_ON_SCHEMA = {
   },
   description: "Optional. Cards this one waits on that the text names as a dependency and that have not landed yet. Each becomes a suggested link the user accepts (Add link on the card, add_dependency here) or turns down (Dismiss, remove_dependency) \u2014 never a link by itself. Leave out overlaps, precedents, contradictions, duplicates and chain members. A suggestion the user already turned down is not made again."
 };
+var SPLIT_CARD_SCHEMA = {
+  type: "object",
+  properties: {
+    title: { type: "string", description: "The child card's title." },
+    scope: { type: "string", description: "What this card builds, in a sentence or two." },
+    carries: { type: "string", description: "The part of this opinion (concerns, recommendations) the child takes with it; written to its description." },
+    blockedBy: {
+      type: "array",
+      items: { type: "number" },
+      description: "1-based places of EARLIER cards in this list that this one waits on."
+    },
+    reason: { type: "string", description: "Half a sentence on why this is its own card." }
+  },
+  required: ["title"]
+};
+var SPLIT_INTO_SCHEMA = {
+  type: "object",
+  properties: {
+    reason: { type: "string", description: "Why the card should be broken up." },
+    cards: { type: "array", items: SPLIT_CARD_SCHEMA, description: "2-8 child cards in the order they should be built." },
+    flows: {
+      type: "array",
+      items: { type: "string" },
+      description: "End-to-end flows the parent card verifies once its children land; they go to the parent's Tests."
+    }
+  },
+  required: ["cards"],
+  description: "Optional. Only when the card is really too big for one card: several parts that ship on their own, different layers, or different risks. Stored as a break-up proposal the user accepts (split_card) or turns down (split_card with keepAsOne) \u2014 never applied by itself. A proposal the user turned down is not made again."
+};
+function splitNote(cardId, outcome) {
+  if (!outcome) return null;
+  if (outcome.saved) {
+    const n = outcome.proposal.cards.length;
+    return `Break-up proposal stored: ${queueDisplayIdOf(cardId)} into ${n} cards. In a conversation, ask the user in one sentence whether to break the card into these ${n} cards: on yes call split_card, on no call split_card with keepAsOne so it is not proposed again. In a one-shot run, leave it: the card shows "Break into ${n} cards" and "Keep as one card".`;
+  }
+  if (outcome.reason === "dismissed") return "splitInto was not stored: the user already chose to keep this card as one.";
+  if (outcome.reason === "applied") return "splitInto was not stored: this card was already broken into cards.";
+  if (outcome.reason === "unsupported") return `splitInto was not stored: ${missingCapabilityMessage("splitInto", "splitProposals")}`;
+  return `splitInto was not stored: ${outcome.error ?? "invalid proposal"}`;
+}
 var SKIP_REASONS = {
   "not-found": "no such card",
   self: "it is this card",
@@ -30544,7 +31101,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
     tools: [
       {
         name: "get_card",
-        description: "Get a kanban card by ID. When the card belongs to a chain, `chain` gives its place in that chain: position/total, predecessors and successors in chain order (displayId, title, status), and `next`, the chain's first member that is neither completed nor withdrawn. When the card has blocked-by links, `blockedBy` lists the cards it waits on and `blocks` the cards waiting on it, each with displayId, title, status, `landed` (its code is already in what this card would start from) and the link's note. When an opinion or plan suggested a link the user has not answered yet, `suggestedBlockedBy` lists those cards with the reason: ask the user, then add_dependency on yes or remove_dependency on no. When the card has a Test Report, `testReport` gives how many runs it holds and how the newest came out; read the runs themselves with get_test_report. When commits have touched the card's files since its checklist was written, `testsDrift` lists them (base, files, commits, total): the checklist may have gone stale. `planDrift` does the same since its plan was written: the code wins over the plan. `authorship` says who wrote and who last edited each tab (`you` or `ideafy`, with the date) and who ticked each checked item, so you can see what the user changed by hand. `story` is the card's eight steps (Idea, Verdict, Argued, Plan, Built, Proof, Your test, Merge; seven on a Work card) with who moves at each and its state (done, now, todo, skipped), the step in play as `now`, and `banner`, whose move it is in the words of the app's turn banner (null when nobody's).",
+        description: "Get a kanban card by ID. When the card belongs to a chain, `chain` gives its place in that chain: position/total, predecessors and successors in chain order (displayId, title, status), and `next`, the chain's first member that is neither completed nor withdrawn. When the card has blocked-by links, `blockedBy` lists the cards it waits on and `blocks` the cards waiting on it, each with displayId, title, status, `landed` (its code is already in what this card would start from) and the link's note. When an opinion or plan suggested a link the user has not answered yet, `suggestedBlockedBy` lists those cards with the reason: ask the user, then add_dependency on yes or remove_dependency on no. When an opinion proposed breaking the card into cards and the user has not answered, `splitProposal` holds the cards: ask the user, then split_card on yes or split_card with keepAsOne on no. `split` names the card this one was broken out of (`parent`) and the cards broken out of it (`children`), with `role`, the one sentence this relation gives the card: a parent joins its children and shows the whole works end to end, a child keeps to its own scope. Each child carries `status`, `tests` (ticked/total such as 4/6, null without a checklist), a short `plan` summary, the `files` its plan names, and `ready`: Completed, or in Human Test with every item ticked and its branch merged. A parent waits on its children by this stricter rule, so a child's `landed` in `blockedBy` follows `ready`; every other link keeps the plain code-is-in rule. When the card has a Test Report, `testReport` gives how many runs it holds and how the newest came out; read the runs themselves with get_test_report. When commits have touched the card's files since its checklist was written, `testsDrift` lists them (base, files, commits, total): the checklist may have gone stale. `planDrift` does the same since its plan was written: the code wins over the plan. `authorship` says who wrote and who last edited each tab (`you` or `ideafy`, with the date) and who ticked each checked item, so you can see what the user changed by hand. `story` is the card's eight steps (Idea, Verdict, Argued, Plan, Built, Proof, Your test, Merge; seven on a Work card) with who moves at each and its state (done, now, todo, skipped), the step in play as `now`, and `banner`, whose move it is in the words of the app's turn banner (null when nobody's).",
         inputSchema: {
           type: "object",
           properties: {
@@ -30690,6 +31247,34 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
             blockedBy: { type: "string", description: "The card it waits on: UUID, display ID or task number." }
           },
           required: ["cardId", "blockedBy"]
+        }
+      },
+      {
+        name: "split_card",
+        description: "Break a card into the cards its pending break-up proposal names (get_card's splitProposal), in one step: the child cards are opened with their blocked-by links and a link back to the parent, put in a chain (a new one, or the parent's), and the parent goes last in that chain, waiting on every child, moved from Ideation to Backlog, with the proposal's end-to-end flows on its Tests. All or nothing. Call it only after the user said yes. With keepAsOne: true it turns the proposal down instead, and it is not proposed again.",
+        inputSchema: {
+          type: "object",
+          properties: {
+            id: { type: "string", description: "The parent card: UUID, display ID (e.g. IDE-481) or task number." },
+            keepAsOne: { type: "boolean", description: "The user said no: dismiss the proposal and open nothing." },
+            cards: {
+              type: "array",
+              items: {
+                ...SPLIT_CARD_SCHEMA,
+                properties: {
+                  ...SPLIT_CARD_SCHEMA.properties,
+                  status: { type: "string", enum: ["backlog", "ideation"], description: "The child's column; backlog by default." }
+                }
+              },
+              description: "Optional. The cards as the user changed them (drop a blockedBy entry to drop that link). Omit to use the proposal as it stands."
+            },
+            flows: { type: "array", items: { type: "string" }, description: "Optional. The end-to-end flows as the user changed them." },
+            groupId: { type: "string", description: "Optional. An existing chain to put the cards in; default is the parent's chain, else a new one." },
+            newChain: { type: "boolean", description: "Optional. Open a new chain even when the parent is in one." },
+            chainCode: { type: "string", description: "Optional, with a new chain. Its code (up to 6 letters or digits); a taken code is refused. Defaults to one made from the parent's title." },
+            chainName: { type: "string", description: "Optional, with a new chain. Its name; defaults to the parent's title." }
+          },
+          required: ["id"]
         }
       },
       {
@@ -31045,7 +31630,8 @@ The server writes the card's verdict, score, priority and complexity from those 
               enum: ["positive", "negative", "maybe"],
               description: "Optional fallback, used only when the opinion names no verdict ([VERDICT:] marker or Summary Verdict word). strong_yes/yes \u2192 positive, maybe \u2192 maybe, no/strong_no \u2192 negative. Maybe stays maybe whatever the score."
             },
-            dependsOn: DEPENDS_ON_SCHEMA
+            dependsOn: DEPENDS_ON_SCHEMA,
+            splitInto: SPLIT_INTO_SCHEMA
           },
           required: ["id", "aiOpinion"]
         }
@@ -31426,6 +32012,17 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         if (suggestedBlockedBy.length > 0) {
           card.suggestedBlockedBy = suggestedBlockedBy;
         }
+        const splitProposal = getSplitProposal2(db, card.id);
+        if (splitProposal?.status === "pending") {
+          Object.assign(card, {
+            splitProposal: {
+              ...splitProposal.proposal,
+              ask: "Ask the user in one sentence whether to break the card into these cards: on yes call split_card, on no call split_card with keepAsOne."
+            }
+          });
+        }
+        const split = splitRelations2(db, card.id);
+        if (split) Object.assign(card, { split });
         const testsDrift = testsDriftFor2(db, card.id);
         if (testsDrift && testsDrift.total > 0) {
           card.testsDrift = testsDrift;
@@ -31674,6 +32271,38 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           };
         } catch (error2) {
           return { content: [{ type: "text", text: `${name}: ${error2 instanceof Error ? error2.message : String(error2)}` }], isError: true };
+        }
+      }
+      case "split_card": {
+        const { id: rawId, keepAsOne, cards, flows, groupId, newChain, chainCode, chainName } = args ?? {};
+        if (!hasCapability(db, "splitProposals") || !hasCapability(db, "splitFrom")) {
+          return { content: [{ type: "text", text: missingCapabilityMessage("split_card", "splitFrom") }], isError: true };
+        }
+        const id = rawId ? resolveCardRef2(db, rawId) : null;
+        if (!id) return { content: [{ type: "text", text: `Card not found: ${rawId}` }], isError: true };
+        const now = (/* @__PURE__ */ new Date()).toISOString();
+        if (keepAsOne) {
+          const dismissed = dismissSplitProposal2(db, id, now);
+          return {
+            content: [{
+              type: "text",
+              text: dismissed ? `${queueDisplayIdOf(id)} stays one card; its break-up proposal will not come back.` : `${queueDisplayIdOf(id)} has no pending break-up proposal; nothing changed.`
+            }]
+          };
+        }
+        try {
+          const named = chainCode || chainName;
+          const chain = newChain || named && !groupId ? { mode: "new", code: chainCode, name: chainName } : groupId ? { mode: "existing", groupId } : void 0;
+          const result = splitCard2(db, { cardId: id, choices: { cards, flows, chain }, now, author: IDEAFY_AUTHOR2 });
+          const names = result.children.map((child) => child.displayId ?? `"${child.title}"`).join(", ");
+          return {
+            content: [{
+              type: "text",
+              text: `${queueDisplayIdOf(id)} was broken into ${result.children.length} cards: ${names}, in ${result.newChain ? "the new" : "the"} chain ${result.groupCode}. ${queueDisplayIdOf(id)} is last in that chain, waits on each of them, and is in "${result.parentStatus}".`
+            }]
+          };
+        } catch (error2) {
+          return { content: [{ type: "text", text: `split_card: ${error2 instanceof Error ? error2.message : String(error2)} Nothing was written.` }], isError: true };
         }
       }
       case "move_card": {
@@ -32135,7 +32764,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         };
       }
       case "save_opinion": {
-        const { id: rawId, aiOpinion, aiVerdict, dependsOn } = args;
+        const { id: rawId, aiOpinion, aiVerdict, dependsOn, splitInto } = args;
         const id = resolveCardRef2(db, rawId);
         if (!id) {
           return {
@@ -32156,7 +32785,9 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           source: aiOpinion,
           fallbackVerdict: aiVerdict ?? null,
           now: (/* @__PURE__ */ new Date()).toISOString(),
-          author: IDEAFY_AUTHOR2
+          author: IDEAFY_AUTHOR2,
+          // An older database cannot take the proposal; the opinion still saves.
+          splitInto: hasCapability(db, "splitProposals") ? splitInto : void 0
         });
         if (!result.ok) {
           return {
@@ -32165,10 +32796,11 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           };
         }
         const suggested = suggestionNote(id, dependsOn);
+        const split = splitInto !== void 0 && !hasCapability(db, "splitProposals") ? `splitInto was not stored: ${missingCapabilityMessage("splitInto", "splitProposals")}` : splitNote(id, result.split);
         return {
           content: [{
             type: "text",
-            text: `AI opinion saved to card ${id} (${describeOpinionMarkers2(result) || "no verdict or score read"}). Card is still in "${readStatus(id)}" \u2014 this tool does not move cards. Ask the user before calling move_card.` + (suggested ? ` ${suggested}` : "")
+            text: `AI opinion saved to card ${id} (${describeOpinionMarkers2(result) || "no verdict or score read"}). Card is still in "${readStatus(id)}" \u2014 this tool does not move cards. Ask the user before calling move_card.` + (suggested ? ` ${suggested}` : "") + (split ? ` ${split}` : "")
           }]
         };
       }
@@ -32407,7 +33039,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           mode
         );
         const bound = `Session ${sessionId} bound to card ${card.id} ("${card.title}", column: ${card.status}, project mode: ${mode}).`;
-        const waiting = policy && choice === "phase" ? [waitingOnLine2(db, card.id), planDriftLine2(db, card.id)].filter(Boolean).join("\n") || null : null;
+        const waiting = policy && choice === "phase" ? [waitingOnLine2(db, card.id), splitRoleLine2(db, card.id), planDriftLine2(db, card.id)].filter(Boolean).join("\n") || null : null;
         return {
           content: [
             {
