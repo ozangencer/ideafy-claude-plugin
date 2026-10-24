@@ -30,9 +30,9 @@ var __toESM = (mod, isNodeMode, target2) => (target2 = mod != null ? __create(__
   mod
 ));
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/code.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/code.js
 var require_code = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/code.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/code.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.regexpCode = exports.getEsmExportName = exports.getProperty = exports.safeStringify = exports.stringify = exports.strConcat = exports.addCodeArg = exports.str = exports._ = exports.nil = exports._Code = exports.Name = exports.IDENTIFIER = exports._CodeOrName = void 0;
@@ -184,9 +184,9 @@ var require_code = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/scope.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/scope.js
 var require_scope = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/scope.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/scope.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.ValueScope = exports.ValueScopeName = exports.Scope = exports.varKinds = exports.UsedValueState = void 0;
@@ -329,9 +329,9 @@ var require_scope = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/index.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/index.js
 var require_codegen = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/index.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.or = exports.and = exports.not = exports.CodeGen = exports.operators = exports.varKinds = exports.ValueScopeName = exports.ValueScope = exports.Scope = exports.Name = exports.regexpCode = exports.stringify = exports.getProperty = exports.nil = exports.strConcat = exports.str = exports._ = void 0;
@@ -1049,9 +1049,9 @@ var require_codegen = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/util.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/util.js
 var require_util = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/util.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/util.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.checkStrictMode = exports.getErrorPath = exports.Type = exports.useFunc = exports.setEvaluated = exports.evaluatedPropsToName = exports.mergeEvaluated = exports.eachItem = exports.unescapeJsonPointer = exports.escapeJsonPointer = exports.escapeFragment = exports.unescapeFragment = exports.schemaRefOrVal = exports.schemaHasRulesButRef = exports.schemaHasRules = exports.checkUnknownRules = exports.alwaysValidSchema = exports.toHash = void 0;
@@ -1216,9 +1216,9 @@ var require_util = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/names.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/names.js
 var require_names = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/names.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/names.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -1255,9 +1255,9 @@ var require_names = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/errors.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/errors.js
 var require_errors = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/errors.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/errors.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.extendErrors = exports.resetErrorsCount = exports.reportExtraError = exports.reportError = exports.keyword$DataError = exports.keywordError = void 0;
@@ -1377,9 +1377,9 @@ var require_errors = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/boolSchema.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/boolSchema.js
 var require_boolSchema = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/boolSchema.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/boolSchema.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.boolOrEmptySchema = exports.topBoolOrEmptySchema = void 0;
@@ -1428,9 +1428,9 @@ var require_boolSchema = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/rules.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/rules.js
 var require_rules = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/rules.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/rules.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.getRules = exports.isJSONType = void 0;
@@ -1459,9 +1459,9 @@ var require_rules = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/applicability.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/applicability.js
 var require_applicability = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/applicability.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/applicability.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.shouldUseRule = exports.shouldUseGroup = exports.schemaHasRulesForType = void 0;
@@ -1482,9 +1482,9 @@ var require_applicability = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/dataType.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/dataType.js
 var require_dataType = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/dataType.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/dataType.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.reportTypeError = exports.checkDataTypes = exports.checkDataType = exports.coerceAndCheckDataType = exports.getJSONTypes = exports.getSchemaTypes = exports.DataType = void 0;
@@ -1666,9 +1666,9 @@ var require_dataType = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/defaults.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/defaults.js
 var require_defaults = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/defaults.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/defaults.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.assignDefaults = void 0;
@@ -1703,9 +1703,9 @@ var require_defaults = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/code.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/code.js
 var require_code2 = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/code.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/code.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.validateUnion = exports.validateArray = exports.usePattern = exports.callValidateCode = exports.schemaProperties = exports.allSchemaProperties = exports.noPropertyInData = exports.propertyInData = exports.isOwnProperty = exports.hasPropFunc = exports.reportMissingProp = exports.checkMissingProp = exports.checkReportMissingProp = void 0;
@@ -1836,9 +1836,9 @@ var require_code2 = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/keyword.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/keyword.js
 var require_keyword = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/keyword.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/keyword.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.validateKeywordUsage = exports.validSchemaType = exports.funcKeywordCode = exports.macroKeywordCode = void 0;
@@ -1954,9 +1954,9 @@ var require_keyword = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/subschema.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/subschema.js
 var require_subschema = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/subschema.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/subschema.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.extendSubschemaMode = exports.extendSubschemaData = exports.getSubschema = void 0;
@@ -2037,9 +2037,9 @@ var require_subschema = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-deep-equal/index.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/fast-deep-equal/index.js
 var require_fast_deep_equal = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-deep-equal/index.js"(exports, module) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/fast-deep-equal/index.js"(exports, module) {
     "use strict";
     module.exports = function equal(a, b2) {
       if (a === b2) return true;
@@ -2072,9 +2072,9 @@ var require_fast_deep_equal = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/json-schema-traverse/index.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/json-schema-traverse/index.js
 var require_json_schema_traverse = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/json-schema-traverse/index.js"(exports, module) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/json-schema-traverse/index.js"(exports, module) {
     "use strict";
     var traverse = module.exports = function(schema, opts, cb) {
       if (typeof opts == "function") {
@@ -2160,9 +2160,9 @@ var require_json_schema_traverse = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/resolve.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/resolve.js
 var require_resolve = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/resolve.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/resolve.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.getSchemaRefs = exports.resolveUrl = exports.normalizeId = exports._getFullPath = exports.getFullPath = exports.inlineRef = void 0;
@@ -2316,9 +2316,9 @@ var require_resolve = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/index.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/index.js
 var require_validate = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/index.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.getData = exports.KeywordCxt = exports.validateFunctionCode = void 0;
@@ -2824,9 +2824,9 @@ var require_validate = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/validation_error.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/validation_error.js
 var require_validation_error = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/validation_error.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/validation_error.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var ValidationError = class extends Error {
@@ -2840,9 +2840,9 @@ var require_validation_error = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/ref_error.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/ref_error.js
 var require_ref_error = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/ref_error.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/ref_error.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var resolve_1 = require_resolve();
@@ -2857,9 +2857,9 @@ var require_ref_error = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/index.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/index.js
 var require_compile = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/index.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.resolveSchema = exports.getCompilingSchema = exports.resolveRef = exports.compileSchema = exports.SchemaEnv = void 0;
@@ -3081,9 +3081,9 @@ var require_compile = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/refs/data.json
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/refs/data.json
 var require_data = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/refs/data.json"(exports, module) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/refs/data.json"(exports, module) {
     module.exports = {
       $id: "https://raw.githubusercontent.com/ajv-validator/ajv/master/lib/refs/data.json#",
       description: "Meta-schema for $data reference (JSON AnySchema extension proposal)",
@@ -3100,9 +3100,9 @@ var require_data = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/lib/utils.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/fast-uri/lib/utils.js
 var require_utils = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/lib/utils.js"(exports, module) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/fast-uri/lib/utils.js"(exports, module) {
     "use strict";
     var isUUID = RegExp.prototype.test.bind(/^[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}$/iu);
     var isIPv4 = RegExp.prototype.test.bind(/^(?:(?:25[0-5]|2[0-4]\d|1\d{2}|[1-9]\d|\d)\.){3}(?:25[0-5]|2[0-4]\d|1\d{2}|[1-9]\d|\d)$/u);
@@ -3357,9 +3357,9 @@ var require_utils = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/lib/schemes.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/fast-uri/lib/schemes.js
 var require_schemes = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/lib/schemes.js"(exports, module) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/fast-uri/lib/schemes.js"(exports, module) {
     "use strict";
     var { isUUID } = require_utils();
     var URN_REG = /([\da-z][\d\-a-z]{0,31}):((?:[\w!$'()*+,\-.:;=@]|%[\da-f]{2})+)/iu;
@@ -3567,9 +3567,9 @@ var require_schemes = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/index.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/fast-uri/index.js
 var require_fast_uri = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/index.js"(exports, module) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/fast-uri/index.js"(exports, module) {
     "use strict";
     var { normalizeIPv6, removeDotSegments, recomposeAuthority, normalizeComponentEncoding, isIPv4, nonSimpleDomain } = require_utils();
     var { SCHEMES, getSchemeHandler } = require_schemes();
@@ -3822,9 +3822,9 @@ var require_fast_uri = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/uri.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/uri.js
 var require_uri = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/uri.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/uri.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var uri = require_fast_uri();
@@ -3833,9 +3833,9 @@ var require_uri = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/core.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/core.js
 var require_core = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/core.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/core.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.CodeGen = exports.Name = exports.nil = exports.stringify = exports.str = exports._ = exports.KeywordCxt = void 0;
@@ -4444,9 +4444,9 @@ var require_core = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/id.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/id.js
 var require_id = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/id.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/id.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var def = {
@@ -4459,9 +4459,9 @@ var require_id = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/ref.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/ref.js
 var require_ref = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/ref.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/ref.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.callRef = exports.getValidate = void 0;
@@ -4581,9 +4581,9 @@ var require_ref = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/index.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/index.js
 var require_core2 = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/index.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var id_1 = require_id();
@@ -4602,9 +4602,9 @@ var require_core2 = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitNumber.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitNumber.js
 var require_limitNumber = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitNumber.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitNumber.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -4634,9 +4634,9 @@ var require_limitNumber = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/multipleOf.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/multipleOf.js
 var require_multipleOf = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/multipleOf.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/multipleOf.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -4662,9 +4662,9 @@ var require_multipleOf = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/ucs2length.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/ucs2length.js
 var require_ucs2length = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/ucs2length.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/ucs2length.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     function ucs2length(str2) {
@@ -4688,9 +4688,9 @@ var require_ucs2length = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitLength.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitLength.js
 var require_limitLength = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitLength.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitLength.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -4720,9 +4720,9 @@ var require_limitLength = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/pattern.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/pattern.js
 var require_pattern = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/pattern.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/pattern.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -4757,9 +4757,9 @@ var require_pattern = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitProperties.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitProperties.js
 var require_limitProperties = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitProperties.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitProperties.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -4786,9 +4786,9 @@ var require_limitProperties = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/required.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/required.js
 var require_required = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/required.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/required.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -4868,9 +4868,9 @@ var require_required = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitItems.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitItems.js
 var require_limitItems = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitItems.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitItems.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -4897,9 +4897,9 @@ var require_limitItems = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/equal.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/equal.js
 var require_equal = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/equal.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/equal.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var equal = require_fast_deep_equal();
@@ -4908,9 +4908,9 @@ var require_equal = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/uniqueItems.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/uniqueItems.js
 var require_uniqueItems = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/uniqueItems.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/uniqueItems.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var dataType_1 = require_dataType();
@@ -4975,9 +4975,9 @@ var require_uniqueItems = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/const.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/const.js
 var require_const = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/const.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/const.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5004,9 +5004,9 @@ var require_const = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/enum.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/enum.js
 var require_enum = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/enum.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/enum.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5053,9 +5053,9 @@ var require_enum = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/index.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/index.js
 var require_validation = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/index.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var limitNumber_1 = require_limitNumber();
@@ -5091,9 +5091,9 @@ var require_validation = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/additionalItems.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/additionalItems.js
 var require_additionalItems = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/additionalItems.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/additionalItems.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.validateAdditionalItems = void 0;
@@ -5144,9 +5144,9 @@ var require_additionalItems = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/items.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/items.js
 var require_items = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/items.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/items.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.validateTuple = void 0;
@@ -5201,9 +5201,9 @@ var require_items = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/prefixItems.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/prefixItems.js
 var require_prefixItems = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/prefixItems.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/prefixItems.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var items_1 = require_items();
@@ -5218,9 +5218,9 @@ var require_prefixItems = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/items2020.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/items2020.js
 var require_items2020 = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/items2020.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/items2020.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5253,9 +5253,9 @@ var require_items2020 = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/contains.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/contains.js
 var require_contains = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/contains.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/contains.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5347,9 +5347,9 @@ var require_contains = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/dependencies.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/dependencies.js
 var require_dependencies = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/dependencies.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/dependencies.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.validateSchemaDeps = exports.validatePropertyDeps = exports.error = void 0;
@@ -5441,9 +5441,9 @@ var require_dependencies = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/propertyNames.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/propertyNames.js
 var require_propertyNames = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/propertyNames.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/propertyNames.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5484,9 +5484,9 @@ var require_propertyNames = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/additionalProperties.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/additionalProperties.js
 var require_additionalProperties = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/additionalProperties.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/additionalProperties.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -5590,9 +5590,9 @@ var require_additionalProperties = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/properties.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/properties.js
 var require_properties = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/properties.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/properties.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var validate_1 = require_validate();
@@ -5648,9 +5648,9 @@ var require_properties = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/patternProperties.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/patternProperties.js
 var require_patternProperties = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/patternProperties.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/patternProperties.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -5722,9 +5722,9 @@ var require_patternProperties = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/not.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/not.js
 var require_not = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/not.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/not.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var util_1 = require_util();
@@ -5753,9 +5753,9 @@ var require_not = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/anyOf.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/anyOf.js
 var require_anyOf = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/anyOf.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/anyOf.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -5770,9 +5770,9 @@ var require_anyOf = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/oneOf.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/oneOf.js
 var require_oneOf = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/oneOf.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/oneOf.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5828,9 +5828,9 @@ var require_oneOf = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/allOf.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/allOf.js
 var require_allOf = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/allOf.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/allOf.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var util_1 = require_util();
@@ -5855,9 +5855,9 @@ var require_allOf = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/if.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/if.js
 var require_if = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/if.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/if.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5924,9 +5924,9 @@ var require_if = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/thenElse.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/thenElse.js
 var require_thenElse = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/thenElse.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/thenElse.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var util_1 = require_util();
@@ -5942,9 +5942,9 @@ var require_thenElse = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/index.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/index.js
 var require_applicator = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/index.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var additionalItems_1 = require_additionalItems();
@@ -5990,9 +5990,9 @@ var require_applicator = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/format/format.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/format/format.js
 var require_format = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/format/format.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/format/format.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -6080,9 +6080,9 @@ var require_format = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/format/index.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/format/index.js
 var require_format2 = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/format/index.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/format/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var format_1 = require_format();
@@ -6091,9 +6091,9 @@ var require_format2 = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/metadata.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/metadata.js
 var require_metadata = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/metadata.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/metadata.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.contentVocabulary = exports.metadataVocabulary = void 0;
@@ -6114,9 +6114,9 @@ var require_metadata = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/draft7.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/draft7.js
 var require_draft7 = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/draft7.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/draft7.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var core_1 = require_core2();
@@ -6136,9 +6136,9 @@ var require_draft7 = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/discriminator/types.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/discriminator/types.js
 var require_types = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/discriminator/types.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/discriminator/types.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.DiscrError = void 0;
@@ -6150,9 +6150,9 @@ var require_types = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/discriminator/index.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/discriminator/index.js
 var require_discriminator = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/discriminator/index.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/discriminator/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -6255,9 +6255,9 @@ var require_discriminator = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/refs/json-schema-draft-07.json
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/refs/json-schema-draft-07.json
 var require_json_schema_draft_07 = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/refs/json-schema-draft-07.json"(exports, module) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/refs/json-schema-draft-07.json"(exports, module) {
     module.exports = {
       $schema: "http://json-schema.org/draft-07/schema#",
       $id: "http://json-schema.org/draft-07/schema#",
@@ -6412,9 +6412,9 @@ var require_json_schema_draft_07 = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/ajv.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/ajv.js
 var require_ajv = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/ajv.js"(exports, module) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv/dist/ajv.js"(exports, module) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.MissingRefError = exports.ValidationError = exports.CodeGen = exports.Name = exports.nil = exports.stringify = exports.str = exports._ = exports.KeywordCxt = exports.Ajv = void 0;
@@ -6482,9 +6482,9 @@ var require_ajv = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/formats.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/formats.js
 var require_formats = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/formats.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/formats.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.formatNames = exports.fastFormats = exports.fullFormats = void 0;
@@ -6685,9 +6685,9 @@ var require_formats = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/limit.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/limit.js
 var require_limit = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/limit.js"(exports) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/limit.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.formatLimitDefinition = void 0;
@@ -6757,9 +6757,9 @@ var require_limit = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/index.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/index.js
 var require_dist = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/index.js"(exports, module) {
+  "../../../../../../vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/index.js"(exports, module) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var formats_1 = require_formats();
@@ -6799,7 +6799,7 @@ var require_dist = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/helpers/util.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v3/helpers/util.js
 var util;
 (function(util2) {
   util2.assertEqual = (_2) => {
@@ -6933,7 +6933,7 @@ var getParsedType = (data) => {
   }
 };
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/ZodError.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v3/ZodError.js
 var ZodIssueCode = util.arrayToEnum([
   "invalid_type",
   "invalid_literal",
@@ -7047,7 +7047,7 @@ ZodError.create = (issues) => {
   return error2;
 };
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/locales/en.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v3/locales/en.js
 var errorMap = (issue2, _ctx) => {
   let message;
   switch (issue2.code) {
@@ -7150,13 +7150,13 @@ var errorMap = (issue2, _ctx) => {
 };
 var en_default = errorMap;
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/errors.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v3/errors.js
 var overrideErrorMap = en_default;
 function getErrorMap() {
   return overrideErrorMap;
 }
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/helpers/parseUtil.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v3/helpers/parseUtil.js
 var makeIssue = (params) => {
   const { data, path: path9, errorMaps, issueData } = params;
   const fullPath = [...path9, ...issueData.path || []];
@@ -7265,14 +7265,14 @@ var isDirty = (x2) => x2.status === "dirty";
 var isValid = (x2) => x2.status === "valid";
 var isAsync = (x2) => typeof Promise !== "undefined" && x2 instanceof Promise;
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/helpers/errorUtil.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v3/helpers/errorUtil.js
 var errorUtil;
 (function(errorUtil2) {
   errorUtil2.errToObj = (message) => typeof message === "string" ? { message } : message || {};
   errorUtil2.toString = (message) => typeof message === "string" ? message : message?.message;
 })(errorUtil || (errorUtil = {}));
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/types.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v3/types.js
 var ParseInputLazyPath = class {
   constructor(parent, value, path9, key) {
     this._cachedPath = [];
@@ -10675,7 +10675,7 @@ var nullableType = ZodNullable.create;
 var preprocessType = ZodEffects.createWithPreprocess;
 var pipelineType = ZodPipeline.create;
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/core.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v4/core/core.js
 var NEVER = Object.freeze({
   status: "aborted"
 });
@@ -10749,7 +10749,7 @@ function config(newConfig) {
   return globalConfig;
 }
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/util.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v4/core/util.js
 var util_exports = {};
 __export(util_exports, {
   BIGINT_FORMAT_RANGES: () => BIGINT_FORMAT_RANGES,
@@ -11428,7 +11428,7 @@ var Class = class {
   }
 };
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/errors.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v4/core/errors.js
 var initializer = (inst, def) => {
   inst.name = "$ZodError";
   Object.defineProperty(inst, "_zod", {
@@ -11494,7 +11494,7 @@ function formatError(error2, mapper = (issue2) => issue2.message) {
   return fieldErrors;
 }
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/parse.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v4/core/parse.js
 var _parse = (_Err) => (schema, value, _ctx, _params) => {
   const ctx = _ctx ? Object.assign(_ctx, { async: false }) : { async: false };
   const result = schema._zod.run({ value, issues: [] }, ctx);
@@ -11574,7 +11574,7 @@ var _safeDecodeAsync = (_Err) => async (schema, value, _ctx) => {
   return _safeParseAsync(_Err)(schema, value, _ctx);
 };
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/regexes.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v4/core/regexes.js
 var regexes_exports = {};
 __export(regexes_exports, {
   base64: () => base64,
@@ -11731,7 +11731,7 @@ var sha512_hex = /^[0-9a-fA-F]{128}$/;
 var sha512_base64 = /* @__PURE__ */ fixedBase64(86, "==");
 var sha512_base64url = /* @__PURE__ */ fixedBase64url(86);
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/checks.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v4/core/checks.js
 var $ZodCheck = /* @__PURE__ */ $constructor("$ZodCheck", (inst, def) => {
   var _a2;
   inst._zod ?? (inst._zod = {});
@@ -12279,7 +12279,7 @@ var $ZodCheckOverwrite = /* @__PURE__ */ $constructor("$ZodCheckOverwrite", (ins
   };
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/doc.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v4/core/doc.js
 var Doc = class {
   constructor(args = []) {
     this.content = [];
@@ -12315,14 +12315,14 @@ var Doc = class {
   }
 };
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/versions.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v4/core/versions.js
 var version = {
   major: 4,
   minor: 3,
   patch: 6
 };
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/schemas.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v4/core/schemas.js
 var $ZodType = /* @__PURE__ */ $constructor("$ZodType", (inst, def) => {
   var _a2;
   inst ?? (inst = {});
@@ -14293,7 +14293,7 @@ function handleRefineResult(result, payload, input, inst) {
   }
 }
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/locales/en.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v4/locales/en.js
 var error = () => {
   const Sizable = {
     string: { unit: "characters", verb: "to have" },
@@ -14402,7 +14402,7 @@ function en_default2() {
   };
 }
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/registries.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v4/core/registries.js
 var _a;
 var $ZodRegistry = class {
   constructor() {
@@ -14450,7 +14450,7 @@ function registry() {
 (_a = globalThis).__zod_globalRegistry ?? (_a.__zod_globalRegistry = registry());
 var globalRegistry = globalThis.__zod_globalRegistry;
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/api.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v4/core/api.js
 // @__NO_SIDE_EFFECTS__
 function _string(Class2, params) {
   return new Class2({
@@ -15254,7 +15254,7 @@ function _stringFormat(Class2, format, fnOrRegex, _params = {}) {
   return inst;
 }
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/to-json-schema.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v4/core/to-json-schema.js
 function initializeContext(params) {
   let target2 = params?.target ?? "draft-2020-12";
   if (target2 === "draft-4")
@@ -15606,7 +15606,7 @@ var createStandardJSONSchemaMethod = (schema, io, processors = {}) => (params) =
   return finalize(ctx, schema);
 };
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/json-schema-processors.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v4/core/json-schema-processors.js
 var formatMap = {
   guid: "uuid",
   url: "uri",
@@ -16082,7 +16082,7 @@ var lazyProcessor = (schema, ctx, _json, params) => {
   seen.ref = innerType;
 };
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/zod-compat.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/zod-compat.js
 function isZ4Schema(s) {
   const schema = s;
   return !!schema._zod;
@@ -16145,7 +16145,7 @@ function getLiteralValue(schema) {
   return void 0;
 }
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/schemas.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/schemas.js
 var schemas_exports3 = {};
 __export(schemas_exports3, {
   ZodAny: () => ZodAny2,
@@ -16314,7 +16314,7 @@ __export(schemas_exports3, {
   xor: () => xor
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/checks.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/checks.js
 var checks_exports2 = {};
 __export(checks_exports2, {
   endsWith: () => _endsWith,
@@ -16348,7 +16348,7 @@ __export(checks_exports2, {
   uppercase: () => _uppercase
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/iso.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/iso.js
 var iso_exports2 = {};
 __export(iso_exports2, {
   ZodISODate: () => ZodISODate,
@@ -16389,7 +16389,7 @@ function duration2(params) {
   return _isoDuration(ZodISODuration, params);
 }
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/errors.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/errors.js
 var initializer2 = (inst, issues) => {
   $ZodError.init(inst, issues);
   inst.name = "ZodError";
@@ -16429,7 +16429,7 @@ var ZodRealError = $constructor("ZodError", initializer2, {
   Parent: Error
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/parse.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/parse.js
 var parse2 = /* @__PURE__ */ _parse(ZodRealError);
 var parseAsync2 = /* @__PURE__ */ _parseAsync(ZodRealError);
 var safeParse3 = /* @__PURE__ */ _safeParse(ZodRealError);
@@ -16443,7 +16443,7 @@ var safeDecode2 = /* @__PURE__ */ _safeDecode(ZodRealError);
 var safeEncodeAsync2 = /* @__PURE__ */ _safeEncodeAsync(ZodRealError);
 var safeDecodeAsync2 = /* @__PURE__ */ _safeDecodeAsync(ZodRealError);
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/schemas.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/schemas.js
 var ZodType2 = /* @__PURE__ */ $constructor("ZodType", (inst, def) => {
   $ZodType.init(inst, def);
   Object.assign(inst["~standard"], {
@@ -17522,22 +17522,22 @@ function preprocess(fn, schema) {
   return pipe(transform(fn), schema);
 }
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/compat.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/compat.js
 var ZodFirstPartyTypeKind2;
 /* @__PURE__ */ (function(ZodFirstPartyTypeKind3) {
 })(ZodFirstPartyTypeKind2 || (ZodFirstPartyTypeKind2 = {}));
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/from-json-schema.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/from-json-schema.js
 var z = {
   ...schemas_exports3,
   ...checks_exports2,
   iso: iso_exports2
 };
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/external.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/external.js
 config(en_default2());
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/types.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/types.js
 var LATEST_PROTOCOL_VERSION = "2025-11-25";
 var SUPPORTED_PROTOCOL_VERSIONS = [LATEST_PROTOCOL_VERSION, "2025-06-18", "2025-03-26", "2024-11-05", "2024-10-07"];
 var RELATED_TASK_META_KEY = "io.modelcontextprotocol/related-task";
@@ -19056,15 +19056,15 @@ var UrlElicitationRequiredError = class extends McpError {
   }
 };
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/interfaces.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/interfaces.js
 function isTerminal(status) {
   return status === "completed" || status === "failed" || status === "cancelled";
 }
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod-to-json-schema/dist/esm/parsers/string.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/zod-to-json-schema/dist/esm/parsers/string.js
 var ALPHA_NUMERIC = new Set("ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvxyz0123456789");
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/zod-json-schema-compat.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/zod-json-schema-compat.js
 function getMethodLiteral(schema) {
   const shape = getObjectShape(schema);
   const methodSchema = shape?.method;
@@ -19085,7 +19085,7 @@ function parseWithCompat(schema, data) {
   return result.data;
 }
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/shared/protocol.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/shared/protocol.js
 var DEFAULT_REQUEST_TIMEOUT_MSEC = 6e4;
 var Protocol = class {
   constructor(_options) {
@@ -20039,7 +20039,7 @@ function mergeCapabilities(base, additional) {
   return result;
 }
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/validation/ajv-provider.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/validation/ajv-provider.js
 var import_ajv = __toESM(require_ajv(), 1);
 var import_ajv_formats = __toESM(require_dist(), 1);
 function createDefaultAjvInstance() {
@@ -20107,7 +20107,7 @@ var AjvJsonSchemaValidator = class {
   }
 };
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/server.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/server.js
 var ExperimentalServerTasks = class {
   constructor(_server) {
     this._server = _server;
@@ -20320,7 +20320,7 @@ var ExperimentalServerTasks = class {
   }
 };
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/helpers.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/helpers.js
 function assertToolsCallTaskCapability(requests, method, entityName) {
   if (!requests) {
     throw new Error(`${entityName} does not support task creation (required for ${method})`);
@@ -20355,7 +20355,7 @@ function assertClientRequestTaskCapability(requests, method, entityName) {
   }
 }
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/index.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/index.js
 var Server = class extends Protocol {
   /**
    * Initializes this server with the given name and version information.
@@ -20735,10 +20735,10 @@ var Server = class extends Protocol {
   }
 };
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/stdio.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/stdio.js
 import process3 from "node:process";
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/shared/stdio.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/shared/stdio.js
 var ReadBuffer = class {
   append(chunk) {
     this._buffer = this._buffer ? Buffer.concat([this._buffer, chunk]) : chunk;
@@ -20766,7 +20766,7 @@ function serializeMessage(message) {
   return JSON.stringify(message) + "\n";
 }
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/stdio.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/stdio.js
 var StdioServerTransport = class {
   constructor(_stdin = process3.stdin, _stdout = process3.stdout) {
     this._stdin = _stdin;
@@ -20879,6 +20879,10 @@ paths, session IDs, URLs, column names.
 - "Its session is \`83e1174a\u2026\`, idle since yesterday" beats "pick a session".
 - When the order of steps matters, say why on the same line ("not IDE-283 \u2014 that
   session is live right now and would conflict").
+- "Real" means the live app's data. A \`verify-server\` copy's port
+  (\`127.0.0.1:30xx\`) or a card opened only on the copy never goes into an item:
+  the copy lives a few hours. When a step needs a copy, write "open the copy with
+  \`verify-server start --card <ID>\`" instead.
 - A group may close with one \`If it breaks:\` line naming the first place to
   look. Keep it to a sentence.
 
@@ -20951,6 +20955,10 @@ session ID, URL, kolon ad\u0131.
 - "Session'\u0131 \`83e1174a\u2026\`, d\xFCnden beri bo\u015Fta" > "bir session se\xE7".
 - Ad\u0131mlar\u0131n s\u0131ras\u0131 \xF6nemliyse gerek\xE7esini ayn\u0131 sat\u0131rda yaz ("IDE-283'\xFC kullanma \u2014
   o session \u015Fu an canl\u0131, \xE7ak\u0131\u015F\u0131r").
+- "Ger\xE7ek veri" canl\u0131 app'in verisidir. Bir \`verify-server\` kopyas\u0131n\u0131n portu
+  (\`127.0.0.1:30xx\`) ya da yaln\u0131zca kopyada a\xE7\u0131lan bir kart maddeye yaz\u0131lmaz:
+  kopya birka\xE7 saat ya\u015Far. Ad\u0131m bir kopya gerektiriyorsa "\`verify-server start
+  --card <ID>\` ile kopyay\u0131 a\xE7" diye yaz.
 - Bir grup, tek sat\u0131rl\u0131k \`Patlarsa:\` notuyla kapanabilir \u2014 ilk bak\u0131lacak yer.
   Bir c\xFCmleyi ge\xE7mesin.
 
@@ -21187,7 +21195,9 @@ function handOffConsentLines(clause) {
     "   pause_queue or resume_queue unless the user explicitly asked to queue",
     "   or start that card, to open a session for it, or to pause or resume the",
     "   queue. A queued card runs unattended once the app's queue reaches it; a",
-    "   started one runs unattended at once."
+    "   started one runs unattended at once. Never call merge_card unless the",
+    "   user explicitly asked to merge that card: it lands the card's work for",
+    "   good and moves the card to Completed, with no undo."
   ];
 }
 function buildPhasePolicy(card, branchPolicy, mode = "development") {
@@ -21611,9 +21621,11 @@ var chain_order_exports = {};
 __export(chain_order_exports, {
   buildChainContext: () => buildChainContext,
   chainOrderWarning: () => chainOrderWarning,
+  classifyChainMember: () => classifyChainMember,
   compareByChainOrder: () => compareByChainOrder,
   hasLanded: () => hasLanded,
   isFinished: () => isFinished,
+  isLoudBlocker: () => isLoudBlocker,
   isReadyForParent: () => isReadyForParent,
   isSplitChildOf: () => isSplitChildOf,
   linkState: () => linkState,
@@ -21882,6 +21894,18 @@ function chainOrderWarning(input) {
     message: sentences.join(" ")
   };
 }
+var isLoudBlocker = (blocker) => !blocker.inChain || !!blocker.withdrawn;
+function classifyChainMember(member, openBlockers) {
+  if (!member.groupId) return null;
+  if (isFinished(member)) return { kind: "done" };
+  if (member.status === "progress" || member.status === "test") return { kind: "running" };
+  const loud = openBlockers.filter(isLoudBlocker);
+  if (loud.length > 0) return { kind: "blocked", blockers: loud };
+  if (member.status === "ideation") return null;
+  if (openBlockers.length > 0) return { kind: "waiting", after: openBlockers };
+  if (member.status === "backlog" || member.status === "bugs") return { kind: "ready" };
+  return null;
+}
 
 // ../lib/plan-files.ts
 var plan_files_exports = {};
@@ -22052,6 +22076,8 @@ __export(card_ops_exports, {
   listProjects: () => listProjects,
   listQueueRows: () => listQueueRows,
   loadStoryInputs: () => loadStoryInputs,
+  mergeCard: () => mergeCard,
+  mergeCommitMessage: () => mergeCommitMessage,
   moveCard: () => moveCard,
   moveCardInChain: () => moveCardInChain,
   nextQueueStep: () => nextQueueStep,
@@ -22488,7 +22514,7 @@ __export(markdown_exports, {
   untickTaskItems: () => untickTaskItems
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/node_modules/marked/lib/marked.esm.js
+// ../../../../../../vibecode/ideafy/node_modules/marked/lib/marked.esm.js
 function L() {
   return { async: false, breaks: false, extensions: null, gfm: true, hooks: null, pedantic: false, renderer: null, silent: false, tokenizer: null, walkTokens: null };
 }
@@ -28229,6 +28255,689 @@ function splitCard(db2, args) {
   });
 }
 
+// ../lib/card-ops/merge-card.ts
+import { existsSync as existsSync6, readFileSync as readFileSync3 } from "fs";
+
+// ../lib/git/core.ts
+var core_exports3 = {};
+__export(core_exports3, {
+  buildCommitArgs: () => buildCommitArgs,
+  generateBranchName: () => generateBranchName,
+  git: () => git,
+  slugify: () => slugify2
+});
+import { execFile } from "child_process";
+import { promisify } from "util";
+var execFileAsync = promisify(execFile);
+async function git(cwd, ...args) {
+  return execFileAsync("git", args, { cwd });
+}
+function buildCommitArgs(commitMessage) {
+  const [title, ...bodyParts] = commitMessage.split("\n\n");
+  const body = bodyParts.join("\n\n");
+  const args = ["commit", "-m", title];
+  if (body) args.push("-m", body);
+  return args;
+}
+
+// ../lib/git/repo.ts
+var repo_exports = {};
+__export(repo_exports, {
+  branchExists: () => branchExists,
+  fetchRemote: () => fetchRemote,
+  getBranchStatus: () => getBranchStatus,
+  getCurrentBranch: () => getCurrentBranch,
+  getDefaultBranch: () => getDefaultBranch,
+  getMergeReality: () => getMergeReality,
+  getUnpushedStatus: () => getUnpushedStatus,
+  hasStagedChanges: () => hasStagedChanges,
+  isGitRepo: () => isGitRepo,
+  worktreeHasUncommittedChanges: () => worktreeHasUncommittedChanges
+});
+import { existsSync as existsSync4 } from "fs";
+async function isGitRepo(projectPath) {
+  try {
+    await git(projectPath, "rev-parse", "--git-dir");
+    return true;
+  } catch {
+    return false;
+  }
+}
+async function getCurrentBranch(projectPath) {
+  const { stdout } = await git(projectPath, "branch", "--show-current");
+  return stdout.trim();
+}
+async function branchExists(projectPath, branchName) {
+  try {
+    await git(
+      projectPath,
+      "show-ref",
+      "--verify",
+      "--quiet",
+      `refs/heads/${branchName}`
+    );
+    return true;
+  } catch {
+    return false;
+  }
+}
+async function getDefaultBranch(projectPath) {
+  try {
+    const { stdout } = await git(
+      projectPath,
+      "symbolic-ref",
+      "refs/remotes/origin/HEAD"
+    );
+    return stdout.trim().replace("refs/remotes/origin/", "").replace("refs/heads/", "");
+  } catch {
+    try {
+      await git(projectPath, "show-ref", "--verify", "--quiet", "refs/heads/main");
+      return "main";
+    } catch {
+      return "master";
+    }
+  }
+}
+async function getBranchStatus(projectPath, branchName) {
+  try {
+    const defaultBranch2 = await getDefaultBranch(projectPath);
+    const exists = await branchExists(projectPath, branchName);
+    if (!exists) {
+      return { ahead: 0, behind: 0, exists: false };
+    }
+    const { stdout } = await git(
+      projectPath,
+      "rev-list",
+      "--left-right",
+      "--count",
+      `${defaultBranch2}...${branchName}`
+    );
+    const [behind, ahead] = stdout.trim().split(/\s+/).map(Number);
+    return { ahead: ahead || 0, behind: behind || 0, exists: true };
+  } catch {
+    return { ahead: 0, behind: 0, exists: false };
+  }
+}
+async function worktreeHasUncommittedChanges(worktreePath) {
+  if (!existsSync4(worktreePath)) return false;
+  try {
+    const { stdout } = await git(worktreePath, "status", "--porcelain", "-uno");
+    return stdout.trim().length > 0;
+  } catch {
+    return false;
+  }
+}
+async function getMergeReality(projectPath, branchName, worktreePath) {
+  const defaultBranch2 = await getDefaultBranch(projectPath);
+  const needsCommit = worktreePath ? await worktreeHasUncommittedChanges(worktreePath) : false;
+  const base = {
+    branchName,
+    defaultBranch: defaultBranch2,
+    exists: false,
+    ahead: 0,
+    behind: 0,
+    contentIdentical: false,
+    needsCommit,
+    state: "missing"
+  };
+  if (!await branchExists(projectPath, branchName)) {
+    return base;
+  }
+  const { ahead, behind } = await getBranchStatus(projectPath, branchName);
+  let contentIdentical = false;
+  try {
+    await git(projectPath, "diff", "--quiet", defaultBranch2, branchName, "--");
+    contentIdentical = true;
+  } catch {
+    contentIdentical = false;
+  }
+  const merged = ahead === 0 || contentIdentical;
+  return {
+    ...base,
+    exists: true,
+    ahead,
+    behind,
+    contentIdentical,
+    // Uncommitted work in the worktree is still work: it would be committed
+    // and merged, so the branch is not done regardless of what the tips say.
+    state: merged && !needsCommit ? "nothing-to-merge" : "ready"
+  };
+}
+async function hasStagedChanges(projectPath) {
+  try {
+    await git(projectPath, "diff", "--cached", "--quiet");
+    return false;
+  } catch {
+    return true;
+  }
+}
+var UNSUPPORTED = {
+  supported: false,
+  defaultBranch: "",
+  count: 0,
+  commits: []
+};
+async function fetchRemote(projectPath) {
+  try {
+    await git(projectPath, "fetch", "--quiet", "origin");
+    return true;
+  } catch {
+    return false;
+  }
+}
+async function getUnpushedStatus(projectPath, options = {}) {
+  if (!existsSync4(projectPath) || !await isGitRepo(projectPath)) return UNSUPPORTED;
+  try {
+    const { stdout: remotes } = await git(projectPath, "remote");
+    if (!remotes.trim()) return UNSUPPORTED;
+  } catch {
+    return UNSUPPORTED;
+  }
+  const defaultBranch2 = await getDefaultBranch(projectPath);
+  const remoteRef = `refs/remotes/origin/${defaultBranch2}`;
+  try {
+    await git(projectPath, "show-ref", "--verify", "--quiet", remoteRef);
+  } catch {
+    return UNSUPPORTED;
+  }
+  const revArgs = ["--branches", "HEAD", "--not", "--remotes"];
+  try {
+    if (!options.withCommits) {
+      const { stdout: stdout2 } = await git(projectPath, "rev-list", "--count", ...revArgs);
+      return {
+        supported: true,
+        defaultBranch: defaultBranch2,
+        count: Number.parseInt(stdout2.trim(), 10) || 0,
+        commits: []
+      };
+    }
+    const onDefault = /* @__PURE__ */ new Set();
+    if (await branchExists(projectPath, defaultBranch2)) {
+      const { stdout: stdout2 } = await git(
+        projectPath,
+        "rev-list",
+        defaultBranch2,
+        "--not",
+        "--remotes"
+      );
+      for (const line of stdout2.split("\n")) {
+        const hash2 = line.trim();
+        if (hash2) onDefault.add(hash2);
+      }
+    }
+    const { stdout } = await git(
+      projectPath,
+      "log",
+      "--pretty=format:%H%x1f%s%x1f%cI%x1f%S%x1f%b%x1e",
+      "--source",
+      ...revArgs
+    );
+    const commits = stdout.split("").filter((record2) => record2.trim() !== "").map((record2) => {
+      const [hash2, subject, date4, source, body] = record2.replace(/^\n/, "").split("");
+      const reached = (source ?? "").replace(/^refs\/heads\//, "");
+      return {
+        hash: hash2 ?? "",
+        subject: subject ?? "",
+        date: date4 ?? "",
+        body: (body ?? "").trim(),
+        branch: hash2 && onDefault.has(hash2) ? defaultBranch2 : reached
+      };
+    });
+    return { supported: true, defaultBranch: defaultBranch2, count: commits.length, commits };
+  } catch {
+    return UNSUPPORTED;
+  }
+}
+
+// ../lib/git/stash.ts
+async function readStashRef(cwd) {
+  try {
+    const { stdout } = await git(cwd, "rev-parse", "-q", "--verify", "refs/stash");
+    return stdout.trim() || null;
+  } catch {
+    return null;
+  }
+}
+async function pushStash(cwd, label2, opts = {}) {
+  const before = await readStashRef(cwd);
+  const args = ["stash", "push"];
+  if (opts.includeUntracked) args.push("--include-untracked");
+  args.push("-m", label2);
+  await git(cwd, ...args);
+  const after = await readStashRef(cwd);
+  return after && after !== before ? after : null;
+}
+async function popStash(cwd, sha) {
+  const { stdout } = await git(cwd, "stash", "list", "--format=%H");
+  const index = stdout.split("\n").map((line) => line.trim()).indexOf(sha);
+  if (index === -1) {
+    throw new Error(`Stash ${sha.slice(0, 7)} is no longer in the stash list`);
+  }
+  await git(cwd, "stash", "pop", `stash@{${index}}`);
+}
+function describeStash(label2, sha) {
+  return `"${label2}" (${sha.slice(0, 7)})`;
+}
+
+// ../lib/git/worktree.ts
+var worktree_exports = {};
+__export(worktree_exports, {
+  createWorktree: () => createWorktree,
+  findCardBranch: () => findCardBranch,
+  findTargetCheckout: () => findTargetCheckout,
+  getWorktreeBaseDir: () => getWorktreeBaseDir,
+  getWorktreePath: () => getWorktreePath,
+  isCwdInsideWorktree: () => isCwdInsideWorktree,
+  listWorktrees: () => listWorktrees,
+  pruneWorktrees: () => pruneWorktrees,
+  removeWorktree: () => removeWorktree,
+  squashMergeFromWorktree: () => squashMergeFromWorktree,
+  worktreeExists: () => worktreeExists
+});
+import { existsSync as existsSync5, mkdirSync as mkdirSync3, realpathSync as realpathSync3 } from "fs";
+import path5, { join } from "path";
+function getWorktreeBaseDir(projectPath) {
+  return join(projectPath, ".worktrees", "kanban");
+}
+function getWorktreePath(projectPath, branchName) {
+  const branchPart = branchName.startsWith("kanban/") ? branchName.slice(7) : branchName;
+  return join(getWorktreeBaseDir(projectPath), branchPart);
+}
+async function worktreeExists(projectPath, worktreePath) {
+  try {
+    if (!existsSync5(worktreePath)) {
+      return false;
+    }
+    const { stdout } = await git(projectPath, "worktree", "list", "--porcelain");
+    return stdout.includes(`worktree ${worktreePath}`);
+  } catch {
+    return false;
+  }
+}
+async function listWorktrees(projectPath) {
+  try {
+    const { stdout } = await git(projectPath, "worktree", "list", "--porcelain");
+    const worktrees = [];
+    const entries = stdout.trim().split("\n\n");
+    for (const entry of entries) {
+      if (!entry.trim()) continue;
+      const lines = entry.split("\n");
+      const info = {
+        isLocked: false,
+        isPrunable: false
+      };
+      for (const line of lines) {
+        if (line.startsWith("worktree ")) {
+          info.path = line.slice(9);
+        } else if (line.startsWith("HEAD ")) {
+          info.commit = line.slice(5);
+        } else if (line.startsWith("branch refs/heads/")) {
+          info.branch = line.slice(18);
+        } else if (line === "locked") {
+          info.isLocked = true;
+        } else if (line === "prunable") {
+          info.isPrunable = true;
+        }
+      }
+      if (info.path && info.commit) {
+        worktrees.push(info);
+      }
+    }
+    return worktrees;
+  } catch {
+    return [];
+  }
+}
+async function createWorktree(projectPath, branchName) {
+  const worktreePath = getWorktreePath(projectPath, branchName);
+  const baseDir = getWorktreeBaseDir(projectPath);
+  try {
+    if (!existsSync5(baseDir)) {
+      mkdirSync3(baseDir, { recursive: true });
+      console.log(`[Git Worktree] Created base directory: ${baseDir}`);
+    }
+    if (await worktreeExists(projectPath, worktreePath)) {
+      console.log(`[Git Worktree] Worktree already exists: ${worktreePath}`);
+      return { success: true, worktreePath };
+    }
+    if (await branchExists(projectPath, branchName)) {
+      console.log(`[Git Worktree] Creating worktree for existing branch: ${branchName}`);
+      await git(projectPath, "worktree", "add", worktreePath, branchName);
+    } else {
+      const defaultBranch2 = await getDefaultBranch(projectPath);
+      console.log(`[Git Worktree] Creating new branch and worktree: ${branchName} from ${defaultBranch2}`);
+      await git(
+        projectPath,
+        "worktree",
+        "add",
+        "-b",
+        branchName,
+        worktreePath,
+        defaultBranch2
+      );
+    }
+    console.log(`[Git Worktree] Created worktree at: ${worktreePath}`);
+    return { success: true, worktreePath };
+  } catch (error2) {
+    console.error(`[Git Worktree] Failed to create worktree:`, error2);
+    return {
+      success: false,
+      worktreePath,
+      error: error2 instanceof Error ? error2.message : String(error2)
+    };
+  }
+}
+var silent = () => {
+};
+async function removeWorktree(projectPath, worktreePath, log = silent) {
+  try {
+    if (!await worktreeExists(projectPath, worktreePath)) {
+      log(`[Git Worktree] Worktree doesn't exist, skipping removal: ${worktreePath}`);
+      return { success: true };
+    }
+    log(`[Git Worktree] Removing worktree: ${worktreePath}`);
+    await git(projectPath, "worktree", "remove", "--force", worktreePath);
+    log(`[Git Worktree] Worktree removed successfully`);
+    return { success: true };
+  } catch (error2) {
+    log(`[Git Worktree] Failed to remove worktree: ${error2}`);
+    return {
+      success: false,
+      error: error2 instanceof Error ? error2.message : String(error2)
+    };
+  }
+}
+function isCwdInsideWorktree(worktreePath, cwd = process.cwd()) {
+  const resolve4 = (p) => {
+    try {
+      return realpathSync3(p);
+    } catch {
+      return path5.resolve(p);
+    }
+  };
+  const here = resolve4(cwd);
+  const wt = resolve4(worktreePath);
+  if (here === wt) return true;
+  return here.startsWith(wt + path5.sep);
+}
+async function pruneWorktrees(projectPath, log = silent) {
+  try {
+    log(`[Git Worktree] Pruning stale worktrees...`);
+    await git(projectPath, "worktree", "prune");
+    return { success: true };
+  } catch (error2) {
+    return {
+      success: false,
+      error: error2 instanceof Error ? error2.message : String(error2)
+    };
+  }
+}
+async function findTargetCheckout(projectPath, targetBranch) {
+  if (targetBranch === await getDefaultBranch(projectPath)) return projectPath;
+  const holder = (await listWorktrees(projectPath)).find((wt) => wt.branch === targetBranch);
+  return holder?.path ?? null;
+}
+async function squashMergeFromWorktree(projectPath, branchName, commitMessage, opts = {}) {
+  const log = opts.log ?? silent;
+  try {
+    const defaultBranch2 = await getDefaultBranch(projectPath);
+    const targetBranch = opts.targetBranch || defaultBranch2;
+    const mergeDir = await findTargetCheckout(projectPath, targetBranch);
+    if (!mergeDir) {
+      return {
+        success: false,
+        error: `Branch ${targetBranch} is not checked out anywhere. Check it out in a worktree first; the main checkout is not switched for a merge.`,
+        targetNotCheckedOut: true
+      };
+    }
+    const { stdout: statusOutput } = await git(mergeDir, "status", "--porcelain");
+    if (statusOutput.trim() !== "") {
+      log("[Git Worktree] Uncommitted changes found in main repo, blocking merge");
+      return {
+        success: false,
+        error: "There are uncommitted changes in the main repository. Please commit your changes first.",
+        uncommittedInMain: true
+      };
+    }
+    const currentBranch = await getCurrentBranch(mergeDir);
+    if (currentBranch !== targetBranch) {
+      log(`[Git Worktree] Checking out to ${targetBranch}...`);
+      await git(mergeDir, "checkout", targetBranch);
+    }
+    log(`[Git Worktree] Squash merging ${branchName} into ${targetBranch}...`);
+    await git(mergeDir, "merge", "--squash", branchName);
+    if (await hasStagedChanges(mergeDir)) {
+      await git(mergeDir, ...buildCommitArgs(commitMessage));
+      log("[Git Worktree] Squash merge committed successfully");
+      return { success: true };
+    }
+    log(`[Git Worktree] No changes to commit - branch has no commits different from ${targetBranch}`);
+    return {
+      success: false,
+      error: `No changes to merge - branch has no commits different from ${targetBranch}`
+    };
+  } catch (error2) {
+    return {
+      success: false,
+      error: error2 instanceof Error ? error2.message : String(error2)
+    };
+  }
+}
+async function findCardBranch(projectPath, idPrefix, taskNumber) {
+  const prefix = `kanban/${idPrefix}-${taskNumber}-`;
+  const names = /* @__PURE__ */ new Set();
+  try {
+    const { stdout } = await git(
+      projectPath,
+      "branch",
+      "--list",
+      "--format=%(refname:short)",
+      `${prefix}*`
+    );
+    for (const line of stdout.split("\n")) {
+      const name = line.trim();
+      if (name.startsWith(prefix)) names.add(name);
+    }
+  } catch {
+    return null;
+  }
+  if (names.size !== 1) return null;
+  const [branchName] = names;
+  const worktree = (await listWorktrees(projectPath)).find(
+    (w2) => w2.branch === branchName && !w2.isPrunable && existsSync5(w2.path)
+  );
+  return { branchName, worktreePath: worktree?.path ?? null };
+}
+
+// ../lib/card-ops/merge-card.ts
+function mergeCommitMessage(displayId, title, branchName) {
+  return `feat(${displayId}): ${title}
+
+Squash merge from branch: ${branchName}`;
+}
+function errorText(error2) {
+  return error2 instanceof Error ? error2.message : String(error2);
+}
+function worktreeGitDir(worktreePath) {
+  const gitFile = `${worktreePath}/.git`;
+  try {
+    const match = readFileSync3(gitFile, "utf-8").match(/gitdir:\s*(.+)/);
+    if (match) return match[1].trim();
+  } catch {
+  }
+  return gitFile;
+}
+async function unmergedFiles(worktreePath) {
+  try {
+    const { stdout } = await git(worktreePath, "diff", "--name-only", "--diff-filter=U");
+    return stdout.trim().split("\n").filter((f) => f);
+  } catch {
+    try {
+      const { stdout } = await git(worktreePath, "status", "--porcelain");
+      return stdout.split("\n").filter((line) => line.startsWith("UU ") || line.startsWith("AA ") || line.startsWith("DD ")).map((line) => line.substring(3));
+    } catch {
+      return [];
+    }
+  }
+}
+async function mergeCard(db2, cardId, opts = {}) {
+  const log = opts.log ?? (() => {
+  });
+  const now = opts.now ?? (() => (/* @__PURE__ */ new Date()).toISOString());
+  const card = getRow(
+    db2,
+    `SELECT id, title, status, task_number AS taskNumber, project_id AS projectId,
+       project_folder AS projectFolder, git_branch_name AS gitBranchName,
+       git_worktree_path AS gitWorktreePath, dev_server_pid AS devServerPid,
+       rebase_conflict AS rebaseConflict
+     FROM cards WHERE id = ?`,
+    cardId
+  );
+  if (!card) return { kind: "notFound" };
+  if (card.status !== "test") return { kind: "wrongStatus", status: card.status };
+  const branchName = card.gitBranchName;
+  if (!branchName) return { kind: "noBranch" };
+  if (card.gitWorktreePath && isCwdInsideWorktree(card.gitWorktreePath, opts.cwd)) {
+    return { kind: "ranFromWorktree", worktreePath: card.gitWorktreePath };
+  }
+  const project = card.projectId ? getRow(
+    db2,
+    `SELECT folder_path AS folderPath, id_prefix AS idPrefix FROM projects WHERE id = ?`,
+    card.projectId
+  ) : void 0;
+  const workingDir = project?.folderPath || card.projectFolder || opts.cwd || process.cwd();
+  if (!await isGitRepo(workingDir)) return { kind: "notRepo", workingDir };
+  const targetBranch = opts.targetBranch || await getDefaultBranch(workingDir);
+  const mergeDir = await findTargetCheckout(workingDir, targetBranch);
+  if (!mergeDir) return { kind: "targetNotCheckedOut", targetBranch };
+  log(`[Merge] Starting squash merge for card ${cardId}`);
+  log(`[Merge] Branch: ${branchName} \u2192 ${targetBranch}`);
+  log(`[Merge] Working dir: ${mergeDir}`);
+  if (card.devServerPid && opts.stopProcess) {
+    log(`[Merge] Stopping dev server with PID ${card.devServerPid}`);
+    await opts.stopProcess(card.devServerPid);
+  }
+  const displayId = formatDisplayId(project?.idPrefix, card.taskNumber) ?? `TASK-${card.taskNumber || "X"}`;
+  const commitMessage = mergeCommitMessage(displayId, card.title, branchName);
+  const worktreePath = card.gitWorktreePath && existsSync6(card.gitWorktreePath) ? card.gitWorktreePath : null;
+  const markConflict = (conflictFiles) => setCardRuntime(db2, cardId, { rebaseConflict: true, conflictFiles }, now());
+  let stashSha = null;
+  const stashMessage = `kanban-merge-stash-${cardId}-${Date.now()}`;
+  const restoreStash = async () => {
+    if (!stashSha) return null;
+    const stashName = describeStash(stashMessage, stashSha);
+    try {
+      await popStash(mergeDir, stashSha);
+      stashSha = null;
+      log(`[Merge] Main repo stashed changes restored`);
+      return null;
+    } catch (popError) {
+      log(`[Merge] Stash pop failed: ${errorText(popError)}`);
+      return `Stash could not be restored automatically. Changes remain in stash ${stashName}. Run 'git stash list' and resolve manually.`;
+    }
+  };
+  try {
+    if (worktreePath) {
+      const gitDir = worktreeGitDir(worktreePath);
+      if (existsSync6(`${gitDir}/rebase-merge`) || existsSync6(`${gitDir}/rebase-apply`)) {
+        log(`[Merge] Ongoing rebase detected in worktree`);
+        const conflictFiles = await unmergedFiles(worktreePath);
+        if (!card.rebaseConflict) markConflict(conflictFiles);
+        return { kind: "rebaseConflict", conflictFiles, worktreePath, branchName, cardId, displayId };
+      }
+    }
+    if (worktreePath) {
+      try {
+        const { stdout } = await git(worktreePath, "status", "--porcelain", "-uno");
+        if (stdout.trim()) {
+          if (!opts.commitFirst) return { kind: "uncommittedInWorktree", worktreePath };
+          log(`[Merge] Committing tracked modifications in worktree...`);
+          await git(worktreePath, "add", "-u");
+          await git(worktreePath, "commit", "-m", "chore: WIP before merge");
+        }
+      } catch (statusError) {
+        log(`[Merge] Could not check worktree status: ${statusError}`);
+      }
+    }
+    try {
+      const { stdout } = await git(workingDir, "rev-list", "--count", `${targetBranch}..${branchName}`);
+      const count = parseInt(stdout.trim(), 10);
+      log(`[Merge] Branch has ${count} commits ahead of ${targetBranch}`);
+      if (count === 0) return { kind: "noCommits", targetBranch };
+    } catch (countError) {
+      log(`[Merge] Could not check commit count: ${countError}`);
+    }
+    const { stdout: mainStatus } = await git(mergeDir, "status", "--porcelain");
+    if (mainStatus.trim()) {
+      stashSha = await pushStash(mergeDir, stashMessage, { includeUntracked: true });
+      if (stashSha) log(`[Merge] Main repo changes stashed as ${describeStash(stashMessage, stashSha)}`);
+    }
+    if (worktreePath) {
+      try {
+        await git(worktreePath, "rebase", targetBranch);
+        log(`[Merge] Rebase successful`);
+      } catch (rebaseError) {
+        const errorMsg = errorText(rebaseError);
+        log(`[Merge] Rebase failed: ${errorMsg}`);
+        if (errorMsg.includes("CONFLICT") || errorMsg.includes("could not apply")) {
+          const conflictFiles = await unmergedFiles(worktreePath);
+          markConflict(conflictFiles);
+          const stashRestoreWarning3 = await restoreStash();
+          return { kind: "rebaseConflict", conflictFiles, worktreePath, branchName, cardId, displayId, stashRestoreWarning: stashRestoreWarning3 };
+        }
+        try {
+          await git(worktreePath, "rebase", "--abort");
+        } catch {
+        }
+        const stashRestoreWarning2 = await restoreStash();
+        return { kind: "failed", error: `Rebase failed: ${errorMsg}`, stashRestoreWarning: stashRestoreWarning2 };
+      }
+    }
+    const result = await squashMergeFromWorktree(workingDir, branchName, commitMessage, { targetBranch, log });
+    if (!result.success) {
+      const stashRestoreWarning2 = await restoreStash();
+      return { kind: "failed", error: `Merge failed: ${result.error}`, stashRestoreWarning: stashRestoreWarning2 };
+    }
+    if (card.gitWorktreePath) {
+      const removed = await removeWorktree(workingDir, card.gitWorktreePath, log);
+      if (!removed.success) log(`[Merge] Failed to remove worktree: ${removed.error}`);
+    }
+    try {
+      await git(workingDir, "branch", "-D", "--", branchName);
+    } catch (branchError) {
+      log(`[Merge] Failed to delete branch: ${branchError}`);
+    }
+    await pruneWorktrees(workingDir, log);
+    transaction(db2, () => {
+      setCardRuntime(db2, cardId, {
+        gitBranchStatus: "merged",
+        gitWorktreeStatus: "removed",
+        devServerPort: null,
+        devServerPid: null,
+        rebaseConflict: null,
+        conflictFiles: null
+      });
+      moveCard(db2, cardId, "completed", now());
+    });
+    log(`[Merge] Success - branch merged, worktree removed, branch deleted`);
+    const stashRestoreWarning = await restoreStash();
+    return {
+      kind: "ok",
+      cardId,
+      newStatus: "completed",
+      branchName,
+      targetBranch,
+      displayId,
+      message: `Branch ${branchName} merged, worktree removed, branch deleted`,
+      stashRestoreWarning
+    };
+  } catch (error2) {
+    log(`[Merge] Error: ${errorText(error2)}`);
+    const stashRestoreWarning = await restoreStash();
+    return { kind: "failed", error: "Merge failed", details: errorText(error2), stashRestoreWarning };
+  }
+}
+
 // ../lib/card-story.ts
 var card_story_exports = {};
 __export(card_story_exports, {
@@ -29172,30 +29881,30 @@ __export(card_mockups_exports, {
   mockupState: () => mockupState,
   resolveCardMockupFile: () => resolveCardMockupFile
 });
-import { existsSync as existsSync4, realpathSync as realpathSync3, statSync as statSync3 } from "fs";
-import path5 from "path";
+import { existsSync as existsSync7, realpathSync as realpathSync4, statSync as statSync3 } from "fs";
+import path6 from "path";
 function isInside3(child, parent) {
-  return child === parent || child.startsWith(parent + path5.sep);
+  return child === parent || child.startsWith(parent + path6.sep);
 }
 function realDir(dir) {
   try {
-    return realpathSync3(dir);
+    return realpathSync4(dir);
   } catch {
     return null;
   }
 }
 function mockupState(cardId, absPath, cardDir = cardArtifactDir(cardId)) {
-  if (!path5.isAbsolute(absPath) || absPath.includes("\0")) return { state: "missing" };
+  if (!path6.isAbsolute(absPath) || absPath.includes("\0")) return { state: "missing" };
   let real;
   try {
-    real = realpathSync3(absPath);
+    real = realpathSync4(absPath);
     if (!statSync3(real).isFile()) return { state: "missing" };
   } catch {
     return { state: "missing" };
   }
   const root = realDir(cardDir);
   if (!root || !isInside3(real, root) || real === root) return { state: "outside" };
-  return { state: "preview", relPath: path5.relative(root, real).split(path5.sep).join("/") };
+  return { state: "preview", relPath: path6.relative(root, real).split(path6.sep).join("/") };
 }
 function resolveCardMockupFile(cardId, segments, cardDir = cardArtifactDir(cardId)) {
   if (segments.length === 0) return null;
@@ -29206,9 +29915,9 @@ function resolveCardMockupFile(cardId, segments, cardDir = cardArtifactDir(cardI
   }
   const root = realDir(cardDir);
   if (!root) return null;
-  const candidate = path5.join(root, ...segments);
-  if (!existsSync4(candidate)) return null;
-  const real = realpathSync3(candidate);
+  const candidate = path6.join(root, ...segments);
+  if (!existsSync7(candidate)) return null;
+  const real = realpathSync4(candidate);
   if (!isInside3(real, root) || real === root || !statSync3(real).isFile()) return null;
   return real;
 }
@@ -29221,12 +29930,12 @@ __export(test_report_files_exports, {
   removeTestReportRunDirs: () => removeTestReportRunDirs,
   testReportRunDir: () => testReportRunDir
 });
-import { copyFileSync as copyFileSync3, mkdirSync as mkdirSync3, rmSync, statSync as statSync4 } from "fs";
+import { copyFileSync as copyFileSync3, mkdirSync as mkdirSync4, rmSync, statSync as statSync4 } from "fs";
 import { homedir as homedir3 } from "os";
-import path6 from "path";
+import path7 from "path";
 var MAX_SCREENSHOT_BYTES = 20 * 1024 * 1024;
 function testReportRunDir(cardId, runId, homeDir) {
-  return path6.join(cardArtifactDir(cardId, homeDir), TEST_REPORT_DIR, runId);
+  return path7.join(cardArtifactDir(cardId, homeDir), TEST_REPORT_DIR, runId);
 }
 function removeTestReportRunDirs(cardId, runs, homeDir) {
   for (const run2 of runs) {
@@ -29249,7 +29958,7 @@ function isFile(p) {
 function keepWrittenArtifacts(items, runDir) {
   return items.map((item) => ({
     ...item,
-    artifacts: item.artifacts.map((artifact) => ({ ...artifact, file: path6.basename(artifact.file) })).filter((artifact) => isTestReportImageName(artifact.file) && isFile(path6.join(runDir, artifact.file)))
+    artifacts: item.artifacts.map((artifact) => ({ ...artifact, file: path7.basename(artifact.file) })).filter((artifact) => isTestReportImageName(artifact.file) && isFile(path7.join(runDir, artifact.file)))
   }));
 }
 function importTerminalArtifacts(items, runDir) {
@@ -29258,17 +29967,17 @@ function importTerminalArtifacts(items, runDir) {
   return items.map((item) => ({
     ...item,
     artifacts: item.artifacts.flatMap((artifact) => {
-      const source = artifact.file.startsWith("~/") ? path6.join(homedir3(), artifact.file.slice(2)) : artifact.file;
-      if (!path6.isAbsolute(source) || !isFile(source)) return [];
-      const ext = path6.extname(source).toLowerCase();
+      const source = artifact.file.startsWith("~/") ? path7.join(homedir3(), artifact.file.slice(2)) : artifact.file;
+      if (!path7.isAbsolute(source) || !isFile(source)) return [];
+      const ext = path7.extname(source).toLowerCase();
       const file2 = `shot-${++n}${ext}`;
       if (!isTestReportImageName(file2)) return [];
       try {
         if (!made) {
-          mkdirSync3(runDir, { recursive: true });
+          mkdirSync4(runDir, { recursive: true });
           made = true;
         }
-        copyFileSync3(source, path6.join(runDir, file2));
+        copyFileSync3(source, path7.join(runDir, file2));
         return [{ ...artifact, file: file2 }];
       } catch {
         return [];
@@ -29423,447 +30132,70 @@ function testReportCardSummary(runs) {
   };
 }
 
-// ../lib/git/core.ts
-var core_exports3 = {};
-__export(core_exports3, {
-  buildCommitArgs: () => buildCommitArgs,
-  generateBranchName: () => generateBranchName,
-  git: () => git,
-  slugify: () => slugify2
+// ../lib/process-group.ts
+var process_group_exports = {};
+__export(process_group_exports, {
+  isProcessGroupLeader: () => isProcessGroupLeader,
+  stopProcess: () => stopProcess,
+  stopProcessGroup: () => stopProcessGroup,
+  stopProcessGroupById: () => stopProcessGroupById
 });
-import { execFile } from "child_process";
-import { promisify } from "util";
-var execFileAsync = promisify(execFile);
-async function git(cwd, ...args) {
-  return execFileAsync("git", args, { cwd });
-}
-function buildCommitArgs(commitMessage) {
-  const [title, ...bodyParts] = commitMessage.split("\n\n");
-  const body = bodyParts.join("\n\n");
-  const args = ["commit", "-m", title];
-  if (body) args.push("-m", body);
-  return args;
-}
-
-// ../lib/git/repo.ts
-var repo_exports = {};
-__export(repo_exports, {
-  branchExists: () => branchExists,
-  fetchRemote: () => fetchRemote,
-  getBranchStatus: () => getBranchStatus,
-  getCurrentBranch: () => getCurrentBranch,
-  getDefaultBranch: () => getDefaultBranch,
-  getMergeReality: () => getMergeReality,
-  getUnpushedStatus: () => getUnpushedStatus,
-  hasStagedChanges: () => hasStagedChanges,
-  isGitRepo: () => isGitRepo,
-  worktreeHasUncommittedChanges: () => worktreeHasUncommittedChanges
-});
-import { existsSync as existsSync5 } from "fs";
-async function isGitRepo(projectPath) {
+import { execFileSync as execFileSync2 } from "child_process";
+function alive(target2) {
   try {
-    await git(projectPath, "rev-parse", "--git-dir");
+    process.kill(target2, 0);
     return true;
+  } catch (error2) {
+    return error2.code === "EPERM";
+  }
+}
+function isProcessGroupLeader(pid) {
+  if (process.platform === "win32") return false;
+  try {
+    const pgid = execFileSync2("ps", ["-o", "pgid=", "-p", String(pid)], {
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "ignore"]
+    }).trim();
+    return Number(pgid) === pid;
   } catch {
     return false;
   }
 }
-async function getCurrentBranch(projectPath) {
-  const { stdout } = await git(projectPath, "branch", "--show-current");
-  return stdout.trim();
+var sleep = (ms) => new Promise((resolve4) => setTimeout(resolve4, ms));
+async function stopProcessGroup(pid, { graceMs = 3e3, pollMs = 100 } = {}) {
+  if (!Number.isInteger(pid) || pid <= 1) return false;
+  return signalUntilGone(isProcessGroupLeader(pid) ? -pid : pid, { graceMs, pollMs });
 }
-async function branchExists(projectPath, branchName) {
+async function stopProcessGroupById(pgid, { graceMs = 3e3, pollMs = 100 } = {}) {
+  if (!Number.isInteger(pgid) || pgid <= 1 || process.platform === "win32") return false;
+  if (!alive(-pgid)) return false;
+  return signalUntilGone(-pgid, { graceMs, pollMs });
+}
+async function stopProcess(pid, { graceMs = 3e3, pollMs = 100 } = {}) {
+  if (!Number.isInteger(pid) || pid <= 1) return false;
+  return signalUntilGone(pid, { graceMs, pollMs });
+}
+async function signalUntilGone(target2, { graceMs, pollMs }) {
   try {
-    await git(
-      projectPath,
-      "show-ref",
-      "--verify",
-      "--quiet",
-      `refs/heads/${branchName}`
-    );
-    return true;
+    process.kill(target2, "SIGTERM");
   } catch {
     return false;
   }
-}
-async function getDefaultBranch(projectPath) {
-  try {
-    const { stdout } = await git(
-      projectPath,
-      "symbolic-ref",
-      "refs/remotes/origin/HEAD"
-    );
-    return stdout.trim().replace("refs/remotes/origin/", "").replace("refs/heads/", "");
-  } catch {
-    try {
-      await git(projectPath, "show-ref", "--verify", "--quiet", "refs/heads/main");
-      return "main";
-    } catch {
-      return "master";
-    }
+  const deadline = Date.now() + graceMs;
+  while (Date.now() < deadline) {
+    if (!alive(target2)) return true;
+    await sleep(pollMs);
   }
-}
-async function getBranchStatus(projectPath, branchName) {
   try {
-    const defaultBranch2 = await getDefaultBranch(projectPath);
-    const exists = await branchExists(projectPath, branchName);
-    if (!exists) {
-      return { ahead: 0, behind: 0, exists: false };
-    }
-    const { stdout } = await git(
-      projectPath,
-      "rev-list",
-      "--left-right",
-      "--count",
-      `${defaultBranch2}...${branchName}`
-    );
-    const [behind, ahead] = stdout.trim().split(/\s+/).map(Number);
-    return { ahead: ahead || 0, behind: behind || 0, exists: true };
-  } catch {
-    return { ahead: 0, behind: 0, exists: false };
-  }
-}
-async function worktreeHasUncommittedChanges(worktreePath) {
-  if (!existsSync5(worktreePath)) return false;
-  try {
-    const { stdout } = await git(worktreePath, "status", "--porcelain", "-uno");
-    return stdout.trim().length > 0;
-  } catch {
-    return false;
-  }
-}
-async function getMergeReality(projectPath, branchName, worktreePath) {
-  const defaultBranch2 = await getDefaultBranch(projectPath);
-  const needsCommit = worktreePath ? await worktreeHasUncommittedChanges(worktreePath) : false;
-  const base = {
-    branchName,
-    defaultBranch: defaultBranch2,
-    exists: false,
-    ahead: 0,
-    behind: 0,
-    contentIdentical: false,
-    needsCommit,
-    state: "missing"
-  };
-  if (!await branchExists(projectPath, branchName)) {
-    return base;
-  }
-  const { ahead, behind } = await getBranchStatus(projectPath, branchName);
-  let contentIdentical = false;
-  try {
-    await git(projectPath, "diff", "--quiet", defaultBranch2, branchName, "--");
-    contentIdentical = true;
-  } catch {
-    contentIdentical = false;
-  }
-  const merged = ahead === 0 || contentIdentical;
-  return {
-    ...base,
-    exists: true,
-    ahead,
-    behind,
-    contentIdentical,
-    // Uncommitted work in the worktree is still work: it would be committed
-    // and merged, so the branch is not done regardless of what the tips say.
-    state: merged && !needsCommit ? "nothing-to-merge" : "ready"
-  };
-}
-async function hasStagedChanges(projectPath) {
-  try {
-    await git(projectPath, "diff", "--cached", "--quiet");
-    return false;
+    process.kill(target2, "SIGKILL");
   } catch {
     return true;
   }
-}
-var UNSUPPORTED = {
-  supported: false,
-  defaultBranch: "",
-  count: 0,
-  commits: []
-};
-async function fetchRemote(projectPath) {
-  try {
-    await git(projectPath, "fetch", "--quiet", "origin");
-    return true;
-  } catch {
-    return false;
+  for (let i = 0; i < 10; i++) {
+    if (!alive(target2)) return true;
+    await sleep(pollMs);
   }
-}
-async function getUnpushedStatus(projectPath, options = {}) {
-  if (!existsSync5(projectPath) || !await isGitRepo(projectPath)) return UNSUPPORTED;
-  try {
-    const { stdout: remotes } = await git(projectPath, "remote");
-    if (!remotes.trim()) return UNSUPPORTED;
-  } catch {
-    return UNSUPPORTED;
-  }
-  const defaultBranch2 = await getDefaultBranch(projectPath);
-  const remoteRef = `refs/remotes/origin/${defaultBranch2}`;
-  try {
-    await git(projectPath, "show-ref", "--verify", "--quiet", remoteRef);
-  } catch {
-    return UNSUPPORTED;
-  }
-  const revArgs = ["--branches", "HEAD", "--not", "--remotes"];
-  try {
-    if (!options.withCommits) {
-      const { stdout: stdout2 } = await git(projectPath, "rev-list", "--count", ...revArgs);
-      return {
-        supported: true,
-        defaultBranch: defaultBranch2,
-        count: Number.parseInt(stdout2.trim(), 10) || 0,
-        commits: []
-      };
-    }
-    const onDefault = /* @__PURE__ */ new Set();
-    if (await branchExists(projectPath, defaultBranch2)) {
-      const { stdout: stdout2 } = await git(
-        projectPath,
-        "rev-list",
-        defaultBranch2,
-        "--not",
-        "--remotes"
-      );
-      for (const line of stdout2.split("\n")) {
-        const hash2 = line.trim();
-        if (hash2) onDefault.add(hash2);
-      }
-    }
-    const { stdout } = await git(
-      projectPath,
-      "log",
-      "--pretty=format:%H%x1f%s%x1f%cI%x1f%S%x1f%b%x1e",
-      "--source",
-      ...revArgs
-    );
-    const commits = stdout.split("").filter((record2) => record2.trim() !== "").map((record2) => {
-      const [hash2, subject, date4, source, body] = record2.replace(/^\n/, "").split("");
-      const reached = (source ?? "").replace(/^refs\/heads\//, "");
-      return {
-        hash: hash2 ?? "",
-        subject: subject ?? "",
-        date: date4 ?? "",
-        body: (body ?? "").trim(),
-        branch: hash2 && onDefault.has(hash2) ? defaultBranch2 : reached
-      };
-    });
-    return { supported: true, defaultBranch: defaultBranch2, count: commits.length, commits };
-  } catch {
-    return UNSUPPORTED;
-  }
-}
-
-// ../lib/git/worktree.ts
-var worktree_exports = {};
-__export(worktree_exports, {
-  createWorktree: () => createWorktree,
-  findCardBranch: () => findCardBranch,
-  getWorktreeBaseDir: () => getWorktreeBaseDir,
-  getWorktreePath: () => getWorktreePath,
-  isCwdInsideWorktree: () => isCwdInsideWorktree,
-  listWorktrees: () => listWorktrees,
-  pruneWorktrees: () => pruneWorktrees,
-  removeWorktree: () => removeWorktree,
-  squashMergeFromWorktree: () => squashMergeFromWorktree,
-  worktreeExists: () => worktreeExists
-});
-import { existsSync as existsSync6, mkdirSync as mkdirSync4, realpathSync as realpathSync4 } from "fs";
-import path7, { join } from "path";
-function getWorktreeBaseDir(projectPath) {
-  return join(projectPath, ".worktrees", "kanban");
-}
-function getWorktreePath(projectPath, branchName) {
-  const branchPart = branchName.startsWith("kanban/") ? branchName.slice(7) : branchName;
-  return join(getWorktreeBaseDir(projectPath), branchPart);
-}
-async function worktreeExists(projectPath, worktreePath) {
-  try {
-    if (!existsSync6(worktreePath)) {
-      return false;
-    }
-    const { stdout } = await git(projectPath, "worktree", "list", "--porcelain");
-    return stdout.includes(`worktree ${worktreePath}`);
-  } catch {
-    return false;
-  }
-}
-async function listWorktrees(projectPath) {
-  try {
-    const { stdout } = await git(projectPath, "worktree", "list", "--porcelain");
-    const worktrees = [];
-    const entries = stdout.trim().split("\n\n");
-    for (const entry of entries) {
-      if (!entry.trim()) continue;
-      const lines = entry.split("\n");
-      const info = {
-        isLocked: false,
-        isPrunable: false
-      };
-      for (const line of lines) {
-        if (line.startsWith("worktree ")) {
-          info.path = line.slice(9);
-        } else if (line.startsWith("HEAD ")) {
-          info.commit = line.slice(5);
-        } else if (line.startsWith("branch refs/heads/")) {
-          info.branch = line.slice(18);
-        } else if (line === "locked") {
-          info.isLocked = true;
-        } else if (line === "prunable") {
-          info.isPrunable = true;
-        }
-      }
-      if (info.path && info.commit) {
-        worktrees.push(info);
-      }
-    }
-    return worktrees;
-  } catch {
-    return [];
-  }
-}
-async function createWorktree(projectPath, branchName) {
-  const worktreePath = getWorktreePath(projectPath, branchName);
-  const baseDir = getWorktreeBaseDir(projectPath);
-  try {
-    if (!existsSync6(baseDir)) {
-      mkdirSync4(baseDir, { recursive: true });
-      console.log(`[Git Worktree] Created base directory: ${baseDir}`);
-    }
-    if (await worktreeExists(projectPath, worktreePath)) {
-      console.log(`[Git Worktree] Worktree already exists: ${worktreePath}`);
-      return { success: true, worktreePath };
-    }
-    if (await branchExists(projectPath, branchName)) {
-      console.log(`[Git Worktree] Creating worktree for existing branch: ${branchName}`);
-      await git(projectPath, "worktree", "add", worktreePath, branchName);
-    } else {
-      const defaultBranch2 = await getDefaultBranch(projectPath);
-      console.log(`[Git Worktree] Creating new branch and worktree: ${branchName} from ${defaultBranch2}`);
-      await git(
-        projectPath,
-        "worktree",
-        "add",
-        "-b",
-        branchName,
-        worktreePath,
-        defaultBranch2
-      );
-    }
-    console.log(`[Git Worktree] Created worktree at: ${worktreePath}`);
-    return { success: true, worktreePath };
-  } catch (error2) {
-    console.error(`[Git Worktree] Failed to create worktree:`, error2);
-    return {
-      success: false,
-      worktreePath,
-      error: error2 instanceof Error ? error2.message : String(error2)
-    };
-  }
-}
-async function removeWorktree(projectPath, worktreePath) {
-  try {
-    if (!await worktreeExists(projectPath, worktreePath)) {
-      console.log(`[Git Worktree] Worktree doesn't exist, skipping removal: ${worktreePath}`);
-      return { success: true };
-    }
-    console.log(`[Git Worktree] Removing worktree: ${worktreePath}`);
-    await git(projectPath, "worktree", "remove", "--force", worktreePath);
-    console.log(`[Git Worktree] Worktree removed successfully`);
-    return { success: true };
-  } catch (error2) {
-    console.error(`[Git Worktree] Failed to remove worktree:`, error2);
-    return {
-      success: false,
-      error: error2 instanceof Error ? error2.message : String(error2)
-    };
-  }
-}
-function isCwdInsideWorktree(worktreePath) {
-  const resolve4 = (p) => {
-    try {
-      return realpathSync4(p);
-    } catch {
-      return path7.resolve(p);
-    }
-  };
-  const cwd = resolve4(process.cwd());
-  const wt = resolve4(worktreePath);
-  if (cwd === wt) return true;
-  return cwd.startsWith(wt + path7.sep);
-}
-async function pruneWorktrees(projectPath) {
-  try {
-    console.log(`[Git Worktree] Pruning stale worktrees...`);
-    await git(projectPath, "worktree", "prune");
-    return { success: true };
-  } catch (error2) {
-    return {
-      success: false,
-      error: error2 instanceof Error ? error2.message : String(error2)
-    };
-  }
-}
-async function squashMergeFromWorktree(projectPath, branchName, commitMessage) {
-  try {
-    const { stdout: statusOutput } = await git(projectPath, "status", "--porcelain");
-    if (statusOutput.trim() !== "") {
-      console.log("[Git Worktree] Uncommitted changes found in main repo, blocking merge");
-      return {
-        success: false,
-        error: "There are uncommitted changes in the main repository. Please commit your changes first.",
-        uncommittedInMain: true
-      };
-    }
-    const defaultBranch2 = await getDefaultBranch(projectPath);
-    const currentBranch = await getCurrentBranch(projectPath);
-    if (currentBranch !== defaultBranch2) {
-      console.log(`[Git Worktree] Checking out to ${defaultBranch2}...`);
-      await git(projectPath, "checkout", defaultBranch2);
-    }
-    console.log(`[Git Worktree] Squash merging ${branchName}...`);
-    await git(projectPath, "merge", "--squash", branchName);
-    if (await hasStagedChanges(projectPath)) {
-      await git(projectPath, ...buildCommitArgs(commitMessage));
-      console.log("[Git Worktree] Squash merge committed successfully");
-      return { success: true };
-    }
-    console.log("[Git Worktree] No changes to commit - branch has no commits different from main");
-    return {
-      success: false,
-      error: "No changes to merge - branch has no commits different from main"
-    };
-  } catch (error2) {
-    return {
-      success: false,
-      error: error2 instanceof Error ? error2.message : String(error2)
-    };
-  }
-}
-async function findCardBranch(projectPath, idPrefix, taskNumber) {
-  const prefix = `kanban/${idPrefix}-${taskNumber}-`;
-  const names = /* @__PURE__ */ new Set();
-  try {
-    const { stdout } = await git(
-      projectPath,
-      "branch",
-      "--list",
-      "--format=%(refname:short)",
-      `${prefix}*`
-    );
-    for (const line of stdout.split("\n")) {
-      const name = line.trim();
-      if (name.startsWith(prefix)) names.add(name);
-    }
-  } catch {
-    return null;
-  }
-  if (names.size !== 1) return null;
-  const [branchName] = names;
-  const worktree = (await listWorktrees(projectPath)).find(
-    (w2) => w2.branch === branchName && !w2.isPrunable && existsSync6(w2.path)
-  );
-  return { branchName, worktreePath: worktree?.path ?? null };
+  return !alive(target2);
 }
 
 // shared.ts
@@ -29957,7 +30289,8 @@ var {
   splitRelations: splitRelations2,
   splitRoleLine: splitRoleLine2,
   splitCard: splitCard2,
-  SplitCardError: SplitCardError2
+  SplitCardError: SplitCardError2,
+  mergeCard: mergeCard2
 } = unwrap(card_ops_exports);
 var { writeConflictFor: writeConflictFor2 } = unwrap(card_queue_exports);
 var { normalizeComplexity: normalizeComplexity2, describeOpinionMarkers: describeOpinionMarkers2, countOpinionConcerns: countOpinionConcerns2 } = unwrap(opinion_markers_exports);
@@ -29984,6 +30317,7 @@ var { getWorktreeBaseDir: getWorktreeBaseDir2, getWorktreePath: getWorktreePath2
 var { slugify: slugify3, generateBranchName: generateBranchName2 } = unwrap(branch_name_exports);
 var { shouldUseWorktree: shouldUseWorktree2, resolveEffectiveWorktree: resolveEffectiveWorktree2, normalizeProjectMode: normalizeProjectMode2 } = unwrap(workspace_exports);
 var { COLUMNS: COLUMNS2, formatDisplayId: formatDisplayId2 } = unwrap(types_exports);
+var { stopProcessGroup: stopProcessGroup2 } = unwrap(process_group_exports);
 
 // db.ts
 var MIN_NODE = [22, 5];
@@ -30017,7 +30351,7 @@ import { fileURLToPath } from "url";
 import { homedir as homedir5 } from "os";
 import { mkdirSync as mkdirSync6 } from "fs";
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/uuid/dist/esm/stringify.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/uuid/dist/esm/stringify.js
 var byteToHex = [];
 for (let i = 0; i < 256; ++i) {
   byteToHex.push((i + 256).toString(16).slice(1));
@@ -30026,7 +30360,7 @@ function unsafeStringify(arr, offset = 0) {
   return (byteToHex[arr[offset + 0]] + byteToHex[arr[offset + 1]] + byteToHex[arr[offset + 2]] + byteToHex[arr[offset + 3]] + "-" + byteToHex[arr[offset + 4]] + byteToHex[arr[offset + 5]] + "-" + byteToHex[arr[offset + 6]] + byteToHex[arr[offset + 7]] + "-" + byteToHex[arr[offset + 8]] + byteToHex[arr[offset + 9]] + "-" + byteToHex[arr[offset + 10]] + byteToHex[arr[offset + 11]] + byteToHex[arr[offset + 12]] + byteToHex[arr[offset + 13]] + byteToHex[arr[offset + 14]] + byteToHex[arr[offset + 15]]).toLowerCase();
 }
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/uuid/dist/esm/rng.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/uuid/dist/esm/rng.js
 import { randomFillSync } from "crypto";
 var rnds8Pool = new Uint8Array(256);
 var poolPtr = rnds8Pool.length;
@@ -30038,11 +30372,11 @@ function rng() {
   return rnds8Pool.slice(poolPtr, poolPtr += 16);
 }
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/uuid/dist/esm/native.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/uuid/dist/esm/native.js
 import { randomUUID } from "crypto";
 var native_default = { randomUUID };
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/uuid/dist/esm/v4.js
+// ../../../../../../vibecode/ideafy/mcp-server/node_modules/uuid/dist/esm/v4.js
 function v4(options, buf, offset) {
   if (native_default.randomUUID && !buf && !options) {
     return native_default.randomUUID();
@@ -30069,7 +30403,7 @@ function v4(options, buf, offset) {
 var v4_default = v4;
 
 // serialize-card.ts
-import { readFileSync as readFileSync3 } from "node:fs";
+import { readFileSync as readFileSync4 } from "node:fs";
 function normalizeUseWorktree(value) {
   if (value === null || value === void 0) return null;
   return Boolean(value);
@@ -30082,7 +30416,7 @@ function extractImagesFromHtml(html, fieldName) {
     const [ref] = attachmentRefs2(match[1]);
     if (!ref) continue;
     try {
-      const data = readFileSync3(ref.path).toString("base64");
+      const data = readFileSync4(ref.path).toString("base64");
       images.push({ id: `${fieldName}_image_${index}`, data, mimeType: attachmentContentType2(ref.file), fieldName, index });
       index++;
     } catch {
@@ -30206,7 +30540,7 @@ function missingCapabilityMessage(tool, capability) {
 }
 
 // output-paths.ts
-import { existsSync as existsSync7, realpathSync as realpathSync5, statSync as statSync5 } from "fs";
+import { existsSync as existsSync8, realpathSync as realpathSync5, statSync as statSync5 } from "fs";
 import { homedir as homedir4 } from "os";
 import { isAbsolute, relative, resolve as resolve2, sep } from "path";
 var OutputPathError = class extends Error {
@@ -30235,7 +30569,7 @@ function resolveOutputPath(projectFolder, inputPath) {
       `The card's project folder does not exist on this machine: ${projectFolder}. Nothing was recorded.`
     );
   }
-  if (!existsSync7(absolute)) {
+  if (!existsSync8(absolute)) {
     throw new OutputPathError(
       `File not found: ${absolute}. save_output records a file that already exists \u2014 write it first, then call save_output again.`
     );
@@ -30471,8 +30805,87 @@ async function openCardSessionTool(db2, input, deps = {}) {
   };
 }
 
+// merge-card.ts
+function withStashWarning(text2, warning) {
+  return warning ? `${text2}
+
+Warning: ${warning}` : text2;
+}
+function mergeCardText(result) {
+  switch (result.kind) {
+    case "ok":
+      return {
+        ok: true,
+        text: withStashWarning(
+          `${result.displayId} merged into ${result.targetBranch} and moved to Completed. Branch ${result.branchName} and its worktree were deleted.`,
+          result.stashRestoreWarning
+        )
+      };
+    case "notFound":
+      return { ok: false, text: "Card not found. Nothing was merged." };
+    case "wrongStatus":
+      return {
+        ok: false,
+        text: `Merge is only available for cards in Human Test; this card is in ${result.status}. Nothing was merged.`
+      };
+    case "noBranch":
+      return { ok: false, text: "This card has no git branch to merge. Nothing was merged." };
+    case "ranFromWorktree":
+      return {
+        ok: false,
+        text: `This session runs inside the card's worktree (${result.worktreePath}), which the merge deletes. Open a session in the main project folder and merge from there. Nothing was merged.`
+      };
+    case "notRepo":
+      return { ok: false, text: `${result.workingDir} is not a git repository. Nothing was merged.` };
+    case "targetNotCheckedOut":
+      return {
+        ok: false,
+        text: `Branch ${result.targetBranch} is not checked out anywhere. Check it out in a worktree first; the main checkout is not switched for a merge. Nothing was merged.`
+      };
+    case "rebaseConflict":
+      return {
+        ok: false,
+        text: withStashWarning(
+          [
+            `${result.displayId} did not merge: rebasing ${result.branchName} hit a conflict. Show the user these files; the card now shows the conflict on the board.`,
+            ...result.conflictFiles.map((file2) => `- ${file2}`),
+            `Resolve it in the worktree: ${result.worktreePath}`
+          ].join("\n"),
+          result.stashRestoreWarning
+        )
+      };
+    case "uncommittedInWorktree":
+      return {
+        ok: false,
+        text: `The card's worktree (${result.worktreePath}) has uncommitted changes. Ask the user whether to commit them first; only on their OK call merge_card again with commitFirst: true. Nothing was merged.`
+      };
+    case "noCommits":
+      return {
+        ok: false,
+        text: `The branch has no commits ahead of ${result.targetBranch}, so there is nothing to merge. If its work already landed, the board's Complete closes the card. Nothing was merged.`
+      };
+    case "failed":
+      return {
+        ok: false,
+        text: withStashWarning(
+          result.details ? `${result.error}: ${result.details}` : result.error,
+          result.stashRestoreWarning
+        )
+      };
+  }
+}
+async function mergeCardTool(db2, args) {
+  const result = await mergeCard2(db2, args.cardId, {
+    commitFirst: args.commitFirst === true,
+    targetBranch: args.targetBranch?.trim() || void 0,
+    cwd: args.cwd,
+    stopProcess: (pid) => stopProcessGroup2(pid)
+  });
+  return mergeCardText(result);
+}
+
 // test-report.ts
-import { readFileSync as readFileSync4 } from "node:fs";
+import { readFileSync as readFileSync5 } from "node:fs";
 import path8 from "node:path";
 function readTerminalReport(db2, report) {
   if (!hasCapability(db2, "testReports")) {
@@ -30568,7 +30981,7 @@ function readTestReport(db2, card, opts = {}) {
     tried++;
     let data;
     try {
-      data = readFileSync4(path8.join(dir, artifact.file)).toString("base64");
+      data = readFileSync5(path8.join(dir, artifact.file)).toString("base64");
     } catch {
       continue;
     }
@@ -30592,7 +31005,7 @@ function readTestReport(db2, card, opts = {}) {
 }
 
 // git-helpers.ts
-import { existsSync as existsSync8, mkdirSync as mkdirSync5 } from "fs";
+import { existsSync as existsSync9, mkdirSync as mkdirSync5 } from "fs";
 async function getCurrentBranch3(cwd) {
   try {
     return await getCurrentBranch2(cwd);
@@ -30604,7 +31017,7 @@ async function createWorktree2(projectPath, branchName) {
   const worktreePath = getWorktreePath2(projectPath, branchName);
   const baseDir = getWorktreeBaseDir2(projectPath);
   try {
-    if (!existsSync8(baseDir)) {
+    if (!existsSync9(baseDir)) {
       mkdirSync5(baseDir, { recursive: true });
     }
     if (await worktreeExists2(projectPath, worktreePath)) {
@@ -30638,7 +31051,7 @@ async function listChangedFiles(repoPath, opts) {
     const defaultBranch2 = await getDefaultBranch2(repoPath);
     let stdout;
     if (opts.worktreePath) {
-      if (!existsSync8(opts.worktreePath)) return [];
+      if (!existsSync9(opts.worktreePath)) return [];
       const { stdout: base } = await git2(opts.worktreePath, "merge-base", defaultBranch2, "HEAD");
       ({ stdout } = await git2(opts.worktreePath, "diff", "--name-only", base.trim()));
     } else if (opts.branchName) {
@@ -30672,7 +31085,7 @@ async function listUncommittedFiles(cwd, files) {
 }
 
 // card-search.ts
-import { existsSync as existsSync9 } from "fs";
+import { existsSync as existsSync10 } from "fs";
 var foldCache = /* @__PURE__ */ new Map();
 function foldChar(c) {
   let ch = foldCache.get(c);
@@ -30780,7 +31193,7 @@ function findOverlap(cardFiles, callerFiles) {
 var OPEN_STATUSES = ["backlog", "bugs", "progress", "test"];
 var PLAN_STATUSES = /* @__PURE__ */ new Set(["backlog", "bugs", "progress"]);
 async function listOpenWork(db2, opts, deps) {
-  const pathExists = deps.pathExists ?? existsSync9;
+  const pathExists = deps.pathExists ?? existsSync10;
   const project = db2.prepare(`SELECT folder_path as folderPath, id_prefix as idPrefix FROM projects WHERE id = ?`).get(opts.projectId);
   if (!project) return [];
   const hasBranchColumns = hasCapability(db2, "branchStatus");
@@ -31777,6 +32190,28 @@ The server writes the card's verdict, score, priority and complexity from those 
             ackChainOrder: {
               type: "boolean",
               description: "Start even though a predecessor in the card's chain has not landed. Only after the user saw the warning and said to go ahead."
+            }
+          },
+          required: ["cardId"]
+        }
+      },
+      {
+        name: "merge_card",
+        description: "Merge & Complete from the terminal, the same as the button on a Human Test card. Call only when the user explicitly asked to merge this card; it squash-merges the card's branch into the default branch, deletes the worktree and branch, and moves the card to Completed. It cannot be undone from the board. Runs without the Ideafy app. Refused from a session inside the card's own worktree. On a rebase conflict it lists the files and the worktree: show them to the user. When the worktree has uncommitted changes it asks first: only on the user's OK call again with commitFirst: true. Uncommitted work in the main checkout is stashed and restored, never committed.",
+        inputSchema: {
+          type: "object",
+          properties: {
+            cardId: {
+              type: "string",
+              description: "Card ID: UUID, display ID (e.g., KAN-54), or task number"
+            },
+            commitFirst: {
+              type: "boolean",
+              description: "Commit the worktree's uncommitted tracked changes before merging. Only after the user said yes."
+            },
+            targetBranch: {
+              type: "string",
+              description: "Branch to merge into instead of the default branch. It must already be checked out, in the main checkout or a worktree."
             }
           },
           required: ["cardId"]
@@ -33304,6 +33739,15 @@ ${waiting}` : ""}` : choice === "silent" ? `${bound} This session is outside eve
           return { content: [{ type: "text", text: `Card not found: ${rawCardId}` }], isError: true };
         }
         const result = name === "start_card_run" ? await startCardRunTool(db, { cardId, verifyScope, ackChainOrder: ackChainOrder === true }) : await openCardSessionTool(db, { cardId });
+        return { content: [{ type: "text", text: result.text }], ...result.ok ? {} : { isError: true } };
+      }
+      case "merge_card": {
+        const { cardId: rawCardId, commitFirst, targetBranch } = args;
+        const cardId = resolveCardRef2(db, rawCardId);
+        if (!cardId) {
+          return { content: [{ type: "text", text: `Card not found: ${rawCardId}` }], isError: true };
+        }
+        const result = await mergeCardTool(db, { cardId, commitFirst, targetBranch, cwd: process.cwd() });
         return { content: [{ type: "text", text: result.text }], ...result.ok ? {} : { isError: true } };
       }
       case "list_groups": {
