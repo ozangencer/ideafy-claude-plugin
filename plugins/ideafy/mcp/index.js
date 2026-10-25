@@ -21841,6 +21841,7 @@ __export(chain_order_exports, {
   compareByChainOrder: () => compareByChainOrder,
   hasLanded: () => hasLanded,
   isFinished: () => isFinished,
+  isInChain: () => isInChain,
   isLoudBlocker: () => isLoudBlocker,
   isReadyForParent: () => isReadyForParent,
   isSplitChildOf: () => isSplitChildOf,
@@ -22037,12 +22038,15 @@ function buildChainContext(members, cardId, toRef5) {
     successors: refs.slice(index + 1)
   };
 }
-function hasLanded(member) {
+var isInChain = (member) => member.status === "test" && member.gitBranchStatus === "in_chain";
+function hasLanded(member, waiterGroupId) {
   if (isFinished(member)) return true;
+  if (isInChain(member)) return !!waiterGroupId && member.groupId === waiterGroupId;
   return member.status === "test" && member.gitBranchStatus !== "active";
 }
 function isReadyForParent(child) {
   if (child.status === "completed") return true;
+  if (isInChain(child)) return true;
   if (child.status !== "test" || child.gitBranchStatus === "active") return false;
   const progress = parseTestProgress(child.testScenarios ?? "");
   return !!progress && progress.total > 0 && progress.checked === progress.total;
@@ -22052,14 +22056,15 @@ function testTicks(member) {
   return progress && progress.total > 0 ? `${progress.checked}/${progress.total}` : null;
 }
 var isSplitChildOf = (member, waiterId) => !!waiterId && member.splitFromCardId === waiterId;
-function linkState(member, waiterId) {
+function linkState(member, waiterId, waiterGroupId) {
   if (member.status === "withdrawn") return "withdrawn";
   if (isSplitChildOf(member, waiterId)) return isReadyForParent(member) ? "landed" : "open";
-  return hasLanded(member) ? "landed" : "open";
+  return hasLanded(member, waiterGroupId) ? "landed" : "open";
 }
 function openLinkReason(member, waiterId) {
   if (member.status !== "test") return null;
   if (member.gitBranchStatus === "active") return "branch not merged yet";
+  if (isInChain(member)) return "in chain, not on main yet";
   if (isSplitChildOf(member, waiterId)) {
     const ticks = testTicks(member);
     return ticks ? `tests ${ticks} ticked` : "no tests yet";
@@ -22072,13 +22077,14 @@ function nameList(labels) {
   return labels.length > MAX_NAMED ? `${shown} +${labels.length - MAX_NAMED}` : shown;
 }
 function chainOrderWarning(input) {
-  const done = (member) => isSplitChildOf(member, input.cardId) ? isReadyForParent(member) : hasLanded(member);
+  const waiterGroupId = input.members.find((member) => member.id === input.cardId)?.groupId ?? null;
+  const done = (member) => isSplitChildOf(member, input.cardId) ? isReadyForParent(member) : hasLanded(member, member.groupId);
   const pending = (member) => member.id !== input.cardId && !done(member) && !input.skip?.has(member.id);
   const linkIds = /* @__PURE__ */ new Set();
   const withdrawnLinks = [];
   const linked = (input.links ?? []).filter((member) => {
     if (linkIds.has(member.id) || member.id === input.cardId) return false;
-    const state = linkState(member, input.cardId);
+    const state = linkState(member, input.cardId, waiterGroupId);
     if (state === "landed") return false;
     linkIds.add(member.id);
     if (state === "withdrawn") {
@@ -22276,9 +22282,13 @@ __export(card_ops_exports, {
   autopilotRefusal: () => autopilotRefusal,
   branchStoryCounts: () => branchStoryCounts,
   cardAuthorship: () => cardAuthorship,
+  cardBaseBranch: () => cardBaseBranch,
   cardHead: () => cardHead,
+  cardIntegrationGroup: () => cardIntegrationGroup,
   cardRepoFolder: () => cardRepoFolder,
   chainAckId: () => chainAckId,
+  chainConflictText: () => chainConflictText,
+  chainMergeForCard: () => chainMergeForCard,
   chainOrderWarningFor: () => chainOrderWarningFor,
   chainWriteConflictFor: () => chainWriteConflictFor,
   chooseBoundPolicy: () => chooseBoundPolicy,
@@ -22295,8 +22305,10 @@ __export(card_ops_exports, {
   dismissSplitProposal: () => dismissSplitProposal,
   driftSince: () => driftSince,
   enqueueCard: () => enqueueCard,
+  ensureIntegrationBranch: () => ensureIntegrationBranch,
   getAutopilotState: () => getAutopilotState,
   getGroup: () => getGroup,
+  getIntegrationGroup: () => getIntegrationGroup,
   getQueueRow: () => getQueueRow,
   getRow: () => getRow,
   getSplitProposal: () => getSplitProposal,
@@ -22305,8 +22317,11 @@ __export(card_ops_exports, {
   hasAuthorshipTable: () => hasAuthorshipTable,
   hasBaseCommitColumns: () => hasBaseCommitColumns,
   hasDependencyTable: () => hasDependencyTable,
+  hasIntegrationColumns: () => hasIntegrationColumns,
   hasSplitTables: () => hasSplitTables,
   hasSuggestionTable: () => hasSuggestionTable,
+  integrationBranchName: () => integrationBranchName,
+  isChainParent: () => isChainParent,
   isStatus: () => isStatus,
   linkCardsInHtml: () => linkCardsInHtml,
   listDependencies: () => listDependencies,
@@ -22317,6 +22332,7 @@ __export(card_ops_exports, {
   listQueueRows: () => listQueueRows,
   loadStoryInputs: () => loadStoryInputs,
   mergeCard: () => mergeCard,
+  mergeChain: () => mergeChain,
   mergeCommitMessage: () => mergeCommitMessage,
   moveCard: () => moveCard,
   moveCardInChain: () => moveCardInChain,
@@ -22350,6 +22366,7 @@ __export(card_ops_exports, {
   restoreField: () => restoreField,
   restoreQueueCards: () => restoreQueueCards,
   reviseTests: () => reviseTests,
+  rollbackChain: () => rollbackChain,
   runChanges: () => runChanges,
   runtimeAssignments: () => runtimeAssignments,
   saveOpinion: () => saveOpinion,
@@ -22374,6 +22391,7 @@ __export(card_ops_exports, {
   stopAutopilot: () => stopAutopilot,
   strandedAutopilotCardIds: () => strandedAutopilotCardIds,
   suggestDependencies: () => suggestDependencies,
+  syncMainIntoChain: () => syncMainIntoChain,
   testsDriftFor: () => testsDriftFor,
   tickChanges: () => tickChanges,
   transaction: () => transaction,
@@ -22596,7 +22614,8 @@ var TERMINAL_OPTIONS = [
   { value: "ghostty", label: "Ghostty" },
   { value: "terminal", label: "Terminal.app" },
   { value: "warp", label: "Warp" },
-  { value: "cmux", label: "cmux" }
+  { value: "cmux", label: "cmux" },
+  { value: "muxy", label: "Muxy" }
 ];
 var SECTION_CONFIG = {
   detail: {
@@ -25117,17 +25136,974 @@ function gitRead(cwd, args) {
   return run(cwd, args);
 }
 
+// ../lib/card-ops/integration-branch.ts
+import { existsSync as existsSync5, mkdirSync as mkdirSync4 } from "fs";
+import { join as join2 } from "path";
+
+// ../lib/git/core.ts
+var core_exports3 = {};
+__export(core_exports3, {
+  buildCommitArgs: () => buildCommitArgs,
+  generateBranchName: () => generateBranchName,
+  git: () => git,
+  slugify: () => slugify2
+});
+import { execFile } from "child_process";
+import { promisify } from "util";
+
+// ../lib/git/branch-name.ts
+var branch_name_exports = {};
+__export(branch_name_exports, {
+  generateBranchName: () => generateBranchName,
+  slugify: () => slugify2
+});
+function slugify2(text2) {
+  return text2.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").substring(0, 50);
+}
+function generateBranchName(idPrefix, taskNumber, title) {
+  const slug = slugify2(title);
+  return `kanban/${idPrefix}-${taskNumber}-${slug}`;
+}
+
+// ../lib/git/core.ts
+var execFileAsync = promisify(execFile);
+async function git(cwd, ...args) {
+  return execFileAsync("git", args, { cwd });
+}
+function buildCommitArgs(commitMessage) {
+  const [title, ...bodyParts] = commitMessage.split("\n\n");
+  const body = bodyParts.join("\n\n");
+  const args = ["commit", "-m", title];
+  if (body) args.push("-m", body);
+  return args;
+}
+
+// ../lib/git/repo.ts
+var repo_exports = {};
+__export(repo_exports, {
+  branchExists: () => branchExists,
+  fetchRemote: () => fetchRemote,
+  getBranchStatus: () => getBranchStatus,
+  getCurrentBranch: () => getCurrentBranch,
+  getDefaultBranch: () => getDefaultBranch,
+  getMergeReality: () => getMergeReality,
+  getUnpushedStatus: () => getUnpushedStatus,
+  hasStagedChanges: () => hasStagedChanges,
+  isGitRepo: () => isGitRepo,
+  worktreeHasUncommittedChanges: () => worktreeHasUncommittedChanges
+});
+import { existsSync as existsSync3 } from "fs";
+async function isGitRepo(projectPath) {
+  try {
+    await git(projectPath, "rev-parse", "--git-dir");
+    return true;
+  } catch {
+    return false;
+  }
+}
+async function getCurrentBranch(projectPath) {
+  const { stdout } = await git(projectPath, "branch", "--show-current");
+  return stdout.trim();
+}
+async function branchExists(projectPath, branchName) {
+  try {
+    await git(
+      projectPath,
+      "show-ref",
+      "--verify",
+      "--quiet",
+      `refs/heads/${branchName}`
+    );
+    return true;
+  } catch {
+    return false;
+  }
+}
+async function getDefaultBranch(projectPath) {
+  try {
+    const { stdout } = await git(
+      projectPath,
+      "symbolic-ref",
+      "refs/remotes/origin/HEAD"
+    );
+    return stdout.trim().replace("refs/remotes/origin/", "").replace("refs/heads/", "");
+  } catch {
+    try {
+      await git(projectPath, "show-ref", "--verify", "--quiet", "refs/heads/main");
+      return "main";
+    } catch {
+      return "master";
+    }
+  }
+}
+async function getBranchStatus(projectPath, branchName) {
+  try {
+    const defaultBranch2 = await getDefaultBranch(projectPath);
+    const exists = await branchExists(projectPath, branchName);
+    if (!exists) {
+      return { ahead: 0, behind: 0, exists: false };
+    }
+    const { stdout } = await git(
+      projectPath,
+      "rev-list",
+      "--left-right",
+      "--count",
+      `${defaultBranch2}...${branchName}`
+    );
+    const [behind, ahead] = stdout.trim().split(/\s+/).map(Number);
+    return { ahead: ahead || 0, behind: behind || 0, exists: true };
+  } catch {
+    return { ahead: 0, behind: 0, exists: false };
+  }
+}
+async function worktreeHasUncommittedChanges(worktreePath) {
+  if (!existsSync3(worktreePath)) return false;
+  try {
+    const { stdout } = await git(worktreePath, "status", "--porcelain", "-uno");
+    return stdout.trim().length > 0;
+  } catch {
+    return false;
+  }
+}
+async function getMergeReality(projectPath, branchName, worktreePath) {
+  const defaultBranch2 = await getDefaultBranch(projectPath);
+  const needsCommit = worktreePath ? await worktreeHasUncommittedChanges(worktreePath) : false;
+  const base = {
+    branchName,
+    defaultBranch: defaultBranch2,
+    exists: false,
+    ahead: 0,
+    behind: 0,
+    contentIdentical: false,
+    needsCommit,
+    state: "missing"
+  };
+  if (!await branchExists(projectPath, branchName)) {
+    return base;
+  }
+  const { ahead, behind } = await getBranchStatus(projectPath, branchName);
+  let contentIdentical = false;
+  try {
+    await git(projectPath, "diff", "--quiet", defaultBranch2, branchName, "--");
+    contentIdentical = true;
+  } catch {
+    contentIdentical = false;
+  }
+  const merged = ahead === 0 || contentIdentical;
+  return {
+    ...base,
+    exists: true,
+    ahead,
+    behind,
+    contentIdentical,
+    // Uncommitted work in the worktree is still work: it would be committed
+    // and merged, so the branch is not done regardless of what the tips say.
+    state: merged && !needsCommit ? "nothing-to-merge" : "ready"
+  };
+}
+async function hasStagedChanges(projectPath) {
+  try {
+    await git(projectPath, "diff", "--cached", "--quiet");
+    return false;
+  } catch {
+    return true;
+  }
+}
+var UNSUPPORTED = {
+  supported: false,
+  defaultBranch: "",
+  count: 0,
+  commits: []
+};
+async function fetchRemote(projectPath) {
+  try {
+    await git(projectPath, "fetch", "--quiet", "origin");
+    return true;
+  } catch {
+    return false;
+  }
+}
+async function getUnpushedStatus(projectPath, options = {}) {
+  if (!existsSync3(projectPath) || !await isGitRepo(projectPath)) return UNSUPPORTED;
+  try {
+    const { stdout: remotes } = await git(projectPath, "remote");
+    if (!remotes.trim()) return UNSUPPORTED;
+  } catch {
+    return UNSUPPORTED;
+  }
+  const defaultBranch2 = await getDefaultBranch(projectPath);
+  const remoteRef = `refs/remotes/origin/${defaultBranch2}`;
+  try {
+    await git(projectPath, "show-ref", "--verify", "--quiet", remoteRef);
+  } catch {
+    return UNSUPPORTED;
+  }
+  const revArgs = ["--branches", "HEAD", "--not", "--remotes"];
+  try {
+    if (!options.withCommits) {
+      const { stdout: stdout2 } = await git(projectPath, "rev-list", "--count", ...revArgs);
+      return {
+        supported: true,
+        defaultBranch: defaultBranch2,
+        count: Number.parseInt(stdout2.trim(), 10) || 0,
+        commits: []
+      };
+    }
+    const onDefault = /* @__PURE__ */ new Set();
+    if (await branchExists(projectPath, defaultBranch2)) {
+      const { stdout: stdout2 } = await git(
+        projectPath,
+        "rev-list",
+        defaultBranch2,
+        "--not",
+        "--remotes"
+      );
+      for (const line of stdout2.split("\n")) {
+        const hash2 = line.trim();
+        if (hash2) onDefault.add(hash2);
+      }
+    }
+    const { stdout } = await git(
+      projectPath,
+      "log",
+      "--pretty=format:%H%x1f%s%x1f%cI%x1f%S%x1f%b%x1e",
+      "--source",
+      ...revArgs
+    );
+    const commits = stdout.split("").filter((record2) => record2.trim() !== "").map((record2) => {
+      const [hash2, subject, date4, source, body] = record2.replace(/^\n/, "").split("");
+      const reached = (source ?? "").replace(/^refs\/heads\//, "");
+      return {
+        hash: hash2 ?? "",
+        subject: subject ?? "",
+        date: date4 ?? "",
+        body: (body ?? "").trim(),
+        branch: hash2 && onDefault.has(hash2) ? defaultBranch2 : reached
+      };
+    });
+    return { supported: true, defaultBranch: defaultBranch2, count: commits.length, commits };
+  } catch {
+    return UNSUPPORTED;
+  }
+}
+
+// ../lib/git/worktree.ts
+var worktree_exports = {};
+__export(worktree_exports, {
+  createWorktree: () => createWorktree,
+  findCardBranch: () => findCardBranch,
+  findTargetCheckout: () => findTargetCheckout,
+  getWorktreeBaseDir: () => getWorktreeBaseDir,
+  getWorktreePath: () => getWorktreePath,
+  isCwdInsideWorktree: () => isCwdInsideWorktree,
+  listWorktrees: () => listWorktrees,
+  pruneWorktrees: () => pruneWorktrees,
+  removeWorktree: () => removeWorktree,
+  squashMergeFromWorktree: () => squashMergeFromWorktree,
+  worktreeExists: () => worktreeExists
+});
+import { existsSync as existsSync4, mkdirSync as mkdirSync3, realpathSync as realpathSync2 } from "fs";
+import path3, { join } from "path";
+function getWorktreeBaseDir(projectPath) {
+  return join(projectPath, ".worktrees", "kanban");
+}
+function getWorktreePath(projectPath, branchName) {
+  const branchPart = branchName.startsWith("kanban/") ? branchName.slice(7) : branchName;
+  return join(getWorktreeBaseDir(projectPath), branchPart);
+}
+async function worktreeExists(projectPath, worktreePath) {
+  try {
+    if (!existsSync4(worktreePath)) {
+      return false;
+    }
+    const { stdout } = await git(projectPath, "worktree", "list", "--porcelain");
+    return stdout.includes(`worktree ${worktreePath}`);
+  } catch {
+    return false;
+  }
+}
+async function listWorktrees(projectPath) {
+  try {
+    const { stdout } = await git(projectPath, "worktree", "list", "--porcelain");
+    const worktrees = [];
+    const entries = stdout.trim().split("\n\n");
+    for (const entry of entries) {
+      if (!entry.trim()) continue;
+      const lines = entry.split("\n");
+      const info = {
+        isLocked: false,
+        isPrunable: false
+      };
+      for (const line of lines) {
+        if (line.startsWith("worktree ")) {
+          info.path = line.slice(9);
+        } else if (line.startsWith("HEAD ")) {
+          info.commit = line.slice(5);
+        } else if (line.startsWith("branch refs/heads/")) {
+          info.branch = line.slice(18);
+        } else if (line === "locked") {
+          info.isLocked = true;
+        } else if (line === "prunable") {
+          info.isPrunable = true;
+        }
+      }
+      if (info.path && info.commit) {
+        worktrees.push(info);
+      }
+    }
+    return worktrees;
+  } catch {
+    return [];
+  }
+}
+async function createWorktree(projectPath, branchName, baseBranch) {
+  const worktreePath = getWorktreePath(projectPath, branchName);
+  const baseDir = getWorktreeBaseDir(projectPath);
+  try {
+    if (!existsSync4(baseDir)) {
+      mkdirSync3(baseDir, { recursive: true });
+      console.log(`[Git Worktree] Created base directory: ${baseDir}`);
+    }
+    if (await worktreeExists(projectPath, worktreePath)) {
+      console.log(`[Git Worktree] Worktree already exists: ${worktreePath}`);
+      return { success: true, worktreePath };
+    }
+    if (await branchExists(projectPath, branchName)) {
+      console.log(`[Git Worktree] Creating worktree for existing branch: ${branchName}`);
+      await git(projectPath, "worktree", "add", worktreePath, branchName);
+    } else {
+      const defaultBranch2 = baseBranch || await getDefaultBranch(projectPath);
+      console.log(`[Git Worktree] Creating new branch and worktree: ${branchName} from ${defaultBranch2}`);
+      await git(
+        projectPath,
+        "worktree",
+        "add",
+        "-b",
+        branchName,
+        worktreePath,
+        defaultBranch2
+      );
+    }
+    console.log(`[Git Worktree] Created worktree at: ${worktreePath}`);
+    return { success: true, worktreePath };
+  } catch (error2) {
+    console.error(`[Git Worktree] Failed to create worktree:`, error2);
+    return {
+      success: false,
+      worktreePath,
+      error: error2 instanceof Error ? error2.message : String(error2)
+    };
+  }
+}
+var silent = () => {
+};
+async function removeWorktree(projectPath, worktreePath, log = silent) {
+  try {
+    if (!await worktreeExists(projectPath, worktreePath)) {
+      log(`[Git Worktree] Worktree doesn't exist, skipping removal: ${worktreePath}`);
+      return { success: true };
+    }
+    log(`[Git Worktree] Removing worktree: ${worktreePath}`);
+    await git(projectPath, "worktree", "remove", "--force", worktreePath);
+    log(`[Git Worktree] Worktree removed successfully`);
+    return { success: true };
+  } catch (error2) {
+    log(`[Git Worktree] Failed to remove worktree: ${error2}`);
+    return {
+      success: false,
+      error: error2 instanceof Error ? error2.message : String(error2)
+    };
+  }
+}
+function isCwdInsideWorktree(worktreePath, cwd = process.cwd()) {
+  const resolve4 = (p) => {
+    try {
+      return realpathSync2(p);
+    } catch {
+      return path3.resolve(p);
+    }
+  };
+  const here = resolve4(cwd);
+  const wt = resolve4(worktreePath);
+  if (here === wt) return true;
+  return here.startsWith(wt + path3.sep);
+}
+async function pruneWorktrees(projectPath, log = silent) {
+  try {
+    log(`[Git Worktree] Pruning stale worktrees...`);
+    await git(projectPath, "worktree", "prune");
+    return { success: true };
+  } catch (error2) {
+    return {
+      success: false,
+      error: error2 instanceof Error ? error2.message : String(error2)
+    };
+  }
+}
+async function findTargetCheckout(projectPath, targetBranch) {
+  if (targetBranch === await getDefaultBranch(projectPath)) return projectPath;
+  const holder = (await listWorktrees(projectPath)).find((wt) => wt.branch === targetBranch);
+  return holder?.path ?? null;
+}
+async function squashMergeFromWorktree(projectPath, branchName, commitMessage, opts = {}) {
+  const log = opts.log ?? silent;
+  try {
+    const defaultBranch2 = await getDefaultBranch(projectPath);
+    const targetBranch = opts.targetBranch || defaultBranch2;
+    const mergeDir = await findTargetCheckout(projectPath, targetBranch);
+    if (!mergeDir) {
+      return {
+        success: false,
+        error: `Branch ${targetBranch} is not checked out anywhere. Check it out in a worktree first; the main checkout is not switched for a merge.`,
+        targetNotCheckedOut: true
+      };
+    }
+    const { stdout: statusOutput } = await git(mergeDir, "status", "--porcelain");
+    if (statusOutput.trim() !== "") {
+      log("[Git Worktree] Uncommitted changes found in main repo, blocking merge");
+      return {
+        success: false,
+        error: "There are uncommitted changes in the main repository. Please commit your changes first.",
+        uncommittedInMain: true
+      };
+    }
+    const currentBranch = await getCurrentBranch(mergeDir);
+    if (currentBranch !== targetBranch) {
+      log(`[Git Worktree] Checking out to ${targetBranch}...`);
+      await git(mergeDir, "checkout", targetBranch);
+    }
+    log(`[Git Worktree] Squash merging ${branchName} into ${targetBranch}...`);
+    await git(mergeDir, "merge", "--squash", branchName);
+    if (await hasStagedChanges(mergeDir)) {
+      await git(mergeDir, ...buildCommitArgs(commitMessage));
+      log("[Git Worktree] Squash merge committed successfully");
+      return { success: true };
+    }
+    log(`[Git Worktree] No changes to commit - branch has no commits different from ${targetBranch}`);
+    return {
+      success: false,
+      error: `No changes to merge - branch has no commits different from ${targetBranch}`
+    };
+  } catch (error2) {
+    return {
+      success: false,
+      error: error2 instanceof Error ? error2.message : String(error2)
+    };
+  }
+}
+async function findCardBranch(projectPath, idPrefix, taskNumber) {
+  const prefix = `kanban/${idPrefix}-${taskNumber}-`;
+  const names = /* @__PURE__ */ new Set();
+  try {
+    const { stdout } = await git(
+      projectPath,
+      "branch",
+      "--list",
+      "--format=%(refname:short)",
+      `${prefix}*`
+    );
+    for (const line of stdout.split("\n")) {
+      const name = line.trim();
+      if (name.startsWith(prefix)) names.add(name);
+    }
+  } catch {
+    return null;
+  }
+  if (names.size !== 1) return null;
+  const [branchName] = names;
+  const worktree = (await listWorktrees(projectPath)).find(
+    (w2) => w2.branch === branchName && !w2.isPrunable && existsSync4(w2.path)
+  );
+  return { branchName, worktreePath: worktree?.path ?? null };
+}
+
+// ../lib/group-code.ts
+var GROUP_CODE_MAX = 6;
+function normalizeGroupCode(raw) {
+  return raw.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, GROUP_CODE_MAX);
+}
+
+// ../lib/card-ops/groups.ts
+var present = /* @__PURE__ */ new WeakMap();
+function hasIntegrationColumns(db2) {
+  if (present.get(db2)) return true;
+  const groups = db2.prepare(`PRAGMA table_info("card_groups")`).all();
+  const cards = db2.prepare(`PRAGMA table_info("cards")`).all();
+  const found = groups.some((c) => c.name === "integration_branch") && cards.some((c) => c.name === "chain_merged_at");
+  if (found) present.set(db2, true);
+  return found;
+}
+function integrationBranchName(code, groupId) {
+  const slug = code.toLowerCase().replace(/[^a-z0-9]+/g, "") || "chain";
+  return `chain/${slug}-${groupId.replace(/-/g, "").slice(0, 6)}`;
+}
+var DEFAULT_GROUP_COLOR = "#5e6ad2";
+function normalizeGroupId(value) {
+  if (value === void 0) return void 0;
+  return typeof value === "string" && value.trim() ? value.trim() : null;
+}
+var CardGroupError = class extends Error {
+  constructor(message, kind = "invalid", clash) {
+    super(message);
+    this.kind = kind;
+    this.clash = clash;
+    this.name = "CardGroupError";
+  }
+  kind;
+  clash;
+};
+function assertGroupsTable(db2) {
+  const row = getRow(db2, `SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'card_groups'`);
+  if (!row) {
+    throw new CardGroupError(
+      "This Ideafy database has no card groups yet. Update the Ideafy app, then try again."
+    );
+  }
+}
+var archiveColumnCache = /* @__PURE__ */ new WeakMap();
+function hasArchiveColumn(db2) {
+  const cached2 = archiveColumnCache.get(db2);
+  if (cached2 !== void 0) return cached2;
+  const has = allRows(db2, `PRAGMA table_info(card_groups)`).some(
+    (column) => column.name === "archived_at"
+  );
+  archiveColumnCache.set(db2, has);
+  return has;
+}
+function assertProjectExists(db2, projectId) {
+  if (!getRow(db2, `SELECT id FROM projects WHERE id = ?`, projectId)) {
+    throw new CardGroupError(`Project not found: ${projectId}`);
+  }
+}
+function selectGroups(db2) {
+  return `
+  SELECT
+    g.id, g.project_id AS projectId, g.code, g.name, g.color, g.created_at AS createdAt,
+    ${hasArchiveColumn(db2) ? "g.archived_at" : "NULL"} AS archivedAt,
+    ${hasIntegrationColumns(db2) ? "g.integration_branch AS integrationBranch, g.merged_commit AS mergedCommit," : ""}
+    (SELECT COUNT(*) FROM cards c WHERE c.group_id = g.id) AS memberCount
+  FROM card_groups g
+`;
+}
+function getGroup(db2, id) {
+  assertGroupsTable(db2);
+  return getRow(db2, `${selectGroups(db2)} WHERE g.id = ?`, id) ?? null;
+}
+function listGroups(db2, projectId, { includeArchived = true } = {}) {
+  assertGroupsTable(db2);
+  const rows = projectId ? allRows(
+    db2,
+    `${selectGroups(db2)} WHERE g.project_id IS NULL OR g.project_id = ? ORDER BY g.code`,
+    projectId
+  ) : allRows(db2, `${selectGroups(db2)} ORDER BY g.code`);
+  return includeArchived ? rows : rows.filter((g) => !g.archivedAt);
+}
+function memberProgress(db2, groupId) {
+  const row = getRow(
+    db2,
+    `SELECT COUNT(*) AS total, SUM(status NOT IN ('completed', 'withdrawn')) AS open FROM cards WHERE group_id = ?`,
+    groupId
+  );
+  return { total: Number(row?.total ?? 0), open: Number(row?.open ?? 0) };
+}
+function findCodeClash(db2, code, projectId, exceptId) {
+  const candidates = listGroups(db2, projectId ?? void 0, { includeArchived: false });
+  return candidates.find((g) => g.id !== exceptId && g.code.toUpperCase() === code) ?? null;
+}
+function codeClashError(db2, code, clash) {
+  const { total, open } = memberProgress(db2, clash.id);
+  const finished = total > 0 && open === 0;
+  const detail = { id: clash.id, code: clash.code, name: clash.name, finished, done: total - open, total };
+  if (finished) {
+    return new CardGroupError(
+      `Code ${code} is taken by a finished chain: ${clash.id} (${clash.name}), ${total}/${total} cards completed or withdrawn. Do not add new work to it unless this card continues that exact work. To reuse the code, archive it with update_group({ id: "${clash.id}", archived: true }) and call create_group again, or pick another code (e.g. ${suggestCode(code)}).`,
+      "conflict",
+      detail
+    );
+  }
+  return new CardGroupError(
+    `A chain with code ${code} already exists: ${clash.id} (${clash.name}). Use that id as groupId instead of creating a new one.`,
+    "conflict",
+    detail
+  );
+}
+function suggestCode(code) {
+  const match = /^(.*?)(\d+)$/.exec(code);
+  const next = match ? `${match[1]}${Number(match[2]) + 1}` : `${code}2`;
+  return next.length <= GROUP_CODE_MAX ? next : `${code.slice(0, GROUP_CODE_MAX - 1)}2`;
+}
+function assertGroupAssignable(db2, groupId, projectId) {
+  if (groupId === null || groupId === void 0) return;
+  const group = getGroup(db2, groupId);
+  if (!group) {
+    throw new CardGroupError(`Chain not found: ${groupId}. Call list_groups for valid ids, or create_group first.`);
+  }
+  if (group.projectId && projectId && group.projectId !== projectId) {
+    throw new CardGroupError(
+      `Chain ${group.code} belongs to another project (${group.projectId}); this card is in ${projectId}.`
+    );
+  }
+  if (group.archivedAt) {
+    throw new CardGroupError(
+      `Chain ${group.code} is archived. Unarchive it with update_group({ id: "${group.id}", archived: false }) or create a new chain.`,
+      "conflict"
+    );
+  }
+}
+function createGroup(db2, input, now = (/* @__PURE__ */ new Date()).toISOString()) {
+  assertGroupsTable(db2);
+  const code = normalizeGroupCode(input.code ?? "");
+  if (!code) {
+    throw new CardGroupError("Chain code is required: letters and digits, up to 6 characters (e.g. MOBILE).");
+  }
+  const projectId = input.projectId || null;
+  if (projectId) assertProjectExists(db2, projectId);
+  const clash = findCodeClash(db2, code, projectId, null);
+  if (clash) throw codeClashError(db2, code, clash);
+  const row = {
+    id: globalThis.crypto.randomUUID(),
+    projectId,
+    code,
+    // A nameless group reads as its code — the backfill writes the same.
+    name: input.name?.trim() || code,
+    // Not sent: the picker's default, so a terminal-made group does not show
+    // up grey next to hand-made ones. An explicit null or "" means no color.
+    color: input.color === void 0 ? DEFAULT_GROUP_COLOR : input.color || null,
+    createdAt: now,
+    archivedAt: null
+  };
+  runChanges(
+    db2,
+    `INSERT INTO card_groups (id, project_id, code, name, color, created_at) VALUES (?, ?, ?, ?, ?, ?)`,
+    row.id,
+    row.projectId,
+    row.code,
+    row.name,
+    row.color,
+    row.createdAt
+  );
+  let integrationBranch = null;
+  if (input.integrationBranch && hasIntegrationColumns(db2)) {
+    integrationBranch = integrationBranchName(code, row.id);
+    runChanges(db2, `UPDATE card_groups SET integration_branch = ? WHERE id = ?`, integrationBranch, row.id);
+  }
+  return { ...row, memberCount: 0, integrationBranch, mergedCommit: null };
+}
+function updateGroup(db2, id, updates, now = (/* @__PURE__ */ new Date()).toISOString()) {
+  const existing = getGroup(db2, id);
+  if (!existing) throw new CardGroupError(`Chain not found: ${id}`, "not_found");
+  const code = updates.code !== void 0 ? normalizeGroupCode(String(updates.code)) : existing.code;
+  const name = updates.name !== void 0 ? String(updates.name).trim() : existing.name;
+  if (!code || !name) throw new CardGroupError("Chain code and name cannot be empty.");
+  const color = updates.color !== void 0 ? updates.color || null : existing.color;
+  const projectId = updates.projectId !== void 0 ? updates.projectId || null : existing.projectId;
+  const wasArchived = Boolean(existing.archivedAt);
+  const archived = updates.archived !== void 0 ? Boolean(updates.archived) : wasArchived;
+  if (code === existing.code && name === existing.name && color === existing.color && projectId === existing.projectId && archived === wasArchived) {
+    return existing;
+  }
+  if (archived !== wasArchived && !hasArchiveColumn(db2)) {
+    throw new CardGroupError("This Ideafy database cannot archive groups yet. Update the Ideafy app, then try again.");
+  }
+  if (archived && !wasArchived) {
+    const { open } = memberProgress(db2, id);
+    if (open > 0) {
+      throw new CardGroupError(
+        `Chain ${existing.code} has ${open} open card(s); finish or move them before archiving.`,
+        "conflict"
+      );
+    }
+  }
+  if (projectId !== existing.projectId && projectId) {
+    assertProjectExists(db2, projectId);
+    const strays = getRow(
+      db2,
+      `SELECT COUNT(*) AS count FROM cards WHERE group_id = ? AND project_id IS NOT NULL AND project_id != ?`,
+      id,
+      projectId
+    );
+    if (Number(strays?.count ?? 0) > 0) {
+      throw new CardGroupError(
+        `Chain ${existing.code} has ${strays.count} card(s) from another project; move them out of the chain first, or keep it global.`,
+        "conflict"
+      );
+    }
+  }
+  const unarchiving = wasArchived && !archived;
+  if (!archived && (unarchiving || code !== existing.code || projectId !== existing.projectId)) {
+    const clash = findCodeClash(db2, code, projectId, id);
+    if (clash && unarchiving && code === existing.code) {
+      if (memberProgress(db2, clash.id).total === 0) {
+        throw new CardGroupError(
+          `Code ${code} is held by an empty chain ${clash.id} (${clash.name}) with no cards. Delete it with delete_group({ id: "${clash.id}" }) and unarchive again, or change this chain's code in the same call.`,
+          "conflict"
+        );
+      }
+      throw new CardGroupError(
+        `Code ${code} is now used by chain ${clash.id} (${clash.name}); change this chain's code in the same call to unarchive it.`,
+        "conflict"
+      );
+    }
+    if (clash) {
+      throw new CardGroupError(`Code ${code} is already used by chain ${clash.id} (${clash.name}).`, "conflict");
+    }
+  }
+  const archivedAt = archived ? existing.archivedAt ?? now : null;
+  if (hasArchiveColumn(db2)) {
+    runChanges(
+      db2,
+      `UPDATE card_groups SET project_id = ?, code = ?, name = ?, color = ?, archived_at = ? WHERE id = ?`,
+      projectId,
+      code,
+      name,
+      color,
+      archivedAt,
+      id
+    );
+  } else {
+    runChanges(
+      db2,
+      `UPDATE card_groups SET project_id = ?, code = ?, name = ?, color = ? WHERE id = ?`,
+      projectId,
+      code,
+      name,
+      color,
+      id
+    );
+  }
+  return { ...existing, projectId, code, name, color, archivedAt };
+}
+function deleteGroup(db2, id) {
+  return transaction(db2, () => {
+    const group = getGroup(db2, id);
+    if (!group) throw new CardGroupError(`Chain not found: ${id}`, "not_found");
+    const { changes } = runChanges(db2, `UPDATE cards SET group_id = NULL WHERE group_id = ?`, id);
+    runChanges(db2, `DELETE FROM card_groups WHERE id = ?`, id);
+    return { group, releasedCards: changes };
+  });
+}
+function moveCardInChain(db2, cardId, afterCardId, expectedGroupId) {
+  if (afterCardId === cardId) {
+    throw new CardGroupError("afterCardId cannot be the card itself.");
+  }
+  return transaction(db2, () => {
+    const card = getRow(db2, `SELECT group_id AS groupId FROM cards WHERE id = ?`, cardId);
+    if (!card) throw new CardGroupError(`Card not found: ${cardId}`, "not_found");
+    if (expectedGroupId !== void 0 && card.groupId !== expectedGroupId) {
+      throw new CardGroupError("Card is not in this chain.");
+    }
+    if (!card.groupId) {
+      throw new CardGroupError(
+        "This card is in no chain, so it has nothing to order. Pass groupId in the same call to add it to one."
+      );
+    }
+    const members = allRows(
+      db2,
+      `SELECT id, group_order AS groupOrder, task_number AS taskNumber FROM cards WHERE group_id = ?`,
+      card.groupId
+    );
+    if (afterCardId !== null && !members.some((member) => member.id === afterCardId)) {
+      throw new CardGroupError("afterCardId is not in this card's chain. Call list_groups to see the chain.");
+    }
+    const current = [...members].sort(compareByChainOrder);
+    const ids = placeAfter(members, cardId, afterCardId);
+    const position = ids.indexOf(cardId) + 1;
+    if (ids.every((id, index) => id === current[index].id)) {
+      return {
+        groupId: card.groupId,
+        position,
+        total: ids.length,
+        order: current.map((member) => ({ id: member.id, groupOrder: member.groupOrder })),
+        changed: false
+      };
+    }
+    const write = db2.prepare(`UPDATE cards SET group_order = ? WHERE id = ?`);
+    ids.forEach((id, index) => write.run(index + 1, id));
+    return {
+      groupId: card.groupId,
+      position,
+      total: ids.length,
+      order: ids.map((id, index) => ({ id, groupOrder: index + 1 })),
+      changed: true
+    };
+  });
+}
+
+// ../lib/card-ops/integration-branch.ts
+function getIntegrationGroup(db2, groupId) {
+  if (!hasIntegrationColumns(db2)) return null;
+  return getRow(
+    db2,
+    `SELECT g.id, g.code, g.name, g.project_id AS projectId,
+              g.integration_branch AS integrationBranch, g.merged_commit AS mergedCommit,
+              p.folder_path AS folderPath
+       FROM card_groups g LEFT JOIN projects p ON p.id = g.project_id
+       WHERE g.id = ?`,
+    groupId
+  ) ?? null;
+}
+function cardIntegrationGroup(db2, cardId) {
+  if (!hasIntegrationColumns(db2)) return null;
+  const row = getRow(db2, `SELECT group_id AS groupId FROM cards WHERE id = ?`, cardId);
+  if (!row?.groupId) return null;
+  const group = getIntegrationGroup(db2, row.groupId);
+  return group?.integrationBranch && !group.mergedCommit ? group : null;
+}
+function integrationWorktreePath(projectPath, branch) {
+  return join2(getWorktreeBaseDir(projectPath), "..", branch);
+}
+async function checkedOutAt(projectPath, branch) {
+  try {
+    const { stdout } = await git(projectPath, "worktree", "list", "--porcelain");
+    let path9 = null;
+    for (const line of stdout.split("\n")) {
+      if (line.startsWith("worktree ")) path9 = line.slice("worktree ".length);
+      else if (line === `branch refs/heads/${branch}` && path9) return path9;
+    }
+  } catch {
+  }
+  return null;
+}
+async function ensureIntegrationBranch(db2, groupId, opts = {}) {
+  const log = opts.log ?? (() => {
+  });
+  const group = getIntegrationGroup(db2, groupId);
+  if (!group?.integrationBranch || group.mergedCommit) return { kind: "notIntegration" };
+  const workingDir = opts.projectPath || group.folderPath;
+  if (!workingDir || !await isGitRepo(workingDir)) return { kind: "notRepo", workingDir: workingDir ?? "" };
+  const branch = group.integrationBranch;
+  try {
+    const holder = await checkedOutAt(workingDir, branch);
+    if (holder) return { kind: "ok", branch, worktreePath: holder, created: false };
+    const worktreePath = integrationWorktreePath(workingDir, branch);
+    const parent = join2(worktreePath, "..");
+    if (!existsSync5(parent)) mkdirSync4(parent, { recursive: true });
+    let created = false;
+    if (await branchExists(workingDir, branch)) {
+      await git(workingDir, "worktree", "add", worktreePath, branch);
+    } else {
+      const base = await getDefaultBranch(workingDir);
+      await git(workingDir, "worktree", "add", "-b", branch, worktreePath, base);
+      created = true;
+    }
+    log(`[Chain] ${branch} checked out at ${worktreePath}`);
+    return { kind: "ok", branch, worktreePath, created };
+  } catch (error2) {
+    return { kind: "failed", error: error2 instanceof Error ? error2.message : String(error2) };
+  }
+}
+async function cardBaseBranch(db2, cardId, opts = {}) {
+  const group = cardIntegrationGroup(db2, cardId);
+  if (!group) return void 0;
+  const ensured = await ensureIntegrationBranch(db2, group.id, opts);
+  return ensured.kind === "ok" ? ensured.branch : void 0;
+}
+async function syncMainIntoChain(db2, groupId, opts = {}) {
+  const log = opts.log ?? (() => {
+  });
+  const ensured = await ensureIntegrationBranch(db2, groupId, opts);
+  if (ensured.kind !== "ok") return ensured;
+  const { branch, worktreePath } = ensured;
+  try {
+    const main2 = await getDefaultBranch(worktreePath);
+    const { stdout: behind } = await git(worktreePath, "rev-list", "--count", `${branch}..${main2}`);
+    if (parseInt(behind.trim(), 10) === 0) return { kind: "ok", branch, worktreePath, merged: false };
+    try {
+      await git(worktreePath, "merge", "--no-ff", "--no-edit", main2, "-m", `Merge ${main2} into ${branch}`);
+      log(`[Chain] ${main2} merged into ${branch}`);
+      return { kind: "ok", branch, worktreePath, merged: true };
+    } catch (mergeError) {
+      const { stdout } = await git(worktreePath, "diff", "--name-only", "--diff-filter=U").catch(() => ({ stdout: "" }));
+      const files = stdout.trim().split("\n").filter(Boolean);
+      await git(worktreePath, "merge", "--abort").catch(() => void 0);
+      if (files.length === 0) {
+        return { kind: "failed", error: mergeError instanceof Error ? mergeError.message : String(mergeError) };
+      }
+      log(`[Chain] ${main2} \u2192 ${branch} conflicts in ${files.join(", ")}`);
+      return { kind: "conflict", branch, worktreePath, files };
+    }
+  } catch (error2) {
+    return { kind: "failed", error: error2 instanceof Error ? error2.message : String(error2) };
+  }
+}
+function chainConflictText(branch, files, worktreePath) {
+  return `Merging main into ${branch} conflicts in ${files.length} file${files.length === 1 ? "" : "s"}: ${files.join(", ")}. The merge was aborted and ${branch} is untouched. Resolve it by hand in ${worktreePath} (git merge main, fix, commit), then start again.`;
+}
+function inChainMembers(db2, groupId) {
+  return allRows(
+    db2,
+    `SELECT id, git_branch_name AS gitBranchName FROM cards
+     WHERE group_id = ? AND git_branch_status = 'in_chain'`,
+    groupId
+  );
+}
+async function rollbackChain(db2, groupId, opts = {}) {
+  const log = opts.log ?? (() => {
+  });
+  const now = opts.now ?? (() => (/* @__PURE__ */ new Date()).toISOString());
+  const group = getIntegrationGroup(db2, groupId);
+  if (!group?.integrationBranch) return { kind: "notIntegration" };
+  if (group.mergedCommit) return { kind: "alreadyMerged", mergedCommit: group.mergedCommit };
+  const workingDir = group.folderPath;
+  if (!workingDir || !await isGitRepo(workingDir)) return { kind: "notRepo", workingDir: workingDir ?? "" };
+  const branch = group.integrationBranch;
+  const holder = await checkedOutAt(workingDir, branch);
+  if (holder) {
+    const removed = await removeWorktree(workingDir, holder, log);
+    if (!removed.success) log(`[Chain] Failed to remove ${holder}: ${removed.error}`);
+  }
+  await git(workingDir, "branch", "-D", "--", branch).catch(() => void 0);
+  await pruneWorktrees(workingDir, log);
+  const members = inChainMembers(db2, groupId);
+  transaction(db2, () => {
+    for (const member of members) {
+      setCardRuntime(db2, member.id, { gitBranchStatus: "active", gitWorktreePath: null, gitWorktreeStatus: "removed" }, now());
+      runChanges(db2, `UPDATE cards SET chain_merged_at = NULL, chain_merge_commit = NULL WHERE id = ?`, member.id);
+    }
+  });
+  log(`[Chain] ${branch} rolled back, ${members.length} card(s) back to an active branch`);
+  return { kind: "ok", branch, restored: members.length };
+}
+function isChainParent(db2, cardId, groupId) {
+  const columns = db2.prepare(`PRAGMA table_info("cards")`).all();
+  if (!columns.some((c) => c.name === "split_from_card_id")) return false;
+  return !!getRow(
+    db2,
+    `SELECT id FROM cards WHERE group_id = ? AND split_from_card_id = ? LIMIT 1`,
+    groupId,
+    cardId
+  );
+}
+function chainMergeForCard(db2, cardId) {
+  const card = getRow(
+    db2,
+    `SELECT status, git_branch_status AS gitBranchStatus, group_id AS groupId FROM cards WHERE id = ?`,
+    cardId
+  );
+  if (!card?.groupId || card.status !== "test") return null;
+  if (card.gitBranchStatus === "in_chain") return "in-chain";
+  const group = cardIntegrationGroup(db2, cardId);
+  if (!group || isChainParent(db2, cardId, group.id)) return null;
+  return "into-chain";
+}
+function chainTipFor(db2, cardId, repo) {
+  const group = cardIntegrationGroup(db2, cardId);
+  if (!group?.integrationBranch) return null;
+  const sha = gitRead(repo, ["rev-parse", "--verify", "--quiet", `refs/heads/${group.integrationBranch}`]);
+  return sha && /^[0-9a-f]{40}$/.test(sha) ? { ref: group.integrationBranch, sha } : null;
+}
+
 // ../lib/card-ops/base-commit.ts
 var COLUMN = {
   plan: "plan_base_commit",
   tests: "tests_base_commit"
 };
-var present = /* @__PURE__ */ new WeakMap();
+var present2 = /* @__PURE__ */ new WeakMap();
 function hasBaseCommitColumns(db2) {
-  if (present.get(db2)) return true;
+  if (present2.get(db2)) return true;
   const columns = db2.prepare(`PRAGMA table_info("cards")`).all();
   const found = columns.some((column) => column.name === "tests_base_commit");
-  if (found) present.set(db2, true);
+  if (found) present2.set(db2, true);
   return found;
 }
 function cardRepoFolder(db2, cardId) {
@@ -25145,7 +26121,13 @@ function cardRepoFolder(db2, cardId) {
 function cardHead(db2, cardId) {
   try {
     const folder = cardRepoFolder(db2, cardId);
-    return folder ? currentHead(folder) : null;
+    if (!folder) return null;
+    const inChain = getRow(db2, `SELECT git_branch_status AS status FROM cards WHERE id = ?`, cardId);
+    if (inChain?.status === "in_chain") {
+      const tip = chainTipFor(db2, cardId, folder);
+      if (tip) return tip.sha;
+    }
+    return currentHead(folder);
   } catch {
     return null;
   }
@@ -25486,11 +26468,11 @@ function summarizeAuthorship(input) {
 // ../lib/card-ops/authorship.ts
 var AUTHORSHIP_FIELDS = ["description", "aiOpinion", "solutionSummary", "testScenarios"];
 var EDIT_COALESCE_MS = 5 * 60 * 1e3;
-var present2 = /* @__PURE__ */ new WeakSet();
+var present3 = /* @__PURE__ */ new WeakSet();
 function hasAuthorshipTable(db2) {
-  if (present2.has(db2)) return true;
+  if (present3.has(db2)) return true;
   const found = !!getRow(db2, "SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'card_authorship'");
-  if (found) present2.add(db2);
+  if (found) present3.add(db2);
   return found;
 }
 function textOf(html) {
@@ -25946,7 +26928,9 @@ function driftSince(db2, cardId, field) {
     }
     const watched = [...files].filter((file2) => !isGenerated(file2)).slice(0, MAX_FILES);
     if (watched.length === 0) return null;
-    const log = gitRead(repo, ["log", "--format=%H%x1f%s%x1f%b%x1e", `${base}..HEAD`, "--", ...watched]);
+    const chainTip = chainTipFor(db2, cardId, repo);
+    const tip = chainTip?.ref ?? "HEAD";
+    const log = gitRead(repo, ["log", "--format=%H%x1f%s%x1f%b%x1e", `${base}..${tip}`, "--", ...watched]);
     if (log === null) return null;
     const ownTrailer = displayId ? new RegExp(`^Card: ${escapeRegExp2(displayId)}\\s*$`, "m") : null;
     const commits = [];
@@ -25956,7 +26940,7 @@ function driftSince(db2, cardId, field) {
       if (ownTrailer?.test(body ?? "")) continue;
       commits.push({ sha: sha.trim(), subject: (subject ?? "").trim() });
     }
-    return { base, files: watched, commits: commits.slice(0, MAX_LISTED), total: commits.length, head: currentHead(repo) };
+    return { base, files: watched, commits: commits.slice(0, MAX_LISTED), total: commits.length, head: chainTip?.sha ?? currentHead(repo) };
   } catch {
     return null;
   }
@@ -26100,299 +27084,6 @@ function addTestReportWarnings(db2, args) {
       args.id
     );
     return { ok: true, runs, dropped };
-  });
-}
-
-// ../lib/group-code.ts
-var GROUP_CODE_MAX = 6;
-function normalizeGroupCode(raw) {
-  return raw.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, GROUP_CODE_MAX);
-}
-
-// ../lib/card-ops/groups.ts
-var DEFAULT_GROUP_COLOR = "#5e6ad2";
-function normalizeGroupId(value) {
-  if (value === void 0) return void 0;
-  return typeof value === "string" && value.trim() ? value.trim() : null;
-}
-var CardGroupError = class extends Error {
-  constructor(message, kind = "invalid", clash) {
-    super(message);
-    this.kind = kind;
-    this.clash = clash;
-    this.name = "CardGroupError";
-  }
-  kind;
-  clash;
-};
-function assertGroupsTable(db2) {
-  const row = getRow(db2, `SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'card_groups'`);
-  if (!row) {
-    throw new CardGroupError(
-      "This Ideafy database has no card groups yet. Update the Ideafy app, then try again."
-    );
-  }
-}
-var archiveColumnCache = /* @__PURE__ */ new WeakMap();
-function hasArchiveColumn(db2) {
-  const cached2 = archiveColumnCache.get(db2);
-  if (cached2 !== void 0) return cached2;
-  const has = allRows(db2, `PRAGMA table_info(card_groups)`).some(
-    (column) => column.name === "archived_at"
-  );
-  archiveColumnCache.set(db2, has);
-  return has;
-}
-function assertProjectExists(db2, projectId) {
-  if (!getRow(db2, `SELECT id FROM projects WHERE id = ?`, projectId)) {
-    throw new CardGroupError(`Project not found: ${projectId}`);
-  }
-}
-function selectGroups(db2) {
-  return `
-  SELECT
-    g.id, g.project_id AS projectId, g.code, g.name, g.color, g.created_at AS createdAt,
-    ${hasArchiveColumn(db2) ? "g.archived_at" : "NULL"} AS archivedAt,
-    (SELECT COUNT(*) FROM cards c WHERE c.group_id = g.id) AS memberCount
-  FROM card_groups g
-`;
-}
-function getGroup(db2, id) {
-  assertGroupsTable(db2);
-  return getRow(db2, `${selectGroups(db2)} WHERE g.id = ?`, id) ?? null;
-}
-function listGroups(db2, projectId, { includeArchived = true } = {}) {
-  assertGroupsTable(db2);
-  const rows = projectId ? allRows(
-    db2,
-    `${selectGroups(db2)} WHERE g.project_id IS NULL OR g.project_id = ? ORDER BY g.code`,
-    projectId
-  ) : allRows(db2, `${selectGroups(db2)} ORDER BY g.code`);
-  return includeArchived ? rows : rows.filter((g) => !g.archivedAt);
-}
-function memberProgress(db2, groupId) {
-  const row = getRow(
-    db2,
-    `SELECT COUNT(*) AS total, SUM(status NOT IN ('completed', 'withdrawn')) AS open FROM cards WHERE group_id = ?`,
-    groupId
-  );
-  return { total: Number(row?.total ?? 0), open: Number(row?.open ?? 0) };
-}
-function findCodeClash(db2, code, projectId, exceptId) {
-  const candidates = listGroups(db2, projectId ?? void 0, { includeArchived: false });
-  return candidates.find((g) => g.id !== exceptId && g.code.toUpperCase() === code) ?? null;
-}
-function codeClashError(db2, code, clash) {
-  const { total, open } = memberProgress(db2, clash.id);
-  const finished = total > 0 && open === 0;
-  const detail = { id: clash.id, code: clash.code, name: clash.name, finished, done: total - open, total };
-  if (finished) {
-    return new CardGroupError(
-      `Code ${code} is taken by a finished chain: ${clash.id} (${clash.name}), ${total}/${total} cards completed or withdrawn. Do not add new work to it unless this card continues that exact work. To reuse the code, archive it with update_group({ id: "${clash.id}", archived: true }) and call create_group again, or pick another code (e.g. ${suggestCode(code)}).`,
-      "conflict",
-      detail
-    );
-  }
-  return new CardGroupError(
-    `A chain with code ${code} already exists: ${clash.id} (${clash.name}). Use that id as groupId instead of creating a new one.`,
-    "conflict",
-    detail
-  );
-}
-function suggestCode(code) {
-  const match = /^(.*?)(\d+)$/.exec(code);
-  const next = match ? `${match[1]}${Number(match[2]) + 1}` : `${code}2`;
-  return next.length <= GROUP_CODE_MAX ? next : `${code.slice(0, GROUP_CODE_MAX - 1)}2`;
-}
-function assertGroupAssignable(db2, groupId, projectId) {
-  if (groupId === null || groupId === void 0) return;
-  const group = getGroup(db2, groupId);
-  if (!group) {
-    throw new CardGroupError(`Chain not found: ${groupId}. Call list_groups for valid ids, or create_group first.`);
-  }
-  if (group.projectId && projectId && group.projectId !== projectId) {
-    throw new CardGroupError(
-      `Chain ${group.code} belongs to another project (${group.projectId}); this card is in ${projectId}.`
-    );
-  }
-  if (group.archivedAt) {
-    throw new CardGroupError(
-      `Chain ${group.code} is archived. Unarchive it with update_group({ id: "${group.id}", archived: false }) or create a new chain.`,
-      "conflict"
-    );
-  }
-}
-function createGroup(db2, input, now = (/* @__PURE__ */ new Date()).toISOString()) {
-  assertGroupsTable(db2);
-  const code = normalizeGroupCode(input.code ?? "");
-  if (!code) {
-    throw new CardGroupError("Chain code is required: letters and digits, up to 6 characters (e.g. MOBILE).");
-  }
-  const projectId = input.projectId || null;
-  if (projectId) assertProjectExists(db2, projectId);
-  const clash = findCodeClash(db2, code, projectId, null);
-  if (clash) throw codeClashError(db2, code, clash);
-  const row = {
-    id: globalThis.crypto.randomUUID(),
-    projectId,
-    code,
-    // A nameless group reads as its code — the backfill writes the same.
-    name: input.name?.trim() || code,
-    // Not sent: the picker's default, so a terminal-made group does not show
-    // up grey next to hand-made ones. An explicit null or "" means no color.
-    color: input.color === void 0 ? DEFAULT_GROUP_COLOR : input.color || null,
-    createdAt: now,
-    archivedAt: null
-  };
-  runChanges(
-    db2,
-    `INSERT INTO card_groups (id, project_id, code, name, color, created_at) VALUES (?, ?, ?, ?, ?, ?)`,
-    row.id,
-    row.projectId,
-    row.code,
-    row.name,
-    row.color,
-    row.createdAt
-  );
-  return { ...row, memberCount: 0 };
-}
-function updateGroup(db2, id, updates, now = (/* @__PURE__ */ new Date()).toISOString()) {
-  const existing = getGroup(db2, id);
-  if (!existing) throw new CardGroupError(`Chain not found: ${id}`, "not_found");
-  const code = updates.code !== void 0 ? normalizeGroupCode(String(updates.code)) : existing.code;
-  const name = updates.name !== void 0 ? String(updates.name).trim() : existing.name;
-  if (!code || !name) throw new CardGroupError("Chain code and name cannot be empty.");
-  const color = updates.color !== void 0 ? updates.color || null : existing.color;
-  const projectId = updates.projectId !== void 0 ? updates.projectId || null : existing.projectId;
-  const wasArchived = Boolean(existing.archivedAt);
-  const archived = updates.archived !== void 0 ? Boolean(updates.archived) : wasArchived;
-  if (code === existing.code && name === existing.name && color === existing.color && projectId === existing.projectId && archived === wasArchived) {
-    return existing;
-  }
-  if (archived !== wasArchived && !hasArchiveColumn(db2)) {
-    throw new CardGroupError("This Ideafy database cannot archive groups yet. Update the Ideafy app, then try again.");
-  }
-  if (archived && !wasArchived) {
-    const { open } = memberProgress(db2, id);
-    if (open > 0) {
-      throw new CardGroupError(
-        `Chain ${existing.code} has ${open} open card(s); finish or move them before archiving.`,
-        "conflict"
-      );
-    }
-  }
-  if (projectId !== existing.projectId && projectId) {
-    assertProjectExists(db2, projectId);
-    const strays = getRow(
-      db2,
-      `SELECT COUNT(*) AS count FROM cards WHERE group_id = ? AND project_id IS NOT NULL AND project_id != ?`,
-      id,
-      projectId
-    );
-    if (Number(strays?.count ?? 0) > 0) {
-      throw new CardGroupError(
-        `Chain ${existing.code} has ${strays.count} card(s) from another project; move them out of the chain first, or keep it global.`,
-        "conflict"
-      );
-    }
-  }
-  const unarchiving = wasArchived && !archived;
-  if (!archived && (unarchiving || code !== existing.code || projectId !== existing.projectId)) {
-    const clash = findCodeClash(db2, code, projectId, id);
-    if (clash && unarchiving && code === existing.code) {
-      if (memberProgress(db2, clash.id).total === 0) {
-        throw new CardGroupError(
-          `Code ${code} is held by an empty chain ${clash.id} (${clash.name}) with no cards. Delete it with delete_group({ id: "${clash.id}" }) and unarchive again, or change this chain's code in the same call.`,
-          "conflict"
-        );
-      }
-      throw new CardGroupError(
-        `Code ${code} is now used by chain ${clash.id} (${clash.name}); change this chain's code in the same call to unarchive it.`,
-        "conflict"
-      );
-    }
-    if (clash) {
-      throw new CardGroupError(`Code ${code} is already used by chain ${clash.id} (${clash.name}).`, "conflict");
-    }
-  }
-  const archivedAt = archived ? existing.archivedAt ?? now : null;
-  if (hasArchiveColumn(db2)) {
-    runChanges(
-      db2,
-      `UPDATE card_groups SET project_id = ?, code = ?, name = ?, color = ?, archived_at = ? WHERE id = ?`,
-      projectId,
-      code,
-      name,
-      color,
-      archivedAt,
-      id
-    );
-  } else {
-    runChanges(
-      db2,
-      `UPDATE card_groups SET project_id = ?, code = ?, name = ?, color = ? WHERE id = ?`,
-      projectId,
-      code,
-      name,
-      color,
-      id
-    );
-  }
-  return { ...existing, projectId, code, name, color, archivedAt };
-}
-function deleteGroup(db2, id) {
-  return transaction(db2, () => {
-    const group = getGroup(db2, id);
-    if (!group) throw new CardGroupError(`Chain not found: ${id}`, "not_found");
-    const { changes } = runChanges(db2, `UPDATE cards SET group_id = NULL WHERE group_id = ?`, id);
-    runChanges(db2, `DELETE FROM card_groups WHERE id = ?`, id);
-    return { group, releasedCards: changes };
-  });
-}
-function moveCardInChain(db2, cardId, afterCardId, expectedGroupId) {
-  if (afterCardId === cardId) {
-    throw new CardGroupError("afterCardId cannot be the card itself.");
-  }
-  return transaction(db2, () => {
-    const card = getRow(db2, `SELECT group_id AS groupId FROM cards WHERE id = ?`, cardId);
-    if (!card) throw new CardGroupError(`Card not found: ${cardId}`, "not_found");
-    if (expectedGroupId !== void 0 && card.groupId !== expectedGroupId) {
-      throw new CardGroupError("Card is not in this chain.");
-    }
-    if (!card.groupId) {
-      throw new CardGroupError(
-        "This card is in no chain, so it has nothing to order. Pass groupId in the same call to add it to one."
-      );
-    }
-    const members = allRows(
-      db2,
-      `SELECT id, group_order AS groupOrder, task_number AS taskNumber FROM cards WHERE group_id = ?`,
-      card.groupId
-    );
-    if (afterCardId !== null && !members.some((member) => member.id === afterCardId)) {
-      throw new CardGroupError("afterCardId is not in this card's chain. Call list_groups to see the chain.");
-    }
-    const current = [...members].sort(compareByChainOrder);
-    const ids = placeAfter(members, cardId, afterCardId);
-    const position = ids.indexOf(cardId) + 1;
-    if (ids.every((id, index) => id === current[index].id)) {
-      return {
-        groupId: card.groupId,
-        position,
-        total: ids.length,
-        order: current.map((member) => ({ id: member.id, groupOrder: member.groupOrder })),
-        changed: false
-      };
-    }
-    const write = db2.prepare(`UPDATE cards SET group_order = ? WHERE id = ?`);
-    ids.forEach((id, index) => write.run(index + 1, id));
-    return {
-      groupId: card.groupId,
-      position,
-      total: ids.length,
-      order: ids.map((id, index) => ({ id, groupOrder: index + 1 })),
-      changed: true
-    };
   });
 }
 
@@ -27430,7 +28121,11 @@ function queueIneligibleReason(input) {
   if (QUEUE_CLEARING_STATUSES.has(input.status)) return `it is in ${input.status}`;
   if (input.projectMode === "work") return "Work projects have no implementation run";
   if (!input.hasDescription) return "it has no description";
-  if (input.phase === "planning") return "it has no plan yet";
+  if (input.phase === "planning") {
+    if (!input.autopilotPlanning || input.status !== "backlog" && input.status !== "bugs") return "it has no plan yet";
+    if (input.processingType) return "a run is already going on it";
+    return null;
+  }
   if (input.phase !== "implementation") return "it already has a test checklist";
   if (input.hasOpenDecision) return "its plan needs your decision";
   if (input.processingType) return "a run is already going on it";
@@ -27440,7 +28135,7 @@ function sharedWorkingCopyWith(self, ahead) {
   if (self.runsInWorktree) return null;
   for (let i = ahead.length - 1; i >= 0; i--) {
     const other = ahead[i];
-    if (other.id === self.id || other.runsInWorktree || other.kind === "verify") continue;
+    if (other.id === self.id || other.runsInWorktree || other.kind === "verify" || other.kind === "planning") continue;
     if (other.projectId === self.projectId) return other;
   }
   return null;
@@ -27517,22 +28212,6 @@ __export(workspace_exports, {
   shouldUseWorktree: () => shouldUseWorktree,
   worktreeOverrideFor: () => worktreeOverrideFor
 });
-
-// ../lib/git/branch-name.ts
-var branch_name_exports = {};
-__export(branch_name_exports, {
-  generateBranchName: () => generateBranchName,
-  slugify: () => slugify2
-});
-function slugify2(text2) {
-  return text2.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").substring(0, 50);
-}
-function generateBranchName(idPrefix, taskNumber, title) {
-  const slug = slugify2(title);
-  return `kanban/${idPrefix}-${taskNumber}-${slug}`;
-}
-
-// ../lib/workspace.ts
 var OPEN_ADD_PROJECT_EVENT = "ideafy:open-add-project";
 function normalizeProjectMode(v2, fallback = DEFAULT_PROJECT_MODE) {
   return typeof v2 === "string" && PROJECT_MODES.includes(v2) ? v2 : fallback;
@@ -27585,7 +28264,8 @@ var ROW_SELECT = `
          c.project_id AS projectId,
          p.id_prefix AS idPrefix,
          p.mode AS projectMode,
-         p.use_worktrees AS projectUseWorktrees
+         p.use_worktrees AS projectUseWorktrees,
+         c.autopilot_stage AS autopilotStage
   FROM cards c LEFT JOIN projects p ON p.id = c.project_id`;
 function toQueueRow(raw) {
   return {
@@ -27617,14 +28297,16 @@ function queueRowIneligibleReason(row) {
     projectMode: row.projectMode,
     hasCoreFlow: !!core,
     gitBranchStatus: row.gitBranchStatus,
-    hasOpenDecision: hasOpenPlanDecision(row)
+    hasOpenDecision: hasOpenPlanDecision(row),
+    autopilotPlanning: row.autopilotStage === "planning"
   });
   if (reason) return reason;
   if (row.status === "test" && !nextVerifyGroup(progress)) return "its checklist is fully ticked";
   return null;
 }
 function queueKindOf(row) {
-  return detectPhase(row) === "verify" ? "verify" : "implementation";
+  const phase = detectPhase(row);
+  return phase === "verify" ? "verify" : phase === "planning" ? "planning" : "implementation";
 }
 function queuedWaitReason(db2, row) {
   return queueKindOf(row) === "verify" ? null : queueWaitReason(db2, row.id);
@@ -27645,7 +28327,9 @@ function nextQueueStep(db2) {
 }
 function queuedRunsInWorktree(row) {
   const activeWorktree = !!row.gitWorktreePath && row.gitWorktreeStatus === "active";
-  if (queueKindOf(row) === "verify") return activeWorktree;
+  const kind = queueKindOf(row);
+  if (kind === "verify") return activeWorktree;
+  if (kind === "planning") return false;
   const useWorktree = shouldUseWorktree(
     { useWorktree: row.useWorktree },
     { useWorktrees: row.projectUseWorktrees, mode: row.projectMode }
@@ -27738,17 +28422,17 @@ function clearQueue(db2, keep = /* @__PURE__ */ new Set()) {
 }
 
 // ../lib/autopilot.ts
-var AUTOPILOT_STAGES = ["implementing", "verifying", "fixing", "ready", "stopped"];
+var AUTOPILOT_STAGES = ["planning", "implementing", "verifying", "fixing", "ready", "stopped"];
 function isAutopilotStage(value) {
   return typeof value === "string" && AUTOPILOT_STAGES.includes(value);
 }
 function isActiveAutopilotStage(stage) {
-  return stage === "implementing" || stage === "verifying" || stage === "fixing";
+  return stage === "planning" || stage === "implementing" || stage === "verifying" || stage === "fixing";
 }
 function autopilotIneligibleReason(card) {
   if (isActiveAutopilotStage(isAutopilotStage(card.stage) ? card.stage : null)) return "it is already on Autopilot";
   if (card.projectMode === "work") return "Work projects have no Autopilot";
-  if (card.status === "ideation") return "Ideation cards need a plan first \u2014 planning comes with IDE-610";
+  if (card.status === "ideation") return "Ideation cards go to Backlog first";
   if (card.status === "completed" || card.status === "withdrawn") return `it is in ${card.status}`;
   if (card.processingType) return "a run is already going on it";
   if (card.status === "test") {
@@ -27756,7 +28440,7 @@ function autopilotIneligibleReason(card) {
     if (!card.activeWorktree) return "it has no worktree \u2014 a fix round would write to main";
     return null;
   }
-  if (!card.hasPlan) return "no plan yet \u2014 planning comes with IDE-610";
+  if (!card.hasPlan && card.status !== "backlog" && card.status !== "bugs") return "no plan yet";
   if (card.hasChecklist) return "it already has a test checklist";
   if (card.status === "progress" && !card.activeWorktree && card.useWorktree === false) return "its work is on main";
   return null;
@@ -27821,7 +28505,7 @@ function startAutopilot(db2, cardId) {
   const displayId = queueDisplayId(row);
   const refusal = ineligibleReason(row);
   if (refusal) return { ok: false, reason: "ineligible", message: `Cannot send ${displayId} to Autopilot: ${refusal}` };
-  const stage = row.status === "test" ? "verifying" : "implementing";
+  const stage = row.status === "test" ? "verifying" : stripHtml(row.solutionSummary ?? "") === "" ? "planning" : "implementing";
   try {
     return transaction(db2, () => {
       db2.prepare(
@@ -27874,7 +28558,7 @@ function clearAutopilot(db2, cardId, opts = {}) {
 function strandedAutopilotCardIds(db2) {
   return db2.prepare(
     `SELECT id FROM cards
-       WHERE autopilot_stage IN ('implementing', 'verifying', 'fixing')
+       WHERE autopilot_stage IN ('planning', 'implementing', 'verifying', 'fixing')
          AND queue_position IS NULL AND processing_type IS NULL`
   ).all().map((row) => row.id);
 }
@@ -27889,7 +28573,7 @@ function chainMembers(db2, cardId) {
   return allRows(
     db2,
     `SELECT c.id, c.title, c.status, c.task_number AS taskNumber, c.group_order AS groupOrder,
-            c.git_branch_status AS gitBranchStatus, p.id_prefix AS idPrefix, ${split}
+            c.git_branch_status AS gitBranchStatus, c.group_id AS groupId, p.id_prefix AS idPrefix, ${split}
      FROM cards c LEFT JOIN projects p ON p.id = c.project_id
      WHERE c.group_id = ?`,
     ...params
@@ -27930,7 +28614,7 @@ function queuedChainWarningFor(db2, cardId, runningIds = []) {
     const behind = index === -1 ? [] : queue.slice(index + 1);
     const selfInWorktree = queuedRunsInWorktree(self);
     const skip = new Set(
-      ahead.filter((row) => !selfInWorktree && !queuedRunsInWorktree(row) && queueKindOf(row) !== "verify").map((row) => row.id)
+      ahead.filter((row) => !selfInWorktree && !queuedRunsInWorktree(row) && queueKindOf(row) === "implementation").map((row) => row.id)
     );
     const warning = chainOrderWarningFor(db2, cardId, { skip, queuedBehind: new Set(behind.map((row) => row.id)) });
     if (warning && (warning.blockers.length > 0 || warning.withdrawn.length > 0)) {
@@ -28124,7 +28808,7 @@ function acknowledgeWrite(db2, input) {
 }
 
 // ../lib/card-ops/projects.ts
-import * as path3 from "path";
+import * as path4 from "path";
 var OPEN_COLUMNS = ["ideation", "backlog", "bugs", "progress", "test"];
 function toRef4(row) {
   return {
@@ -28138,13 +28822,13 @@ function toRef4(row) {
 function resolveProjectByFolder(db2, dir) {
   if (!dir || typeof dir !== "string") return null;
   const statement = db2.prepare("SELECT * FROM projects WHERE folder_path = ?");
-  let current = path3.resolve(dir);
-  const root = path3.parse(current).root;
+  let current = path4.resolve(dir);
+  const root = path4.parse(current).root;
   for (let i = 0; i < 64; i++) {
     const row = statement.get(current);
     if (row) return toRef4({ ...row });
     if (current === root) return null;
-    const parent = path3.dirname(current);
+    const parent = path4.dirname(current);
     if (parent === current) return null;
     current = parent;
   }
@@ -28162,7 +28846,7 @@ function listProjects(db2, options = {}) {
   if (query) {
     const exact = projects.filter((p) => p.idPrefix.toLowerCase() === query);
     projects = exact.length ? exact : projects.filter(
-      (p) => p.name.toLowerCase().includes(query) || p.idPrefix.toLowerCase().includes(query) || path3.basename(p.folderPath).toLowerCase().includes(query)
+      (p) => p.name.toLowerCase().includes(query) || p.idPrefix.toLowerCase().includes(query) || path4.basename(p.folderPath).toLowerCase().includes(query)
     );
   }
   const counts = db2.prepare(
@@ -28249,26 +28933,26 @@ function projectIdOfCard(db2, cardId) {
 }
 
 // ../lib/linked-folders.ts
-import { existsSync as existsSync3, realpathSync as realpathSync2, statSync as statSync2 } from "fs";
+import { existsSync as existsSync6, realpathSync as realpathSync3, statSync as statSync2 } from "fs";
 import { homedir as homedir2 } from "os";
-import path4 from "path";
+import path5 from "path";
 function parseLinkedFolders(raw) {
   if (!raw) return [];
   try {
     const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed.filter((p) => typeof p === "string" && path4.isAbsolute(p)) : [];
+    return Array.isArray(parsed) ? parsed.filter((p) => typeof p === "string" && path5.isAbsolute(p)) : [];
   } catch {
     return [];
   }
 }
 function isInside2(child, parent) {
-  return child === parent || child.startsWith(parent + path4.sep);
+  return child === parent || child.startsWith(parent + path5.sep);
 }
 function linkedFolderProblem(folder, homeDir = homedir2()) {
-  if (!folder || !path4.isAbsolute(folder)) return "Use an absolute folder path";
+  if (!folder || !path5.isAbsolute(folder)) return "Use an absolute folder path";
   let real;
   try {
-    real = realpathSync2(folder);
+    real = realpathSync3(folder);
     if (!statSync2(real).isDirectory()) return "Not a folder";
   } catch {
     return "Folder not found";
@@ -28276,7 +28960,7 @@ function linkedFolderProblem(folder, homeDir = homedir2()) {
   if (isSensitivePath(folder) || isSensitivePath(real)) return "This folder may hold secrets";
   let realHome = homeDir;
   try {
-    realHome = realpathSync2(homeDir);
+    realHome = realpathSync3(homeDir);
   } catch {
   }
   if (isInside2(realHome, real)) return "Link a project folder, not your home folder or above";
@@ -28287,7 +28971,7 @@ function realLinkedFolders(raw, homeDir) {
   for (const folder of parseLinkedFolders(raw)) {
     if (linkedFolderProblem(folder, homeDir)) continue;
     try {
-      roots.push(realpathSync2(folder));
+      roots.push(realpathSync3(folder));
     } catch {
     }
   }
@@ -28373,12 +29057,13 @@ function flowsHtml(flows) {
   return `<h2>End-to-end</h2><ul data-type="taskList">${items}</ul>`;
 }
 function openChain(db2, parent, now, wanted = {}) {
+  const integrationBranch = wanted.integrationBranch === true;
   const fallback = defaultSplitChain(parent.title);
   const name = wanted.name?.trim() || fallback.name;
   const chosen = normalizeGroupCode(wanted.code ?? "");
   if (chosen) {
     try {
-      return createGroup(db2, { code: chosen, name, projectId: parent.projectId }, now);
+      return createGroup(db2, { code: chosen, name, projectId: parent.projectId, integrationBranch }, now);
     } catch (error2) {
       if (error2 instanceof CardGroupError && error2.kind === "conflict") {
         throw new SplitCardError(`The chain code ${chosen} is taken. Pick another code or an existing chain.`, "conflict");
@@ -28390,7 +29075,7 @@ function openChain(db2, parent, now, wanted = {}) {
   for (let n = 1; n <= 9; n += 1) {
     const code = n === 1 ? base : `${base.slice(0, GROUP_CODE_MAX - 1)}${n}`;
     try {
-      return createGroup(db2, { code, name, projectId: parent.projectId }, now);
+      return createGroup(db2, { code, name, projectId: parent.projectId, integrationBranch }, now);
     } catch (error2) {
       if (!(error2 instanceof CardGroupError) || error2.kind !== "conflict") throw error2;
     }
@@ -28500,240 +29185,6 @@ function splitCard(db2, args) {
   });
 }
 
-// ../lib/card-ops/merge-card.ts
-import { existsSync as existsSync6, readFileSync as readFileSync3 } from "fs";
-
-// ../lib/git/core.ts
-var core_exports3 = {};
-__export(core_exports3, {
-  buildCommitArgs: () => buildCommitArgs,
-  generateBranchName: () => generateBranchName,
-  git: () => git,
-  slugify: () => slugify2
-});
-import { execFile } from "child_process";
-import { promisify } from "util";
-var execFileAsync = promisify(execFile);
-async function git(cwd, ...args) {
-  return execFileAsync("git", args, { cwd });
-}
-function buildCommitArgs(commitMessage) {
-  const [title, ...bodyParts] = commitMessage.split("\n\n");
-  const body = bodyParts.join("\n\n");
-  const args = ["commit", "-m", title];
-  if (body) args.push("-m", body);
-  return args;
-}
-
-// ../lib/git/repo.ts
-var repo_exports = {};
-__export(repo_exports, {
-  branchExists: () => branchExists,
-  fetchRemote: () => fetchRemote,
-  getBranchStatus: () => getBranchStatus,
-  getCurrentBranch: () => getCurrentBranch,
-  getDefaultBranch: () => getDefaultBranch,
-  getMergeReality: () => getMergeReality,
-  getUnpushedStatus: () => getUnpushedStatus,
-  hasStagedChanges: () => hasStagedChanges,
-  isGitRepo: () => isGitRepo,
-  worktreeHasUncommittedChanges: () => worktreeHasUncommittedChanges
-});
-import { existsSync as existsSync4 } from "fs";
-async function isGitRepo(projectPath) {
-  try {
-    await git(projectPath, "rev-parse", "--git-dir");
-    return true;
-  } catch {
-    return false;
-  }
-}
-async function getCurrentBranch(projectPath) {
-  const { stdout } = await git(projectPath, "branch", "--show-current");
-  return stdout.trim();
-}
-async function branchExists(projectPath, branchName) {
-  try {
-    await git(
-      projectPath,
-      "show-ref",
-      "--verify",
-      "--quiet",
-      `refs/heads/${branchName}`
-    );
-    return true;
-  } catch {
-    return false;
-  }
-}
-async function getDefaultBranch(projectPath) {
-  try {
-    const { stdout } = await git(
-      projectPath,
-      "symbolic-ref",
-      "refs/remotes/origin/HEAD"
-    );
-    return stdout.trim().replace("refs/remotes/origin/", "").replace("refs/heads/", "");
-  } catch {
-    try {
-      await git(projectPath, "show-ref", "--verify", "--quiet", "refs/heads/main");
-      return "main";
-    } catch {
-      return "master";
-    }
-  }
-}
-async function getBranchStatus(projectPath, branchName) {
-  try {
-    const defaultBranch2 = await getDefaultBranch(projectPath);
-    const exists = await branchExists(projectPath, branchName);
-    if (!exists) {
-      return { ahead: 0, behind: 0, exists: false };
-    }
-    const { stdout } = await git(
-      projectPath,
-      "rev-list",
-      "--left-right",
-      "--count",
-      `${defaultBranch2}...${branchName}`
-    );
-    const [behind, ahead] = stdout.trim().split(/\s+/).map(Number);
-    return { ahead: ahead || 0, behind: behind || 0, exists: true };
-  } catch {
-    return { ahead: 0, behind: 0, exists: false };
-  }
-}
-async function worktreeHasUncommittedChanges(worktreePath) {
-  if (!existsSync4(worktreePath)) return false;
-  try {
-    const { stdout } = await git(worktreePath, "status", "--porcelain", "-uno");
-    return stdout.trim().length > 0;
-  } catch {
-    return false;
-  }
-}
-async function getMergeReality(projectPath, branchName, worktreePath) {
-  const defaultBranch2 = await getDefaultBranch(projectPath);
-  const needsCommit = worktreePath ? await worktreeHasUncommittedChanges(worktreePath) : false;
-  const base = {
-    branchName,
-    defaultBranch: defaultBranch2,
-    exists: false,
-    ahead: 0,
-    behind: 0,
-    contentIdentical: false,
-    needsCommit,
-    state: "missing"
-  };
-  if (!await branchExists(projectPath, branchName)) {
-    return base;
-  }
-  const { ahead, behind } = await getBranchStatus(projectPath, branchName);
-  let contentIdentical = false;
-  try {
-    await git(projectPath, "diff", "--quiet", defaultBranch2, branchName, "--");
-    contentIdentical = true;
-  } catch {
-    contentIdentical = false;
-  }
-  const merged = ahead === 0 || contentIdentical;
-  return {
-    ...base,
-    exists: true,
-    ahead,
-    behind,
-    contentIdentical,
-    // Uncommitted work in the worktree is still work: it would be committed
-    // and merged, so the branch is not done regardless of what the tips say.
-    state: merged && !needsCommit ? "nothing-to-merge" : "ready"
-  };
-}
-async function hasStagedChanges(projectPath) {
-  try {
-    await git(projectPath, "diff", "--cached", "--quiet");
-    return false;
-  } catch {
-    return true;
-  }
-}
-var UNSUPPORTED = {
-  supported: false,
-  defaultBranch: "",
-  count: 0,
-  commits: []
-};
-async function fetchRemote(projectPath) {
-  try {
-    await git(projectPath, "fetch", "--quiet", "origin");
-    return true;
-  } catch {
-    return false;
-  }
-}
-async function getUnpushedStatus(projectPath, options = {}) {
-  if (!existsSync4(projectPath) || !await isGitRepo(projectPath)) return UNSUPPORTED;
-  try {
-    const { stdout: remotes } = await git(projectPath, "remote");
-    if (!remotes.trim()) return UNSUPPORTED;
-  } catch {
-    return UNSUPPORTED;
-  }
-  const defaultBranch2 = await getDefaultBranch(projectPath);
-  const remoteRef = `refs/remotes/origin/${defaultBranch2}`;
-  try {
-    await git(projectPath, "show-ref", "--verify", "--quiet", remoteRef);
-  } catch {
-    return UNSUPPORTED;
-  }
-  const revArgs = ["--branches", "HEAD", "--not", "--remotes"];
-  try {
-    if (!options.withCommits) {
-      const { stdout: stdout2 } = await git(projectPath, "rev-list", "--count", ...revArgs);
-      return {
-        supported: true,
-        defaultBranch: defaultBranch2,
-        count: Number.parseInt(stdout2.trim(), 10) || 0,
-        commits: []
-      };
-    }
-    const onDefault = /* @__PURE__ */ new Set();
-    if (await branchExists(projectPath, defaultBranch2)) {
-      const { stdout: stdout2 } = await git(
-        projectPath,
-        "rev-list",
-        defaultBranch2,
-        "--not",
-        "--remotes"
-      );
-      for (const line of stdout2.split("\n")) {
-        const hash2 = line.trim();
-        if (hash2) onDefault.add(hash2);
-      }
-    }
-    const { stdout } = await git(
-      projectPath,
-      "log",
-      "--pretty=format:%H%x1f%s%x1f%cI%x1f%S%x1f%b%x1e",
-      "--source",
-      ...revArgs
-    );
-    const commits = stdout.split("").filter((record2) => record2.trim() !== "").map((record2) => {
-      const [hash2, subject, date4, source, body] = record2.replace(/^\n/, "").split("");
-      const reached = (source ?? "").replace(/^refs\/heads\//, "");
-      return {
-        hash: hash2 ?? "",
-        subject: subject ?? "",
-        date: date4 ?? "",
-        body: (body ?? "").trim(),
-        branch: hash2 && onDefault.has(hash2) ? defaultBranch2 : reached
-      };
-    });
-    return { supported: true, defaultBranch: defaultBranch2, count: commits.length, commits };
-  } catch {
-    return UNSUPPORTED;
-  }
-}
-
 // ../lib/git/stash.ts
 async function readStashRef(cwd) {
   try {
@@ -28764,237 +29215,114 @@ function describeStash(label2, sha) {
   return `"${label2}" (${sha.slice(0, 7)})`;
 }
 
-// ../lib/git/worktree.ts
-var worktree_exports = {};
-__export(worktree_exports, {
-  createWorktree: () => createWorktree,
-  findCardBranch: () => findCardBranch,
-  findTargetCheckout: () => findTargetCheckout,
-  getWorktreeBaseDir: () => getWorktreeBaseDir,
-  getWorktreePath: () => getWorktreePath,
-  isCwdInsideWorktree: () => isCwdInsideWorktree,
-  listWorktrees: () => listWorktrees,
-  pruneWorktrees: () => pruneWorktrees,
-  removeWorktree: () => removeWorktree,
-  squashMergeFromWorktree: () => squashMergeFromWorktree,
-  worktreeExists: () => worktreeExists
-});
-import { existsSync as existsSync5, mkdirSync as mkdirSync3, realpathSync as realpathSync3 } from "fs";
-import path5, { join } from "path";
-function getWorktreeBaseDir(projectPath) {
-  return join(projectPath, ".worktrees", "kanban");
+// ../lib/card-ops/merge-chain.ts
+function chainMergeMessage(code, name, branch) {
+  return `feat(${code}): ${name}
+
+Merge chain from branch: ${branch}`;
 }
-function getWorktreePath(projectPath, branchName) {
-  const branchPart = branchName.startsWith("kanban/") ? branchName.slice(7) : branchName;
-  return join(getWorktreeBaseDir(projectPath), branchPart);
-}
-async function worktreeExists(projectPath, worktreePath) {
-  try {
-    if (!existsSync5(worktreePath)) {
-      return false;
-    }
-    const { stdout } = await git(projectPath, "worktree", "list", "--porcelain");
-    return stdout.includes(`worktree ${worktreePath}`);
-  } catch {
-    return false;
+async function mergeChain(db2, groupId, opts = {}) {
+  const log = opts.log ?? (() => {
+  });
+  const now = opts.now ?? (() => (/* @__PURE__ */ new Date()).toISOString());
+  const group = getIntegrationGroup(db2, groupId);
+  if (!group) return { kind: "notFound" };
+  if (!group.integrationBranch) return { kind: "notIntegration" };
+  if (group.mergedCommit) return { kind: "alreadyMerged", mergedCommit: group.mergedCommit };
+  const members = allRows(
+    db2,
+    `SELECT c.id, c.title, c.status, c.task_number AS taskNumber, p.id_prefix AS idPrefix,
+            c.git_branch_name AS gitBranchName, c.git_branch_status AS gitBranchStatus
+     FROM cards c LEFT JOIN projects p ON p.id = c.project_id
+     WHERE c.group_id = ? AND c.status != 'withdrawn'`,
+    groupId
+  );
+  const notReady = members.filter((m2) => m2.status !== "completed" && m2.gitBranchStatus !== "in_chain").map((m2) => ({
+    id: m2.id,
+    displayId: formatDisplayId(m2.idPrefix, m2.taskNumber) ?? m2.id,
+    title: m2.title,
+    status: m2.status
+  }));
+  if (notReady.length > 0) return { kind: "notReady", cards: notReady };
+  const workingDir = group.folderPath;
+  if (!workingDir || !await isGitRepo(workingDir)) return { kind: "notRepo", workingDir: workingDir ?? "" };
+  const synced = await syncMainIntoChain(db2, groupId, { log, projectPath: workingDir });
+  if (synced.kind === "conflict") return synced;
+  if (synced.kind !== "ok") {
+    return { kind: "failed", error: synced.kind === "failed" ? synced.error : `Chain branch unavailable (${synced.kind})` };
   }
-}
-async function listWorktrees(projectPath) {
-  try {
-    const { stdout } = await git(projectPath, "worktree", "list", "--porcelain");
-    const worktrees = [];
-    const entries = stdout.trim().split("\n\n");
-    for (const entry of entries) {
-      if (!entry.trim()) continue;
-      const lines = entry.split("\n");
-      const info = {
-        isLocked: false,
-        isPrunable: false
-      };
-      for (const line of lines) {
-        if (line.startsWith("worktree ")) {
-          info.path = line.slice(9);
-        } else if (line.startsWith("HEAD ")) {
-          info.commit = line.slice(5);
-        } else if (line.startsWith("branch refs/heads/")) {
-          info.branch = line.slice(18);
-        } else if (line === "locked") {
-          info.isLocked = true;
-        } else if (line === "prunable") {
-          info.isPrunable = true;
-        }
-      }
-      if (info.path && info.commit) {
-        worktrees.push(info);
-      }
-    }
-    return worktrees;
-  } catch {
-    return [];
-  }
-}
-async function createWorktree(projectPath, branchName) {
-  const worktreePath = getWorktreePath(projectPath, branchName);
-  const baseDir = getWorktreeBaseDir(projectPath);
-  try {
-    if (!existsSync5(baseDir)) {
-      mkdirSync3(baseDir, { recursive: true });
-      console.log(`[Git Worktree] Created base directory: ${baseDir}`);
-    }
-    if (await worktreeExists(projectPath, worktreePath)) {
-      console.log(`[Git Worktree] Worktree already exists: ${worktreePath}`);
-      return { success: true, worktreePath };
-    }
-    if (await branchExists(projectPath, branchName)) {
-      console.log(`[Git Worktree] Creating worktree for existing branch: ${branchName}`);
-      await git(projectPath, "worktree", "add", worktreePath, branchName);
-    } else {
-      const defaultBranch2 = await getDefaultBranch(projectPath);
-      console.log(`[Git Worktree] Creating new branch and worktree: ${branchName} from ${defaultBranch2}`);
-      await git(
-        projectPath,
-        "worktree",
-        "add",
-        "-b",
-        branchName,
-        worktreePath,
-        defaultBranch2
-      );
-    }
-    console.log(`[Git Worktree] Created worktree at: ${worktreePath}`);
-    return { success: true, worktreePath };
-  } catch (error2) {
-    console.error(`[Git Worktree] Failed to create worktree:`, error2);
-    return {
-      success: false,
-      worktreePath,
-      error: error2 instanceof Error ? error2.message : String(error2)
-    };
-  }
-}
-var silent = () => {
-};
-async function removeWorktree(projectPath, worktreePath, log = silent) {
-  try {
-    if (!await worktreeExists(projectPath, worktreePath)) {
-      log(`[Git Worktree] Worktree doesn't exist, skipping removal: ${worktreePath}`);
-      return { success: true };
-    }
-    log(`[Git Worktree] Removing worktree: ${worktreePath}`);
-    await git(projectPath, "worktree", "remove", "--force", worktreePath);
-    log(`[Git Worktree] Worktree removed successfully`);
-    return { success: true };
-  } catch (error2) {
-    log(`[Git Worktree] Failed to remove worktree: ${error2}`);
-    return {
-      success: false,
-      error: error2 instanceof Error ? error2.message : String(error2)
-    };
-  }
-}
-function isCwdInsideWorktree(worktreePath, cwd = process.cwd()) {
-  const resolve4 = (p) => {
+  const branch = synced.branch;
+  const targetBranch = await getDefaultBranch(workingDir);
+  const mergeDir = await findTargetCheckout(workingDir, targetBranch);
+  if (!mergeDir) return { kind: "failed", error: `${targetBranch} is not checked out anywhere` };
+  let stashSha = null;
+  const stashMessage = `kanban-merge-chain-stash-${groupId}-${Date.now()}`;
+  const restoreStash = async () => {
+    if (!stashSha) return null;
+    const stashName = describeStash(stashMessage, stashSha);
     try {
-      return realpathSync3(p);
-    } catch {
-      return path5.resolve(p);
+      await popStash(mergeDir, stashSha);
+      stashSha = null;
+      return null;
+    } catch (popError) {
+      log(`[Merge chain] Stash pop failed: ${popError instanceof Error ? popError.message : String(popError)}`);
+      return `Stash could not be restored automatically. Changes remain in stash ${stashName}. Run 'git stash list' and resolve manually.`;
     }
   };
-  const here = resolve4(cwd);
-  const wt = resolve4(worktreePath);
-  if (here === wt) return true;
-  return here.startsWith(wt + path5.sep);
-}
-async function pruneWorktrees(projectPath, log = silent) {
+  let mergedCommit;
   try {
-    log(`[Git Worktree] Pruning stale worktrees...`);
-    await git(projectPath, "worktree", "prune");
-    return { success: true };
-  } catch (error2) {
-    return {
-      success: false,
-      error: error2 instanceof Error ? error2.message : String(error2)
-    };
-  }
-}
-async function findTargetCheckout(projectPath, targetBranch) {
-  if (targetBranch === await getDefaultBranch(projectPath)) return projectPath;
-  const holder = (await listWorktrees(projectPath)).find((wt) => wt.branch === targetBranch);
-  return holder?.path ?? null;
-}
-async function squashMergeFromWorktree(projectPath, branchName, commitMessage, opts = {}) {
-  const log = opts.log ?? silent;
-  try {
-    const defaultBranch2 = await getDefaultBranch(projectPath);
-    const targetBranch = opts.targetBranch || defaultBranch2;
-    const mergeDir = await findTargetCheckout(projectPath, targetBranch);
-    if (!mergeDir) {
+    const { stdout: status } = await git(mergeDir, "status", "--porcelain");
+    if (status.trim()) stashSha = await pushStash(mergeDir, stashMessage, { includeUntracked: true });
+    try {
+      await git(mergeDir, "merge", "--no-ff", branch, "-m", chainMergeMessage(group.code, group.name, branch));
+    } catch (mergeError) {
+      await git(mergeDir, "merge", "--abort").catch(() => void 0);
+      const stashRestoreWarning2 = await restoreStash();
       return {
-        success: false,
-        error: `Branch ${targetBranch} is not checked out anywhere. Check it out in a worktree first; the main checkout is not switched for a merge.`,
-        targetNotCheckedOut: true
+        kind: "failed",
+        error: `Merge failed: ${mergeError instanceof Error ? mergeError.message : String(mergeError)}`,
+        stashRestoreWarning: stashRestoreWarning2
       };
     }
-    const { stdout: statusOutput } = await git(mergeDir, "status", "--porcelain");
-    if (statusOutput.trim() !== "") {
-      log("[Git Worktree] Uncommitted changes found in main repo, blocking merge");
-      return {
-        success: false,
-        error: "There are uncommitted changes in the main repository. Please commit your changes first.",
-        uncommittedInMain: true
-      };
-    }
-    const currentBranch = await getCurrentBranch(mergeDir);
-    if (currentBranch !== targetBranch) {
-      log(`[Git Worktree] Checking out to ${targetBranch}...`);
-      await git(mergeDir, "checkout", targetBranch);
-    }
-    log(`[Git Worktree] Squash merging ${branchName} into ${targetBranch}...`);
-    await git(mergeDir, "merge", "--squash", branchName);
-    if (await hasStagedChanges(mergeDir)) {
-      await git(mergeDir, ...buildCommitArgs(commitMessage));
-      log("[Git Worktree] Squash merge committed successfully");
-      return { success: true };
-    }
-    log(`[Git Worktree] No changes to commit - branch has no commits different from ${targetBranch}`);
-    return {
-      success: false,
-      error: `No changes to merge - branch has no commits different from ${targetBranch}`
-    };
+    mergedCommit = (await git(mergeDir, "rev-parse", "HEAD")).stdout.trim();
+    log(`[Merge chain] ${branch} \u2192 ${targetBranch} as ${mergedCommit}`);
   } catch (error2) {
-    return {
-      success: false,
-      error: error2 instanceof Error ? error2.message : String(error2)
-    };
+    const stashRestoreWarning2 = await restoreStash();
+    return { kind: "failed", error: error2 instanceof Error ? error2.message : String(error2), stashRestoreWarning: stashRestoreWarning2 };
   }
-}
-async function findCardBranch(projectPath, idPrefix, taskNumber) {
-  const prefix = `kanban/${idPrefix}-${taskNumber}-`;
-  const names = /* @__PURE__ */ new Set();
-  try {
-    const { stdout } = await git(
-      projectPath,
-      "branch",
-      "--list",
-      "--format=%(refname:short)",
-      `${prefix}*`
-    );
-    for (const line of stdout.split("\n")) {
-      const name = line.trim();
-      if (name.startsWith(prefix)) names.add(name);
+  const at = now();
+  const completed = [];
+  transaction(db2, () => {
+    for (const member of members) {
+      if (member.status === "completed") continue;
+      if (member.gitBranchStatus === "in_chain") {
+        setCardRuntime(db2, member.id, { gitBranchStatus: "merged", gitWorktreePath: null, gitWorktreeStatus: "removed" }, at);
+      }
+      moveCard(db2, member.id, "completed", at);
+      completed.push(member.id);
     }
-  } catch {
-    return null;
+    runChanges(db2, `UPDATE card_groups SET merged_commit = ? WHERE id = ?`, mergedCommit, groupId);
+  });
+  const removed = await removeWorktree(workingDir, synced.worktreePath || integrationWorktreePath(workingDir, branch), log);
+  if (!removed.success) log(`[Merge chain] Failed to remove the chain worktree: ${removed.error}`);
+  await git(workingDir, "branch", "-D", "--", branch).catch(() => void 0);
+  for (const member of members) {
+    if (member.gitBranchStatus === "in_chain" && member.gitBranchName) {
+      await git(workingDir, "branch", "-D", "--", member.gitBranchName).catch(() => void 0);
+    }
   }
-  if (names.size !== 1) return null;
-  const [branchName] = names;
-  const worktree = (await listWorktrees(projectPath)).find(
-    (w2) => w2.branch === branchName && !w2.isPrunable && existsSync5(w2.path)
-  );
-  return { branchName, worktreePath: worktree?.path ?? null };
+  await pruneWorktrees(workingDir, log);
+  const stashRestoreWarning = await restoreStash();
+  return { kind: "ok", groupId, branch, targetBranch, mergedCommit, completed, stashRestoreWarning };
 }
 
 // ../lib/card-ops/merge-card.ts
+import { existsSync as existsSync7, readFileSync as readFileSync3 } from "fs";
+function chainMergeCommitMessage(displayId, title, branchName) {
+  return `feat(${displayId}): ${title}
+
+Merge from branch: ${branchName}`;
+}
 function mergeCommitMessage(displayId, title, branchName) {
   return `feat(${displayId}): ${title}
 
@@ -29052,10 +29380,25 @@ async function mergeCard(db2, cardId, opts = {}) {
   ) : void 0;
   const workingDir = project?.folderPath || card.projectFolder || opts.cwd || process.cwd();
   if (!await isGitRepo(workingDir)) return { kind: "notRepo", workingDir };
-  const targetBranch = opts.targetBranch || await getDefaultBranch(workingDir);
-  const mergeDir = await findTargetCheckout(workingDir, targetBranch);
+  const chainGroup = opts.mode === "squash" ? null : cardIntegrationGroup(db2, cardId);
+  if (opts.mode === "into-chain" && !chainGroup) return { kind: "notIntegration" };
+  let targetBranch;
+  let mergeDir;
+  if (chainGroup) {
+    const ensured = await ensureIntegrationBranch(db2, chainGroup.id, { log, projectPath: workingDir });
+    if (ensured.kind === "notRepo") return ensured;
+    if (ensured.kind !== "ok") {
+      return { kind: "failed", error: ensured.kind === "failed" ? ensured.error : "No integration branch", stashRestoreWarning: null };
+    }
+    targetBranch = ensured.branch;
+    mergeDir = ensured.worktreePath;
+  } else {
+    targetBranch = opts.targetBranch || await getDefaultBranch(workingDir);
+    mergeDir = await findTargetCheckout(workingDir, targetBranch);
+  }
   if (!mergeDir) return { kind: "targetNotCheckedOut", targetBranch };
-  log(`[Merge] Starting squash merge for card ${cardId}`);
+  const intoChain = !!chainGroup;
+  log(`[Merge] Starting ${intoChain ? "merge into chain" : "squash merge"} for card ${cardId}`);
   log(`[Merge] Branch: ${branchName} \u2192 ${targetBranch}`);
   log(`[Merge] Working dir: ${mergeDir}`);
   if (card.devServerPid && opts.stopProcess) {
@@ -29063,8 +29406,8 @@ async function mergeCard(db2, cardId, opts = {}) {
     await opts.stopProcess(card.devServerPid);
   }
   const displayId = formatDisplayId(project?.idPrefix, card.taskNumber) ?? `TASK-${card.taskNumber || "X"}`;
-  const commitMessage = mergeCommitMessage(displayId, card.title, branchName);
-  const worktreePath = card.gitWorktreePath && existsSync6(card.gitWorktreePath) ? card.gitWorktreePath : null;
+  const commitMessage = intoChain ? chainMergeCommitMessage(displayId, card.title, branchName) : mergeCommitMessage(displayId, card.title, branchName);
+  const worktreePath = card.gitWorktreePath && existsSync7(card.gitWorktreePath) ? card.gitWorktreePath : null;
   const markConflict = (conflictFiles) => setCardRuntime(db2, cardId, { rebaseConflict: true, conflictFiles }, now());
   let stashSha = null;
   const stashMessage = `kanban-merge-stash-${cardId}-${Date.now()}`;
@@ -29084,7 +29427,7 @@ async function mergeCard(db2, cardId, opts = {}) {
   try {
     if (worktreePath) {
       const gitDir = worktreeGitDir(worktreePath);
-      if (existsSync6(`${gitDir}/rebase-merge`) || existsSync6(`${gitDir}/rebase-apply`)) {
+      if (existsSync7(`${gitDir}/rebase-merge`) || existsSync7(`${gitDir}/rebase-apply`)) {
         log(`[Merge] Ongoing rebase detected in worktree`);
         const conflictFiles = await unmergedFiles(worktreePath);
         if (!card.rebaseConflict) markConflict(conflictFiles);
@@ -29137,6 +29480,52 @@ async function mergeCard(db2, cardId, opts = {}) {
         const stashRestoreWarning2 = await restoreStash();
         return { kind: "failed", error: `Rebase failed: ${errorMsg}`, stashRestoreWarning: stashRestoreWarning2 };
       }
+    }
+    if (intoChain) {
+      let chainCommit;
+      try {
+        await git(mergeDir, "merge", "--no-ff", branchName, "-m", commitMessage);
+        chainCommit = (await git(mergeDir, "rev-parse", "HEAD")).stdout.trim();
+      } catch (mergeError) {
+        await git(mergeDir, "merge", "--abort").catch(() => void 0);
+        const stashRestoreWarning3 = await restoreStash();
+        return { kind: "failed", error: `Merge failed: ${errorText(mergeError)}`, stashRestoreWarning: stashRestoreWarning3 };
+      }
+      if (card.gitWorktreePath) {
+        const removed = await removeWorktree(workingDir, card.gitWorktreePath, log);
+        if (!removed.success) log(`[Merge] Failed to remove worktree: ${removed.error}`);
+      }
+      await pruneWorktrees(workingDir, log);
+      const at = now();
+      transaction(db2, () => {
+        setCardRuntime(
+          db2,
+          cardId,
+          {
+            gitBranchStatus: "in_chain",
+            gitWorktreePath: null,
+            gitWorktreeStatus: "removed",
+            devServerPort: null,
+            devServerPid: null,
+            rebaseConflict: null,
+            conflictFiles: null
+          },
+          at
+        );
+        runChanges(db2, `UPDATE cards SET chain_merged_at = ?, chain_merge_commit = ? WHERE id = ?`, at, chainCommit, cardId);
+      });
+      log(`[Merge] Success - ${branchName} merged into ${targetBranch}, card kept in Human Test`);
+      const stashRestoreWarning2 = await restoreStash();
+      return {
+        kind: "ok",
+        cardId,
+        newStatus: "in_chain",
+        branchName,
+        targetBranch,
+        displayId,
+        message: `Branch ${branchName} merged into ${targetBranch}; card stays in Human Test until the chain lands`,
+        stashRestoreWarning: stashRestoreWarning2
+      };
     }
     const result = await squashMergeFromWorktree(workingDir, branchName, commitMessage, { targetBranch, log });
     if (!result.success) {
@@ -29427,6 +29816,8 @@ function phasePrimary(card, flags, ctx, rows) {
     if (flags.phase === "verify" && nextVerifyGroup(ctx.testProgress)) return "play";
     const progress = ctx.testProgress;
     const allTicked = !!progress && progress.total > 0 && progress.checked === progress.total;
+    if (ctx.chainMerge === "in-chain") return null;
+    if (ctx.chainMerge === "into-chain") return "merge";
     if (!allTicked && has("test-together")) return "test-together";
     return ctx.hasBranch ? "merge" : "complete";
   }
@@ -29578,10 +29969,10 @@ function nextStepFor(card, flags, ctx) {
     });
     row(together, { id: "withdraw", title: "Withdraw", kind: "you" });
   }
-  if (card.status === "test") {
+  if (card.status === "test" && ctx.chainMerge !== "in-chain") {
     row(together, {
       id: ctx.hasBranch ? "merge" : "complete",
-      title: ctx.hasBranch ? "Merge" : "Complete",
+      title: ctx.chainMerge === "into-chain" ? "Chain'e al" : ctx.hasBranch ? "Merge" : "Complete",
       kind: "you",
       disabledReason: ctx.running ? "A run is going" : void 0
     });
@@ -29661,6 +30052,7 @@ function getFocusState(card) {
   if (card.processingType) return "agent-running";
   if (card.rebaseConflict) return "blocked";
   if (card.status === "progress") return "your-review";
+  if (card.status === "test" && card.gitBranchStatus === "in_chain") return "waiting";
   if (card.status === "test") return "your-test";
   if (card.status === "ideation" && card.aiVerdict) return "your-decision";
   return "waiting";
@@ -29861,6 +30253,7 @@ function yourTestStep(card, id, label2) {
 }
 function developmentSteps(card, inputs) {
   const merged = card.gitBranchStatus === "merged";
+  const inChain = card.gitBranchStatus === "in_chain";
   return [
     { id: "idea", who: "you", label: "Idea", sub: shortDate(card.createdAt), happened: true, tab: "detail" },
     verdictStep(card),
@@ -29873,8 +30266,8 @@ function developmentSteps(card, inputs) {
       id: "merge",
       who: "you",
       label: "Merge",
-      sub: merged ? "merged" : card.status === "completed" ? "completed" : "",
-      happened: merged || card.status === "completed",
+      sub: merged ? "merged" : inChain ? "in chain" : card.status === "completed" ? "completed" : "",
+      happened: merged || inChain || card.status === "completed",
       tab: "tests"
     }
   ];
@@ -29905,7 +30298,7 @@ function workSteps(card, inputs) {
     }
   ];
 }
-function nowStepId(card, work, running) {
+function nowStepId(card, work, running, chainMerge) {
   switch (card.status) {
     case "ideation":
       return hasText(card.aiOpinion) ? "argued" : "verdict";
@@ -29916,7 +30309,9 @@ function nowStepId(card, work, running) {
       return work ? "draft" : "built";
     case "test":
       if (work) return "review";
-      return running ? "proof" : "your-test";
+      if (card.gitBranchStatus === "in_chain" && !running) return null;
+      if (running) return "proof";
+      return chainMerge === "into-chain" ? "merge" : "your-test";
     default:
       return null;
   }
@@ -29940,6 +30335,7 @@ function bannerFor(card, ctx, now) {
       failed = failedOnScreenLabel(count);
       detail = detail.startsWith(`${failed} \xB7 `) ? detail.slice(failed.length + 3) : detail;
     }
+    if (ctx.chainMerge === "into-chain" && !failed) detail = "ready for Chain'e al";
   }
   return { kind: "you", detail, failed, since: unread ? replyLine(unread, now) : null };
 }
@@ -29948,7 +30344,8 @@ function buildCardStory(card, inputs = EMPTY_STORY_INPUTS, ctx = {}) {
   const work = (ctx.mode ?? "development") === "work";
   const running = ctx.running ?? !!card.processingType;
   const drafts = work ? workSteps(card, inputs) : developmentSteps(card, inputs);
-  const nowId = nowStepId(card, work, running);
+  const nowId = nowStepId(card, work, running, ctx.chainMerge);
+  const testedWithChain = card.gitBranchStatus === "in_chain" || ctx.chainMerge === "into-chain";
   const nowIndex = nowId ? drafts.findIndex((d2) => d2.id === nowId) : drafts.length;
   const steps = drafts.map((draft, index) => {
     let state;
@@ -29956,6 +30353,7 @@ function buildCardStory(card, inputs = EMPTY_STORY_INPUTS, ctx = {}) {
     else if (index < nowIndex) state = draft.happened ? "done" : "skipped";
     else state = card.status === "withdrawn" ? "skipped" : "todo";
     if (draft.id === "merge" && card.gitBranchStatus === "rolled_back" && state !== "now") state = "skipped";
+    if (draft.id === "your-test" && testedWithChain && state !== "now") state = "skipped";
     return {
       id: draft.id,
       who: draft.who,
@@ -30158,7 +30556,7 @@ __export(card_mockups_exports, {
   mockupState: () => mockupState,
   resolveCardMockupFile: () => resolveCardMockupFile
 });
-import { existsSync as existsSync7, realpathSync as realpathSync4, statSync as statSync3 } from "fs";
+import { existsSync as existsSync8, realpathSync as realpathSync4, statSync as statSync3 } from "fs";
 import path6 from "path";
 function isInside3(child, parent) {
   return child === parent || child.startsWith(parent + path6.sep);
@@ -30193,7 +30591,7 @@ function resolveCardMockupFile(cardId, segments, cardDir = cardArtifactDir(cardI
   const root = realDir(cardDir);
   if (!root) return null;
   const candidate = path6.join(root, ...segments);
-  if (!existsSync7(candidate)) return null;
+  if (!existsSync8(candidate)) return null;
   const real = realpathSync4(candidate);
   if (!isInside3(real, root) || real === root || !statSync3(real).isFile()) return null;
   return real;
@@ -30207,7 +30605,7 @@ __export(test_report_files_exports, {
   removeTestReportRunDirs: () => removeTestReportRunDirs,
   testReportRunDir: () => testReportRunDir
 });
-import { copyFileSync as copyFileSync3, mkdirSync as mkdirSync4, rmSync, statSync as statSync4 } from "fs";
+import { copyFileSync as copyFileSync3, mkdirSync as mkdirSync5, rmSync, statSync as statSync4 } from "fs";
 import { homedir as homedir3 } from "os";
 import path7 from "path";
 var MAX_SCREENSHOT_BYTES = 20 * 1024 * 1024;
@@ -30251,7 +30649,7 @@ function importTerminalArtifacts(items, runDir) {
       if (!isTestReportImageName(file2)) return [];
       try {
         if (!made) {
-          mkdirSync4(runDir, { recursive: true });
+          mkdirSync5(runDir, { recursive: true });
           made = true;
         }
         copyFileSync3(source, path7.join(runDir, file2));
@@ -30570,6 +30968,14 @@ var {
   splitCard: splitCard2,
   SplitCardError: SplitCardError2,
   mergeCard: mergeCard2,
+  mergeChain: mergeChain2,
+  rollbackChain: rollbackChain2,
+  cardBaseBranch: cardBaseBranch2,
+  cardIntegrationGroup: cardIntegrationGroup2,
+  chainConflictText: chainConflictText2,
+  chainMergeForCard: chainMergeForCard2,
+  isChainParent: isChainParent2,
+  syncMainIntoChain: syncMainIntoChain2,
   startAutopilot: startAutopilot2,
   getAutopilotState: getAutopilotState2
 } = unwrap(card_ops_exports);
@@ -30630,7 +31036,7 @@ function openDatabase(path9) {
 import { resolve as resolve3, dirname as dirname2, relative as relative2, isAbsolute as isAbsolute2, sep as sep2 } from "path";
 import { fileURLToPath } from "url";
 import { homedir as homedir5 } from "os";
-import { mkdirSync as mkdirSync6 } from "fs";
+import { mkdirSync as mkdirSync7 } from "fs";
 
 // ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/uuid/dist/esm/stringify.js
 var byteToHex = [];
@@ -30811,9 +31217,9 @@ function hasColumn(db2, table, column) {
   }
   if (known.has(key)) return true;
   const rows = db2.prepare(`PRAGMA table_info(${JSON.stringify(table)})`).all();
-  const present3 = rows.some((row) => row.name === column);
-  if (present3) known.add(key);
-  return present3;
+  const present4 = rows.some((row) => row.name === column);
+  if (present4) known.add(key);
+  return present4;
 }
 function hasCapability(db2, capability) {
   const [table, column] = CAPABILITIES[capability];
@@ -30825,7 +31231,7 @@ function missingCapabilityMessage(tool, capability) {
 }
 
 // output-paths.ts
-import { existsSync as existsSync8, realpathSync as realpathSync5, statSync as statSync5 } from "fs";
+import { existsSync as existsSync9, realpathSync as realpathSync5, statSync as statSync5 } from "fs";
 import { homedir as homedir4 } from "os";
 import { isAbsolute, relative, resolve as resolve2, sep } from "path";
 var OutputPathError = class extends Error {
@@ -30854,7 +31260,7 @@ function resolveOutputPath(projectFolder, inputPath) {
       `The card's project folder does not exist on this machine: ${projectFolder}. Nothing was recorded.`
     );
   }
-  if (!existsSync8(absolute)) {
+  if (!existsSync9(absolute)) {
     throw new OutputPathError(
       `File not found: ${absolute}. save_output records a file that already exists \u2014 write it first, then call save_output again.`
     );
@@ -31099,6 +31505,15 @@ Warning: ${warning}` : text2;
 function mergeCardText(result) {
   switch (result.kind) {
     case "ok":
+      if (result.newStatus === "in_chain") {
+        return {
+          ok: true,
+          text: withStashWarning(
+            `${result.displayId} merged into the chain's branch ${result.targetBranch} (--no-ff) and stays in Human Test, in chain. Its worktree was removed; branch ${result.branchName} is kept until the chain lands. The chain reaches main with merge_chain.`,
+            result.stashRestoreWarning
+          )
+        };
+      }
       if (result.newStatus === "test") {
         return {
           ok: true,
@@ -31131,6 +31546,8 @@ function mergeCardText(result) {
       };
     case "notRepo":
       return { ok: false, text: `${result.workingDir} is not a git repository. Nothing was merged.` };
+    case "notIntegration":
+      return { ok: false, text: "This card's chain has no integration branch, so there is no chain to merge into. Nothing was merged." };
     case "targetNotCheckedOut":
       return {
         ok: false,
@@ -31177,6 +31594,32 @@ async function mergeCardTool(db2, args) {
     stopProcess: (pid) => stopProcessGroup2(pid)
   });
   return mergeCardText(result);
+}
+function mergeChainText(result) {
+  switch (result.kind) {
+    case "ok":
+      return withStashWarning(
+        `${result.branch} merged into ${result.targetBranch} as ${result.mergedCommit}; ${result.completed.length} card(s) moved to Completed. The chain's branch, its worktree and the cards' branches were deleted. To undo: git revert -m 1 ${result.mergedCommit}.`,
+        result.stashRestoreWarning
+      );
+    case "notFound":
+      return "Chain not found. Nothing was merged.";
+    case "notIntegration":
+      return "This chain has no integration branch; merge its cards one by one with merge_card. Nothing was merged.";
+    case "alreadyMerged":
+      return `The chain already landed on main as ${result.mergedCommit}. Nothing was merged.`;
+    case "notReady":
+      return [
+        "Not every card is in the chain yet. Take these in with merge_card (or withdraw them) first. Nothing was merged.",
+        ...result.cards.map((c) => `- ${c.displayId} ${c.title} (${c.status})`)
+      ].join("\n");
+    case "notRepo":
+      return `${result.workingDir} is not a git repository. Nothing was merged.`;
+    case "conflict":
+      return `${chainConflictText2(result.branch, result.files, result.worktreePath)} Nothing was merged.`;
+    case "failed":
+      return withStashWarning(result.error, result.stashRestoreWarning);
+  }
 }
 
 // test-report.ts
@@ -31300,7 +31743,7 @@ function readTestReport(db2, card, opts = {}) {
 }
 
 // git-helpers.ts
-import { existsSync as existsSync9, mkdirSync as mkdirSync5 } from "fs";
+import { existsSync as existsSync10, mkdirSync as mkdirSync6 } from "fs";
 async function getCurrentBranch3(cwd) {
   try {
     return await getCurrentBranch2(cwd);
@@ -31308,12 +31751,12 @@ async function getCurrentBranch3(cwd) {
     return "";
   }
 }
-async function createWorktree2(projectPath, branchName) {
+async function createWorktree2(projectPath, branchName, baseBranch) {
   const worktreePath = getWorktreePath2(projectPath, branchName);
   const baseDir = getWorktreeBaseDir2(projectPath);
   try {
-    if (!existsSync9(baseDir)) {
-      mkdirSync5(baseDir, { recursive: true });
+    if (!existsSync10(baseDir)) {
+      mkdirSync6(baseDir, { recursive: true });
     }
     if (await worktreeExists2(projectPath, worktreePath)) {
       return { success: true, worktreePath };
@@ -31321,7 +31764,7 @@ async function createWorktree2(projectPath, branchName) {
     if (await branchExists2(projectPath, branchName)) {
       await git2(projectPath, "worktree", "add", worktreePath, branchName);
     } else {
-      const defaultBranch2 = await getDefaultBranch2(projectPath);
+      const defaultBranch2 = baseBranch || await getDefaultBranch2(projectPath);
       await git2(
         projectPath,
         "worktree",
@@ -31346,7 +31789,7 @@ async function listChangedFiles(repoPath, opts) {
     const defaultBranch2 = await getDefaultBranch2(repoPath);
     let stdout;
     if (opts.worktreePath) {
-      if (!existsSync9(opts.worktreePath)) return [];
+      if (!existsSync10(opts.worktreePath)) return [];
       const { stdout: base } = await git2(opts.worktreePath, "merge-base", defaultBranch2, "HEAD");
       ({ stdout } = await git2(opts.worktreePath, "diff", "--name-only", base.trim()));
     } else if (opts.branchName) {
@@ -31380,7 +31823,7 @@ async function listUncommittedFiles(cwd, files) {
 }
 
 // card-search.ts
-import { existsSync as existsSync10 } from "fs";
+import { existsSync as existsSync11 } from "fs";
 var foldCache = /* @__PURE__ */ new Map();
 function foldChar(c) {
   let ch = foldCache.get(c);
@@ -31488,7 +31931,7 @@ function findOverlap(cardFiles, callerFiles) {
 var OPEN_STATUSES = ["backlog", "bugs", "progress", "test"];
 var PLAN_STATUSES = /* @__PURE__ */ new Set(["backlog", "bugs", "progress"]);
 async function listOpenWork(db2, opts, deps) {
-  const pathExists = deps.pathExists ?? existsSync10;
+  const pathExists = deps.pathExists ?? existsSync11;
   const project = db2.prepare(`SELECT folder_path as folderPath, id_prefix as idPrefix FROM projects WHERE id = ?`).get(opts.projectId);
   if (!project) return [];
   const hasBranchColumns = hasCapability(db2, "branchStatus");
@@ -31665,7 +32108,7 @@ function getDefaultDataDir() {
 function resolveDbPath() {
   const userDataEnv = process.env.IDEAFY_USER_DATA;
   const dir = userDataEnv ? resolve3(userDataEnv) : getDefaultDataDir();
-  mkdirSync6(dir, { recursive: true });
+  mkdirSync7(dir, { recursive: true });
   return resolve3(dir, "kanban.db");
 }
 var DB_PATH = resolveDbPath();
@@ -31980,7 +32423,8 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
             groupId: { type: "string", description: "Optional. An existing chain to put the cards in; default is the parent's chain, else a new one." },
             newChain: { type: "boolean", description: "Optional. Open a new chain even when the parent is in one." },
             chainCode: { type: "string", description: "Optional, with a new chain. Its code (up to 6 letters or digits); a taken code is refused. Defaults to one made from the parent's title." },
-            chainName: { type: "string", description: "Optional, with a new chain. Its name; defaults to the parent's title." }
+            chainName: { type: "string", description: "Optional, with a new chain. Its name; defaults to the parent's title." },
+            integrationBranch: { type: "boolean", description: "Optional, with a new chain (IDE-612): give it an integration branch, so the children branch off it, land there one by one and reach main with the parent's Merge & Complete. Only when the user asked for it." }
           },
           required: ["id"]
         }
@@ -32435,7 +32879,7 @@ The server writes the card's verdict, score, priority and complexity from those 
             },
             autopilot: {
               type: "boolean",
-              description: "Send to Autopilot, the app's button of that name (IDE-608): only when the user explicitly asked for Autopilot on this card. The card goes to the FRONT of the queue and Ideafy carries it on its own, unattended \u2014 implementation in its worktree, then a pre-verify of each checklist group in turn, at most one automatic fix round \u2014 and stops at Ready to merge, or where it is with the reason on the card. It never merges. Takes a planned Backlog/Bugs card, an In Progress card with no checklist, or a Human Test card with a core flow and a worktree; Ideation, Work projects and cards with no plan are refused with the reason. afterCardId and scope are ignored with it."
+              description: "Send to Autopilot, the app's button of that name (IDE-608): only when the user explicitly asked for Autopilot on this card. The card goes to the FRONT of the queue and Ideafy carries it on its own, unattended \u2014 a plan run first for a Backlog/Bugs card with no plan (IDE-610; a plan that leaves a [NEEDS_DECISION: \u2026] question stops it there, in Backlog/Bugs, for the user to answer), implementation in its worktree, then a pre-verify of each checklist group in turn, at most one automatic fix round \u2014 and stops at Ready to merge, or where it is with the reason on the card. It never merges. Takes a Backlog/Bugs card (planned or not), an In Progress card with a plan and no checklist, or a Human Test card with a core flow and a worktree; Ideation, Work projects and In Progress cards with no plan are refused with the reason. afterCardId and scope are ignored with it."
             }
           },
           required: ["cardId"]
@@ -32496,7 +32940,7 @@ The server writes the card's verdict, score, priority and complexity from those 
       },
       {
         name: "merge_card",
-        description: "Merge & Complete from the terminal, the same as the button on a Human Test card. Call only when the user explicitly asked to merge this card; it squash-merges the card's branch into the default branch, deletes the worktree and branch, and moves the card to Completed. It cannot be undone from the board. Runs without the Ideafy app. Refused from a session inside the card's own worktree. On a rebase conflict it lists the files and the worktree: show them to the user. When the worktree has uncommitted changes it asks first: only on the user's OK call again with commitFirst: true. Uncommitted work in the main checkout is stashed and restored, never committed. With complete: false the card stays in Human Test instead of moving to Completed, to be tested on main; the worktree and branch are still deleted.",
+        description: "Merge & Complete from the terminal, the same as the button on a Human Test card. Call only when the user explicitly asked to merge this card; it squash-merges the card's branch into the default branch, deletes the worktree and branch, and moves the card to Completed. It cannot be undone from the board. Runs without the Ideafy app. Refused from a session inside the card's own worktree. On a rebase conflict it lists the files and the worktree: show them to the user. When the worktree has uncommitted changes it asks first: only on the user's OK call again with commitFirst: true. Uncommitted work in the main checkout is stashed and restored, never committed. With complete: false the card stays in Human Test instead of moving to Completed, to be tested on main; the worktree and branch are still deleted. On a chain with an integration branch the card is instead merged (--no-ff) into the chain's branch and stays in Human Test, in chain, with its branch kept: that is Chain'e al; the chain reaches main with merge_chain.",
         inputSchema: {
           type: "object",
           properties: {
@@ -32518,6 +32962,28 @@ The server writes the card's verdict, score, priority and complexity from those 
             }
           },
           required: ["cardId"]
+        }
+      },
+      {
+        name: "merge_chain",
+        description: "Merge & Complete for a whole chain with an integration branch (IDE-612), the same as the parent card's Merge & Complete on the board. Call only when the user explicitly asked to merge the chain. Every card of the chain that is not withdrawn must be in chain (taken in with merge_card) or Completed; otherwise it names the ones still open. It merges main into the chain's branch first (a conflict stops it and names the files), then merges the chain into the default branch with one --no-ff merge commit, moves every member to Completed together and deletes the chain's branch, its worktree and the cards' kept branches. Undo later only with git revert -m 1 of that commit. Uncommitted work in the main checkout is stashed and restored, never committed.",
+        inputSchema: {
+          type: "object",
+          properties: {
+            groupId: { type: "string", description: "The chain's id (list_groups)" }
+          },
+          required: ["groupId"]
+        }
+      },
+      {
+        name: "rollback_chain",
+        description: "Throw away a chain's integration branch (IDE-612): the chain's branch and worktree are deleted and every card taken into it goes back to Human Test with its own branch active again, to be merged into a fresh chain branch later. Call only when the user explicitly asked to roll the chain back. Refused once the chain is on main; then the way back is git revert -m 1 of its merge commit.",
+        inputSchema: {
+          type: "object",
+          properties: {
+            groupId: { type: "string", description: "The chain's id (list_groups)" }
+          },
+          required: ["groupId"]
         }
       },
       {
@@ -32572,6 +33038,10 @@ The server writes the card's verdict, score, priority and complexity from those 
             color: {
               type: "string",
               description: "Optional hex color, e.g. #22c55e. Defaults to the app picker's first color."
+            },
+            integrationBranch: {
+              type: "boolean",
+              description: "Give the chain an integration branch (default false): its cards branch off chain/<code>-<id>, are merged into it one by one (Chain'e al, through merge_card) and the whole chain lands on main at once with merge_chain. Only when the user asked for it."
             }
           },
           required: ["code"]
@@ -32807,7 +33277,11 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         card.story = buildCardStory2(
           { ...card, ...storyRow, rebaseConflict: !!storyRow?.rebaseConflict, testReports: reportRuns },
           loadStoryInputs2(db, card.id),
-          { mode: normalizeProjectMode2(projectRow?.mode), queueRank: queueIndex + 1 }
+          {
+            mode: normalizeProjectMode2(projectRow?.mode),
+            queueRank: queueIndex + 1,
+            chainMerge: chainMergeForCard2(db, card.id)
+          }
         );
         const { cleanedCard, images } = extractCardImages(card);
         const content = [
@@ -33025,7 +33499,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         }
       }
       case "split_card": {
-        const { id: rawId, keepAsOne, cards, flows, groupId, newChain, chainCode, chainName } = args ?? {};
+        const { id: rawId, keepAsOne, cards, flows, groupId, newChain, chainCode, chainName, integrationBranch } = args ?? {};
         if (!hasCapability(db, "splitProposals") || !hasCapability(db, "splitFrom")) {
           return { content: [{ type: "text", text: missingCapabilityMessage("split_card", "splitFrom") }], isError: true };
         }
@@ -33043,7 +33517,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         }
         try {
           const named = chainCode || chainName;
-          const chain = newChain || named && !groupId ? { mode: "new", code: chainCode, name: chainName } : groupId ? { mode: "existing", groupId } : void 0;
+          const chain = newChain || named && !groupId || integrationBranch && !groupId ? { mode: "new", code: chainCode, name: chainName, integrationBranch: integrationBranch === true } : groupId ? { mode: "existing", groupId } : void 0;
           const result = splitCard2(db, { cardId: id, choices: { cards, flows, chain }, now, author: IDEAFY_AUTHOR2 });
           const names = result.children.map((child) => child.displayId ?? `"${child.title}"`).join(", ");
           return {
@@ -33690,7 +34164,23 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             };
           }
         }
-        const result = await createWorktree2(projectFolder, targetBranch);
+        const chainGroup = cardIntegrationGroup2(db, cardId);
+        if (chainGroup && isChainParent2(db, cardId, chainGroup.id)) {
+          const synced = await syncMainIntoChain2(db, chainGroup.id, { projectPath: projectFolder });
+          if (synced.kind === "conflict" || synced.kind === "failed") {
+            return {
+              content: [
+                {
+                  type: "text",
+                  text: synced.kind === "conflict" ? chainConflictText2(synced.branch, synced.files, synced.worktreePath) : `Could not merge main into the chain's branch: ${synced.error}`
+                }
+              ],
+              isError: true
+            };
+          }
+        }
+        const baseBranch = chainGroup && !card.gitBranchName ? await cardBaseBranch2(db, cardId, { projectPath: projectFolder }) : void 0;
+        const result = await createWorktree2(projectFolder, targetBranch, baseBranch);
         if (!result.success) {
           return {
             content: [
@@ -34090,6 +34580,17 @@ ${waiting}` : ""}` : choice === "silent" ? `${bound} This session is outside eve
         const result = await mergeCardTool(db, { cardId, commitFirst, targetBranch, complete, cwd: process.cwd() });
         return { content: [{ type: "text", text: result.text }], ...result.ok ? {} : { isError: true } };
       }
+      case "merge_chain": {
+        const { groupId } = args;
+        const result = await mergeChain2(db, groupId);
+        return { content: [{ type: "text", text: mergeChainText(result) }], ...result.kind === "ok" ? {} : { isError: true } };
+      }
+      case "rollback_chain": {
+        const { groupId } = args;
+        const result = await rollbackChain2(db, groupId);
+        const text2 = result.kind === "ok" ? `${result.branch} deleted; ${result.restored} card(s) back in Human Test with their own branch active.` : result.kind === "alreadyMerged" ? `The chain is already on main. Undo it with: git revert -m 1 ${result.mergedCommit}. Nothing was rolled back.` : result.kind === "notRepo" ? `${result.workingDir} is not a git repository. Nothing was rolled back.` : "This chain has no integration branch. Nothing was rolled back.";
+        return { content: [{ type: "text", text: text2 }], ...result.kind === "ok" ? {} : { isError: true } };
+      }
       case "list_groups": {
         const { projectId, includeArchived } = args ?? {};
         const groups = listGroupsWithChains(db, projectId, includeArchived === true);
@@ -34100,10 +34601,11 @@ ${waiting}` : ""}` : choice === "silent" ? `${bound} This session is outside eve
       case "create_group": {
         const input = args;
         const group = createGroup2(db, input);
+        const branchNote = group.integrationBranch ? ` Its cards branch off ${group.integrationBranch}, which opens on the first card's start.` : "";
         return {
           content: [{
             type: "text",
-            text: `Group created: ${group.id} (${group.code} \xB7 ${group.name}). Pass this id as groupId to create_card or update_card.`
+            text: `Group created: ${group.id} (${group.code} \xB7 ${group.name}). Pass this id as groupId to create_card or update_card.${branchNote}`
           }]
         };
       }
