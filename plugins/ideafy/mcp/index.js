@@ -21857,6 +21857,8 @@ __export(test_progress_exports, {
   UI_ITEM_TOKEN: () => UI_ITEM_TOKEN,
   allUiItemTexts: () => allUiItemTexts,
   canVerifyAllGroups: () => canVerifyAllGroups,
+  coreFlowFirst: () => coreFlowFirst,
+  defaultVisualItems: () => defaultVisualItems,
   describeTestGroup: () => describeTestGroup,
   distinctItems: () => distinctItems,
   isUiItem: () => isUiItem,
@@ -21901,6 +21903,20 @@ function splitSections(html) {
     const end = next ? html.lastIndexOf("<h2", next.bodyStart) : html.length;
     return { heading: h.heading, label: h.heading.toLowerCase(), body: html.slice(h.bodyStart, end) };
   });
+}
+function coreFlowFirst(html) {
+  const starts = [];
+  H2.lastIndex = 0;
+  let match;
+  while ((match = H2.exec(html)) !== null) {
+    starts.push({ start: match.index, core: CORE_HEADING.test(headingText(match[1]).toLowerCase()) });
+  }
+  const coreIndex = starts.findIndex((s) => s.core);
+  if (coreIndex <= 0) return html;
+  const first = starts[0].start;
+  const coreStart = starts[coreIndex].start;
+  const coreEnd = starts[coreIndex + 1]?.start ?? html.length;
+  return html.slice(0, first) + html.slice(coreStart, coreEnd) + html.slice(first, coreStart) + html.slice(coreEnd);
 }
 function parseTestProgress(html) {
   if (!html) return null;
@@ -22002,6 +22018,10 @@ function stripUiToken(text2) {
 }
 function uiItemTexts(html, groups) {
   return untickedItemTexts(html, groups).filter(isUiItem);
+}
+function defaultVisualItems(candidates) {
+  const ui = candidates.filter(isUiItem);
+  return ui.length > 0 ? ui : candidates;
 }
 function allUiItemTexts(html) {
   const progress = parseTestProgress(html);
@@ -22279,6 +22299,7 @@ __export(card_ops_exports, {
   assertGroupAssignable: () => assertGroupAssignable,
   authorFromSource: () => authorFromSource,
   authorshipRows: () => authorshipRows,
+  autopilotLine: () => autopilotLine,
   autopilotRefusal: () => autopilotRefusal,
   branchStoryCounts: () => branchStoryCounts,
   cardAuthorship: () => cardAuthorship,
@@ -22287,12 +22308,15 @@ __export(card_ops_exports, {
   cardIntegrationGroup: () => cardIntegrationGroup,
   cardRepoFolder: () => cardRepoFolder,
   chainAckId: () => chainAckId,
+  chainAutopilotLine: () => chainAutopilotLine,
   chainConflictText: () => chainConflictText,
   chainMergeForCard: () => chainMergeForCard,
   chainOrderWarningFor: () => chainOrderWarningFor,
   chainWriteConflictFor: () => chainWriteConflictFor,
+  chainsWithReadyMembers: () => chainsWithReadyMembers,
   chooseBoundPolicy: () => chooseBoundPolicy,
   clearAutopilot: () => clearAutopilot,
+  clearChainAutopilot: () => clearChainAutopilot,
   clearQueue: () => clearQueue,
   completedAtFor: () => completedAtFor,
   completedAtOnCreate: () => completedAtOnCreate,
@@ -22323,6 +22347,7 @@ __export(card_ops_exports, {
   integrationBranchName: () => integrationBranchName,
   isChainParent: () => isChainParent,
   isStatus: () => isStatus,
+  landReadyChainMembers: () => landReadyChainMembers,
   linkCardsInHtml: () => linkCardsInHtml,
   listDependencies: () => listDependencies,
   listDependencyEdges: () => listDependencyEdges,
@@ -22386,6 +22411,7 @@ __export(card_ops_exports, {
   splitRoleLine: () => splitRoleLine,
   stampBaseCommit: () => stampBaseCommit,
   startAutopilot: () => startAutopilot,
+  startChainAutopilot: () => startChainAutopilot,
   statusAfterPlan: () => statusAfterPlan,
   statusAfterTests: () => statusAfterTests,
   stopAutopilot: () => stopAutopilot,
@@ -22773,6 +22799,7 @@ __export(markdown_exports, {
   plainTaskText: () => plainTaskText,
   reviseTaskItems: () => reviseTaskItems,
   testScenariosToMarkdown: () => testScenariosToMarkdown,
+  tickTaskItems: () => tickTaskItems,
   tokenizeHtmlSections: () => tokenizeHtmlSections,
   untickTaskItems: () => untickTaskItems
 });
@@ -24113,6 +24140,12 @@ function closestTaskText(text2, candidates) {
   return key ? keys.indexOf(key) : -1;
 }
 function untickTaskItems(html, itemTexts2) {
+  return setTaskItemsChecked(html, itemTexts2, false);
+}
+function tickTaskItems(html, itemTexts2) {
+  return setTaskItemsChecked(html, itemTexts2, true);
+}
+function setTaskItemsChecked(html, itemTexts2, checked) {
   const keys = extractTaskItems(html).map((i) => i.normalized);
   const hits = new Set(
     itemTexts2.map((text2) => normalizeTaskText(text2)).filter(Boolean).map((target2) => findFuzzyMatch(target2, keys)).filter((key) => key !== null)
@@ -24122,9 +24155,9 @@ function untickTaskItems(html, itemTexts2) {
     taskItemCheckRegex(),
     (fullMatch, prefix, middle, text2, suffix) => {
       if (!hits.has(normalizeTaskText(text2))) return fullMatch;
-      return `<li${prefix}false${middle}${text2}${suffix}`.replace(
+      return `<li${prefix}${checked}${middle}${text2}${suffix}`.replace(
         /<input type="checkbox"(?:\s+checked="checked")?>/,
-        '<input type="checkbox">'
+        checked ? '<input type="checkbox" checked="checked">' : '<input type="checkbox">'
       );
     }
   );
@@ -24603,9 +24636,11 @@ __export(card_attachments_exports, {
   attachmentUrl: () => attachmentUrl,
   externalizeFields: () => externalizeFields,
   externalizeInlineImages: () => externalizeInlineImages,
+  externalizeInlineImagesWith: () => externalizeInlineImagesWith,
   inlineAttachments: () => inlineAttachments,
   isAttachmentName: () => isAttachmentName,
-  storeAttachment: () => storeAttachment
+  storeAttachment: () => storeAttachment,
+  storeImageIn: () => storeImageIn
 });
 import { createHash } from "crypto";
 import { copyFileSync as copyFileSync2, existsSync as existsSync2, mkdirSync as mkdirSync2, readFileSync as readFileSync2, renameSync, writeFileSync as writeFileSync2 } from "fs";
@@ -25010,12 +25045,10 @@ function sniff(bytes) {
   }
   return null;
 }
-function storeAttachment(cardId, bytes, homeDir) {
-  if (!CARD_ID.test(cardId)) return null;
+function storeImageIn(dir, bytes) {
   const ext = sniff(bytes);
   if (!ext) return null;
   const file2 = `${createHash("sha256").update(bytes).digest("hex")}.${ext}`;
-  const dir = attachmentDir(cardId, homeDir);
   const target2 = path2.join(dir, file2);
   if (!existsSync2(target2)) {
     mkdirSync2(dir, { recursive: true });
@@ -25023,12 +25056,26 @@ function storeAttachment(cardId, bytes, homeDir) {
     writeFileSync2(partial2, bytes);
     renameSync(partial2, target2);
   }
-  return { file: file2, url: attachmentUrl(cardId, file2), path: target2 };
+  return { file: file2, path: target2 };
 }
-function storeBase64(cardId, data, homeDir) {
-  const bytes = Buffer.from(data.replace(/\s+/g, ""), "base64");
-  if (bytes.length === 0) return null;
-  return storeAttachment(cardId, bytes, homeDir)?.url ?? null;
+function storeAttachment(cardId, bytes, homeDir) {
+  if (!CARD_ID.test(cardId)) return null;
+  const stored = storeImageIn(attachmentDir(cardId, homeDir), bytes);
+  return stored ? { ...stored, url: attachmentUrl(cardId, stored.file) } : null;
+}
+function externalizeInlineImagesWith(html, store) {
+  if (!html || !html.includes("data:image/")) return html;
+  const storeBase64 = (data) => {
+    const bytes = Buffer.from(data.replace(/\s+/g, ""), "base64");
+    return bytes.length === 0 ? null : store(bytes);
+  };
+  return html.replace(INLINE_HTML, (whole, prefix, quote, data) => {
+    const url2 = storeBase64(data);
+    return url2 ? `${prefix}${quote}${url2}${quote}` : whole;
+  }).replace(INLINE_MARKDOWN, (whole, prefix, data) => {
+    const url2 = storeBase64(data);
+    return url2 ? `${prefix}${url2})` : whole;
+  });
 }
 function adoptForeign(cardId, url2, ownerId, file2, homeDir) {
   if (ownerId === cardId) return url2;
@@ -25048,17 +25095,7 @@ function adoptForeign(cardId, url2, ownerId, file2, homeDir) {
 }
 function externalizeInlineImages(cardId, html, homeDir) {
   if (!html) return html;
-  let out = html;
-  if (out.includes("data:image/")) {
-    out = out.replace(INLINE_HTML, (whole, prefix, quote, data) => {
-      const url2 = storeBase64(cardId, data, homeDir);
-      return url2 ? `${prefix}${quote}${url2}${quote}` : whole;
-    });
-    out = out.replace(INLINE_MARKDOWN, (whole, prefix, data) => {
-      const url2 = storeBase64(cardId, data, homeDir);
-      return url2 ? `${prefix}${url2})` : whole;
-    });
-  }
+  let out = externalizeInlineImagesWith(html, (bytes) => storeAttachment(cardId, bytes, homeDir)?.url ?? null);
   if (out.includes("/attachments/")) {
     out = out.replace(
       ATTACHMENT_URL,
@@ -26699,6 +26736,7 @@ function saveTests(db2, args) {
       if (typeof finalized === "string") html = finalized;
       else ({ html, runtime: extra } = finalized);
     }
+    html = coreFlowFirst(html);
     const runtime = runtimeAssignments({ ...args.runtime, ...extra });
     runChanges(
       db2,
@@ -27449,7 +27487,7 @@ function splitColumns(db2) {
 }
 var LINKED_SELECT = `
   SELECT c.id, c.title, c.status, c.task_number AS taskNumber, p.id_prefix AS idPrefix,
-         c.git_branch_status AS gitBranchStatus, d.note, %SPLIT%
+         c.git_branch_status AS gitBranchStatus, c.group_id AS groupId, d.note, %SPLIT%
   FROM card_dependencies d
   JOIN cards c ON c.id = d.%JOIN%
   LEFT JOIN projects p ON p.id = c.project_id
@@ -27489,8 +27527,9 @@ function waitingOnLine(db2, cardId) {
     if (!card || card.status === "completed" || card.status === "withdrawn") return null;
     const rows = blockerRows(db2, cardId);
     const name = (row) => sanitizeForReminder(label(row), 80);
-    const open = rows.filter((row) => linkState(row, cardId) === "open");
-    const withdrawn = rows.filter((row) => linkState(row, cardId) === "withdrawn");
+    const groupId = groupOf(db2, cardId);
+    const open = rows.filter((row) => linkState(row, cardId, groupId) === "open");
+    const withdrawn = rows.filter((row) => linkState(row, cardId, groupId) === "withdrawn");
     const lines = [];
     if (open.length > 0) {
       const parts = open.map((row) => {
@@ -27512,11 +27551,12 @@ function waitingOnLine(db2, cardId) {
 }
 function queueWaitReason(db2, cardId) {
   try {
-    const rows = blockerRows(db2, cardId).filter((row) => linkState(row, cardId) !== "landed");
+    const groupId = groupOf(db2, cardId);
+    const rows = blockerRows(db2, cardId).filter((row) => linkState(row, cardId, groupId) !== "landed");
     if (rows.length === 0) return null;
     const first = rows[0];
     const more = rows.length > 1 ? ` +${rows.length - 1}` : "";
-    if (linkState(first, cardId) === "withdrawn") return `waits on withdrawn ${label(first)}${more}`;
+    if (linkState(first, cardId, groupId) === "withdrawn") return `waits on withdrawn ${label(first)}${more}`;
     const why = openLinkReason(first, cardId) ?? `in ${first.status}`;
     return `waits on ${label(first)} (${why})${more}`;
   } catch (error2) {
@@ -28443,7 +28483,38 @@ function autopilotIneligibleReason(card) {
   if (!card.hasPlan && card.status !== "backlog" && card.status !== "bugs") return "no plan yet";
   if (card.hasChecklist) return "it already has a test checklist";
   if (card.status === "progress" && !card.activeWorktree && card.useWorktree === false) return "its work is on main";
+  if (card.status === "progress" && card.activeWorktree && card.dirtyWorktree) {
+    return "its worktree has uncommitted changes \u2014 commit or discard them, then send again";
+  }
   return null;
+}
+function chainAutopilotSummary(members) {
+  const open = members.filter((m2) => m2.status !== "completed" && m2.status !== "withdrawn");
+  const inChain = (m2) => m2.status === "test" && m2.gitBranchStatus === "in_chain";
+  const stageOf = (m2) => isAutopilotStage(m2.autopilotStage) ? m2.autopilotStage : null;
+  const onAutopilot = open.some((m2) => stageOf(m2) !== null);
+  if (!onAutopilot && !(open.length > 0 && open.every(inChain))) return null;
+  let ready = 0;
+  let running = 0;
+  let waiting = 0;
+  let stopped = 0;
+  let parentReady = false;
+  for (const member of open) {
+    const stage = stageOf(member);
+    if (inChain(member) || stage === "ready") {
+      ready++;
+      if (member.isParent && stage === "ready") parentReady = true;
+    } else if (isActiveAutopilotStage(stage)) {
+      if (member.running) running++;
+      else waiting++;
+    } else if (stage === "stopped") {
+      stopped++;
+    }
+  }
+  const parts = [`${ready} ready`, `${running} running`, `${waiting} waiting`];
+  if (stopped > 0) parts.push(`${stopped} stopped`);
+  if (parentReady) parts.push("chain ready, Merge & Complete is yours");
+  return `Chain Autopilot \xB7 ${parts.join(" \xB7 ")}`;
 }
 
 // ../lib/card-ops/autopilot.ts
@@ -28479,9 +28550,14 @@ function getAutopilotState(db2, cardId) {
   const row = readRow2(db2, cardId);
   return row ? stateOf(row) : { stage: null, stopReason: null, retried: false, fixUsed: false };
 }
+function worktreeIsDirty(row) {
+  if (row.status !== "progress" || !row.gitWorktreePath || row.gitWorktreeStatus !== "active") return false;
+  return !!gitRead(row.gitWorktreePath, ["status", "--porcelain"]);
+}
 function ineligibleReason(row) {
   const html = row.testScenarios ?? "";
   return autopilotIneligibleReason({
+    dirtyWorktree: worktreeIsDirty(row),
     status: row.status,
     hasPlan: stripHtml(row.solutionSummary ?? "") !== "",
     hasChecklist: stripHtml(html) !== "",
@@ -28492,6 +28568,16 @@ function ineligibleReason(row) {
     stage: row.stage,
     processingType: row.processingType
   });
+}
+function autopilotLine(db2, cardId) {
+  const { stage, stopReason } = getAutopilotState(db2, cardId);
+  if (isActiveAutopilotStage(stage)) {
+    return `Autopilot is running this card (${stage}) in its worktree; do not edit there. Ask the user to stop Autopilot first.`;
+  }
+  if (stage === "stopped") {
+    return `Autopilot stopped on this card: ${sanitizeForReminder(stopReason || "no reason given", 200)}. Say so in your first sentence.`;
+  }
+  return null;
 }
 function autopilotRefusal(db2, cardId) {
   const row = readRow2(db2, cardId);
@@ -29583,6 +29669,210 @@ async function mergeCard(db2, cardId, opts = {}) {
   }
 }
 
+// ../lib/card-ops/chain-autopilot.ts
+function openMembers(db2, groupId) {
+  return allRows(
+    db2,
+    `SELECT c.id, c.title, c.status, c.task_number AS taskNumber, p.id_prefix AS idPrefix,
+            c.group_order AS groupOrder, c.git_branch_status AS gitBranchStatus,
+            c.test_scenarios AS testScenarios, c.autopilot_stage AS stage
+     FROM cards c LEFT JOIN projects p ON p.id = c.project_id
+     WHERE c.group_id = ? AND c.status NOT IN ('completed', 'withdrawn')`,
+    groupId
+  ).sort(compareByChainOrder);
+}
+var nameOf = (row) => formatDisplayId(row.idPrefix, row.taskNumber) ?? row.title;
+function isTickedTestCard(row) {
+  if (row.status !== "test" || row.gitBranchStatus !== "active") return false;
+  const progress = parseTestProgress(row.testScenarios ?? "");
+  return !!progress?.core && !nextVerifyGroup(progress);
+}
+var Refused2 = class extends Error {
+  constructor(refusals) {
+    super("refused");
+    this.refusals = refusals;
+  }
+  refusals;
+};
+function refusalMessage(code, refusals) {
+  const parts = refusals.map((r) => `${r.displayId}: ${r.reason}`);
+  return `Cannot send ${code} to Autopilot \u2014 ${refusals.length === 1 ? "1 card" : `${refusals.length} cards`} cannot go: ${parts.join("; ")}`;
+}
+function startChainAutopilot(db2, groupId) {
+  const group = getIntegrationGroup(db2, groupId);
+  const plain = group ? null : getRow(db2, `SELECT code FROM card_groups WHERE id = ?`, groupId);
+  if (!group && !plain) return { ok: false, reason: "not-found", message: "Chain not found" };
+  const code = group?.code ?? plain.code;
+  if (!group?.integrationBranch) {
+    return {
+      ok: false,
+      reason: "not-integration",
+      message: `${code} has no integration branch: Chain Autopilot needs one to stop before chain \u2192 main`
+    };
+  }
+  if (group.mergedCommit) {
+    return { ok: false, reason: "merged", message: `${code} already landed on main as ${group.mergedCommit.slice(0, 7)}` };
+  }
+  const members = openMembers(db2, groupId).filter((row) => row.gitBranchStatus !== "in_chain");
+  const parents = members.filter((row) => isChainParent(db2, row.id, groupId));
+  const ordered = [...members.filter((row) => !parents.includes(row)), ...parents];
+  const kept = [];
+  const ready = [];
+  const toQueue = [];
+  const refusals = [];
+  for (const row of ordered) {
+    const stage = isAutopilotStage(row.stage) ? row.stage : null;
+    if (isActiveAutopilotStage(stage) || stage === "ready") {
+      kept.push(row.id);
+      continue;
+    }
+    if (isTickedTestCard(row)) {
+      ready.push(row.id);
+      continue;
+    }
+    const refusal = autopilotRefusal(db2, row.id);
+    if (refusal) refusals.push({ cardId: row.id, displayId: nameOf(row), reason: refusal });
+    else toQueue.push(row);
+  }
+  if (refusals.length > 0) return { ok: false, reason: "ineligible", message: refusalMessage(code, refusals), refusals };
+  if (toQueue.length === 0 && ready.length === 0) {
+    return {
+      ok: false,
+      reason: "nothing",
+      message: kept.length > 0 ? `${code} is already on Autopilot` : `${code} has no open card left to carry`
+    };
+  }
+  try {
+    const queued = transaction(db2, () => {
+      const out = [];
+      const writeStage = db2.prepare(
+        `UPDATE cards SET use_worktree = 1, autopilot_stage = ?, autopilot_stop_reason = NULL,
+                autopilot_retried = 0, autopilot_fix_used = 0
+         WHERE id = ?`
+      );
+      for (const id of ready) writeStage.run("ready", id);
+      let after = null;
+      for (const row of toQueue) {
+        const stage = row.status === "test" ? "verifying" : stripPlan(db2, row.id) === "" ? "planning" : "implementing";
+        writeStage.run(stage, row.id);
+        const result = enqueueCard(db2, row.id, after, "next");
+        if (!result.ok) {
+          throw new Refused2([
+            { cardId: row.id, displayId: nameOf(row), reason: result.message.replace(/^Cannot queue [^:]+: /, "") }
+          ]);
+        }
+        after = row.id;
+        out.push({ cardId: row.id, displayId: nameOf(row), stage });
+      }
+      return out;
+    });
+    const parts = [`${queued.length} queued`];
+    if (ready.length > 0) parts.push(`${ready.length} going into ${group.integrationBranch}`);
+    if (kept.length > 0) parts.push(`${kept.length} already on Autopilot`);
+    return { ok: true, code, queued, ready, kept, message: `Sent ${code} to Autopilot: ${parts.join(", ")}` };
+  } catch (error2) {
+    if (error2 instanceof Refused2) {
+      return { ok: false, reason: "ineligible", message: refusalMessage(code, error2.refusals), refusals: error2.refusals };
+    }
+    throw error2;
+  }
+}
+function stripPlan(db2, cardId) {
+  const row = getRow(db2, `SELECT solution_summary AS plan FROM cards WHERE id = ?`, cardId);
+  return stripHtml(row?.plan ?? "");
+}
+function clearChainAutopilot(db2, groupId) {
+  const ids = allRows(
+    db2,
+    `SELECT id FROM cards WHERE group_id = ? AND autopilot_stage IS NOT NULL`,
+    groupId
+  ).map((row) => row.id);
+  for (const id of ids) clearAutopilot(db2, id);
+  return ids;
+}
+function whyNotLanded(result) {
+  switch (result.kind) {
+    case "rebaseConflict":
+      return `conflicts in ${result.conflictFiles.join(", ") || "its branch"}`;
+    case "uncommittedInWorktree":
+      return "uncommitted changes in its worktree";
+    case "noCommits":
+      return "its branch has no commits";
+    case "targetNotCheckedOut":
+      return `${result.targetBranch} is not checked out`;
+    case "failed":
+      return result.error;
+    case "wrongStatus":
+      return `it is in ${result.status}`;
+    case "notRepo":
+      return "the project folder is not a git repository";
+    default:
+      return result.kind;
+  }
+}
+async function landReadyChainMembers(db2, groupId, opts = {}) {
+  const out = { landed: [], stopped: [] };
+  const group = getIntegrationGroup(db2, groupId);
+  if (!group?.integrationBranch || group.mergedCommit) return out;
+  const rows = allRows(
+    db2,
+    `SELECT c.id, c.title, c.status, c.task_number AS taskNumber, p.id_prefix AS idPrefix,
+            c.group_order AS groupOrder, c.git_branch_status AS gitBranchStatus,
+            c.test_scenarios AS testScenarios, c.autopilot_stage AS stage, c.processing_type AS processingType
+     FROM cards c LEFT JOIN projects p ON p.id = c.project_id
+     WHERE c.group_id = ? AND c.autopilot_stage = 'ready' AND c.status = 'test'
+       AND c.git_branch_status = 'active' AND c.processing_type IS NULL`,
+    groupId
+  ).sort(compareByChainOrder);
+  for (const row of rows) {
+    if (isChainParent(db2, row.id, groupId)) continue;
+    let result;
+    try {
+      result = await mergeCard(db2, row.id, { mode: "into-chain", stopProcess: opts.stopProcess, log: opts.log, now: opts.now });
+    } catch (error2) {
+      result = { kind: "failed", error: error2 instanceof Error ? error2.message : String(error2), stashRestoreWarning: null };
+    }
+    if (result.kind === "ok") {
+      clearAutopilot(db2, row.id);
+      out.landed.push(row.id);
+      continue;
+    }
+    const reason = `could not go into ${group.integrationBranch}: ${whyNotLanded(result)}`;
+    stopAutopilot(db2, row.id, reason);
+    out.stopped.push({ cardId: row.id, displayId: nameOf(row), reason });
+  }
+  return out;
+}
+function chainsWithReadyMembers(db2) {
+  return allRows(
+    db2,
+    `SELECT DISTINCT group_id AS groupId FROM cards
+     WHERE group_id IS NOT NULL AND autopilot_stage = 'ready' AND status = 'test' AND git_branch_status = 'active'`
+  ).map((row) => row.groupId);
+}
+function chainAutopilotLine(db2, groupId) {
+  try {
+    const rows = allRows(
+      db2,
+      `SELECT id, status, git_branch_status AS gitBranchStatus, autopilot_stage AS stage,
+              processing_type AS processingType
+       FROM cards WHERE group_id = ?`,
+      groupId
+    );
+    return chainAutopilotSummary(
+      rows.map((row) => ({
+        status: row.status,
+        gitBranchStatus: row.gitBranchStatus,
+        autopilotStage: row.stage,
+        running: !!row.processingType,
+        isParent: isChainParent(db2, row.id, groupId)
+      }))
+    );
+  } catch {
+    return null;
+  }
+}
+
 // ../lib/card-story.ts
 var card_story_exports = {};
 __export(card_story_exports, {
@@ -30033,6 +30323,14 @@ function cardLastActivityAt(card) {
   return card.updatedAt || card.createdAt;
 }
 
+// ../lib/card-turn.ts
+function runMinutes(startedAt, now) {
+  if (!startedAt) return null;
+  const started = Date.parse(startedAt);
+  if (Number.isNaN(started)) return null;
+  return Math.max(0, Math.floor((now - started) / 6e4));
+}
+
 // ../lib/board-focus.ts
 var YOUR_TURN_ORDER = [
   "blocked",
@@ -30065,10 +30363,8 @@ var PROCESSING_LABELS = {
   generate: "generating"
 };
 function formatSince(iso, now = Date.now()) {
-  if (!iso) return "unknown";
-  const then = new Date(iso).getTime();
-  if (Number.isNaN(then)) return "unknown";
-  const minutes = Math.max(0, Math.floor((now - then) / 6e4));
+  const minutes = runMinutes(iso, now);
+  if (minutes === null) return "unknown";
   if (minutes < 60) return `${minutes}m ago`;
   const hours = Math.floor(minutes / 60);
   if (hours < 24) return `${hours}h ago`;
@@ -30095,7 +30391,7 @@ function yourTestLine(card, now) {
   const left = progress.total - progress.checked;
   return left > 0 ? `${progress.checked}/${progress.total} checked \xB7 ${left} left for you` : `${progress.checked}/${progress.total} checked`;
 }
-function focusDetail(card, now = Date.now(), state = getFocusState(card), reply) {
+function focusDetail(card, now = Date.now(), state = getFocusState(card), reply, runStartedAt) {
   switch (state) {
     case "blocked": {
       const files = card.conflictFiles?.length ?? 0;
@@ -30120,11 +30416,10 @@ function focusDetail(card, now = Date.now(), state = getFocusState(card), reply)
       if (card.aiVerdict === "positive") return "verdict: yes \xB7 move to backlog?";
       if (card.aiVerdict === "maybe") return "verdict: maybe \xB7 discuss?";
       return "verdict: no \xB7 withdraw?";
-    case "agent-running":
-      return `${PROCESSING_LABELS[card.processingType ?? ""] ?? "running"} \xB7 started ${formatSince(
-        cardLastActivityAt(card),
-        now
-      )}`;
+    case "agent-running": {
+      const label2 = PROCESSING_LABELS[card.processingType ?? ""] ?? "running";
+      return runStartedAt ? `${label2} \xB7 started ${formatSince(runStartedAt, now)}` : label2;
+    }
     default:
       return formatSince(cardLastActivityAt(card), now);
   }
@@ -30137,7 +30432,8 @@ var NEUTRAL_STEP_WHO = {
   queued: "ai",
   unlock: "you",
   locked: "you",
-  "chat-running": "you"
+  // A chat writing its reply is Ideafy's turn, as Focus and the board card read it (IDE-599, IDE-651).
+  "chat-running": "ai"
 };
 function nextTurnFor(card, ctx = {}) {
   if (isFinished2(card.status)) return null;
@@ -30319,7 +30615,8 @@ function nowStepId(card, work, running, chainMerge) {
 function bannerFor(card, ctx, now) {
   if (card.status === "completed" || card.status === "withdrawn") return null;
   const running = ctx.running ?? !!card.processingType;
-  if (running) return { kind: "ai", detail: focusDetail(card, now, "agent-running") };
+  if (running) return { kind: "ai", detail: focusDetail(card, now, "agent-running", void 0, ctx.runStartedAt) };
+  if (ctx.chatting) return { kind: "ai", detail: "replying in chat" };
   const turn = nextTurnFor(card, ctx);
   if ((ctx.queueRank ?? 0) > 0) {
     return { kind: "queued", rank: ctx.queueRank ?? 0, detail: turn?.label ?? "waiting in the queue" };
@@ -30977,7 +31274,12 @@ var {
   isChainParent: isChainParent2,
   syncMainIntoChain: syncMainIntoChain2,
   startAutopilot: startAutopilot2,
-  getAutopilotState: getAutopilotState2
+  getAutopilotState: getAutopilotState2,
+  autopilotLine: autopilotLine2,
+  startChainAutopilot: startChainAutopilot2,
+  landReadyChainMembers: landReadyChainMembers2,
+  getIntegrationGroup: getIntegrationGroup2,
+  chainAutopilotLine: chainAutopilotLine2
 } = unwrap(card_ops_exports);
 var { writeConflictFor: writeConflictFor2 } = unwrap(card_queue_exports);
 var { normalizeComplexity: normalizeComplexity2, describeOpinionMarkers: describeOpinionMarkers2, countOpinionConcerns: countOpinionConcerns2 } = unwrap(opinion_markers_exports);
@@ -31417,7 +31719,7 @@ function asBoardCard(card) {
 function modeOf(card) {
   return card.mode === "work" ? "work" : "development";
 }
-function nameOf(card) {
+function nameOf2(card) {
   return card.displayId ?? `"${card.title}"`;
 }
 function failureText(tool, name, result) {
@@ -31433,7 +31735,7 @@ async function startCardRunTool(db2, input, deps = {}) {
   if (!card) return { ok: false, text: `Card not found: ${input.cardId}` };
   const runtime = readRuntime2(db2);
   if (runtime.appState !== "open") return { ok: false, text: APP_CLOSED_TEXT };
-  const name = nameOf(card);
+  const name = nameOf2(card);
   const solutionText = stripHtml2(card.solutionSummary ?? "");
   const testText = stripHtml2(card.testScenarios ?? "");
   const progress = parseTestProgress2(card.testScenarios ?? "");
@@ -31470,7 +31772,7 @@ async function openCardSessionTool(db2, input, deps = {}) {
   if (!card) return { ok: false, text: `Card not found: ${input.cardId}` };
   const runtime = readRuntime2(db2);
   if (runtime.appState !== "open") return { ok: false, text: APP_CLOSED_TEXT };
-  const name = nameOf(card);
+  const name = nameOf2(card);
   if (card.status === "withdrawn" || !canStartCard2(asBoardCard(card))) {
     const why = card.description ? `the board offers no session on a card in ${card.status}` : "the card has no description";
     return { ok: false, text: `open_card_session: ${name}: ${why}. Nothing was changed.` };
@@ -32059,7 +32361,8 @@ function getChainForCard(db2, card) {
   const members = db2.prepare(selectMembers(db2, "c.group_id = ?")).all(card.groupId);
   const context = buildChainContext2(members, card.id, toChainRef);
   if (!context) return null;
-  return { groupId: group.id, groupCode: group.code, groupName: group.name, ...context };
+  const autopilot = chainAutopilotLine2(db2, group.id);
+  return { groupId: group.id, groupCode: group.code, groupName: group.name, ...context, ...autopilot ? { autopilot } : {} };
 }
 function listGroupsWithChains(db2, projectId, includeArchived = false) {
   const groups = listGroups2(db2, projectId, { includeArchived });
@@ -32075,8 +32378,10 @@ function listGroupsWithChains(db2, projectId, includeArchived = false) {
   return groups.map((group) => {
     const ordered = (byGroup.get(group.id) ?? []).sort(compareByChainOrder2);
     const refs = ordered.map(toChainRef);
+    const autopilot = chainAutopilotLine2(db2, group.id);
     return {
       ...group,
+      ...autopilot ? { autopilot } : {},
       next: refs.find((ref) => !isFinished3(ref)) ?? null,
       members: refs.map((ref, index) => ({ ...ref, position: index + 1 }))
     };
@@ -32866,7 +33171,11 @@ The server writes the card's verdict, score, priority and complexity from those 
           properties: {
             cardId: {
               type: "string",
-              description: "Card ID: UUID, display ID (e.g., KAN-54), or task number"
+              description: "Card ID: UUID, display ID (e.g., KAN-54), or task number. Give either cardId or groupId."
+            },
+            groupId: {
+              type: "string",
+              description: "Chain Autopilot (IDE-613), only with autopilot: true and only when the user explicitly asked for Autopilot on the chain: the chain's id or code (e.g. AUTO). The chain needs an integration branch. Every open card not yet in chain/x goes on Autopilot and to the front of the queue in chain order, the parent last; a child that reaches Ready to merge goes into chain/x on its own (Chain'e al), so the next card builds on it; a card that stops holds only the cards linked to it. The parent runs its checklist on chain/x and stops at Ready to merge \u2014 Merge & Complete to main stays the user's (merge_chain). One card that cannot go refuses the whole chain, naming each."
             },
             afterCardId: {
               type: ["string", "null"],
@@ -32881,8 +33190,7 @@ The server writes the card's verdict, score, priority and complexity from those 
               type: "boolean",
               description: "Send to Autopilot, the app's button of that name (IDE-608): only when the user explicitly asked for Autopilot on this card. The card goes to the FRONT of the queue and Ideafy carries it on its own, unattended \u2014 a plan run first for a Backlog/Bugs card with no plan (IDE-610; a plan that leaves a [NEEDS_DECISION: \u2026] question stops it there, in Backlog/Bugs, for the user to answer), implementation in its worktree, then a pre-verify of each checklist group in turn, at most one automatic fix round \u2014 and stops at Ready to merge, or where it is with the reason on the card. It never merges. Takes a Backlog/Bugs card (planned or not), an In Progress card with a plan and no checklist, or a Human Test card with a core flow and a worktree; Ideation, Work projects and In Progress cards with no plan are refused with the reason. afterCardId and scope are ignored with it."
             }
-          },
-          required: ["cardId"]
+          }
         }
       },
       {
@@ -33475,15 +33783,15 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         if (!cardId) {
           return { content: [{ type: "text", text: `Card not found: ${rawCardId}` }], isError: true };
         }
-        const nameOf2 = queueDisplayIdOf;
+        const nameOf3 = queueDisplayIdOf;
         try {
           if (name === "add_dependency") {
             const result2 = addDependency2(db, { cardId, blockedBy, note, now: (/* @__PURE__ */ new Date()).toISOString() });
-            const waits = `${nameOf2(cardId)} waits on ${nameOf2(result2.blockedById)}`;
+            const waits = `${nameOf3(cardId)} waits on ${nameOf3(result2.blockedById)}`;
             return {
               content: [{
                 type: "text",
-                text: result2.created ? `${waits} now. Starting or queueing ${nameOf2(cardId)} warns until ${nameOf2(result2.blockedById)}'s code lands.` : `${waits} already${note !== void 0 ? "; its note was updated" : ""}.`
+                text: result2.created ? `${waits} now. Starting or queueing ${nameOf3(cardId)} warns until ${nameOf3(result2.blockedById)}'s code lands.` : `${waits} already${note !== void 0 ? "; its note was updated" : ""}.`
               }]
             };
           }
@@ -33491,7 +33799,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           return {
             content: [{
               type: "text",
-              text: result.removed ? `${nameOf2(cardId)} no longer waits on ${nameOf2(result.blockedById)}.` : result.dismissed ? `The suggested link was turned down: ${nameOf2(cardId)} does not wait on ${nameOf2(result.blockedById)}, and it will not be suggested again.` : `${nameOf2(cardId)} did not wait on ${nameOf2(result.blockedById)}; nothing changed.`
+              text: result.removed ? `${nameOf3(cardId)} no longer waits on ${nameOf3(result.blockedById)}.` : result.dismissed ? `The suggested link was turned down: ${nameOf3(cardId)} does not wait on ${nameOf3(result.blockedById)}, and it will not be suggested again.` : `${nameOf3(cardId)} did not wait on ${nameOf3(result.blockedById)}; nothing changed.`
             }]
           };
         } catch (error2) {
@@ -34280,7 +34588,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           mode
         );
         const bound = `Session ${sessionId} bound to card ${card.id} ("${card.title}", column: ${card.status}, project mode: ${mode}).`;
-        const waiting = policy && choice === "phase" ? [waitingOnLine2(db, card.id), splitRoleLine2(db, card.id), planDriftLine2(db, card.id)].filter(Boolean).join("\n") || null : null;
+        const waiting = policy && choice === "phase" ? [waitingOnLine2(db, card.id), splitRoleLine2(db, card.id), planDriftLine2(db, card.id), autopilotLine2(db, card.id)].filter(Boolean).join("\n") || null : null;
         return {
           content: [
             {
@@ -34479,7 +34787,40 @@ ${waiting}` : ""}` : choice === "silent" ? `${bound} This session is outside eve
             isError: true
           };
         }
-        const { cardId: rawCardId, afterCardId: rawAfterCardId, scope: rawScope, autopilot } = args;
+        const { cardId: rawCardId, groupId: rawGroupId, afterCardId: rawAfterCardId, scope: rawScope, autopilot } = args;
+        if (rawGroupId !== void 0) {
+          if (autopilot !== true || rawCardId !== void 0) {
+            return {
+              content: [{ type: "text", text: "queue_card: groupId goes with autopilot: true and no cardId (Chain Autopilot). Nothing was written." }],
+              isError: true
+            };
+          }
+          if (!hasCapability(db, "autopilot")) {
+            return { content: [{ type: "text", text: missingCapabilityMessage("queue_card", "autopilot") }], isError: true };
+          }
+          const group = getGroup2(db, rawGroupId) ?? listGroups2(db).find((g) => g.code.toLowerCase() === rawGroupId.trim().toLowerCase() && !g.archivedAt) ?? null;
+          if (!group) {
+            return { content: [{ type: "text", text: `Chain not found: ${rawGroupId}` }], isError: true };
+          }
+          const started = startChainAutopilot2(db, group.id);
+          if (!started.ok) {
+            return { content: [{ type: "text", text: `queue_card: ${started.message}. Nothing was written.` }], isError: true };
+          }
+          const landed = await landReadyChainMembers2(db, group.id);
+          const landedNote = (landed.landed.length > 0 ? ` ${landed.landed.length} ready card(s) went into the chain branch.` : "") + (landed.stopped.length > 0 ? ` Stopped: ${landed.stopped.map((s) => `${s.displayId} (${s.reason})`).join("; ")}.` : "");
+          const runtime2 = readRuntime2(db);
+          const armed2 = runtime2.appState === "closed" ? "The Ideafy app is closed, so nothing starts; the queue opens paused on the next launch." : await armQueueIfIdle({ port: appPort(runtime2) });
+          const order = started.queued.map((q2) => `${q2.displayId} (${q2.stage})`).join(", ");
+          return {
+            content: [{
+              type: "text",
+              text: `${started.message}.${order ? ` Run order: ${order}.` : ""}${landedNote} ${armed2} Each child goes into the chain branch at Ready to merge; the parent stops at Ready to merge, and Merge & Complete to main stays the user's call.`
+            }]
+          };
+        }
+        if (!rawCardId) {
+          return { content: [{ type: "text", text: "queue_card: pass cardId (or groupId with autopilot: true). Nothing was written." }], isError: true };
+        }
         if (rawScope !== void 0 && rawScope !== "next" && rawScope !== "all") {
           return { content: [{ type: "text", text: `queue_card: scope must be "next" or "all". Nothing was written.` }], isError: true };
         }
