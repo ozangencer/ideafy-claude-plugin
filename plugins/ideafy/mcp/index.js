@@ -22434,6 +22434,7 @@ __export(card_ops_exports, {
   cardHead: () => cardHead,
   cardIntegrationGroup: () => cardIntegrationGroup,
   cardRepoFolder: () => cardRepoFolder,
+  cardWorkTemplate: () => cardWorkTemplate,
   chainAckId: () => chainAckId,
   chainAutopilotLine: () => chainAutopilotLine,
   chainConflictText: () => chainConflictText,
@@ -22441,6 +22442,7 @@ __export(card_ops_exports, {
   chainOrderWarningFor: () => chainOrderWarningFor,
   chainWriteConflictFor: () => chainWriteConflictFor,
   chainsWithReadyMembers: () => chainsWithReadyMembers,
+  checkWorkTemplateId: () => checkWorkTemplateId,
   chooseBoundPolicy: () => chooseBoundPolicy,
   clearAutopilot: () => clearAutopilot,
   clearChainAutopilot: () => clearChainAutopilot,
@@ -22483,6 +22485,7 @@ __export(card_ops_exports, {
   listGroups: () => listGroups,
   listProjects: () => listProjects,
   listQueueRows: () => listQueueRows,
+  listWorkTemplates: () => listWorkTemplates,
   loadStoryInputs: () => loadStoryInputs,
   mergeCard: () => mergeCard,
   mergeChain: () => mergeChain,
@@ -22557,6 +22560,7 @@ __export(card_ops_exports, {
   updateGroup: () => updateGroup,
   validateCardTitle: () => validateCardTitle,
   waitingOnLine: () => waitingOnLine,
+  workTemplateIdError: () => workTemplateIdError,
   writeRuntime: () => writeRuntime
 });
 
@@ -30459,6 +30463,94 @@ function chainAutopilotLine(db2, groupId) {
   }
 }
 
+// ../lib/work-templates.ts
+var WORK_TEMPLATES_SETTING_KEY = "work_templates";
+function normalizeOutputExt(value) {
+  const raw = typeof value === "string" ? value.trim().toLowerCase() : "";
+  const bare = raw.replace(/^\.+/, "").replace(/[^a-z0-9]/g, "");
+  return bare ? `.${bare}` : ".md";
+}
+function normalizeWorkTemplates(value) {
+  let parsed = value;
+  if (typeof value === "string") {
+    try {
+      parsed = JSON.parse(value);
+    } catch {
+      parsed = null;
+    }
+  }
+  if (!Array.isArray(parsed)) return DEFAULT_WORK_TEMPLATES;
+  const seen = /* @__PURE__ */ new Set();
+  const templates = [];
+  for (const entry of parsed) {
+    if (!entry || typeof entry !== "object") continue;
+    const raw = entry;
+    const name = typeof raw.name === "string" ? raw.name.trim() : "";
+    if (!name) continue;
+    let id = typeof raw.id === "string" && raw.id.trim() ? raw.id.trim() : slugify3(name);
+    while (seen.has(id)) id = `${id}-${templates.length + 1}`;
+    seen.add(id);
+    const skill = typeof raw.skill === "string" && raw.skill.trim() ? raw.skill.trim() : null;
+    templates.push({
+      id,
+      name,
+      skill,
+      promptPreset: typeof raw.promptPreset === "string" ? raw.promptPreset : "",
+      outputExt: normalizeOutputExt(raw.outputExt)
+    });
+  }
+  return templates.length ? templates : DEFAULT_WORK_TEMPLATES;
+}
+function resolveWorkTemplate(templates, templateId) {
+  const list = templates.length ? templates : DEFAULT_WORK_TEMPLATES;
+  return list.find((t) => t.id === templateId) ?? list[0];
+}
+function slugify3(name) {
+  return name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "template";
+}
+
+// ../lib/card-ops/work-templates.ts
+function listWorkTemplates(db2, _projectId) {
+  const row = getRow(
+    db2,
+    "SELECT value FROM settings WHERE key = ?",
+    WORK_TEMPLATES_SETTING_KEY
+  );
+  return normalizeWorkTemplates(row?.value ?? null);
+}
+function isWorkProject(db2, projectId) {
+  const row = getRow(db2, "SELECT * FROM projects WHERE id = ?", projectId);
+  return row?.mode === "work";
+}
+function checkWorkTemplateId(db2, projectId, value) {
+  const id = typeof value === "string" ? value.trim() : value;
+  if (id === null || id === void 0 || id === "") return { ok: true, id: null };
+  if (!projectId) return { ok: false, reason: "no-project", templates: [] };
+  if (!isWorkProject(db2, projectId)) return { ok: false, reason: "not-work-project", templates: [] };
+  const templates = listWorkTemplates(db2, projectId);
+  if (typeof id === "string" && templates.some((t) => t.id === id)) return { ok: true, id };
+  return { ok: false, reason: "unknown-id", templates };
+}
+function workTemplateIdError(value, check2) {
+  switch (check2.reason) {
+    case "no-project":
+      return "workTemplateId needs a card with a project: it only applies to Work projects";
+    case "not-work-project":
+      return "workTemplateId only applies to Work projects";
+    case "unknown-id":
+      return `workTemplateId ${JSON.stringify(value)} is not a template. Valid: ${check2.templates.map((t) => `${t.id} \xB7 ${t.name}`).join(", ")}`;
+  }
+}
+function cardWorkTemplate(db2, projectId, workTemplateId) {
+  const templates = listWorkTemplates(db2, projectId);
+  const template = resolveWorkTemplate(templates, workTemplateId);
+  return {
+    id: template.id,
+    name: template.name,
+    source: workTemplateId && template.id === workTemplateId ? "card" : "default"
+  };
+}
+
 // ../lib/card-story.ts
 var card_story_exports = {};
 __export(card_story_exports, {
@@ -31810,7 +31902,11 @@ var {
   startChainAutopilot: startChainAutopilot2,
   landReadyChainMembers: landReadyChainMembers2,
   getIntegrationGroup: getIntegrationGroup2,
-  chainAutopilotLine: chainAutopilotLine2
+  chainAutopilotLine: chainAutopilotLine2,
+  listWorkTemplates: listWorkTemplates2,
+  checkWorkTemplateId: checkWorkTemplateId2,
+  workTemplateIdError: workTemplateIdError2,
+  cardWorkTemplate: cardWorkTemplate2
 } = unwrap(card_ops_exports);
 var { writeConflictFor: writeConflictFor2, withoutOwnAppRun: withoutOwnAppRun2, APP_RUN_CARD_ENV: APP_RUN_CARD_ENV2 } = unwrap(card_queue_exports);
 var { normalizeComplexity: normalizeComplexity2, describeOpinionMarkers: describeOpinionMarkers2, countOpinionConcerns: countOpinionConcerns2 } = unwrap(opinion_markers_exports);
@@ -31834,7 +31930,7 @@ var { stripHtml: stripHtml2 } = unwrap(utils_exports);
 var { git: git2 } = unwrap(core_exports3);
 var { isGitRepo: isGitRepo2, getCurrentBranch: getCurrentBranch2, branchExists: branchExists2, getDefaultBranch: getDefaultBranch2 } = unwrap(repo_exports);
 var { getWorktreeBaseDir: getWorktreeBaseDir2, getWorktreePath: getWorktreePath2, worktreeExists: worktreeExists2 } = unwrap(worktree_exports);
-var { slugify: slugify3, generateBranchName: generateBranchName2 } = unwrap(branch_name_exports);
+var { slugify: slugify4, generateBranchName: generateBranchName2 } = unwrap(branch_name_exports);
 var { shouldUseWorktree: shouldUseWorktree2, resolveEffectiveWorktree: resolveEffectiveWorktree2, normalizeProjectMode: normalizeProjectMode2 } = unwrap(workspace_exports);
 var { COLUMNS: COLUMNS2, formatDisplayId: formatDisplayId2 } = unwrap(types_exports);
 var { stopProcessGroup: stopProcessGroup2 } = unwrap(process_group_exports);
@@ -32033,6 +32129,8 @@ var CAPABILITIES = {
   dependencySuggestions: ["card_dependency_suggestions", "card_id"],
   /** tests_base_commit (0029) — the commit a checklist was written against, for testsDrift and confirmCurrent. */
   baseCommits: ["cards", "tests_base_commit"],
+  /** work_template_id (0019) — the Work template a card's Generate runs with, written by workTemplateId. */
+  workTemplate: ["cards", "work_template_id"],
   /** split_from_card_id (0034) — the parent a card was broken out of, written by split_card. */
   splitFrom: ["cards", "split_from_card_id"],
   /** card_split_proposals (0034) — a break-up an opinion proposed, written by save_opinion's `splitInto`. */
@@ -32843,7 +32941,8 @@ function createCardInput(db2, id, args) {
     priority: args.priority ?? "medium",
     projectId,
     groupId: args.groupId ?? null,
-    blockedBy: parseBlockedBy2(args.blockedBy)
+    blockedBy: parseBlockedBy2(args.blockedBy),
+    workTemplateId: args.workTemplateId || null
   };
 }
 function updateCardBlockedBy(value) {
@@ -32858,7 +32957,8 @@ function updateCardFields(db2, id, updates) {
     complexity: updates.complexity,
     priority: updates.priority,
     useWorktree: updates.useWorktree,
-    groupId: updates.groupId
+    groupId: updates.groupId,
+    workTemplateId: updates.workTemplateId === void 0 ? void 0 : updates.workTemplateId || null
   };
 }
 
@@ -32961,6 +33061,9 @@ function assertValidCardTitle(title) {
   return check2.title;
 }
 var COLUMN_IDS = COLUMNS2.map((column) => column.id);
+function workTemplateChoices(sql, projectId) {
+  return listWorkTemplates2(sql, projectId).map(({ id, name, skill, outputExt }) => ({ id, name, skill, outputExt }));
+}
 function readStatus(id) {
   const row = db.prepare(`SELECT status FROM cards WHERE id = ?`).get(id);
   return row?.status ?? "unknown";
@@ -33117,7 +33220,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
       },
       {
         name: "update_card",
-        description: "Update a kanban card fields (title, description, solutionSummary, status, complexity, priority, useWorktree, groupId, afterCardId, blockedBy). For testScenarios, use save_tests instead \u2014 update_card rejects it to protect checkbox states. For outputPaths, use save_output \u2014 it validates the file against the project folder.",
+        description: "Update a kanban card fields (title, description, solutionSummary, status, complexity, priority, useWorktree, groupId, workTemplateId, afterCardId, blockedBy). For testScenarios, use save_tests instead \u2014 update_card rejects it to protect checkbox states. For outputPaths, use save_output \u2014 it validates the file against the project folder.",
         inputSchema: {
           type: "object",
           properties: {
@@ -33175,6 +33278,10 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
                 required: ["card"]
               },
               description: "The whole set of cards this card waits on: links left out are removed, [] removes them all, omit to leave them alone. To add or drop one link without restating the rest, use add_dependency / remove_dependency."
+            },
+            workTemplateId: {
+              type: ["string", "null"],
+              description: "Work projects only: the template Generate runs this card with. null clears it (the first template runs). Valid ids are in list_projects / get_project_by_folder (workTemplates); an unknown id or a Development project is rejected."
             }
           },
           required: ["id"]
@@ -33398,6 +33505,10 @@ Reading the results: a newer decision overrides an older one (compare completedA
                 required: ["card"]
               },
               description: "Cards this card waits on (blocked-by links). Use it when the work needs another card's code first; a known predecessor from an opinion or plan belongs here rather than only in prose. Links may cross chains and projects. A ref that names no card, or a link that would make a cycle, rejects the whole create."
+            },
+            workTemplateId: {
+              type: ["string", "null"],
+              description: "Work projects only: the template Generate runs this card with. Omit or null and the card runs with the first template. Valid ids are in list_projects / get_project_by_folder (workTemplates); an unknown id or a Development project is rejected."
             }
           },
           required: ["title", "projectId"]
@@ -34105,6 +34216,13 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           voice,
           mode: normalizeProjectMode2(projectRow?.mode)
         };
+        if (normalizeProjectMode2(projectRow?.mode) === "work") {
+          const storedTemplateId = hasCapability(db, "workTemplate") ? db.prepare(`SELECT work_template_id AS workTemplateId FROM cards WHERE id = ?`).get(card.id)?.workTemplateId ?? null : null;
+          Object.assign(card, {
+            workTemplateId: storedTemplateId,
+            workTemplate: cardWorkTemplate2(db, card.projectId, storedTemplateId)
+          });
+        }
         const storyRow = db.prepare(
           `SELECT git_branch_name AS gitBranchName, git_branch_status AS gitBranchStatus,
                     processing_type AS processingType, rebase_conflict AS rebaseConflict,
@@ -34221,7 +34339,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           complexity: "complexity",
           priority: "priority",
           useWorktree: "use_worktree",
-          groupId: "group_id"
+          groupId: "group_id",
+          workTemplateId: "work_template_id"
         };
         const unknownKeys = Object.keys(updates).filter(
           (key) => !(key in fieldMap) && updates[key] !== void 0
@@ -34256,6 +34375,23 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             }],
             isError: true
           };
+        }
+        const rawWorkTemplateId = updates.workTemplateId;
+        if (rawWorkTemplateId !== void 0) {
+          if (!hasCapability(db, "workTemplate")) {
+            return {
+              content: [{ type: "text", text: missingCapabilityMessage("update_card", "workTemplate") }],
+              isError: true
+            };
+          }
+          const check2 = checkWorkTemplateId2(db, projectIdOfCard2(db, id), rawWorkTemplateId);
+          if (!check2.ok) {
+            return {
+              content: [{ type: "text", text: `update_card: ${workTemplateIdError2(rawWorkTemplateId, check2)}` }],
+              isError: true
+            };
+          }
+          updates.workTemplateId = check2.id;
         }
         const writesStatus = typeof updates.status === "string";
         if (writesStatus && !hasCapability(db, "completedAt")) {
@@ -34568,7 +34704,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           priority = "medium",
           projectId = null,
           groupId: rawGroupId = null,
-          blockedBy
+          blockedBy,
+          workTemplateId: rawWorkTemplateId
         } = args;
         const validTitle = assertValidCardTitle(title);
         if (!isStatus2(status)) {
@@ -34586,6 +34723,19 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             isError: true
           };
         }
+        const workTemplateCheck = checkWorkTemplateId2(db, projectId, rawWorkTemplateId);
+        if (!workTemplateCheck.ok) {
+          return {
+            content: [{ type: "text", text: `create_card: ${workTemplateIdError2(rawWorkTemplateId, workTemplateCheck)}` }],
+            isError: true
+          };
+        }
+        if (workTemplateCheck.id && !hasCapability(db, "workTemplate")) {
+          return {
+            content: [{ type: "text", text: missingCapabilityMessage("create_card", "workTemplate") }],
+            isError: true
+          };
+        }
         const cardId = v4_default();
         const input = createCardInput(db, cardId, {
           title: validTitle,
@@ -34596,7 +34746,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           priority,
           projectId,
           groupId: rawGroupId,
-          blockedBy
+          blockedBy,
+          workTemplateId: workTemplateCheck.id
         });
         if (input.blockedBy?.length && !hasCapability(db, "dependencies")) {
           return {
@@ -35513,7 +35664,9 @@ ${waiting}` : ""}` : choice === "silent" ? `${bound} This session is outside eve
       }
       case "list_projects": {
         const { query } = args ?? {};
-        const projects = listProjects2(db, { query });
+        const projects = listProjects2(db, { query }).map(
+          (project) => project.mode === "work" ? { ...project, workTemplates: workTemplateChoices(db, project.id) } : project
+        );
         const shared = sharedPrefixes2(listProjects2(db));
         const notes = [];
         if (query && projects.length > 1) {
@@ -35558,7 +35711,14 @@ ${waiting}` : ""}` : choice === "silent" ? `${bound} This session is outside eve
         return {
           content: [{
             type: "text",
-            text: JSON.stringify({ found: true, project: { ...project, mode: match.mode } })
+            text: JSON.stringify({
+              found: true,
+              project: {
+                ...project,
+                mode: match.mode,
+                ...match.mode === "work" ? { workTemplates: workTemplateChoices(db, match.id) } : {}
+              }
+            })
           }]
         };
       }
