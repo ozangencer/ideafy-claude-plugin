@@ -30115,6 +30115,60 @@ function cardWorkTemplate(db2, projectId, workTemplateId) {
   };
 }
 
+// ../lib/card-ops/split-chain-join.ts
+var JOINED_NOTE = "joined this split chain";
+function splitParentOf(members) {
+  if (members.length < 2) return null;
+  return members.find((parent) => members.every((member) => member.id === parent.id || member.splitFromCardId === parent.id)) ?? null;
+}
+function joinSplitChain(db2, cardId, groupId, now, keepPlace) {
+  if (!hasSplitColumn(db2) || !hasDependencyTable(db2)) return;
+  const card = getRow(
+    db2,
+    "SELECT split_from_card_id AS splitFromCardId FROM cards WHERE id = ?",
+    cardId
+  );
+  if (!card || card.splitFromCardId) return;
+  if (getRow(db2, "SELECT 1 AS found FROM cards WHERE split_from_card_id = ? LIMIT 1", cardId)) return;
+  const members = allRows(
+    db2,
+    `SELECT id, status, split_from_card_id AS splitFromCardId, group_order AS groupOrder, task_number AS taskNumber
+     FROM cards WHERE group_id = ? AND id != ?`,
+    groupId,
+    cardId
+  );
+  const parent = splitParentOf(members);
+  if (!parent || isFinished(parent)) return;
+  try {
+    setBlockedBy(db2, parent.id, [{ card: cardId, note: JOINED_NOTE }], now, "add");
+  } catch (error2) {
+    if (error2 instanceof CardDependencyError && error2.code === "cycle") return;
+    throw error2;
+  }
+  runChanges(db2, "UPDATE cards SET split_from_card_id = ? WHERE id = ?", parent.id, cardId);
+  if (keepPlace) return;
+  const ordered = [...members].sort(compareByChainOrder);
+  const before = ordered[ordered.findIndex((member) => member.id === parent.id) - 1];
+  moveCardInChain(db2, cardId, before?.id ?? null);
+}
+function leaveSplitChain(db2, cardId) {
+  if (!hasSplitColumn(db2) || !hasDependencyTable(db2)) return;
+  const card = getRow(
+    db2,
+    "SELECT split_from_card_id AS parentId FROM cards WHERE id = ?",
+    cardId
+  );
+  if (!card?.parentId) return;
+  const { changes } = runChanges(
+    db2,
+    "DELETE FROM card_dependencies WHERE card_id = ? AND blocked_by_card_id = ? AND note = ?",
+    card.parentId,
+    cardId,
+    JOINED_NOTE
+  );
+  if (changes > 0) runChanges(db2, "UPDATE cards SET split_from_card_id = NULL WHERE id = ?", cardId);
+}
+
 // ../lib/card-ops/create-card.ts
 function createCard(db2, given, now, author) {
   const input = externalizeFields(given.id, given, CARD_RICH_FIELDS);
@@ -30181,6 +30235,7 @@ function createCard(db2, given, now, author) {
     );
     if (input.workTemplateId) rememberWorkTemplate(db2, projectId, input.workTemplateId);
     if (input.blockedBy && input.blockedBy.length > 0) setBlockedBy(db2, input.id, input.blockedBy, now, "add");
+    if (groupId && !input.splitFromCardId) joinSplitChain(db2, input.id, groupId, now, false);
     recordAuthorship(db2, {
       cardId: input.id,
       author,
@@ -30422,6 +30477,10 @@ function updateCard(db2, args) {
     if (typeof set2.workTemplateId === "string") rememberWorkTemplate(db2, projectId, set2.workTemplateId);
     const placed = args.afterCardId !== void 0 ? moveCardInChain(db2, id, args.afterCardId) : null;
     if (args.blockedBy !== void 0) setBlockedBy(db2, id, args.blockedBy, now, "replace");
+    if (groupId !== existing.group_id) {
+      if (existing.group_id) leaveSplitChain(db2, id);
+      if (groupId) joinSplitChain(db2, id, groupId, now, args.afterCardId !== void 0);
+    }
     return {
       ok: true,
       status,
