@@ -30,9 +30,9 @@ var __toESM = (mod, isNodeMode, target2) => (target2 = mod != null ? __create(__
   mod
 ));
 
-// node_modules/ajv/dist/compile/codegen/code.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/code.js
 var require_code = __commonJS({
-  "node_modules/ajv/dist/compile/codegen/code.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/code.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.regexpCode = exports.getEsmExportName = exports.getProperty = exports.safeStringify = exports.stringify = exports.strConcat = exports.addCodeArg = exports.str = exports._ = exports.nil = exports._Code = exports.Name = exports.IDENTIFIER = exports._CodeOrName = void 0;
@@ -184,9 +184,9 @@ var require_code = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/codegen/scope.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/scope.js
 var require_scope = __commonJS({
-  "node_modules/ajv/dist/compile/codegen/scope.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/scope.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.ValueScope = exports.ValueScopeName = exports.Scope = exports.varKinds = exports.UsedValueState = void 0;
@@ -329,9 +329,9 @@ var require_scope = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/codegen/index.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/index.js
 var require_codegen = __commonJS({
-  "node_modules/ajv/dist/compile/codegen/index.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.or = exports.and = exports.not = exports.CodeGen = exports.operators = exports.varKinds = exports.ValueScopeName = exports.ValueScope = exports.Scope = exports.Name = exports.regexpCode = exports.stringify = exports.getProperty = exports.nil = exports.strConcat = exports.str = exports._ = void 0;
@@ -1049,9 +1049,9 @@ var require_codegen = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/util.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/util.js
 var require_util = __commonJS({
-  "node_modules/ajv/dist/compile/util.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/util.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.checkStrictMode = exports.getErrorPath = exports.Type = exports.useFunc = exports.setEvaluated = exports.evaluatedPropsToName = exports.mergeEvaluated = exports.eachItem = exports.unescapeJsonPointer = exports.escapeJsonPointer = exports.escapeFragment = exports.unescapeFragment = exports.schemaRefOrVal = exports.schemaHasRulesButRef = exports.schemaHasRules = exports.checkUnknownRules = exports.alwaysValidSchema = exports.toHash = void 0;
@@ -1216,9 +1216,9 @@ var require_util = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/names.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/names.js
 var require_names = __commonJS({
-  "node_modules/ajv/dist/compile/names.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/names.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -1255,9 +1255,9 @@ var require_names = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/errors.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/errors.js
 var require_errors = __commonJS({
-  "node_modules/ajv/dist/compile/errors.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/errors.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.extendErrors = exports.resetErrorsCount = exports.reportExtraError = exports.reportError = exports.keyword$DataError = exports.keywordError = void 0;
@@ -1377,9 +1377,9 @@ var require_errors = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/validate/boolSchema.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/boolSchema.js
 var require_boolSchema = __commonJS({
-  "node_modules/ajv/dist/compile/validate/boolSchema.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/boolSchema.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.boolOrEmptySchema = exports.topBoolOrEmptySchema = void 0;
@@ -1428,9 +1428,9 @@ var require_boolSchema = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/rules.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/rules.js
 var require_rules = __commonJS({
-  "node_modules/ajv/dist/compile/rules.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/rules.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.getRules = exports.isJSONType = void 0;
@@ -1459,9 +1459,9 @@ var require_rules = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/validate/applicability.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/applicability.js
 var require_applicability = __commonJS({
-  "node_modules/ajv/dist/compile/validate/applicability.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/applicability.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.shouldUseRule = exports.shouldUseGroup = exports.schemaHasRulesForType = void 0;
@@ -1482,9 +1482,9 @@ var require_applicability = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/validate/dataType.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/dataType.js
 var require_dataType = __commonJS({
-  "node_modules/ajv/dist/compile/validate/dataType.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/dataType.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.reportTypeError = exports.checkDataTypes = exports.checkDataType = exports.coerceAndCheckDataType = exports.getJSONTypes = exports.getSchemaTypes = exports.DataType = void 0;
@@ -1666,9 +1666,9 @@ var require_dataType = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/validate/defaults.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/defaults.js
 var require_defaults = __commonJS({
-  "node_modules/ajv/dist/compile/validate/defaults.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/defaults.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.assignDefaults = void 0;
@@ -1703,9 +1703,9 @@ var require_defaults = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/code.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/code.js
 var require_code2 = __commonJS({
-  "node_modules/ajv/dist/vocabularies/code.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/code.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.validateUnion = exports.validateArray = exports.usePattern = exports.callValidateCode = exports.schemaProperties = exports.allSchemaProperties = exports.noPropertyInData = exports.propertyInData = exports.isOwnProperty = exports.hasPropFunc = exports.reportMissingProp = exports.checkMissingProp = exports.checkReportMissingProp = void 0;
@@ -1836,9 +1836,9 @@ var require_code2 = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/validate/keyword.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/keyword.js
 var require_keyword = __commonJS({
-  "node_modules/ajv/dist/compile/validate/keyword.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/keyword.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.validateKeywordUsage = exports.validSchemaType = exports.funcKeywordCode = exports.macroKeywordCode = void 0;
@@ -1954,9 +1954,9 @@ var require_keyword = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/validate/subschema.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/subschema.js
 var require_subschema = __commonJS({
-  "node_modules/ajv/dist/compile/validate/subschema.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/subschema.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.extendSubschemaMode = exports.extendSubschemaData = exports.getSubschema = void 0;
@@ -2037,9 +2037,9 @@ var require_subschema = __commonJS({
   }
 });
 
-// node_modules/fast-deep-equal/index.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-deep-equal/index.js
 var require_fast_deep_equal = __commonJS({
-  "node_modules/fast-deep-equal/index.js"(exports, module) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-deep-equal/index.js"(exports, module) {
     "use strict";
     module.exports = function equal(a, b2) {
       if (a === b2) return true;
@@ -2072,9 +2072,9 @@ var require_fast_deep_equal = __commonJS({
   }
 });
 
-// node_modules/json-schema-traverse/index.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/json-schema-traverse/index.js
 var require_json_schema_traverse = __commonJS({
-  "node_modules/json-schema-traverse/index.js"(exports, module) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/json-schema-traverse/index.js"(exports, module) {
     "use strict";
     var traverse = module.exports = function(schema, opts, cb) {
       if (typeof opts == "function") {
@@ -2160,9 +2160,9 @@ var require_json_schema_traverse = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/resolve.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/resolve.js
 var require_resolve = __commonJS({
-  "node_modules/ajv/dist/compile/resolve.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/resolve.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.getSchemaRefs = exports.resolveUrl = exports.normalizeId = exports._getFullPath = exports.getFullPath = exports.inlineRef = void 0;
@@ -2316,9 +2316,9 @@ var require_resolve = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/validate/index.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/index.js
 var require_validate = __commonJS({
-  "node_modules/ajv/dist/compile/validate/index.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.getData = exports.KeywordCxt = exports.validateFunctionCode = void 0;
@@ -2824,9 +2824,9 @@ var require_validate = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/runtime/validation_error.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/validation_error.js
 var require_validation_error = __commonJS({
-  "node_modules/ajv/dist/runtime/validation_error.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/validation_error.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var ValidationError = class extends Error {
@@ -2840,9 +2840,9 @@ var require_validation_error = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/ref_error.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/ref_error.js
 var require_ref_error = __commonJS({
-  "node_modules/ajv/dist/compile/ref_error.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/ref_error.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var resolve_1 = require_resolve();
@@ -2857,9 +2857,9 @@ var require_ref_error = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/compile/index.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/index.js
 var require_compile = __commonJS({
-  "node_modules/ajv/dist/compile/index.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.resolveSchema = exports.getCompilingSchema = exports.resolveRef = exports.compileSchema = exports.SchemaEnv = void 0;
@@ -3081,9 +3081,9 @@ var require_compile = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/refs/data.json
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/refs/data.json
 var require_data = __commonJS({
-  "node_modules/ajv/dist/refs/data.json"(exports, module) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/refs/data.json"(exports, module) {
     module.exports = {
       $id: "https://raw.githubusercontent.com/ajv-validator/ajv/master/lib/refs/data.json#",
       description: "Meta-schema for $data reference (JSON AnySchema extension proposal)",
@@ -3100,9 +3100,9 @@ var require_data = __commonJS({
   }
 });
 
-// node_modules/fast-uri/lib/utils.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/lib/utils.js
 var require_utils = __commonJS({
-  "node_modules/fast-uri/lib/utils.js"(exports, module) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/lib/utils.js"(exports, module) {
     "use strict";
     var isUUID = RegExp.prototype.test.bind(/^[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}$/iu);
     var isIPv4 = RegExp.prototype.test.bind(/^(?:(?:25[0-5]|2[0-4]\d|1\d{2}|[1-9]\d|\d)\.){3}(?:25[0-5]|2[0-4]\d|1\d{2}|[1-9]\d|\d)$/u);
@@ -3223,8 +3223,8 @@ var require_utils = __commonJS({
       }
       return ind;
     }
-    function removeDotSegments(path11) {
-      let input = path11;
+    function removeDotSegments(path12) {
+      let input = path12;
       const output = [];
       let nextSlash = -1;
       let len = 0;
@@ -3357,9 +3357,9 @@ var require_utils = __commonJS({
   }
 });
 
-// node_modules/fast-uri/lib/schemes.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/lib/schemes.js
 var require_schemes = __commonJS({
-  "node_modules/fast-uri/lib/schemes.js"(exports, module) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/lib/schemes.js"(exports, module) {
     "use strict";
     var { isUUID } = require_utils();
     var URN_REG = /([\da-z][\d\-a-z]{0,31}):((?:[\w!$'()*+,\-.:;=@]|%[\da-f]{2})+)/iu;
@@ -3423,8 +3423,8 @@ var require_schemes = __commonJS({
         wsComponent.secure = void 0;
       }
       if (wsComponent.resourceName) {
-        const [path11, query] = wsComponent.resourceName.split("?");
-        wsComponent.path = path11 && path11 !== "/" ? path11 : void 0;
+        const [path12, query] = wsComponent.resourceName.split("?");
+        wsComponent.path = path12 && path12 !== "/" ? path12 : void 0;
         wsComponent.query = query;
         wsComponent.resourceName = void 0;
       }
@@ -3567,9 +3567,9 @@ var require_schemes = __commonJS({
   }
 });
 
-// node_modules/fast-uri/index.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/index.js
 var require_fast_uri = __commonJS({
-  "node_modules/fast-uri/index.js"(exports, module) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/index.js"(exports, module) {
     "use strict";
     var { normalizeIPv6, removeDotSegments, recomposeAuthority, normalizeComponentEncoding, isIPv4, nonSimpleDomain } = require_utils();
     var { SCHEMES, getSchemeHandler } = require_schemes();
@@ -3822,9 +3822,9 @@ var require_fast_uri = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/runtime/uri.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/uri.js
 var require_uri = __commonJS({
-  "node_modules/ajv/dist/runtime/uri.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/uri.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var uri = require_fast_uri();
@@ -3833,9 +3833,9 @@ var require_uri = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/core.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/core.js
 var require_core = __commonJS({
-  "node_modules/ajv/dist/core.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/core.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.CodeGen = exports.Name = exports.nil = exports.stringify = exports.str = exports._ = exports.KeywordCxt = void 0;
@@ -4444,9 +4444,9 @@ var require_core = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/core/id.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/id.js
 var require_id = __commonJS({
-  "node_modules/ajv/dist/vocabularies/core/id.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/id.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var def = {
@@ -4459,9 +4459,9 @@ var require_id = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/core/ref.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/ref.js
 var require_ref = __commonJS({
-  "node_modules/ajv/dist/vocabularies/core/ref.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/ref.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.callRef = exports.getValidate = void 0;
@@ -4581,9 +4581,9 @@ var require_ref = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/core/index.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/index.js
 var require_core2 = __commonJS({
-  "node_modules/ajv/dist/vocabularies/core/index.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var id_1 = require_id();
@@ -4602,9 +4602,9 @@ var require_core2 = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/validation/limitNumber.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitNumber.js
 var require_limitNumber = __commonJS({
-  "node_modules/ajv/dist/vocabularies/validation/limitNumber.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitNumber.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -4634,9 +4634,9 @@ var require_limitNumber = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/validation/multipleOf.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/multipleOf.js
 var require_multipleOf = __commonJS({
-  "node_modules/ajv/dist/vocabularies/validation/multipleOf.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/multipleOf.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -4662,9 +4662,9 @@ var require_multipleOf = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/runtime/ucs2length.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/ucs2length.js
 var require_ucs2length = __commonJS({
-  "node_modules/ajv/dist/runtime/ucs2length.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/ucs2length.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     function ucs2length(str2) {
@@ -4688,9 +4688,9 @@ var require_ucs2length = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/validation/limitLength.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitLength.js
 var require_limitLength = __commonJS({
-  "node_modules/ajv/dist/vocabularies/validation/limitLength.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitLength.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -4720,9 +4720,9 @@ var require_limitLength = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/validation/pattern.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/pattern.js
 var require_pattern = __commonJS({
-  "node_modules/ajv/dist/vocabularies/validation/pattern.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/pattern.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -4757,9 +4757,9 @@ var require_pattern = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/validation/limitProperties.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitProperties.js
 var require_limitProperties = __commonJS({
-  "node_modules/ajv/dist/vocabularies/validation/limitProperties.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitProperties.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -4786,9 +4786,9 @@ var require_limitProperties = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/validation/required.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/required.js
 var require_required = __commonJS({
-  "node_modules/ajv/dist/vocabularies/validation/required.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/required.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -4868,9 +4868,9 @@ var require_required = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/validation/limitItems.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitItems.js
 var require_limitItems = __commonJS({
-  "node_modules/ajv/dist/vocabularies/validation/limitItems.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitItems.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -4897,9 +4897,9 @@ var require_limitItems = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/runtime/equal.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/equal.js
 var require_equal = __commonJS({
-  "node_modules/ajv/dist/runtime/equal.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/equal.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var equal = require_fast_deep_equal();
@@ -4908,9 +4908,9 @@ var require_equal = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/validation/uniqueItems.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/uniqueItems.js
 var require_uniqueItems = __commonJS({
-  "node_modules/ajv/dist/vocabularies/validation/uniqueItems.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/uniqueItems.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var dataType_1 = require_dataType();
@@ -4975,9 +4975,9 @@ var require_uniqueItems = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/validation/const.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/const.js
 var require_const = __commonJS({
-  "node_modules/ajv/dist/vocabularies/validation/const.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/const.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5004,9 +5004,9 @@ var require_const = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/validation/enum.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/enum.js
 var require_enum = __commonJS({
-  "node_modules/ajv/dist/vocabularies/validation/enum.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/enum.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5053,9 +5053,9 @@ var require_enum = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/validation/index.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/index.js
 var require_validation = __commonJS({
-  "node_modules/ajv/dist/vocabularies/validation/index.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var limitNumber_1 = require_limitNumber();
@@ -5091,9 +5091,9 @@ var require_validation = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/additionalItems.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/additionalItems.js
 var require_additionalItems = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/additionalItems.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/additionalItems.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.validateAdditionalItems = void 0;
@@ -5144,9 +5144,9 @@ var require_additionalItems = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/items.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/items.js
 var require_items = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/items.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/items.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.validateTuple = void 0;
@@ -5201,9 +5201,9 @@ var require_items = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/prefixItems.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/prefixItems.js
 var require_prefixItems = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/prefixItems.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/prefixItems.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var items_1 = require_items();
@@ -5218,9 +5218,9 @@ var require_prefixItems = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/items2020.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/items2020.js
 var require_items2020 = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/items2020.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/items2020.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5253,9 +5253,9 @@ var require_items2020 = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/contains.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/contains.js
 var require_contains = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/contains.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/contains.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5347,9 +5347,9 @@ var require_contains = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/dependencies.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/dependencies.js
 var require_dependencies = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/dependencies.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/dependencies.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.validateSchemaDeps = exports.validatePropertyDeps = exports.error = void 0;
@@ -5441,9 +5441,9 @@ var require_dependencies = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/propertyNames.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/propertyNames.js
 var require_propertyNames = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/propertyNames.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/propertyNames.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5484,9 +5484,9 @@ var require_propertyNames = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/additionalProperties.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/additionalProperties.js
 var require_additionalProperties = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/additionalProperties.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/additionalProperties.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -5590,9 +5590,9 @@ var require_additionalProperties = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/properties.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/properties.js
 var require_properties = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/properties.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/properties.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var validate_1 = require_validate();
@@ -5648,9 +5648,9 @@ var require_properties = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/patternProperties.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/patternProperties.js
 var require_patternProperties = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/patternProperties.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/patternProperties.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -5722,9 +5722,9 @@ var require_patternProperties = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/not.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/not.js
 var require_not = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/not.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/not.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var util_1 = require_util();
@@ -5753,9 +5753,9 @@ var require_not = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/anyOf.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/anyOf.js
 var require_anyOf = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/anyOf.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/anyOf.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -5770,9 +5770,9 @@ var require_anyOf = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/oneOf.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/oneOf.js
 var require_oneOf = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/oneOf.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/oneOf.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5828,9 +5828,9 @@ var require_oneOf = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/allOf.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/allOf.js
 var require_allOf = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/allOf.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/allOf.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var util_1 = require_util();
@@ -5855,9 +5855,9 @@ var require_allOf = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/if.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/if.js
 var require_if = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/if.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/if.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5924,9 +5924,9 @@ var require_if = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/thenElse.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/thenElse.js
 var require_thenElse = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/thenElse.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/thenElse.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var util_1 = require_util();
@@ -5942,9 +5942,9 @@ var require_thenElse = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/applicator/index.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/index.js
 var require_applicator = __commonJS({
-  "node_modules/ajv/dist/vocabularies/applicator/index.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var additionalItems_1 = require_additionalItems();
@@ -5990,9 +5990,9 @@ var require_applicator = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/format/format.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/format/format.js
 var require_format = __commonJS({
-  "node_modules/ajv/dist/vocabularies/format/format.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/format/format.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -6080,9 +6080,9 @@ var require_format = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/format/index.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/format/index.js
 var require_format2 = __commonJS({
-  "node_modules/ajv/dist/vocabularies/format/index.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/format/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var format_1 = require_format();
@@ -6091,9 +6091,9 @@ var require_format2 = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/metadata.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/metadata.js
 var require_metadata = __commonJS({
-  "node_modules/ajv/dist/vocabularies/metadata.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/metadata.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.contentVocabulary = exports.metadataVocabulary = void 0;
@@ -6114,9 +6114,9 @@ var require_metadata = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/draft7.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/draft7.js
 var require_draft7 = __commonJS({
-  "node_modules/ajv/dist/vocabularies/draft7.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/draft7.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var core_1 = require_core2();
@@ -6136,9 +6136,9 @@ var require_draft7 = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/discriminator/types.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/discriminator/types.js
 var require_types = __commonJS({
-  "node_modules/ajv/dist/vocabularies/discriminator/types.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/discriminator/types.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.DiscrError = void 0;
@@ -6150,9 +6150,9 @@ var require_types = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/vocabularies/discriminator/index.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/discriminator/index.js
 var require_discriminator = __commonJS({
-  "node_modules/ajv/dist/vocabularies/discriminator/index.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/discriminator/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -6255,9 +6255,9 @@ var require_discriminator = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/refs/json-schema-draft-07.json
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/refs/json-schema-draft-07.json
 var require_json_schema_draft_07 = __commonJS({
-  "node_modules/ajv/dist/refs/json-schema-draft-07.json"(exports, module) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/refs/json-schema-draft-07.json"(exports, module) {
     module.exports = {
       $schema: "http://json-schema.org/draft-07/schema#",
       $id: "http://json-schema.org/draft-07/schema#",
@@ -6412,9 +6412,9 @@ var require_json_schema_draft_07 = __commonJS({
   }
 });
 
-// node_modules/ajv/dist/ajv.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/ajv.js
 var require_ajv = __commonJS({
-  "node_modules/ajv/dist/ajv.js"(exports, module) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/ajv.js"(exports, module) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.MissingRefError = exports.ValidationError = exports.CodeGen = exports.Name = exports.nil = exports.stringify = exports.str = exports._ = exports.KeywordCxt = exports.Ajv = void 0;
@@ -6482,9 +6482,9 @@ var require_ajv = __commonJS({
   }
 });
 
-// node_modules/ajv-formats/dist/formats.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/formats.js
 var require_formats = __commonJS({
-  "node_modules/ajv-formats/dist/formats.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/formats.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.formatNames = exports.fastFormats = exports.fullFormats = void 0;
@@ -6685,9 +6685,9 @@ var require_formats = __commonJS({
   }
 });
 
-// node_modules/ajv-formats/dist/limit.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/limit.js
 var require_limit = __commonJS({
-  "node_modules/ajv-formats/dist/limit.js"(exports) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/limit.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.formatLimitDefinition = void 0;
@@ -6757,9 +6757,9 @@ var require_limit = __commonJS({
   }
 });
 
-// node_modules/ajv-formats/dist/index.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/index.js
 var require_dist = __commonJS({
-  "node_modules/ajv-formats/dist/index.js"(exports, module) {
+  "../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/index.js"(exports, module) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var formats_1 = require_formats();
@@ -6799,7 +6799,7 @@ var require_dist = __commonJS({
   }
 });
 
-// node_modules/zod/v3/helpers/util.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/helpers/util.js
 var util;
 (function(util2) {
   util2.assertEqual = (_2) => {
@@ -6933,7 +6933,7 @@ var getParsedType = (data) => {
   }
 };
 
-// node_modules/zod/v3/ZodError.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/ZodError.js
 var ZodIssueCode = util.arrayToEnum([
   "invalid_type",
   "invalid_literal",
@@ -7047,7 +7047,7 @@ ZodError.create = (issues) => {
   return error2;
 };
 
-// node_modules/zod/v3/locales/en.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/locales/en.js
 var errorMap = (issue2, _ctx) => {
   let message;
   switch (issue2.code) {
@@ -7150,16 +7150,16 @@ var errorMap = (issue2, _ctx) => {
 };
 var en_default = errorMap;
 
-// node_modules/zod/v3/errors.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/errors.js
 var overrideErrorMap = en_default;
 function getErrorMap() {
   return overrideErrorMap;
 }
 
-// node_modules/zod/v3/helpers/parseUtil.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/helpers/parseUtil.js
 var makeIssue = (params) => {
-  const { data, path: path11, errorMaps, issueData } = params;
-  const fullPath = [...path11, ...issueData.path || []];
+  const { data, path: path12, errorMaps, issueData } = params;
+  const fullPath = [...path12, ...issueData.path || []];
   const fullIssue = {
     ...issueData,
     path: fullPath
@@ -7265,20 +7265,20 @@ var isDirty = (x2) => x2.status === "dirty";
 var isValid = (x2) => x2.status === "valid";
 var isAsync = (x2) => typeof Promise !== "undefined" && x2 instanceof Promise;
 
-// node_modules/zod/v3/helpers/errorUtil.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/helpers/errorUtil.js
 var errorUtil;
 (function(errorUtil2) {
   errorUtil2.errToObj = (message) => typeof message === "string" ? { message } : message || {};
   errorUtil2.toString = (message) => typeof message === "string" ? message : message?.message;
 })(errorUtil || (errorUtil = {}));
 
-// node_modules/zod/v3/types.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/types.js
 var ParseInputLazyPath = class {
-  constructor(parent, value, path11, key) {
+  constructor(parent, value, path12, key) {
     this._cachedPath = [];
     this.parent = parent;
     this.data = value;
-    this._path = path11;
+    this._path = path12;
     this._key = key;
   }
   get path() {
@@ -10675,7 +10675,7 @@ var nullableType = ZodNullable.create;
 var preprocessType = ZodEffects.createWithPreprocess;
 var pipelineType = ZodPipeline.create;
 
-// node_modules/zod/v4/core/core.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/core.js
 var NEVER = Object.freeze({
   status: "aborted"
 });
@@ -10749,7 +10749,7 @@ function config(newConfig) {
   return globalConfig;
 }
 
-// node_modules/zod/v4/core/util.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/util.js
 var util_exports = {};
 __export(util_exports, {
   BIGINT_FORMAT_RANGES: () => BIGINT_FORMAT_RANGES,
@@ -10922,10 +10922,10 @@ function mergeDefs(...defs) {
 function cloneDef(schema) {
   return mergeDefs(schema._zod.def);
 }
-function getElementAtPath(obj, path11) {
-  if (!path11)
+function getElementAtPath(obj, path12) {
+  if (!path12)
     return obj;
-  return path11.reduce((acc, key) => acc?.[key], obj);
+  return path12.reduce((acc, key) => acc?.[key], obj);
 }
 function promiseAllObject(promisesObj) {
   const keys = Object.keys(promisesObj);
@@ -11308,11 +11308,11 @@ function aborted(x2, startIndex = 0) {
   }
   return false;
 }
-function prefixIssues(path11, issues) {
+function prefixIssues(path12, issues) {
   return issues.map((iss) => {
     var _a2;
     (_a2 = iss).path ?? (_a2.path = []);
-    iss.path.unshift(path11);
+    iss.path.unshift(path12);
     return iss;
   });
 }
@@ -11428,7 +11428,7 @@ var Class = class {
   }
 };
 
-// node_modules/zod/v4/core/errors.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/errors.js
 var initializer = (inst, def) => {
   inst.name = "$ZodError";
   Object.defineProperty(inst, "_zod", {
@@ -11494,7 +11494,7 @@ function formatError(error2, mapper = (issue2) => issue2.message) {
   return fieldErrors;
 }
 
-// node_modules/zod/v4/core/parse.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/parse.js
 var _parse = (_Err) => (schema, value, _ctx, _params) => {
   const ctx = _ctx ? Object.assign(_ctx, { async: false }) : { async: false };
   const result = schema._zod.run({ value, issues: [] }, ctx);
@@ -11574,7 +11574,7 @@ var _safeDecodeAsync = (_Err) => async (schema, value, _ctx) => {
   return _safeParseAsync(_Err)(schema, value, _ctx);
 };
 
-// node_modules/zod/v4/core/regexes.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/regexes.js
 var regexes_exports = {};
 __export(regexes_exports, {
   base64: () => base64,
@@ -11731,7 +11731,7 @@ var sha512_hex = /^[0-9a-fA-F]{128}$/;
 var sha512_base64 = /* @__PURE__ */ fixedBase64(86, "==");
 var sha512_base64url = /* @__PURE__ */ fixedBase64url(86);
 
-// node_modules/zod/v4/core/checks.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/checks.js
 var $ZodCheck = /* @__PURE__ */ $constructor("$ZodCheck", (inst, def) => {
   var _a2;
   inst._zod ?? (inst._zod = {});
@@ -12279,7 +12279,7 @@ var $ZodCheckOverwrite = /* @__PURE__ */ $constructor("$ZodCheckOverwrite", (ins
   };
 });
 
-// node_modules/zod/v4/core/doc.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/doc.js
 var Doc = class {
   constructor(args = []) {
     this.content = [];
@@ -12315,14 +12315,14 @@ var Doc = class {
   }
 };
 
-// node_modules/zod/v4/core/versions.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/versions.js
 var version = {
   major: 4,
   minor: 3,
   patch: 6
 };
 
-// node_modules/zod/v4/core/schemas.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/schemas.js
 var $ZodType = /* @__PURE__ */ $constructor("$ZodType", (inst, def) => {
   var _a2;
   inst ?? (inst = {});
@@ -14293,7 +14293,7 @@ function handleRefineResult(result, payload, input, inst) {
   }
 }
 
-// node_modules/zod/v4/locales/en.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/locales/en.js
 var error = () => {
   const Sizable = {
     string: { unit: "characters", verb: "to have" },
@@ -14402,7 +14402,7 @@ function en_default2() {
   };
 }
 
-// node_modules/zod/v4/core/registries.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/registries.js
 var _a;
 var $ZodRegistry = class {
   constructor() {
@@ -14450,7 +14450,7 @@ function registry() {
 (_a = globalThis).__zod_globalRegistry ?? (_a.__zod_globalRegistry = registry());
 var globalRegistry = globalThis.__zod_globalRegistry;
 
-// node_modules/zod/v4/core/api.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/api.js
 // @__NO_SIDE_EFFECTS__
 function _string(Class2, params) {
   return new Class2({
@@ -15254,7 +15254,7 @@ function _stringFormat(Class2, format, fnOrRegex, _params = {}) {
   return inst;
 }
 
-// node_modules/zod/v4/core/to-json-schema.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/to-json-schema.js
 function initializeContext(params) {
   let target2 = params?.target ?? "draft-2020-12";
   if (target2 === "draft-4")
@@ -15606,7 +15606,7 @@ var createStandardJSONSchemaMethod = (schema, io, processors = {}) => (params) =
   return finalize(ctx, schema);
 };
 
-// node_modules/zod/v4/core/json-schema-processors.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/json-schema-processors.js
 var formatMap = {
   guid: "uuid",
   url: "uri",
@@ -16082,7 +16082,7 @@ var lazyProcessor = (schema, ctx, _json, params) => {
   seen.ref = innerType;
 };
 
-// node_modules/@modelcontextprotocol/sdk/dist/esm/server/zod-compat.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/zod-compat.js
 function isZ4Schema(s) {
   const schema = s;
   return !!schema._zod;
@@ -16145,7 +16145,7 @@ function getLiteralValue(schema) {
   return void 0;
 }
 
-// node_modules/zod/v4/classic/schemas.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/schemas.js
 var schemas_exports3 = {};
 __export(schemas_exports3, {
   ZodAny: () => ZodAny2,
@@ -16314,7 +16314,7 @@ __export(schemas_exports3, {
   xor: () => xor
 });
 
-// node_modules/zod/v4/classic/checks.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/checks.js
 var checks_exports2 = {};
 __export(checks_exports2, {
   endsWith: () => _endsWith,
@@ -16348,7 +16348,7 @@ __export(checks_exports2, {
   uppercase: () => _uppercase
 });
 
-// node_modules/zod/v4/classic/iso.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/iso.js
 var iso_exports2 = {};
 __export(iso_exports2, {
   ZodISODate: () => ZodISODate,
@@ -16389,7 +16389,7 @@ function duration2(params) {
   return _isoDuration(ZodISODuration, params);
 }
 
-// node_modules/zod/v4/classic/errors.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/errors.js
 var initializer2 = (inst, issues) => {
   $ZodError.init(inst, issues);
   inst.name = "ZodError";
@@ -16429,7 +16429,7 @@ var ZodRealError = $constructor("ZodError", initializer2, {
   Parent: Error
 });
 
-// node_modules/zod/v4/classic/parse.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/parse.js
 var parse2 = /* @__PURE__ */ _parse(ZodRealError);
 var parseAsync2 = /* @__PURE__ */ _parseAsync(ZodRealError);
 var safeParse3 = /* @__PURE__ */ _safeParse(ZodRealError);
@@ -16443,7 +16443,7 @@ var safeDecode2 = /* @__PURE__ */ _safeDecode(ZodRealError);
 var safeEncodeAsync2 = /* @__PURE__ */ _safeEncodeAsync(ZodRealError);
 var safeDecodeAsync2 = /* @__PURE__ */ _safeDecodeAsync(ZodRealError);
 
-// node_modules/zod/v4/classic/schemas.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/schemas.js
 var ZodType2 = /* @__PURE__ */ $constructor("ZodType", (inst, def) => {
   $ZodType.init(inst, def);
   Object.assign(inst["~standard"], {
@@ -17522,22 +17522,22 @@ function preprocess(fn, schema) {
   return pipe(transform(fn), schema);
 }
 
-// node_modules/zod/v4/classic/compat.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/compat.js
 var ZodFirstPartyTypeKind2;
 /* @__PURE__ */ (function(ZodFirstPartyTypeKind3) {
 })(ZodFirstPartyTypeKind2 || (ZodFirstPartyTypeKind2 = {}));
 
-// node_modules/zod/v4/classic/from-json-schema.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/from-json-schema.js
 var z = {
   ...schemas_exports3,
   ...checks_exports2,
   iso: iso_exports2
 };
 
-// node_modules/zod/v4/classic/external.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/external.js
 config(en_default2());
 
-// node_modules/@modelcontextprotocol/sdk/dist/esm/types.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/types.js
 var LATEST_PROTOCOL_VERSION = "2025-11-25";
 var SUPPORTED_PROTOCOL_VERSIONS = [LATEST_PROTOCOL_VERSION, "2025-06-18", "2025-03-26", "2024-11-05", "2024-10-07"];
 var RELATED_TASK_META_KEY = "io.modelcontextprotocol/related-task";
@@ -19056,15 +19056,15 @@ var UrlElicitationRequiredError = class extends McpError {
   }
 };
 
-// node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/interfaces.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/interfaces.js
 function isTerminal(status) {
   return status === "completed" || status === "failed" || status === "cancelled";
 }
 
-// node_modules/zod-to-json-schema/dist/esm/parsers/string.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod-to-json-schema/dist/esm/parsers/string.js
 var ALPHA_NUMERIC = new Set("ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvxyz0123456789");
 
-// node_modules/@modelcontextprotocol/sdk/dist/esm/server/zod-json-schema-compat.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/zod-json-schema-compat.js
 function getMethodLiteral(schema) {
   const shape = getObjectShape(schema);
   const methodSchema = shape?.method;
@@ -19085,7 +19085,7 @@ function parseWithCompat(schema, data) {
   return result.data;
 }
 
-// node_modules/@modelcontextprotocol/sdk/dist/esm/shared/protocol.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/shared/protocol.js
 var DEFAULT_REQUEST_TIMEOUT_MSEC = 6e4;
 var Protocol = class {
   constructor(_options) {
@@ -20039,7 +20039,7 @@ function mergeCapabilities(base, additional) {
   return result;
 }
 
-// node_modules/@modelcontextprotocol/sdk/dist/esm/validation/ajv-provider.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/validation/ajv-provider.js
 var import_ajv = __toESM(require_ajv(), 1);
 var import_ajv_formats = __toESM(require_dist(), 1);
 function createDefaultAjvInstance() {
@@ -20107,7 +20107,7 @@ var AjvJsonSchemaValidator = class {
   }
 };
 
-// node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/server.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/server.js
 var ExperimentalServerTasks = class {
   constructor(_server) {
     this._server = _server;
@@ -20320,7 +20320,7 @@ var ExperimentalServerTasks = class {
   }
 };
 
-// node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/helpers.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/helpers.js
 function assertToolsCallTaskCapability(requests, method, entityName) {
   if (!requests) {
     throw new Error(`${entityName} does not support task creation (required for ${method})`);
@@ -20355,7 +20355,7 @@ function assertClientRequestTaskCapability(requests, method, entityName) {
   }
 }
 
-// node_modules/@modelcontextprotocol/sdk/dist/esm/server/index.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/index.js
 var Server = class extends Protocol {
   /**
    * Initializes this server with the given name and version information.
@@ -20735,10 +20735,10 @@ var Server = class extends Protocol {
   }
 };
 
-// node_modules/@modelcontextprotocol/sdk/dist/esm/server/stdio.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/stdio.js
 import process3 from "node:process";
 
-// node_modules/@modelcontextprotocol/sdk/dist/esm/shared/stdio.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/shared/stdio.js
 var ReadBuffer = class {
   append(chunk) {
     this._buffer = this._buffer ? Buffer.concat([this._buffer, chunk]) : chunk;
@@ -20766,7 +20766,7 @@ function serializeMessage(message) {
   return JSON.stringify(message) + "\n";
 }
 
-// node_modules/@modelcontextprotocol/sdk/dist/esm/server/stdio.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/stdio.js
 var StdioServerTransport = class {
   constructor(_stdin = process3.stdin, _stdout = process3.stdout) {
     this._stdin = _stdin;
@@ -22463,8 +22463,8 @@ function extractPlanFiles(solutionHtml) {
   const section2 = text2.match(/Files to Modify\s*\n([\s\S]*?)(?:\n(?:Implementation Steps|Edge Cases|Dependencies)\b|$)/i);
   return section2 ? pathTokens(section2[1]) : [];
 }
-function normalizePath(path11) {
-  return path11.trim().replace(/^\.\//, "").replace(/\/+$/, "");
+function normalizePath(path12) {
+  return path12.trim().replace(/^\.\//, "").replace(/\/+$/, "");
 }
 function pathsOverlap(a, b2) {
   const globRoot = (p) => /\/\*+$/.test(p) ? p.replace(/\/\*+$/, "/") : null;
@@ -22508,7 +22508,7 @@ function countPlanSteps(solutionHtml) {
 }
 var GENERATED = [/^drizzle\/meta\//, /(^|\/)(package-lock\.json|pnpm-lock\.yaml|yarn\.lock|bun\.lockb)$/];
 var isGenerated = (file2) => GENERATED.some((pattern) => pattern.test(file2));
-var dunderless = (path11) => normalizePath(path11).replace(/(^|\/)__([^/]+)__(?=\/|$)/g, "$1$2");
+var dunderless = (path12) => normalizePath(path12).replace(/(^|\/)__([^/]+)__(?=\/|$)/g, "$1$2");
 function comparePlanFiles(planned, touched) {
   const plan = Array.from(new Set(planned.map(normalizePath).filter(Boolean)));
   const branch = Array.from(new Set(touched.map(normalizePath).filter(Boolean)));
@@ -22517,7 +22517,7 @@ function comparePlanFiles(planned, touched) {
   const waiting = [];
   for (const file2 of plan) {
     const key = dunderless(file2);
-    const hits = branch.filter((path11) => pathsOverlap(key, dunderless(path11)));
+    const hits = branch.filter((path12) => pathsOverlap(key, dunderless(path12)));
     if (hits.length === 0) {
       waiting.push({ path: file2, state: "planned" });
       continue;
@@ -22525,7 +22525,7 @@ function comparePlanFiles(planned, touched) {
     hits.forEach((hit) => used.add(hit));
     done.push({ path: file2.includes("*") ? file2 : hits[0], state: "touched" });
   }
-  const outside = branch.filter((path11) => !used.has(path11) && !isGenerated(path11)).map((path11) => ({ path: path11, state: "outside" }));
+  const outside = branch.filter((path12) => !used.has(path12) && !isGenerated(path12)).map((path12) => ({ path: path12, state: "outside" }));
   return [...done, ...waiting, ...outside];
 }
 
@@ -22564,6 +22564,7 @@ __export(card_ops_exports, {
   GROUP_CODE_MAX: () => GROUP_CODE_MAX,
   IDEAFY_AUTHOR: () => IDEAFY_AUTHOR,
   MAX_CARD_TITLE_LENGTH: () => MAX_CARD_TITLE_LENGTH,
+  PARKABLE_STATUSES: () => PARKABLE_STATUSES,
   SplitCardError: () => SplitCardError,
   TERMINAL_WRITER_TTL_MS: () => TERMINAL_WRITER_TTL_MS,
   YOU_AUTHOR: () => YOU_AUTHOR,
@@ -22585,6 +22586,8 @@ __export(card_ops_exports, {
   branchStoryCounts: () => branchStoryCounts,
   cardAuthorship: () => cardAuthorship,
   cardBaseBranch: () => cardBaseBranch,
+  cardHasRalphEvents: () => cardHasRalphEvents,
+  cardHasRunReport: () => cardHasRunReport,
   cardHead: () => cardHead,
   cardIntegrationGroup: () => cardIntegrationGroup,
   cardRepoFolder: () => cardRepoFolder,
@@ -22601,6 +22604,7 @@ __export(card_ops_exports, {
   chooseBoundPolicy: () => chooseBoundPolicy,
   clearAutopilot: () => clearAutopilot,
   clearChainAutopilot: () => clearChainAutopilot,
+  clearParked: () => clearParked,
   clearQueue: () => clearQueue,
   completedAtFor: () => completedAtFor,
   completedAtOnCreate: () => completedAtOnCreate,
@@ -22631,6 +22635,8 @@ __export(card_ops_exports, {
   hasDecisionLedger: () => hasDecisionLedger,
   hasDependencyTable: () => hasDependencyTable,
   hasIntegrationColumns: () => hasIntegrationColumns,
+  hasParkedColumn: () => hasParkedColumn,
+  hasRalphEvents: () => hasRalphEvents,
   hasRalphLoopColumns: () => hasRalphLoopColumns,
   hasSplitTables: () => hasSplitTables,
   hasSuggestionTable: () => hasSuggestionTable,
@@ -22638,6 +22644,7 @@ __export(card_ops_exports, {
   integrationGateMembers: () => integrationGateMembers,
   integrationOnText: () => integrationOnText,
   isChainParent: () => isChainParent,
+  isParkableStatus: () => isParkableStatus,
   isStatus: () => isStatus,
   landReadyChainMembers: () => landReadyChainMembers,
   linkCardsInHtml: () => linkCardsInHtml,
@@ -22679,22 +22686,29 @@ __export(card_ops_exports, {
   queuedChainWarningFor: () => queuedChainWarningFor,
   queuedRunsInWorktree: () => queuedRunsInWorktree,
   queuedWaitReason: () => queuedWaitReason,
+  ralphEventCardIds: () => ralphEventCardIds,
+  ralphEventsFor: () => ralphEventsFor,
   readRuntime: () => readRuntime,
   readWriteAck: () => readWriteAck,
   readyAfterLinks: () => readyAfterLinks,
   recordAuthorship: () => recordAuthorship,
   recordDecision: () => recordDecision,
+  recordRalphEvent: () => recordRalphEvent,
   recordRalphRound: () => recordRalphRound,
+  recordRalphSend: () => recordRalphSend,
+  recordRalphStopByPerson: () => recordRalphStopByPerson,
   rememberWorkTemplate: () => rememberWorkTemplate,
   removeDependency: () => removeDependency,
   resolveCardRef: () => resolveCardRef,
   resolveProjectByFolder: () => resolveProjectByFolder,
   restoreDependencies: () => restoreDependencies,
   restoreField: () => restoreField,
+  restoreParked: () => restoreParked,
   restoreQueueCards: () => restoreQueueCards,
   reviseTests: () => reviseTests,
   rollbackChain: () => rollbackChain,
   runChanges: () => runChanges,
+  runReportCardIds: () => runReportCardIds,
   runtimeAssignments: () => runtimeAssignments,
   saveOpinion: () => saveOpinion,
   savePlan: () => savePlan,
@@ -22708,6 +22722,7 @@ __export(card_ops_exports, {
   setBlockedBy: () => setBlockedBy,
   setCardRuntime: () => setCardRuntime,
   setIntegrationBranch: () => setIntegrationBranch,
+  setParked: () => setParked,
   sharedPrefixes: () => sharedPrefixes,
   splitCard: () => splitCard,
   splitProposalOutcome: () => splitProposalOutcome,
@@ -23001,6 +23016,1139 @@ var PRIORITY_OPTIONS = [
   { value: "high", label: "High", color: "#ef4444" }
 ];
 
+// ../lib/ready-to-merge.ts
+function manualYoursText(n) {
+  return `${n} [manual] item${n === 1 ? " is" : "s are"} yours`;
+}
+
+// ../lib/prompts/utils.ts
+var utils_exports = {};
+__export(utils_exports, {
+  convertToTipTapTaskList: () => convertToTipTapTaskList,
+  escapeShellArg: () => escapeShellArg,
+  stripHtml: () => stripHtml
+});
+function stripHtml(html) {
+  if (!html) return "";
+  return html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+}
+function convertToTipTapTaskList(html) {
+  let result = html.replace(/<li><input[^>]*checked[^>]*>\s*/gi, '<li data-type="taskItem" data-checked="true">').replace(/<li><input[^>]*type="checkbox"[^>]*>\s*/gi, '<li data-type="taskItem" data-checked="false">');
+  result = result.replace(/<ul>(\s*<li data-type="taskItem")/g, '<ul data-type="taskList">$1');
+  return result;
+}
+function escapeShellArg(arg) {
+  return `'${arg.replace(/'/g, "'\\''")}'`;
+}
+
+// ../lib/ralph-loop.ts
+var RALPH_DEFAULT_MAX_ROUNDS = 3;
+var RALPH_MAX_ROUNDS_LIMIT = 10;
+var RALPH_TIME_CAP_MS = 3 * 60 * 60 * 1e3;
+function isRalphMaxRounds(value) {
+  return typeof value === "number" && Number.isInteger(value) && value >= 0 && value <= RALPH_MAX_ROUNDS_LIMIT;
+}
+function resolveRalphMaxRounds(cardValue, projectValue) {
+  if (isRalphMaxRounds(cardValue)) return cardValue;
+  if (isRalphMaxRounds(projectValue)) return projectValue;
+  return RALPH_DEFAULT_MAX_ROUNDS;
+}
+function ralphRoundsText(maxRounds) {
+  return maxRounds === 0 ? "\u221E" : String(maxRounds);
+}
+function norm(text2) {
+  return stripItemTokens(stripHtml(text2 ?? "")).toLowerCase().replace(/\s+/g, " ").trim();
+}
+function originalItemText(itemText2, revisions) {
+  let current = itemText2;
+  const seen = /* @__PURE__ */ new Set([norm(current)]);
+  for (; ; ) {
+    const key = norm(current);
+    const row = [...revisions].reverse().find((r) => r.newText && r.originalText && norm(r.newText) === key);
+    if (!row?.originalText) return current;
+    const back = norm(row.originalText);
+    if (seen.has(back)) return row.originalText;
+    seen.add(back);
+    current = row.originalText;
+  }
+}
+function failureSignature(failures, revisions = []) {
+  const keys = /* @__PURE__ */ new Set();
+  for (const failure of failures) {
+    const text2 = norm(originalItemText(failure.text, revisions));
+    if (text2) keys.add(`${norm(failure.heading)} :: ${text2}`);
+  }
+  return [...keys].sort().join(" | ");
+}
+function nextRalphCounter(prev, signature) {
+  if (!signature) return { signature: null, count: 0 };
+  if (prev?.signature === signature) return { signature, count: (prev.count || 0) + 1 };
+  return { signature, count: 1 };
+}
+function chainRalphDeadline(nowMs, members) {
+  return new Date(nowMs + RALPH_TIME_CAP_MS * Math.max(1, members)).toISOString();
+}
+function chainCapText(members) {
+  return `${RALPH_TIME_CAP_MS * Math.max(1, members) / 36e5}h`;
+}
+var RALPH_REVISE_REFUSAL = "Ralph does not reword core-flow, End-to-end or [manual] items";
+function ralphMayRevise(item) {
+  if (!item) return true;
+  const flows = (item.heading ?? "").trim().toLowerCase() === SPLIT_FLOWS_HEADING.toLowerCase();
+  return !item.core && !flows && !isManualItem(item.text);
+}
+
+// ../lib/autopilot.ts
+var AUTOPILOT_STAGES = ["planning", "implementing", "verifying", "fixing", "ready", "stopped"];
+function isAutopilotStage(value) {
+  return typeof value === "string" && AUTOPILOT_STAGES.includes(value);
+}
+function isActiveAutopilotStage(stage) {
+  return stage === "planning" || stage === "implementing" || stage === "verifying" || stage === "fixing";
+}
+function autopilotModeOf(value) {
+  return value === "ralph" ? "ralph" : "default";
+}
+function autopilotModeName(mode) {
+  return mode === "ralph" ? "Ralph" : "Autopilot";
+}
+var RALPH_BROWSER_PREFIX = "Ralph needs the browser: ";
+var RALPH_BROWSER_UNUSED = "the browser was not used on [ui] items \u2014 Ralph does not accept a text report";
+var DECISION_STOP_PREFIX = "plan needs your decision: ";
+function autopilotResume(card) {
+  if (card.autopilotStage !== "stopped") return null;
+  if (findPlanDecisions(card.solutionSummary).length > 0) return "decision-open";
+  if ((card.autopilotStopReason ?? "").startsWith(DECISION_STOP_PREFIX)) return "decision-answered";
+  return "stopped";
+}
+function plural(n, word) {
+  return `${n} ${word}${n === 1 ? "" : "s"}`;
+}
+var AUTOPILOT_CONFLICT_REASON = "its branch has a rebase conflict \u2014 press Merge to solve it first";
+function autopilotIneligibleReason(card) {
+  if (isActiveAutopilotStage(isAutopilotStage(card.stage) ? card.stage : null)) return "it is already on Autopilot";
+  if (card.projectMode === "work") return "Work projects have no Autopilot";
+  if (card.status === "ideation") return "Ideation cards go to Backlog first";
+  if (card.status === "completed" || card.status === "withdrawn") return `it is in ${card.status}`;
+  if (card.processingType) return "a run is already going on it";
+  if (card.rebaseConflict) return AUTOPILOT_CONFLICT_REASON;
+  if (card.openDecision) return "the plan still has an open decision";
+  if (card.status === "test") {
+    if (!card.hasCoreFlow) return "its checklist has no core-flow group";
+    if (!card.activeWorktree) return "it has no worktree \u2014 a fix round would write to main";
+    return null;
+  }
+  if (!card.hasPlan && card.status !== "backlog" && card.status !== "bugs") return "no plan yet";
+  if (card.hasChecklist) return "it already has a test checklist";
+  if (card.status === "progress" && !card.activeWorktree && card.useWorktree === false) return "its work is on main";
+  if (card.status === "progress" && card.activeWorktree && card.dirtyWorktree) {
+    return "its worktree has uncommitted changes \u2014 commit or discard them, then send again";
+  }
+  return null;
+}
+var nameList2 = (members) => {
+  const names = members.map((m2) => m2.displayId || "a card");
+  return names.length <= 2 ? names.join(" and ") : plural(names.length, "card");
+};
+function chainAutopilotStatus(members) {
+  const status = chainAutopilotStatusOf(members);
+  if (!status) return null;
+  const live = members.filter((m2) => m2.status !== "withdrawn");
+  const ralph = live.some((m2) => m2.ralph && m2.autopilotStage);
+  const accepted = live.reduce((sum, m2) => sum + (m2.accepted ?? 0), 0);
+  let line = ralph ? status.line.replace(/^Autopilot\b/, "Ralph") : status.line;
+  if (accepted > 0) line = `${line} \xB7 ${accepted} accepted`;
+  return { ...status, line };
+}
+function chainAutopilotStatusOf(members) {
+  const open = members.filter((m2) => m2.status !== "completed" && m2.status !== "withdrawn");
+  const inChain = (m2) => m2.status === "test" && m2.gitBranchStatus === "in_chain";
+  const stageOf = (m2) => isAutopilotStage(m2.autopilotStage) ? m2.autopilotStage : null;
+  const allInChain = open.length > 0 && open.every(inChain);
+  if (!open.some((m2) => stageOf(m2) !== null) && !allInChain) return null;
+  const active = open.filter((m2) => !inChain(m2) && isActiveAutopilotStage(stageOf(m2))).sort((a, b2) => Number(!!a.isParent) - Number(!!b2.isParent));
+  const running = active.filter((m2) => m2.running);
+  const waiting = active.filter((m2) => !m2.running);
+  const stopped = open.filter((m2) => !inChain(m2) && stageOf(m2) === "stopped");
+  if (stopped.length > 0) {
+    const first = stopped[0];
+    const reason = first.autopilotStopReason || "no reason given";
+    const line = stopped.length === 1 ? `Autopilot stopped at ${nameList2(stopped)}: ${reason}` : `Autopilot stopped at ${nameList2(stopped)} \xB7 ${first.displayId || "the first"}: ${reason}`;
+    return { kind: "stopped", line, stopped: first };
+  }
+  const parent = open.find((m2) => m2.isParent && stageOf(m2) === "ready");
+  if (parent || allInChain) {
+    const manual = parent?.manualLeft ?? 0;
+    return {
+      kind: "ready",
+      ...parent ? { mergeFrom: parent } : {},
+      line: manual > 0 ? `Chain ready \xB7 ${manualYoursText(manual)}, then Merge & Complete` : "Chain ready \xB7 Merge & Complete is yours"
+    };
+  }
+  if (running.length > 0) {
+    const on = running.map((m2) => `${stageOf(m2)} ${m2.displayId || "a card"}`).join(", ");
+    return { kind: "running", line: `Autopilot is ${on}` };
+  }
+  if (waiting.length > 0) {
+    return { kind: "queued", line: `Autopilot \xB7 ${waiting[0].displayId || "a card"} starts next` };
+  }
+  return { kind: "running", line: "Autopilot \xB7 cards going into the chain" };
+}
+function chainAutopilotSummary(members) {
+  return chainAutopilotStatus(members)?.line ?? null;
+}
+
+// ../lib/card-queue.ts
+var card_queue_exports = {};
+__export(card_queue_exports, {
+  APP_RUN_CARD_ENV: () => APP_RUN_CARD_ENV,
+  QUEUE_CLEARING_STATUSES: () => QUEUE_CLEARING_STATUSES,
+  TERMINAL_WRITE_OPTIONS: () => TERMINAL_WRITE_OPTIONS,
+  compareByQueuePosition: () => compareByQueuePosition,
+  conflictingLiveRun: () => conflictingLiveRun,
+  folderHoldFor: () => folderHoldFor,
+  liveRunPhrase: () => liveRunPhrase,
+  liveRunSubject: () => liveRunSubject,
+  queueIneligibleReason: () => queueIneligibleReason,
+  queueRanks: () => queueRanks,
+  sharedWorkingCopyWith: () => sharedWorkingCopyWith,
+  withoutOwnAppRun: () => withoutOwnAppRun,
+  writeConflictFor: () => writeConflictFor
+});
+var QUEUE_CLEARING_STATUSES = /* @__PURE__ */ new Set([
+  "test",
+  "completed",
+  "withdrawn",
+  "ideation"
+]);
+function compareByQueuePosition(a, b2) {
+  const ap = a.queuePosition ?? Number.MAX_SAFE_INTEGER;
+  const bp = b2.queuePosition ?? Number.MAX_SAFE_INTEGER;
+  if (ap !== bp) return ap - bp;
+  return (a.taskNumber ?? Number.MAX_SAFE_INTEGER) - (b2.taskNumber ?? Number.MAX_SAFE_INTEGER);
+}
+function queueRanks(cards) {
+  const ranks = /* @__PURE__ */ new Map();
+  cards.filter((card) => card.queuePosition !== null).sort(compareByQueuePosition).forEach((card, index) => ranks.set(card.id, index + 1));
+  return ranks;
+}
+function queueIneligibleReason(input) {
+  if (input.status === "test") {
+    if (input.phase !== "verify") return "it is in test";
+    if (input.projectMode === "work") return "Work projects have no queued pre-verify";
+    if (!input.hasDescription) return "it has no description";
+    if (!input.hasCoreFlow) return "its checklist has no core-flow group";
+    if (input.gitBranchStatus === "rolled_back") return "its branch was rolled back";
+    if (input.processingType) return "a run is already going on it";
+    return null;
+  }
+  if (QUEUE_CLEARING_STATUSES.has(input.status)) return `it is in ${input.status}`;
+  if (input.projectMode === "work") return "Work projects have no implementation run";
+  if (!input.hasDescription) return "it has no description";
+  if (input.phase === "planning") {
+    if (!input.autopilotPlanning || input.status !== "backlog" && input.status !== "bugs") return "it has no plan yet";
+    if (input.processingType) return "a run is already going on it";
+    return null;
+  }
+  if (input.phase !== "implementation") return "it already has a test checklist";
+  if (input.hasOpenDecision) return "its plan needs your decision";
+  if (input.processingType) return "a run is already going on it";
+  return null;
+}
+function sharedWorkingCopyWith(self, ahead) {
+  if (self.runsInWorktree) return null;
+  for (let i = ahead.length - 1; i >= 0; i--) {
+    const other = ahead[i];
+    if (other.id === self.id || other.runsInWorktree || other.kind === "verify" || other.kind === "planning") continue;
+    if (other.projectId === self.projectId) return other;
+  }
+  return null;
+}
+function conflictingLiveRun(self, live) {
+  if (self.runsInWorktree || self.kind === "planning") return null;
+  for (const other of live) {
+    if (other.id === self.id || other.runsInWorktree || other.kind === "planning") continue;
+    if (other.projectId === self.projectId) return other;
+  }
+  return null;
+}
+function liveRunSubject(run2) {
+  if (run2.kind === "terminal") {
+    return run2.displayId ? `${run2.displayId}'s terminal session is editing` : "a terminal session is editing";
+  }
+  const name = run2.displayId ?? "a card";
+  if (run2.kind === "tests-chat") return `${name}'s Tests chat is working`;
+  if (run2.fromQueue) return `${name} is running from the queue`;
+  return `${name} is running`;
+}
+function liveRunPhrase(run2) {
+  const subject = liveRunSubject(run2);
+  return `${subject.charAt(0).toUpperCase()}${subject.slice(1)} in the same folder.`;
+}
+var TERMINAL_WRITE_OPTIONS = "Wait for it, work in a worktree, or continue only if the user confirms.";
+var APP_RUN_CARD_ENV = "IDEAFY_APP_RUN_CARD";
+function withoutOwnAppRun(runs, appRunCardId) {
+  if (!appRunCardId) return runs;
+  return runs.filter((run2) => run2.kind === "terminal" || run2.cardId !== appRunCardId);
+}
+function writeConflictFor(input) {
+  const open = (run2) => !input.acknowledged?.has(run2.id);
+  const live = conflictingLiveRun(input.self, input.live.filter(open));
+  if (live) {
+    return {
+      conflictId: live.id,
+      conflictCardId: live.cardId,
+      reason: "live-run",
+      message: `${liveRunPhrase(live)} ${TERMINAL_WRITE_OPTIONS}`
+    };
+  }
+  if (!input.armed) return null;
+  const next = input.waiting.find((row) => open(row) && conflictingLiveRun(input.self, [row]));
+  if (!next) return null;
+  return {
+    conflictId: next.id,
+    conflictCardId: next.cardId,
+    reason: "queue",
+    message: `The queue is running on main (${next.displayId ?? "a card"} is next). ${TERMINAL_WRITE_OPTIONS}`
+  };
+}
+function folderHoldFor(next, writers) {
+  const writer = conflictingLiveRun(next, writers);
+  if (!writer) return null;
+  const folder = next.displayId ? `${next.displayId}'s folder` : "the next card's folder";
+  return `${liveRunSubject(writer)} in ${folder}`;
+}
+
+// ../lib/prompts/phase.ts
+function detectPhase(card) {
+  const hasSolution = card.solutionSummary && stripHtml(card.solutionSummary) !== "";
+  const hasTests = hasOwnChecklist(card.testScenarios);
+  if (card.status === "test") return "verify";
+  if (!hasSolution) return "planning";
+  if (!hasTests) return "implementation";
+  return "retest";
+}
+
+// ../lib/workspace.ts
+var workspace_exports = {};
+__export(workspace_exports, {
+  OPEN_ADD_PROJECT_EVENT: () => OPEN_ADD_PROJECT_EVENT,
+  isCardInWorkspace: () => isCardInWorkspace,
+  normalizeProjectMode: () => normalizeProjectMode,
+  projectModeOf: () => projectModeOf,
+  projectsInWorkspace: () => projectsInWorkspace,
+  resolveEffectiveWorktree: () => resolveEffectiveWorktree,
+  shouldUseWorktree: () => shouldUseWorktree,
+  worktreeOverrideFor: () => worktreeOverrideFor
+});
+
+// ../lib/git/branch-name.ts
+var branch_name_exports = {};
+__export(branch_name_exports, {
+  generateBranchName: () => generateBranchName,
+  slugify: () => slugify2
+});
+function slugify2(text2) {
+  return text2.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").substring(0, 50);
+}
+function generateBranchName(idPrefix, taskNumber, title) {
+  const slug = slugify2(title);
+  return `kanban/${idPrefix}-${taskNumber}-${slug}`;
+}
+
+// ../lib/workspace.ts
+var OPEN_ADD_PROJECT_EVENT = "ideafy:open-add-project";
+function normalizeProjectMode(v2, fallback = DEFAULT_PROJECT_MODE) {
+  return typeof v2 === "string" && PROJECT_MODES.includes(v2) ? v2 : fallback;
+}
+function projectModeOf(projectId, projects) {
+  if (!projectId) return DEFAULT_PROJECT_MODE;
+  return projects.find((project) => project.id === projectId)?.mode ?? DEFAULT_PROJECT_MODE;
+}
+function projectsInWorkspace(projects, workspace) {
+  return projects.filter((project) => (project.mode ?? DEFAULT_PROJECT_MODE) === workspace);
+}
+function isCardInWorkspace(card, projects, workspace) {
+  return projectModeOf(card.projectId, projects) === workspace;
+}
+function shouldUseWorktree(card, project) {
+  if (project?.mode === "work") return false;
+  return card.useWorktree ?? project?.useWorktrees ?? true;
+}
+function resolveEffectiveWorktree(card, project) {
+  const effective = shouldUseWorktree(card, project);
+  if (!effective) return { enforced: false, targetBranch: null };
+  if (card.gitBranchName) {
+    return { enforced: true, targetBranch: card.gitBranchName };
+  }
+  if (project && card.taskNumber != null) {
+    return {
+      enforced: true,
+      targetBranch: generateBranchName(project.idPrefix, card.taskNumber, card.title)
+    };
+  }
+  return { enforced: true, targetBranch: null };
+}
+function worktreeOverrideFor(choice, projectDefault) {
+  return choice === projectDefault ? null : choice;
+}
+
+// ../lib/card-ops/card-ref.ts
+var UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+var DISPLAY_ID2 = /^([A-Z][A-Z0-9]*)-(\d+)$/i;
+var TASK_NUMBER2 = /^(\d+)$/;
+function resolveCardRef(db2, ref, opts = {}) {
+  const value = ref.trim();
+  if (UUID.test(value)) return value;
+  const display = value.match(DISPLAY_ID2);
+  if (display) {
+    return pick2(
+      allRows(
+        db2,
+        `SELECT c.id, c.project_id AS projectId FROM cards c
+           JOIN projects p ON p.id = c.project_id
+          WHERE UPPER(p.id_prefix) = ? AND c.task_number = ?`,
+        display[1].toUpperCase(),
+        Number(display[2])
+      ),
+      opts.projectId
+    );
+  }
+  const number3 = value.match(TASK_NUMBER2);
+  if (number3) {
+    return pick2(
+      allRows(
+        db2,
+        `SELECT id, project_id AS projectId FROM cards WHERE task_number = ?`,
+        Number(number3[1])
+      ),
+      opts.projectId
+    );
+  }
+  return null;
+}
+function pick2(rows, projectId) {
+  if (projectId) {
+    const own = rows.find((row) => row.projectId === projectId);
+    if (own) return own.id;
+  }
+  return rows.length === 1 ? rows[0].id : null;
+}
+
+// ../lib/card-ops/dependencies.ts
+var CardDependencyError = class extends Error {
+  constructor(code, message) {
+    super(message);
+    this.code = code;
+    this.name = "CardDependencyError";
+  }
+  code;
+};
+var NOTE_MAX = 280;
+var presentTables = /* @__PURE__ */ new WeakMap();
+function hasTable(db2, table) {
+  let known = presentTables.get(db2);
+  if (known?.has(table)) return true;
+  const found = !!getRow(db2, "SELECT name FROM sqlite_master WHERE type = 'table' AND name = ?", table);
+  if (found) {
+    if (!known) presentTables.set(db2, known = /* @__PURE__ */ new Set());
+    known.add(table);
+  }
+  return found;
+}
+function hasDependencyTable(db2) {
+  return hasTable(db2, "card_dependencies");
+}
+function hasSuggestionTable(db2) {
+  return hasTable(db2, "card_dependency_suggestions");
+}
+function assertTable(db2) {
+  if (!hasDependencyTable(db2)) {
+    throw new CardDependencyError(
+      "unsupported",
+      "This Ideafy database cannot store card dependencies yet. Update the Ideafy app \u2014 it adds the table on its next start \u2014 then try again. Nothing was written."
+    );
+  }
+}
+function parseBlockedBy(value) {
+  if (value === void 0) return void 0;
+  if (value === null) return [];
+  const items = Array.isArray(value) ? value : [value];
+  const entries = [];
+  for (const item of items) {
+    if (typeof item === "string") {
+      if (item.trim()) entries.push({ card: item.trim() });
+    } else if (item && typeof item === "object") {
+      const { card, note } = item;
+      if (typeof card === "string" && card.trim()) {
+        entries.push({ card: card.trim(), note: typeof note === "string" ? note : null });
+      }
+    }
+  }
+  return entries;
+}
+function cleanNote(note) {
+  const text2 = (note ?? "").replace(/\s+/g, " ").trim();
+  return text2 ? text2.slice(0, NOTE_MAX) : null;
+}
+function cardRow(db2, id) {
+  return getRow(
+    db2,
+    `SELECT c.id, c.title, c.status, c.task_number AS taskNumber, p.id_prefix AS idPrefix,
+            c.git_branch_status AS gitBranchStatus
+     FROM cards c LEFT JOIN projects p ON p.id = c.project_id WHERE c.id = ?`,
+    id
+  );
+}
+var label = (row) => formatDisplayId(row.idPrefix, row.taskNumber) ?? `"${row.title}"`;
+function resolvePredecessor(db2, cardId, ref) {
+  const exact = cardRow(db2, ref.trim());
+  if (exact) return exact;
+  const own = getRow(db2, "SELECT project_id AS projectId FROM cards WHERE id = ?", cardId);
+  const id = resolveCardRef(db2, ref, { projectId: own?.projectId ?? null });
+  const row = id ? cardRow(db2, id) : void 0;
+  if (!row) throw new CardDependencyError("not-found", `Card not found: ${ref}`);
+  return row;
+}
+function waitPath(db2, from, to) {
+  const previous = /* @__PURE__ */ new Map([[from, null]]);
+  const queue = [from];
+  while (queue.length > 0) {
+    const current = queue.shift();
+    if (current === to) {
+      const path12 = [];
+      for (let step = current; step !== null; step = previous.get(step) ?? null) path12.unshift(step);
+      return path12;
+    }
+    for (const { next } of allRows(
+      db2,
+      "SELECT blocked_by_card_id AS next FROM card_dependencies WHERE card_id = ?",
+      current
+    )) {
+      if (!previous.has(next)) {
+        previous.set(next, current);
+        queue.push(next);
+      }
+    }
+  }
+  return null;
+}
+function linkOne(db2, cardId, entry, now) {
+  const card = cardRow(db2, cardId);
+  if (!card) throw new CardDependencyError("not-found", `Card not found: ${cardId}`);
+  const predecessor = resolvePredecessor(db2, cardId, entry.card);
+  if (predecessor.id === cardId) {
+    throw new CardDependencyError("self", `${label(card)} cannot wait on itself.`);
+  }
+  const path12 = waitPath(db2, predecessor.id, cardId);
+  if (path12) {
+    const names = path12.map((id) => {
+      const row = cardRow(db2, id);
+      return row ? label(row) : id;
+    });
+    throw new CardDependencyError(
+      "cycle",
+      `${label(predecessor)} already waits on ${label(card)} (${names.join(" \u2192 ")}); linking back would make a cycle. Nothing was written.`
+    );
+  }
+  if (hasSuggestionTable(db2)) {
+    runChanges(db2, "DELETE FROM card_dependency_suggestions WHERE card_id = ? AND blocked_by_card_id = ?", cardId, predecessor.id);
+  }
+  const note = cleanNote(entry.note);
+  const existing = getRow(db2, "SELECT 1 FROM card_dependencies WHERE card_id = ? AND blocked_by_card_id = ?", cardId, predecessor.id);
+  if (existing) {
+    if (entry.note !== void 0) {
+      runChanges(db2, "UPDATE card_dependencies SET note = ? WHERE card_id = ? AND blocked_by_card_id = ?", note, cardId, predecessor.id);
+    }
+    return { blockedById: predecessor.id, created: false };
+  }
+  runChanges(
+    db2,
+    "INSERT INTO card_dependencies (card_id, blocked_by_card_id, note, created_at) VALUES (?, ?, ?, ?)",
+    cardId,
+    predecessor.id,
+    note,
+    now
+  );
+  return { blockedById: predecessor.id, created: true };
+}
+function addDependency(db2, args) {
+  assertTable(db2);
+  return transaction(db2, () => linkOne(db2, args.cardId, { card: args.blockedBy, note: args.note }, args.now));
+}
+function removeDependency(db2, args) {
+  assertTable(db2);
+  const predecessor = resolvePredecessor(db2, args.cardId, args.blockedBy);
+  return transaction(db2, () => {
+    const { changes } = runChanges(
+      db2,
+      "DELETE FROM card_dependencies WHERE card_id = ? AND blocked_by_card_id = ?",
+      args.cardId,
+      predecessor.id
+    );
+    let dismissed = false;
+    if (hasSuggestionTable(db2)) {
+      dismissed = runChanges(
+        db2,
+        "UPDATE card_dependency_suggestions SET status = 'dismissed' WHERE card_id = ? AND blocked_by_card_id = ? AND status = 'pending'",
+        args.cardId,
+        predecessor.id
+      ).changes > 0;
+      if (changes > 0 && !dismissed) {
+        runChanges(
+          db2,
+          `INSERT INTO card_dependency_suggestions (card_id, blocked_by_card_id, note, status, created_at)
+           VALUES (?, ?, NULL, 'dismissed', ?) ON CONFLICT (card_id, blocked_by_card_id) DO UPDATE SET status = 'dismissed'`,
+          args.cardId,
+          predecessor.id,
+          args.now
+        );
+      }
+    }
+    return { blockedById: predecessor.id, removed: changes > 0, dismissed };
+  });
+}
+function groupOf(db2, id) {
+  return getRow(db2, "SELECT group_id AS groupId FROM cards WHERE id = ?", id)?.groupId ?? null;
+}
+function suggestionBlocker({ card, predecessor }, db2) {
+  if (predecessor.id === card.id) return "self";
+  if (card.groupId && card.groupId === predecessor.groupId) return "same-chain";
+  if (getRow(db2, "SELECT 1 FROM card_dependencies WHERE card_id = ? AND blocked_by_card_id = ?", card.id, predecessor.id)) {
+    return "linked";
+  }
+  const state = linkState(predecessor);
+  if (state !== "open") return state;
+  if (waitPath(db2, predecessor.id, card.id)) return "cycle";
+  return null;
+}
+function toSuggestion(row) {
+  return {
+    id: row.id,
+    displayId: formatDisplayId(row.idPrefix, row.taskNumber),
+    title: row.title,
+    status: row.status,
+    note: row.note ?? null
+  };
+}
+function suggestDependencies(db2, args) {
+  if (!hasSuggestionTable(db2) || !hasDependencyTable(db2)) {
+    throw new CardDependencyError(
+      "unsupported",
+      "This Ideafy database cannot store suggested links yet. Update the Ideafy app \u2014 it adds the table on its next start."
+    );
+  }
+  return transaction(db2, () => {
+    const outcome = { suggested: [], skipped: [] };
+    const cardGroup = groupOf(db2, args.cardId);
+    for (const entry of args.entries) {
+      let predecessor;
+      try {
+        predecessor = resolvePredecessor(db2, args.cardId, entry.card);
+      } catch {
+        outcome.skipped.push({ card: entry.card, reason: "not-found" });
+        continue;
+      }
+      const name = label(predecessor);
+      const target2 = { card: { id: args.cardId, groupId: cardGroup }, predecessor: { ...predecessor, groupId: groupOf(db2, predecessor.id) } };
+      const blocker = suggestionBlocker(target2, db2);
+      if (blocker) {
+        outcome.skipped.push({ card: name, reason: blocker });
+        continue;
+      }
+      const existing = getRow(
+        db2,
+        "SELECT status, note FROM card_dependency_suggestions WHERE card_id = ? AND blocked_by_card_id = ?",
+        args.cardId,
+        predecessor.id
+      );
+      if (existing?.status === "dismissed") {
+        outcome.skipped.push({ card: name, reason: "dismissed" });
+        continue;
+      }
+      const note = entry.note !== void 0 ? cleanNote(entry.note) : existing?.note ?? null;
+      if (existing) {
+        runChanges(
+          db2,
+          "UPDATE card_dependency_suggestions SET note = ? WHERE card_id = ? AND blocked_by_card_id = ?",
+          note,
+          args.cardId,
+          predecessor.id
+        );
+      } else {
+        runChanges(
+          db2,
+          `INSERT INTO card_dependency_suggestions (card_id, blocked_by_card_id, note, status, created_at)
+           VALUES (?, ?, ?, 'pending', ?)`,
+          args.cardId,
+          predecessor.id,
+          note,
+          args.now
+        );
+      }
+      outcome.suggested = outcome.suggested.filter((s) => s.id !== predecessor.id);
+      outcome.suggested.push(toSuggestion({ ...predecessor, note }));
+    }
+    return outcome;
+  });
+}
+function listDependencySuggestions(db2, cardId) {
+  if (!hasSuggestionTable(db2) || !hasDependencyTable(db2)) return [];
+  const card = getRow(
+    db2,
+    "SELECT status, group_id AS groupId FROM cards WHERE id = ?",
+    cardId
+  );
+  if (!card || card.status === "completed" || card.status === "withdrawn") return [];
+  const rows = allRows(
+    db2,
+    `SELECT c.id, c.title, c.status, c.task_number AS taskNumber, p.id_prefix AS idPrefix,
+            c.git_branch_status AS gitBranchStatus, c.group_id AS groupId, s.note
+     FROM card_dependency_suggestions s
+     JOIN cards c ON c.id = s.blocked_by_card_id
+     LEFT JOIN projects p ON p.id = c.project_id
+     WHERE s.card_id = ? AND s.status = 'pending'
+     ORDER BY s.created_at, c.task_number`,
+    cardId
+  );
+  return rows.filter((predecessor) => !suggestionBlocker({ card: { id: cardId, groupId: card.groupId }, predecessor }, db2)).map(toSuggestion);
+}
+function pendingDependencySuggestionCounts(db2) {
+  const counts = /* @__PURE__ */ new Map();
+  if (!hasSuggestionTable(db2)) return counts;
+  for (const row of allRows(
+    db2,
+    `SELECT card_id AS cardId, COUNT(*) AS n FROM card_dependency_suggestions WHERE status = 'pending' GROUP BY card_id`
+  )) {
+    counts.set(row.cardId, Number(row.n) || 0);
+  }
+  return counts;
+}
+function setBlockedBy(db2, cardId, entries, now, mode) {
+  assertTable(db2);
+  return transaction(db2, () => {
+    const kept = entries.map((entry) => linkOne(db2, cardId, entry, now).blockedById);
+    if (mode === "replace") {
+      const keep = new Set(kept);
+      for (const { blockedById } of allRows(
+        db2,
+        "SELECT blocked_by_card_id AS blockedById FROM card_dependencies WHERE card_id = ?",
+        cardId
+      )) {
+        if (!keep.has(blockedById)) {
+          runChanges(db2, "DELETE FROM card_dependencies WHERE card_id = ? AND blocked_by_card_id = ?", cardId, blockedById);
+        }
+      }
+    }
+    return kept;
+  });
+}
+function toRef(row, waiterId) {
+  return {
+    id: row.id,
+    displayId: formatDisplayId(row.idPrefix, row.taskNumber),
+    title: row.title,
+    status: row.status,
+    gitBranchStatus: row.gitBranchStatus,
+    landed: linkState(row, waiterId) === "landed",
+    note: row.note ?? null
+  };
+}
+function hasSplitColumn(db2) {
+  return allRows(db2, "PRAGMA table_info(cards)").some((column) => column.name === "split_from_card_id");
+}
+function splitColumns(db2) {
+  if (!hasSplitColumn(db2)) {
+    return "NULL AS splitFromCardId, NULL AS testScenarios";
+  }
+  return `c.split_from_card_id AS splitFromCardId,
+         CASE WHEN c.split_from_card_id = d.card_id THEN c.test_scenarios END AS testScenarios`;
+}
+var LINKED_SELECT = `
+  SELECT c.id, c.title, c.status, c.task_number AS taskNumber, p.id_prefix AS idPrefix,
+         c.git_branch_status AS gitBranchStatus, c.group_id AS groupId, d.note, %SPLIT%
+  FROM card_dependencies d
+  JOIN cards c ON c.id = d.%JOIN%
+  LEFT JOIN projects p ON p.id = c.project_id
+  WHERE d.%WHERE% = ?
+  ORDER BY d.created_at, c.task_number`;
+function blockerRows(db2, cardId) {
+  if (!hasDependencyTable(db2)) return [];
+  return allRows(
+    db2,
+    LINKED_SELECT.replace("%JOIN%", "blocked_by_card_id").replace("%WHERE%", "card_id").replace("%SPLIT%", splitColumns(db2)),
+    cardId
+  );
+}
+function listDependencies(db2, cardId) {
+  if (!hasDependencyTable(db2)) return null;
+  const blocks = allRows(
+    db2,
+    LINKED_SELECT.replace("%JOIN%", "card_id").replace("%WHERE%", "blocked_by_card_id").replace("%SPLIT%", splitColumns(db2)),
+    cardId
+  );
+  return {
+    blockedBy: blockerRows(db2, cardId).map((row) => toRef(row, cardId)),
+    blocks: blocks.map((row) => toRef(row))
+  };
+}
+function listDependencyEdges(db2) {
+  if (!hasDependencyTable(db2)) return [];
+  return allRows(
+    db2,
+    `SELECT card_id AS cardId, blocked_by_card_id AS blockedByCardId, note, created_at AS createdAt
+     FROM card_dependencies ORDER BY created_at`
+  );
+}
+function waitingOnLine(db2, cardId) {
+  try {
+    const card = getRow(db2, "SELECT status FROM cards WHERE id = ?", cardId);
+    if (!card || card.status === "completed" || card.status === "withdrawn") return null;
+    const rows = blockerRows(db2, cardId);
+    const name = (row) => sanitizeForReminder(label(row), 80);
+    const groupId = groupOf(db2, cardId);
+    const open = rows.filter((row) => linkState(row, cardId, groupId) === "open");
+    const withdrawn = rows.filter((row) => linkState(row, cardId, groupId) === "withdrawn");
+    const lines2 = [];
+    if (open.length > 0) {
+      const parts = open.map((row) => {
+        const why = openLinkReason(row, cardId) ?? `in ${row.status}`;
+        return `${name(row)} (${why})`;
+      });
+      lines2.push(`This card waits on ${parts.join(", ")}. Starting it now builds without that work; say so before writing code.`);
+    }
+    if (withdrawn.length > 0) {
+      lines2.push(
+        `${withdrawn.map(name).join(", ")} ${withdrawn.length === 1 ? "was" : "were"} withdrawn; ask the user whether this card still needs ${withdrawn.length === 1 ? "it" : "them"} before writing code.`
+      );
+    }
+    return lines2.length > 0 ? lines2.join(" ") : null;
+  } catch (error2) {
+    console.warn("[dependencies] waiting line skipped:", error2);
+    return null;
+  }
+}
+function queueWaitReason(db2, cardId) {
+  try {
+    const groupId = groupOf(db2, cardId);
+    const rows = blockerRows(db2, cardId).filter((row) => linkState(row, cardId, groupId) !== "landed");
+    if (rows.length === 0) return null;
+    const first = rows[0];
+    const more = rows.length > 1 ? ` +${rows.length - 1}` : "";
+    if (linkState(first, cardId, groupId) === "withdrawn") return `waits on withdrawn ${label(first)}${more}`;
+    const why = openLinkReason(first, cardId) ?? `in ${first.status}`;
+    return `waits on ${label(first)} (${why})${more}`;
+  } catch (error2) {
+    console.warn("[dependencies] queue wait reason skipped:", error2);
+    return null;
+  }
+}
+function readyAfterLinks(db2) {
+  if (!hasDependencyTable(db2)) return [];
+  const rows = allRows(
+    db2,
+    `SELECT d.card_id AS waitingId, w.project_id AS waitingProjectId, d.created_at AS linkedAt,
+            c.id, c.title, c.status, c.task_number AS taskNumber, p.id_prefix AS idPrefix,
+            c.git_branch_status AS gitBranchStatus, c.updated_at AS updatedAt, c.completed_at AS completedAt,
+            ${splitColumns(db2)}
+     FROM card_dependencies d
+     JOIN cards w ON w.id = d.card_id
+     JOIN cards c ON c.id = d.blocked_by_card_id
+     LEFT JOIN projects p ON p.id = c.project_id
+     WHERE w.status NOT IN ('completed', 'withdrawn') AND w.processing_type IS NULL
+     ORDER BY d.card_id, c.id`
+  );
+  const byCard = /* @__PURE__ */ new Map();
+  for (const row of rows) {
+    const bucket = byCard.get(row.waitingId);
+    if (bucket) bucket.push(row);
+    else byCard.set(row.waitingId, [row]);
+  }
+  const ready = [];
+  for (const [cardId, links] of byCard) {
+    if (!links.every((link) => linkState(link, cardId) === "landed")) continue;
+    const landedAt = links.reduce((max, link) => {
+      const at = link.status === "completed" && link.completedAt || link.updatedAt;
+      return at > max ? at : max;
+    }, "");
+    const linkedAt = links.reduce((max, link) => link.linkedAt > max ? link.linkedAt : max, "");
+    if (landedAt <= linkedAt) continue;
+    ready.push({
+      cardId,
+      projectId: links[0].waitingProjectId,
+      blockerIds: links.map((link) => link.id),
+      blockerNames: links.map(label),
+      landedAt
+    });
+  }
+  return ready;
+}
+function restoreDependencies(db2, links, now) {
+  if (!hasDependencyTable(db2) || links.length === 0) return 0;
+  let restored = 0;
+  for (const link of links) {
+    try {
+      transaction(db2, () => {
+        const { created } = linkOne(db2, link.cardId, { card: link.blockedByCardId, note: link.note }, link.createdAt || now);
+        if (created) restored++;
+      });
+    } catch {
+    }
+  }
+  return restored;
+}
+
+// ../lib/card-ops/queue.ts
+var ROW_SELECT = `
+  SELECT c.id, c.title, c.status, c.description,
+         c.solution_summary AS solutionSummary,
+         c.test_scenarios AS testScenarios,
+         c.processing_type AS processingType,
+         c.queue_position AS queuePosition,
+         c.queue_verify_scope AS queueVerifyScope,
+         c.task_number AS taskNumber,
+         c.use_worktree AS useWorktree,
+         c.git_branch_status AS gitBranchStatus,
+         c.git_worktree_path AS gitWorktreePath,
+         c.git_worktree_status AS gitWorktreeStatus,
+         c.project_id AS projectId,
+         p.id_prefix AS idPrefix,
+         p.mode AS projectMode,
+         p.use_worktrees AS projectUseWorktrees,
+         c.autopilot_stage AS autopilotStage
+  FROM cards c LEFT JOIN projects p ON p.id = c.project_id`;
+function toQueueRow(raw) {
+  return {
+    ...raw,
+    // Anything but "all" is the default; a stray value never widens a run.
+    queueVerifyScope: raw.queueVerifyScope === null ? null : raw.queueVerifyScope === "all" ? "all" : "next",
+    useWorktree: raw.useWorktree === null ? null : !!raw.useWorktree,
+    projectUseWorktrees: raw.projectUseWorktrees === null ? null : !!raw.projectUseWorktrees
+  };
+}
+function listQueueRows(db2) {
+  return allRows(db2, `${ROW_SELECT} WHERE c.queue_position IS NOT NULL`).map(toQueueRow).sort(compareByQueuePosition);
+}
+function getQueueRow(db2, cardId) {
+  const raw = getRow(db2, `${ROW_SELECT} WHERE c.id = ?`, cardId);
+  return raw ? toQueueRow(raw) : void 0;
+}
+function queueDisplayId(row) {
+  return formatDisplayId(row.idPrefix, row.taskNumber) ?? row.title;
+}
+function queueRowIneligibleReason(row) {
+  const progress = parseTestProgress(row.testScenarios ?? "");
+  const core = progress?.core;
+  const reason = queueIneligibleReason({
+    status: row.status,
+    hasDescription: stripHtml(row.description ?? "") !== "",
+    phase: detectPhase(row),
+    processingType: row.processingType,
+    projectMode: row.projectMode,
+    hasCoreFlow: !!core,
+    gitBranchStatus: row.gitBranchStatus,
+    hasOpenDecision: hasOpenPlanDecision(row),
+    autopilotPlanning: row.autopilotStage === "planning"
+  });
+  if (reason) return reason;
+  if (row.status === "test" && !nextVerifyGroup(progress)) {
+    return manualLeftIn(progress) > 0 ? "only [manual] items are left \u2014 they are yours" : "its checklist is fully ticked";
+  }
+  return null;
+}
+function queueKindOf(row) {
+  const phase = detectPhase(row);
+  return phase === "verify" ? "verify" : phase === "planning" ? "planning" : "implementation";
+}
+function queuedWaitReason(db2, row) {
+  return queueKindOf(row) === "verify" ? null : queueWaitReason(db2, row.id);
+}
+function nextQueueStep(db2) {
+  const rows = listQueueRows(db2);
+  let waiting = 0;
+  for (const row of rows) {
+    const reason = queueRowIneligibleReason(row);
+    if (reason) return { kind: "drop", row, reason };
+    if (queuedWaitReason(db2, row)) {
+      waiting++;
+      continue;
+    }
+    return { kind: "start", row };
+  }
+  return { kind: "idle", waiting };
+}
+function queuedRunsInWorktree(row) {
+  const activeWorktree = !!row.gitWorktreePath && row.gitWorktreeStatus === "active";
+  const kind = queueKindOf(row);
+  if (kind === "verify") return activeWorktree;
+  if (kind === "planning") return false;
+  const useWorktree = shouldUseWorktree(
+    { useWorktree: row.useWorktree },
+    { useWorktrees: row.projectUseWorktrees, mode: row.projectMode }
+  );
+  return useWorktree && !!row.projectId && row.taskNumber != null || activeWorktree;
+}
+function writeQueueOrder(db2, ids, removed = []) {
+  const place = db2.prepare(`UPDATE cards SET queue_position = ? WHERE id = ?`);
+  ids.forEach((id, index) => place.run(index + 1, id));
+  const unqueue = db2.prepare(`UPDATE cards SET queue_position = NULL WHERE id = ?`);
+  for (const id of removed) unqueue.run(id);
+}
+function enqueueCard(db2, cardId, afterCardId, verifyScope) {
+  if (afterCardId === cardId) {
+    return { ok: false, reason: "after-self", message: "A card cannot be placed after itself" };
+  }
+  return transaction(db2, () => {
+    const row = getQueueRow(db2, cardId);
+    if (!row) return { ok: false, reason: "not-found", message: "Card not found" };
+    const ineligible = queueRowIneligibleReason(row);
+    if (ineligible) {
+      return { ok: false, reason: "ineligible", message: `Cannot queue ${queueDisplayId(row)}: ${ineligible}` };
+    }
+    const members = listQueueRows(db2);
+    const others = members.filter((m2) => m2.id !== cardId);
+    if (afterCardId && !others.some((m2) => m2.id === afterCardId)) {
+      return { ok: false, reason: "after-not-queued", message: "afterCardId is not in the queue" };
+    }
+    const after = afterCardId === void 0 ? others[others.length - 1]?.id ?? null : afterCardId;
+    const moved = members.length !== others.length;
+    const chainShaped = members.map((m2) => ({ id: m2.id, groupOrder: m2.queuePosition, taskNumber: m2.taskNumber }));
+    if (!moved) chainShaped.push({ id: cardId, groupOrder: null, taskNumber: row.taskNumber });
+    const order = placeAfter(chainShaped, cardId, after);
+    writeQueueOrder(db2, order);
+    if (!moved) clearParked(db2, cardId);
+    let queueVerifyScope = row.queueVerifyScope;
+    if (!moved || verifyScope !== void 0) {
+      queueVerifyScope = queueKindOf(row) === "verify" ? verifyScope ?? null : null;
+      db2.prepare(`UPDATE cards SET queue_verify_scope = ? WHERE id = ?`).run(queueVerifyScope, cardId);
+    }
+    return { ok: true, row: { ...row, queueVerifyScope }, rank: order.indexOf(cardId) + 1, moved };
+  });
+}
+function dequeueCard(db2, cardId) {
+  return transaction(db2, () => {
+    const members = listQueueRows(db2);
+    if (!members.some((m2) => m2.id === cardId)) return false;
+    writeQueueOrder(
+      db2,
+      members.filter((m2) => m2.id !== cardId).map((m2) => m2.id),
+      [cardId]
+    );
+    return true;
+  });
+}
+function restoreQueueCards(db2, cardIds) {
+  return transaction(db2, () => {
+    const members = listQueueRows(db2);
+    const queued = new Set(members.map((m2) => m2.id));
+    const restored = [];
+    const skipped = [];
+    for (const cardId of new Set(cardIds)) {
+      if (queued.has(cardId)) {
+        restored.push(cardId);
+        continue;
+      }
+      const row = getQueueRow(db2, cardId);
+      const reason = row ? queueRowIneligibleReason(row) : "it was deleted";
+      if (reason) skipped.push({ cardId, displayId: row ? queueDisplayId(row) : cardId, reason });
+      else restored.push(cardId);
+    }
+    const back = new Set(restored);
+    writeQueueOrder(db2, [...restored, ...members.filter((m2) => !back.has(m2.id)).map((m2) => m2.id)]);
+    return { restored, skipped };
+  });
+}
+function clearQueue(db2, keep = /* @__PURE__ */ new Set()) {
+  return transaction(db2, () => {
+    const rows = allRows(
+      db2,
+      `SELECT c.id, c.title, c.queue_position AS queuePosition, c.task_number AS taskNumber,
+              p.id_prefix AS idPrefix
+       FROM cards c LEFT JOIN projects p ON p.id = c.project_id
+       WHERE c.queue_position IS NOT NULL`
+    ).sort(compareByQueuePosition);
+    const cleared = rows.filter((row) => !keep.has(row.id));
+    const unqueue = db2.prepare(`UPDATE cards SET queue_position = NULL WHERE id = ?`);
+    for (const row of cleared) unqueue.run(row.id);
+    return cleared.map((row) => ({ cardId: row.id, displayId: queueDisplayId(row) }));
+  });
+}
+
+// ../lib/parked.ts
+var PARKABLE_STATUSES = ["ideation", "backlog", "bugs"];
+function isParkableStatus(status) {
+  return PARKABLE_STATUSES.includes(status);
+}
+
+// ../lib/card-ops/park.ts
+var present = /* @__PURE__ */ new WeakMap();
+function hasParkedColumn(db2) {
+  if (present.get(db2)) return true;
+  const columns = db2.prepare(`PRAGMA table_info("cards")`).all();
+  const found = columns.some((column) => column.name === "parked_at");
+  if (found) present.set(db2, true);
+  return found;
+}
+function clearParked(db2, id) {
+  if (!hasParkedColumn(db2)) return;
+  runChanges(db2, `UPDATE cards SET parked_at = NULL WHERE id = ? AND parked_at IS NOT NULL`, id);
+}
+function displayIdOf(row) {
+  return row.id_prefix && row.task_number != null ? `${row.id_prefix}-${row.task_number}` : row.title;
+}
+function setParked(db2, ids, parked, now) {
+  return transaction(db2, () => {
+    const result = { changed: [], skipped: [], dequeued: [] };
+    if (ids.length === 0) return result;
+    const rows = allRows(
+      db2,
+      `SELECT c.id, c.status, c.parked_at, c.autopilot_stage, c.task_number, c.title, p.id_prefix
+       FROM cards c LEFT JOIN projects p ON p.id = c.project_id
+       WHERE c.id IN (${ids.map(() => "?").join(", ")})`,
+      ...ids
+    );
+    const byId = new Map(rows.map((row) => [row.id, row]));
+    for (const id of ids) {
+      const row = byId.get(id);
+      if (!row) {
+        result.skipped.push({ id, displayId: id, reason: "not found" });
+        continue;
+      }
+      if (parked) {
+        if (row.parked_at) continue;
+        if (!isParkableStatus(row.status)) {
+          result.skipped.push({
+            id,
+            displayId: displayIdOf(row),
+            reason: "only Ideation, Backlog and Bugs cards can be parked"
+          });
+          continue;
+        }
+        if (isActiveAutopilotStage(row.autopilot_stage)) {
+          result.skipped.push({ id, displayId: displayIdOf(row), reason: "it is on Autopilot" });
+          continue;
+        }
+        runChanges(db2, `UPDATE cards SET parked_at = ?, updated_at = ? WHERE id = ?`, now, now, id);
+        if (dequeueCard(db2, id)) result.dequeued.push(id);
+        result.changed.push({ id, prevParkedAt: null, parkedAt: now });
+      } else {
+        if (!row.parked_at) continue;
+        runChanges(db2, `UPDATE cards SET parked_at = NULL, updated_at = ? WHERE id = ?`, now, id);
+        result.changed.push({ id, prevParkedAt: row.parked_at, parkedAt: null });
+      }
+    }
+    return result;
+  });
+}
+function restoreParked(db2, entries, now) {
+  transaction(db2, () => {
+    for (const entry of entries) {
+      runChanges(db2, `UPDATE cards SET parked_at = ?, updated_at = ? WHERE id = ?`, entry.parkedAt, now, entry.id);
+      if (entry.parkedAt) dequeueCard(db2, entry.id);
+    }
+  });
+}
+
 // ../lib/card-ops/move-card.ts
 var STATUSES = COLUMNS.map((column) => column.id);
 function isStatus(value) {
@@ -23038,6 +24186,7 @@ function moveCard(db2, id, status, now) {
       completedAt,
       id
     );
+    if (row.status !== status) clearParked(db2, id);
     return { ok: true, changed: row.status !== status, from: row.status, to: status, completedAt };
   });
 }
@@ -23111,7 +24260,7 @@ __export(markdown_exports, {
   untickTaskItems: () => untickTaskItems
 });
 
-// ../node_modules/marked/lib/marked.esm.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/node_modules/marked/lib/marked.esm.js
 function L() {
   return { async: false, breaks: false, extensions: null, gfm: true, hooks: null, pedantic: false, renderer: null, silent: false, tokenizer: null, walkTokens: null };
 }
@@ -25494,22 +26643,6 @@ __export(core_exports3, {
 });
 import { execFile } from "child_process";
 import { promisify } from "util";
-
-// ../lib/git/branch-name.ts
-var branch_name_exports = {};
-__export(branch_name_exports, {
-  generateBranchName: () => generateBranchName,
-  slugify: () => slugify2
-});
-function slugify2(text2) {
-  return text2.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").substring(0, 50);
-}
-function generateBranchName(idPrefix, taskNumber, title) {
-  const slug = slugify2(title);
-  return `kanban/${idPrefix}-${taskNumber}-${slug}`;
-}
-
-// ../lib/git/core.ts
 var execFileAsync = promisify(execFile);
 async function git(cwd, ...args) {
   return execFileAsync("git", args, { cwd });
@@ -25968,13 +27101,13 @@ function normalizeGroupCode(raw) {
 }
 
 // ../lib/card-ops/groups.ts
-var present = /* @__PURE__ */ new WeakMap();
+var present2 = /* @__PURE__ */ new WeakMap();
 function hasIntegrationColumns(db2) {
-  if (present.get(db2)) return true;
+  if (present2.get(db2)) return true;
   const groups = db2.prepare(`PRAGMA table_info("card_groups")`).all();
   const cards = db2.prepare(`PRAGMA table_info("cards")`).all();
   const found = groups.some((c) => c.name === "integration_branch") && cards.some((c) => c.name === "chain_merged_at");
-  if (found) present.set(db2, true);
+  if (found) present2.set(db2, true);
   return found;
 }
 function integrationBranchName(code, groupId) {
@@ -26273,6 +27406,99 @@ function moveCardInChain(db2, cardId, afterCardId, expectedGroupId) {
   });
 }
 
+// ../lib/card-ops/ralph-events.ts
+var tableCache = /* @__PURE__ */ new WeakMap();
+function hasRalphEvents(db2) {
+  if (tableCache.get(db2)) return true;
+  const has = !!getRow(db2, `SELECT 1 AS ok FROM sqlite_master WHERE type = 'table' AND name = 'ralph_events'`);
+  if (has) tableCache.set(db2, true);
+  return has;
+}
+function recordRalphEvent(db2, entry) {
+  if (!hasRalphEvents(db2)) return;
+  try {
+    db2.prepare(
+      `INSERT INTO ralph_events (card_id, group_id, at, kind, detail)
+       VALUES (?, (SELECT group_id FROM cards WHERE id = ?), ?, ?, ?)`
+    ).run(
+      entry.cardId,
+      entry.cardId,
+      entry.at ?? (/* @__PURE__ */ new Date()).toISOString(),
+      entry.kind,
+      entry.detail ? JSON.stringify(entry.detail) : null
+    );
+  } catch {
+  }
+}
+function cardHasRalphEvents(db2, cardId) {
+  if (!hasRalphEvents(db2)) return false;
+  return !!getRow(db2, `SELECT 1 AS ok FROM ralph_events WHERE card_id = ? LIMIT 1`, cardId);
+}
+function recordRalphSend(db2, cardId, detail, at) {
+  recordRalphEvent(db2, { cardId, kind: cardHasRalphEvents(db2, cardId) ? "continued" : "sent", at, detail });
+}
+function recordRalphStopByPerson(db2, cardId, at) {
+  if (!hasRalphModeColumn(db2)) return;
+  const row = getRow(db2, `SELECT autopilot_mode AS mode FROM cards WHERE id = ?`, cardId);
+  if (row?.mode !== "ralph") return;
+  recordRalphEvent(db2, { cardId, kind: "stopped", at, detail: { reason: "taken off Ralph by you", byPerson: true } });
+}
+function parseDetail(detail) {
+  if (!detail) return {};
+  try {
+    const parsed = JSON.parse(detail);
+    return parsed && typeof parsed === "object" ? parsed : {};
+  } catch {
+    return {};
+  }
+}
+function ralphEventsFor(db2, cardIds) {
+  if (cardIds.length === 0 || !hasRalphEvents(db2)) return [];
+  const marks = cardIds.map(() => "?").join(", ");
+  return allRows(
+    db2,
+    `SELECT id, card_id AS cardId, group_id AS groupId, at, kind, detail
+     FROM ralph_events WHERE card_id IN (${marks}) ORDER BY at, id`,
+    ...cardIds
+  ).map((row) => ({ ...row, id: Number(row.id), detail: parseDetail(row.detail) }));
+}
+function ralphEventCardIds(db2) {
+  if (!hasRalphEvents(db2)) return /* @__PURE__ */ new Set();
+  return new Set(allRows(db2, `SELECT DISTINCT card_id AS id FROM ralph_events`).map((row) => row.id));
+}
+function hasRalphModeColumn(db2) {
+  return db2.prepare(`PRAGMA table_info("cards")`).all().some(
+    (column) => column.name === "autopilot_mode"
+  );
+}
+function runReportCardIds(db2) {
+  const ids = ralphEventCardIds(db2);
+  if (hasRalphEvents(db2)) {
+    for (const row of allRows(
+      db2,
+      `SELECT id FROM cards WHERE group_id IN (SELECT group_id FROM ralph_events WHERE group_id IS NOT NULL)`
+    )) {
+      ids.add(row.id);
+    }
+  }
+  if (hasRalphModeColumn(db2)) {
+    for (const row of allRows(db2, `SELECT id FROM cards WHERE autopilot_mode = 'ralph'`)) ids.add(row.id);
+  }
+  return ids;
+}
+function cardHasRunReport(db2, cardId) {
+  if (cardHasRalphEvents(db2, cardId)) return true;
+  const row = getRow(
+    db2,
+    `SELECT group_id AS groupId, ${hasRalphModeColumn(db2) ? "autopilot_mode" : "NULL"} AS mode FROM cards WHERE id = ?`,
+    cardId
+  );
+  if (!row) return false;
+  if (row.mode === "ralph") return true;
+  if (!row.groupId || !hasRalphEvents(db2)) return false;
+  return !!getRow(db2, `SELECT 1 AS ok FROM ralph_events WHERE group_id = ? LIMIT 1`, row.groupId);
+}
+
 // ../lib/chain-integration-gate.ts
 var REASON_TEXT = {
   completed: "Completed on main",
@@ -26334,10 +27560,10 @@ function integrationWorktreePath(projectPath, branch) {
 async function checkedOutAt(projectPath, branch) {
   try {
     const { stdout } = await git(projectPath, "worktree", "list", "--porcelain");
-    let path11 = null;
+    let path12 = null;
     for (const line of stdout.split("\n")) {
-      if (line.startsWith("worktree ")) path11 = line.slice("worktree ".length);
-      else if (line === `branch refs/heads/${branch}` && path11) return path11;
+      if (line.startsWith("worktree ")) path12 = line.slice("worktree ".length);
+      else if (line === `branch refs/heads/${branch}` && path12) return path12;
     }
   } catch {
   }
@@ -26434,10 +27660,14 @@ async function rollbackChain(db2, groupId, opts = {}) {
   await git(workingDir, "branch", "-D", "--", branch).catch(() => void 0);
   await pruneWorktrees(workingDir, log);
   const members = inChainMembers(db2, groupId);
+  const rolledBackAt = now();
   transaction(db2, () => {
     for (const member of members) {
       setCardRuntime(db2, member.id, { gitBranchStatus: "active", gitWorktreePath: null, gitWorktreeStatus: "removed" }, now());
       runChanges(db2, `UPDATE cards SET chain_merged_at = NULL, chain_merge_commit = NULL WHERE id = ?`, member.id);
+      if (cardHasRalphEvents(db2, member.id)) {
+        recordRalphEvent(db2, { cardId: member.id, kind: "rolled_back", at: rolledBackAt, detail: { target: branch } });
+      }
     }
   });
   log(`[Chain] ${branch} rolled back, ${members.length} card(s) back to an active branch`);
@@ -26541,12 +27771,12 @@ var COLUMN = {
   plan: "plan_base_commit",
   tests: "tests_base_commit"
 };
-var present2 = /* @__PURE__ */ new WeakMap();
+var present3 = /* @__PURE__ */ new WeakMap();
 function hasBaseCommitColumns(db2) {
-  if (present2.get(db2)) return true;
+  if (present3.get(db2)) return true;
   const columns = db2.prepare(`PRAGMA table_info("cards")`).all();
   const found = columns.some((column) => column.name === "tests_base_commit");
-  if (found) present2.set(db2, true);
+  if (found) present3.set(db2, true);
   return found;
 }
 function cardRepoFolder(db2, cardId) {
@@ -27048,11 +28278,11 @@ function summarizeAuthorship(input) {
 // ../lib/card-ops/authorship.ts
 var AUTHORSHIP_FIELDS = ["description", "aiOpinion", "solutionSummary", "testScenarios"];
 var EDIT_COALESCE_MS = 5 * 60 * 1e3;
-var present3 = /* @__PURE__ */ new WeakSet();
+var present4 = /* @__PURE__ */ new WeakSet();
 function hasAuthorshipTable(db2) {
-  if (present3.has(db2)) return true;
+  if (present4.has(db2)) return true;
   const found = !!getRow(db2, "SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'card_authorship'");
-  if (found) present3.add(db2);
+  if (found) present4.add(db2);
   return found;
 }
 function textOf(html) {
@@ -27188,186 +28418,6 @@ function authorFromSource(source) {
 var IDEAFY_AUTHOR = { actor: "ideafy" };
 var YOU_AUTHOR = { actor: "you" };
 
-// ../lib/ready-to-merge.ts
-function manualYoursText(n) {
-  return `${n} [manual] item${n === 1 ? " is" : "s are"} yours`;
-}
-
-// ../lib/prompts/utils.ts
-var utils_exports = {};
-__export(utils_exports, {
-  convertToTipTapTaskList: () => convertToTipTapTaskList,
-  escapeShellArg: () => escapeShellArg,
-  stripHtml: () => stripHtml
-});
-function stripHtml(html) {
-  if (!html) return "";
-  return html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
-}
-function convertToTipTapTaskList(html) {
-  let result = html.replace(/<li><input[^>]*checked[^>]*>\s*/gi, '<li data-type="taskItem" data-checked="true">').replace(/<li><input[^>]*type="checkbox"[^>]*>\s*/gi, '<li data-type="taskItem" data-checked="false">');
-  result = result.replace(/<ul>(\s*<li data-type="taskItem")/g, '<ul data-type="taskList">$1');
-  return result;
-}
-function escapeShellArg(arg) {
-  return `'${arg.replace(/'/g, "'\\''")}'`;
-}
-
-// ../lib/ralph-loop.ts
-var RALPH_DEFAULT_MAX_ROUNDS = 3;
-var RALPH_MAX_ROUNDS_LIMIT = 10;
-var RALPH_TIME_CAP_MS = 3 * 60 * 60 * 1e3;
-function isRalphMaxRounds(value) {
-  return typeof value === "number" && Number.isInteger(value) && value >= 0 && value <= RALPH_MAX_ROUNDS_LIMIT;
-}
-function resolveRalphMaxRounds(cardValue, projectValue) {
-  if (isRalphMaxRounds(cardValue)) return cardValue;
-  if (isRalphMaxRounds(projectValue)) return projectValue;
-  return RALPH_DEFAULT_MAX_ROUNDS;
-}
-function ralphRoundsText(maxRounds) {
-  return maxRounds === 0 ? "\u221E" : String(maxRounds);
-}
-function norm(text2) {
-  return stripItemTokens(stripHtml(text2 ?? "")).toLowerCase().replace(/\s+/g, " ").trim();
-}
-function originalItemText(itemText2, revisions) {
-  let current = itemText2;
-  const seen = /* @__PURE__ */ new Set([norm(current)]);
-  for (; ; ) {
-    const key = norm(current);
-    const row = [...revisions].reverse().find((r) => r.newText && r.originalText && norm(r.newText) === key);
-    if (!row?.originalText) return current;
-    const back = norm(row.originalText);
-    if (seen.has(back)) return row.originalText;
-    seen.add(back);
-    current = row.originalText;
-  }
-}
-function failureSignature(failures, revisions = []) {
-  const keys = /* @__PURE__ */ new Set();
-  for (const failure of failures) {
-    const text2 = norm(originalItemText(failure.text, revisions));
-    if (text2) keys.add(`${norm(failure.heading)} :: ${text2}`);
-  }
-  return [...keys].sort().join(" | ");
-}
-function nextRalphCounter(prev, signature) {
-  if (!signature) return { signature: null, count: 0 };
-  if (prev?.signature === signature) return { signature, count: (prev.count || 0) + 1 };
-  return { signature, count: 1 };
-}
-function chainRalphDeadline(nowMs, members) {
-  return new Date(nowMs + RALPH_TIME_CAP_MS * Math.max(1, members)).toISOString();
-}
-function chainCapText(members) {
-  return `${RALPH_TIME_CAP_MS * Math.max(1, members) / 36e5}h`;
-}
-var RALPH_REVISE_REFUSAL = "Ralph does not reword core-flow, End-to-end or [manual] items";
-function ralphMayRevise(item) {
-  if (!item) return true;
-  const flows = (item.heading ?? "").trim().toLowerCase() === SPLIT_FLOWS_HEADING.toLowerCase();
-  return !item.core && !flows && !isManualItem(item.text);
-}
-
-// ../lib/autopilot.ts
-var AUTOPILOT_STAGES = ["planning", "implementing", "verifying", "fixing", "ready", "stopped"];
-function isAutopilotStage(value) {
-  return typeof value === "string" && AUTOPILOT_STAGES.includes(value);
-}
-function isActiveAutopilotStage(stage) {
-  return stage === "planning" || stage === "implementing" || stage === "verifying" || stage === "fixing";
-}
-function autopilotModeOf(value) {
-  return value === "ralph" ? "ralph" : "default";
-}
-function autopilotModeName(mode) {
-  return mode === "ralph" ? "Ralph" : "Autopilot";
-}
-var DECISION_STOP_PREFIX = "plan needs your decision: ";
-function autopilotResume(card) {
-  if (card.autopilotStage !== "stopped") return null;
-  if (findPlanDecisions(card.solutionSummary).length > 0) return "decision-open";
-  if ((card.autopilotStopReason ?? "").startsWith(DECISION_STOP_PREFIX)) return "decision-answered";
-  return "stopped";
-}
-function plural(n, word) {
-  return `${n} ${word}${n === 1 ? "" : "s"}`;
-}
-var AUTOPILOT_CONFLICT_REASON = "its branch has a rebase conflict \u2014 press Merge to solve it first";
-function autopilotIneligibleReason(card) {
-  if (isActiveAutopilotStage(isAutopilotStage(card.stage) ? card.stage : null)) return "it is already on Autopilot";
-  if (card.projectMode === "work") return "Work projects have no Autopilot";
-  if (card.status === "ideation") return "Ideation cards go to Backlog first";
-  if (card.status === "completed" || card.status === "withdrawn") return `it is in ${card.status}`;
-  if (card.processingType) return "a run is already going on it";
-  if (card.rebaseConflict) return AUTOPILOT_CONFLICT_REASON;
-  if (card.openDecision) return "the plan still has an open decision";
-  if (card.status === "test") {
-    if (!card.hasCoreFlow) return "its checklist has no core-flow group";
-    if (!card.activeWorktree) return "it has no worktree \u2014 a fix round would write to main";
-    return null;
-  }
-  if (!card.hasPlan && card.status !== "backlog" && card.status !== "bugs") return "no plan yet";
-  if (card.hasChecklist) return "it already has a test checklist";
-  if (card.status === "progress" && !card.activeWorktree && card.useWorktree === false) return "its work is on main";
-  if (card.status === "progress" && card.activeWorktree && card.dirtyWorktree) {
-    return "its worktree has uncommitted changes \u2014 commit or discard them, then send again";
-  }
-  return null;
-}
-var nameList2 = (members) => {
-  const names = members.map((m2) => m2.displayId || "a card");
-  return names.length <= 2 ? names.join(" and ") : plural(names.length, "card");
-};
-function chainAutopilotStatus(members) {
-  const status = chainAutopilotStatusOf(members);
-  if (!status) return null;
-  const live = members.filter((m2) => m2.status !== "withdrawn");
-  const ralph = live.some((m2) => m2.ralph && m2.autopilotStage);
-  const accepted = live.reduce((sum, m2) => sum + (m2.accepted ?? 0), 0);
-  let line = ralph ? status.line.replace(/^Autopilot\b/, "Ralph") : status.line;
-  if (accepted > 0) line = `${line} \xB7 ${accepted} accepted`;
-  return { ...status, line };
-}
-function chainAutopilotStatusOf(members) {
-  const open = members.filter((m2) => m2.status !== "completed" && m2.status !== "withdrawn");
-  const inChain = (m2) => m2.status === "test" && m2.gitBranchStatus === "in_chain";
-  const stageOf = (m2) => isAutopilotStage(m2.autopilotStage) ? m2.autopilotStage : null;
-  const allInChain = open.length > 0 && open.every(inChain);
-  if (!open.some((m2) => stageOf(m2) !== null) && !allInChain) return null;
-  const active = open.filter((m2) => !inChain(m2) && isActiveAutopilotStage(stageOf(m2))).sort((a, b2) => Number(!!a.isParent) - Number(!!b2.isParent));
-  const running = active.filter((m2) => m2.running);
-  const waiting = active.filter((m2) => !m2.running);
-  const stopped = open.filter((m2) => !inChain(m2) && stageOf(m2) === "stopped");
-  if (stopped.length > 0) {
-    const first = stopped[0];
-    const reason = first.autopilotStopReason || "no reason given";
-    const line = stopped.length === 1 ? `Autopilot stopped at ${nameList2(stopped)}: ${reason}` : `Autopilot stopped at ${nameList2(stopped)} \xB7 ${first.displayId || "the first"}: ${reason}`;
-    return { kind: "stopped", line, stopped: first };
-  }
-  const parent = open.find((m2) => m2.isParent && stageOf(m2) === "ready");
-  if (parent || allInChain) {
-    const manual = parent?.manualLeft ?? 0;
-    return {
-      kind: "ready",
-      ...parent ? { mergeFrom: parent } : {},
-      line: manual > 0 ? `Chain ready \xB7 ${manualYoursText(manual)}, then Merge & Complete` : "Chain ready \xB7 Merge & Complete is yours"
-    };
-  }
-  if (running.length > 0) {
-    const on = running.map((m2) => `${stageOf(m2)} ${m2.displayId || "a card"}`).join(", ");
-    return { kind: "running", line: `Autopilot is ${on}` };
-  }
-  if (waiting.length > 0) {
-    return { kind: "queued", line: `Autopilot \xB7 ${waiting[0].displayId || "a card"} starts next` };
-  }
-  return { kind: "running", line: "Autopilot \xB7 cards going into the chain" };
-}
-function chainAutopilotSummary(members) {
-  return chainAutopilotStatus(members)?.line ?? null;
-}
-
 // ../lib/autonomous-run/browser-prereqs.ts
 import { accessSync, constants, readdirSync, statSync as statSync2 } from "fs";
 import path4 from "path";
@@ -27455,865 +28505,6 @@ function browserPrereqs() {
   });
   cached2 = { at: Date.now(), result };
   return result;
-}
-
-// ../lib/card-queue.ts
-var card_queue_exports = {};
-__export(card_queue_exports, {
-  APP_RUN_CARD_ENV: () => APP_RUN_CARD_ENV,
-  QUEUE_CLEARING_STATUSES: () => QUEUE_CLEARING_STATUSES,
-  TERMINAL_WRITE_OPTIONS: () => TERMINAL_WRITE_OPTIONS,
-  compareByQueuePosition: () => compareByQueuePosition,
-  conflictingLiveRun: () => conflictingLiveRun,
-  folderHoldFor: () => folderHoldFor,
-  liveRunPhrase: () => liveRunPhrase,
-  liveRunSubject: () => liveRunSubject,
-  queueIneligibleReason: () => queueIneligibleReason,
-  queueRanks: () => queueRanks,
-  sharedWorkingCopyWith: () => sharedWorkingCopyWith,
-  withoutOwnAppRun: () => withoutOwnAppRun,
-  writeConflictFor: () => writeConflictFor
-});
-var QUEUE_CLEARING_STATUSES = /* @__PURE__ */ new Set([
-  "test",
-  "completed",
-  "withdrawn",
-  "ideation"
-]);
-function compareByQueuePosition(a, b2) {
-  const ap = a.queuePosition ?? Number.MAX_SAFE_INTEGER;
-  const bp = b2.queuePosition ?? Number.MAX_SAFE_INTEGER;
-  if (ap !== bp) return ap - bp;
-  return (a.taskNumber ?? Number.MAX_SAFE_INTEGER) - (b2.taskNumber ?? Number.MAX_SAFE_INTEGER);
-}
-function queueRanks(cards) {
-  const ranks = /* @__PURE__ */ new Map();
-  cards.filter((card) => card.queuePosition !== null).sort(compareByQueuePosition).forEach((card, index) => ranks.set(card.id, index + 1));
-  return ranks;
-}
-function queueIneligibleReason(input) {
-  if (input.status === "test") {
-    if (input.phase !== "verify") return "it is in test";
-    if (input.projectMode === "work") return "Work projects have no queued pre-verify";
-    if (!input.hasDescription) return "it has no description";
-    if (!input.hasCoreFlow) return "its checklist has no core-flow group";
-    if (input.gitBranchStatus === "rolled_back") return "its branch was rolled back";
-    if (input.processingType) return "a run is already going on it";
-    return null;
-  }
-  if (QUEUE_CLEARING_STATUSES.has(input.status)) return `it is in ${input.status}`;
-  if (input.projectMode === "work") return "Work projects have no implementation run";
-  if (!input.hasDescription) return "it has no description";
-  if (input.phase === "planning") {
-    if (!input.autopilotPlanning || input.status !== "backlog" && input.status !== "bugs") return "it has no plan yet";
-    if (input.processingType) return "a run is already going on it";
-    return null;
-  }
-  if (input.phase !== "implementation") return "it already has a test checklist";
-  if (input.hasOpenDecision) return "its plan needs your decision";
-  if (input.processingType) return "a run is already going on it";
-  return null;
-}
-function sharedWorkingCopyWith(self, ahead) {
-  if (self.runsInWorktree) return null;
-  for (let i = ahead.length - 1; i >= 0; i--) {
-    const other = ahead[i];
-    if (other.id === self.id || other.runsInWorktree || other.kind === "verify" || other.kind === "planning") continue;
-    if (other.projectId === self.projectId) return other;
-  }
-  return null;
-}
-function conflictingLiveRun(self, live) {
-  if (self.runsInWorktree || self.kind === "planning") return null;
-  for (const other of live) {
-    if (other.id === self.id || other.runsInWorktree || other.kind === "planning") continue;
-    if (other.projectId === self.projectId) return other;
-  }
-  return null;
-}
-function liveRunSubject(run2) {
-  if (run2.kind === "terminal") {
-    return run2.displayId ? `${run2.displayId}'s terminal session is editing` : "a terminal session is editing";
-  }
-  const name = run2.displayId ?? "a card";
-  if (run2.kind === "tests-chat") return `${name}'s Tests chat is working`;
-  if (run2.fromQueue) return `${name} is running from the queue`;
-  return `${name} is running`;
-}
-function liveRunPhrase(run2) {
-  const subject = liveRunSubject(run2);
-  return `${subject.charAt(0).toUpperCase()}${subject.slice(1)} in the same folder.`;
-}
-var TERMINAL_WRITE_OPTIONS = "Wait for it, work in a worktree, or continue only if the user confirms.";
-var APP_RUN_CARD_ENV = "IDEAFY_APP_RUN_CARD";
-function withoutOwnAppRun(runs, appRunCardId) {
-  if (!appRunCardId) return runs;
-  return runs.filter((run2) => run2.kind === "terminal" || run2.cardId !== appRunCardId);
-}
-function writeConflictFor(input) {
-  const open = (run2) => !input.acknowledged?.has(run2.id);
-  const live = conflictingLiveRun(input.self, input.live.filter(open));
-  if (live) {
-    return {
-      conflictId: live.id,
-      conflictCardId: live.cardId,
-      reason: "live-run",
-      message: `${liveRunPhrase(live)} ${TERMINAL_WRITE_OPTIONS}`
-    };
-  }
-  if (!input.armed) return null;
-  const next = input.waiting.find((row) => open(row) && conflictingLiveRun(input.self, [row]));
-  if (!next) return null;
-  return {
-    conflictId: next.id,
-    conflictCardId: next.cardId,
-    reason: "queue",
-    message: `The queue is running on main (${next.displayId ?? "a card"} is next). ${TERMINAL_WRITE_OPTIONS}`
-  };
-}
-function folderHoldFor(next, writers) {
-  const writer = conflictingLiveRun(next, writers);
-  if (!writer) return null;
-  const folder = next.displayId ? `${next.displayId}'s folder` : "the next card's folder";
-  return `${liveRunSubject(writer)} in ${folder}`;
-}
-
-// ../lib/prompts/phase.ts
-function detectPhase(card) {
-  const hasSolution = card.solutionSummary && stripHtml(card.solutionSummary) !== "";
-  const hasTests = hasOwnChecklist(card.testScenarios);
-  if (card.status === "test") return "verify";
-  if (!hasSolution) return "planning";
-  if (!hasTests) return "implementation";
-  return "retest";
-}
-
-// ../lib/workspace.ts
-var workspace_exports = {};
-__export(workspace_exports, {
-  OPEN_ADD_PROJECT_EVENT: () => OPEN_ADD_PROJECT_EVENT,
-  isCardInWorkspace: () => isCardInWorkspace,
-  normalizeProjectMode: () => normalizeProjectMode,
-  projectModeOf: () => projectModeOf,
-  projectsInWorkspace: () => projectsInWorkspace,
-  resolveEffectiveWorktree: () => resolveEffectiveWorktree,
-  shouldUseWorktree: () => shouldUseWorktree,
-  worktreeOverrideFor: () => worktreeOverrideFor
-});
-var OPEN_ADD_PROJECT_EVENT = "ideafy:open-add-project";
-function normalizeProjectMode(v2, fallback = DEFAULT_PROJECT_MODE) {
-  return typeof v2 === "string" && PROJECT_MODES.includes(v2) ? v2 : fallback;
-}
-function projectModeOf(projectId, projects) {
-  if (!projectId) return DEFAULT_PROJECT_MODE;
-  return projects.find((project) => project.id === projectId)?.mode ?? DEFAULT_PROJECT_MODE;
-}
-function projectsInWorkspace(projects, workspace) {
-  return projects.filter((project) => (project.mode ?? DEFAULT_PROJECT_MODE) === workspace);
-}
-function isCardInWorkspace(card, projects, workspace) {
-  return projectModeOf(card.projectId, projects) === workspace;
-}
-function shouldUseWorktree(card, project) {
-  if (project?.mode === "work") return false;
-  return card.useWorktree ?? project?.useWorktrees ?? true;
-}
-function resolveEffectiveWorktree(card, project) {
-  const effective = shouldUseWorktree(card, project);
-  if (!effective) return { enforced: false, targetBranch: null };
-  if (card.gitBranchName) {
-    return { enforced: true, targetBranch: card.gitBranchName };
-  }
-  if (project && card.taskNumber != null) {
-    return {
-      enforced: true,
-      targetBranch: generateBranchName(project.idPrefix, card.taskNumber, card.title)
-    };
-  }
-  return { enforced: true, targetBranch: null };
-}
-function worktreeOverrideFor(choice, projectDefault) {
-  return choice === projectDefault ? null : choice;
-}
-
-// ../lib/card-ops/card-ref.ts
-var UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-var DISPLAY_ID2 = /^([A-Z][A-Z0-9]*)-(\d+)$/i;
-var TASK_NUMBER2 = /^(\d+)$/;
-function resolveCardRef(db2, ref, opts = {}) {
-  const value = ref.trim();
-  if (UUID.test(value)) return value;
-  const display = value.match(DISPLAY_ID2);
-  if (display) {
-    return pick2(
-      allRows(
-        db2,
-        `SELECT c.id, c.project_id AS projectId FROM cards c
-           JOIN projects p ON p.id = c.project_id
-          WHERE UPPER(p.id_prefix) = ? AND c.task_number = ?`,
-        display[1].toUpperCase(),
-        Number(display[2])
-      ),
-      opts.projectId
-    );
-  }
-  const number3 = value.match(TASK_NUMBER2);
-  if (number3) {
-    return pick2(
-      allRows(
-        db2,
-        `SELECT id, project_id AS projectId FROM cards WHERE task_number = ?`,
-        Number(number3[1])
-      ),
-      opts.projectId
-    );
-  }
-  return null;
-}
-function pick2(rows, projectId) {
-  if (projectId) {
-    const own = rows.find((row) => row.projectId === projectId);
-    if (own) return own.id;
-  }
-  return rows.length === 1 ? rows[0].id : null;
-}
-
-// ../lib/card-ops/dependencies.ts
-var CardDependencyError = class extends Error {
-  constructor(code, message) {
-    super(message);
-    this.code = code;
-    this.name = "CardDependencyError";
-  }
-  code;
-};
-var NOTE_MAX = 280;
-var presentTables = /* @__PURE__ */ new WeakMap();
-function hasTable(db2, table) {
-  let known = presentTables.get(db2);
-  if (known?.has(table)) return true;
-  const found = !!getRow(db2, "SELECT name FROM sqlite_master WHERE type = 'table' AND name = ?", table);
-  if (found) {
-    if (!known) presentTables.set(db2, known = /* @__PURE__ */ new Set());
-    known.add(table);
-  }
-  return found;
-}
-function hasDependencyTable(db2) {
-  return hasTable(db2, "card_dependencies");
-}
-function hasSuggestionTable(db2) {
-  return hasTable(db2, "card_dependency_suggestions");
-}
-function assertTable(db2) {
-  if (!hasDependencyTable(db2)) {
-    throw new CardDependencyError(
-      "unsupported",
-      "This Ideafy database cannot store card dependencies yet. Update the Ideafy app \u2014 it adds the table on its next start \u2014 then try again. Nothing was written."
-    );
-  }
-}
-function parseBlockedBy(value) {
-  if (value === void 0) return void 0;
-  if (value === null) return [];
-  const items = Array.isArray(value) ? value : [value];
-  const entries = [];
-  for (const item of items) {
-    if (typeof item === "string") {
-      if (item.trim()) entries.push({ card: item.trim() });
-    } else if (item && typeof item === "object") {
-      const { card, note } = item;
-      if (typeof card === "string" && card.trim()) {
-        entries.push({ card: card.trim(), note: typeof note === "string" ? note : null });
-      }
-    }
-  }
-  return entries;
-}
-function cleanNote(note) {
-  const text2 = (note ?? "").replace(/\s+/g, " ").trim();
-  return text2 ? text2.slice(0, NOTE_MAX) : null;
-}
-function cardRow(db2, id) {
-  return getRow(
-    db2,
-    `SELECT c.id, c.title, c.status, c.task_number AS taskNumber, p.id_prefix AS idPrefix,
-            c.git_branch_status AS gitBranchStatus
-     FROM cards c LEFT JOIN projects p ON p.id = c.project_id WHERE c.id = ?`,
-    id
-  );
-}
-var label = (row) => formatDisplayId(row.idPrefix, row.taskNumber) ?? `"${row.title}"`;
-function resolvePredecessor(db2, cardId, ref) {
-  const exact = cardRow(db2, ref.trim());
-  if (exact) return exact;
-  const own = getRow(db2, "SELECT project_id AS projectId FROM cards WHERE id = ?", cardId);
-  const id = resolveCardRef(db2, ref, { projectId: own?.projectId ?? null });
-  const row = id ? cardRow(db2, id) : void 0;
-  if (!row) throw new CardDependencyError("not-found", `Card not found: ${ref}`);
-  return row;
-}
-function waitPath(db2, from, to) {
-  const previous = /* @__PURE__ */ new Map([[from, null]]);
-  const queue = [from];
-  while (queue.length > 0) {
-    const current = queue.shift();
-    if (current === to) {
-      const path11 = [];
-      for (let step = current; step !== null; step = previous.get(step) ?? null) path11.unshift(step);
-      return path11;
-    }
-    for (const { next } of allRows(
-      db2,
-      "SELECT blocked_by_card_id AS next FROM card_dependencies WHERE card_id = ?",
-      current
-    )) {
-      if (!previous.has(next)) {
-        previous.set(next, current);
-        queue.push(next);
-      }
-    }
-  }
-  return null;
-}
-function linkOne(db2, cardId, entry, now) {
-  const card = cardRow(db2, cardId);
-  if (!card) throw new CardDependencyError("not-found", `Card not found: ${cardId}`);
-  const predecessor = resolvePredecessor(db2, cardId, entry.card);
-  if (predecessor.id === cardId) {
-    throw new CardDependencyError("self", `${label(card)} cannot wait on itself.`);
-  }
-  const path11 = waitPath(db2, predecessor.id, cardId);
-  if (path11) {
-    const names = path11.map((id) => {
-      const row = cardRow(db2, id);
-      return row ? label(row) : id;
-    });
-    throw new CardDependencyError(
-      "cycle",
-      `${label(predecessor)} already waits on ${label(card)} (${names.join(" \u2192 ")}); linking back would make a cycle. Nothing was written.`
-    );
-  }
-  if (hasSuggestionTable(db2)) {
-    runChanges(db2, "DELETE FROM card_dependency_suggestions WHERE card_id = ? AND blocked_by_card_id = ?", cardId, predecessor.id);
-  }
-  const note = cleanNote(entry.note);
-  const existing = getRow(db2, "SELECT 1 FROM card_dependencies WHERE card_id = ? AND blocked_by_card_id = ?", cardId, predecessor.id);
-  if (existing) {
-    if (entry.note !== void 0) {
-      runChanges(db2, "UPDATE card_dependencies SET note = ? WHERE card_id = ? AND blocked_by_card_id = ?", note, cardId, predecessor.id);
-    }
-    return { blockedById: predecessor.id, created: false };
-  }
-  runChanges(
-    db2,
-    "INSERT INTO card_dependencies (card_id, blocked_by_card_id, note, created_at) VALUES (?, ?, ?, ?)",
-    cardId,
-    predecessor.id,
-    note,
-    now
-  );
-  return { blockedById: predecessor.id, created: true };
-}
-function addDependency(db2, args) {
-  assertTable(db2);
-  return transaction(db2, () => linkOne(db2, args.cardId, { card: args.blockedBy, note: args.note }, args.now));
-}
-function removeDependency(db2, args) {
-  assertTable(db2);
-  const predecessor = resolvePredecessor(db2, args.cardId, args.blockedBy);
-  return transaction(db2, () => {
-    const { changes } = runChanges(
-      db2,
-      "DELETE FROM card_dependencies WHERE card_id = ? AND blocked_by_card_id = ?",
-      args.cardId,
-      predecessor.id
-    );
-    let dismissed = false;
-    if (hasSuggestionTable(db2)) {
-      dismissed = runChanges(
-        db2,
-        "UPDATE card_dependency_suggestions SET status = 'dismissed' WHERE card_id = ? AND blocked_by_card_id = ? AND status = 'pending'",
-        args.cardId,
-        predecessor.id
-      ).changes > 0;
-      if (changes > 0 && !dismissed) {
-        runChanges(
-          db2,
-          `INSERT INTO card_dependency_suggestions (card_id, blocked_by_card_id, note, status, created_at)
-           VALUES (?, ?, NULL, 'dismissed', ?) ON CONFLICT (card_id, blocked_by_card_id) DO UPDATE SET status = 'dismissed'`,
-          args.cardId,
-          predecessor.id,
-          args.now
-        );
-      }
-    }
-    return { blockedById: predecessor.id, removed: changes > 0, dismissed };
-  });
-}
-function groupOf(db2, id) {
-  return getRow(db2, "SELECT group_id AS groupId FROM cards WHERE id = ?", id)?.groupId ?? null;
-}
-function suggestionBlocker({ card, predecessor }, db2) {
-  if (predecessor.id === card.id) return "self";
-  if (card.groupId && card.groupId === predecessor.groupId) return "same-chain";
-  if (getRow(db2, "SELECT 1 FROM card_dependencies WHERE card_id = ? AND blocked_by_card_id = ?", card.id, predecessor.id)) {
-    return "linked";
-  }
-  const state = linkState(predecessor);
-  if (state !== "open") return state;
-  if (waitPath(db2, predecessor.id, card.id)) return "cycle";
-  return null;
-}
-function toSuggestion(row) {
-  return {
-    id: row.id,
-    displayId: formatDisplayId(row.idPrefix, row.taskNumber),
-    title: row.title,
-    status: row.status,
-    note: row.note ?? null
-  };
-}
-function suggestDependencies(db2, args) {
-  if (!hasSuggestionTable(db2) || !hasDependencyTable(db2)) {
-    throw new CardDependencyError(
-      "unsupported",
-      "This Ideafy database cannot store suggested links yet. Update the Ideafy app \u2014 it adds the table on its next start."
-    );
-  }
-  return transaction(db2, () => {
-    const outcome = { suggested: [], skipped: [] };
-    const cardGroup = groupOf(db2, args.cardId);
-    for (const entry of args.entries) {
-      let predecessor;
-      try {
-        predecessor = resolvePredecessor(db2, args.cardId, entry.card);
-      } catch {
-        outcome.skipped.push({ card: entry.card, reason: "not-found" });
-        continue;
-      }
-      const name = label(predecessor);
-      const target2 = { card: { id: args.cardId, groupId: cardGroup }, predecessor: { ...predecessor, groupId: groupOf(db2, predecessor.id) } };
-      const blocker = suggestionBlocker(target2, db2);
-      if (blocker) {
-        outcome.skipped.push({ card: name, reason: blocker });
-        continue;
-      }
-      const existing = getRow(
-        db2,
-        "SELECT status, note FROM card_dependency_suggestions WHERE card_id = ? AND blocked_by_card_id = ?",
-        args.cardId,
-        predecessor.id
-      );
-      if (existing?.status === "dismissed") {
-        outcome.skipped.push({ card: name, reason: "dismissed" });
-        continue;
-      }
-      const note = entry.note !== void 0 ? cleanNote(entry.note) : existing?.note ?? null;
-      if (existing) {
-        runChanges(
-          db2,
-          "UPDATE card_dependency_suggestions SET note = ? WHERE card_id = ? AND blocked_by_card_id = ?",
-          note,
-          args.cardId,
-          predecessor.id
-        );
-      } else {
-        runChanges(
-          db2,
-          `INSERT INTO card_dependency_suggestions (card_id, blocked_by_card_id, note, status, created_at)
-           VALUES (?, ?, ?, 'pending', ?)`,
-          args.cardId,
-          predecessor.id,
-          note,
-          args.now
-        );
-      }
-      outcome.suggested = outcome.suggested.filter((s) => s.id !== predecessor.id);
-      outcome.suggested.push(toSuggestion({ ...predecessor, note }));
-    }
-    return outcome;
-  });
-}
-function listDependencySuggestions(db2, cardId) {
-  if (!hasSuggestionTable(db2) || !hasDependencyTable(db2)) return [];
-  const card = getRow(
-    db2,
-    "SELECT status, group_id AS groupId FROM cards WHERE id = ?",
-    cardId
-  );
-  if (!card || card.status === "completed" || card.status === "withdrawn") return [];
-  const rows = allRows(
-    db2,
-    `SELECT c.id, c.title, c.status, c.task_number AS taskNumber, p.id_prefix AS idPrefix,
-            c.git_branch_status AS gitBranchStatus, c.group_id AS groupId, s.note
-     FROM card_dependency_suggestions s
-     JOIN cards c ON c.id = s.blocked_by_card_id
-     LEFT JOIN projects p ON p.id = c.project_id
-     WHERE s.card_id = ? AND s.status = 'pending'
-     ORDER BY s.created_at, c.task_number`,
-    cardId
-  );
-  return rows.filter((predecessor) => !suggestionBlocker({ card: { id: cardId, groupId: card.groupId }, predecessor }, db2)).map(toSuggestion);
-}
-function pendingDependencySuggestionCounts(db2) {
-  const counts = /* @__PURE__ */ new Map();
-  if (!hasSuggestionTable(db2)) return counts;
-  for (const row of allRows(
-    db2,
-    `SELECT card_id AS cardId, COUNT(*) AS n FROM card_dependency_suggestions WHERE status = 'pending' GROUP BY card_id`
-  )) {
-    counts.set(row.cardId, Number(row.n) || 0);
-  }
-  return counts;
-}
-function setBlockedBy(db2, cardId, entries, now, mode) {
-  assertTable(db2);
-  return transaction(db2, () => {
-    const kept = entries.map((entry) => linkOne(db2, cardId, entry, now).blockedById);
-    if (mode === "replace") {
-      const keep = new Set(kept);
-      for (const { blockedById } of allRows(
-        db2,
-        "SELECT blocked_by_card_id AS blockedById FROM card_dependencies WHERE card_id = ?",
-        cardId
-      )) {
-        if (!keep.has(blockedById)) {
-          runChanges(db2, "DELETE FROM card_dependencies WHERE card_id = ? AND blocked_by_card_id = ?", cardId, blockedById);
-        }
-      }
-    }
-    return kept;
-  });
-}
-function toRef(row, waiterId) {
-  return {
-    id: row.id,
-    displayId: formatDisplayId(row.idPrefix, row.taskNumber),
-    title: row.title,
-    status: row.status,
-    gitBranchStatus: row.gitBranchStatus,
-    landed: linkState(row, waiterId) === "landed",
-    note: row.note ?? null
-  };
-}
-function hasSplitColumn(db2) {
-  return allRows(db2, "PRAGMA table_info(cards)").some((column) => column.name === "split_from_card_id");
-}
-function splitColumns(db2) {
-  if (!hasSplitColumn(db2)) {
-    return "NULL AS splitFromCardId, NULL AS testScenarios";
-  }
-  return `c.split_from_card_id AS splitFromCardId,
-         CASE WHEN c.split_from_card_id = d.card_id THEN c.test_scenarios END AS testScenarios`;
-}
-var LINKED_SELECT = `
-  SELECT c.id, c.title, c.status, c.task_number AS taskNumber, p.id_prefix AS idPrefix,
-         c.git_branch_status AS gitBranchStatus, c.group_id AS groupId, d.note, %SPLIT%
-  FROM card_dependencies d
-  JOIN cards c ON c.id = d.%JOIN%
-  LEFT JOIN projects p ON p.id = c.project_id
-  WHERE d.%WHERE% = ?
-  ORDER BY d.created_at, c.task_number`;
-function blockerRows(db2, cardId) {
-  if (!hasDependencyTable(db2)) return [];
-  return allRows(
-    db2,
-    LINKED_SELECT.replace("%JOIN%", "blocked_by_card_id").replace("%WHERE%", "card_id").replace("%SPLIT%", splitColumns(db2)),
-    cardId
-  );
-}
-function listDependencies(db2, cardId) {
-  if (!hasDependencyTable(db2)) return null;
-  const blocks = allRows(
-    db2,
-    LINKED_SELECT.replace("%JOIN%", "card_id").replace("%WHERE%", "blocked_by_card_id").replace("%SPLIT%", splitColumns(db2)),
-    cardId
-  );
-  return {
-    blockedBy: blockerRows(db2, cardId).map((row) => toRef(row, cardId)),
-    blocks: blocks.map((row) => toRef(row))
-  };
-}
-function listDependencyEdges(db2) {
-  if (!hasDependencyTable(db2)) return [];
-  return allRows(
-    db2,
-    `SELECT card_id AS cardId, blocked_by_card_id AS blockedByCardId, note, created_at AS createdAt
-     FROM card_dependencies ORDER BY created_at`
-  );
-}
-function waitingOnLine(db2, cardId) {
-  try {
-    const card = getRow(db2, "SELECT status FROM cards WHERE id = ?", cardId);
-    if (!card || card.status === "completed" || card.status === "withdrawn") return null;
-    const rows = blockerRows(db2, cardId);
-    const name = (row) => sanitizeForReminder(label(row), 80);
-    const groupId = groupOf(db2, cardId);
-    const open = rows.filter((row) => linkState(row, cardId, groupId) === "open");
-    const withdrawn = rows.filter((row) => linkState(row, cardId, groupId) === "withdrawn");
-    const lines2 = [];
-    if (open.length > 0) {
-      const parts = open.map((row) => {
-        const why = openLinkReason(row, cardId) ?? `in ${row.status}`;
-        return `${name(row)} (${why})`;
-      });
-      lines2.push(`This card waits on ${parts.join(", ")}. Starting it now builds without that work; say so before writing code.`);
-    }
-    if (withdrawn.length > 0) {
-      lines2.push(
-        `${withdrawn.map(name).join(", ")} ${withdrawn.length === 1 ? "was" : "were"} withdrawn; ask the user whether this card still needs ${withdrawn.length === 1 ? "it" : "them"} before writing code.`
-      );
-    }
-    return lines2.length > 0 ? lines2.join(" ") : null;
-  } catch (error2) {
-    console.warn("[dependencies] waiting line skipped:", error2);
-    return null;
-  }
-}
-function queueWaitReason(db2, cardId) {
-  try {
-    const groupId = groupOf(db2, cardId);
-    const rows = blockerRows(db2, cardId).filter((row) => linkState(row, cardId, groupId) !== "landed");
-    if (rows.length === 0) return null;
-    const first = rows[0];
-    const more = rows.length > 1 ? ` +${rows.length - 1}` : "";
-    if (linkState(first, cardId, groupId) === "withdrawn") return `waits on withdrawn ${label(first)}${more}`;
-    const why = openLinkReason(first, cardId) ?? `in ${first.status}`;
-    return `waits on ${label(first)} (${why})${more}`;
-  } catch (error2) {
-    console.warn("[dependencies] queue wait reason skipped:", error2);
-    return null;
-  }
-}
-function readyAfterLinks(db2) {
-  if (!hasDependencyTable(db2)) return [];
-  const rows = allRows(
-    db2,
-    `SELECT d.card_id AS waitingId, w.project_id AS waitingProjectId, d.created_at AS linkedAt,
-            c.id, c.title, c.status, c.task_number AS taskNumber, p.id_prefix AS idPrefix,
-            c.git_branch_status AS gitBranchStatus, c.updated_at AS updatedAt, c.completed_at AS completedAt,
-            ${splitColumns(db2)}
-     FROM card_dependencies d
-     JOIN cards w ON w.id = d.card_id
-     JOIN cards c ON c.id = d.blocked_by_card_id
-     LEFT JOIN projects p ON p.id = c.project_id
-     WHERE w.status NOT IN ('completed', 'withdrawn') AND w.processing_type IS NULL
-     ORDER BY d.card_id, c.id`
-  );
-  const byCard = /* @__PURE__ */ new Map();
-  for (const row of rows) {
-    const bucket = byCard.get(row.waitingId);
-    if (bucket) bucket.push(row);
-    else byCard.set(row.waitingId, [row]);
-  }
-  const ready = [];
-  for (const [cardId, links] of byCard) {
-    if (!links.every((link) => linkState(link, cardId) === "landed")) continue;
-    const landedAt = links.reduce((max, link) => {
-      const at = link.status === "completed" && link.completedAt || link.updatedAt;
-      return at > max ? at : max;
-    }, "");
-    const linkedAt = links.reduce((max, link) => link.linkedAt > max ? link.linkedAt : max, "");
-    if (landedAt <= linkedAt) continue;
-    ready.push({
-      cardId,
-      projectId: links[0].waitingProjectId,
-      blockerIds: links.map((link) => link.id),
-      blockerNames: links.map(label),
-      landedAt
-    });
-  }
-  return ready;
-}
-function restoreDependencies(db2, links, now) {
-  if (!hasDependencyTable(db2) || links.length === 0) return 0;
-  let restored = 0;
-  for (const link of links) {
-    try {
-      transaction(db2, () => {
-        const { created } = linkOne(db2, link.cardId, { card: link.blockedByCardId, note: link.note }, link.createdAt || now);
-        if (created) restored++;
-      });
-    } catch {
-    }
-  }
-  return restored;
-}
-
-// ../lib/card-ops/queue.ts
-var ROW_SELECT = `
-  SELECT c.id, c.title, c.status, c.description,
-         c.solution_summary AS solutionSummary,
-         c.test_scenarios AS testScenarios,
-         c.processing_type AS processingType,
-         c.queue_position AS queuePosition,
-         c.queue_verify_scope AS queueVerifyScope,
-         c.task_number AS taskNumber,
-         c.use_worktree AS useWorktree,
-         c.git_branch_status AS gitBranchStatus,
-         c.git_worktree_path AS gitWorktreePath,
-         c.git_worktree_status AS gitWorktreeStatus,
-         c.project_id AS projectId,
-         p.id_prefix AS idPrefix,
-         p.mode AS projectMode,
-         p.use_worktrees AS projectUseWorktrees,
-         c.autopilot_stage AS autopilotStage
-  FROM cards c LEFT JOIN projects p ON p.id = c.project_id`;
-function toQueueRow(raw) {
-  return {
-    ...raw,
-    // Anything but "all" is the default; a stray value never widens a run.
-    queueVerifyScope: raw.queueVerifyScope === null ? null : raw.queueVerifyScope === "all" ? "all" : "next",
-    useWorktree: raw.useWorktree === null ? null : !!raw.useWorktree,
-    projectUseWorktrees: raw.projectUseWorktrees === null ? null : !!raw.projectUseWorktrees
-  };
-}
-function listQueueRows(db2) {
-  return allRows(db2, `${ROW_SELECT} WHERE c.queue_position IS NOT NULL`).map(toQueueRow).sort(compareByQueuePosition);
-}
-function getQueueRow(db2, cardId) {
-  const raw = getRow(db2, `${ROW_SELECT} WHERE c.id = ?`, cardId);
-  return raw ? toQueueRow(raw) : void 0;
-}
-function queueDisplayId(row) {
-  return formatDisplayId(row.idPrefix, row.taskNumber) ?? row.title;
-}
-function queueRowIneligibleReason(row) {
-  const progress = parseTestProgress(row.testScenarios ?? "");
-  const core = progress?.core;
-  const reason = queueIneligibleReason({
-    status: row.status,
-    hasDescription: stripHtml(row.description ?? "") !== "",
-    phase: detectPhase(row),
-    processingType: row.processingType,
-    projectMode: row.projectMode,
-    hasCoreFlow: !!core,
-    gitBranchStatus: row.gitBranchStatus,
-    hasOpenDecision: hasOpenPlanDecision(row),
-    autopilotPlanning: row.autopilotStage === "planning"
-  });
-  if (reason) return reason;
-  if (row.status === "test" && !nextVerifyGroup(progress)) {
-    return manualLeftIn(progress) > 0 ? "only [manual] items are left \u2014 they are yours" : "its checklist is fully ticked";
-  }
-  return null;
-}
-function queueKindOf(row) {
-  const phase = detectPhase(row);
-  return phase === "verify" ? "verify" : phase === "planning" ? "planning" : "implementation";
-}
-function queuedWaitReason(db2, row) {
-  return queueKindOf(row) === "verify" ? null : queueWaitReason(db2, row.id);
-}
-function nextQueueStep(db2) {
-  const rows = listQueueRows(db2);
-  let waiting = 0;
-  for (const row of rows) {
-    const reason = queueRowIneligibleReason(row);
-    if (reason) return { kind: "drop", row, reason };
-    if (queuedWaitReason(db2, row)) {
-      waiting++;
-      continue;
-    }
-    return { kind: "start", row };
-  }
-  return { kind: "idle", waiting };
-}
-function queuedRunsInWorktree(row) {
-  const activeWorktree = !!row.gitWorktreePath && row.gitWorktreeStatus === "active";
-  const kind = queueKindOf(row);
-  if (kind === "verify") return activeWorktree;
-  if (kind === "planning") return false;
-  const useWorktree = shouldUseWorktree(
-    { useWorktree: row.useWorktree },
-    { useWorktrees: row.projectUseWorktrees, mode: row.projectMode }
-  );
-  return useWorktree && !!row.projectId && row.taskNumber != null || activeWorktree;
-}
-function writeQueueOrder(db2, ids, removed = []) {
-  const place = db2.prepare(`UPDATE cards SET queue_position = ? WHERE id = ?`);
-  ids.forEach((id, index) => place.run(index + 1, id));
-  const unqueue = db2.prepare(`UPDATE cards SET queue_position = NULL WHERE id = ?`);
-  for (const id of removed) unqueue.run(id);
-}
-function enqueueCard(db2, cardId, afterCardId, verifyScope) {
-  if (afterCardId === cardId) {
-    return { ok: false, reason: "after-self", message: "A card cannot be placed after itself" };
-  }
-  return transaction(db2, () => {
-    const row = getQueueRow(db2, cardId);
-    if (!row) return { ok: false, reason: "not-found", message: "Card not found" };
-    const ineligible = queueRowIneligibleReason(row);
-    if (ineligible) {
-      return { ok: false, reason: "ineligible", message: `Cannot queue ${queueDisplayId(row)}: ${ineligible}` };
-    }
-    const members = listQueueRows(db2);
-    const others = members.filter((m2) => m2.id !== cardId);
-    if (afterCardId && !others.some((m2) => m2.id === afterCardId)) {
-      return { ok: false, reason: "after-not-queued", message: "afterCardId is not in the queue" };
-    }
-    const after = afterCardId === void 0 ? others[others.length - 1]?.id ?? null : afterCardId;
-    const moved = members.length !== others.length;
-    const chainShaped = members.map((m2) => ({ id: m2.id, groupOrder: m2.queuePosition, taskNumber: m2.taskNumber }));
-    if (!moved) chainShaped.push({ id: cardId, groupOrder: null, taskNumber: row.taskNumber });
-    const order = placeAfter(chainShaped, cardId, after);
-    writeQueueOrder(db2, order);
-    let queueVerifyScope = row.queueVerifyScope;
-    if (!moved || verifyScope !== void 0) {
-      queueVerifyScope = queueKindOf(row) === "verify" ? verifyScope ?? null : null;
-      db2.prepare(`UPDATE cards SET queue_verify_scope = ? WHERE id = ?`).run(queueVerifyScope, cardId);
-    }
-    return { ok: true, row: { ...row, queueVerifyScope }, rank: order.indexOf(cardId) + 1, moved };
-  });
-}
-function dequeueCard(db2, cardId) {
-  return transaction(db2, () => {
-    const members = listQueueRows(db2);
-    if (!members.some((m2) => m2.id === cardId)) return false;
-    writeQueueOrder(
-      db2,
-      members.filter((m2) => m2.id !== cardId).map((m2) => m2.id),
-      [cardId]
-    );
-    return true;
-  });
-}
-function restoreQueueCards(db2, cardIds) {
-  return transaction(db2, () => {
-    const members = listQueueRows(db2);
-    const queued = new Set(members.map((m2) => m2.id));
-    const restored = [];
-    const skipped = [];
-    for (const cardId of new Set(cardIds)) {
-      if (queued.has(cardId)) {
-        restored.push(cardId);
-        continue;
-      }
-      const row = getQueueRow(db2, cardId);
-      const reason = row ? queueRowIneligibleReason(row) : "it was deleted";
-      if (reason) skipped.push({ cardId, displayId: row ? queueDisplayId(row) : cardId, reason });
-      else restored.push(cardId);
-    }
-    const back = new Set(restored);
-    writeQueueOrder(db2, [...restored, ...members.filter((m2) => !back.has(m2.id)).map((m2) => m2.id)]);
-    return { restored, skipped };
-  });
-}
-function clearQueue(db2, keep = /* @__PURE__ */ new Set()) {
-  return transaction(db2, () => {
-    const rows = allRows(
-      db2,
-      `SELECT c.id, c.title, c.queue_position AS queuePosition, c.task_number AS taskNumber,
-              p.id_prefix AS idPrefix
-       FROM cards c LEFT JOIN projects p ON p.id = c.project_id
-       WHERE c.queue_position IS NOT NULL`
-    ).sort(compareByQueuePosition);
-    const cleared = rows.filter((row) => !keep.has(row.id));
-    const unqueue = db2.prepare(`UPDATE cards SET queue_position = NULL WHERE id = ?`);
-    for (const row of cleared) unqueue.run(row.id);
-    return cleared.map((row) => ({ cardId: row.id, displayId: queueDisplayId(row) }));
-  });
 }
 
 // ../lib/card-ops/autopilot.ts
@@ -28490,6 +28681,7 @@ function startAutopilot(db2, cardId, opts = {}) {
       if (!queued.ok) {
         throw new Refused(`Cannot send ${displayId} to ${name}: ${queued.message.replace(/^Cannot queue [^:]+: /, "")}`);
       }
+      if (mode === "ralph") recordRalphSend(db2, cardId, { stage, ...maxRounds !== void 0 ? { maxRounds } : {} }, opts.now);
       return { ok: true, stage, rank: queued.rank, displayId, mode, ...maxRounds !== void 0 ? { maxRounds } : {} };
     });
   } catch (error2) {
@@ -28514,6 +28706,7 @@ function stopAutopilot(db2, cardId, reason) {
   transaction(db2, () => {
     db2.prepare(`UPDATE cards SET autopilot_stage = 'stopped', autopilot_stop_reason = ? WHERE id = ?`).run(reason, cardId);
     dequeueCard(db2, cardId);
+    if (autopilotModeFor(db2, cardId) === "ralph") recordRalphEvent(db2, { cardId, kind: "stopped", detail: { reason } });
   });
 }
 function clearAutopilot(db2, cardId, opts = {}) {
@@ -28640,11 +28833,11 @@ function acceptPlanMarkers(planHtml) {
 }
 
 // ../lib/card-ops/decision-ledger.ts
-var tableCache = /* @__PURE__ */ new WeakMap();
+var tableCache2 = /* @__PURE__ */ new WeakMap();
 function hasDecisionLedger(db2) {
-  if (tableCache.get(db2)) return true;
+  if (tableCache2.get(db2)) return true;
   const has = !!getRow(db2, `SELECT 1 AS ok FROM sqlite_master WHERE type = 'table' AND name = 'card_decisions'`);
-  if (has) tableCache.set(db2, true);
+  if (has) tableCache2.set(db2, true);
   return has;
 }
 function recordDecision(db2, entry) {
@@ -29027,20 +29220,20 @@ function listMockupArtifacts(html) {
   if (!html) return [];
   const found = [];
   for (const match of html.matchAll(/<span\b[^>]*data-type="artifactMention"[^>]*>/gi)) {
-    const path11 = match[0].match(/data-path="([^"]*)"/i)?.[1];
-    if (path11 && HTML_FILE.test(path11)) found.push({ at: match.index ?? 0, path: decodeEntities3(path11) });
+    const path12 = match[0].match(/data-path="([^"]*)"/i)?.[1];
+    if (path12 && HTML_FILE.test(path12)) found.push({ at: match.index ?? 0, path: decodeEntities3(path12) });
   }
   for (const match of html.matchAll(/file:\/\/[^"'\s)<]+/gi)) {
     if (!HTML_FILE.test(match[0])) continue;
-    const path11 = fileUrlToPath(decodeEntities3(match[0]));
-    if (path11) found.push({ at: match.index ?? 0, path: path11 });
+    const path12 = fileUrlToPath(decodeEntities3(match[0]));
+    if (path12) found.push({ at: match.index ?? 0, path: path12 });
   }
   const seen = /* @__PURE__ */ new Set();
   const paths = [];
-  for (const { path: path11 } of found.sort((a, b2) => a.at - b2.at)) {
-    if (seen.has(path11)) continue;
-    seen.add(path11);
-    paths.push(path11);
+  for (const { path: path12 } of found.sort((a, b2) => a.at - b2.at)) {
+    if (seen.has(path12)) continue;
+    seen.add(path12);
+    paths.push(path12);
   }
   return paths;
 }
@@ -29061,15 +29254,15 @@ function cardMockupsWithSource(card) {
     ["opinion", card.aiOpinion],
     ["description", card.description]
   ]) {
-    for (const path11 of listMockupArtifacts(html)) {
-      if (!sourceOf.has(path11)) sourceOf.set(path11, source);
+    for (const path12 of listMockupArtifacts(html)) {
+      if (!sourceOf.has(path12)) sourceOf.set(path12, source);
     }
   }
   const planHasOne = [...sourceOf.values()].includes("solution");
   if (!planHasOne) {
-    return cardMockups(card).map((path11) => ({ path: path11, source: sourceOf.get(path11), dimmed: false }));
+    return cardMockups(card).map((path12) => ({ path: path12, source: sourceOf.get(path12), dimmed: false }));
   }
-  return [...sourceOf].map(([path11, source]) => ({ path: path11, source, dimmed: source !== "solution" }));
+  return [...sourceOf].map(([path12, source]) => ({ path: path12, source, dimmed: source !== "solution" }));
 }
 var MOCKUP_OFFER_HINT = `Mockup: if this card changes UI and its target tab (AI Opinion on an ideation card, the plan after that) has no mockup yet, ask the user in one sentence whether they want an HTML mockup. Only on yes, put the whole file in the save_opinion / save_plan text as one fenced block, \`\`\`html artifact="short-name.html"\`, directly above a \`## Mockup\` heading, and put that section at the end of the text; Ideafy saves it into the card folder and shows it as a link. Never draw one unasked. If the tab already has a mockup and the user asks for a new one, replace its link and its \`## Mockup\` section in place, keep the rest of the text as it is, and leave the old file on disk. Whenever you rewrite a text that has a mockup, its link stays directly above its \`## Mockup\` heading, never at the top of the text.`;
 var LINKED_FILE_RULE = `Linking a file that already exists, such as a mockup in a sibling design repo: link it with its absolute path as a file:// link. The card opens it only when it sits in the project folder, the card folder or one of the project's Linked Folders (project settings). Outside those the chip draws dead, so tell the user which folder to link instead of linking it anyway.`;
@@ -30222,6 +30415,7 @@ function updateCard(db2, args) {
         }
       });
     }
+    if (fields.status !== void 0 && status !== existing.status) clearParked(db2, id);
     if (typeof set2.workTemplateId === "string") rememberWorkTemplate(db2, projectId, set2.workTemplateId);
     const placed = args.afterCardId !== void 0 ? moveCardInChain(db2, id, args.afterCardId) : null;
     if (args.blockedBy !== void 0) setBlockedBy(db2, id, args.blockedBy, now, "replace");
@@ -30522,8 +30716,10 @@ function listProjects(db2, options = {}) {
       (p) => p.name.toLowerCase().includes(query) || p.idPrefix.toLowerCase().includes(query) || path6.basename(p.folderPath).toLowerCase().includes(query)
     );
   }
+  const withParked = hasParkedColumn(db2);
   const counts = db2.prepare(
-    `SELECT status, COUNT(*) AS n FROM cards WHERE project_id = ? AND status IN (${OPEN_COLUMNS.map(() => "?").join(", ")}) GROUP BY status`
+    `SELECT status, ${withParked ? "parked_at IS NOT NULL" : "0"} AS isParked, COUNT(*) AS n FROM cards
+     WHERE project_id = ? AND status IN (${OPEN_COLUMNS.map(() => "?").join(", ")}) GROUP BY status, isParked`
   );
   const completed = db2.prepare(
     `SELECT task_number AS taskNumber, title FROM cards
@@ -30533,8 +30729,10 @@ function listProjects(db2, options = {}) {
   const since = localMidnight(now);
   return projects.map((project) => {
     const open = { ideation: 0, backlog: 0, bugs: 0, progress: 0, test: 0 };
+    const parked = {};
     for (const row of counts.all(project.id, ...OPEN_COLUMNS)) {
-      open[row.status] = Number(row.n);
+      if (Number(row.isParked)) parked[row.status] = Number(row.n);
+      else open[row.status] = Number(row.n);
     }
     const completedToday = completed.all(project.id, since).map(
       (row) => ({
@@ -30542,7 +30740,7 @@ function listProjects(db2, options = {}) {
         title: row.title
       })
     );
-    return { ...project, open, completedToday };
+    return Object.keys(parked).length ? { ...project, open, parked, completedToday } : { ...project, open, completedToday };
   });
 }
 var GLOBAL_AGENT_MODE_SETTING_KEY = "global_agent_mode";
@@ -31063,6 +31261,9 @@ async function mergeChain(db2, groupId, opts = {}) {
         setCardRuntime(db2, member.id, { gitBranchStatus: "merged", gitWorktreePath: null, gitWorktreeStatus: "removed" }, at);
       }
       moveCard(db2, member.id, "completed", at);
+      if (cardHasRalphEvents(db2, member.id)) {
+        recordRalphEvent(db2, { cardId: member.id, kind: "merged", at, detail: { commit: mergedCommit, target: targetBranch } });
+      }
       completed.push(member.id);
     }
     runChanges(db2, `UPDATE card_groups SET merged_commit = ? WHERE id = ?`, mergedCommit, groupId);
@@ -31282,6 +31483,14 @@ async function mergeCard(db2, cardId, opts = {}) {
           at
         );
         runChanges(db2, `UPDATE cards SET chain_merged_at = ?, chain_merge_commit = ? WHERE id = ?`, at, chainCommit, cardId);
+        if (cardHasRalphEvents(db2, cardId)) {
+          recordRalphEvent(db2, {
+            cardId,
+            kind: "in_chain",
+            at,
+            detail: { commit: chainCommit, target: targetBranch, by: opts.landedByRalph ? "ideafy" : "you" }
+          });
+        }
         clearAutopilot(db2, cardId, { dequeue: false });
       });
       log(`[Merge] Success - ${branchName} merged into ${targetBranch}, card kept in Human Test`);
@@ -31312,8 +31521,15 @@ async function mergeCard(db2, cardId, opts = {}) {
       log(`[Merge] Failed to delete branch: ${branchError}`);
     }
     await pruneWorktrees(workingDir, log);
+    const squashCommit = cardHasRalphEvents(db2, cardId) ? await git(mergeDir, "rev-parse", targetBranch).then(
+      (out) => out.stdout.trim() || null,
+      () => null
+    ) : null;
     const complete = opts.complete !== false;
     transaction(db2, () => {
+      if (cardHasRalphEvents(db2, cardId)) {
+        recordRalphEvent(db2, { cardId, kind: "merged", at: now(), detail: { commit: squashCommit, target: targetBranch } });
+      }
       const runtime = {
         gitBranchStatus: "merged",
         gitWorktreeStatus: "removed",
@@ -31355,6 +31571,10 @@ async function mergeCard(db2, cardId, opts = {}) {
 }
 
 // ../lib/card-ops/chain-autopilot.ts
+function isParked(db2, id) {
+  if (!hasParkedColumn(db2)) return false;
+  return Boolean(getRow(db2, `SELECT parked_at FROM cards WHERE id = ?`, id)?.parked_at);
+}
 function openMembers(db2, groupId) {
   return allRows(
     db2,
@@ -31441,7 +31661,7 @@ function startChainAutopilot(db2, groupId, opts = {}) {
       ready.push(row.id);
       continue;
     }
-    const refusal = autopilotRefusal(db2, row.id);
+    const refusal = isParked(db2, row.id) ? "it is parked \u2014 unpark it first" : autopilotRefusal(db2, row.id);
     if (refusal) refusals.push({ cardId: row.id, displayId: nameOf(row), reason: refusal });
     else toQueue.push(row);
   }
@@ -31490,6 +31710,9 @@ function startChainAutopilot(db2, groupId, opts = {}) {
         }
       }
       for (const id of ready) writeStage.run("ready", id);
+      const sentAt = new Date(opts.now ?? Date.now()).toISOString();
+      const rounds = maxRounds !== void 0 ? { maxRounds } : {};
+      if (ralph) for (const id of ready) recordRalphSend(db2, id, { stage: "ready", ...rounds }, sentAt);
       let after = null;
       for (const row of toQueue) {
         const stage = row.status === "test" ? "verifying" : stripPlan(db2, row.id) === "" ? "planning" : "implementing";
@@ -31501,6 +31724,7 @@ function startChainAutopilot(db2, groupId, opts = {}) {
           ]);
         }
         after = row.id;
+        if (ralph) recordRalphSend(db2, row.id, { stage, ...rounds }, sentAt);
         out.push({ cardId: row.id, displayId: nameOf(row), stage });
       }
       if (ralph) {
@@ -31583,7 +31807,10 @@ function clearChainAutopilot(db2, groupId) {
     `SELECT id FROM cards WHERE group_id = ? AND autopilot_stage IS NOT NULL`,
     groupId
   ).map((row) => row.id);
-  for (const id of ids) clearAutopilot(db2, id);
+  for (const id of ids) {
+    recordRalphStopByPerson(db2, id);
+    clearAutopilot(db2, id);
+  }
   return ids;
 }
 function whyNotLanded(result) {
@@ -31626,7 +31853,7 @@ async function landReadyChainMembers(db2, groupId, opts = {}) {
     if (isChainParent(db2, row.id, groupId)) continue;
     let result;
     try {
-      result = await mergeCard(db2, row.id, { mode: "into-chain", stopProcess: opts.stopProcess, log: opts.log, now: opts.now });
+      result = await mergeCard(db2, row.id, { mode: "into-chain", landedByRalph: true, stopProcess: opts.stopProcess, log: opts.log, now: opts.now });
     } catch (error2) {
       result = { kind: "failed", error: error2 instanceof Error ? error2.message : String(error2), stashRestoreWarning: null };
     }
@@ -33040,6 +33267,724 @@ function testReportCardSummary(runs) {
   };
 }
 
+// ../lib/run-report/write.ts
+var write_exports = {};
+__export(write_exports, {
+  RUN_REPORT_VIDEO_CAP_BYTES: () => RUN_REPORT_VIDEO_CAP_BYTES,
+  buildRunReport: () => buildRunReport,
+  runReportFilename: () => runReportFilename,
+  writeRunReport: () => writeRunReport
+});
+import { mkdirSync as mkdirSync6, readFileSync as readFileSync5, statSync as statSync7, writeFileSync as writeFileSync3 } from "fs";
+import { homedir as homedir4 } from "os";
+import path10 from "path";
+
+// ../lib/run-report/collect.ts
+function stopNextStep(reason) {
+  if (/items? blocked/.test(reason)) {
+    return "Read that item below. Check it yourself and tick it, or correct its text, then Continue. Continue with no change stops at the same place.";
+  }
+  if (/could not go into|conflict/.test(reason)) {
+    return "Two cards touched the same lines. Press Merge on the card to solve the conflict; the chain goes on by itself.";
+  }
+  if (reason.startsWith(DECISION_STOP_PREFIX)) {
+    return "Answer the decision in the plan and delete its marker, then Continue.";
+  }
+  if (/same failure/.test(reason)) return "A real failure keeps coming back. Solve it in the card's chat, then Continue.";
+  if (reason.startsWith(RALPH_BROWSER_PREFIX) || reason === RALPH_BROWSER_UNUSED || reason.includes(RALPH_BROWSER_UNUSED)) {
+    return "No visual proof. Check the project's web preview and Chrome, then Continue.";
+  }
+  if (/time cap/.test(reason)) return "Time ran out. Continue gives a fresh budget.";
+  if (/timed out|idle timeout|run failed/.test(reason)) return "Open the card's Test Report and the run's log, then Continue.";
+  return null;
+}
+function displayIdOf2(row) {
+  return formatDisplayId(row.idPrefix, row.task_number) ?? row.title;
+}
+function shotsOf(cardId, runId, artifacts, fileSize) {
+  return artifacts.map((artifact) => ({
+    cardId,
+    runId,
+    file: artifact.file,
+    caption: artifact.caption,
+    present: fileSize({ cardId, runId, file: artifact.file }) !== null
+  }));
+}
+function runOf(cardId, run2, index, total, fileSize) {
+  const video = run2.video ? (() => {
+    const ref = { cardId, runId: run2.id, file: run2.video.file };
+    const bytes = run2.video.removedAt ? null : fileSize(ref);
+    return {
+      ...ref,
+      bytes: bytes ?? 0,
+      durationSec: run2.video.durationSec,
+      state: run2.video.removedAt ? "removed" : bytes === null ? "missing" : "embedded",
+      removedAt: run2.video.removedAt
+    };
+  })() : null;
+  return {
+    id: run2.id,
+    number: testReportRunNumber(index, total),
+    runAt: run2.runAt,
+    label: testReportRunLabel(run2),
+    evidence: run2.evidence,
+    platform: run2.platform,
+    checklistApplied: run2.checklistApplied,
+    counts: countByStatus(run2),
+    warnings: run2.warnings ?? [],
+    video,
+    items: run2.items.map((item) => ({
+      item: item.item,
+      status: item.status,
+      approach: item.approach,
+      steps: item.steps,
+      expected: item.expected,
+      observed: item.observed,
+      error: item.error,
+      command: item.command,
+      output: item.output,
+      note: item.note,
+      videoAt: testReportItemVideoAt(item),
+      shots: shotsOf(cardId, run2.id, item.artifacts, fileSize)
+    }))
+  };
+}
+function lastResult(text2, runs) {
+  const wanted = stripItemTokens(text2);
+  for (const run2 of runs) {
+    const index = closestTaskText(wanted, run2.items.map((item) => stripItemTokens(item.item)));
+    if (index >= 0) return { status: run2.items[index].status, evidence: run2.evidence };
+  }
+  return null;
+}
+function hasVisualResult(text2, runs) {
+  const wanted = stripItemTokens(text2);
+  return runs.some(
+    (run2) => run2.evidence === "visual" && closestTaskText(wanted, run2.items.map((item) => stripItemTokens(item.item))) >= 0
+  );
+}
+function whereOf(row, landedOn, chainBranch) {
+  if (row.status === "withdrawn") return "Withdrawn";
+  if (row.status === "completed") return landedOn ? `On ${landedOn}` : "Completed";
+  if (row.git_branch_status === "in_chain") return chainBranch ? `In ${chainBranch}` : "In the chain";
+  switch (row.autopilot_stage) {
+    case "stopped":
+      return "Stopped";
+    case "ready":
+      return "Ready to merge";
+    case "planning":
+    case "implementing":
+    case "verifying":
+    case "fixing":
+      return `On Ralph (${row.autopilot_stage})`;
+  }
+  return { ideation: "Ideation", backlog: "Backlog", bugs: "Bugs", progress: "In Progress", test: "Human Test" }[row.status] ?? row.status;
+}
+function formatMs(ms) {
+  const seconds = Math.round(ms / 1e3);
+  if (seconds < 60) return `${seconds}s`;
+  const minutes = Math.floor(seconds / 60);
+  if (minutes < 60) return `${minutes}m ${seconds % 60}s`;
+  return `${Math.floor(minutes / 60)}h ${minutes % 60}m`;
+}
+function short(commit) {
+  return commit ? commit.slice(0, 7) : null;
+}
+function capVideos(cards, capBytes) {
+  const videos = cards.flatMap((card) => card.runs.map((run2) => ({ video: run2.video, runAt: run2.runAt }))).filter((entry) => entry.video?.state === "embedded").sort((a, b2) => b2.runAt.localeCompare(a.runAt));
+  let embedded = 0;
+  let leftOut = 0;
+  let embeddedBytes = 0;
+  for (const { video } of videos) {
+    if (embeddedBytes + video.bytes > capBytes) {
+      video.state = "left-out";
+      leftOut++;
+      continue;
+    }
+    embeddedBytes += video.bytes;
+    embedded++;
+  }
+  return { embedded, leftOut, embeddedBytes };
+}
+function timelineOf(events, nameOf3, reportRuns) {
+  const rows = [];
+  for (const event of events) {
+    const name = nameOf3.get(event.cardId) ?? event.cardId;
+    const detail = event.detail;
+    const last = rows[rows.length - 1];
+    switch (event.kind) {
+      case "sent":
+      case "continued": {
+        if (last && last.kind === event.kind && last.at === event.at) {
+          last.cards.push(name);
+          break;
+        }
+        const limit = detail.maxRounds ? ` \xB7 stops after the same failure ${detail.maxRounds}\xD7` : "";
+        rows.push({
+          at: event.at,
+          kind: event.kind,
+          cards: [name],
+          who: "you",
+          text: `${event.kind === "sent" ? "Sent to Ralph" : "Continued on Ralph"}${limit}`,
+          reason: null,
+          next: null,
+          failed: false
+        });
+        break;
+      }
+      case "run": {
+        const report = detail.reportRunId ? reportRuns.get(`${event.cardId}\0${detail.reportRunId}`) : void 0;
+        const phase = detail.phase ?? "run";
+        const counts = report ? ` \xB7 ${report.counts.passed} passed${report.counts.failed ? `, ${report.counts.failed} failed` : ""}${report.counts.manual ? `, ${report.counts.manual} manual` : ""} \xB7 ${report.evidence}` : detail.reportRunId && detail.outcome === "completed" ? " \xB7 its report is no longer on the card" : "";
+        const took = detail.durationMs !== void 0 ? ` \xB7 ${formatMs(detail.durationMs)}` : "";
+        const ended = detail.outcome && detail.outcome !== "completed" ? ` \xB7 ${detail.outcome}` : "";
+        rows.push({
+          at: event.at,
+          kind: "run",
+          cards: [name],
+          who: "ideafy",
+          text: `${phase}${took}${counts}${ended}`,
+          reason: null,
+          next: null,
+          failed: detail.outcome === "failed"
+        });
+        break;
+      }
+      case "stopped": {
+        const reason = detail.reason ?? "no reason given";
+        rows.push({
+          at: event.at,
+          kind: "stopped",
+          cards: [name],
+          who: detail.byPerson ? "you" : "ideafy",
+          text: "Stopped",
+          reason,
+          next: detail.byPerson ? null : stopNextStep(reason),
+          failed: false
+        });
+        break;
+      }
+      case "ready":
+        rows.push({ at: event.at, kind: "ready", cards: [name], who: "ideafy", text: "Ready to merge", reason: null, next: null, failed: false });
+        break;
+      case "in_chain":
+        rows.push({
+          at: event.at,
+          kind: "in_chain",
+          cards: [name],
+          who: detail.by ?? "ideafy",
+          text: `Went into ${detail.target ?? "the chain"}${short(detail.commit) ? ` as ${short(detail.commit)}` : ""}`,
+          reason: null,
+          next: null,
+          failed: false
+        });
+        break;
+      case "rolled_back": {
+        if (last && last.kind === "rolled_back" && last.at === event.at) {
+          last.cards.push(name);
+          break;
+        }
+        const text2 = detail.target ? `Rolled back: ${detail.target} was thrown away` : "Rolled back: its branch was thrown away";
+        rows.push({ at: event.at, kind: "rolled_back", cards: [name], who: "you", text: text2, reason: null, next: null, failed: false });
+        break;
+      }
+      case "merged": {
+        if (last && last.kind === "merged" && last.at === event.at) {
+          last.cards.push(name);
+          break;
+        }
+        const text2 = detail.withoutMerge ? "Closed: its branch was already merged or gone" : `Landed on ${detail.target ?? "main"}${short(detail.commit) ? ` as ${short(detail.commit)}` : ""}`;
+        rows.push({ at: event.at, kind: "merged", cards: [name], who: "you", text: text2, reason: null, next: null, failed: false });
+        break;
+      }
+    }
+  }
+  return rows;
+}
+function collectRunReport(db2, cardId, opts) {
+  if (!cardHasRunReport(db2, cardId)) return null;
+  const select = `SELECT c.*, p.id_prefix AS idPrefix, p.name AS projectName, p.folder_path AS projectFolder
+                  FROM cards c LEFT JOIN projects p ON p.id = c.project_id`;
+  const own = getRow(db2, `${select} WHERE c.id = ?`, cardId);
+  if (!own) return null;
+  const groupId = own.group_id;
+  const group = groupId ? getIntegrationGroup(db2, groupId) : null;
+  const plain = groupId && !group ? getRow(db2, `SELECT code, name FROM card_groups WHERE id = ?`, groupId) : null;
+  const rows = groupId ? allRows(db2, `${select} WHERE c.group_id = ? AND c.status <> 'withdrawn'`, groupId).map((row) => ({ ...row, groupOrder: row.group_order, taskNumber: row.task_number })).sort(compareByChainOrder) : [own];
+  const parents = groupId ? rows.filter((row) => isChainParent(db2, row.id, groupId)) : [];
+  const ordered = [...rows.filter((row) => !parents.includes(row)), ...parents];
+  const parentIds = new Set(parents.map((row) => row.id));
+  const chainBranch = group?.integrationBranch ?? null;
+  const events = ralphEventsFor(db2, ordered.map((row) => row.id));
+  const nameOf3 = new Map(ordered.map((row) => [row.id, displayIdOf2(row)]));
+  const reportRuns = /* @__PURE__ */ new Map();
+  const gaps = [];
+  const cards = ordered.map((row) => {
+    const displayId = displayIdOf2(row);
+    const stored = parseTestReports(row.test_reports) ?? [];
+    const runs = stored.map((run2, index) => runOf(row.id, run2, index, stored.length, opts.fileSize));
+    for (const run2 of runs) reportRuns.set(`${row.id}\0${run2.id}`, run2);
+    const ticks = cardAuthorship(db2, row.id)?.ticks ?? [];
+    const tickerOf = (text2) => {
+      const index = closestTaskText(text2, ticks.map((tick) => tick.item));
+      const by = index >= 0 ? ticks[index].by : null;
+      return by === "you" || by === "ideafy" ? by : null;
+    };
+    const checklist = checklistItems(row.test_scenarios).map((item) => {
+      const result = lastResult(item.text, stored);
+      return {
+        text: item.text,
+        heading: item.heading,
+        core: item.core,
+        checked: item.checked,
+        tickedBy: item.checked ? tickerOf(item.text) : null,
+        ui: isUiItem(item.text),
+        manual: isManualItem(item.text),
+        lastStatus: result?.status ?? null,
+        lastEvidence: result?.evidence ?? null
+      };
+    });
+    for (const item of checklist) {
+      if (!item.checked) gaps.push({ kind: "unticked", displayId, text: item.text });
+      else if (item.tickedBy === "you") gaps.push({ kind: "ticked-by-you", displayId, text: item.text });
+      if (item.ui && item.lastStatus !== null && !hasVisualResult(item.text, stored)) {
+        gaps.push({ kind: "ui-text-only", displayId, text: item.text });
+      }
+    }
+    for (const run2 of runs) {
+      if (run2.video?.state === "removed" || run2.video?.state === "missing") {
+        gaps.push({ kind: "video-removed", displayId, text: `Run #${run2.number} (${run2.label})` });
+      }
+      for (const item of run2.items) {
+        for (const shot of item.shots) {
+          if (!shot.present) gaps.push({ kind: "screenshot-missing", displayId, text: `Run #${run2.number}: ${item.item}` });
+        }
+      }
+    }
+    const own2 = events.filter((event) => event.cardId === row.id && event.kind === "run");
+    const costs2 = own2.map((event) => event.detail.cost).filter((cost) => typeof cost === "number");
+    const mergedEvent = [...events].reverse().find((event) => event.cardId === row.id && event.kind === "merged");
+    const commit = group?.mergedCommit ?? mergedEvent?.detail.commit ?? row.chain_merge_commit ?? null;
+    return {
+      id: row.id,
+      displayId,
+      title: row.title,
+      status: row.status,
+      where: whereOf(row, group?.mergedCommit || mergedEvent?.detail.commit ? mergedEvent?.detail.target ?? "main" : null, chainBranch),
+      commit,
+      isParent: parentIds.has(row.id),
+      stopReason: row.autopilot_stage === "stopped" ? row.autopilot_stop_reason : null,
+      checklist,
+      runs,
+      ticked: checklist.filter((item) => item.checked).length,
+      total: checklist.length,
+      aiMs: own2.reduce((sum, event) => sum + (event.detail.durationMs ?? 0), 0),
+      runCount: own2.length,
+      cost: costs2.length > 0 ? costs2.reduce((sum, cost) => sum + cost, 0) : null
+    };
+  });
+  const videos = capVideos(cards, opts.videoCapBytes);
+  for (const card of cards) {
+    for (const run2 of card.runs) {
+      if (run2.video?.state === "left-out") {
+        gaps.push({ kind: "video-left-out", displayId: card.displayId, text: `Run #${run2.number} (${run2.label})` });
+      }
+    }
+  }
+  const decisions = ordered.flatMap((row) => {
+    const stored = parseTestReports(row.test_reports) ?? [];
+    return listCardDecisions(db2, row.id).map((entry) => {
+      const looked = stored.flatMap((run2) => {
+        const hit = run2.decisions?.find((decision2) => decision2.entryId === entry.id);
+        return hit ? [{ run: run2, hit }] : [];
+      })[0];
+      const decision = {
+        displayId: displayIdOf2(row),
+        kind: entry.kind,
+        question: entry.question,
+        recommended: entry.recommended,
+        stepExcerpt: entry.stepExcerpt,
+        originalText: entry.originalText,
+        newText: entry.newText,
+        at: entry.createdAt,
+        seen: looked?.hit.observed ?? null,
+        shots: looked ? shotsOf(row.id, looked.run.id, looked.hit.artifacts, opts.fileSize) : []
+      };
+      if (entry.kind === "acceptance") {
+        gaps.push({ kind: "accepted-decision", displayId: decision.displayId, text: entry.recommended ? `${entry.question} Took: ${entry.recommended}` : entry.question });
+      } else if (entry.kind === "revision") {
+        gaps.push({ kind: "revision", displayId: decision.displayId, text: `${entry.originalText ?? entry.question} \u2192 ${entry.newText ?? ""}`.trim() });
+      }
+      return decision;
+    });
+  });
+  const runEvents = events.filter((event) => event.kind === "run");
+  const costs = runEvents.map((event) => event.detail.cost).filter((cost) => typeof cost === "number");
+  const phases = /* @__PURE__ */ new Map();
+  for (const event of runEvents) {
+    const phase = event.detail.phase ?? "run";
+    const entry = phases.get(phase) ?? { phase, runs: 0, ms: 0, cost: null };
+    entry.runs++;
+    entry.ms += event.detail.durationMs ?? 0;
+    if (typeof event.detail.cost === "number") entry.cost = (entry.cost ?? 0) + event.detail.cost;
+    phases.set(phase, entry);
+  }
+  const code = group?.code ?? plain?.code ?? displayIdOf2(own);
+  const name = group?.name ?? plain?.name ?? own.title;
+  const redact = new Map(opts.redactFolders ?? []);
+  for (const row of ordered) {
+    for (const folder of [row.projectFolder, row.project_folder, row.git_worktree_path]) {
+      if (folder && folder !== "/") redact.set(folder, "<project>");
+    }
+  }
+  return {
+    title: `${code} \xB7 ${name}`,
+    code,
+    projectName: own.projectName,
+    chain: groupId ? {
+      code,
+      name,
+      branch: chainBranch,
+      mergedCommit: group?.mergedCommit ?? null,
+      landedOn: [...events].reverse().find((event) => event.kind === "merged")?.detail.target ?? null
+    } : null,
+    generatedAt: opts.now ?? (/* @__PURE__ */ new Date()).toISOString(),
+    timeZone: opts.timeZone ?? Intl.DateTimeFormat().resolvedOptions().timeZone ?? "UTC",
+    firstAt: events[0]?.at ?? null,
+    lastAt: events[events.length - 1]?.at ?? null,
+    cards,
+    timeline: timelineOf(events, nameOf3, reportRuns),
+    decisions,
+    // An item with three lost screenshots is one thing to look at.
+    gaps: gaps.filter(
+      (gap, index) => gaps.findIndex((other) => other.kind === gap.kind && other.displayId === gap.displayId && other.text === gap.text) === index
+    ),
+    totals: {
+      runs: runEvents.length,
+      ms: runEvents.reduce((sum, event) => sum + (event.detail.durationMs ?? 0), 0),
+      cost: costs.length > 0 ? costs.reduce((sum, cost) => sum + cost, 0) : null,
+      stops: events.filter((event) => event.kind === "stopped").length,
+      phases: [...phases.values()]
+    },
+    videos,
+    redact: [...redact.entries()].sort((a, b2) => b2[0].length - a[0].length)
+  };
+}
+
+// ../lib/run-report/render.ts
+var CSS = `
+:root{color-scheme:dark light;--bg:#16140F;--card:#1F1C18;--fg:#F6F4EE;--muted:#9A9286;--line:#322E2A;--ai:#47A3BD;--you:#E8B67A;--you-soft:rgba(232,182,122,.12);--you-line:rgba(232,182,122,.42);--bugs:#D8775C;--done:#8FBF9F}
+@media(prefers-color-scheme:light){:root{--bg:#F7F6F3;--card:#FCFAF4;--fg:#221F1C;--muted:#6B645A;--line:#E5DFD3;--ai:#24627B;--you:#9A5B1E;--you-soft:rgba(154,91,30,.10);--you-line:rgba(154,91,30,.40);--bugs:#B5492F;--done:#3E7A57}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.6 Geist,-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;-webkit-text-size-adjust:100%}
+main{max-width:860px;margin:0 auto;padding:24px 16px 80px;overflow-wrap:break-word}
+h1{font-size:26px;line-height:1.25;letter-spacing:-.01em;margin:.2em 0 .4em}
+h2{font-size:20px;margin:2em 0 .6em;padding-top:.8em;border-top:1px solid var(--line)}
+h3{font-size:16px;margin:1.6em 0 .4em}
+h4{font:500 11px/1.4 "Geist Mono",ui-monospace,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:1.4em 0 .4em}
+p{margin:.5em 0}
+ul{margin:.4em 0;padding-left:1.2em}
+li{margin:.25em 0}
+code,.mono{font:13px "Geist Mono",ui-monospace,Menlo,monospace}
+code{background:var(--card);border:1px solid var(--line);padding:.05em .35em;border-radius:5px;overflow-wrap:anywhere}
+pre{font:12.5px/1.5 "Geist Mono",ui-monospace,Menlo,monospace;background:var(--card);border:1px solid var(--line);border-radius:7px;padding:8px 10px;overflow-x:auto;white-space:pre-wrap;overflow-wrap:anywhere;margin:.4em 0}
+img,video{display:block;max-width:100%;height:auto;border:1px solid var(--line);border-radius:10px;margin:12px 0}
+video{width:100%;background:#000}
+figure{margin:12px 0}figcaption{font-size:13px;color:var(--muted);margin-top:-6px}
+.t{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:12px 0}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:520px}
+th,td{padding:7px 10px;border:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--card);font-weight:600}
+.muted{color:var(--muted)}.small{font-size:13px}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+.ai{color:var(--ai)}.you{color:var(--you)}.bad{color:var(--bugs)}.ok{color:var(--done)}
+.who{font:500 10.5px "Geist Mono",ui-monospace,Menlo,monospace;letter-spacing:.06em;white-space:nowrap}
+.note{border:1px solid var(--line);border-radius:10px;padding:10px 14px;font-size:13.5px;color:var(--muted);margin:12px 0}
+.turn{background:var(--you-soft);border:1px solid var(--you-line);border-radius:10px;padding:4px 14px 10px;margin:12px 0}
+details{border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:10px 0}
+summary{cursor:pointer;font-weight:500}
+.item{border-top:1px solid var(--line);padding:8px 0}.item:first-of-type{border-top:0}
+`;
+var GAP_HEADINGS = {
+  "ui-text-only": "On-screen items with only text evidence",
+  "ticked-by-you": "Ticked by a person, not by a run",
+  unticked: "Not ticked: still open or left to you",
+  "accepted-decision": "Decisions Ralph took for you",
+  revision: "Test items Ralph reworded",
+  "video-removed": "Recordings no longer on disk",
+  "video-left-out": "Recordings not in this file (past the size limit), still on the card",
+  "screenshot-missing": "Screenshots whose file is gone"
+};
+var GAP_ORDER = Object.keys(GAP_HEADINGS);
+var WHO_LABEL = { ideafy: "IDEAFY", you: "YOU" };
+var STATUS_LABEL = { passed: "Passed", failed: "Failed", manual: "Manual" };
+function renderRunReport(data, embed) {
+  const esc2 = (value) => {
+    let text2 = String(value ?? "");
+    for (const [folder, stand] of data.redact) text2 = text2.split(folder).join(stand);
+    return text2.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+  };
+  const time3 = new Intl.DateTimeFormat("en-GB", { timeZone: data.timeZone, hour: "2-digit", minute: "2-digit" });
+  const day = new Intl.DateTimeFormat("en-GB", { timeZone: data.timeZone, day: "numeric", month: "short", year: "numeric" });
+  const dayShort = new Intl.DateTimeFormat("en-GB", { timeZone: data.timeZone, day: "numeric", month: "short" });
+  const validDate = (iso) => {
+    if (!iso) return null;
+    const date4 = new Date(iso);
+    return Number.isNaN(date4.getTime()) ? null : date4;
+  };
+  const atFull = (iso) => {
+    const date4 = validDate(iso);
+    return date4 ? `${day.format(date4)}, ${time3.format(date4)}` : esc2(iso);
+  };
+  const cost = (value) => value === null ? "not reported" : `$${value.toFixed(2)}`;
+  const who = (value) => `<span class="who ${value === "ideafy" ? "ai" : "you"}">${WHO_LABEL[value]}</span>`;
+  const parts = [];
+  parts.push(
+    `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data:; media-src data:; style-src 'unsafe-inline'"><meta name="referrer" content="no-referrer"><title>Ralph report \xB7 ${esc2(data.code)}</title><style>${CSS}</style></head><body><main>`
+  );
+  const scope = data.chain ? `Chain of ${data.cards.length} card${data.cards.length === 1 ? "" : "s"}` : "Single card";
+  parts.push(`<h1>Ralph report: ${esc2(data.title)}</h1>`);
+  parts.push(
+    `<p class="muted small">${[
+      data.projectName ? esc2(data.projectName) : null,
+      scope,
+      data.chain?.branch ? `<code>${esc2(data.chain.branch)}</code>` : null,
+      `generated ${atFull(data.generatedAt)}`,
+      `times in ${esc2(data.timeZone)}`
+    ].filter(Boolean).join(" \xB7 ")}</p>`
+  );
+  parts.push(
+    `<p class="note">Screenshots and videos may contain sensitive data: check before you share this file. This is Ideafy's own evidence from the runs. No check outside the runs looked at it.</p>`
+  );
+  parts.push(`<h2>Summary</h2>`);
+  const landed = data.chain?.mergedCommit ? `Landed on ${esc2(data.chain.landedOn ?? "main")} as <code>${esc2(data.chain.mergedCommit.slice(0, 7))}</code>. ` : "";
+  const span = data.firstAt && data.lastAt ? formatMs(Date.parse(data.lastAt) - Date.parse(data.firstAt)) : null;
+  parts.push(
+    `<p>${landed}${data.totals.runs} run${data.totals.runs === 1 ? "" : "s"}, ${data.totals.stops} stop${data.totals.stops === 1 ? "" : "s"}${span ? `, ${span} from first send to last event` : ""}.</p>`
+  );
+  parts.push(`<div class="t"><table><thead><tr><th>Card</th><th>Where</th><th>Commit</th><th>Tests</th></tr></thead><tbody>`);
+  for (const card of data.cards) {
+    parts.push(
+      `<tr><td><span class="mono">${esc2(card.displayId)}</span>${card.isParent ? ' <span class="muted small">parent</span>' : ""}<br>${esc2(card.title)}${card.stopReason ? `<br><span class="small muted">Stopped: ${esc2(card.stopReason)}</span>` : ""}</td><td>${esc2(card.where)}</td><td>${card.commit ? `<code>${esc2(card.commit.slice(0, 7))}</code>` : '<span class="muted">not yet</span>'}</td><td class="num">${card.total > 0 ? `${card.ticked}/${card.total}` : '<span class="muted">none</span>'}</td></tr>`
+    );
+  }
+  parts.push(`</tbody></table></div>`);
+  parts.push(`<div class="turn"><h2 style="border:0;margin-top:.4em;padding-top:.2em">Look at first</h2>`);
+  if (data.gaps.length === 0) {
+    parts.push(`<p>Nothing the data flags. That is not the same as nothing to check.</p>`);
+  } else {
+    parts.push(`<p class="small">Read from the data, not judged by AI. A passing run proves only what it looked at.</p>`);
+    for (const kind of GAP_ORDER) {
+      const list = data.gaps.filter((gap) => gap.kind === kind);
+      if (list.length === 0) continue;
+      parts.push(`<h4>${esc2(GAP_HEADINGS[kind])} (${list.length})</h4><ul>`);
+      for (const gap of list) parts.push(`<li><span class="mono">${esc2(gap.displayId)}</span> ${esc2(gap.text)}</li>`);
+      parts.push(`</ul>`);
+    }
+  }
+  parts.push(
+    `<p class="small muted">A browser item without the <code>[ui]</code> tag never went through the visual gate, and this version cannot tell which those are.</p></div>`
+  );
+  parts.push(`<h2>Timeline</h2>`);
+  if (data.timeline.length === 0) {
+    parts.push(`<p class="muted">No timeline: these runs happened before Ideafy kept this record. Test results below still stand.</p>`);
+  } else {
+    parts.push(`<div class="t"><table><thead><tr><th>Time</th><th>Card</th><th>What happened</th><th>Who</th></tr></thead><tbody>`);
+    let lastDay = "";
+    for (const row of data.timeline) {
+      const date4 = validDate(row.at);
+      const dayLabel = date4 ? dayShort.format(date4) : "";
+      const clock = date4 ? time3.format(date4) : esc2(row.at);
+      const shown = dayLabel !== lastDay ? `${dayLabel} ${clock}` : clock;
+      lastDay = dayLabel;
+      const detail = row.reason ? `<br><span class="small">${esc2(row.reason)}</span>${row.next ? `<br><span class="small muted">Next: ${esc2(row.next)}</span>` : ""}` : "";
+      const strong = row.kind === "stopped" || row.kind === "merged" || row.kind === "ready" || row.kind === "rolled_back";
+      parts.push(
+        `<tr><td class="num">${shown}</td><td class="mono">${row.cards.map(esc2).join(", ")}</td><td${row.failed ? ' class="bad"' : ""}>${strong ? `<strong>${esc2(row.text)}</strong>` : esc2(row.text)}${detail}</td><td>${who(row.who)}</td></tr>`
+      );
+    }
+    parts.push(`</tbody></table></div>`);
+  }
+  const shotsHtml = (shots, alt) => shots.map((shot) => {
+    const src = shot.present ? embed(shot) : null;
+    if (!src) return `<p class="small muted">Screenshot ${esc2(shot.file)} is no longer on disk.</p>`;
+    return `<figure><img loading="lazy" src="${src}" alt="${esc2(shot.caption ?? alt)}">${shot.caption ? `<figcaption>${esc2(shot.caption)}</figcaption>` : ""}</figure>`;
+  }).join("");
+  parts.push(`<h2>Decisions</h2>`);
+  if (data.decisions.length === 0) {
+    parts.push(`<p class="muted">Ralph took no decision for you and reworded no test item.</p>`);
+  } else {
+    parts.push(`<div class="t"><table><thead><tr><th>Card</th><th>Kind</th><th>Question or item</th><th>What it took</th></tr></thead><tbody>`);
+    for (const decision of data.decisions) {
+      const taken = decision.kind === "revision" ? `<span class="muted">Was:</span> ${esc2(decision.originalText)}<br><span class="muted">Now:</span> ${esc2(decision.newText)}` : esc2(decision.recommended ?? "the plan's option");
+      const seen = decision.seen ? `<br><span class="small"><span class="muted">Saw:</span> ${esc2(decision.seen)}</span>` : "";
+      parts.push(
+        `<tr><td class="mono">${esc2(decision.displayId)}</td><td>${esc2(decision.kind)}</td><td>${esc2(decision.question)}${decision.stepExcerpt ? `<br><span class="small muted">Plan step: ${esc2(decision.stepExcerpt)}</span>` : ""}</td><td>${taken}${seen}${shotsHtml(decision.shots, decision.question)}</td></tr>`
+      );
+    }
+    parts.push(`</tbody></table></div>`);
+  }
+  parts.push(`<h2>Cards</h2>`);
+  const itemHtml = (item) => {
+    const label2 = `<span class="${item.status === "passed" ? "ok" : item.status === "failed" ? "bad" : "muted"}">${STATUS_LABEL[item.status]}</span>`;
+    const at = item.videoAt !== null ? ` <span class="small muted num">video ${Math.floor(item.videoAt / 60)}:${String(Math.floor(item.videoAt % 60)).padStart(2, "0")}</span>` : "";
+    const lines2 = [`<div class="item"><p>${label2} ${esc2(item.item)}${at}</p>`];
+    if (item.note) lines2.push(`<p class="small muted">${esc2(item.note)}</p>`);
+    if (item.status !== "passed" && item.approach) lines2.push(`<p class="small">${esc2(item.approach)}</p>`);
+    if (item.status !== "passed" && item.steps.length > 0) {
+      lines2.push(`<ul class="small">${item.steps.map((step) => `<li>${esc2(step)}</li>`).join("")}</ul>`);
+    }
+    if (item.status !== "passed" && item.expected) lines2.push(`<p class="small"><span class="muted">Expected:</span> ${esc2(item.expected)}</p>`);
+    if (item.observed) lines2.push(`<p class="small"><span class="muted">Saw:</span> ${esc2(item.observed)}</p>`);
+    if (item.error) lines2.push(`<p class="small bad">${esc2(item.error)}</p>`);
+    if (item.status !== "passed" && item.command) lines2.push(`<pre>${esc2(item.command)}</pre>`);
+    if (item.status !== "passed" && item.output) lines2.push(`<pre>${esc2(item.output)}</pre>`);
+    lines2.push(shotsHtml(item.shots, item.item), `</div>`);
+    return lines2.join("");
+  };
+  const videoHtml = (run2) => {
+    const video = run2.video;
+    if (!video) return "";
+    if (video.state === "removed") {
+      return `<p class="small muted">Video removed${video.removedAt ? ` on ${esc2(video.removedAt.slice(0, 10))}` : ""} by the recording rule.</p>`;
+    }
+    if (video.state === "missing") return `<p class="small muted">Video no longer on disk.</p>`;
+    if (video.state === "left-out") return `<p class="small muted">Video not in this file, still on the card.</p>`;
+    const src = embed(video);
+    if (!src) return `<p class="small muted">Video could not be read.</p>`;
+    const firstShot = run2.items.flatMap((item) => item.shots).find((shot) => shot.present);
+    const poster = firstShot ? embed(firstShot) : null;
+    const size = `${(video.bytes / (1024 * 1024)).toFixed(1)} MB`;
+    return `<video controls playsinline preload="none"${poster ? ` poster="${poster}"` : ""} src="${src}"></video><p class="small muted">Screen recording of this run \xB7 WebM \xB7 ${size}. A phone that cannot play WebM still shows the screenshots.</p>`;
+  };
+  const checklistHtml = (card) => {
+    if (card.checklist.length === 0) return `<p class="muted small">No checklist.</p>`;
+    const rows = [`<div class="t"><table><thead><tr><th>Item</th><th>Ticked by</th><th>Newest run</th></tr></thead><tbody>`];
+    let heading = "";
+    for (const item of card.checklist) {
+      if (item.heading !== heading) {
+        heading = item.heading;
+        rows.push(`<tr><th colspan="3">${esc2(heading)}</th></tr>`);
+      }
+      const ticked = !item.checked ? '<span class="muted">not ticked</span>' : item.tickedBy ? who(item.tickedBy) : '<span class="muted">unknown</span>';
+      const newest = item.lastStatus ? `${item.lastStatus === "failed" ? `<span class="bad">${STATUS_LABEL.failed}</span>` : STATUS_LABEL[item.lastStatus]} \xB7 ${esc2(item.lastEvidence)}` : '<span class="muted">no run named it</span>';
+      rows.push(`<tr><td>${esc2(item.text)}</td><td>${ticked}</td><td>${newest}</td></tr>`);
+    }
+    rows.push(`</tbody></table></div>`);
+    return rows.join("");
+  };
+  for (const card of data.cards) {
+    parts.push(`<h3><span class="mono">${esc2(card.displayId)}</span> ${esc2(card.title)}</h3>`);
+    parts.push(`<p class="small muted">${esc2(card.where)}${card.commit ? ` \xB7 <code>${esc2(card.commit.slice(0, 7))}</code>` : ""}</p>`);
+    parts.push(checklistHtml(card));
+    if (card.runs.length === 0) {
+      parts.push(`<p class="muted small">No Test Report runs on this card.</p>`);
+      continue;
+    }
+    card.runs.forEach((run2, index) => {
+      const counts = [
+        run2.counts.passed ? `${run2.counts.passed} passed` : "",
+        run2.counts.failed ? `${run2.counts.failed} failed` : "",
+        run2.counts.manual ? `${run2.counts.manual} manual` : ""
+      ].filter(Boolean).join(", ");
+      parts.push(
+        `<details${index === 0 ? " open" : ""}><summary>Run #${run2.number} \xB7 ${atFull(run2.runAt)} \xB7 ${esc2(run2.label)} \xB7 ${esc2(run2.evidence)}${counts ? ` \xB7 ${counts}` : ""}</summary>`
+      );
+      if (!run2.checklistApplied) parts.push(`<p class="small muted">This run's ticks were not applied: its checklist was refused.</p>`);
+      for (const warning of run2.warnings) parts.push(`<p class="small">${esc2(warning)}</p>`);
+      parts.push(videoHtml(run2));
+      for (const item of run2.items) parts.push(itemHtml(item));
+      parts.push(`</details>`);
+    });
+  }
+  parts.push(`<h2>Time and cost</h2>`);
+  if (data.totals.runs === 0) {
+    parts.push(`<p class="muted">No run on record.</p>`);
+  } else {
+    parts.push(`<div class="t"><table><thead><tr><th>Card</th><th>Runs</th><th>AI time</th><th>Cost, as reported</th></tr></thead><tbody>`);
+    for (const card of data.cards) {
+      parts.push(
+        `<tr><td class="mono">${esc2(card.displayId)}</td><td class="num">${card.runCount}</td><td class="num">${formatMs(card.aiMs)}</td><td class="num">${cost(card.cost)}</td></tr>`
+      );
+    }
+    parts.push(
+      `<tr><th>All</th><th class="num">${data.totals.runs}</th><th class="num">${formatMs(data.totals.ms)}</th><th class="num">${cost(data.totals.cost)}</th></tr></tbody></table></div>`
+    );
+    parts.push(`<div class="t"><table><thead><tr><th>Phase</th><th>Runs</th><th>AI time</th><th>Cost, as reported</th></tr></thead><tbody>`);
+    for (const phase of data.totals.phases) {
+      parts.push(
+        `<tr><td>${esc2(phase.phase)}</td><td class="num">${phase.runs}</td><td class="num">${formatMs(phase.ms)}</td><td class="num">${cost(phase.cost)}</td></tr>`
+      );
+    }
+    parts.push(`</tbody></table></div>`);
+    parts.push(
+      `<p class="small muted">The cost is what the AI CLI reported. On a subscription it is not what you are billed. A provider that reports nothing shows only time.</p>`
+    );
+  }
+  parts.push(`</main></body></html>`);
+  return parts.join("\n");
+}
+
+// ../lib/run-report/write.ts
+var RUN_REPORT_VIDEO_CAP_BYTES = 150 * 1024 * 1024;
+var MIME2 = {
+  ".png": "image/png",
+  ".jpg": "image/jpeg",
+  ".jpeg": "image/jpeg",
+  ".webp": "image/webp",
+  ".gif": "image/gif",
+  ".webm": "video/webm"
+};
+function runFile(ref, homeDir) {
+  return path10.join(testReportRunDir(ref.cardId, ref.runId, homeDir), path10.basename(ref.file));
+}
+function runReportFilename(code, at) {
+  const safe = code.replace(/[^A-Za-z0-9._-]+/g, "-").replace(/^-+|-+$/g, "") || "card";
+  return `ralph-report-${safe}-${at.slice(0, 10)}.html`;
+}
+function buildRunReport(db2, cardId, opts = {}) {
+  const data = collectRunReport(db2, cardId, {
+    videoCapBytes: opts.videoCapBytes ?? RUN_REPORT_VIDEO_CAP_BYTES,
+    now: opts.now,
+    timeZone: opts.timeZone,
+    redactFolders: [[opts.homeDir ?? homedir4(), "~"]],
+    fileSize: (ref) => {
+      try {
+        const stat = statSync7(runFile(ref, opts.homeDir));
+        return stat.isFile() ? stat.size : null;
+      } catch {
+        return null;
+      }
+    }
+  });
+  if (!data) return null;
+  const html = renderRunReport(data, (ref) => {
+    const mime = MIME2[path10.extname(ref.file).toLowerCase()];
+    if (!mime) return null;
+    try {
+      return `data:${mime};base64,${readFileSync5(runFile(ref, opts.homeDir)).toString("base64")}`;
+    } catch {
+      return null;
+    }
+  });
+  return {
+    html,
+    filename: runReportFilename(data.code, data.generatedAt),
+    bytes: Buffer.byteLength(html),
+    videosEmbedded: data.videos.embedded,
+    videosLeftOut: data.videos.leftOut
+  };
+}
+function writeRunReport(db2, cardId, opts = {}) {
+  const built = buildRunReport(db2, cardId, opts);
+  if (!built) return null;
+  const folder = path10.join(cardArtifactDir(cardId, opts.homeDir), "run-report");
+  mkdirSync6(folder, { recursive: true });
+  const file2 = path10.join(folder, built.filename);
+  writeFileSync3(file2, built.html);
+  return { path: file2, bytes: built.bytes, videosEmbedded: built.videosEmbedded, videosLeftOut: built.videosLeftOut };
+}
+
 // ../lib/process-group.ts
 var process_group_exports = {};
 __export(process_group_exports, {
@@ -33158,6 +34103,7 @@ var {
   updateGroup: updateGroup2,
   deleteGroup: deleteGroup2,
   moveCardInChain: moveCardInChain2,
+  setParked: setParked2,
   readRuntime: readRuntime2,
   readWriteAck: readWriteAck2,
   acknowledgeWrite: acknowledgeWrite2,
@@ -33253,6 +34199,7 @@ var {
 var { parseTestReportItems: parseTestReportItems2, parseTestReports: parseTestReports2, buildTestReportRun: buildTestReportRun2, normalizeTestReportWarnings: normalizeTestReportWarnings2, MAX_ARTIFACTS_PER_ITEM: MAX_ARTIFACTS_PER_ITEM2 } = unwrap(test_report_exports);
 var { formatTestReport: formatTestReport2, selectTestReportRun: selectTestReportRun2, testReportCardSummary: testReportCardSummary2 } = unwrap(test_report_text_exports);
 var { importTerminalArtifacts: importTerminalArtifacts2, removeTestReportRunDirs: removeTestReportRunDirs2, testReportRunDir: testReportRunDir2 } = unwrap(test_report_files_exports);
+var { writeRunReport: writeRunReport2 } = unwrap(write_exports);
 var { attachmentRefs: attachmentRefs2, attachmentContentType: attachmentContentType2 } = unwrap(card_attachments_exports);
 var { canStartCard: canStartCard2, detectBoardPhase: detectBoardPhase2, terminalStartRefusal: terminalStartRefusal2 } = unwrap(card_phase_exports);
 var { parseTestProgress: parseTestProgress2, manualLimitMessage: manualLimitMessage2 } = unwrap(test_progress_exports);
@@ -33283,9 +34230,9 @@ function loadSqlite() {
     );
   }
 }
-function openDatabase(path11) {
+function openDatabase(path12) {
   const { DatabaseSync } = loadSqlite();
-  const db2 = new DatabaseSync(path11);
+  const db2 = new DatabaseSync(path12);
   db2.exec("PRAGMA journal_mode = WAL");
   db2.exec("PRAGMA foreign_keys = ON");
   db2.exec("PRAGMA busy_timeout = 5000");
@@ -33295,10 +34242,10 @@ function openDatabase(path11) {
 // index.ts
 import { resolve as resolve4, dirname as dirname2, relative as relative2, isAbsolute as isAbsolute2, sep as sep2 } from "path";
 import { fileURLToPath } from "url";
-import { homedir as homedir5 } from "os";
-import { mkdirSync as mkdirSync7 } from "fs";
+import { homedir as homedir6 } from "os";
+import { mkdirSync as mkdirSync8 } from "fs";
 
-// node_modules/uuid/dist/esm/stringify.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/uuid/dist/esm/stringify.js
 var byteToHex = [];
 for (let i = 0; i < 256; ++i) {
   byteToHex.push((i + 256).toString(16).slice(1));
@@ -33307,7 +34254,7 @@ function unsafeStringify(arr, offset = 0) {
   return (byteToHex[arr[offset + 0]] + byteToHex[arr[offset + 1]] + byteToHex[arr[offset + 2]] + byteToHex[arr[offset + 3]] + "-" + byteToHex[arr[offset + 4]] + byteToHex[arr[offset + 5]] + "-" + byteToHex[arr[offset + 6]] + byteToHex[arr[offset + 7]] + "-" + byteToHex[arr[offset + 8]] + byteToHex[arr[offset + 9]] + "-" + byteToHex[arr[offset + 10]] + byteToHex[arr[offset + 11]] + byteToHex[arr[offset + 12]] + byteToHex[arr[offset + 13]] + byteToHex[arr[offset + 14]] + byteToHex[arr[offset + 15]]).toLowerCase();
 }
 
-// node_modules/uuid/dist/esm/rng.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/uuid/dist/esm/rng.js
 import { randomFillSync } from "crypto";
 var rnds8Pool = new Uint8Array(256);
 var poolPtr = rnds8Pool.length;
@@ -33319,11 +34266,11 @@ function rng() {
   return rnds8Pool.slice(poolPtr, poolPtr += 16);
 }
 
-// node_modules/uuid/dist/esm/native.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/uuid/dist/esm/native.js
 import { randomUUID } from "crypto";
 var native_default = { randomUUID };
 
-// node_modules/uuid/dist/esm/v4.js
+// ../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/uuid/dist/esm/v4.js
 function v4(options, buf, offset) {
   if (native_default.randomUUID && !buf && !options) {
     return native_default.randomUUID();
@@ -33350,7 +34297,7 @@ function v4(options, buf, offset) {
 var v4_default = v4;
 
 // serialize-card.ts
-import { readFileSync as readFileSync5 } from "node:fs";
+import { readFileSync as readFileSync6 } from "node:fs";
 function normalizeUseWorktree(value) {
   if (value === null || value === void 0) return null;
   return Boolean(value);
@@ -33363,7 +34310,7 @@ function extractImagesFromHtml(html, fieldName) {
     const [ref] = attachmentRefs2(match[1]);
     if (!ref) continue;
     try {
-      const data = readFileSync5(ref.path).toString("base64");
+      const data = readFileSync6(ref.path).toString("base64");
       images.push({ id: `${fieldName}_image_${index}`, data, mimeType: attachmentContentType2(ref.file), fieldName, index });
       index++;
     } catch {
@@ -33480,7 +34427,11 @@ var CAPABILITIES = {
   /** autopilot_fail_count (0040) — Ralph's same-failure counter and round limit (IDE-733), written by queue_card's `maxRounds`. */
   ralphLoop: ["cards", "autopilot_fail_count"],
   /** ralph_deadline (0041) — Chain Ralph's time cap (IDE-734), written by queue_card's `groupId` + `mode: "ralph"`. */
-  chainRalph: ["card_groups", "ralph_deadline"]
+  chainRalph: ["card_groups", "ralph_deadline"],
+  /** ralph_events (0042) — what Ralph did on a card (IDE-747), read by export_run_report. */
+  ralphEvents: ["ralph_events", "card_id"],
+  /** parked_at (0043) — a card parked below its column, written by update_card's `parked`. */
+  parked: ["cards", "parked_at"]
 };
 var knownColumns = /* @__PURE__ */ new WeakMap();
 function hasColumn(db2, table, column) {
@@ -33492,9 +34443,9 @@ function hasColumn(db2, table, column) {
   }
   if (known.has(key)) return true;
   const rows = db2.prepare(`PRAGMA table_info(${JSON.stringify(table)})`).all();
-  const present4 = rows.some((row) => row.name === column);
-  if (present4) known.add(key);
-  return present4;
+  const present5 = rows.some((row) => row.name === column);
+  if (present5) known.add(key);
+  return present5;
 }
 function hasCapability(db2, capability) {
   const [table, column] = CAPABILITIES[capability];
@@ -33506,8 +34457,8 @@ function missingCapabilityMessage(tool, capability) {
 }
 
 // output-paths.ts
-import { existsSync as existsSync10, realpathSync as realpathSync5, statSync as statSync7 } from "fs";
-import { homedir as homedir4 } from "os";
+import { existsSync as existsSync10, realpathSync as realpathSync5, statSync as statSync8 } from "fs";
+import { homedir as homedir5 } from "os";
 import { isAbsolute, relative, resolve as resolve3, sep } from "path";
 var OutputPathError = class extends Error {
 };
@@ -33525,7 +34476,7 @@ function resolveOutputPath(projectFolder, inputPath) {
   if (!trimmed) {
     throw new OutputPathError("save_output needs a path to the file that was written.");
   }
-  const expanded = trimmed === "~" || trimmed.startsWith("~/") ? resolve3(homedir4(), trimmed.slice(2)) : trimmed;
+  const expanded = trimmed === "~" || trimmed.startsWith("~/") ? resolve3(homedir5(), trimmed.slice(2)) : trimmed;
   const absolute = isAbsolute(expanded) ? resolve3(expanded) : resolve3(projectFolder, expanded);
   let projectReal;
   try {
@@ -33541,7 +34492,7 @@ function resolveOutputPath(projectFolder, inputPath) {
     );
   }
   const fileReal = realpathSync5(absolute);
-  if (!statSync7(fileReal).isFile()) {
+  if (!statSync8(fileReal).isFile()) {
     throw new OutputPathError(
       `Not a file: ${absolute}. save_output records one file at a time \u2014 call it once per file.`
     );
@@ -33604,12 +34555,12 @@ function appPort(runtime = null, env = process.env) {
   if (runtime?.appState === "open" && runtime.port?.trim()) return runtime.port.trim();
   return "3030";
 }
-async function callApp(method, path11, body, options = {}) {
+async function callApp(method, path12, body, options = {}) {
   const port = options.port ?? appPort();
   const doFetch = options.fetchImpl ?? fetch;
   let response;
   try {
-    response = await doFetch(`http://127.0.0.1:${port}${path11}`, {
+    response = await doFetch(`http://127.0.0.1:${port}${path12}`, {
       method,
       headers: body === void 0 ? void 0 : { "Content-Type": "application/json" },
       body: body === void 0 ? void 0 : JSON.stringify(body),
@@ -33917,8 +34868,8 @@ function mergeChainText(result) {
 }
 
 // test-report.ts
-import { readFileSync as readFileSync6 } from "node:fs";
-import path10 from "node:path";
+import { readFileSync as readFileSync7 } from "node:fs";
+import path11 from "node:path";
 function readTerminalReport(db2, report) {
   if (!hasCapability(db2, "testReports")) {
     return { ok: false, message: missingCapabilityMessage("save_tests", "testReports") };
@@ -33999,7 +34950,7 @@ function readTestReport(db2, card, opts = {}) {
         checklistHtml: row?.testScenarios ?? null,
         screenshotsAttached: Boolean(opts.screenshots),
         // The recording's absolute path (IDE-699), for a terminal to open.
-        videoPath: run2.video ? path10.join(testReportRunDir2(card.id, run2.id, opts.homeDir), run2.video.file) : null
+        videoPath: run2.video ? path11.join(testReportRunDir2(card.id, run2.id, opts.homeDir), run2.video.file) : null
       })
     }
   ];
@@ -34015,7 +34966,7 @@ function readTestReport(db2, card, opts = {}) {
     tried++;
     let data;
     try {
-      data = readFileSync6(path10.join(dir, artifact.file)).toString("base64");
+      data = readFileSync7(path11.join(dir, artifact.file)).toString("base64");
     } catch {
       continue;
     }
@@ -34039,7 +34990,7 @@ function readTestReport(db2, card, opts = {}) {
 }
 
 // git-helpers.ts
-import { existsSync as existsSync11, mkdirSync as mkdirSync6 } from "fs";
+import { existsSync as existsSync11, mkdirSync as mkdirSync7 } from "fs";
 async function getCurrentBranch3(cwd) {
   try {
     return await getCurrentBranch2(cwd);
@@ -34052,7 +35003,7 @@ async function createWorktree2(projectPath, branchName, baseBranch) {
   const baseDir = getWorktreeBaseDir2(projectPath);
   try {
     if (!existsSync11(baseDir)) {
-      mkdirSync6(baseDir, { recursive: true });
+      mkdirSync7(baseDir, { recursive: true });
     }
     if (await worktreeExists2(projectPath, worktreePath)) {
       return { success: true, worktreePath };
@@ -34089,9 +35040,9 @@ async function listUncommittedFiles(cwd, files) {
     if (files && files.length > 0) args.push("--", ...files);
     const { stdout } = await git2(cwd, ...args);
     return stdout.split("\n").filter((line) => line.length > 3).map((line) => {
-      const path11 = line.slice(3);
-      const arrow = path11.indexOf(" -> ");
-      return (arrow === -1 ? path11 : path11.slice(arrow + 4)).replace(/^"|"$/g, "");
+      const path12 = line.slice(3);
+      const arrow = path12.indexOf(" -> ");
+      return (arrow === -1 ? path12 : path12.slice(arrow + 4)).replace(/^"|"$/g, "");
     });
   } catch {
     return [];
@@ -34150,10 +35101,11 @@ function searchCards(db2, opts) {
   const limit = Math.min(Math.max(1, Math.floor(opts.limit ?? DEFAULT_SEARCH_LIMIT)), MAX_SEARCH_LIMIT);
   const completedAt = hasCapability(db2, "completedAt") ? "completed_at" : "NULL";
   const aiScore = hasCapability(db2, "aiScore") ? "ai_score" : "NULL";
+  const parkedAt = hasCapability(db2, "parked") ? "parked_at" : "NULL";
   const rows = db2.prepare(
     `SELECT id, title, status, task_number as taskNumber,
               ai_verdict as aiVerdict, ${aiScore} as aiScore, ${completedAt} as completedAt,
-              updated_at as updatedAt, description,
+              updated_at as updatedAt, ${parkedAt} as parkedAt, description,
               solution_summary as solutionSummary, ai_opinion as aiOpinion
          FROM cards
         WHERE project_id = ?
@@ -34190,6 +35142,8 @@ function searchCards(db2, opts) {
         aiScore: row.aiScore === null ? null : Number(row.aiScore),
         completedAt: row.completedAt,
         updatedAt: row.updatedAt,
+        // Only when set (IDE-729): a parked card is set aside, not gone.
+        ...row.parkedAt ? { parked: true } : {},
         snippet
       }
     });
@@ -34376,7 +35330,7 @@ function markdownCheckboxStats(markdown) {
 }
 var __dirname = dirname2(fileURLToPath(import.meta.url));
 function getDefaultDataDir() {
-  const home = homedir5();
+  const home = homedir6();
   switch (process.platform) {
     case "darwin":
       return resolve4(home, "Library/Application Support/ideafy");
@@ -34389,7 +35343,7 @@ function getDefaultDataDir() {
 function resolveDbPath() {
   const userDataEnv = process.env.IDEAFY_USER_DATA;
   const dir = userDataEnv ? resolve4(userDataEnv) : getDefaultDataDir();
-  mkdirSync7(dir, { recursive: true });
+  mkdirSync8(dir, { recursive: true });
   return resolve4(dir, "kanban.db");
 }
 var DB_PATH = resolveDbPath();
@@ -34509,6 +35463,9 @@ function mockupSourceColumns(full) {
 function aiScoreColumn(conn) {
   return hasCapability(conn, "aiScore") ? "ai_score as aiScore," : "NULL as aiScore,";
 }
+function parkedAtColumn(conn) {
+  return hasCapability(conn, "parked") ? "cards.parked_at as parkedAt," : "NULL as parkedAt,";
+}
 var server = new Server(
   {
     name: "ideafy-mcp-server",
@@ -34569,8 +35526,22 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
         }
       },
       {
+        name: "export_run_report",
+        description: "Write a Ralph run report as one HTML file with its screenshots and videos inside: the same file as the app's Download report. It opens on a double-click, on a phone too, with no server. A card in a chain reports its whole chain. Holds where each card stands and which commit it landed with, the timeline with each stop's reason, the decisions Ralph took, the test results, time and cost, and a rule-based Look at first list; no AI commentary. Built from the card as it is now, so write it again after a Continue. Screenshots and videos may contain sensitive data: say so when you hand the path over. Returns the file's path, its size and how many videos did not fit under the size limit. Nothing on the card changes.",
+        inputSchema: {
+          type: "object",
+          properties: {
+            id: {
+              type: "string",
+              description: "Card ID: UUID, display ID (e.g., KAN-54), or task number. Any member of a chain gives the chain's report."
+            }
+          },
+          required: ["id"]
+        }
+      },
+      {
         name: "update_card",
-        description: "Update a kanban card fields (title, description, solutionSummary, status, complexity, priority, useWorktree, groupId, workTemplateId, afterCardId, blockedBy). For testScenarios, use save_tests instead \u2014 update_card rejects it to protect checkbox states. For outputPaths, use save_output \u2014 it validates the file against the project folder.",
+        description: "Update a kanban card fields (title, description, solutionSummary, status, complexity, priority, useWorktree, groupId, workTemplateId, afterCardId, blockedBy, parked). For testScenarios, use save_tests instead \u2014 update_card rejects it to protect checkbox states. For outputPaths, use save_output \u2014 it validates the file against the project folder.",
         inputSchema: {
           type: "object",
           properties: {
@@ -34630,6 +35601,10 @@ ${buildPlanFormatGuide2()}`
                 required: ["card"]
               },
               description: "The whole set of cards this card waits on: links left out are removed, [] removes them all, omit to leave them alone. To add or drop one link without restating the rest, use add_dependency / remove_dependency."
+            },
+            parked: {
+              type: "boolean",
+              description: "true parks the card below its column, the board's Park: it stays in Ideation, Backlog or Bugs but leaves the column count, Stale, Focus and the run queue. false unparks it. Cards in other columns or on Autopilot are refused with the reason. A status change, queue_card or a run start unparks it on its own."
             },
             workTemplateId: {
               type: ["string", "null"],
@@ -35404,7 +36379,7 @@ The server writes the card's verdict, score, priority and complexity from those 
       },
       {
         name: "list_projects",
-        description: 'List the registered Ideafy projects across every folder: name, folder, ID prefix, mode (development / work), open cards per column and the cards completed today. Use it to find a project from what the user calls it, and for cross-project questions ("what finished today, what is waiting in Human Test?" \u2014 follow up with list_cards status "test" and no projectId for the titles). A card code like IDE-432 already names its project by prefix; check that first. When the query matches more than one project, ask the user which one \u2014 never guess.',
+        description: 'List the registered Ideafy projects across every folder: name, folder, ID prefix, mode (development / work), open cards per column (parked cards apart, under `parked`) and the cards completed today. Use it to find a project from what the user calls it, and for cross-project questions ("what finished today, what is waiting in Human Test?" \u2014 follow up with list_cards status "test" and no projectId for the titles). A card code like IDE-432 already names its project by prefix; check that first. When the query matches more than one project, ask the user which one \u2014 never guess.',
         inputSchema: {
           type: "object",
           properties: {
@@ -35497,6 +36472,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             use_worktree as useWorktree,
             ${outputPathsColumn}
             ${testReportsColumn}
+            ${parkedAtColumn(db)}
             created_at as createdAt,
             updated_at as updatedAt
           FROM cards WHERE id = ?
@@ -35687,8 +36663,31 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         }
         return readTestReport(db, { id, displayId: queueDisplayId2(row) }, { run: run2, status, screenshots });
       }
+      case "export_run_report": {
+        const { id: rawId } = args;
+        const id = resolveCardRef2(db, rawId);
+        if (!id) return { content: [{ type: "text", text: `Card not found: ${rawId}` }], isError: true };
+        if (!hasCapability(db, "ralphEvents")) {
+          return { content: [{ type: "text", text: missingCapabilityMessage("export_run_report", "ralphEvents") }], isError: true };
+        }
+        const written = writeRunReport2(db, id);
+        if (!written) {
+          return {
+            content: [{ type: "text", text: `export_run_report: ${rawId} has no Ralph run to report. Nothing was written.` }],
+            isError: true
+          };
+        }
+        const megabytes = (written.bytes / (1024 * 1024)).toFixed(1);
+        const leftOut = written.videosLeftOut > 0 ? ` ${written.videosLeftOut} video(s) did not fit under the size limit: the file names them and they stay on the card.` : "";
+        return {
+          content: [{
+            type: "text",
+            text: `Run report written: ${written.path} (${megabytes} MB, ${written.videosEmbedded} video(s) inside).${leftOut} Screenshots and videos may contain sensitive data: check before sharing.`
+          }]
+        };
+      }
       case "update_card": {
-        const { id: rawId, afterCardId: rawAfterCardId, blockedBy: rawBlockedBy, ...updates } = args;
+        const { id: rawId, afterCardId: rawAfterCardId, blockedBy: rawBlockedBy, parked: rawParked, ...updates } = args;
         const id = resolveCardRef2(db, rawId);
         if (!id) {
           return {
@@ -35707,6 +36706,13 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           }
         }
         const reorder = afterCardId !== void 0;
+        if (rawParked !== void 0 && typeof rawParked !== "boolean") {
+          return { content: [{ type: "text", text: "update_card: parked must be true or false." }], isError: true };
+        }
+        const parked = rawParked;
+        if (parked !== void 0 && !hasCapability(db, "parked")) {
+          return { content: [{ type: "text", text: missingCapabilityMessage("update_card", "parked") }], isError: true };
+        }
         const blockedBy = updateCardBlockedBy(rawBlockedBy);
         if (blockedBy !== void 0 && !hasCapability(db, "dependencies")) {
           return {
@@ -35741,7 +36747,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           return {
             content: [{
               type: "text",
-              text: `update_card does not accept: ${unknownKeys.join(", ")}. Accepted fields: ${[...Object.keys(fieldMap), "afterCardId", "blockedBy"].join(", ")}. For testScenarios use save_tests; for aiOpinion use save_opinion; for outputPaths use save_output; for the run queue use queue_card / unqueue_card.`
+              text: `update_card does not accept: ${unknownKeys.join(", ")}. Accepted fields: ${[...Object.keys(fieldMap), "afterCardId", "blockedBy", "parked"].join(", ")}. For testScenarios use save_tests; for aiOpinion use save_opinion; for outputPaths use save_output; for the run queue use queue_card / unqueue_card.`
             }],
             isError: true
           };
@@ -35794,6 +36800,21 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         }
         const fields = updateCardFields(db, id, updates);
         const writeFields = Object.values(fields).some((value) => value !== void 0);
+        if (!writeFields && !reorder && blockedBy === void 0 && parked !== void 0) {
+          const result = setParked2(db, [id], parked, (/* @__PURE__ */ new Date()).toISOString());
+          const skip = result.skipped[0];
+          if (skip) {
+            return {
+              content: [{ type: "text", text: `update_card: ${skip.displayId} was not ${parked ? "parked" : "unparked"}: ${skip.reason}.` }],
+              isError: true
+            };
+          }
+          const verb = parked ? "parked" : "unparked";
+          const note = result.changed.length === 0 ? ` It was already ${verb}; nothing changed.` : result.dequeued.length > 0 ? " It left the run queue." : "";
+          return {
+            content: [{ type: "text", text: `Card ${id} ${verb}.${note} Card is in "${readStatus(id)}".` }]
+          };
+        }
         if (!writeFields && !reorder && blockedBy === void 0) {
           return {
             content: [{
@@ -35820,11 +36841,18 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         const written = Object.keys(updates).filter((key) => key in fieldMap);
         if (reorder) written.push("afterCardId");
         if (blockedBy !== void 0) written.push("blockedBy");
+        let parkNote = "";
+        if (parked !== void 0) {
+          const result = setParked2(db, [id], parked, (/* @__PURE__ */ new Date()).toISOString());
+          const skip = result.skipped[0];
+          if (skip) parkNote = ` Not ${parked ? "parked" : "unparked"}: ${skip.reason}.`;
+          else written.push("parked");
+        }
         const placedNote = !outcome.placed ? "" : outcome.placed.changed ? ` Chain position ${outcome.placed.position}/${outcome.placed.total}.` : ` Already at chain position ${outcome.placed.position}/${outcome.placed.total}; the order was not rewritten.`;
         return {
           content: [{
             type: "text",
-            text: `Card ${id} updated (${written.join(", ")}).${placedNote} Card is in "${readStatus(id)}".`
+            text: `Card ${id} updated (${written.join(", ")}).${placedNote}${parkNote} Card is in "${readStatus(id)}".`
           }]
         };
       }
@@ -35952,6 +36980,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             git_worktree_path as gitWorktreePath,
             git_worktree_status as gitWorktreeStatus,
             use_worktree as useWorktree,
+            ${parkedAtColumn(db)}
             cards.created_at as createdAt,
             cards.updated_at as updatedAt
           FROM cards
