@@ -30,9 +30,9 @@ var __toESM = (mod, isNodeMode, target2) => (target2 = mod != null ? __create(__
   mod
 ));
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/code.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/code.js
 var require_code = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/code.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/code.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.regexpCode = exports.getEsmExportName = exports.getProperty = exports.safeStringify = exports.stringify = exports.strConcat = exports.addCodeArg = exports.str = exports._ = exports.nil = exports._Code = exports.Name = exports.IDENTIFIER = exports._CodeOrName = void 0;
@@ -184,9 +184,9 @@ var require_code = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/scope.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/scope.js
 var require_scope = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/scope.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/scope.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.ValueScope = exports.ValueScopeName = exports.Scope = exports.varKinds = exports.UsedValueState = void 0;
@@ -329,9 +329,9 @@ var require_scope = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/index.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/index.js
 var require_codegen = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/index.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.or = exports.and = exports.not = exports.CodeGen = exports.operators = exports.varKinds = exports.ValueScopeName = exports.ValueScope = exports.Scope = exports.Name = exports.regexpCode = exports.stringify = exports.getProperty = exports.nil = exports.strConcat = exports.str = exports._ = void 0;
@@ -407,11 +407,11 @@ var require_codegen = __commonJS({
         const rhs = this.rhs === void 0 ? "" : ` = ${this.rhs}`;
         return `${varKind} ${this.name}${rhs};` + _n;
       }
-      optimizeNames(names, constants) {
+      optimizeNames(names, constants2) {
         if (!names[this.name.str])
           return;
         if (this.rhs)
-          this.rhs = optimizeExpr(this.rhs, names, constants);
+          this.rhs = optimizeExpr(this.rhs, names, constants2);
         return this;
       }
       get names() {
@@ -428,10 +428,10 @@ var require_codegen = __commonJS({
       render({ _n }) {
         return `${this.lhs} = ${this.rhs};` + _n;
       }
-      optimizeNames(names, constants) {
+      optimizeNames(names, constants2) {
         if (this.lhs instanceof code_1.Name && !names[this.lhs.str] && !this.sideEffects)
           return;
-        this.rhs = optimizeExpr(this.rhs, names, constants);
+        this.rhs = optimizeExpr(this.rhs, names, constants2);
         return this;
       }
       get names() {
@@ -492,8 +492,8 @@ var require_codegen = __commonJS({
       optimizeNodes() {
         return `${this.code}` ? this : void 0;
       }
-      optimizeNames(names, constants) {
-        this.code = optimizeExpr(this.code, names, constants);
+      optimizeNames(names, constants2) {
+        this.code = optimizeExpr(this.code, names, constants2);
         return this;
       }
       get names() {
@@ -522,12 +522,12 @@ var require_codegen = __commonJS({
         }
         return nodes.length > 0 ? this : void 0;
       }
-      optimizeNames(names, constants) {
+      optimizeNames(names, constants2) {
         const { nodes } = this;
         let i = nodes.length;
         while (i--) {
           const n = nodes[i];
-          if (n.optimizeNames(names, constants))
+          if (n.optimizeNames(names, constants2))
             continue;
           subtractNames(names, n.names);
           nodes.splice(i, 1);
@@ -580,12 +580,12 @@ var require_codegen = __commonJS({
           return void 0;
         return this;
       }
-      optimizeNames(names, constants) {
+      optimizeNames(names, constants2) {
         var _a2;
-        this.else = (_a2 = this.else) === null || _a2 === void 0 ? void 0 : _a2.optimizeNames(names, constants);
-        if (!(super.optimizeNames(names, constants) || this.else))
+        this.else = (_a2 = this.else) === null || _a2 === void 0 ? void 0 : _a2.optimizeNames(names, constants2);
+        if (!(super.optimizeNames(names, constants2) || this.else))
           return;
-        this.condition = optimizeExpr(this.condition, names, constants);
+        this.condition = optimizeExpr(this.condition, names, constants2);
         return this;
       }
       get names() {
@@ -608,10 +608,10 @@ var require_codegen = __commonJS({
       render(opts) {
         return `for(${this.iteration})` + super.render(opts);
       }
-      optimizeNames(names, constants) {
-        if (!super.optimizeNames(names, constants))
+      optimizeNames(names, constants2) {
+        if (!super.optimizeNames(names, constants2))
           return;
-        this.iteration = optimizeExpr(this.iteration, names, constants);
+        this.iteration = optimizeExpr(this.iteration, names, constants2);
         return this;
       }
       get names() {
@@ -647,10 +647,10 @@ var require_codegen = __commonJS({
       render(opts) {
         return `for(${this.varKind} ${this.name} ${this.loop} ${this.iterable})` + super.render(opts);
       }
-      optimizeNames(names, constants) {
-        if (!super.optimizeNames(names, constants))
+      optimizeNames(names, constants2) {
+        if (!super.optimizeNames(names, constants2))
           return;
-        this.iterable = optimizeExpr(this.iterable, names, constants);
+        this.iterable = optimizeExpr(this.iterable, names, constants2);
         return this;
       }
       get names() {
@@ -692,11 +692,11 @@ var require_codegen = __commonJS({
         (_b = this.finally) === null || _b === void 0 ? void 0 : _b.optimizeNodes();
         return this;
       }
-      optimizeNames(names, constants) {
+      optimizeNames(names, constants2) {
         var _a2, _b;
-        super.optimizeNames(names, constants);
-        (_a2 = this.catch) === null || _a2 === void 0 ? void 0 : _a2.optimizeNames(names, constants);
-        (_b = this.finally) === null || _b === void 0 ? void 0 : _b.optimizeNames(names, constants);
+        super.optimizeNames(names, constants2);
+        (_a2 = this.catch) === null || _a2 === void 0 ? void 0 : _a2.optimizeNames(names, constants2);
+        (_b = this.finally) === null || _b === void 0 ? void 0 : _b.optimizeNames(names, constants2);
         return this;
       }
       get names() {
@@ -997,7 +997,7 @@ var require_codegen = __commonJS({
     function addExprNames(names, from) {
       return from instanceof code_1._CodeOrName ? addNames(names, from.names) : names;
     }
-    function optimizeExpr(expr, names, constants) {
+    function optimizeExpr(expr, names, constants2) {
       if (expr instanceof code_1.Name)
         return replaceName(expr);
       if (!canOptimize(expr))
@@ -1012,14 +1012,14 @@ var require_codegen = __commonJS({
         return items;
       }, []));
       function replaceName(n) {
-        const c = constants[n.str];
+        const c = constants2[n.str];
         if (c === void 0 || names[n.str] !== 1)
           return n;
         delete names[n.str];
         return c;
       }
       function canOptimize(e) {
-        return e instanceof code_1._Code && e._items.some((c) => c instanceof code_1.Name && names[c.str] === 1 && constants[c.str] !== void 0);
+        return e instanceof code_1._Code && e._items.some((c) => c instanceof code_1.Name && names[c.str] === 1 && constants2[c.str] !== void 0);
       }
     }
     function subtractNames(names, from) {
@@ -1049,9 +1049,9 @@ var require_codegen = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/util.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/util.js
 var require_util = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/util.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/util.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.checkStrictMode = exports.getErrorPath = exports.Type = exports.useFunc = exports.setEvaluated = exports.evaluatedPropsToName = exports.mergeEvaluated = exports.eachItem = exports.unescapeJsonPointer = exports.escapeJsonPointer = exports.escapeFragment = exports.unescapeFragment = exports.schemaRefOrVal = exports.schemaHasRulesButRef = exports.schemaHasRules = exports.checkUnknownRules = exports.alwaysValidSchema = exports.toHash = void 0;
@@ -1216,9 +1216,9 @@ var require_util = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/names.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/names.js
 var require_names = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/names.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/names.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -1255,9 +1255,9 @@ var require_names = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/errors.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/errors.js
 var require_errors = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/errors.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/errors.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.extendErrors = exports.resetErrorsCount = exports.reportExtraError = exports.reportError = exports.keyword$DataError = exports.keywordError = void 0;
@@ -1377,9 +1377,9 @@ var require_errors = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/boolSchema.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/boolSchema.js
 var require_boolSchema = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/boolSchema.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/boolSchema.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.boolOrEmptySchema = exports.topBoolOrEmptySchema = void 0;
@@ -1428,9 +1428,9 @@ var require_boolSchema = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/rules.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/rules.js
 var require_rules = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/rules.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/rules.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.getRules = exports.isJSONType = void 0;
@@ -1459,9 +1459,9 @@ var require_rules = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/applicability.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/applicability.js
 var require_applicability = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/applicability.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/applicability.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.shouldUseRule = exports.shouldUseGroup = exports.schemaHasRulesForType = void 0;
@@ -1482,9 +1482,9 @@ var require_applicability = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/dataType.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/dataType.js
 var require_dataType = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/dataType.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/dataType.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.reportTypeError = exports.checkDataTypes = exports.checkDataType = exports.coerceAndCheckDataType = exports.getJSONTypes = exports.getSchemaTypes = exports.DataType = void 0;
@@ -1666,9 +1666,9 @@ var require_dataType = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/defaults.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/defaults.js
 var require_defaults = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/defaults.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/defaults.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.assignDefaults = void 0;
@@ -1703,9 +1703,9 @@ var require_defaults = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/code.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/code.js
 var require_code2 = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/code.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/code.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.validateUnion = exports.validateArray = exports.usePattern = exports.callValidateCode = exports.schemaProperties = exports.allSchemaProperties = exports.noPropertyInData = exports.propertyInData = exports.isOwnProperty = exports.hasPropFunc = exports.reportMissingProp = exports.checkMissingProp = exports.checkReportMissingProp = void 0;
@@ -1836,9 +1836,9 @@ var require_code2 = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/keyword.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/keyword.js
 var require_keyword = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/keyword.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/keyword.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.validateKeywordUsage = exports.validSchemaType = exports.funcKeywordCode = exports.macroKeywordCode = void 0;
@@ -1954,9 +1954,9 @@ var require_keyword = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/subschema.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/subschema.js
 var require_subschema = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/subschema.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/subschema.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.extendSubschemaMode = exports.extendSubschemaData = exports.getSubschema = void 0;
@@ -2037,9 +2037,9 @@ var require_subschema = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-deep-equal/index.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-deep-equal/index.js
 var require_fast_deep_equal = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-deep-equal/index.js"(exports, module) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-deep-equal/index.js"(exports, module) {
     "use strict";
     module.exports = function equal(a, b2) {
       if (a === b2) return true;
@@ -2072,9 +2072,9 @@ var require_fast_deep_equal = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/json-schema-traverse/index.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/json-schema-traverse/index.js
 var require_json_schema_traverse = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/json-schema-traverse/index.js"(exports, module) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/json-schema-traverse/index.js"(exports, module) {
     "use strict";
     var traverse = module.exports = function(schema, opts, cb) {
       if (typeof opts == "function") {
@@ -2160,9 +2160,9 @@ var require_json_schema_traverse = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/resolve.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/resolve.js
 var require_resolve = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/resolve.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/resolve.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.getSchemaRefs = exports.resolveUrl = exports.normalizeId = exports._getFullPath = exports.getFullPath = exports.inlineRef = void 0;
@@ -2316,9 +2316,9 @@ var require_resolve = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/index.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/index.js
 var require_validate = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/index.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.getData = exports.KeywordCxt = exports.validateFunctionCode = void 0;
@@ -2824,9 +2824,9 @@ var require_validate = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/validation_error.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/validation_error.js
 var require_validation_error = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/validation_error.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/validation_error.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var ValidationError = class extends Error {
@@ -2840,9 +2840,9 @@ var require_validation_error = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/ref_error.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/ref_error.js
 var require_ref_error = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/ref_error.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/ref_error.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var resolve_1 = require_resolve();
@@ -2857,9 +2857,9 @@ var require_ref_error = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/index.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/index.js
 var require_compile = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/index.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.resolveSchema = exports.getCompilingSchema = exports.resolveRef = exports.compileSchema = exports.SchemaEnv = void 0;
@@ -3081,9 +3081,9 @@ var require_compile = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/refs/data.json
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/refs/data.json
 var require_data = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/refs/data.json"(exports, module) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/refs/data.json"(exports, module) {
     module.exports = {
       $id: "https://raw.githubusercontent.com/ajv-validator/ajv/master/lib/refs/data.json#",
       description: "Meta-schema for $data reference (JSON AnySchema extension proposal)",
@@ -3100,9 +3100,9 @@ var require_data = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/lib/utils.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/lib/utils.js
 var require_utils = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/lib/utils.js"(exports, module) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/lib/utils.js"(exports, module) {
     "use strict";
     var isUUID = RegExp.prototype.test.bind(/^[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}$/iu);
     var isIPv4 = RegExp.prototype.test.bind(/^(?:(?:25[0-5]|2[0-4]\d|1\d{2}|[1-9]\d|\d)\.){3}(?:25[0-5]|2[0-4]\d|1\d{2}|[1-9]\d|\d)$/u);
@@ -3223,8 +3223,8 @@ var require_utils = __commonJS({
       }
       return ind;
     }
-    function removeDotSegments(path10) {
-      let input = path10;
+    function removeDotSegments(path11) {
+      let input = path11;
       const output = [];
       let nextSlash = -1;
       let len = 0;
@@ -3357,9 +3357,9 @@ var require_utils = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/lib/schemes.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/lib/schemes.js
 var require_schemes = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/lib/schemes.js"(exports, module) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/lib/schemes.js"(exports, module) {
     "use strict";
     var { isUUID } = require_utils();
     var URN_REG = /([\da-z][\d\-a-z]{0,31}):((?:[\w!$'()*+,\-.:;=@]|%[\da-f]{2})+)/iu;
@@ -3423,8 +3423,8 @@ var require_schemes = __commonJS({
         wsComponent.secure = void 0;
       }
       if (wsComponent.resourceName) {
-        const [path10, query] = wsComponent.resourceName.split("?");
-        wsComponent.path = path10 && path10 !== "/" ? path10 : void 0;
+        const [path11, query] = wsComponent.resourceName.split("?");
+        wsComponent.path = path11 && path11 !== "/" ? path11 : void 0;
         wsComponent.query = query;
         wsComponent.resourceName = void 0;
       }
@@ -3567,9 +3567,9 @@ var require_schemes = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/index.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/index.js
 var require_fast_uri = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/index.js"(exports, module) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/index.js"(exports, module) {
     "use strict";
     var { normalizeIPv6, removeDotSegments, recomposeAuthority, normalizeComponentEncoding, isIPv4, nonSimpleDomain } = require_utils();
     var { SCHEMES, getSchemeHandler } = require_schemes();
@@ -3822,9 +3822,9 @@ var require_fast_uri = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/uri.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/uri.js
 var require_uri = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/uri.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/uri.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var uri = require_fast_uri();
@@ -3833,9 +3833,9 @@ var require_uri = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/core.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/core.js
 var require_core = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/core.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/core.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.CodeGen = exports.Name = exports.nil = exports.stringify = exports.str = exports._ = exports.KeywordCxt = void 0;
@@ -4444,9 +4444,9 @@ var require_core = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/id.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/id.js
 var require_id = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/id.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/id.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var def = {
@@ -4459,9 +4459,9 @@ var require_id = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/ref.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/ref.js
 var require_ref = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/ref.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/ref.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.callRef = exports.getValidate = void 0;
@@ -4581,9 +4581,9 @@ var require_ref = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/index.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/index.js
 var require_core2 = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/index.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var id_1 = require_id();
@@ -4602,9 +4602,9 @@ var require_core2 = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitNumber.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitNumber.js
 var require_limitNumber = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitNumber.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitNumber.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -4634,9 +4634,9 @@ var require_limitNumber = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/multipleOf.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/multipleOf.js
 var require_multipleOf = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/multipleOf.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/multipleOf.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -4662,9 +4662,9 @@ var require_multipleOf = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/ucs2length.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/ucs2length.js
 var require_ucs2length = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/ucs2length.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/ucs2length.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     function ucs2length(str2) {
@@ -4688,9 +4688,9 @@ var require_ucs2length = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitLength.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitLength.js
 var require_limitLength = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitLength.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitLength.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -4720,9 +4720,9 @@ var require_limitLength = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/pattern.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/pattern.js
 var require_pattern = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/pattern.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/pattern.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -4757,9 +4757,9 @@ var require_pattern = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitProperties.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitProperties.js
 var require_limitProperties = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitProperties.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitProperties.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -4786,9 +4786,9 @@ var require_limitProperties = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/required.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/required.js
 var require_required = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/required.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/required.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -4868,9 +4868,9 @@ var require_required = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitItems.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitItems.js
 var require_limitItems = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitItems.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitItems.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -4897,9 +4897,9 @@ var require_limitItems = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/equal.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/equal.js
 var require_equal = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/equal.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/equal.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var equal = require_fast_deep_equal();
@@ -4908,9 +4908,9 @@ var require_equal = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/uniqueItems.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/uniqueItems.js
 var require_uniqueItems = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/uniqueItems.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/uniqueItems.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var dataType_1 = require_dataType();
@@ -4975,9 +4975,9 @@ var require_uniqueItems = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/const.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/const.js
 var require_const = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/const.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/const.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5004,9 +5004,9 @@ var require_const = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/enum.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/enum.js
 var require_enum = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/enum.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/enum.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5053,9 +5053,9 @@ var require_enum = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/index.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/index.js
 var require_validation = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/index.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var limitNumber_1 = require_limitNumber();
@@ -5091,9 +5091,9 @@ var require_validation = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/additionalItems.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/additionalItems.js
 var require_additionalItems = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/additionalItems.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/additionalItems.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.validateAdditionalItems = void 0;
@@ -5144,9 +5144,9 @@ var require_additionalItems = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/items.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/items.js
 var require_items = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/items.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/items.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.validateTuple = void 0;
@@ -5201,9 +5201,9 @@ var require_items = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/prefixItems.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/prefixItems.js
 var require_prefixItems = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/prefixItems.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/prefixItems.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var items_1 = require_items();
@@ -5218,9 +5218,9 @@ var require_prefixItems = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/items2020.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/items2020.js
 var require_items2020 = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/items2020.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/items2020.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5253,9 +5253,9 @@ var require_items2020 = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/contains.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/contains.js
 var require_contains = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/contains.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/contains.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5347,9 +5347,9 @@ var require_contains = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/dependencies.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/dependencies.js
 var require_dependencies = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/dependencies.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/dependencies.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.validateSchemaDeps = exports.validatePropertyDeps = exports.error = void 0;
@@ -5441,9 +5441,9 @@ var require_dependencies = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/propertyNames.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/propertyNames.js
 var require_propertyNames = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/propertyNames.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/propertyNames.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5484,9 +5484,9 @@ var require_propertyNames = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/additionalProperties.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/additionalProperties.js
 var require_additionalProperties = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/additionalProperties.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/additionalProperties.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -5590,9 +5590,9 @@ var require_additionalProperties = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/properties.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/properties.js
 var require_properties = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/properties.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/properties.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var validate_1 = require_validate();
@@ -5648,9 +5648,9 @@ var require_properties = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/patternProperties.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/patternProperties.js
 var require_patternProperties = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/patternProperties.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/patternProperties.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -5722,9 +5722,9 @@ var require_patternProperties = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/not.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/not.js
 var require_not = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/not.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/not.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var util_1 = require_util();
@@ -5753,9 +5753,9 @@ var require_not = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/anyOf.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/anyOf.js
 var require_anyOf = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/anyOf.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/anyOf.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -5770,9 +5770,9 @@ var require_anyOf = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/oneOf.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/oneOf.js
 var require_oneOf = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/oneOf.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/oneOf.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5828,9 +5828,9 @@ var require_oneOf = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/allOf.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/allOf.js
 var require_allOf = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/allOf.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/allOf.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var util_1 = require_util();
@@ -5855,9 +5855,9 @@ var require_allOf = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/if.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/if.js
 var require_if = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/if.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/if.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5924,9 +5924,9 @@ var require_if = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/thenElse.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/thenElse.js
 var require_thenElse = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/thenElse.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/thenElse.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var util_1 = require_util();
@@ -5942,9 +5942,9 @@ var require_thenElse = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/index.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/index.js
 var require_applicator = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/index.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var additionalItems_1 = require_additionalItems();
@@ -5990,9 +5990,9 @@ var require_applicator = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/format/format.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/format/format.js
 var require_format = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/format/format.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/format/format.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -6080,9 +6080,9 @@ var require_format = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/format/index.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/format/index.js
 var require_format2 = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/format/index.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/format/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var format_1 = require_format();
@@ -6091,9 +6091,9 @@ var require_format2 = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/metadata.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/metadata.js
 var require_metadata = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/metadata.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/metadata.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.contentVocabulary = exports.metadataVocabulary = void 0;
@@ -6114,9 +6114,9 @@ var require_metadata = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/draft7.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/draft7.js
 var require_draft7 = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/draft7.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/draft7.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var core_1 = require_core2();
@@ -6136,9 +6136,9 @@ var require_draft7 = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/discriminator/types.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/discriminator/types.js
 var require_types = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/discriminator/types.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/discriminator/types.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.DiscrError = void 0;
@@ -6150,9 +6150,9 @@ var require_types = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/discriminator/index.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/discriminator/index.js
 var require_discriminator = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/discriminator/index.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/discriminator/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -6255,9 +6255,9 @@ var require_discriminator = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/refs/json-schema-draft-07.json
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/refs/json-schema-draft-07.json
 var require_json_schema_draft_07 = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/refs/json-schema-draft-07.json"(exports, module) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/refs/json-schema-draft-07.json"(exports, module) {
     module.exports = {
       $schema: "http://json-schema.org/draft-07/schema#",
       $id: "http://json-schema.org/draft-07/schema#",
@@ -6412,9 +6412,9 @@ var require_json_schema_draft_07 = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/ajv.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/ajv.js
 var require_ajv = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/ajv.js"(exports, module) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/ajv.js"(exports, module) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.MissingRefError = exports.ValidationError = exports.CodeGen = exports.Name = exports.nil = exports.stringify = exports.str = exports._ = exports.KeywordCxt = exports.Ajv = void 0;
@@ -6482,9 +6482,9 @@ var require_ajv = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/formats.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/formats.js
 var require_formats = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/formats.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/formats.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.formatNames = exports.fastFormats = exports.fullFormats = void 0;
@@ -6685,9 +6685,9 @@ var require_formats = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/limit.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/limit.js
 var require_limit = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/limit.js"(exports) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/limit.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.formatLimitDefinition = void 0;
@@ -6757,9 +6757,9 @@ var require_limit = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/index.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/index.js
 var require_dist = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/index.js"(exports, module) {
+  "../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/index.js"(exports, module) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var formats_1 = require_formats();
@@ -6799,7 +6799,7 @@ var require_dist = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/helpers/util.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/helpers/util.js
 var util;
 (function(util2) {
   util2.assertEqual = (_2) => {
@@ -6933,7 +6933,7 @@ var getParsedType = (data) => {
   }
 };
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/ZodError.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/ZodError.js
 var ZodIssueCode = util.arrayToEnum([
   "invalid_type",
   "invalid_literal",
@@ -7047,7 +7047,7 @@ ZodError.create = (issues) => {
   return error2;
 };
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/locales/en.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/locales/en.js
 var errorMap = (issue2, _ctx) => {
   let message;
   switch (issue2.code) {
@@ -7150,16 +7150,16 @@ var errorMap = (issue2, _ctx) => {
 };
 var en_default = errorMap;
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/errors.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/errors.js
 var overrideErrorMap = en_default;
 function getErrorMap() {
   return overrideErrorMap;
 }
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/helpers/parseUtil.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/helpers/parseUtil.js
 var makeIssue = (params) => {
-  const { data, path: path10, errorMaps, issueData } = params;
-  const fullPath = [...path10, ...issueData.path || []];
+  const { data, path: path11, errorMaps, issueData } = params;
+  const fullPath = [...path11, ...issueData.path || []];
   const fullIssue = {
     ...issueData,
     path: fullPath
@@ -7265,20 +7265,20 @@ var isDirty = (x2) => x2.status === "dirty";
 var isValid = (x2) => x2.status === "valid";
 var isAsync = (x2) => typeof Promise !== "undefined" && x2 instanceof Promise;
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/helpers/errorUtil.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/helpers/errorUtil.js
 var errorUtil;
 (function(errorUtil2) {
   errorUtil2.errToObj = (message) => typeof message === "string" ? { message } : message || {};
   errorUtil2.toString = (message) => typeof message === "string" ? message : message?.message;
 })(errorUtil || (errorUtil = {}));
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/types.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/types.js
 var ParseInputLazyPath = class {
-  constructor(parent, value, path10, key) {
+  constructor(parent, value, path11, key) {
     this._cachedPath = [];
     this.parent = parent;
     this.data = value;
-    this._path = path10;
+    this._path = path11;
     this._key = key;
   }
   get path() {
@@ -10675,7 +10675,7 @@ var nullableType = ZodNullable.create;
 var preprocessType = ZodEffects.createWithPreprocess;
 var pipelineType = ZodPipeline.create;
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/core.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/core.js
 var NEVER = Object.freeze({
   status: "aborted"
 });
@@ -10749,7 +10749,7 @@ function config(newConfig) {
   return globalConfig;
 }
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/util.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/util.js
 var util_exports = {};
 __export(util_exports, {
   BIGINT_FORMAT_RANGES: () => BIGINT_FORMAT_RANGES,
@@ -10922,10 +10922,10 @@ function mergeDefs(...defs) {
 function cloneDef(schema) {
   return mergeDefs(schema._zod.def);
 }
-function getElementAtPath(obj, path10) {
-  if (!path10)
+function getElementAtPath(obj, path11) {
+  if (!path11)
     return obj;
-  return path10.reduce((acc, key) => acc?.[key], obj);
+  return path11.reduce((acc, key) => acc?.[key], obj);
 }
 function promiseAllObject(promisesObj) {
   const keys = Object.keys(promisesObj);
@@ -11308,11 +11308,11 @@ function aborted(x2, startIndex = 0) {
   }
   return false;
 }
-function prefixIssues(path10, issues) {
+function prefixIssues(path11, issues) {
   return issues.map((iss) => {
     var _a2;
     (_a2 = iss).path ?? (_a2.path = []);
-    iss.path.unshift(path10);
+    iss.path.unshift(path11);
     return iss;
   });
 }
@@ -11428,7 +11428,7 @@ var Class = class {
   }
 };
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/errors.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/errors.js
 var initializer = (inst, def) => {
   inst.name = "$ZodError";
   Object.defineProperty(inst, "_zod", {
@@ -11494,7 +11494,7 @@ function formatError(error2, mapper = (issue2) => issue2.message) {
   return fieldErrors;
 }
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/parse.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/parse.js
 var _parse = (_Err) => (schema, value, _ctx, _params) => {
   const ctx = _ctx ? Object.assign(_ctx, { async: false }) : { async: false };
   const result = schema._zod.run({ value, issues: [] }, ctx);
@@ -11574,7 +11574,7 @@ var _safeDecodeAsync = (_Err) => async (schema, value, _ctx) => {
   return _safeParseAsync(_Err)(schema, value, _ctx);
 };
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/regexes.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/regexes.js
 var regexes_exports = {};
 __export(regexes_exports, {
   base64: () => base64,
@@ -11731,7 +11731,7 @@ var sha512_hex = /^[0-9a-fA-F]{128}$/;
 var sha512_base64 = /* @__PURE__ */ fixedBase64(86, "==");
 var sha512_base64url = /* @__PURE__ */ fixedBase64url(86);
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/checks.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/checks.js
 var $ZodCheck = /* @__PURE__ */ $constructor("$ZodCheck", (inst, def) => {
   var _a2;
   inst._zod ?? (inst._zod = {});
@@ -12279,7 +12279,7 @@ var $ZodCheckOverwrite = /* @__PURE__ */ $constructor("$ZodCheckOverwrite", (ins
   };
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/doc.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/doc.js
 var Doc = class {
   constructor(args = []) {
     this.content = [];
@@ -12315,14 +12315,14 @@ var Doc = class {
   }
 };
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/versions.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/versions.js
 var version = {
   major: 4,
   minor: 3,
   patch: 6
 };
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/schemas.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/schemas.js
 var $ZodType = /* @__PURE__ */ $constructor("$ZodType", (inst, def) => {
   var _a2;
   inst ?? (inst = {});
@@ -14293,7 +14293,7 @@ function handleRefineResult(result, payload, input, inst) {
   }
 }
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/locales/en.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/locales/en.js
 var error = () => {
   const Sizable = {
     string: { unit: "characters", verb: "to have" },
@@ -14402,7 +14402,7 @@ function en_default2() {
   };
 }
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/registries.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/registries.js
 var _a;
 var $ZodRegistry = class {
   constructor() {
@@ -14450,7 +14450,7 @@ function registry() {
 (_a = globalThis).__zod_globalRegistry ?? (_a.__zod_globalRegistry = registry());
 var globalRegistry = globalThis.__zod_globalRegistry;
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/api.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/api.js
 // @__NO_SIDE_EFFECTS__
 function _string(Class2, params) {
   return new Class2({
@@ -15109,13 +15109,13 @@ function _file(Class2, params) {
 }
 // @__NO_SIDE_EFFECTS__
 function _custom(Class2, fn, _params) {
-  const norm = normalizeParams(_params);
-  norm.abort ?? (norm.abort = true);
+  const norm2 = normalizeParams(_params);
+  norm2.abort ?? (norm2.abort = true);
   const schema = new Class2({
     type: "custom",
     check: "custom",
     fn,
-    ...norm
+    ...norm2
   });
   return schema;
 }
@@ -15254,7 +15254,7 @@ function _stringFormat(Class2, format, fnOrRegex, _params = {}) {
   return inst;
 }
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/to-json-schema.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/to-json-schema.js
 function initializeContext(params) {
   let target2 = params?.target ?? "draft-2020-12";
   if (target2 === "draft-4")
@@ -15606,7 +15606,7 @@ var createStandardJSONSchemaMethod = (schema, io, processors = {}) => (params) =
   return finalize(ctx, schema);
 };
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/json-schema-processors.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/json-schema-processors.js
 var formatMap = {
   guid: "uuid",
   url: "uri",
@@ -16082,7 +16082,7 @@ var lazyProcessor = (schema, ctx, _json, params) => {
   seen.ref = innerType;
 };
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/zod-compat.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/zod-compat.js
 function isZ4Schema(s) {
   const schema = s;
   return !!schema._zod;
@@ -16145,7 +16145,7 @@ function getLiteralValue(schema) {
   return void 0;
 }
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/schemas.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/schemas.js
 var schemas_exports3 = {};
 __export(schemas_exports3, {
   ZodAny: () => ZodAny2,
@@ -16314,7 +16314,7 @@ __export(schemas_exports3, {
   xor: () => xor
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/checks.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/checks.js
 var checks_exports2 = {};
 __export(checks_exports2, {
   endsWith: () => _endsWith,
@@ -16348,7 +16348,7 @@ __export(checks_exports2, {
   uppercase: () => _uppercase
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/iso.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/iso.js
 var iso_exports2 = {};
 __export(iso_exports2, {
   ZodISODate: () => ZodISODate,
@@ -16389,7 +16389,7 @@ function duration2(params) {
   return _isoDuration(ZodISODuration, params);
 }
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/errors.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/errors.js
 var initializer2 = (inst, issues) => {
   $ZodError.init(inst, issues);
   inst.name = "ZodError";
@@ -16429,7 +16429,7 @@ var ZodRealError = $constructor("ZodError", initializer2, {
   Parent: Error
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/parse.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/parse.js
 var parse2 = /* @__PURE__ */ _parse(ZodRealError);
 var parseAsync2 = /* @__PURE__ */ _parseAsync(ZodRealError);
 var safeParse3 = /* @__PURE__ */ _safeParse(ZodRealError);
@@ -16443,7 +16443,7 @@ var safeDecode2 = /* @__PURE__ */ _safeDecode(ZodRealError);
 var safeEncodeAsync2 = /* @__PURE__ */ _safeEncodeAsync(ZodRealError);
 var safeDecodeAsync2 = /* @__PURE__ */ _safeDecodeAsync(ZodRealError);
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/schemas.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/schemas.js
 var ZodType2 = /* @__PURE__ */ $constructor("ZodType", (inst, def) => {
   $ZodType.init(inst, def);
   Object.assign(inst["~standard"], {
@@ -17522,22 +17522,22 @@ function preprocess(fn, schema) {
   return pipe(transform(fn), schema);
 }
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/compat.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/compat.js
 var ZodFirstPartyTypeKind2;
 /* @__PURE__ */ (function(ZodFirstPartyTypeKind3) {
 })(ZodFirstPartyTypeKind2 || (ZodFirstPartyTypeKind2 = {}));
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/from-json-schema.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/from-json-schema.js
 var z = {
   ...schemas_exports3,
   ...checks_exports2,
   iso: iso_exports2
 };
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/external.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/external.js
 config(en_default2());
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/types.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/types.js
 var LATEST_PROTOCOL_VERSION = "2025-11-25";
 var SUPPORTED_PROTOCOL_VERSIONS = [LATEST_PROTOCOL_VERSION, "2025-06-18", "2025-03-26", "2024-11-05", "2024-10-07"];
 var RELATED_TASK_META_KEY = "io.modelcontextprotocol/related-task";
@@ -19056,15 +19056,15 @@ var UrlElicitationRequiredError = class extends McpError {
   }
 };
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/interfaces.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/interfaces.js
 function isTerminal(status) {
   return status === "completed" || status === "failed" || status === "cancelled";
 }
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod-to-json-schema/dist/esm/parsers/string.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod-to-json-schema/dist/esm/parsers/string.js
 var ALPHA_NUMERIC = new Set("ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvxyz0123456789");
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/zod-json-schema-compat.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/zod-json-schema-compat.js
 function getMethodLiteral(schema) {
   const shape = getObjectShape(schema);
   const methodSchema = shape?.method;
@@ -19085,7 +19085,7 @@ function parseWithCompat(schema, data) {
   return result.data;
 }
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/shared/protocol.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/shared/protocol.js
 var DEFAULT_REQUEST_TIMEOUT_MSEC = 6e4;
 var Protocol = class {
   constructor(_options) {
@@ -20039,7 +20039,7 @@ function mergeCapabilities(base, additional) {
   return result;
 }
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/validation/ajv-provider.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/validation/ajv-provider.js
 var import_ajv = __toESM(require_ajv(), 1);
 var import_ajv_formats = __toESM(require_dist(), 1);
 function createDefaultAjvInstance() {
@@ -20107,7 +20107,7 @@ var AjvJsonSchemaValidator = class {
   }
 };
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/server.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/server.js
 var ExperimentalServerTasks = class {
   constructor(_server) {
     this._server = _server;
@@ -20320,7 +20320,7 @@ var ExperimentalServerTasks = class {
   }
 };
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/helpers.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/helpers.js
 function assertToolsCallTaskCapability(requests, method, entityName) {
   if (!requests) {
     throw new Error(`${entityName} does not support task creation (required for ${method})`);
@@ -20355,7 +20355,7 @@ function assertClientRequestTaskCapability(requests, method, entityName) {
   }
 }
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/index.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/index.js
 var Server = class extends Protocol {
   /**
    * Initializes this server with the given name and version information.
@@ -20735,10 +20735,10 @@ var Server = class extends Protocol {
   }
 };
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/stdio.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/stdio.js
 import process3 from "node:process";
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/shared/stdio.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/shared/stdio.js
 var ReadBuffer = class {
   append(chunk) {
     this._buffer = this._buffer ? Buffer.concat([this._buffer, chunk]) : chunk;
@@ -20766,7 +20766,7 @@ function serializeMessage(message) {
   return JSON.stringify(message) + "\n";
 }
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/stdio.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/stdio.js
 var StdioServerTransport = class {
   constructor(_stdin = process3.stdin, _stdout = process3.stdout) {
     this._stdin = _stdin;
@@ -20991,6 +20991,341 @@ var DEFAULT_RUN_IDLE_TIMEOUT_MS = 8 * MIN;
 var OTHER_PHASE_HARD_LIMIT_MINUTES = 30;
 var VERIFY_HARD_LIMIT_MINUTES = OTHER_PHASE_HARD_LIMIT_MINUTES;
 
+// ../lib/test-progress.ts
+var test_progress_exports = {};
+__export(test_progress_exports, {
+  MANUAL_ITEM_LIMIT: () => MANUAL_ITEM_LIMIT,
+  MANUAL_ITEM_TOKEN: () => MANUAL_ITEM_TOKEN,
+  SPLIT_FLOWS_HEADING: () => SPLIT_FLOWS_HEADING,
+  UI_ITEM_TOKEN: () => UI_ITEM_TOKEN,
+  allUiItemTexts: () => allUiItemTexts,
+  canVerifyAllGroups: () => canVerifyAllGroups,
+  carrySplitFlows: () => carrySplitFlows,
+  checklistItems: () => checklistItems,
+  coreFlowFirst: () => coreFlowFirst,
+  defaultVisualItems: () => defaultVisualItems,
+  describeTestGroup: () => describeTestGroup,
+  distinctItems: () => distinctItems,
+  dropManualTokens: () => dropManualTokens,
+  hasOwnChecklist: () => hasOwnChecklist,
+  isCoreHeading: () => isCoreHeading,
+  isManualItem: () => isManualItem,
+  isUiItem: () => isUiItem,
+  isVerifyScope: () => isVerifyScope,
+  itemTokensStart: () => itemTokensStart,
+  manualDroppedWarning: () => manualDroppedWarning,
+  manualItemTexts: () => manualItemTexts,
+  manualItemsOutsideCore: () => manualItemsOutsideCore,
+  manualLeftIn: () => manualLeftIn,
+  manualLimitMessage: () => manualLimitMessage,
+  manualOverLimit: () => manualOverLimit,
+  nextVerifyGroup: () => nextVerifyGroup,
+  parseTestProgress: () => parseTestProgress,
+  pickCurrentItems: () => pickCurrentItems,
+  runnableItemTexts: () => runnableItemTexts,
+  runnableLeft: () => runnableLeft,
+  stripItemTokens: () => stripItemTokens,
+  testGroupLabel: () => testGroupLabel,
+  tickedCoreItemTexts: () => tickedCoreItemTexts,
+  uiItemTexts: () => uiItemTexts,
+  untickedIn: () => untickedIn,
+  untickedItemTexts: () => untickedItemTexts,
+  verifyAllLabel: () => verifyAllLabel,
+  verifyTargets: () => verifyTargets
+});
+
+// ../lib/html-text.ts
+var NAMED = {
+  amp: "&",
+  lt: "<",
+  gt: ">",
+  quot: '"',
+  apos: "'",
+  nbsp: " "
+};
+var ENTITY = /&(#\d+|#x[0-9a-f]+|amp|lt|gt|quot|apos|nbsp);/gi;
+function decodeHtmlEntities(text2) {
+  return text2.replace(ENTITY, (match, body) => {
+    if (body[0] !== "#") return NAMED[body.toLowerCase()] ?? match;
+    const hex3 = body[1] === "x" || body[1] === "X";
+    const code = parseInt(body.slice(hex3 ? 2 : 1), hex3 ? 16 : 10);
+    return code > 0 && code <= 1114111 ? String.fromCodePoint(code) : match;
+  });
+}
+function plainTextLabel(html, maxChars) {
+  const text2 = decodeHtmlEntities(html.replace(/<[^>]*>/g, "")).replace(/\s+/g, " ").trim();
+  if (maxChars === void 0) return text2;
+  const chars = Array.from(text2);
+  return chars.length > maxChars ? `${chars.slice(0, maxChars).join("").trimEnd()}\u2026` : text2;
+}
+
+// ../lib/test-progress.ts
+function isVerifyScope(value) {
+  return value === "next" || value === "all";
+}
+var CORE_HEADING = /^(core\s*flow|temel\s*ak[ıi][şs])$/;
+function isCoreHeading(text2) {
+  return CORE_HEADING.test(headingText(text2).toLowerCase());
+}
+var H2 = /<h2\b[^>]*>([\s\S]*?)<\/h2>/gi;
+function countChecks(html) {
+  const checked = (html.match(/data-checked="true"/g) || []).length;
+  const unchecked = (html.match(/data-checked="false"/g) || []).length;
+  return { checked, total: checked + unchecked };
+}
+function headingText(raw) {
+  return plainTextLabel(raw).replace(/^#+\s*/, "");
+}
+function splitSections(html) {
+  const headings = [];
+  H2.lastIndex = 0;
+  let match;
+  while ((match = H2.exec(html)) !== null) {
+    headings.push({
+      heading: headingText(match[1]),
+      bodyStart: match.index + match[0].length
+    });
+  }
+  return headings.map((h, index) => {
+    const next = headings[index + 1];
+    const end = next ? html.lastIndexOf("<h2", next.bodyStart) : html.length;
+    return { heading: h.heading, label: h.heading.toLowerCase(), body: html.slice(h.bodyStart, end) };
+  });
+}
+function coreFlowFirst(html) {
+  const starts = [];
+  H2.lastIndex = 0;
+  let match;
+  while ((match = H2.exec(html)) !== null) {
+    starts.push({ start: match.index, core: CORE_HEADING.test(headingText(match[1]).toLowerCase()) });
+  }
+  const coreIndex = starts.findIndex((s) => s.core);
+  if (coreIndex <= 0) return html;
+  const first = starts[0].start;
+  const coreStart = starts[coreIndex].start;
+  const coreEnd = starts[coreIndex + 1]?.start ?? html.length;
+  return html.slice(0, first) + html.slice(coreStart, coreEnd) + html.slice(first, coreStart) + html.slice(coreEnd);
+}
+var SPLIT_FLOWS_HEADING = "End-to-end";
+var SPLIT_FLOWS_LABEL = SPLIT_FLOWS_HEADING.toLowerCase();
+function sectionBlocks(html) {
+  const starts = [];
+  H2.lastIndex = 0;
+  let match;
+  while ((match = H2.exec(html)) !== null) {
+    starts.push({ label: headingText(match[1]).toLowerCase(), start: match.index });
+  }
+  return starts.map((s, index) => ({ ...s, end: starts[index + 1]?.start ?? html.length }));
+}
+function withoutSplitFlows(html) {
+  let rest = html;
+  for (const block of sectionBlocks(html).reverse()) {
+    if (block.label === SPLIT_FLOWS_LABEL) rest = rest.slice(0, block.start) + rest.slice(block.end);
+  }
+  return rest;
+}
+function hasOwnChecklist(html) {
+  if (!html) return false;
+  return plainTextLabel(withoutSplitFlows(html)) !== "";
+}
+function carrySplitFlows(newHtml, previousHtml) {
+  if (!previousHtml || hasOwnChecklist(previousHtml)) return newHtml;
+  if (sectionBlocks(newHtml).some((b2) => b2.label === SPLIT_FLOWS_LABEL)) return newHtml;
+  const flows = sectionBlocks(previousHtml).filter((b2) => b2.label === SPLIT_FLOWS_LABEL).map((b2) => previousHtml.slice(b2.start, b2.end)).join("");
+  return flows ? newHtml + flows : newHtml;
+}
+function parseTestProgress(html) {
+  if (!html) return null;
+  const overall = countChecks(html);
+  if (overall.total === 0) return null;
+  const sections = splitSections(html);
+  const coreIndex = sections.findIndex((s) => CORE_HEADING.test(s.label));
+  const seen = /* @__PURE__ */ new Map();
+  const groups = [];
+  sections.forEach((section2, index) => {
+    const occurrence = (seen.get(section2.label) ?? 0) + 1;
+    seen.set(section2.label, occurrence);
+    const counts = countChecks(section2.body);
+    if (counts.total === 0) return;
+    const core2 = index === coreIndex;
+    const manual = core2 ? 0 : sectionItems(section2.body, false).filter(isManualItem).length;
+    groups.push({ heading: section2.heading, occurrence, core: core2, ...counts, manual });
+  });
+  const core = groups.find((g) => g.core);
+  if (!core) return { ...overall, groups };
+  return { ...overall, core: { checked: core.checked, total: core.total }, groups };
+}
+var ITEM = /<li\b[^>]*data-checked="(true|false)"[^>]*>([\s\S]*?)<\/li>/gi;
+function sectionItems(body, checked) {
+  const texts = [];
+  const pattern = new RegExp(ITEM.source, ITEM.flags);
+  let match;
+  while ((match = pattern.exec(body)) !== null) {
+    if (match[1] === "true" !== checked) continue;
+    const text2 = headingText(match[2]);
+    if (text2) texts.push(text2);
+  }
+  return texts;
+}
+function itemTexts(html, groups, checked) {
+  const sections = splitSections(html);
+  const seen = /* @__PURE__ */ new Map();
+  const texts = [];
+  for (const section2 of sections) {
+    const occurrence = (seen.get(section2.label) ?? 0) + 1;
+    seen.set(section2.label, occurrence);
+    if (!groups.some((g) => g.heading.toLowerCase() === section2.label && g.occurrence === occurrence)) continue;
+    texts.push(...sectionItems(section2.body, checked));
+  }
+  return texts;
+}
+function untickedItemTexts(html, groups) {
+  return itemTexts(html, groups, false);
+}
+function tickedCoreItemTexts(html, progress) {
+  const core = progress?.groups.find((g) => g.core);
+  return core && core.checked > 0 ? itemTexts(html, [core], true) : [];
+}
+function distinctItems(items) {
+  return Array.from(new Set((items ?? []).map((item) => item.trim()).filter(Boolean)));
+}
+function pickCurrentItems(picked, current) {
+  const asked = distinctItems(picked);
+  const items = asked.filter((item) => current.includes(item));
+  return { items, dropped: asked.length - items.length };
+}
+function runnableLeft(group) {
+  return group.total - group.checked - group.manual;
+}
+function verifyTargets(progress, scope) {
+  if (!progress?.core) return [];
+  const coreIndex = progress.groups.findIndex((g) => g.core);
+  const open = progress.groups.slice(coreIndex).filter((g) => runnableLeft(g) > 0);
+  return scope === "all" ? open : open.slice(0, 1);
+}
+function nextVerifyGroup(progress) {
+  return verifyTargets(progress, "next")[0] ?? null;
+}
+function canVerifyAllGroups(progress) {
+  return verifyTargets(progress, "all").length > 1;
+}
+function verifyAllLabel(progress) {
+  return nextVerifyGroup(progress)?.core ? "all groups" : "all remaining groups";
+}
+function untickedIn(groups) {
+  return groups.reduce((sum, g) => sum + runnableLeft(g), 0);
+}
+function manualLeftIn(progress) {
+  return progress?.groups.reduce((sum, g) => sum + g.manual, 0) ?? 0;
+}
+var KNOWN_GROUP_LABELS = [
+  [CORE_HEADING, "Core flow"],
+  [/^(edge\s*cases?|kenar\s*durumlar[ıi]?)$/, "Edge cases"],
+  [/^(regression(\s*tests?)?|regresyon(\s*testleri)?)$/, "Regression"]
+];
+function testGroupLabel(group) {
+  const label2 = group.heading.toLowerCase();
+  const known = KNOWN_GROUP_LABELS.find(([pattern]) => pattern.test(label2));
+  return known ? known[1] : group.heading;
+}
+function describeTestGroup(group, groups) {
+  const repeated = groups.some((g) => g !== group && g.heading.toLowerCase() === group.heading.toLowerCase());
+  if (!repeated) return `\`## ${group.heading}\``;
+  return `the ${ordinal(group.occurrence)} \`## ${group.heading}\` group`;
+}
+function ordinal(n) {
+  const suffix = n % 10 === 1 && n % 100 !== 11 ? "st" : n % 10 === 2 && n % 100 !== 12 ? "nd" : n % 10 === 3 && n % 100 !== 13 ? "rd" : "th";
+  return `${n}${suffix}`;
+}
+var UI_ITEM_TOKEN = "[ui]";
+var MANUAL_ITEM_TOKEN = "[manual]";
+var ITEM_TOKEN_PATTERN = /(?:\s*\[(?:ui|manual)\])+\s*$/i;
+function itemTokensStart(text2) {
+  return ITEM_TOKEN_PATTERN.exec(text2)?.index ?? text2.length;
+}
+function itemTokens(text2) {
+  return ITEM_TOKEN_PATTERN.exec(text2)?.[0].toLowerCase() ?? "";
+}
+function isUiItem(text2) {
+  return itemTokens(text2).includes(UI_ITEM_TOKEN);
+}
+function isManualItem(text2) {
+  return itemTokens(text2).includes(MANUAL_ITEM_TOKEN);
+}
+function stripItemTokens(text2) {
+  return text2.replace(ITEM_TOKEN_PATTERN, "").replace(/\s+/g, " ").trim();
+}
+function manualItemTexts(html, groups) {
+  return untickedItemTexts(html, groups.filter((g) => !g.core)).filter(isManualItem);
+}
+function runnableItemTexts(html, groups) {
+  const manual = new Set(manualItemTexts(html, groups));
+  return untickedItemTexts(html, groups).filter((text2) => !manual.has(text2));
+}
+var MANUAL_ITEM_LIMIT = 2;
+function manualItemsOutsideCore(html) {
+  const sections = splitSections(html);
+  const coreIndex = sections.findIndex((s) => CORE_HEADING.test(s.label));
+  return sections.filter((_2, index) => index !== coreIndex).flatMap((s) => [...sectionItems(s.body, false), ...sectionItems(s.body, true)]).filter(isManualItem);
+}
+function manualOverLimit(previous, next) {
+  const before = new Set(manualItemsOutsideCore(previous).map(stripItemTokens));
+  const items = manualItemsOutsideCore(next);
+  const added = items.filter((text2) => !before.has(stripItemTokens(text2)));
+  return added.slice(Math.max(0, MANUAL_ITEM_LIMIT - (items.length - added.length)));
+}
+function manualLimitMessage(tool, items) {
+  const list = items.map((item) => `"${item}"`).join(", ");
+  return `${tool} refused, nothing written: at most ${MANUAL_ITEM_LIMIT} [manual] items outside the core flow, and this write adds ${items.length} past that \u2014 ${list}. [manual] is only for what no run on this machine can do: a packaged or signed app, a published release, a physical device or another machine, the person's own account, a judgement of taste. A nested AI run, a merge, a restart, an MCP call or a terminal step runs on a verify-server copy (\`verify-server start --card <ID> --ai-run\`), and a long one goes in its own group. Drop the token from those items and write again.`;
+}
+function manualDroppedWarning(items) {
+  return `[manual] dropped from ${items.length} item${items.length === 1 ? "" : "s"} past the limit of ${MANUAL_ITEM_LIMIT} \u2014 pre-verify runs ${items.length === 1 ? "it" : "them"}: ${items.map((item) => `"${item}"`).join(", ")}`;
+}
+var TRAILING_MANUAL = /\s*(?:<code>\s*)?\[manual\](?:\s*<\/code>)?(?=(?:\s|<\/?(?:p|div|code|strong|em)>|\[ui\])*$)/i;
+function dropManualTokens(html, items) {
+  if (items.length === 0) return html;
+  const left = [...items];
+  return html.replace(new RegExp(ITEM.source, ITEM.flags), (li, _checked, inner) => {
+    const index = left.indexOf(headingText(inner));
+    if (index === -1) return li;
+    left.splice(index, 1);
+    return li.replace(inner, inner.replace(TRAILING_MANUAL, ""));
+  });
+}
+function uiItemTexts(html, groups) {
+  return runnableItemTexts(html, groups).filter(isUiItem);
+}
+function defaultVisualItems(candidates) {
+  const ui = candidates.filter(isUiItem);
+  return ui.length > 0 ? ui : candidates;
+}
+function allUiItemTexts(html) {
+  const progress = parseTestProgress(html);
+  if (!progress) return [];
+  const later = progress.groups.filter((g) => !g.core);
+  const manual = new Set(
+    [...itemTexts(html, later, true), ...itemTexts(html, later, false)].filter(isManualItem)
+  );
+  return [...itemTexts(html, progress.groups, true), ...itemTexts(html, progress.groups, false)].filter(
+    (text2) => isUiItem(text2) && !manual.has(text2)
+  );
+}
+function checklistItems(html) {
+  if (!html) return [];
+  const sections = splitSections(html);
+  const coreIndex = sections.findIndex((s) => CORE_HEADING.test(s.label));
+  const items = [];
+  sections.forEach((section2, index) => {
+    const pattern = new RegExp(ITEM.source, ITEM.flags);
+    let match;
+    while ((match = pattern.exec(section2.body)) !== null) {
+      const text2 = headingText(match[2]);
+      if (text2) items.push({ heading: section2.heading, core: index === coreIndex, checked: match[1] === "true", text: text2 });
+    }
+  });
+  return items;
+}
+
 // ../lib/prompts/test-style.ts
 var STYLE_CONTRACT_EN = `## Test scenario style (mandatory)
 
@@ -21048,14 +21383,18 @@ paths, session IDs, URLs, column names.
   in a terminal, an MCP reply, a migration or a log. Autopilot takes
   screenshots of \`[ui]\` items only, and a card is not Ready to merge until
   each has one.
-- End an item with \`[manual]\` only when one pre-verify run truly cannot run
-  it: a nested AI run, a real merge, an app restart, a physical device, or
-  something that needs a person's eye or account. "Slow", "hard" or "not
-  sure" is no reason. Pre-verify and Autopilot skip \`[manual]\` items and
-  leave them to the person; a ticked one needs no screenshot. Never in the
-  core flow \u2014 there it is ignored. \`[ui] [manual]\` together is fine. When
-  your own run makes such a flow machine-runnable (say, an end-to-end test
-  file), drop the token with revise_tests.
+- End an item with \`[manual]\` only when no run on this machine can do it: a
+  packaged or signed app (DMG, notarization), a published release (a plugin
+  release, a GitHub release), a physical device or another machine, the
+  person's own account or login, or a judgement of taste ("does it look
+  right"). Everything else is yours to run, on a \`verify-server\` copy when
+  it writes: a nested AI run (\`--ai-run\`), a merge, an app or server
+  restart, an MCP call, a terminal step. "Slow", "hard" or "not sure" is no
+  reason \u2014 a long item goes in its own group, not under the token. At most
+  ${MANUAL_ITEM_LIMIT} \`[manual]\` items per checklist outside the core flow;
+  save_tests refuses more. Pre-verify and Autopilot skip \`[manual]\` items
+  and leave them to the person; a ticked one needs no screenshot. Never in the
+  core flow \u2014 there it is ignored. \`[ui] [manual]\` together is fine.
 
 ### Good examples (follow this style)
 
@@ -21135,14 +21474,19 @@ session ID, URL, kolon ad\u0131.
   \`[ui]\` token'\u0131n\u0131 yaz. Terminalde, MCP cevab\u0131nda, migration'da ya da logda
   kontrol edilen maddelere yazma. Autopilot yaln\u0131zca \`[ui]\` maddelerinin ekran
   g\xF6r\xFCnt\xFCs\xFCn\xFC al\u0131r; her birinin g\xF6r\xFCnt\xFCs\xFC olmadan kart Ready to merge olmaz.
-- Bir maddenin sonuna \`[manual]\` yaln\u0131zca tek bir pre-verify ko\u015Fusu onu
-  ger\xE7ekten ko\u015Fam\u0131yorsa yaz: i\xE7 i\xE7e AI ko\u015Fusu, ger\xE7ek bir merge, app restart,
-  fiziksel cihaz ya da insan\u0131n g\xF6z\xFC/hesab\u0131 gereken bir \u015Fey. "Uzun s\xFCrer",
-  "zor" ya da "emin de\u011Filim" sebep de\u011Fil. Pre-verify ve Autopilot \`[manual]\`
-  maddeleri atlar, insana b\u0131rak\u0131r; tiklenmi\u015F olan\u0131 ekran g\xF6r\xFCnt\xFCs\xFC istemez.
-  Temel ak\u0131\u015Fta asla \u2014 orada yok say\u0131l\u0131r. \`[ui] [manual]\` birlikte yaz\u0131labilir.
-  Kendi ko\u015Fun b\xF6yle bir ak\u0131\u015F\u0131 makinenin ko\u015Fabilece\u011Fi h\xE2le getirirse (\xF6r. u\xE7tan
-  uca bir test dosyas\u0131) token'\u0131 revise_tests ile kald\u0131r.
+- Bir maddenin sonuna \`[manual]\` yaln\u0131zca bu makinede hi\xE7bir ko\u015Funun
+  yapamayaca\u011F\u0131 bir \u015Fey i\xE7in yaz: paketli ya da imzal\u0131 app (DMG, notarization),
+  yay\u0131nlanan bir \u015Fey (plugin release, GitHub release), fiziksel cihaz ya da
+  ba\u015Fka bir makine, insan\u0131n kendi hesab\u0131 ya da giri\u015Fi, ya da bir zevk karar\u0131
+  ("do\u011Fru g\xF6r\xFCn\xFCyor mu"). Gerisini sen ko\u015Fars\u0131n, bir \u015Fey yaz\u0131yorsa bir
+  \`verify-server\` kopyas\u0131nda: i\xE7 i\xE7e AI ko\u015Fusu (\`--ai-run\`), merge, app ya
+  da server restart, MCP \xE7a\u011Fr\u0131s\u0131, terminal ad\u0131m\u0131. "Uzun s\xFCrer", "zor" ya da
+  "emin de\u011Filim" sebep de\u011Fil \u2014 uzun bir madde token'a de\u011Fil kendi grubuna
+  gider. Temel ak\u0131\u015F d\u0131\u015F\u0131nda bir \xE7eklistte en fazla ${MANUAL_ITEM_LIMIT}
+  \`[manual]\` madde olur; save_tests fazlas\u0131n\u0131 reddeder. Pre-verify ve
+  Autopilot \`[manual]\` maddeleri atlar, insana b\u0131rak\u0131r; tiklenmi\u015F olan\u0131
+  ekran g\xF6r\xFCnt\xFCs\xFC istemez. Temel ak\u0131\u015Fta asla \u2014 orada yok say\u0131l\u0131r.
+  \`[ui] [manual]\` birlikte yaz\u0131labilir.
 
 ### \u0130yi \xF6rnek (bu stile uy)
 
@@ -21252,7 +21596,7 @@ function sanitizeForReminder(value, maxLength = 120) {
   const neutralized = collapsed.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, '\\"');
   return neutralized.length > maxLength ? `${neutralized.slice(0, maxLength)}\u2026` : neutralized;
 }
-var SPLIT_PARENT_RULE = "This card was split into the cards below. Your job is to join the pieces and show the idea works end to end. Do not redo what the child cards did: read their plans and changes first (get_card). Fix a joining gap in your own plan and commit; for a bigger gap, propose a new card. The `## End-to-end` group on its checklist was written before any child existed, so every flow in it is marked `[manual]` for that reason alone: when you write the checklist, write that group too, after your own groups and under the same heading, naming the children's real cards, screens and files, and drop `[manual]` from each flow one pre-verify run can walk on a verify-server copy; keep it only where a flow needs a nested AI run, a real merge, an app restart or a person's eye.";
+var SPLIT_PARENT_RULE = "This card was split into the cards below. Your job is to join the pieces and show the idea works end to end. Do not redo what the child cards did: read their plans and changes first (get_card). Fix a joining gap in your own plan and commit; for a bigger gap, propose a new card. The `## End-to-end` group on its checklist was written before any child existed: when you write the checklist, write that group too, after your own groups and under the same heading, naming the children's real cards, screens and files. A flow that needs nested AI runs or a merge is still a run's to walk on a verify-server copy; give a long one its own group rather than `[manual]`, which stays for what no run on this machine can do.";
 function splitChildRule(parentName) {
   return `Your scope is this card; ${parentName} joins the whole. Do not take on the parent card's work.`;
 }
@@ -21703,19 +22047,25 @@ var CHAIN_IMPLEMENTATION_RULE = `Chain: when get_card returns a \`chain\` field 
 var plan_decision_exports = {};
 __export(plan_decision_exports, {
   PLAN_DECISION_ONE_SHOT_LINE: () => PLAN_DECISION_ONE_SHOT_LINE,
-  PLAN_DECISION_RULE: () => PLAN_DECISION_RULE
+  PLAN_DECISION_RULE: () => PLAN_DECISION_RULE,
+  RALPH_PLAN_DECISION_LINE: () => RALPH_PLAN_DECISION_LINE
 });
 var PLAN_DECISION_RULE = `Decisions you cannot make: when a product or trade-off question cannot be settled from the code, the description or the opinion, write \`[NEEDS_DECISION: one-line question, with its options]\` on its own line right under the step it affects, and write that step with the option you recommend. Keep the question on one line with no square brackets inside. Never use it for something the code can answer. While the marker stays in the plan the card does not start or queue; the user answers by writing the decision into the plan and deleting the marker.`;
 var PLAN_DECISION_ONE_SHOT_LINE = "Decide when you can; when you can't, write the question as a `[NEEDS_DECISION: \u2026]` line under the step it affects, as the plan rule above says.";
+var RALPH_PLAN_DECISION_LINE = "Ralph mode: this card does not stop on a decision marker \u2014 Ralph takes the option you recommend and logs it for the person to review. End every `[NEEDS_DECISION: \u2026]` line with ` \u2014 recommended: <the option you chose>` and write the step with that option.";
 
 // ../lib/plan-decisions.ts
 var plan_decisions_exports = {};
 __export(plan_decisions_exports, {
+  ACCEPTED_DECISION_RE: () => ACCEPTED_DECISION_RE,
   PLAN_DECISION_RE: () => PLAN_DECISION_RE,
+  decodeEntities: () => decodeEntities,
+  findAcceptedDecisions: () => findAcceptedDecisions,
   findPlanDecisions: () => findPlanDecisions,
   hasOpenPlanDecision: () => hasOpenPlanDecision,
   isDecisionPlaceholder: () => isDecisionPlaceholder,
-  openPlanDecisions: () => openPlanDecisions
+  openPlanDecisions: () => openPlanDecisions,
+  planText: () => planText
 });
 var PLAN_DECISION_RE = /\[NEEDS_DECISION:([^\]\n]*)\]/gi;
 var ENTITIES = {
@@ -21741,10 +22091,20 @@ function isDecisionPlaceholder(question) {
 }
 function findPlanDecisions(planHtmlOrMarkdown) {
   if (!planHtmlOrMarkdown || !/NEEDS_DECISION/i.test(planHtmlOrMarkdown)) return [];
-  let text2 = planHtmlOrMarkdown.replace(/<pre[\s>][\s\S]*?<\/pre>/gi, " ").replace(/<code[\s>][\s\S]*?<\/code>/gi, " ").replace(/<br\s*\/?>/gi, "\n").replace(/<\/(?:p|li|h[1-6]|div|blockquote)>/gi, "\n").replace(/<[^>]*>/g, "");
-  text2 = decodeEntities(text2).replace(/```[\s\S]*?```/g, " ").replace(/`[^`\n]*`/g, " ");
+  return markerQuestions(planText(planHtmlOrMarkdown), PLAN_DECISION_RE);
+}
+var ACCEPTED_DECISION_RE = /\[NEEDS_DECISION accepted:([^\]\n]*)\]/gi;
+function findAcceptedDecisions(planHtmlOrMarkdown) {
+  if (!planHtmlOrMarkdown || !/NEEDS_DECISION accepted/i.test(planHtmlOrMarkdown)) return [];
+  return markerQuestions(planText(planHtmlOrMarkdown), ACCEPTED_DECISION_RE);
+}
+function planText(planHtmlOrMarkdown) {
+  const text2 = planHtmlOrMarkdown.replace(/<pre[\s>][\s\S]*?<\/pre>/gi, " ").replace(/<code[\s>][\s\S]*?<\/code>/gi, " ").replace(/<br\s*\/?>/gi, "\n").replace(/<\/(?:p|li|h[1-6]|div|blockquote)>/gi, "\n").replace(/<[^>]*>/g, "");
+  return decodeEntities(text2).replace(/```[\s\S]*?```/g, " ").replace(/`[^`\n]*`/g, " ");
+}
+function markerQuestions(text2, re2) {
   const questions = [];
-  for (const m2 of text2.matchAll(PLAN_DECISION_RE)) {
+  for (const m2 of text2.matchAll(re2)) {
     const question = m2[1].replace(/\s+/g, " ").trim();
     if (!isDecisionPlaceholder(question)) questions.push(question);
   }
@@ -21765,33 +22125,6 @@ __export(card_links_exports, {
   cardMentionHtml: () => cardMentionHtml,
   linkCardReferences: () => linkCardReferences
 });
-
-// ../lib/html-text.ts
-var NAMED = {
-  amp: "&",
-  lt: "<",
-  gt: ">",
-  quot: '"',
-  apos: "'",
-  nbsp: " "
-};
-var ENTITY = /&(#\d+|#x[0-9a-f]+|amp|lt|gt|quot|apos|nbsp);/gi;
-function decodeHtmlEntities(text2) {
-  return text2.replace(ENTITY, (match, body) => {
-    if (body[0] !== "#") return NAMED[body.toLowerCase()] ?? match;
-    const hex3 = body[1] === "x" || body[1] === "X";
-    const code = parseInt(body.slice(hex3 ? 2 : 1), hex3 ? 16 : 10);
-    return code > 0 && code <= 1114111 ? String.fromCodePoint(code) : match;
-  });
-}
-function plainTextLabel(html, maxChars) {
-  const text2 = decodeHtmlEntities(html.replace(/<[^>]*>/g, "")).replace(/\s+/g, " ").trim();
-  if (maxChars === void 0) return text2;
-  const chars = Array.from(text2);
-  return chars.length > maxChars ? `${chars.slice(0, maxChars).join("").trimEnd()}\u2026` : text2;
-}
-
-// ../lib/card-links.ts
 var REFERENCE = /\[\[\s*([A-Z][A-Z0-9]*-\d+)(?:\s*[·|:—–-][^\]]*)?\s*\]\]|\b([A-Z][A-Z0-9]*-\d+)\b/g;
 var SKIP_TAGS = /* @__PURE__ */ new Set(["code", "pre", "a"]);
 var VOID_TAGS = /* @__PURE__ */ new Set(["br", "hr", "img", "input", "wbr", "col", "source"]);
@@ -21867,264 +22200,6 @@ __export(chain_order_exports, {
   placeAfter: () => placeAfter,
   testTicks: () => testTicks
 });
-
-// ../lib/test-progress.ts
-var test_progress_exports = {};
-__export(test_progress_exports, {
-  MANUAL_ITEM_TOKEN: () => MANUAL_ITEM_TOKEN,
-  SPLIT_FLOWS_HEADING: () => SPLIT_FLOWS_HEADING,
-  UI_ITEM_TOKEN: () => UI_ITEM_TOKEN,
-  allUiItemTexts: () => allUiItemTexts,
-  canVerifyAllGroups: () => canVerifyAllGroups,
-  carrySplitFlows: () => carrySplitFlows,
-  coreFlowFirst: () => coreFlowFirst,
-  defaultVisualItems: () => defaultVisualItems,
-  describeTestGroup: () => describeTestGroup,
-  distinctItems: () => distinctItems,
-  hasOwnChecklist: () => hasOwnChecklist,
-  isCoreHeading: () => isCoreHeading,
-  isManualItem: () => isManualItem,
-  isUiItem: () => isUiItem,
-  isVerifyScope: () => isVerifyScope,
-  itemTokensStart: () => itemTokensStart,
-  manualItemTexts: () => manualItemTexts,
-  manualLeftIn: () => manualLeftIn,
-  nextVerifyGroup: () => nextVerifyGroup,
-  parseTestProgress: () => parseTestProgress,
-  pickCurrentItems: () => pickCurrentItems,
-  runnableItemTexts: () => runnableItemTexts,
-  runnableLeft: () => runnableLeft,
-  stripItemTokens: () => stripItemTokens,
-  testGroupLabel: () => testGroupLabel,
-  tickedCoreItemTexts: () => tickedCoreItemTexts,
-  uiItemTexts: () => uiItemTexts,
-  untickedIn: () => untickedIn,
-  untickedItemTexts: () => untickedItemTexts,
-  verifyAllLabel: () => verifyAllLabel,
-  verifyTargets: () => verifyTargets
-});
-function isVerifyScope(value) {
-  return value === "next" || value === "all";
-}
-var CORE_HEADING = /^(core\s*flow|temel\s*ak[ıi][şs])$/;
-function isCoreHeading(text2) {
-  return CORE_HEADING.test(headingText(text2).toLowerCase());
-}
-var H2 = /<h2\b[^>]*>([\s\S]*?)<\/h2>/gi;
-function countChecks(html) {
-  const checked = (html.match(/data-checked="true"/g) || []).length;
-  const unchecked = (html.match(/data-checked="false"/g) || []).length;
-  return { checked, total: checked + unchecked };
-}
-function headingText(raw) {
-  return plainTextLabel(raw).replace(/^#+\s*/, "");
-}
-function splitSections(html) {
-  const headings = [];
-  H2.lastIndex = 0;
-  let match;
-  while ((match = H2.exec(html)) !== null) {
-    headings.push({
-      heading: headingText(match[1]),
-      bodyStart: match.index + match[0].length
-    });
-  }
-  return headings.map((h, index) => {
-    const next = headings[index + 1];
-    const end = next ? html.lastIndexOf("<h2", next.bodyStart) : html.length;
-    return { heading: h.heading, label: h.heading.toLowerCase(), body: html.slice(h.bodyStart, end) };
-  });
-}
-function coreFlowFirst(html) {
-  const starts = [];
-  H2.lastIndex = 0;
-  let match;
-  while ((match = H2.exec(html)) !== null) {
-    starts.push({ start: match.index, core: CORE_HEADING.test(headingText(match[1]).toLowerCase()) });
-  }
-  const coreIndex = starts.findIndex((s) => s.core);
-  if (coreIndex <= 0) return html;
-  const first = starts[0].start;
-  const coreStart = starts[coreIndex].start;
-  const coreEnd = starts[coreIndex + 1]?.start ?? html.length;
-  return html.slice(0, first) + html.slice(coreStart, coreEnd) + html.slice(first, coreStart) + html.slice(coreEnd);
-}
-var SPLIT_FLOWS_HEADING = "End-to-end";
-var SPLIT_FLOWS_LABEL = SPLIT_FLOWS_HEADING.toLowerCase();
-function sectionBlocks(html) {
-  const starts = [];
-  H2.lastIndex = 0;
-  let match;
-  while ((match = H2.exec(html)) !== null) {
-    starts.push({ label: headingText(match[1]).toLowerCase(), start: match.index });
-  }
-  return starts.map((s, index) => ({ ...s, end: starts[index + 1]?.start ?? html.length }));
-}
-function withoutSplitFlows(html) {
-  let rest = html;
-  for (const block of sectionBlocks(html).reverse()) {
-    if (block.label === SPLIT_FLOWS_LABEL) rest = rest.slice(0, block.start) + rest.slice(block.end);
-  }
-  return rest;
-}
-function hasOwnChecklist(html) {
-  if (!html) return false;
-  return plainTextLabel(withoutSplitFlows(html)) !== "";
-}
-function carrySplitFlows(newHtml, previousHtml) {
-  if (!previousHtml || hasOwnChecklist(previousHtml)) return newHtml;
-  if (sectionBlocks(newHtml).some((b2) => b2.label === SPLIT_FLOWS_LABEL)) return newHtml;
-  const flows = sectionBlocks(previousHtml).filter((b2) => b2.label === SPLIT_FLOWS_LABEL).map((b2) => previousHtml.slice(b2.start, b2.end)).join("");
-  return flows ? newHtml + flows : newHtml;
-}
-function parseTestProgress(html) {
-  if (!html) return null;
-  const overall = countChecks(html);
-  if (overall.total === 0) return null;
-  const sections = splitSections(html);
-  const coreIndex = sections.findIndex((s) => CORE_HEADING.test(s.label));
-  const seen = /* @__PURE__ */ new Map();
-  const groups = [];
-  sections.forEach((section2, index) => {
-    const occurrence = (seen.get(section2.label) ?? 0) + 1;
-    seen.set(section2.label, occurrence);
-    const counts = countChecks(section2.body);
-    if (counts.total === 0) return;
-    const core2 = index === coreIndex;
-    const manual = core2 ? 0 : sectionItems(section2.body, false).filter(isManualItem).length;
-    groups.push({ heading: section2.heading, occurrence, core: core2, ...counts, manual });
-  });
-  const core = groups.find((g) => g.core);
-  if (!core) return { ...overall, groups };
-  return { ...overall, core: { checked: core.checked, total: core.total }, groups };
-}
-var ITEM = /<li\b[^>]*data-checked="(true|false)"[^>]*>([\s\S]*?)<\/li>/gi;
-function sectionItems(body, checked) {
-  const texts = [];
-  const pattern = new RegExp(ITEM.source, ITEM.flags);
-  let match;
-  while ((match = pattern.exec(body)) !== null) {
-    if (match[1] === "true" !== checked) continue;
-    const text2 = headingText(match[2]);
-    if (text2) texts.push(text2);
-  }
-  return texts;
-}
-function itemTexts(html, groups, checked) {
-  const sections = splitSections(html);
-  const seen = /* @__PURE__ */ new Map();
-  const texts = [];
-  for (const section2 of sections) {
-    const occurrence = (seen.get(section2.label) ?? 0) + 1;
-    seen.set(section2.label, occurrence);
-    if (!groups.some((g) => g.heading.toLowerCase() === section2.label && g.occurrence === occurrence)) continue;
-    texts.push(...sectionItems(section2.body, checked));
-  }
-  return texts;
-}
-function untickedItemTexts(html, groups) {
-  return itemTexts(html, groups, false);
-}
-function tickedCoreItemTexts(html, progress) {
-  const core = progress?.groups.find((g) => g.core);
-  return core && core.checked > 0 ? itemTexts(html, [core], true) : [];
-}
-function distinctItems(items) {
-  return Array.from(new Set((items ?? []).map((item) => item.trim()).filter(Boolean)));
-}
-function pickCurrentItems(picked, current) {
-  const asked = distinctItems(picked);
-  const items = asked.filter((item) => current.includes(item));
-  return { items, dropped: asked.length - items.length };
-}
-function runnableLeft(group) {
-  return group.total - group.checked - group.manual;
-}
-function verifyTargets(progress, scope) {
-  if (!progress?.core) return [];
-  const coreIndex = progress.groups.findIndex((g) => g.core);
-  const open = progress.groups.slice(coreIndex).filter((g) => runnableLeft(g) > 0);
-  return scope === "all" ? open : open.slice(0, 1);
-}
-function nextVerifyGroup(progress) {
-  return verifyTargets(progress, "next")[0] ?? null;
-}
-function canVerifyAllGroups(progress) {
-  return verifyTargets(progress, "all").length > 1;
-}
-function verifyAllLabel(progress) {
-  return nextVerifyGroup(progress)?.core ? "all groups" : "all remaining groups";
-}
-function untickedIn(groups) {
-  return groups.reduce((sum, g) => sum + runnableLeft(g), 0);
-}
-function manualLeftIn(progress) {
-  return progress?.groups.reduce((sum, g) => sum + g.manual, 0) ?? 0;
-}
-var KNOWN_GROUP_LABELS = [
-  [CORE_HEADING, "Core flow"],
-  [/^(edge\s*cases?|kenar\s*durumlar[ıi]?)$/, "Edge cases"],
-  [/^(regression(\s*tests?)?|regresyon(\s*testleri)?)$/, "Regression"]
-];
-function testGroupLabel(group) {
-  const label2 = group.heading.toLowerCase();
-  const known = KNOWN_GROUP_LABELS.find(([pattern]) => pattern.test(label2));
-  return known ? known[1] : group.heading;
-}
-function describeTestGroup(group, groups) {
-  const repeated = groups.some((g) => g !== group && g.heading.toLowerCase() === group.heading.toLowerCase());
-  if (!repeated) return `\`## ${group.heading}\``;
-  return `the ${ordinal(group.occurrence)} \`## ${group.heading}\` group`;
-}
-function ordinal(n) {
-  const suffix = n % 10 === 1 && n % 100 !== 11 ? "st" : n % 10 === 2 && n % 100 !== 12 ? "nd" : n % 10 === 3 && n % 100 !== 13 ? "rd" : "th";
-  return `${n}${suffix}`;
-}
-var UI_ITEM_TOKEN = "[ui]";
-var MANUAL_ITEM_TOKEN = "[manual]";
-var ITEM_TOKEN_PATTERN = /(?:\s*\[(?:ui|manual)\])+\s*$/i;
-function itemTokensStart(text2) {
-  return ITEM_TOKEN_PATTERN.exec(text2)?.index ?? text2.length;
-}
-function itemTokens(text2) {
-  return ITEM_TOKEN_PATTERN.exec(text2)?.[0].toLowerCase() ?? "";
-}
-function isUiItem(text2) {
-  return itemTokens(text2).includes(UI_ITEM_TOKEN);
-}
-function isManualItem(text2) {
-  return itemTokens(text2).includes(MANUAL_ITEM_TOKEN);
-}
-function stripItemTokens(text2) {
-  return text2.replace(ITEM_TOKEN_PATTERN, "").replace(/\s+/g, " ").trim();
-}
-function manualItemTexts(html, groups) {
-  return untickedItemTexts(html, groups.filter((g) => !g.core)).filter(isManualItem);
-}
-function runnableItemTexts(html, groups) {
-  const manual = new Set(manualItemTexts(html, groups));
-  return untickedItemTexts(html, groups).filter((text2) => !manual.has(text2));
-}
-function uiItemTexts(html, groups) {
-  return runnableItemTexts(html, groups).filter(isUiItem);
-}
-function defaultVisualItems(candidates) {
-  const ui = candidates.filter(isUiItem);
-  return ui.length > 0 ? ui : candidates;
-}
-function allUiItemTexts(html) {
-  const progress = parseTestProgress(html);
-  if (!progress) return [];
-  const later = progress.groups.filter((g) => !g.core);
-  const manual = new Set(
-    [...itemTexts(html, later, true), ...itemTexts(html, later, false)].filter(isManualItem)
-  );
-  return [...itemTexts(html, progress.groups, true), ...itemTexts(html, progress.groups, false)].filter(
-    (text2) => isUiItem(text2) && !manual.has(text2)
-  );
-}
-
-// ../lib/chain-order.ts
 var isFinished = (card) => card.status === "completed" || card.status === "withdrawn";
 function compareByChainOrder(a, b2) {
   const ao = a.groupOrder ?? Number.MAX_SAFE_INTEGER;
@@ -22312,8 +22387,8 @@ function extractPlanFiles(solutionHtml) {
   const section2 = text2.match(/Files to Modify\s*\n([\s\S]*?)(?:\n(?:Implementation Steps|Edge Cases|Dependencies)\b|$)/i);
   return section2 ? pathTokens(section2[1]) : [];
 }
-function normalizePath(path10) {
-  return path10.trim().replace(/^\.\//, "").replace(/\/+$/, "");
+function normalizePath(path11) {
+  return path11.trim().replace(/^\.\//, "").replace(/\/+$/, "");
 }
 function pathsOverlap(a, b2) {
   const globRoot = (p) => /\/\*+$/.test(p) ? p.replace(/\/\*+$/, "/") : null;
@@ -22357,7 +22432,7 @@ function countPlanSteps(solutionHtml) {
 }
 var GENERATED = [/^drizzle\/meta\//, /(^|\/)(package-lock\.json|pnpm-lock\.yaml|yarn\.lock|bun\.lockb)$/];
 var isGenerated = (file2) => GENERATED.some((pattern) => pattern.test(file2));
-var dunderless = (path10) => normalizePath(path10).replace(/(^|\/)__([^/]+)__(?=\/|$)/g, "$1$2");
+var dunderless = (path11) => normalizePath(path11).replace(/(^|\/)__([^/]+)__(?=\/|$)/g, "$1$2");
 function comparePlanFiles(planned, touched) {
   const plan = Array.from(new Set(planned.map(normalizePath).filter(Boolean)));
   const branch = Array.from(new Set(touched.map(normalizePath).filter(Boolean)));
@@ -22366,7 +22441,7 @@ function comparePlanFiles(planned, touched) {
   const waiting = [];
   for (const file2 of plan) {
     const key = dunderless(file2);
-    const hits = branch.filter((path10) => pathsOverlap(key, dunderless(path10)));
+    const hits = branch.filter((path11) => pathsOverlap(key, dunderless(path11)));
     if (hits.length === 0) {
       waiting.push({ path: file2, state: "planned" });
       continue;
@@ -22374,7 +22449,7 @@ function comparePlanFiles(planned, touched) {
     hits.forEach((hit) => used.add(hit));
     done.push({ path: file2.includes("*") ? file2 : hits[0], state: "touched" });
   }
-  const outside = branch.filter((path10) => !used.has(path10) && !isGenerated(path10)).map((path10) => ({ path: path10, state: "outside" }));
+  const outside = branch.filter((path11) => !used.has(path11) && !isGenerated(path11)).map((path11) => ({ path: path11, state: "outside" }));
   return [...done, ...waiting, ...outside];
 }
 
@@ -22416,6 +22491,8 @@ __export(card_ops_exports, {
   SplitCardError: () => SplitCardError,
   TERMINAL_WRITER_TTL_MS: () => TERMINAL_WRITER_TTL_MS,
   YOU_AUTHOR: () => YOU_AUTHOR,
+  acceptPlanDecisions: () => acceptPlanDecisions,
+  acceptedDecisionCounts: () => acceptedDecisionCounts,
   acknowledgeWrite: () => acknowledgeWrite,
   addDependency: () => addDependency,
   addOutputPath: () => addOutputPath,
@@ -22427,6 +22504,7 @@ __export(card_ops_exports, {
   authorshipRows: () => authorshipRows,
   autopilotContinueQuestion: () => autopilotContinueQuestion,
   autopilotLine: () => autopilotLine,
+  autopilotModeFor: () => autopilotModeFor,
   autopilotRefusal: () => autopilotRefusal,
   branchStoryCounts: () => branchStoryCounts,
   cardAuthorship: () => cardAuthorship,
@@ -22440,6 +22518,7 @@ __export(card_ops_exports, {
   chainConflictText: () => chainConflictText,
   chainMergeForCard: () => chainMergeForCard,
   chainOrderWarningFor: () => chainOrderWarningFor,
+  chainRalphDeadlineFor: () => chainRalphDeadlineFor,
   chainWriteConflictFor: () => chainWriteConflictFor,
   chainsWithReadyMembers: () => chainsWithReadyMembers,
   checkWorkTemplateId: () => checkWorkTemplateId,
@@ -22453,6 +22532,8 @@ __export(card_ops_exports, {
   createCard: () => createCard,
   createCardResolver: () => createCardResolver,
   createGroup: () => createGroup,
+  decisionsForCard: () => decisionsForCard,
+  defaultWorkTemplateId: () => defaultWorkTemplateId,
   deleteGroup: () => deleteGroup,
   dequeueCard: () => dequeueCard,
   dismissSplitProposal: () => dismissSplitProposal,
@@ -22468,16 +22549,24 @@ __export(card_ops_exports, {
   globalAgentModeEnabled: () => globalAgentModeEnabled,
   globalEditDenial: () => globalEditDenial,
   hasAuthorshipTable: () => hasAuthorshipTable,
+  hasAutopilotModeColumn: () => hasAutopilotModeColumn,
   hasBaseCommitColumns: () => hasBaseCommitColumns,
+  hasChainRalphColumn: () => hasChainRalphColumn,
+  hasDecisionLedger: () => hasDecisionLedger,
   hasDependencyTable: () => hasDependencyTable,
   hasIntegrationColumns: () => hasIntegrationColumns,
+  hasRalphLoopColumns: () => hasRalphLoopColumns,
   hasSplitTables: () => hasSplitTables,
   hasSuggestionTable: () => hasSuggestionTable,
   integrationBranchName: () => integrationBranchName,
+  integrationGateMembers: () => integrationGateMembers,
+  integrationOnText: () => integrationOnText,
   isChainParent: () => isChainParent,
   isStatus: () => isStatus,
   landReadyChainMembers: () => landReadyChainMembers,
   linkCardsInHtml: () => linkCardsInHtml,
+  listCardDecisions: () => listCardDecisions,
+  listChainDecisions: () => listChainDecisions,
   listChangedFiles: () => listChangedFiles,
   listDependencies: () => listDependencies,
   listDependencyEdges: () => listDependencyEdges,
@@ -22487,6 +22576,7 @@ __export(card_ops_exports, {
   listQueueRows: () => listQueueRows,
   listWorkTemplates: () => listWorkTemplates,
   loadStoryInputs: () => loadStoryInputs,
+  markTestReportVideosRemoved: () => markTestReportVideosRemoved,
   mergeCard: () => mergeCard,
   mergeChain: () => mergeChain,
   mergeCommitMessage: () => mergeCommitMessage,
@@ -22517,6 +22607,9 @@ __export(card_ops_exports, {
   readWriteAck: () => readWriteAck,
   readyAfterLinks: () => readyAfterLinks,
   recordAuthorship: () => recordAuthorship,
+  recordDecision: () => recordDecision,
+  recordRalphRound: () => recordRalphRound,
+  rememberWorkTemplate: () => rememberWorkTemplate,
   removeDependency: () => removeDependency,
   resolveCardRef: () => resolveCardRef,
   resolveProjectByFolder: () => resolveProjectByFolder,
@@ -22538,12 +22631,14 @@ __export(card_ops_exports, {
   setAutopilotStage: () => setAutopilotStage,
   setBlockedBy: () => setBlockedBy,
   setCardRuntime: () => setCardRuntime,
+  setIntegrationBranch: () => setIntegrationBranch,
   sharedPrefixes: () => sharedPrefixes,
   splitCard: () => splitCard,
   splitProposalOutcome: () => splitProposalOutcome,
   splitRelations: () => splitRelations,
   splitRoleLine: () => splitRoleLine,
   stampBaseCommit: () => stampBaseCommit,
+  stampRalphStart: () => stampRalphStart,
   startAutopilot: () => startAutopilot,
   startChainAutopilot: () => startChainAutopilot,
   statusAfterPlan: () => statusAfterPlan,
@@ -22554,6 +22649,7 @@ __export(card_ops_exports, {
   syncMainIntoChain: () => syncMainIntoChain,
   testsDriftFor: () => testsDriftFor,
   tickChanges: () => tickChanges,
+  tickItem: () => tickItem,
   transaction: () => transaction,
   undoSnapshot: () => undoSnapshot,
   updateCard: () => updateCard,
@@ -22939,7 +23035,7 @@ __export(markdown_exports, {
   untickTaskItems: () => untickTaskItems
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/node_modules/marked/lib/marked.esm.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/node_modules/marked/lib/marked.esm.js
 function L() {
   return { async: false, breaks: false, extensions: null, gfm: true, hooks: null, pedantic: false, renderer: null, silent: false, tokenizer: null, walkTokens: null };
 }
@@ -24183,7 +24279,7 @@ function normalizeTestsHtml(html) {
   );
 }
 function normalizeTaskText(text2) {
-  return text2.replace(/<[^>]*>/g, " ").replace(/&[a-z]+;/gi, " ").toLowerCase().replace(/[.,;:!?/\\|()[\]{}<>@#$%^&*"'`~=+\-_]/g, " ").replace(/\s+/g, " ").trim();
+  return decodeHtmlEntities(text2.replace(/<[^>]*>/g, " ")).toLowerCase().replace(/[.,;:!?/\\|()[\]{}<>@#$%^&*"'`~=+\-_]/g, " ").replace(/\s+/g, " ").trim();
 }
 function levenshtein(a, b2, cap) {
   if (a === b2) return 0;
@@ -25834,8 +25930,8 @@ function assertGroupsTable(db2) {
 }
 var archiveColumnCache = /* @__PURE__ */ new WeakMap();
 function hasArchiveColumn(db2) {
-  const cached3 = archiveColumnCache.get(db2);
-  if (cached3 !== void 0) return cached3;
+  const cached4 = archiveColumnCache.get(db2);
+  if (cached4 !== void 0) return cached4;
   const has = allRows(db2, `PRAGMA table_info(card_groups)`).some(
     (column) => column.name === "archived_at"
   );
@@ -26101,6 +26197,41 @@ function moveCardInChain(db2, cardId, afterCardId, expectedGroupId) {
   });
 }
 
+// ../lib/chain-integration-gate.ts
+var REASON_TEXT = {
+  completed: "Completed on main",
+  started: "has started",
+  branch: "has a worktree and a branch",
+  queued: "is in the queue",
+  autopilot: "is on Autopilot",
+  running: "has a run going"
+};
+function firstReason(member) {
+  if (member.status === "completed") return "completed";
+  if (member.status === "progress" || member.status === "test") return "started";
+  if (member.gitWorktreePath || member.gitBranchName) return "branch";
+  if (member.queuePosition !== null && member.queuePosition !== void 0) return "queued";
+  if (member.autopilotStage) return "autopilot";
+  if (member.processingType) return "running";
+  return null;
+}
+function integrationBlockers(members) {
+  const blockers = [];
+  for (const member of members) {
+    if (member.status === "withdrawn") continue;
+    const reason = firstReason(member);
+    if (reason) blockers.push({ displayId: member.displayId, reason, text: `${member.displayId} ${REASON_TEXT[reason]}` });
+  }
+  return blockers;
+}
+function integrationBlockedText(code, blockers) {
+  return [
+    `Chain ${code} cannot change its integration branch: a card in it has started.`,
+    ...blockers.map((b2) => `- ${b2.text}`),
+    "To use one anyway, create a chain with integrationBranch: true and move the open cards into it."
+  ].join("\n");
+}
+
 // ../lib/card-ops/integration-branch.ts
 function getIntegrationGroup(db2, groupId) {
   if (!hasIntegrationColumns(db2)) return null;
@@ -26127,10 +26258,10 @@ function integrationWorktreePath(projectPath, branch) {
 async function checkedOutAt(projectPath, branch) {
   try {
     const { stdout } = await git(projectPath, "worktree", "list", "--porcelain");
-    let path10 = null;
+    let path11 = null;
     for (const line of stdout.split("\n")) {
-      if (line.startsWith("worktree ")) path10 = line.slice("worktree ".length);
-      else if (line === `branch refs/heads/${branch}` && path10) return path10;
+      if (line.startsWith("worktree ")) path11 = line.slice("worktree ".length);
+      else if (line === `branch refs/heads/${branch}` && path11) return path11;
     }
   } catch {
   }
@@ -26264,6 +26395,70 @@ function chainTipFor(db2, cardId, repo) {
   const sha = gitRead(repo, ["rev-parse", "--verify", "--quiet", `refs/heads/${group.integrationBranch}`]);
   return sha && /^[0-9a-f]{40}$/.test(sha) ? { ref: group.integrationBranch, sha } : null;
 }
+function cardColumns(db2) {
+  return new Set(db2.prepare(`PRAGMA table_info("cards")`).all().map((c) => c.name));
+}
+function integrationGateMembers(db2, groupId) {
+  const cols = cardColumns(db2);
+  const col = (name, alias) => cols.has(name) ? `c.${name} AS ${alias}` : `NULL AS ${alias}`;
+  const rows = allRows(
+    db2,
+    `SELECT c.id, c.status, c.task_number AS taskNumber, p.id_prefix AS idPrefix,
+            ${col("git_worktree_path", "gitWorktreePath")}, ${col("git_branch_name", "gitBranchName")},
+            ${col("queue_position", "queuePosition")}, ${col("autopilot_stage", "autopilotStage")},
+            ${col("processing_type", "processingType")}
+     FROM cards c LEFT JOIN projects p ON p.id = c.project_id
+     WHERE c.group_id = ?`,
+    groupId
+  );
+  return rows.map((row) => ({
+    displayId: (row.taskNumber !== null ? formatDisplayId(row.idPrefix, row.taskNumber) : null) ?? row.id.slice(0, 8),
+    status: row.status,
+    gitWorktreePath: row.gitWorktreePath,
+    gitBranchName: row.gitBranchName,
+    queuePosition: row.queuePosition,
+    autopilotStage: row.autopilotStage,
+    processingType: row.processingType
+  }));
+}
+function setIntegrationBranch(db2, groupId, on, opts = {}) {
+  if (!hasIntegrationColumns(db2)) {
+    return { kind: "refused", text: "This Ideafy database has no integration branches yet. Update the Ideafy app, then try again." };
+  }
+  return transaction(db2, () => {
+    const group = getIntegrationGroup(db2, groupId);
+    if (!group) return { kind: "refused", text: `Chain not found: ${groupId}` };
+    if (group.mergedCommit) {
+      return { kind: "refused", text: `Chain ${group.code} already reached main (${group.mergedCommit.slice(0, 7)}).` };
+    }
+    if (on && group.integrationBranch) return { kind: "ok", changed: false, branch: group.integrationBranch, code: group.code };
+    if (!on && !group.integrationBranch) return { kind: "ok", changed: false, branch: null, code: group.code };
+    const blockers = integrationBlockers(integrationGateMembers(db2, groupId));
+    if (blockers.length > 0) return { kind: "blocked", blockers, text: integrationBlockedText(group.code, blockers) };
+    if (on) {
+      const branch2 = integrationBranchName(group.code, group.id);
+      runChanges(db2, `UPDATE card_groups SET integration_branch = ? WHERE id = ?`, branch2, group.id);
+      return { kind: "ok", changed: true, branch: branch2, code: group.code };
+    }
+    const branch = group.integrationBranch;
+    const repo = opts.projectPath || group.folderPath;
+    if (!repo) {
+      return { kind: "refused", text: `Chain ${group.code} has no project folder to check ${branch} in, so it stays on.` };
+    }
+    if (gitRead(repo, ["rev-parse", "--verify", "--quiet", `refs/heads/${branch}`])) {
+      return {
+        kind: "branchOpen",
+        branch,
+        text: `Chain ${group.code}'s branch ${branch} is already open. Throw it away with rollback_chain (Rollback chain in the Chains view) instead of turning it off.`
+      };
+    }
+    runChanges(db2, `UPDATE card_groups SET integration_branch = NULL WHERE id = ?`, group.id);
+    return { kind: "ok", changed: true, branch: null, code: group.code };
+  });
+}
+function integrationOnText(code, branch) {
+  return `Chain ${code} uses ${branch} now. Its cards branch off it when the first one starts; the parent's Merge & Complete (merge_chain) brings it to main.`;
+}
 
 // ../lib/card-ops/base-commit.ts
 var COLUMN = {
@@ -26337,19 +26532,27 @@ function planRefreshSection(text2) {
 // ../lib/test-report.ts
 var test_report_exports = {};
 __export(test_report_exports, {
+  ITEM_CLIP_LEAD_SEC: () => ITEM_CLIP_LEAD_SEC,
+  ITEM_CLIP_TAIL_SEC: () => ITEM_CLIP_TAIL_SEC,
   MAX_ARTIFACTS_PER_ITEM: () => MAX_ARTIFACTS_PER_ITEM,
   MAX_TEST_REPORT_RUNS: () => MAX_TEST_REPORT_RUNS,
   MISSING_EVIDENCE_NOTE: () => MISSING_EVIDENCE_NOTE,
   TEST_REPORT_DIR: () => TEST_REPORT_DIR,
   TEST_REPORT_FENCE: () => TEST_REPORT_FENCE,
+  TEST_REPORT_VIDEO_NAME: () => TEST_REPORT_VIDEO_NAME,
   buildTestReportRun: () => buildTestReportRun,
   countByStatus: () => countByStatus,
   extractTestReportFence: () => extractTestReportFence,
+  formatVideoTime: () => formatVideoTime,
+  hasPlayableVideo: () => hasPlayableVideo,
   isTestReportImageName: () => isTestReportImageName,
   isTestReportRunId: () => isTestReportRunId,
+  isTestReportVideoName: () => isTestReportVideoName,
   latestItemResults: () => latestItemResults,
   latestResultFor: () => latestResultFor,
   newTestReportRunId: () => newTestReportRunId,
+  nextPlayableTime: () => nextPlayableTime,
+  normalizeTestReportDecisions: () => normalizeTestReportDecisions,
   normalizeTestReportItem: () => normalizeTestReportItem,
   normalizeTestReportWarnings: () => normalizeTestReportWarnings,
   parseTestReportItems: () => parseTestReportItems,
@@ -26358,11 +26561,91 @@ __export(test_report_exports, {
   readTestReportSummary: () => readTestReportSummary,
   summarizeTestReportRun: () => summarizeTestReportRun,
   testReportConflicts: () => testReportConflicts,
+  testReportItemAt: () => testReportItemAt,
+  testReportItemClips: () => testReportItemClips,
+  testReportItemVideoAt: () => testReportItemVideoAt,
   testReportMissingItems: () => testReportMissingItems,
   testReportSupersededItems: () => testReportSupersededItems
 });
 function isTestReportScope(value) {
   return value === "run" || value === "reverify" || value === "single" || value === "retest" || value === "text";
+}
+var TEST_REPORT_VIDEO_NAME = /^[\w.\- @]+\.webm$/;
+function isTestReportVideoName(value) {
+  return TEST_REPORT_VIDEO_NAME.test(value) && !value.includes("..");
+}
+function hasPlayableVideo(run2) {
+  return !!run2.video && run2.video.removedAt === null;
+}
+function testReportItemVideoAt(item) {
+  const seconds = item.artifacts.map((artifact) => artifact.videoAt).filter((sec) => typeof sec === "number");
+  return seconds.length > 0 ? Math.min(...seconds) : null;
+}
+function nextPlayableTime(time3, intervals, duration3) {
+  if (intervals.length === 0) return time3;
+  for (const [start, end] of intervals) {
+    if (time3 < start) return start;
+    if (time3 < end) return time3;
+  }
+  return duration3;
+}
+var ITEM_CLIP_LEAD_SEC = 30;
+var ITEM_CLIP_TAIL_SEC = 2;
+function testReportItemClips(run2) {
+  const intervals = run2.video?.intervals ?? [];
+  const shots = run2.items.flatMap((item) => item.artifacts.map((artifact) => artifact.videoAt)).filter((sec) => typeof sec === "number").sort((a, b2) => a - b2);
+  return run2.items.flatMap((item) => {
+    const at = testReportItemVideoAt(item);
+    if (at === null) return [];
+    const previous = shots.filter((sec) => sec < at).pop() ?? 0;
+    const from = Math.max(previous, at - ITEM_CLIP_LEAD_SEC, 0);
+    return [{ item: item.item, start: Math.min(at, nextPlayableTime(from, intervals, at)), at }];
+  });
+}
+function testReportItemAt(clips, sec) {
+  let found = null;
+  for (const clip of clips) {
+    if (sec >= clip.start && sec <= clip.at + ITEM_CLIP_TAIL_SEC && (!found || clip.start >= found.start)) {
+      found = clip;
+    }
+  }
+  return found?.item ?? null;
+}
+function formatVideoTime(sec) {
+  const whole = Math.max(0, Math.floor(sec));
+  return `${String(Math.floor(whole / 60)).padStart(2, "0")}:${String(whole % 60).padStart(2, "0")}`;
+}
+function finiteOrNull(value) {
+  return typeof value === "number" && Number.isFinite(value) && value >= 0 ? value : null;
+}
+function normalizeVideo(value) {
+  if (!value || typeof value !== "object") return void 0;
+  const record2 = value;
+  const file2 = typeof record2.file === "string" ? record2.file : "";
+  const startedAt = str(record2.startedAt, 40);
+  if (!isTestReportVideoName(file2) || !startedAt) return void 0;
+  const intervals = [];
+  if (Array.isArray(record2.intervals)) {
+    let last = -1;
+    for (const entry of record2.intervals) {
+      if (!Array.isArray(entry) || entry.length !== 2) continue;
+      const [start, end] = entry;
+      if (typeof start !== "number" || typeof end !== "number") continue;
+      if (!Number.isFinite(start) || !Number.isFinite(end) || start < last || end < start) continue;
+      intervals.push([start, end]);
+      last = end;
+    }
+  }
+  const extraTabs = typeof record2.extraTabs === "number" && Number.isInteger(record2.extraTabs) && record2.extraTabs > 0 ? record2.extraTabs : 0;
+  return {
+    file: file2,
+    startedAt,
+    durationSec: finiteOrNull(record2.durationSec),
+    intervals,
+    truncated: record2.truncated === true,
+    extraTabs,
+    removedAt: str(record2.removedAt, 40)
+  };
 }
 var MAX_TEST_REPORT_RUNS = 20;
 var MAX_ARTIFACTS_PER_ITEM = 3;
@@ -26487,6 +26770,26 @@ function normalizeTestReportItem(value) {
     note
   };
 }
+var MAX_DECISIONS = 30;
+function normalizeTestReportDecisions(value) {
+  if (!Array.isArray(value)) return [];
+  const out = [];
+  for (const raw of value) {
+    if (!raw || typeof raw !== "object") continue;
+    const record2 = raw;
+    const entryId = Number(record2.entryId ?? record2.id);
+    if (!Number.isInteger(entryId) || entryId <= 0) continue;
+    out.push({
+      entryId,
+      question: str(record2.question, 400),
+      recommended: str(record2.recommended, 400),
+      observed: str(record2.observed),
+      artifacts: normalizeArtifacts(record2.artifacts ?? record2.screenshots)
+    });
+    if (out.length === MAX_DECISIONS) break;
+  }
+  return out;
+}
 function parseTestReportItems(value) {
   let parsed = value;
   if (typeof value === "string") {
@@ -26500,7 +26803,8 @@ function parseTestReportItems(value) {
   if (!list) return { ok: false, error: "expected an `items` array" };
   const items = list.map(normalizeTestReportItem).filter((item) => item !== null).slice(0, MAX_ITEMS);
   if (items.length === 0) return { ok: false, error: "no item had an `item` text" };
-  return { ok: true, items };
+  const decisions = parsed && typeof parsed === "object" && !Array.isArray(parsed) ? normalizeTestReportDecisions(parsed.decisions) : [];
+  return decisions.length > 0 ? { ok: true, items, decisions } : { ok: true, items };
 }
 function normalizeTestReportWarnings(value) {
   if (!Array.isArray(value)) return [];
@@ -26512,10 +26816,18 @@ function normalizeRun(value) {
   const id = str(record2.id, 100);
   const runAt = str(record2.runAt, 40);
   if (!id || !runAt || !Array.isArray(record2.items)) return null;
+  const video = normalizeVideo(record2.video);
   const items = record2.items.map((item) => {
     const normalized = normalizeTestReportItem(item);
     if (normalized && item && typeof item === "object") {
       normalized.note = str(item.note) ?? normalized.note;
+      const stored = item.artifacts;
+      if (Array.isArray(stored)) {
+        normalized.artifacts.forEach((artifact, index) => {
+          const raw = stored[index];
+          if (raw && typeof raw === "object" && "videoAt" in raw) artifact.videoAt = finiteOrNull(raw.videoAt);
+        });
+      }
     }
     return normalized;
   }).filter((item) => item !== null);
@@ -26528,7 +26840,9 @@ function normalizeRun(value) {
     scope: isTestReportScope(record2.scope) ? record2.scope : "run",
     checklistApplied: record2.checklistApplied !== false,
     items,
-    warnings: normalizeTestReportWarnings(record2.warnings)
+    warnings: normalizeTestReportWarnings(record2.warnings),
+    ...video ? { video } : {},
+    ...Array.isArray(record2.decisions) && record2.decisions.length > 0 ? { decisions: normalizeTestReportDecisions(record2.decisions) } : {}
   };
 }
 function parseTestReports(value) {
@@ -26612,7 +26926,7 @@ function sameItem(a, b2) {
 function derivedTick(item, runs) {
   const run2 = runs[0];
   const passed = run2?.checklistApplied && run2.items.some((i) => i.status === "passed" && sameItem(i.item, item));
-  return passed ? { item, by: "ideafy", at: run2.runAt } : { item, by: "you", at: null };
+  return passed ? { item, by: "ideafy", at: run2.runAt } : null;
 }
 function summarizeAuthorship(input) {
   const rows = [...input.rows].sort((a, b2) => a.at < b2.at ? -1 : a.at > b2.at ? 1 : 0);
@@ -26649,9 +26963,8 @@ function summarizeAuthorship(input) {
     const item = plainTextLabel(entry.rawText);
     const revisedAt = testRows.filter((r) => r.action === "edit" && sameItem(r.item, item)).reduce((latest, r) => r.at > latest ? r.at : latest, "");
     const last = testRows.filter((r) => (r.action === "tick" || r.action === "untick") && r.at >= revisedAt && sameItem(r.item, item)).pop();
-    ticks.push(
-      last?.action === "tick" ? { item, by: last.actor, at: last.at } : derivedTick(item, input.testReports ?? [])
-    );
+    const tick = last?.action === "tick" ? { item, by: last.actor, at: last.at } : derivedTick(item, input.testReports ?? []);
+    if (tick) ticks.push(tick);
   }
   return { tabs, ticks };
 }
@@ -26731,7 +27044,7 @@ function recordAuthorship(db2, args) {
         insert(db2, cardId, { field, actor, action, item: null, at: now });
       }
     }
-    if (field === "testScenarios") {
+    if (field === "testScenarios" && actor === "ideafy") {
       for (const change of tickChanges(previous, next ?? "")) {
         insert(db2, cardId, {
           field,
@@ -26743,6 +27056,27 @@ function recordAuthorship(db2, args) {
       }
     }
   }
+}
+function tickItem(db2, args) {
+  const card = getRow(
+    db2,
+    `SELECT test_scenarios FROM cards WHERE id = ?`,
+    args.cardId
+  );
+  if (!card) return { ok: false, reason: "not-found" };
+  const labels = extractTaskItems(card.test_scenarios ?? "").map((i) => plainTextLabel(i.rawText));
+  const index = closestTaskText(args.item, labels);
+  const item = index >= 0 ? labels[index] : plainTextLabel(args.item);
+  if (hasAuthorshipTable(db2)) {
+    insert(db2, args.cardId, {
+      field: "testScenarios",
+      actor: "you",
+      action: args.checked ? "tick" : "untick",
+      item,
+      at: args.now
+    });
+  }
+  return { ok: true, item };
 }
 function authorshipRows(db2, cardId) {
   if (!hasAuthorshipTable(db2)) return [];
@@ -26803,6 +27137,63 @@ function escapeShellArg(arg) {
   return `'${arg.replace(/'/g, "'\\''")}'`;
 }
 
+// ../lib/ralph-loop.ts
+var RALPH_DEFAULT_MAX_ROUNDS = 3;
+var RALPH_MAX_ROUNDS_LIMIT = 10;
+var RALPH_TIME_CAP_MS = 3 * 60 * 60 * 1e3;
+function isRalphMaxRounds(value) {
+  return typeof value === "number" && Number.isInteger(value) && value >= 0 && value <= RALPH_MAX_ROUNDS_LIMIT;
+}
+function resolveRalphMaxRounds(cardValue, projectValue) {
+  if (isRalphMaxRounds(cardValue)) return cardValue;
+  if (isRalphMaxRounds(projectValue)) return projectValue;
+  return RALPH_DEFAULT_MAX_ROUNDS;
+}
+function ralphRoundsText(maxRounds) {
+  return maxRounds === 0 ? "\u221E" : String(maxRounds);
+}
+function norm(text2) {
+  return stripItemTokens(stripHtml(text2 ?? "")).toLowerCase().replace(/\s+/g, " ").trim();
+}
+function originalItemText(itemText2, revisions) {
+  let current = itemText2;
+  const seen = /* @__PURE__ */ new Set([norm(current)]);
+  for (; ; ) {
+    const key = norm(current);
+    const row = [...revisions].reverse().find((r) => r.newText && r.originalText && norm(r.newText) === key);
+    if (!row?.originalText) return current;
+    const back = norm(row.originalText);
+    if (seen.has(back)) return row.originalText;
+    seen.add(back);
+    current = row.originalText;
+  }
+}
+function failureSignature(failures, revisions = []) {
+  const keys = /* @__PURE__ */ new Set();
+  for (const failure of failures) {
+    const text2 = norm(originalItemText(failure.text, revisions));
+    if (text2) keys.add(`${norm(failure.heading)} :: ${text2}`);
+  }
+  return [...keys].sort().join(" | ");
+}
+function nextRalphCounter(prev, signature) {
+  if (!signature) return { signature: null, count: 0 };
+  if (prev?.signature === signature) return { signature, count: (prev.count || 0) + 1 };
+  return { signature, count: 1 };
+}
+function chainRalphDeadline(nowMs, members) {
+  return new Date(nowMs + RALPH_TIME_CAP_MS * Math.max(1, members)).toISOString();
+}
+function chainCapText(members) {
+  return `${RALPH_TIME_CAP_MS * Math.max(1, members) / 36e5}h`;
+}
+var RALPH_REVISE_REFUSAL = "Ralph does not reword core-flow, End-to-end or [manual] items";
+function ralphMayRevise(item) {
+  if (!item) return true;
+  const flows = (item.heading ?? "").trim().toLowerCase() === SPLIT_FLOWS_HEADING.toLowerCase();
+  return !item.core && !flows && !isManualItem(item.text);
+}
+
 // ../lib/autopilot.ts
 var AUTOPILOT_STAGES = ["planning", "implementing", "verifying", "fixing", "ready", "stopped"];
 function isAutopilotStage(value) {
@@ -26810,6 +27201,12 @@ function isAutopilotStage(value) {
 }
 function isActiveAutopilotStage(stage) {
   return stage === "planning" || stage === "implementing" || stage === "verifying" || stage === "fixing";
+}
+function autopilotModeOf(value) {
+  return value === "ralph" ? "ralph" : "default";
+}
+function autopilotModeName(mode) {
+  return mode === "ralph" ? "Ralph" : "Autopilot";
 }
 var DECISION_STOP_PREFIX = "plan needs your decision: ";
 function autopilotResume(card) {
@@ -26821,12 +27218,14 @@ function autopilotResume(card) {
 function plural(n, word) {
   return `${n} ${word}${n === 1 ? "" : "s"}`;
 }
+var AUTOPILOT_CONFLICT_REASON = "its branch has a rebase conflict \u2014 press Merge to solve it first";
 function autopilotIneligibleReason(card) {
   if (isActiveAutopilotStage(isAutopilotStage(card.stage) ? card.stage : null)) return "it is already on Autopilot";
   if (card.projectMode === "work") return "Work projects have no Autopilot";
   if (card.status === "ideation") return "Ideation cards go to Backlog first";
   if (card.status === "completed" || card.status === "withdrawn") return `it is in ${card.status}`;
   if (card.processingType) return "a run is already going on it";
+  if (card.rebaseConflict) return AUTOPILOT_CONFLICT_REASON;
   if (card.openDecision) return "the plan still has an open decision";
   if (card.status === "test") {
     if (!card.hasCoreFlow) return "its checklist has no core-flow group";
@@ -26846,6 +27245,16 @@ var nameList2 = (members) => {
   return names.length <= 2 ? names.join(" and ") : plural(names.length, "card");
 };
 function chainAutopilotStatus(members) {
+  const status = chainAutopilotStatusOf(members);
+  if (!status) return null;
+  const live = members.filter((m2) => m2.status !== "withdrawn");
+  const ralph = live.some((m2) => m2.ralph && m2.autopilotStage);
+  const accepted = live.reduce((sum, m2) => sum + (m2.accepted ?? 0), 0);
+  let line = ralph ? status.line.replace(/^Autopilot\b/, "Ralph") : status.line;
+  if (accepted > 0) line = `${line} \xB7 ${accepted} accepted`;
+  return { ...status, line };
+}
+function chainAutopilotStatusOf(members) {
   const open = members.filter((m2) => m2.status !== "completed" && m2.status !== "withdrawn");
   const inChain = (m2) => m2.status === "test" && m2.gitBranchStatus === "in_chain";
   const stageOf = (m2) => isAutopilotStage(m2.autopilotStage) ? m2.autopilotStage : null;
@@ -26857,7 +27266,8 @@ function chainAutopilotStatus(members) {
   const stopped = open.filter((m2) => !inChain(m2) && stageOf(m2) === "stopped");
   if (stopped.length > 0) {
     const first = stopped[0];
-    const line = stopped.length === 1 ? `Autopilot stopped at ${nameList2(stopped)}: ${first.autopilotStopReason || "no reason given"}` : `Autopilot stopped at ${nameList2(stopped)}`;
+    const reason = first.autopilotStopReason || "no reason given";
+    const line = stopped.length === 1 ? `Autopilot stopped at ${nameList2(stopped)}: ${reason}` : `Autopilot stopped at ${nameList2(stopped)} \xB7 ${first.displayId || "the first"}: ${reason}`;
     return { kind: "stopped", line, stopped: first };
   }
   const parent = open.find((m2) => m2.isParent && stageOf(m2) === "ready");
@@ -26865,6 +27275,7 @@ function chainAutopilotStatus(members) {
     const manual = parent?.manualLeft ?? 0;
     return {
       kind: "ready",
+      ...parent ? { mergeFrom: parent } : {},
       line: manual > 0 ? `Chain ready \xB7 ${manualYoursText(manual)}, then Merge & Complete` : "Chain ready \xB7 Merge & Complete is yours"
     };
   }
@@ -26881,940 +27292,272 @@ function chainAutopilotSummary(members) {
   return chainAutopilotStatus(members)?.line ?? null;
 }
 
-// ../lib/card-ops/save-content.ts
-function target(moveTo, current, rule) {
-  if (moveTo === void 0) return rule(current);
-  return moveTo;
-}
-function savePlan(db2, args) {
-  if (args.moveTo && !isStatus(args.moveTo)) return { ok: false, reason: "invalid-status" };
-  const planHtml = externalizeInlineImages(args.id, args.html);
-  const head = args.base === false ? null : args.base ?? cardHead(db2, args.id);
-  return transaction(db2, () => {
-    const row = getRow(
-      db2,
-      `SELECT status, solution_summary, autopilot_stage, autopilot_stop_reason FROM cards WHERE id = ?`,
-      args.id
-    );
-    if (!row) return { ok: false, reason: "not-found" };
-    const runtime = runtimeAssignments(args.runtime);
-    runChanges(
-      db2,
-      `UPDATE cards SET
-         solution_summary = ?,
-         complexity = COALESCE(?, complexity),
-         priority = COALESCE(?, priority),
-         ${[...runtime.sql, "updated_at = ?"].join(", ")}
-       WHERE id = ?`,
-      planHtml,
-      args.complexity ?? null,
-      args.priority ?? null,
-      ...runtime.values,
-      args.now,
-      args.id
-    );
-    stampBaseCommit(db2, args.id, "plan", head);
-    recordAuthorship(db2, {
-      cardId: args.id,
-      author: args.author,
-      now: args.now,
-      before: { solutionSummary: row.solution_summary },
-      after: { solutionSummary: planHtml },
-      replaces: true
-    });
-    const to = holdForDecision(target(args.moveTo, row.status, statusAfterPlan), row.status, planHtml);
-    if (to) moveCard(db2, args.id, to, args.now);
-    const stopped = { autopilotStage: row.autopilot_stage, autopilotStopReason: row.autopilot_stop_reason };
-    const autopilotDecisionAnswered = autopilotResume({ ...stopped, solutionSummary: row.solution_summary }) === "decision-open" && autopilotResume({ ...stopped, solutionSummary: planHtml }) === "decision-answered";
-    return {
-      ok: true,
-      html: planHtml,
-      previous: row.solution_summary ?? "",
-      from: row.status,
-      status: to ?? row.status,
-      ...autopilotDecisionAnswered ? { autopilotDecisionAnswered } : {}
-    };
-  });
-}
-function holdForDecision(to, from, planHtml) {
-  if (to !== "progress" || findPlanDecisions(planHtml).length === 0) return to;
-  return from === "ideation" ? "backlog" : from === "backlog" || from === "bugs" ? null : to;
-}
-function appendPlanRefresh(db2, args) {
-  const section2 = planRefreshSection(args.html);
-  if (!section2.found) return { ok: false, reason: "not-refresh" };
-  const row = getRow(
-    db2,
-    `SELECT status, solution_summary FROM cards WHERE id = ?`,
-    args.id
-  );
-  if (!row) return { ok: false, reason: "not-found" };
-  const existing = row.solution_summary ?? "";
-  const merged = mergeHtmlSections(existing, args.html.slice(section2.start));
-  const base = refreshBase(db2, args.id, section2.sha);
-  if (merged.added === 0) {
-    stampBaseCommit(db2, args.id, "plan", base);
-    return { ok: true, html: existing, previous: existing, from: row.status, status: row.status, added: 0, base };
-  }
-  const saved = savePlan(db2, { id: args.id, html: merged.html, now: args.now, author: args.author, moveTo: null, base: base ?? false });
-  if (!saved.ok) return saved;
-  return { ...saved, added: merged.added, base };
-}
-function refreshBase(db2, cardId, sha) {
-  if (sha) {
-    const folder = cardRepoFolder(db2, cardId);
-    const full = folder ? gitRead(folder, ["rev-parse", "--verify", "--quiet", `${sha}^{commit}`]) : null;
-    if (full && /^[0-9a-f]{40}$/.test(full)) return full;
-  }
-  return cardHead(db2, cardId);
-}
-function saveTests(db2, args) {
-  if (args.moveTo && !isStatus(args.moveTo)) return { ok: false, reason: "invalid-status" };
-  const incoming = externalizeInlineImages(args.id, args.html);
-  const head = cardHead(db2, args.id);
-  return transaction(db2, () => {
-    const row = getRow(
-      db2,
-      `SELECT status, test_scenarios FROM cards WHERE id = ?`,
-      args.id
-    );
-    if (!row) return { ok: false, reason: "not-found" };
-    const previous = row.test_scenarios ?? "";
-    let html = incoming;
-    if (args.guard === "append-only" || args.guard === "rewrite") {
-      const assessment = args.guard === "append-only" ? assessAppendOnlyRewrite(previous, html) : assessTestRewrite(args.baseline ?? previous, html);
-      if (!assessment.safe) {
-        return {
-          ok: false,
-          reason: "unsafe",
-          detail: assessment.reason ?? "unsafe rewrite",
-          retained: assessment.retained,
-          existing: assessment.existing,
-          previous
-        };
-      }
-    }
-    if (args.guard === "rewrite" && previous) html = mergeTestCheckState(html, previous);
-    else if (args.guard !== "replace" && previous) html = mergeTestCheckState(previous, html);
-    let extra;
-    if (args.finalize) {
-      const finalized = args.finalize(html, previous);
-      if (typeof finalized === "string") html = finalized;
-      else ({ html, runtime: extra } = finalized);
-    }
-    html = coreFlowFirst(html);
-    const runtime = runtimeAssignments({ ...args.runtime, ...extra });
-    runChanges(
-      db2,
-      `UPDATE cards SET test_scenarios = ?, ${[...runtime.sql, "updated_at = ?"].join(", ")} WHERE id = ?`,
-      html,
-      ...runtime.values,
-      args.now,
-      args.id
-    );
-    stampBaseCommit(db2, args.id, "tests", head);
-    recordAuthorship(db2, {
-      cardId: args.id,
-      author: args.author,
-      now: args.now,
-      before: { testScenarios: previous },
-      after: { testScenarios: html },
-      replaces: args.guard === "replace" || args.guard === "append-only",
-      ticksOnly: args.guard === "rewrite"
-    });
-    const to = target(args.moveTo, row.status, statusAfterTests);
-    if (to) moveCard(db2, args.id, to, args.now);
-    return { ok: true, html, previous, from: row.status, status: to ?? row.status };
-  });
-}
-function savePlanAndTests(db2, args) {
-  return transaction(db2, () => {
-    const plan = savePlan(db2, {
-      id: args.id,
-      html: args.solutionSummary,
-      now: args.now,
-      author: args.author,
-      moveTo: null,
-      runtime: args.runtime
-    });
-    if (!plan.ok) return plan;
-    return saveTests(db2, {
-      id: args.id,
-      html: args.testScenarios,
-      now: args.now,
-      author: args.author,
-      guard: "replace",
-      moveTo: args.moveTo
-    });
-  });
-}
-
-// ../lib/card-ops/revise-tests.ts
-function reviseTests(db2, args) {
-  const head = cardHead(db2, args.id);
-  return transaction(db2, () => {
-    const row = getRow(
-      db2,
-      `SELECT test_scenarios FROM cards WHERE id = ?`,
-      args.id
-    );
-    if (!row) return { ok: false, reason: "not-found" };
-    if (args.revisions.length === 0) {
-      if (!args.confirmCurrent) return { ok: false, reason: "missing", missing: [] };
-      stampBaseCommit(db2, args.id, "tests", head);
-      const html2 = row.test_scenarios ?? "";
-      return { ok: true, html: html2, previous: html2, revised: 0 };
-    }
-    const previous = row.test_scenarios ?? "";
-    const { html, missing } = reviseTaskItems(previous, args.revisions);
-    if (missing.length > 0) return { ok: false, reason: "missing", missing };
-    runChanges(db2, `UPDATE cards SET test_scenarios = ?, updated_at = ? WHERE id = ?`, html, args.now, args.id);
-    stampBaseCommit(db2, args.id, "tests", head);
-    recordAuthorship(db2, {
-      cardId: args.id,
-      author: args.author,
-      now: args.now,
-      before: { testScenarios: previous },
-      after: { testScenarios: html },
-      revisedItems: args.revisions.map((revision) => revision.to)
-    });
-    return { ok: true, html, previous, revised: args.revisions.length };
-  });
-}
-
-// ../lib/card-ops/split-proposals.ts
-import { statSync as statSync2 } from "fs";
+// ../lib/autonomous-run/browser-prereqs.ts
+import { accessSync, constants, readdirSync, statSync as statSync2 } from "fs";
 import path4 from "path";
 
-// ../lib/prompts/mockup-request.ts
-var mockup_request_exports = {};
-__export(mockup_request_exports, {
-  LINKED_FILE_RULE: () => LINKED_FILE_RULE,
-  MOCKUP_OFFER_HINT: () => MOCKUP_OFFER_HINT,
-  buildMockupRequest: () => buildMockupRequest,
-  cardMockups: () => cardMockups,
-  cardMockupsWithSource: () => cardMockupsWithSource,
-  hasMockupArtifact: () => hasMockupArtifact,
-  listMockupArtifacts: () => listMockupArtifacts,
-  mockupTargetSection: () => mockupTargetSection
-});
-function mockupTargetSection(status) {
-  return status === "ideation" ? "opinion" : "solution";
-}
-function buildMockupRequest(focus) {
-  const request = "Draw an HTML mockup for this card.";
-  const trimmed = focus?.trim();
-  return trimmed ? `${request}
-Focus only on: ${trimmed}` : request;
-}
-var HTML_FILE = /\.html?(?:[?#].*)?$/i;
-function listMockupArtifacts(html) {
-  if (!html) return [];
-  const found = [];
-  for (const match of html.matchAll(/<span\b[^>]*data-type="artifactMention"[^>]*>/gi)) {
-    const path10 = match[0].match(/data-path="([^"]*)"/i)?.[1];
-    if (path10 && HTML_FILE.test(path10)) found.push({ at: match.index ?? 0, path: decodeEntities3(path10) });
-  }
-  for (const match of html.matchAll(/file:\/\/[^"'\s)<]+/gi)) {
-    if (!HTML_FILE.test(match[0])) continue;
-    const path10 = fileUrlToPath(decodeEntities3(match[0]));
-    if (path10) found.push({ at: match.index ?? 0, path: path10 });
-  }
-  const seen = /* @__PURE__ */ new Set();
-  const paths = [];
-  for (const { path: path10 } of found.sort((a, b2) => a.at - b2.at)) {
-    if (seen.has(path10)) continue;
-    seen.add(path10);
-    paths.push(path10);
-  }
-  return paths;
-}
-function decodeEntities3(text2) {
-  return text2.replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&#39;/g, "'");
-}
-function hasMockupArtifact(html) {
-  return listMockupArtifacts(html).length > 0;
-}
-function cardMockups(card) {
-  const all = [card.aiOpinion, card.solutionSummary, card.description].flatMap(listMockupArtifacts);
-  return [...new Set(all)];
-}
-function cardMockupsWithSource(card) {
-  const sourceOf = /* @__PURE__ */ new Map();
-  for (const [source, html] of [
-    ["solution", card.solutionSummary],
-    ["opinion", card.aiOpinion],
-    ["description", card.description]
-  ]) {
-    for (const path10 of listMockupArtifacts(html)) {
-      if (!sourceOf.has(path10)) sourceOf.set(path10, source);
-    }
-  }
-  const planHasOne = [...sourceOf.values()].includes("solution");
-  if (!planHasOne) {
-    return cardMockups(card).map((path10) => ({ path: path10, source: sourceOf.get(path10), dimmed: false }));
-  }
-  return [...sourceOf].map(([path10, source]) => ({ path: path10, source, dimmed: source !== "solution" }));
-}
-var MOCKUP_OFFER_HINT = `Mockup: if this card changes UI and its target tab (AI Opinion on an ideation card, the plan after that) has no mockup yet, ask the user in one sentence whether they want an HTML mockup. Only on yes, put the whole file in the save_opinion / save_plan text as one fenced block, \`\`\`html artifact="short-name.html"\`, directly above a \`## Mockup\` heading, and put that section at the end of the text; Ideafy saves it into the card folder and shows it as a link. Never draw one unasked. If the tab already has a mockup and the user asks for a new one, replace its link and its \`## Mockup\` section in place, keep the rest of the text as it is, and leave the old file on disk. Whenever you rewrite a text that has a mockup, its link stays directly above its \`## Mockup\` heading, never at the top of the text.`;
-var LINKED_FILE_RULE = `Linking a file that already exists, such as a mockup in a sibling design repo: link it with its absolute path as a file:// link. The card opens it only when it sits in the project folder, the card folder or one of the project's Linked Folders (project settings). Outside those the chip draws dead, so tell the user which folder to link instead of linking it anyway.`;
-
-// ../lib/split-proposal.ts
-function defaultSplitChain(title) {
+// ../lib/platform/base-provider.ts
+import { join as join3 } from "path";
+function buildEnv() {
+  const home = process.env.HOME || process.env.USERPROFILE || "";
+  const user = process.env.USER || process.env.USERNAME || "";
+  const existingPath = process.env.PATH || "";
+  const additionalPaths = [
+    join3(home, ".local", "bin"),
+    join3(home, ".claude", "bin"),
+    "/usr/local/bin",
+    "/opt/homebrew/bin"
+  ];
+  const newPath = [...additionalPaths, existingPath].join(":");
   return {
-    code: normalizeGroupCode(title) || "SPLIT",
-    name: title.length > 60 ? `${title.slice(0, 59)}\u2026` : title
+    ...process.env,
+    HOME: home,
+    USER: user,
+    PATH: newPath
   };
-}
-var SPLIT_MIN_CARDS = 2;
-var SPLIT_MAX_CARDS = 8;
-function text(value, max) {
-  return typeof value === "string" ? value.replace(/\s+/g, " ").trim().slice(0, max) : "";
-}
-function parseSplitInto(value) {
-  if (!value || typeof value !== "object") return { ok: false, error: "splitInto must be an object with cards." };
-  const raw = value;
-  if (!Array.isArray(raw.cards)) return { ok: false, error: "splitInto.cards must be a list." };
-  const cards = [];
-  raw.cards.forEach((item, index) => {
-    if (!item || typeof item !== "object") return;
-    const card = item;
-    const title = text(card.title, 200);
-    if (!title) return;
-    const refs = Array.isArray(card.blockedBy) ? card.blockedBy : card.blockedBy === void 0 ? [] : [card.blockedBy];
-    const blockedBy = [...new Set(refs.map(Number).filter((n) => Number.isInteger(n) && n >= 1 && n <= index))];
-    cards.push({
-      title,
-      scope: text(card.scope, 1e3),
-      carries: text(card.carries, 2e3),
-      blockedBy,
-      reason: text(card.reason, 500)
-    });
-  });
-  if (cards.length < SPLIT_MIN_CARDS) {
-    return { ok: false, error: `splitInto needs at least ${SPLIT_MIN_CARDS} cards with a title.` };
-  }
-  if (cards.length > SPLIT_MAX_CARDS) {
-    return { ok: false, error: `splitInto takes at most ${SPLIT_MAX_CARDS} cards; a bigger split is a chain of its own.` };
-  }
-  const flows = (Array.isArray(raw.flows) ? raw.flows : []).map((flow) => text(flow, 500)).filter(Boolean);
-  return { ok: true, proposal: { reason: text(raw.reason, 1e3), cards, flows } };
 }
 
-// ../lib/card-ops/split-proposals.ts
-function hasSplitTables(db2) {
-  return !!getRow(db2, "SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'card_split_proposals'");
-}
-function saveSplitProposal(db2, args) {
-  if (!hasSplitTables(db2)) return { saved: false, reason: "unsupported" };
-  const parsed = parseSplitInto(args.proposal);
-  if (!parsed.ok) return { saved: false, reason: "invalid", error: parsed.error };
-  const existing = getRow(
-    db2,
-    "SELECT status FROM card_split_proposals WHERE card_id = ?",
-    args.cardId
-  );
-  const reopen = existing?.status === "dismissed" && args.reopenDismissed === true;
-  if (existing && existing.status !== "pending" && !reopen) return { saved: false, reason: existing.status };
-  const payload = JSON.stringify(parsed.proposal);
-  if (existing) {
-    runChanges(
-      db2,
-      "UPDATE card_split_proposals SET payload = ?, status = 'pending', updated_at = ? WHERE card_id = ?",
-      payload,
-      args.now,
-      args.cardId
-    );
-  } else {
-    runChanges(
-      db2,
-      `INSERT INTO card_split_proposals (card_id, payload, status, created_at, updated_at) VALUES (?, ?, 'pending', ?, ?)`,
-      args.cardId,
-      payload,
-      args.now,
-      args.now
-    );
-  }
-  return { saved: true, proposal: parsed.proposal };
-}
-function splitProposalOutcome(split) {
-  if (!split) return void 0;
-  if (split.saved) return "updated";
-  if (split.reason === "dismissed") return "kept-dismissed";
-  if (split.reason === "applied") return "already-split";
-  if (split.reason === "invalid") return "invalid";
-  return void 0;
-}
-function getSplitProposal(db2, cardId) {
-  if (!hasSplitTables(db2)) return null;
-  const row = getRow(
-    db2,
-    `SELECT card_id AS cardId, payload, status, created_at AS createdAt, updated_at AS updatedAt
-     FROM card_split_proposals WHERE card_id = ?`,
-    cardId
-  );
-  if (!row) return null;
-  let proposal;
+// ../lib/userdata-sandbox.ts
+var CARD_FOLDERS_ENV = "IDEAFY_CARD_FOLDERS_ROOT";
+var UNOWNED_GRACE_MS = 10 * 6e4;
+
+// ../lib/autonomous-run/browser-prereqs.ts
+function isExecutableFile(p) {
   try {
-    proposal = JSON.parse(row.payload);
-  } catch {
-    return null;
-  }
-  return { cardId: row.cardId, status: row.status, proposal, createdAt: row.createdAt, updatedAt: row.updatedAt };
-}
-function dismissSplitProposal(db2, cardId, now) {
-  if (!hasSplitTables(db2)) return false;
-  const { changes } = runChanges(
-    db2,
-    "UPDATE card_split_proposals SET status = 'dismissed', updated_at = ? WHERE card_id = ? AND status = 'pending'",
-    now,
-    cardId
-  );
-  return changes > 0;
-}
-var PLAN_SUMMARY_MAX = 200;
-var FILES_MAX = 8;
-function toRef(row) {
-  return {
-    id: row.id,
-    displayId: formatDisplayId(row.idPrefix, row.taskNumber),
-    title: row.title,
-    status: row.status
-  };
-}
-function planSummary(html) {
-  const text2 = plainTextLabel((html ?? "").replace(/^\s*<h1[^>]*>[\s\S]*?<\/h1>/i, ""), PLAN_SUMMARY_MAX);
-  return text2 || null;
-}
-function cappedFiles(html) {
-  const files = extractPlanFiles(html ?? "");
-  return files.length > FILES_MAX ? [...files.slice(0, FILES_MAX), `+${files.length - FILES_MAX}`] : files;
-}
-function toChild(row) {
-  const member = { status: row.status, gitBranchStatus: row.gitBranchStatus, testScenarios: row.testScenarios };
-  return {
-    ...toRef(row),
-    ready: isReadyForParent(member),
-    tests: testTicks(member),
-    plan: planSummary(row.solutionSummary),
-    files: cappedFiles(row.solutionSummary)
-  };
-}
-var REF_SELECT = `SELECT c.id, c.title, c.status, c.task_number AS taskNumber, p.id_prefix AS idPrefix
-  FROM cards c LEFT JOIN projects p ON p.id = c.project_id`;
-var CHILD_SELECT = `SELECT c.id, c.title, c.status, c.task_number AS taskNumber, p.id_prefix AS idPrefix,
-    c.git_branch_status AS gitBranchStatus, c.test_scenarios AS testScenarios, c.solution_summary AS solutionSummary
-  FROM cards c LEFT JOIN projects p ON p.id = c.project_id`;
-var refName = (ref) => ref.displayId ?? ref.title;
-function isFile(absPath) {
-  try {
-    return statSync2(absPath).isFile();
+    if (!statSync2(p).isFile()) return false;
+    accessSync(p, constants.X_OK);
+    return true;
   } catch {
     return false;
   }
 }
-var MOCKUP_SELECT = `SELECT ai_opinion AS aiOpinion, solution_summary AS solutionSummary, description FROM cards WHERE id = ?`;
-function mockupsForChild(db2, parentId, childId) {
-  const parent = getRow(db2, MOCKUP_SELECT, parentId);
-  const child = getRow(db2, MOCKUP_SELECT, childId);
-  const ownFolder = cardArtifactDir(childId) + path4.sep;
-  const copies = listMockupArtifacts(child?.description).filter((p) => p.startsWith(ownFolder));
-  return [.../* @__PURE__ */ new Set([...parent ? cardMockups(parent) : [], ...copies])].filter(isFile);
-}
-function splitRelations(db2, cardId) {
-  const columns = allRows(db2, "PRAGMA table_info(cards)");
-  if (!columns.some((column) => column.name === "split_from_card_id")) return null;
-  const own = getRow(db2, "SELECT split_from_card_id AS parentId FROM cards WHERE id = ?", cardId);
-  const children = allRows(db2, `${CHILD_SELECT} WHERE c.split_from_card_id = ? ORDER BY c.task_number`, cardId).map(toChild);
-  let parent = null;
-  if (own?.parentId) {
-    const row = getRow(db2, `${REF_SELECT} WHERE c.id = ?`, own.parentId);
-    parent = row ? { ...toRef(row), mockups: mockupsForChild(db2, row.id, cardId) } : { id: own.parentId, missing: true };
-  }
-  if (!parent && children.length === 0) return null;
-  const role = children.length > 0 ? SPLIT_PARENT_RULE : parent && !("missing" in parent) ? splitChildRule(refName(parent)) : null;
-  return { parent, children, role };
-}
-function splitRoleLine(db2, cardId) {
-  try {
-    const split = splitRelations(db2, cardId);
-    if (!split?.role) return null;
-    if (split.children.length > 0) {
-      const parts = split.children.map((child) => {
-        const state = child.ready ? "ready" : "not ready";
-        const ticks = child.tests ? `, tests ${child.tests}` : "";
-        return `${sanitizeForReminder(refName(child), 80)} (${child.status}${ticks}, ${state})`;
-      });
-      return `Split parent of ${parts.join(", ")}. ${SPLIT_PARENT_RULE}`;
+function findOnPath(binary, pathValue, platform = process.platform) {
+  const names = platform === "win32" ? [`${binary}.cmd`, `${binary}.exe`, binary] : [binary];
+  const delimiter = platform === "win32" ? ";" : ":";
+  for (const dir of pathValue.split(delimiter)) {
+    if (!dir) continue;
+    for (const name of names) {
+      const candidate = path4.join(dir, name);
+      if (isExecutableFile(candidate)) return candidate;
     }
-    const parent = split.parent;
-    const line = `Split out of ${sanitizeForReminder(refName(parent), 80)} \xB7 ${sanitizeForReminder(parent.title, 80)}. ${splitChildRule(sanitizeForReminder(refName(parent), 80))}`;
-    if (parent.mockups.length === 0) return line;
-    return `${line} Parent mockup: ${parent.mockups.map((p) => sanitizeForReminder(p, 300)).join(", ")} \u2014 open it before UI work.`;
-  } catch (error2) {
-    console.warn("[split] role line skipped:", error2);
-    return null;
-  }
-}
-function pendingSplitCounts(db2) {
-  const counts = /* @__PURE__ */ new Map();
-  if (!hasSplitTables(db2)) return counts;
-  for (const row of allRows(
-    db2,
-    `SELECT card_id AS cardId, json_array_length(payload, '$.cards') AS n FROM card_split_proposals WHERE status = 'pending'`
-  )) {
-    counts.set(row.cardId, Number(row.n) || 0);
-  }
-  return counts;
-}
-
-// ../lib/card-ops/restore-field.ts
-var COLUMN2 = {
-  description: "description",
-  solutionSummary: "solution_summary",
-  aiOpinion: "ai_opinion",
-  testScenarios: "test_scenarios"
-};
-var BASE_COMMIT = {
-  solutionSummary: "plan_base_commit",
-  testScenarios: "tests_base_commit"
-};
-var OPINION_KEYS = ["verdict", "score", "priority", "complexity"];
-function readRow(db2, id, field) {
-  const base = BASE_COMMIT[field];
-  const baseSql = base && hasBaseCommitColumns(db2) ? `, ${base} AS base_commit` : "";
-  return getRow(
-    db2,
-    `SELECT ${COLUMN2[field]} AS html, status, ai_verdict AS verdict, ai_score AS score, priority, complexity${baseSql}
-     FROM cards WHERE id = ?`,
-    id
-  );
-}
-function readSplit(db2, id) {
-  if (!hasSplitTables(db2)) return void 0;
-  const row = getRow(
-    db2,
-    "SELECT payload, status FROM card_split_proposals WHERE card_id = ?",
-    id
-  );
-  if (!row) return null;
-  if (row.status !== "pending" && row.status !== "dismissed") return void 0;
-  return { payload: row.payload, status: row.status };
-}
-var sameSplit = (a, b2) => a === b2 || !!a && !!b2 && a.payload === b2.payload && a.status === b2.status;
-function snapshotOf(row, field) {
-  const snapshot = { html: row.html ?? "" };
-  if (field === "solutionSummary") snapshot.status = row.status;
-  if (row.base_commit !== void 0) snapshot.baseCommit = row.base_commit;
-  if (field === "aiOpinion") {
-    snapshot.verdict = row.verdict;
-    snapshot.score = row.score;
-    snapshot.priority = row.priority;
-    snapshot.complexity = row.complexity;
-  }
-  return snapshot;
-}
-function undoSnapshot(db2, id, field) {
-  const row = readRow(db2, id, field);
-  if (!row) return null;
-  const snapshot = snapshotOf(row, field);
-  if (field === "aiOpinion") {
-    const split = readSplit(db2, id);
-    if (split !== void 0) snapshot.split = split;
-  }
-  return snapshot;
-}
-function restoreField(db2, args) {
-  const { id, field, previous, expected, now } = args;
-  return transaction(db2, () => {
-    const row = readRow(db2, id, field);
-    if (!row) return { ok: false, reason: "not-found" };
-    if ((row.html ?? "") !== expected.html) return { ok: false, reason: "changed" };
-    if (field === "aiOpinion" && OPINION_KEYS.some((key) => (row[key] ?? null) !== (expected[key] ?? null))) {
-      return { ok: false, reason: "changed" };
-    }
-    const splitTracked = field === "aiOpinion" && expected.split !== void 0 && previous.split !== void 0;
-    const currentSplit = splitTracked ? readSplit(db2, id) : void 0;
-    if (splitTracked && !sameSplit(currentSplit, expected.split)) return { ok: false, reason: "changed" };
-    runChanges(db2, `UPDATE cards SET ${COLUMN2[field]} = ?, updated_at = ? WHERE id = ?`, previous.html, now, id);
-    recordAuthorship(db2, {
-      cardId: id,
-      author: args.author,
-      now,
-      before: { [field]: row.html },
-      after: { [field]: previous.html }
-    });
-    if (field === "aiOpinion") {
-      runChanges(
-        db2,
-        `UPDATE cards SET ai_verdict = ?, ai_score = ?, priority = COALESCE(?, priority), complexity = COALESCE(?, complexity) WHERE id = ?`,
-        previous.verdict ?? null,
-        previous.score ?? null,
-        previous.priority ?? null,
-        previous.complexity ?? null,
-        id
-      );
-    }
-    if (splitTracked && !sameSplit(previous.split, currentSplit)) {
-      if (!previous.split) {
-        runChanges(db2, "DELETE FROM card_split_proposals WHERE card_id = ?", id);
-      } else if (currentSplit) {
-        runChanges(
-          db2,
-          "UPDATE card_split_proposals SET payload = ?, status = ?, updated_at = ? WHERE card_id = ?",
-          previous.split.payload,
-          previous.split.status,
-          now,
-          id
-        );
-      } else {
-        runChanges(
-          db2,
-          `INSERT INTO card_split_proposals (card_id, payload, status, created_at, updated_at) VALUES (?, ?, ?, ?, ?)`,
-          id,
-          previous.split.payload,
-          previous.split.status,
-          now,
-          now
-        );
-      }
-    }
-    const base = BASE_COMMIT[field];
-    if (base && row.base_commit !== void 0 && previous.baseCommit !== void 0) {
-      runChanges(db2, `UPDATE cards SET ${base} = ? WHERE id = ?`, previous.baseCommit, id);
-    }
-    if (field === "solutionSummary" && isStatus(previous.status) && expected.status !== previous.status && row.status === expected.status) {
-      const moved = moveCard(db2, id, previous.status, now);
-      if (moved.ok && moved.changed) return { ok: true, movedBack: previous.status };
-    }
-    return { ok: true };
-  });
-}
-function parseUndoSnapshot(raw) {
-  if (!raw || typeof raw !== "object") return null;
-  const value = raw;
-  if (typeof value.html !== "string") return null;
-  const snapshot = { html: value.html };
-  const text2 = (v2) => v2 === null || typeof v2 === "string";
-  if (value.status !== void 0) {
-    if (!isStatus(value.status)) return null;
-    snapshot.status = value.status;
-  }
-  for (const key of ["baseCommit", "verdict", "priority", "complexity"]) {
-    if (value[key] === void 0) continue;
-    if (!text2(value[key])) return null;
-    snapshot[key] = value[key];
-  }
-  if (value.score !== void 0) {
-    if (value.score !== null && typeof value.score !== "number") return null;
-    snapshot.score = value.score;
-  }
-  if (value.split !== void 0) {
-    const split = parseSplitSnapshot(value.split);
-    if (split === void 0) return null;
-    snapshot.split = split;
-  }
-  return snapshot;
-}
-function parseSplitSnapshot(raw) {
-  if (raw === null) return null;
-  if (!raw || typeof raw !== "object") return void 0;
-  const { payload, status } = raw;
-  if (typeof payload !== "string" || status !== "pending" && status !== "dismissed") return void 0;
-  let json2;
-  try {
-    json2 = JSON.parse(payload);
-  } catch {
-    return void 0;
-  }
-  return parseSplitInto(json2).ok ? { payload, status } : void 0;
-}
-
-// ../lib/card-ops/drift.ts
-var MAX_LISTED = 20;
-var MAX_FILES = 200;
-var escapeRegExp2 = (text2) => text2.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-function driftSince(db2, cardId, field) {
-  try {
-    if (!hasBaseCommitColumns(db2)) return null;
-    const row = getRow(
-      db2,
-      `SELECT c.tests_base_commit AS testsBase, c.plan_base_commit AS planBase,
-              c.test_scenarios AS tests, c.solution_summary AS plan,
-              c.task_number AS taskNumber, p.id_prefix AS idPrefix,
-              p.folder_path AS projectFolder, c.project_folder AS cardFolder
-       FROM cards c LEFT JOIN projects p ON p.id = c.project_id WHERE c.id = ?`,
-      cardId
-    );
-    if (!row) return null;
-    const base = field === "plan" ? row.planBase : row.testsBase;
-    if (!base || !stripHtml((field === "plan" ? row.plan : row.tests) ?? "")) return null;
-    const repo = row.projectFolder || row.cardFolder;
-    if (!repo || !commitExists(repo, base)) return null;
-    const displayId = formatDisplayId(row.idPrefix, row.taskNumber);
-    const files = new Set(extractPlanFiles(row.plan ?? ""));
-    if (displayId) {
-      const own = gitRead(repo, ["log", "--all", "-E", `--grep=^Card: ${escapeRegExp2(displayId)}$`, "--name-only", "--format="]);
-      for (const line of (own ?? "").split("\n")) if (line.trim()) files.add(line.trim());
-    }
-    const watched = [...files].filter((file2) => !isGenerated(file2)).slice(0, MAX_FILES);
-    if (watched.length === 0) return null;
-    const chainTip = chainTipFor(db2, cardId, repo);
-    const tip = chainTip?.ref ?? "HEAD";
-    const log = gitRead(repo, ["log", "--format=%H%x1f%s%x1f%cI%x1f%b%x1e", `${base}..${tip}`, "--", ...watched]);
-    if (log === null) return null;
-    const ownTrailer = displayId ? new RegExp(`^Card: ${escapeRegExp2(displayId)}\\s*$`, "m") : null;
-    const commits = [];
-    for (const record2 of log.split("")) {
-      const [sha, subject, at, body] = record2.replace(/^\n+/, "").split("");
-      if (!sha || !/^[0-9a-f]{40}$/.test(sha.trim())) continue;
-      if (ownTrailer?.test(body ?? "")) continue;
-      commits.push({ sha: sha.trim(), subject: (subject ?? "").trim(), at: (at ?? "").trim() });
-    }
-    return { base, files: watched, commits: commits.slice(0, MAX_LISTED), total: commits.length, head: chainTip?.sha ?? currentHead(repo) };
-  } catch {
-    return null;
-  }
-}
-var testsDriftFor = (db2, cardId) => driftSince(db2, cardId, "tests");
-var planDriftFor = (db2, cardId) => driftSince(db2, cardId, "plan");
-function planDriftLine(db2, cardId) {
-  try {
-    const row = getRow(db2, `SELECT status FROM cards WHERE id = ?`, cardId);
-    if (!row?.status || !["backlog", "bugs", "progress"].includes(row.status)) return null;
-    const drift = planDriftFor(db2, cardId);
-    if (!drift || drift.total === 0) return null;
-    return `Plan drift: ${drift.total} commit(s) touched this card's files since its plan was written \u2014 the code wins; read them with git show before following the plan (get_card lists them as planDrift). Once checked, confirm it is still current or add a dated "Updates against code" section (save_plan confirmCurrent / appendRefresh, with the user's OK).`;
-  } catch {
-    return null;
-  }
-}
-
-// ../lib/card-ops/story.ts
-var GIT_TTL_MS = 3e4;
-var gitCache = /* @__PURE__ */ new Map();
-function defaultBranch(repo) {
-  const remote = gitRead(repo, ["symbolic-ref", "--short", "refs/remotes/origin/HEAD"]);
-  if (remote) return remote.replace(/^origin\//, "");
-  for (const name of ["main", "master"]) {
-    if (gitRead(repo, ["show-ref", "--verify", "--quiet", `refs/heads/${name}`]) !== null) return name;
   }
   return null;
 }
-function branchStoryCounts(repo, branch) {
-  const head = gitRead(repo, ["rev-parse", "--verify", "--quiet", `refs/heads/${branch}`]);
-  if (!head) return { exists: false, ahead: 0, files: 0 };
-  const key = `${repo}\0${branch}\0${head}`;
-  const cached3 = gitCache.get(key);
-  if (cached3 && Date.now() - cached3.at < GIT_TTL_MS) return cached3.value;
-  const base = defaultBranch(repo);
-  if (!base) return null;
-  const ahead = Number(gitRead(repo, ["rev-list", "--count", `${base}..${branch}`]) ?? NaN);
-  const names = gitRead(repo, ["diff", "--name-only", `${base}...${branch}`]);
-  if (!Number.isFinite(ahead) || names === null) return null;
-  const value = { exists: true, ahead, files: names.split("\n").filter((line) => line.trim()).length };
-  gitCache.set(key, { at: Date.now(), value });
-  return value;
+function chromeCandidates(platform = process.platform, env = process.env) {
+  const home = env.HOME || env.USERPROFILE || "";
+  if (platform === "darwin") {
+    const app = "Google Chrome.app/Contents/MacOS/Google Chrome";
+    return [path4.join("/Applications", app), ...home ? [path4.join(home, "Applications", app)] : []];
+  }
+  if (platform === "win32") {
+    const exe = path4.win32.join("Google", "Chrome", "Application", "chrome.exe");
+    return [env.LOCALAPPDATA, env.PROGRAMFILES, env["PROGRAMFILES(X86)"]].filter((root) => Boolean(root)).map((root) => path4.win32.join(root, exe));
+  }
+  return ["/opt/google/chrome/chrome"];
 }
-function loadStoryInputs(db2, cardId) {
-  try {
-    const row = getRow(
-      db2,
-      `SELECT c.git_branch_name AS branch, p.folder_path AS projectFolder, c.project_folder AS cardFolder
-       FROM cards c LEFT JOIN projects p ON p.id = c.project_id WHERE c.id = ?`,
-      cardId
-    );
-    if (!row) return { opinionUserMessages: null, git: null };
-    const messages = getRow(
-      db2,
-      `SELECT COUNT(*) AS n FROM conversations WHERE card_id = ? AND section_type = 'opinion' AND role = 'user'`,
-      cardId
-    );
-    const repo = row.projectFolder || row.cardFolder;
+function findChrome(candidates = chromeCandidates()) {
+  return candidates.find((candidate) => isExecutableFile(candidate)) ?? null;
+}
+var NPX_MISSING = "Node/npx was not found on the PATH Ideafy runs agents with";
+var CHROME_MISSING = "Google Chrome is not installed \u2014 the visual check runs in Chrome";
+function checkBrowserPrereqs(input) {
+  if (!findOnPath("npx", input.pathValue)) return { ok: false, reason: NPX_MISSING };
+  if (!findChrome(input.chromeCandidates)) return { ok: false, reason: CHROME_MISSING };
+  return { ok: true };
+}
+var VERIFY_NO_CHROME_ENV = "IDEAFY_VERIFY_NO_CHROME";
+function verifyHidesChrome(env = process.env) {
+  return env[VERIFY_NO_CHROME_ENV] === "1" && Boolean(env[CARD_FOLDERS_ENV]?.trim());
+}
+var PREREQS_TTL_MS = 6e4;
+var cached2 = null;
+function browserPrereqs() {
+  if (cached2 && Date.now() - cached2.at < PREREQS_TTL_MS) return cached2.result;
+  const result = checkBrowserPrereqs({
+    pathValue: buildEnv().PATH ?? "",
+    chromeCandidates: verifyHidesChrome() ? [] : chromeCandidates()
+  });
+  cached2 = { at: Date.now(), result };
+  return result;
+}
+
+// ../lib/card-queue.ts
+var card_queue_exports = {};
+__export(card_queue_exports, {
+  APP_RUN_CARD_ENV: () => APP_RUN_CARD_ENV,
+  QUEUE_CLEARING_STATUSES: () => QUEUE_CLEARING_STATUSES,
+  TERMINAL_WRITE_OPTIONS: () => TERMINAL_WRITE_OPTIONS,
+  compareByQueuePosition: () => compareByQueuePosition,
+  conflictingLiveRun: () => conflictingLiveRun,
+  folderHoldFor: () => folderHoldFor,
+  liveRunPhrase: () => liveRunPhrase,
+  liveRunSubject: () => liveRunSubject,
+  queueIneligibleReason: () => queueIneligibleReason,
+  queueRanks: () => queueRanks,
+  sharedWorkingCopyWith: () => sharedWorkingCopyWith,
+  withoutOwnAppRun: () => withoutOwnAppRun,
+  writeConflictFor: () => writeConflictFor
+});
+var QUEUE_CLEARING_STATUSES = /* @__PURE__ */ new Set([
+  "test",
+  "completed",
+  "withdrawn",
+  "ideation"
+]);
+function compareByQueuePosition(a, b2) {
+  const ap = a.queuePosition ?? Number.MAX_SAFE_INTEGER;
+  const bp = b2.queuePosition ?? Number.MAX_SAFE_INTEGER;
+  if (ap !== bp) return ap - bp;
+  return (a.taskNumber ?? Number.MAX_SAFE_INTEGER) - (b2.taskNumber ?? Number.MAX_SAFE_INTEGER);
+}
+function queueRanks(cards) {
+  const ranks = /* @__PURE__ */ new Map();
+  cards.filter((card) => card.queuePosition !== null).sort(compareByQueuePosition).forEach((card, index) => ranks.set(card.id, index + 1));
+  return ranks;
+}
+function queueIneligibleReason(input) {
+  if (input.status === "test") {
+    if (input.phase !== "verify") return "it is in test";
+    if (input.projectMode === "work") return "Work projects have no queued pre-verify";
+    if (!input.hasDescription) return "it has no description";
+    if (!input.hasCoreFlow) return "its checklist has no core-flow group";
+    if (input.gitBranchStatus === "rolled_back") return "its branch was rolled back";
+    if (input.processingType) return "a run is already going on it";
+    return null;
+  }
+  if (QUEUE_CLEARING_STATUSES.has(input.status)) return `it is in ${input.status}`;
+  if (input.projectMode === "work") return "Work projects have no implementation run";
+  if (!input.hasDescription) return "it has no description";
+  if (input.phase === "planning") {
+    if (!input.autopilotPlanning || input.status !== "backlog" && input.status !== "bugs") return "it has no plan yet";
+    if (input.processingType) return "a run is already going on it";
+    return null;
+  }
+  if (input.phase !== "implementation") return "it already has a test checklist";
+  if (input.hasOpenDecision) return "its plan needs your decision";
+  if (input.processingType) return "a run is already going on it";
+  return null;
+}
+function sharedWorkingCopyWith(self, ahead) {
+  if (self.runsInWorktree) return null;
+  for (let i = ahead.length - 1; i >= 0; i--) {
+    const other = ahead[i];
+    if (other.id === self.id || other.runsInWorktree || other.kind === "verify" || other.kind === "planning") continue;
+    if (other.projectId === self.projectId) return other;
+  }
+  return null;
+}
+function conflictingLiveRun(self, live) {
+  if (self.runsInWorktree || self.kind === "planning") return null;
+  for (const other of live) {
+    if (other.id === self.id || other.runsInWorktree || other.kind === "planning") continue;
+    if (other.projectId === self.projectId) return other;
+  }
+  return null;
+}
+function liveRunSubject(run2) {
+  if (run2.kind === "terminal") {
+    return run2.displayId ? `${run2.displayId}'s terminal session is editing` : "a terminal session is editing";
+  }
+  const name = run2.displayId ?? "a card";
+  if (run2.kind === "tests-chat") return `${name}'s Tests chat is working`;
+  if (run2.fromQueue) return `${name} is running from the queue`;
+  return `${name} is running`;
+}
+function liveRunPhrase(run2) {
+  const subject = liveRunSubject(run2);
+  return `${subject.charAt(0).toUpperCase()}${subject.slice(1)} in the same folder.`;
+}
+var TERMINAL_WRITE_OPTIONS = "Wait for it, work in a worktree, or continue only if the user confirms.";
+var APP_RUN_CARD_ENV = "IDEAFY_APP_RUN_CARD";
+function withoutOwnAppRun(runs, appRunCardId) {
+  if (!appRunCardId) return runs;
+  return runs.filter((run2) => run2.kind === "terminal" || run2.cardId !== appRunCardId);
+}
+function writeConflictFor(input) {
+  const open = (run2) => !input.acknowledged?.has(run2.id);
+  const live = conflictingLiveRun(input.self, input.live.filter(open));
+  if (live) {
     return {
-      opinionUserMessages: messages ? Number(messages.n) : null,
-      git: row.branch && repo ? branchStoryCounts(repo, row.branch) : null
+      conflictId: live.id,
+      conflictCardId: live.cardId,
+      reason: "live-run",
+      message: `${liveRunPhrase(live)} ${TERMINAL_WRITE_OPTIONS}`
     };
-  } catch {
-    return { opinionUserMessages: null, git: null };
   }
+  if (!input.armed) return null;
+  const next = input.waiting.find((row) => open(row) && conflictingLiveRun(input.self, [row]));
+  if (!next) return null;
+  return {
+    conflictId: next.id,
+    conflictCardId: next.cardId,
+    reason: "queue",
+    message: `The queue is running on main (${next.displayId ?? "a card"} is next). ${TERMINAL_WRITE_OPTIONS}`
+  };
+}
+function folderHoldFor(next, writers) {
+  const writer = conflictingLiveRun(next, writers);
+  if (!writer) return null;
+  const folder = next.displayId ? `${next.displayId}'s folder` : "the next card's folder";
+  return `${liveRunSubject(writer)} in ${folder}`;
 }
 
-// ../lib/card-ops/branch-files.ts
-import { existsSync as existsSync6 } from "fs";
-function defaultBranchName(repo) {
-  const remote = gitRead(repo, ["symbolic-ref", "refs/remotes/origin/HEAD"]);
-  if (remote) return remote.replace("refs/remotes/origin/", "").replace("refs/heads/", "");
-  return gitRead(repo, ["show-ref", "--verify", "--quiet", "refs/heads/main"]) !== null ? "main" : "master";
-}
-var lines = (stdout) => stdout.split("\n").map((line) => line.trim()).filter(Boolean);
-function listChangedFiles(repoPath, opts) {
-  const base = opts.baseRef || defaultBranchName(repoPath);
-  const renames = opts.noRenames ? ["--no-renames"] : [];
-  if (opts.worktreePath) {
-    if (!existsSync6(opts.worktreePath)) return [];
-    const mergeBase = gitRead(opts.worktreePath, ["merge-base", base, "HEAD"]);
-    if (!mergeBase) return [];
-    const stdout = gitRead(opts.worktreePath, ["diff", "--name-only", ...renames, mergeBase]);
-    return stdout === null ? [] : lines(stdout);
-  }
-  if (opts.branchName) {
-    const stdout = gitRead(repoPath, ["diff", "--name-only", ...renames, `${base}...${opts.branchName}`]);
-    return stdout === null ? [] : lines(stdout);
-  }
-  return [];
-}
-var TTL_MS = 3e4;
-var touchedCache = /* @__PURE__ */ new Map();
-var escapeRegExp3 = (text2) => text2.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-function cached2(key, read) {
-  const hit = touchedCache.get(key);
-  if (hit && Date.now() - hit.at < TTL_MS) return hit.value;
-  const value = read();
-  touchedCache.set(key, { at: Date.now(), value });
-  return value;
-}
-function touchedFiles(db2, cardId, row, repo) {
-  const base = chainTipFor(db2, cardId, repo)?.ref ?? defaultBranchName(repo);
-  if (row.worktreeStatus === "active" && row.worktreePath && existsSync6(row.worktreePath)) {
-    const head = currentHead(row.worktreePath);
-    const found = cached2(`${row.worktreePath}\0${base}\0${head}`, () => {
-      const changed = listChangedFiles(repo, { worktreePath: row.worktreePath, baseRef: base, noRenames: true });
-      const untracked = gitRead(row.worktreePath, ["ls-files", "--others", "--exclude-standard"]);
-      const files = Array.from(/* @__PURE__ */ new Set([...changed, ...untracked ? lines(untracked) : []]));
-      return files.length ? { source: "worktree", ref: row.branch || base, files } : null;
-    });
-    if (found) return found;
-  }
-  if (row.branch) {
-    const head = gitRead(repo, ["rev-parse", "--verify", "--quiet", `refs/heads/${row.branch}`]);
-    if (head) {
-      const found = cached2(`${repo}\0${row.branch}\0${base}\0${head}`, () => {
-        const files = listChangedFiles(repo, { branchName: row.branch, baseRef: base, noRenames: true });
-        return files.length ? { source: "branch", ref: row.branch, files } : null;
-      });
-      if (found) return found;
-    }
-  }
-  const displayId = formatDisplayId(row.idPrefix, row.taskNumber);
-  if (!displayId) return null;
-  return cached2(`${repo}\0${displayId}\0${currentHead(repo)}`, () => {
-    const stdout = gitRead(repo, [
-      "log",
-      "--all",
-      "-E",
-      `--grep=^Card: ${escapeRegExp3(displayId)}$`,
-      "--no-renames",
-      "--name-only",
-      "--format="
-    ]);
-    const files = stdout === null ? [] : Array.from(new Set(lines(stdout)));
-    return files.length ? { source: "commits", ref: base, files } : null;
-  });
-}
-function planBranchFilesFor(db2, cardId) {
-  try {
-    const row = getRow(
-      db2,
-      `SELECT c.solution_summary AS plan, c.git_worktree_path AS worktreePath,
-              c.git_worktree_status AS worktreeStatus, c.git_branch_name AS branch,
-              c.task_number AS taskNumber, p.id_prefix AS idPrefix,
-              p.folder_path AS projectFolder, c.project_folder AS cardFolder
-       FROM cards c LEFT JOIN projects p ON p.id = c.project_id WHERE c.id = ?`,
-      cardId
-    );
-    if (!row) return null;
-    const planned = extractPlanFiles(row.plan ?? "");
-    if (planned.length === 0) return null;
-    const repo = row.projectFolder || row.cardFolder;
-    if (!repo || !currentHead(repo)) return null;
-    const touched = touchedFiles(db2, cardId, row, repo);
-    if (!touched) return null;
-    const rows = comparePlanFiles(planned, touched.files);
-    const counts = { touched: 0, planned: 0, outside: 0 };
-    for (const { state } of rows) counts[state]++;
-    return { source: touched.source, ref: touched.ref, displayId: formatDisplayId(row.idPrefix, row.taskNumber), rows, counts };
-  } catch {
-    return null;
-  }
+// ../lib/prompts/phase.ts
+function detectPhase(card) {
+  const hasSolution = card.solutionSummary && stripHtml(card.solutionSummary) !== "";
+  const hasTests = hasOwnChecklist(card.testScenarios);
+  if (card.status === "test") return "verify";
+  if (!hasSolution) return "planning";
+  if (!hasTests) return "implementation";
+  return "retest";
 }
 
-// ../lib/output-paths.ts
-function parseOutputPaths(value) {
-  if (!value) return null;
-  try {
-    const parsed = JSON.parse(value);
-    if (!Array.isArray(parsed)) return null;
-    const paths = parsed.filter((entry) => typeof entry === "string");
-    return paths.length ? paths : null;
-  } catch {
-    return null;
+// ../lib/workspace.ts
+var workspace_exports = {};
+__export(workspace_exports, {
+  OPEN_ADD_PROJECT_EVENT: () => OPEN_ADD_PROJECT_EVENT,
+  isCardInWorkspace: () => isCardInWorkspace,
+  normalizeProjectMode: () => normalizeProjectMode,
+  projectModeOf: () => projectModeOf,
+  projectsInWorkspace: () => projectsInWorkspace,
+  resolveEffectiveWorktree: () => resolveEffectiveWorktree,
+  shouldUseWorktree: () => shouldUseWorktree,
+  worktreeOverrideFor: () => worktreeOverrideFor
+});
+var OPEN_ADD_PROJECT_EVENT = "ideafy:open-add-project";
+function normalizeProjectMode(v2, fallback = DEFAULT_PROJECT_MODE) {
+  return typeof v2 === "string" && PROJECT_MODES.includes(v2) ? v2 : fallback;
+}
+function projectModeOf(projectId, projects) {
+  if (!projectId) return DEFAULT_PROJECT_MODE;
+  return projects.find((project) => project.id === projectId)?.mode ?? DEFAULT_PROJECT_MODE;
+}
+function projectsInWorkspace(projects, workspace) {
+  return projects.filter((project) => (project.mode ?? DEFAULT_PROJECT_MODE) === workspace);
+}
+function isCardInWorkspace(card, projects, workspace) {
+  return projectModeOf(card.projectId, projects) === workspace;
+}
+function shouldUseWorktree(card, project) {
+  if (project?.mode === "work") return false;
+  return card.useWorktree ?? project?.useWorktrees ?? true;
+}
+function resolveEffectiveWorktree(card, project) {
+  const effective = shouldUseWorktree(card, project);
+  if (!effective) return { enforced: false, targetBranch: null };
+  if (card.gitBranchName) {
+    return { enforced: true, targetBranch: card.gitBranchName };
   }
+  if (project && card.taskNumber != null) {
+    return {
+      enforced: true,
+      targetBranch: generateBranchName(project.idPrefix, card.taskNumber, card.title)
+    };
+  }
+  return { enforced: true, targetBranch: null };
 }
-
-// ../lib/card-ops/output-paths.ts
-function addOutputPath(db2, id, relativePath, now) {
-  return transaction(db2, () => {
-    const row = getRow(db2, `SELECT output_paths FROM cards WHERE id = ?`, id);
-    if (!row) return { ok: false, reason: "not-found" };
-    const existing = parseOutputPaths(row.output_paths) ?? [];
-    if (existing.includes(relativePath)) return { ok: true, outputPaths: existing, alreadyRecorded: true };
-    const outputPaths = [...existing, relativePath];
-    runChanges(db2, `UPDATE cards SET output_paths = ?, updated_at = ? WHERE id = ?`, JSON.stringify(outputPaths), now, id);
-    return { ok: true, outputPaths, alreadyRecorded: false };
-  });
-}
-
-// ../lib/card-ops/save-test-report.ts
-function saveTestReport(db2, args) {
-  return transaction(db2, () => {
-    const row = getRow(db2, `SELECT test_reports FROM cards WHERE id = ?`, args.id);
-    if (!row) return { ok: false, reason: "not-found" };
-    const { runs, dropped } = prependTestReportRun(parseTestReports(row.test_reports) ?? [], args.run);
-    runChanges(
-      db2,
-      `UPDATE cards SET test_reports = ?, updated_at = ? WHERE id = ?`,
-      JSON.stringify(runs),
-      args.now,
-      args.id
-    );
-    return { ok: true, runs, dropped };
-  });
-}
-function addTestReportWarnings(db2, args) {
-  return transaction(db2, () => {
-    const row = getRow(db2, `SELECT test_reports FROM cards WHERE id = ?`, args.id);
-    if (!row) return { ok: false, reason: "not-found" };
-    const existing = parseTestReports(row.test_reports) ?? [];
-    let runs;
-    let dropped = [];
-    if (existing.some((run2) => run2.id === args.runId)) {
-      runs = existing.map(
-        (run2) => run2.id === args.runId ? { ...run2, warnings: normalizeTestReportWarnings([...run2.warnings ?? [], ...args.warnings]) } : run2
-      );
-    } else {
-      const run2 = buildTestReportRun({
-        id: args.runId,
-        items: [],
-        now: args.now,
-        platform: args.platform ?? null,
-        source: "autonomous",
-        evidence: args.evidence ?? "text",
-        scope: "run",
-        checklistApplied: true
-      });
-      run2.warnings = normalizeTestReportWarnings(args.warnings);
-      ({ runs, dropped } = prependTestReportRun(existing, run2));
-    }
-    runChanges(
-      db2,
-      `UPDATE cards SET test_reports = ?, updated_at = ? WHERE id = ?`,
-      JSON.stringify(runs),
-      args.now,
-      args.id
-    );
-    return { ok: true, runs, dropped };
-  });
+function worktreeOverrideFor(choice, projectDefault) {
+  return choice === projectDefault ? null : choice;
 }
 
 // ../lib/card-ops/card-ref.ts
@@ -27940,9 +27683,9 @@ function waitPath(db2, from, to) {
   while (queue.length > 0) {
     const current = queue.shift();
     if (current === to) {
-      const path10 = [];
-      for (let step = current; step !== null; step = previous.get(step) ?? null) path10.unshift(step);
-      return path10;
+      const path11 = [];
+      for (let step = current; step !== null; step = previous.get(step) ?? null) path11.unshift(step);
+      return path11;
     }
     for (const { next } of allRows(
       db2,
@@ -27964,9 +27707,9 @@ function linkOne(db2, cardId, entry, now) {
   if (predecessor.id === cardId) {
     throw new CardDependencyError("self", `${label(card)} cannot wait on itself.`);
   }
-  const path10 = waitPath(db2, predecessor.id, cardId);
-  if (path10) {
-    const names = path10.map((id) => {
+  const path11 = waitPath(db2, predecessor.id, cardId);
+  if (path11) {
+    const names = path11.map((id) => {
       const row = cardRow(db2, id);
       return row ? label(row) : id;
     });
@@ -28167,7 +27910,7 @@ function setBlockedBy(db2, cardId, entries, now, mode) {
     return kept;
   });
 }
-function toRef2(row, waiterId) {
+function toRef(row, waiterId) {
   return {
     id: row.id,
     displayId: formatDisplayId(row.idPrefix, row.taskNumber),
@@ -28212,8 +27955,8 @@ function listDependencies(db2, cardId) {
     cardId
   );
   return {
-    blockedBy: blockerRows(db2, cardId).map((row) => toRef2(row, cardId)),
-    blocks: blocks.map((row) => toRef2(row))
+    blockedBy: blockerRows(db2, cardId).map((row) => toRef(row, cardId)),
+    blocks: blocks.map((row) => toRef(row))
   };
 }
 function listDependencyEdges(db2) {
@@ -28322,6 +28065,1779 @@ function restoreDependencies(db2, links, now) {
   return restored;
 }
 
+// ../lib/card-ops/queue.ts
+var ROW_SELECT = `
+  SELECT c.id, c.title, c.status, c.description,
+         c.solution_summary AS solutionSummary,
+         c.test_scenarios AS testScenarios,
+         c.processing_type AS processingType,
+         c.queue_position AS queuePosition,
+         c.queue_verify_scope AS queueVerifyScope,
+         c.task_number AS taskNumber,
+         c.use_worktree AS useWorktree,
+         c.git_branch_status AS gitBranchStatus,
+         c.git_worktree_path AS gitWorktreePath,
+         c.git_worktree_status AS gitWorktreeStatus,
+         c.project_id AS projectId,
+         p.id_prefix AS idPrefix,
+         p.mode AS projectMode,
+         p.use_worktrees AS projectUseWorktrees,
+         c.autopilot_stage AS autopilotStage
+  FROM cards c LEFT JOIN projects p ON p.id = c.project_id`;
+function toQueueRow(raw) {
+  return {
+    ...raw,
+    // Anything but "all" is the default; a stray value never widens a run.
+    queueVerifyScope: raw.queueVerifyScope === null ? null : raw.queueVerifyScope === "all" ? "all" : "next",
+    useWorktree: raw.useWorktree === null ? null : !!raw.useWorktree,
+    projectUseWorktrees: raw.projectUseWorktrees === null ? null : !!raw.projectUseWorktrees
+  };
+}
+function listQueueRows(db2) {
+  return allRows(db2, `${ROW_SELECT} WHERE c.queue_position IS NOT NULL`).map(toQueueRow).sort(compareByQueuePosition);
+}
+function getQueueRow(db2, cardId) {
+  const raw = getRow(db2, `${ROW_SELECT} WHERE c.id = ?`, cardId);
+  return raw ? toQueueRow(raw) : void 0;
+}
+function queueDisplayId(row) {
+  return formatDisplayId(row.idPrefix, row.taskNumber) ?? row.title;
+}
+function queueRowIneligibleReason(row) {
+  const progress = parseTestProgress(row.testScenarios ?? "");
+  const core = progress?.core;
+  const reason = queueIneligibleReason({
+    status: row.status,
+    hasDescription: stripHtml(row.description ?? "") !== "",
+    phase: detectPhase(row),
+    processingType: row.processingType,
+    projectMode: row.projectMode,
+    hasCoreFlow: !!core,
+    gitBranchStatus: row.gitBranchStatus,
+    hasOpenDecision: hasOpenPlanDecision(row),
+    autopilotPlanning: row.autopilotStage === "planning"
+  });
+  if (reason) return reason;
+  if (row.status === "test" && !nextVerifyGroup(progress)) {
+    return manualLeftIn(progress) > 0 ? "only [manual] items are left \u2014 they are yours" : "its checklist is fully ticked";
+  }
+  return null;
+}
+function queueKindOf(row) {
+  const phase = detectPhase(row);
+  return phase === "verify" ? "verify" : phase === "planning" ? "planning" : "implementation";
+}
+function queuedWaitReason(db2, row) {
+  return queueKindOf(row) === "verify" ? null : queueWaitReason(db2, row.id);
+}
+function nextQueueStep(db2) {
+  const rows = listQueueRows(db2);
+  let waiting = 0;
+  for (const row of rows) {
+    const reason = queueRowIneligibleReason(row);
+    if (reason) return { kind: "drop", row, reason };
+    if (queuedWaitReason(db2, row)) {
+      waiting++;
+      continue;
+    }
+    return { kind: "start", row };
+  }
+  return { kind: "idle", waiting };
+}
+function queuedRunsInWorktree(row) {
+  const activeWorktree = !!row.gitWorktreePath && row.gitWorktreeStatus === "active";
+  const kind = queueKindOf(row);
+  if (kind === "verify") return activeWorktree;
+  if (kind === "planning") return false;
+  const useWorktree = shouldUseWorktree(
+    { useWorktree: row.useWorktree },
+    { useWorktrees: row.projectUseWorktrees, mode: row.projectMode }
+  );
+  return useWorktree && !!row.projectId && row.taskNumber != null || activeWorktree;
+}
+function writeQueueOrder(db2, ids, removed = []) {
+  const place = db2.prepare(`UPDATE cards SET queue_position = ? WHERE id = ?`);
+  ids.forEach((id, index) => place.run(index + 1, id));
+  const unqueue = db2.prepare(`UPDATE cards SET queue_position = NULL WHERE id = ?`);
+  for (const id of removed) unqueue.run(id);
+}
+function enqueueCard(db2, cardId, afterCardId, verifyScope) {
+  if (afterCardId === cardId) {
+    return { ok: false, reason: "after-self", message: "A card cannot be placed after itself" };
+  }
+  return transaction(db2, () => {
+    const row = getQueueRow(db2, cardId);
+    if (!row) return { ok: false, reason: "not-found", message: "Card not found" };
+    const ineligible = queueRowIneligibleReason(row);
+    if (ineligible) {
+      return { ok: false, reason: "ineligible", message: `Cannot queue ${queueDisplayId(row)}: ${ineligible}` };
+    }
+    const members = listQueueRows(db2);
+    const others = members.filter((m2) => m2.id !== cardId);
+    if (afterCardId && !others.some((m2) => m2.id === afterCardId)) {
+      return { ok: false, reason: "after-not-queued", message: "afterCardId is not in the queue" };
+    }
+    const after = afterCardId === void 0 ? others[others.length - 1]?.id ?? null : afterCardId;
+    const moved = members.length !== others.length;
+    const chainShaped = members.map((m2) => ({ id: m2.id, groupOrder: m2.queuePosition, taskNumber: m2.taskNumber }));
+    if (!moved) chainShaped.push({ id: cardId, groupOrder: null, taskNumber: row.taskNumber });
+    const order = placeAfter(chainShaped, cardId, after);
+    writeQueueOrder(db2, order);
+    let queueVerifyScope = row.queueVerifyScope;
+    if (!moved || verifyScope !== void 0) {
+      queueVerifyScope = queueKindOf(row) === "verify" ? verifyScope ?? null : null;
+      db2.prepare(`UPDATE cards SET queue_verify_scope = ? WHERE id = ?`).run(queueVerifyScope, cardId);
+    }
+    return { ok: true, row: { ...row, queueVerifyScope }, rank: order.indexOf(cardId) + 1, moved };
+  });
+}
+function dequeueCard(db2, cardId) {
+  return transaction(db2, () => {
+    const members = listQueueRows(db2);
+    if (!members.some((m2) => m2.id === cardId)) return false;
+    writeQueueOrder(
+      db2,
+      members.filter((m2) => m2.id !== cardId).map((m2) => m2.id),
+      [cardId]
+    );
+    return true;
+  });
+}
+function restoreQueueCards(db2, cardIds) {
+  return transaction(db2, () => {
+    const members = listQueueRows(db2);
+    const queued = new Set(members.map((m2) => m2.id));
+    const restored = [];
+    const skipped = [];
+    for (const cardId of new Set(cardIds)) {
+      if (queued.has(cardId)) {
+        restored.push(cardId);
+        continue;
+      }
+      const row = getQueueRow(db2, cardId);
+      const reason = row ? queueRowIneligibleReason(row) : "it was deleted";
+      if (reason) skipped.push({ cardId, displayId: row ? queueDisplayId(row) : cardId, reason });
+      else restored.push(cardId);
+    }
+    const back = new Set(restored);
+    writeQueueOrder(db2, [...restored, ...members.filter((m2) => !back.has(m2.id)).map((m2) => m2.id)]);
+    return { restored, skipped };
+  });
+}
+function clearQueue(db2, keep = /* @__PURE__ */ new Set()) {
+  return transaction(db2, () => {
+    const rows = allRows(
+      db2,
+      `SELECT c.id, c.title, c.queue_position AS queuePosition, c.task_number AS taskNumber,
+              p.id_prefix AS idPrefix
+       FROM cards c LEFT JOIN projects p ON p.id = c.project_id
+       WHERE c.queue_position IS NOT NULL`
+    ).sort(compareByQueuePosition);
+    const cleared = rows.filter((row) => !keep.has(row.id));
+    const unqueue = db2.prepare(`UPDATE cards SET queue_position = NULL WHERE id = ?`);
+    for (const row of cleared) unqueue.run(row.id);
+    return cleared.map((row) => ({ cardId: row.id, displayId: queueDisplayId(row) }));
+  });
+}
+
+// ../lib/card-ops/autopilot.ts
+var ROW_SELECT2 = `
+  SELECT c.id, c.title, c.status,
+         c.solution_summary AS solutionSummary,
+         c.test_scenarios AS testScenarios,
+         c.processing_type AS processingType,
+         c.use_worktree AS useWorktree,
+         c.git_worktree_path AS gitWorktreePath,
+         c.git_worktree_status AS gitWorktreeStatus,
+         c.rebase_conflict AS rebaseConflict,
+         c.task_number AS taskNumber,
+         p.id_prefix AS idPrefix,
+         p.mode AS projectMode,
+         c.autopilot_stage AS stage,
+         c.autopilot_stop_reason AS stopReason,
+         c.autopilot_retried AS retried,
+         c.autopilot_fix_used AS fixUsed,
+         %MODE% AS mode,
+         %LOOP%
+  FROM cards c LEFT JOIN projects p ON p.id = c.project_id
+  WHERE c.id = ?`;
+var LOOP_SELECT = `c.autopilot_max_rounds AS maxRounds, c.autopilot_fail_signature AS failSignature,
+         c.autopilot_fail_count AS failCount, c.autopilot_started_at AS startedAt, p.ralph_max_rounds AS projectMaxRounds`;
+var NO_LOOP_SELECT = `NULL AS maxRounds, NULL AS failSignature, NULL AS failCount, NULL AS startedAt, NULL AS projectMaxRounds`;
+var modeColumnCache = /* @__PURE__ */ new WeakMap();
+var loopColumnCache = /* @__PURE__ */ new WeakMap();
+function hasRalphLoopColumns(db2) {
+  if (loopColumnCache.get(db2)) return true;
+  const has = db2.prepare(`PRAGMA table_info("cards")`).all().some((c) => c.name === "autopilot_fail_count") && db2.prepare(`PRAGMA table_info("projects")`).all().some((c) => c.name === "ralph_max_rounds");
+  if (has) loopColumnCache.set(db2, true);
+  return has;
+}
+function hasAutopilotModeColumn(db2) {
+  const known = modeColumnCache.get(db2);
+  if (known !== void 0) return known;
+  const has = db2.prepare(`PRAGMA table_info("cards")`).all().some(
+    (column) => column.name === "autopilot_mode"
+  );
+  if (has) modeColumnCache.set(db2, true);
+  return has;
+}
+function readRow(db2, cardId) {
+  const sql = ROW_SELECT2.replace("%MODE%", hasAutopilotModeColumn(db2) ? "c.autopilot_mode" : "NULL").replace(
+    "%LOOP%",
+    hasRalphLoopColumns(db2) ? LOOP_SELECT : NO_LOOP_SELECT
+  );
+  return getRow(db2, sql, cardId);
+}
+function stateOf(row) {
+  const mode = autopilotModeOf(row.mode);
+  return {
+    stage: isAutopilotStage(row.stage) ? row.stage : null,
+    stopReason: row.stopReason,
+    retried: !!row.retried,
+    fixUsed: !!row.fixUsed,
+    mode,
+    ...mode === "ralph" ? {
+      ralph: {
+        maxRounds: resolveRalphMaxRounds(row.maxRounds, row.projectMaxRounds),
+        failCount: row.failCount ?? 0,
+        signature: row.failSignature,
+        startedAt: row.startedAt
+      }
+    } : {}
+  };
+}
+function getAutopilotState(db2, cardId) {
+  const row = readRow(db2, cardId);
+  return row ? stateOf(row) : { stage: null, stopReason: null, retried: false, fixUsed: false, mode: "default" };
+}
+function worktreeIsDirty(row) {
+  if (row.status !== "progress" || !row.gitWorktreePath || row.gitWorktreeStatus !== "active") return false;
+  return !!gitRead(row.gitWorktreePath, ["status", "--porcelain"]);
+}
+function ineligibleReason(row) {
+  const html = row.testScenarios ?? "";
+  return autopilotIneligibleReason({
+    dirtyWorktree: worktreeIsDirty(row),
+    status: row.status,
+    hasPlan: stripHtml(row.solutionSummary ?? "") !== "",
+    hasChecklist: hasOwnChecklist(html),
+    hasCoreFlow: !!parseTestProgress(html)?.core,
+    projectMode: row.projectMode,
+    useWorktree: row.useWorktree === null ? null : !!row.useWorktree,
+    activeWorktree: !!row.gitWorktreePath && row.gitWorktreeStatus === "active",
+    stage: row.stage,
+    processingType: row.processingType,
+    openDecision: findPlanDecisions(row.solutionSummary).length > 0,
+    rebaseConflict: !!row.rebaseConflict
+  });
+}
+function autopilotContinueQuestion(cardId, mode = "default") {
+  const name = autopilotModeName(mode);
+  return `${name} stopped on this card for a plan decision, and the plan no longer asks one. Ask the user whether to continue on ${name}. Call ${queueCallFor(cardId, mode)} only after the user explicitly says yes.`;
+}
+function queueCallFor(cardId, mode) {
+  return mode === "ralph" ? `queue_card({ cardId: "${cardId}", autopilot: true, mode: "ralph" })` : `queue_card({ cardId: "${cardId}", autopilot: true })`;
+}
+function autopilotModeFor(db2, cardId) {
+  const row = readRow(db2, cardId);
+  return autopilotModeOf(row?.mode);
+}
+function autopilotLine(db2, cardId) {
+  const row = readRow(db2, cardId);
+  if (!row) return null;
+  const { stage, stopReason, mode = "default" } = stateOf(row);
+  const name = autopilotModeName(mode);
+  if (isActiveAutopilotStage(stage)) {
+    return `${name} is running this card (${stage}) in its worktree; do not edit there. Ask the user to stop ${name} first.`;
+  }
+  const resume = autopilotResume({ autopilotStage: stage, autopilotStopReason: stopReason, solutionSummary: row.solutionSummary });
+  const askToContinue = `Call ${queueCallFor(cardId, mode)} only after the user explicitly says yes.`;
+  if (resume === "decision-answered") return `In your first sentence: ${autopilotContinueQuestion(cardId, mode)}`;
+  if (resume === "decision-open") {
+    return `${name} stopped on this card: ${sanitizeForReminder(stopReason || "no reason given", 200)}. Say so in your first sentence: the user answers the decision in the plan and deletes its [NEEDS_DECISION] marker before ${name} can continue.`;
+  }
+  if (resume === "stopped") {
+    return `${name} stopped on this card: ${sanitizeForReminder(stopReason || "no reason given", 200)}. Say so in your first sentence, and once it is dealt with ask whether to continue on ${name}. ${askToContinue}`;
+  }
+  return null;
+}
+function autopilotRefusal(db2, cardId) {
+  const row = readRow(db2, cardId);
+  return row ? ineligibleReason(row) : "Card not found";
+}
+var Refused = class extends Error {
+};
+function startAutopilot(db2, cardId, opts = {}) {
+  try {
+    return transaction(db2, () => {
+      const row = readRow(db2, cardId);
+      if (!row) return { ok: false, reason: "not-found", message: "Card not found" };
+      const displayId = queueDisplayId(row);
+      const mode = opts.mode ?? autopilotModeOf(row.mode);
+      const name = autopilotModeName(mode);
+      const hasModeColumn = hasAutopilotModeColumn(db2);
+      if (mode === "ralph") {
+        if (!hasModeColumn) {
+          return { ok: false, reason: "ineligible", message: `Cannot send ${displayId} to Ralph: the database has no autopilot_mode column yet \u2014 open the Ideafy app once so it migrates` };
+        }
+        const browser = (opts.browserCheck ?? browserPrereqs)();
+        if (!browser.ok) return { ok: false, reason: "ineligible", message: `Cannot send ${displayId} to Ralph: ${browser.reason}` };
+      }
+      const refusal = ineligibleReason(row);
+      if (refusal) return { ok: false, reason: "ineligible", message: `Cannot send ${displayId} to ${name}: ${refusal}` };
+      const stage = row.status === "test" ? "verifying" : stripHtml(row.solutionSummary ?? "") === "" ? "planning" : "implementing";
+      db2.prepare(
+        `UPDATE cards SET use_worktree = 1, autopilot_stage = ?, autopilot_stop_reason = NULL,
+                autopilot_retried = 0, autopilot_fix_used = 0
+         WHERE id = ?`
+      ).run(stage, cardId);
+      if (hasModeColumn) {
+        db2.prepare(`UPDATE cards SET autopilot_mode = ? WHERE id = ?`).run(mode === "ralph" ? "ralph" : null, cardId);
+      }
+      let maxRounds;
+      if (mode === "ralph" && hasRalphLoopColumns(db2)) {
+        maxRounds = isRalphMaxRounds(opts.maxRounds) ? opts.maxRounds : resolveRalphMaxRounds(row.maxRounds, row.projectMaxRounds);
+        db2.prepare(
+          `UPDATE cards SET autopilot_max_rounds = ?, autopilot_fail_signature = NULL, autopilot_fail_count = 0,
+                  autopilot_started_at = ?
+           WHERE id = ?`
+        ).run(maxRounds, opts.now ?? (/* @__PURE__ */ new Date()).toISOString(), cardId);
+        if (isRalphMaxRounds(opts.maxRounds)) {
+          db2.prepare(`UPDATE projects SET ralph_max_rounds = ? WHERE id = (SELECT project_id FROM cards WHERE id = ?)`).run(
+            opts.maxRounds,
+            cardId
+          );
+        }
+      }
+      if (mode === "ralph") renewChainRalphDeadline(db2, cardId, opts.now ? Date.parse(opts.now) : Date.now());
+      const queued = enqueueCard(db2, cardId, null, "next");
+      if (!queued.ok) {
+        throw new Refused(`Cannot send ${displayId} to ${name}: ${queued.message.replace(/^Cannot queue [^:]+: /, "")}`);
+      }
+      return { ok: true, stage, rank: queued.rank, displayId, mode, ...maxRounds !== void 0 ? { maxRounds } : {} };
+    });
+  } catch (error2) {
+    if (error2 instanceof Refused) return { ok: false, reason: "ineligible", message: error2.message };
+    throw error2;
+  }
+}
+function setAutopilotStage(db2, cardId, stage, used = {}) {
+  db2.prepare(
+    `UPDATE cards SET autopilot_stage = ?, autopilot_stop_reason = NULL,
+            autopilot_retried = COALESCE(?, autopilot_retried),
+            autopilot_fix_used = COALESCE(?, autopilot_fix_used)
+     WHERE id = ?`
+  ).run(
+    stage,
+    used.retried === void 0 ? null : used.retried ? 1 : 0,
+    used.fixUsed === void 0 ? null : used.fixUsed ? 1 : 0,
+    cardId
+  );
+}
+function stopAutopilot(db2, cardId, reason) {
+  transaction(db2, () => {
+    db2.prepare(`UPDATE cards SET autopilot_stage = 'stopped', autopilot_stop_reason = ? WHERE id = ?`).run(reason, cardId);
+    dequeueCard(db2, cardId);
+  });
+}
+function clearAutopilot(db2, cardId, opts = {}) {
+  return transaction(db2, () => {
+    const had = !!getRow(db2, `SELECT autopilot_stage AS stage FROM cards WHERE id = ?`, cardId)?.stage;
+    db2.prepare(
+      `UPDATE cards SET autopilot_stage = NULL, autopilot_stop_reason = NULL,
+              autopilot_retried = NULL, autopilot_fix_used = NULL
+       WHERE id = ?`
+    ).run(cardId);
+    if (hasAutopilotModeColumn(db2)) db2.prepare(`UPDATE cards SET autopilot_mode = NULL WHERE id = ?`).run(cardId);
+    clearRalphLoop(db2, cardId);
+    if (opts.dequeue !== false) dequeueCard(db2, cardId);
+    return had;
+  });
+}
+function strandedAutopilotCardIds(db2) {
+  return db2.prepare(
+    `SELECT id FROM cards
+       WHERE autopilot_stage IN ('planning', 'implementing', 'verifying', 'fixing')
+         AND queue_position IS NULL AND processing_type IS NULL`
+  ).all().map((row) => row.id);
+}
+function renewChainRalphDeadline(db2, cardId, nowMs) {
+  const hasColumn2 = db2.prepare(`PRAGMA table_info("card_groups")`).all().some(
+    (column) => column.name === "ralph_deadline"
+  );
+  if (!hasColumn2) return;
+  const row = getRow(
+    db2,
+    `SELECT c.group_id AS groupId, g.ralph_deadline AS deadline FROM cards c JOIN card_groups g ON g.id = c.group_id WHERE c.id = ?`,
+    cardId
+  );
+  if (!row?.groupId || !row.deadline) return;
+  const at = Date.parse(row.deadline);
+  if (Number.isFinite(at) && at > nowMs) return;
+  const open = getRow(
+    db2,
+    `SELECT COUNT(*) AS n FROM cards WHERE group_id = ? AND status NOT IN ('completed', 'withdrawn')
+         AND COALESCE(git_branch_status, '') <> 'in_chain'`,
+    row.groupId
+  )?.n ?? 1;
+  db2.prepare(`UPDATE card_groups SET ralph_deadline = ? WHERE id = ?`).run(chainRalphDeadline(nowMs, open), row.groupId);
+}
+function clearRalphLoop(db2, cardId) {
+  if (!hasRalphLoopColumns(db2)) return;
+  db2.prepare(
+    `UPDATE cards SET autopilot_max_rounds = NULL, autopilot_fail_signature = NULL, autopilot_fail_count = NULL,
+            autopilot_started_at = NULL
+     WHERE id = ?`
+  ).run(cardId);
+}
+function recordRalphRound(db2, cardId, failures, revisions) {
+  const signature = failureSignature(failures, revisions);
+  if (!hasRalphLoopColumns(db2)) return nextRalphCounter(null, signature);
+  return transaction(db2, () => {
+    const prev = getRow(
+      db2,
+      `SELECT autopilot_fail_signature AS signature, autopilot_fail_count AS count FROM cards WHERE id = ?`,
+      cardId
+    );
+    const next = nextRalphCounter(prev ? { signature: prev.signature, count: prev.count ?? 0 } : null, signature);
+    db2.prepare(`UPDATE cards SET autopilot_fail_signature = ?, autopilot_fail_count = ? WHERE id = ?`).run(
+      next.signature,
+      next.count,
+      cardId
+    );
+    return next;
+  });
+}
+
+// ../lib/decision-ledger.ts
+var RECOMMENDED_RE = /\s*[—–]\s*recommended:\s*|\s+-{1,2}\s*recommended:\s*/i;
+var OPEN_MARKER_RE = /\[NEEDS_DECISION:([^\]\n]*)\]/gi;
+var CODE_RE = /(<pre[\s>][\s\S]*?<\/pre>|<code[\s>][\s\S]*?<\/code>|```[\s\S]*?```|`[^`\n]*`)/gi;
+var EXCERPT_MAX = 240;
+var INLINE_RECOMMENDED_MAX = 120;
+function splitRecommended(text2) {
+  const clean = text2.replace(/\s+/g, " ").trim();
+  const m2 = RECOMMENDED_RE.exec(clean);
+  if (!m2) return { question: clean, recommended: null };
+  const question = clean.slice(0, m2.index).trim();
+  const recommended = clean.slice(m2.index + m2[0].length).trim();
+  return { question: question || clean, recommended: recommended || null };
+}
+function shorten(text2, max) {
+  const flat = text2.replace(/\s+/g, " ").trim();
+  return flat.length > max ? `${flat.slice(0, max - 1).trimEnd()}\u2026` : flat;
+}
+function stepExcerptBefore(planBefore) {
+  const lines2 = planText(planBefore).split("\n");
+  const own = (lines2.pop() ?? "").replace(/\[NEEDS_DECISION[^\]\n]*\]/gi, "").trim();
+  if (own) return shorten(own, EXCERPT_MAX);
+  for (let i = lines2.length - 1; i >= 0; i--) {
+    const line = lines2[i].replace(/\[NEEDS_DECISION[^\]\n]*\]/gi, "").trim();
+    if (line) return shorten(line, EXCERPT_MAX);
+  }
+  return null;
+}
+function escapeHtml2(text2) {
+  return text2.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+function acceptPlanMarkers(planHtml) {
+  const accepted = [];
+  if (!/NEEDS_DECISION:/i.test(planHtml)) return { html: planHtml, accepted };
+  const parts = planHtml.split(CODE_RE);
+  let offset = 0;
+  const out = parts.map((part, index) => {
+    const start = offset;
+    offset += part.length;
+    if (index % 2 === 1) return part;
+    return part.replace(OPEN_MARKER_RE, (whole, raw, at) => {
+      const text2 = decodeEntities(raw.replace(/<[^>]*>/g, "")).replace(/\s+/g, " ").trim();
+      if (isDecisionPlaceholder(text2)) return whole;
+      const { question, recommended } = splitRecommended(text2);
+      const stepExcerpt = stepExcerptBefore(planHtml.slice(0, start + at));
+      accepted.push({ question, recommended: recommended ?? stepExcerpt, stepExcerpt });
+      if (recommended) return `[NEEDS_DECISION accepted:${raw}]`;
+      const tail = stepExcerpt ? shorten(stepExcerpt.replace(/[[\]]/g, ""), INLINE_RECOMMENDED_MAX) : "the option the step above is written with";
+      return `[NEEDS_DECISION accepted:${raw.replace(/\s+$/, "")} \u2014 recommended: ${escapeHtml2(tail)}]`;
+    });
+  });
+  return { html: out.join(""), accepted };
+}
+
+// ../lib/card-ops/decision-ledger.ts
+var tableCache = /* @__PURE__ */ new WeakMap();
+function hasDecisionLedger(db2) {
+  if (tableCache.get(db2)) return true;
+  const has = !!getRow(db2, `SELECT 1 AS ok FROM sqlite_master WHERE type = 'table' AND name = 'card_decisions'`);
+  if (has) tableCache.set(db2, true);
+  return has;
+}
+function recordDecision(db2, entry) {
+  return runChanges(
+    db2,
+    `INSERT INTO card_decisions (card_id, kind, question, recommended, step_excerpt, original_text, new_text, source, created_at)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    entry.cardId,
+    entry.kind,
+    entry.question,
+    entry.recommended ?? null,
+    entry.stepExcerpt ?? null,
+    entry.originalText ?? null,
+    entry.newText ?? null,
+    entry.source,
+    entry.now
+  ).lastInsertRowid;
+}
+function acceptPlanDecisions(db2, args) {
+  const { html, accepted } = acceptPlanMarkers(args.planHtml);
+  if (accepted.length === 0) return { html: args.planHtml, accepted: 0, written: 0 };
+  return transaction(db2, () => {
+    let written = 0;
+    for (const marker of accepted) {
+      const exists = getRow(
+        db2,
+        `SELECT 1 AS ok FROM card_decisions WHERE card_id = ? AND kind = 'acceptance' AND question = ?`,
+        args.cardId,
+        marker.question
+      );
+      if (exists) continue;
+      recordDecision(db2, {
+        cardId: args.cardId,
+        kind: "acceptance",
+        question: marker.question,
+        recommended: marker.recommended,
+        stepExcerpt: marker.stepExcerpt,
+        source: args.source ?? "ralph-planning",
+        now: args.now
+      });
+      written++;
+    }
+    return { html, accepted: accepted.length, written };
+  });
+}
+function listCardDecisions(db2, cardId) {
+  if (!hasDecisionLedger(db2)) return [];
+  return allRows(
+    db2,
+    `SELECT id, kind, question, recommended, step_excerpt, original_text, new_text, source, created_at
+     FROM card_decisions WHERE card_id = ? ORDER BY created_at, id`,
+    cardId
+  ).map((row) => ({
+    id: Number(row.id),
+    kind: row.kind,
+    question: row.question,
+    recommended: row.recommended,
+    stepExcerpt: row.step_excerpt,
+    originalText: row.original_text,
+    newText: row.new_text,
+    source: row.source,
+    createdAt: row.created_at
+  }));
+}
+function listChainDecisions(db2, groupId) {
+  if (!hasDecisionLedger(db2)) return [];
+  const members = allRows(
+    db2,
+    `SELECT c.id, c.title, c.task_number AS taskNumber, p.id_prefix AS idPrefix, c.group_order AS groupOrder
+     FROM cards c LEFT JOIN projects p ON p.id = c.project_id
+     WHERE c.group_id = ? AND c.status <> 'withdrawn'`,
+    groupId
+  ).sort(compareByChainOrder);
+  return members.flatMap((member) => {
+    const fromDisplayId = formatDisplayId(member.idPrefix, member.taskNumber) ?? member.title;
+    return listCardDecisions(db2, member.id).map((entry) => ({ ...entry, fromCardId: member.id, fromDisplayId }));
+  });
+}
+function decisionsForCard(db2, cardId) {
+  const row = getRow(db2, `SELECT group_id AS groupId FROM cards WHERE id = ?`, cardId);
+  if (row?.groupId && isChainParent(db2, cardId, row.groupId)) return listChainDecisions(db2, row.groupId);
+  return listCardDecisions(db2, cardId);
+}
+function acceptedDecisionCounts(db2) {
+  const out = /* @__PURE__ */ new Map();
+  if (!hasDecisionLedger(db2)) return out;
+  for (const row of allRows(
+    db2,
+    `SELECT card_id AS cardId, COUNT(*) AS n FROM card_decisions WHERE kind = 'acceptance' GROUP BY card_id`
+  )) {
+    out.set(row.cardId, Number(row.n));
+  }
+  return out;
+}
+
+// ../lib/card-ops/save-content.ts
+function target(moveTo, current, rule) {
+  if (moveTo === void 0) return rule(current);
+  return moveTo;
+}
+function savePlan(db2, args) {
+  if (args.moveTo && !isStatus(args.moveTo)) return { ok: false, reason: "invalid-status" };
+  let planHtml = externalizeInlineImages(args.id, args.html);
+  const head = args.base === false ? null : args.base ?? cardHead(db2, args.id);
+  return transaction(db2, () => {
+    const row = getRow(
+      db2,
+      `SELECT status, solution_summary, autopilot_stage, autopilot_stop_reason FROM cards WHERE id = ?`,
+      args.id
+    );
+    if (!row) return { ok: false, reason: "not-found" };
+    let ralphAccepted;
+    if (row.autopilot_stage === "planning" && findPlanDecisions(planHtml).length > 0 && autopilotModeFor(db2, args.id) === "ralph" && hasDecisionLedger(db2)) {
+      const taken = acceptPlanDecisions(db2, { cardId: args.id, planHtml, now: args.now });
+      planHtml = taken.html;
+      ralphAccepted = taken.accepted;
+    }
+    const runtime = runtimeAssignments(args.runtime);
+    runChanges(
+      db2,
+      `UPDATE cards SET
+         solution_summary = ?,
+         complexity = COALESCE(?, complexity),
+         priority = COALESCE(?, priority),
+         ${[...runtime.sql, "updated_at = ?"].join(", ")}
+       WHERE id = ?`,
+      planHtml,
+      args.complexity ?? null,
+      args.priority ?? null,
+      ...runtime.values,
+      args.now,
+      args.id
+    );
+    stampBaseCommit(db2, args.id, "plan", head);
+    recordAuthorship(db2, {
+      cardId: args.id,
+      author: args.author,
+      now: args.now,
+      before: { solutionSummary: row.solution_summary },
+      after: { solutionSummary: planHtml },
+      replaces: true
+    });
+    const to = holdForDecision(target(args.moveTo, row.status, statusAfterPlan), row.status, planHtml);
+    if (to) moveCard(db2, args.id, to, args.now);
+    const stopped = { autopilotStage: row.autopilot_stage, autopilotStopReason: row.autopilot_stop_reason };
+    const autopilotDecisionAnswered = autopilotResume({ ...stopped, solutionSummary: row.solution_summary }) === "decision-open" && autopilotResume({ ...stopped, solutionSummary: planHtml }) === "decision-answered";
+    return {
+      ok: true,
+      html: planHtml,
+      previous: row.solution_summary ?? "",
+      from: row.status,
+      status: to ?? row.status,
+      ...autopilotDecisionAnswered ? { autopilotDecisionAnswered } : {},
+      ...ralphAccepted ? { ralphAccepted } : {}
+    };
+  });
+}
+function holdForDecision(to, from, planHtml) {
+  if (to !== "progress" || findPlanDecisions(planHtml).length === 0) return to;
+  return from === "ideation" ? "backlog" : from === "backlog" || from === "bugs" ? null : to;
+}
+function appendPlanRefresh(db2, args) {
+  const section2 = planRefreshSection(args.html);
+  if (!section2.found) return { ok: false, reason: "not-refresh" };
+  const row = getRow(
+    db2,
+    `SELECT status, solution_summary FROM cards WHERE id = ?`,
+    args.id
+  );
+  if (!row) return { ok: false, reason: "not-found" };
+  const existing = row.solution_summary ?? "";
+  const merged = mergeHtmlSections(existing, args.html.slice(section2.start));
+  const base = refreshBase(db2, args.id, section2.sha);
+  if (merged.added === 0) {
+    stampBaseCommit(db2, args.id, "plan", base);
+    return { ok: true, html: existing, previous: existing, from: row.status, status: row.status, added: 0, base };
+  }
+  const saved = savePlan(db2, { id: args.id, html: merged.html, now: args.now, author: args.author, moveTo: null, base: base ?? false });
+  if (!saved.ok) return saved;
+  return { ...saved, added: merged.added, base };
+}
+function refreshBase(db2, cardId, sha) {
+  if (sha) {
+    const folder = cardRepoFolder(db2, cardId);
+    const full = folder ? gitRead(folder, ["rev-parse", "--verify", "--quiet", `${sha}^{commit}`]) : null;
+    if (full && /^[0-9a-f]{40}$/.test(full)) return full;
+  }
+  return cardHead(db2, cardId);
+}
+function saveTests(db2, args) {
+  if (args.moveTo && !isStatus(args.moveTo)) return { ok: false, reason: "invalid-status" };
+  const incoming = externalizeInlineImages(args.id, args.html);
+  const head = cardHead(db2, args.id);
+  return transaction(db2, () => {
+    const row = getRow(
+      db2,
+      `SELECT status, test_scenarios FROM cards WHERE id = ?`,
+      args.id
+    );
+    if (!row) return { ok: false, reason: "not-found" };
+    const previous = row.test_scenarios ?? "";
+    let html = incoming;
+    if (args.guard === "append-only" || args.guard === "rewrite") {
+      const assessment = args.guard === "append-only" ? assessAppendOnlyRewrite(previous, html) : assessTestRewrite(args.baseline ?? previous, html);
+      if (!assessment.safe) {
+        return {
+          ok: false,
+          reason: "unsafe",
+          detail: assessment.reason ?? "unsafe rewrite",
+          retained: assessment.retained,
+          existing: assessment.existing,
+          previous
+        };
+      }
+    }
+    if (args.guard === "rewrite" && previous) html = mergeTestCheckState(html, previous);
+    else if (args.guard !== "replace" && previous) html = mergeTestCheckState(previous, html);
+    let extra;
+    if (args.finalize) {
+      const finalized = args.finalize(html, previous);
+      if (typeof finalized === "string") html = finalized;
+      else ({ html, runtime: extra } = finalized);
+    }
+    html = coreFlowFirst(html);
+    const overLimit = args.manualLimit ? manualOverLimit(previous, html) : [];
+    if (overLimit.length > 0 && args.manualLimit === "refuse") return { ok: false, reason: "manual-limit", items: overLimit };
+    html = dropManualTokens(html, overLimit);
+    const runtime = runtimeAssignments({ ...args.runtime, ...extra });
+    runChanges(
+      db2,
+      `UPDATE cards SET test_scenarios = ?, ${[...runtime.sql, "updated_at = ?"].join(", ")} WHERE id = ?`,
+      html,
+      ...runtime.values,
+      args.now,
+      args.id
+    );
+    stampBaseCommit(db2, args.id, "tests", head);
+    recordAuthorship(db2, {
+      cardId: args.id,
+      author: args.author,
+      now: args.now,
+      before: { testScenarios: previous },
+      after: { testScenarios: html },
+      replaces: args.guard === "replace" || args.guard === "append-only",
+      ticksOnly: args.guard === "rewrite"
+    });
+    const to = target(args.moveTo, row.status, statusAfterTests);
+    if (to) moveCard(db2, args.id, to, args.now);
+    return {
+      ok: true,
+      html,
+      previous,
+      from: row.status,
+      status: to ?? row.status,
+      ...overLimit.length > 0 ? { droppedManual: overLimit } : {}
+    };
+  });
+}
+function savePlanAndTests(db2, args) {
+  return transaction(db2, () => {
+    const plan = savePlan(db2, {
+      id: args.id,
+      html: args.solutionSummary,
+      now: args.now,
+      author: args.author,
+      moveTo: null,
+      runtime: args.runtime
+    });
+    if (!plan.ok) return plan;
+    return saveTests(db2, {
+      id: args.id,
+      html: args.testScenarios,
+      now: args.now,
+      author: args.author,
+      guard: "replace",
+      moveTo: args.moveTo,
+      manualLimit: "drop"
+    });
+  });
+}
+
+// ../lib/card-ops/revise-tests.ts
+function ralphRevisionTargets(html, revisions) {
+  const items = checklistItems(html);
+  const texts = items.map((item) => item.text);
+  return revisions.map((revision) => {
+    const index = closestTaskText(revision.from, texts);
+    return { revision, item: index >= 0 ? items[index] : null };
+  });
+}
+function onRalph(db2, cardId) {
+  if (!hasAutopilotModeColumn(db2)) return false;
+  const row = getRow(
+    db2,
+    `SELECT autopilot_mode AS mode, autopilot_stage AS stage FROM cards WHERE id = ?`,
+    cardId
+  );
+  return row?.mode === "ralph" && isActiveAutopilotStage(isAutopilotStage(row.stage) ? row.stage : null);
+}
+function reviseTests(db2, args) {
+  const head = cardHead(db2, args.id);
+  return transaction(db2, () => {
+    const row = getRow(
+      db2,
+      `SELECT test_scenarios FROM cards WHERE id = ?`,
+      args.id
+    );
+    if (!row) return { ok: false, reason: "not-found" };
+    if (args.revisions.length === 0) {
+      if (!args.confirmCurrent) return { ok: false, reason: "missing", missing: [] };
+      stampBaseCommit(db2, args.id, "tests", head);
+      const html2 = row.test_scenarios ?? "";
+      return { ok: true, html: html2, previous: html2, revised: 0 };
+    }
+    const previous = row.test_scenarios ?? "";
+    const ralph = args.author.actor === "ideafy" && !args.author.via && onRalph(db2, args.id);
+    const targets = ralph ? ralphRevisionTargets(previous, args.revisions) : [];
+    if (ralph) {
+      const refused = targets.filter((t) => !ralphMayRevise(t.item)).map((t) => t.item?.text ?? t.revision.from);
+      if (refused.length > 0) return { ok: false, reason: "refused", message: RALPH_REVISE_REFUSAL, items: refused };
+    }
+    const { html, missing } = reviseTaskItems(previous, args.revisions);
+    if (missing.length > 0) return { ok: false, reason: "missing", missing };
+    const overLimit = args.refuseManualOverLimit ? manualOverLimit(previous, html) : [];
+    if (overLimit.length > 0) return { ok: false, reason: "manual-limit", items: overLimit };
+    runChanges(db2, `UPDATE cards SET test_scenarios = ?, updated_at = ? WHERE id = ?`, html, args.now, args.id);
+    stampBaseCommit(db2, args.id, "tests", head);
+    recordAuthorship(db2, {
+      cardId: args.id,
+      author: args.author,
+      now: args.now,
+      before: { testScenarios: previous },
+      after: { testScenarios: html },
+      revisedItems: args.revisions.map((revision) => revision.to)
+    });
+    if (ralph && hasDecisionLedger(db2)) {
+      for (const { revision, item } of targets) {
+        recordDecision(db2, {
+          cardId: args.id,
+          kind: "revision",
+          question: item?.heading ?? "Checklist",
+          originalText: item?.text ?? revision.from,
+          newText: revision.to,
+          source: "ralph-verify",
+          now: args.now
+        });
+      }
+    }
+    return { ok: true, html, previous, revised: args.revisions.length };
+  });
+}
+
+// ../lib/card-ops/split-proposals.ts
+import { statSync as statSync3 } from "fs";
+import path5 from "path";
+
+// ../lib/prompts/mockup-request.ts
+var mockup_request_exports = {};
+__export(mockup_request_exports, {
+  LINKED_FILE_RULE: () => LINKED_FILE_RULE,
+  MOCKUP_OFFER_HINT: () => MOCKUP_OFFER_HINT,
+  buildMockupRequest: () => buildMockupRequest,
+  cardMockups: () => cardMockups,
+  cardMockupsWithSource: () => cardMockupsWithSource,
+  hasMockupArtifact: () => hasMockupArtifact,
+  listMockupArtifacts: () => listMockupArtifacts,
+  mockupTargetSection: () => mockupTargetSection
+});
+function mockupTargetSection(status) {
+  return status === "ideation" ? "opinion" : "solution";
+}
+function buildMockupRequest(focus) {
+  const request = "Draw an HTML mockup for this card.";
+  const trimmed = focus?.trim();
+  return trimmed ? `${request}
+Focus only on: ${trimmed}` : request;
+}
+var HTML_FILE = /\.html?(?:[?#].*)?$/i;
+function listMockupArtifacts(html) {
+  if (!html) return [];
+  const found = [];
+  for (const match of html.matchAll(/<span\b[^>]*data-type="artifactMention"[^>]*>/gi)) {
+    const path11 = match[0].match(/data-path="([^"]*)"/i)?.[1];
+    if (path11 && HTML_FILE.test(path11)) found.push({ at: match.index ?? 0, path: decodeEntities3(path11) });
+  }
+  for (const match of html.matchAll(/file:\/\/[^"'\s)<]+/gi)) {
+    if (!HTML_FILE.test(match[0])) continue;
+    const path11 = fileUrlToPath(decodeEntities3(match[0]));
+    if (path11) found.push({ at: match.index ?? 0, path: path11 });
+  }
+  const seen = /* @__PURE__ */ new Set();
+  const paths = [];
+  for (const { path: path11 } of found.sort((a, b2) => a.at - b2.at)) {
+    if (seen.has(path11)) continue;
+    seen.add(path11);
+    paths.push(path11);
+  }
+  return paths;
+}
+function decodeEntities3(text2) {
+  return text2.replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&#39;/g, "'");
+}
+function hasMockupArtifact(html) {
+  return listMockupArtifacts(html).length > 0;
+}
+function cardMockups(card) {
+  const all = [card.aiOpinion, card.solutionSummary, card.description].flatMap(listMockupArtifacts);
+  return [...new Set(all)];
+}
+function cardMockupsWithSource(card) {
+  const sourceOf = /* @__PURE__ */ new Map();
+  for (const [source, html] of [
+    ["solution", card.solutionSummary],
+    ["opinion", card.aiOpinion],
+    ["description", card.description]
+  ]) {
+    for (const path11 of listMockupArtifacts(html)) {
+      if (!sourceOf.has(path11)) sourceOf.set(path11, source);
+    }
+  }
+  const planHasOne = [...sourceOf.values()].includes("solution");
+  if (!planHasOne) {
+    return cardMockups(card).map((path11) => ({ path: path11, source: sourceOf.get(path11), dimmed: false }));
+  }
+  return [...sourceOf].map(([path11, source]) => ({ path: path11, source, dimmed: source !== "solution" }));
+}
+var MOCKUP_OFFER_HINT = `Mockup: if this card changes UI and its target tab (AI Opinion on an ideation card, the plan after that) has no mockup yet, ask the user in one sentence whether they want an HTML mockup. Only on yes, put the whole file in the save_opinion / save_plan text as one fenced block, \`\`\`html artifact="short-name.html"\`, directly above a \`## Mockup\` heading, and put that section at the end of the text; Ideafy saves it into the card folder and shows it as a link. Never draw one unasked. If the tab already has a mockup and the user asks for a new one, replace its link and its \`## Mockup\` section in place, keep the rest of the text as it is, and leave the old file on disk. Whenever you rewrite a text that has a mockup, its link stays directly above its \`## Mockup\` heading, never at the top of the text.`;
+var LINKED_FILE_RULE = `Linking a file that already exists, such as a mockup in a sibling design repo: link it with its absolute path as a file:// link. The card opens it only when it sits in the project folder, the card folder or one of the project's Linked Folders (project settings). Outside those the chip draws dead, so tell the user which folder to link instead of linking it anyway.`;
+
+// ../lib/split-proposal.ts
+var split_proposal_exports = {};
+__export(split_proposal_exports, {
+  SPLIT_MAX_CARDS: () => SPLIT_MAX_CARDS,
+  SPLIT_MIN_CARDS: () => SPLIT_MIN_CARDS,
+  defaultSplitChain: () => defaultSplitChain,
+  integrationReason: () => integrationReason,
+  integrationSuggestion: () => integrationSuggestion,
+  parseSplitInto: () => parseSplitInto,
+  splitDepths: () => splitDepths,
+  splitLinkCount: () => splitLinkCount,
+  splitProposalAsk: () => splitProposalAsk
+});
+function defaultSplitChain(title) {
+  return {
+    code: normalizeGroupCode(title) || "SPLIT",
+    name: title.length > 60 ? `${title.slice(0, 59)}\u2026` : title
+  };
+}
+var SPLIT_MIN_CARDS = 2;
+var SPLIT_MAX_CARDS = 8;
+function text(value, max) {
+  return typeof value === "string" ? value.replace(/\s+/g, " ").trim().slice(0, max) : "";
+}
+function parseSplitInto(value) {
+  if (!value || typeof value !== "object") return { ok: false, error: "splitInto must be an object with cards." };
+  const raw = value;
+  if (!Array.isArray(raw.cards)) return { ok: false, error: "splitInto.cards must be a list." };
+  const cards = [];
+  raw.cards.forEach((item, index) => {
+    if (!item || typeof item !== "object") return;
+    const card = item;
+    const title = text(card.title, 200);
+    if (!title) return;
+    const refs = Array.isArray(card.blockedBy) ? card.blockedBy : card.blockedBy === void 0 ? [] : [card.blockedBy];
+    const blockedBy = [...new Set(refs.map(Number).filter((n) => Number.isInteger(n) && n >= 1 && n <= index))];
+    cards.push({
+      title,
+      scope: text(card.scope, 1e3),
+      carries: text(card.carries, 2e3),
+      blockedBy,
+      reason: text(card.reason, 500)
+    });
+  });
+  if (cards.length < SPLIT_MIN_CARDS) {
+    return { ok: false, error: `splitInto needs at least ${SPLIT_MIN_CARDS} cards with a title.` };
+  }
+  if (cards.length > SPLIT_MAX_CARDS) {
+    return { ok: false, error: `splitInto takes at most ${SPLIT_MAX_CARDS} cards; a bigger split is a chain of its own.` };
+  }
+  const flows = (Array.isArray(raw.flows) ? raw.flows : []).map((flow) => text(flow, 500)).filter(Boolean);
+  return { ok: true, proposal: { reason: text(raw.reason, 1e3), cards, flows } };
+}
+function splitLinkCount(proposal) {
+  return proposal.cards.reduce((sum, card) => sum + card.blockedBy.length, 0);
+}
+function splitDepths(proposal) {
+  const depths = [];
+  proposal.cards.forEach((card, index) => {
+    const deps = card.blockedBy.filter((n) => n - 1 < index).map((n) => depths[n - 1] ?? 0);
+    depths.push(deps.length ? Math.max(...deps) + 1 : 0);
+  });
+  return depths;
+}
+function integrationSuggestion(cards) {
+  const linked = /* @__PURE__ */ new Set();
+  cards.forEach((card, index) => {
+    const refs = (card.blockedBy ?? []).filter((ref) => ref >= 1 && ref <= cards.length && ref !== index + 1);
+    if (refs.length > 0) linked.add(index + 1);
+    refs.forEach((ref) => linked.add(ref));
+  });
+  if (linked.size === 0) return { suggested: false, standalone: [] };
+  const standalone = cards.map((_2, index) => index + 1).filter((place) => !linked.has(place));
+  return { suggested: true, standalone };
+}
+function integrationReason(cards) {
+  const byTarget = /* @__PURE__ */ new Map();
+  cards.forEach((card, index) => {
+    for (const ref of card.blockedBy ?? []) {
+      if (ref < 1 || ref > cards.length || ref === index + 1) continue;
+      byTarget.set(ref, [...byTarget.get(ref) ?? [], index + 1]);
+    }
+  });
+  const list = (places) => {
+    const sorted = [...new Set(places)].sort((a, b2) => a - b2);
+    const contiguous = sorted.length > 2 && sorted.every((p, i) => i === 0 || p === sorted[i - 1] + 1);
+    if (contiguous) return `${sorted[0]}\u2013${sorted[sorted.length - 1]}`;
+    return sorted.length > 1 ? `${sorted.slice(0, -1).join(", ")} and ${sorted[sorted.length - 1]}` : String(sorted[0]);
+  };
+  return [...byTarget.entries()].sort((a, b2) => a[0] - b2[0]).map(([target2, waiting]) => `card${waiting.length > 1 ? "s" : ""} ${list(waiting)} wait${waiting.length > 1 ? "" : "s"} on card ${target2}`).join("; ");
+}
+function splitProposalAsk(suggestion) {
+  if (!suggestion.suggested) {
+    return "Ask the user in one sentence whether to break the card into these cards: on yes call split_card, on no call split_card with keepAsOne.";
+  }
+  const standalone = suggestion.standalone.length > 0 ? ` Name card${suggestion.standalone.length === 1 ? "" : "s"} ${suggestion.standalone.join(", ")} (integrationBranch.standalone) as waiting on nothing: on the branch ${suggestion.standalone.length === 1 ? "it waits" : "they wait"} for the whole chain, so ${suggestion.standalone.length === 1 ? "it" : "they"} could go in a chain of ${suggestion.standalone.length === 1 ? "its" : "their"} own and merge as usual.` : "";
+  return "Ask the user in one sentence whether to break the card into these cards, and say an integration branch is suggested because the cards wait on each other (they reach main together with the parent's Merge & Complete)." + standalone + " On yes call split_card, with integrationBranch: true only if the user agreed to it; on no call split_card with keepAsOne.";
+}
+
+// ../lib/card-ops/split-proposals.ts
+function hasSplitTables(db2) {
+  return !!getRow(db2, "SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'card_split_proposals'");
+}
+function saveSplitProposal(db2, args) {
+  if (!hasSplitTables(db2)) return { saved: false, reason: "unsupported" };
+  const parsed = parseSplitInto(args.proposal);
+  if (!parsed.ok) return { saved: false, reason: "invalid", error: parsed.error };
+  const existing = getRow(
+    db2,
+    "SELECT status FROM card_split_proposals WHERE card_id = ?",
+    args.cardId
+  );
+  const reopen = existing?.status === "dismissed" && args.reopenDismissed === true;
+  if (existing && existing.status !== "pending" && !reopen) return { saved: false, reason: existing.status };
+  const payload = JSON.stringify(parsed.proposal);
+  if (existing) {
+    runChanges(
+      db2,
+      "UPDATE card_split_proposals SET payload = ?, status = 'pending', updated_at = ? WHERE card_id = ?",
+      payload,
+      args.now,
+      args.cardId
+    );
+  } else {
+    runChanges(
+      db2,
+      `INSERT INTO card_split_proposals (card_id, payload, status, created_at, updated_at) VALUES (?, ?, 'pending', ?, ?)`,
+      args.cardId,
+      payload,
+      args.now,
+      args.now
+    );
+  }
+  return { saved: true, proposal: parsed.proposal };
+}
+function splitProposalOutcome(split) {
+  if (!split) return void 0;
+  if (split.saved) return "updated";
+  if (split.reason === "dismissed") return "kept-dismissed";
+  if (split.reason === "applied") return "already-split";
+  if (split.reason === "invalid") return "invalid";
+  return void 0;
+}
+function getSplitProposal(db2, cardId) {
+  if (!hasSplitTables(db2)) return null;
+  const row = getRow(
+    db2,
+    `SELECT card_id AS cardId, payload, status, created_at AS createdAt, updated_at AS updatedAt
+     FROM card_split_proposals WHERE card_id = ?`,
+    cardId
+  );
+  if (!row) return null;
+  let proposal;
+  try {
+    proposal = JSON.parse(row.payload);
+  } catch {
+    return null;
+  }
+  return { cardId: row.cardId, status: row.status, proposal, createdAt: row.createdAt, updatedAt: row.updatedAt };
+}
+function dismissSplitProposal(db2, cardId, now) {
+  if (!hasSplitTables(db2)) return false;
+  const { changes } = runChanges(
+    db2,
+    "UPDATE card_split_proposals SET status = 'dismissed', updated_at = ? WHERE card_id = ? AND status = 'pending'",
+    now,
+    cardId
+  );
+  return changes > 0;
+}
+var PLAN_SUMMARY_MAX = 200;
+var FILES_MAX = 8;
+function toRef2(row) {
+  return {
+    id: row.id,
+    displayId: formatDisplayId(row.idPrefix, row.taskNumber),
+    title: row.title,
+    status: row.status
+  };
+}
+function planSummary(html) {
+  const text2 = plainTextLabel((html ?? "").replace(/^\s*<h1[^>]*>[\s\S]*?<\/h1>/i, ""), PLAN_SUMMARY_MAX);
+  return text2 || null;
+}
+function cappedFiles(html) {
+  const files = extractPlanFiles(html ?? "");
+  return files.length > FILES_MAX ? [...files.slice(0, FILES_MAX), `+${files.length - FILES_MAX}`] : files;
+}
+function toChild(row) {
+  const member = { status: row.status, gitBranchStatus: row.gitBranchStatus, testScenarios: row.testScenarios };
+  return {
+    ...toRef2(row),
+    ready: isReadyForParent(member),
+    tests: testTicks(member),
+    plan: planSummary(row.solutionSummary),
+    files: cappedFiles(row.solutionSummary)
+  };
+}
+var REF_SELECT = `SELECT c.id, c.title, c.status, c.task_number AS taskNumber, p.id_prefix AS idPrefix
+  FROM cards c LEFT JOIN projects p ON p.id = c.project_id`;
+var CHILD_SELECT = `SELECT c.id, c.title, c.status, c.task_number AS taskNumber, p.id_prefix AS idPrefix,
+    c.git_branch_status AS gitBranchStatus, c.test_scenarios AS testScenarios, c.solution_summary AS solutionSummary
+  FROM cards c LEFT JOIN projects p ON p.id = c.project_id`;
+var refName = (ref) => ref.displayId ?? ref.title;
+function isFile(absPath) {
+  try {
+    return statSync3(absPath).isFile();
+  } catch {
+    return false;
+  }
+}
+var MOCKUP_SELECT = `SELECT ai_opinion AS aiOpinion, solution_summary AS solutionSummary, description FROM cards WHERE id = ?`;
+function mockupsForChild(db2, parentId, childId) {
+  const parent = getRow(db2, MOCKUP_SELECT, parentId);
+  const child = getRow(db2, MOCKUP_SELECT, childId);
+  const ownFolder = cardArtifactDir(childId) + path5.sep;
+  const copies = listMockupArtifacts(child?.description).filter((p) => p.startsWith(ownFolder));
+  return [.../* @__PURE__ */ new Set([...parent ? cardMockups(parent) : [], ...copies])].filter(isFile);
+}
+function splitRelations(db2, cardId) {
+  const columns = allRows(db2, "PRAGMA table_info(cards)");
+  if (!columns.some((column) => column.name === "split_from_card_id")) return null;
+  const own = getRow(db2, "SELECT split_from_card_id AS parentId FROM cards WHERE id = ?", cardId);
+  const children = allRows(db2, `${CHILD_SELECT} WHERE c.split_from_card_id = ? ORDER BY c.task_number`, cardId).map(toChild);
+  let parent = null;
+  if (own?.parentId) {
+    const row = getRow(db2, `${REF_SELECT} WHERE c.id = ?`, own.parentId);
+    parent = row ? { ...toRef2(row), mockups: mockupsForChild(db2, row.id, cardId) } : { id: own.parentId, missing: true };
+  }
+  if (!parent && children.length === 0) return null;
+  const role = children.length > 0 ? SPLIT_PARENT_RULE : parent && !("missing" in parent) ? splitChildRule(refName(parent)) : null;
+  return { parent, children, role };
+}
+function splitRoleLine(db2, cardId) {
+  try {
+    const split = splitRelations(db2, cardId);
+    if (!split?.role) return null;
+    if (split.children.length > 0) {
+      const parts = split.children.map((child) => {
+        const state = child.ready ? "ready" : "not ready";
+        const ticks = child.tests ? `, tests ${child.tests}` : "";
+        return `${sanitizeForReminder(refName(child), 80)} (${child.status}${ticks}, ${state})`;
+      });
+      return `Split parent of ${parts.join(", ")}. ${SPLIT_PARENT_RULE}`;
+    }
+    const parent = split.parent;
+    const line = `Split out of ${sanitizeForReminder(refName(parent), 80)} \xB7 ${sanitizeForReminder(parent.title, 80)}. ${splitChildRule(sanitizeForReminder(refName(parent), 80))}`;
+    if (parent.mockups.length === 0) return line;
+    return `${line} Parent mockup: ${parent.mockups.map((p) => sanitizeForReminder(p, 300)).join(", ")} \u2014 open it before UI work.`;
+  } catch (error2) {
+    console.warn("[split] role line skipped:", error2);
+    return null;
+  }
+}
+function pendingSplitCounts(db2) {
+  const counts = /* @__PURE__ */ new Map();
+  if (!hasSplitTables(db2)) return counts;
+  for (const row of allRows(
+    db2,
+    `SELECT card_id AS cardId, json_array_length(payload, '$.cards') AS n FROM card_split_proposals WHERE status = 'pending'`
+  )) {
+    counts.set(row.cardId, Number(row.n) || 0);
+  }
+  return counts;
+}
+
+// ../lib/card-ops/restore-field.ts
+var COLUMN2 = {
+  description: "description",
+  solutionSummary: "solution_summary",
+  aiOpinion: "ai_opinion",
+  testScenarios: "test_scenarios"
+};
+var BASE_COMMIT = {
+  solutionSummary: "plan_base_commit",
+  testScenarios: "tests_base_commit"
+};
+var OPINION_KEYS = ["verdict", "score", "priority", "complexity"];
+function readRow2(db2, id, field) {
+  const base = BASE_COMMIT[field];
+  const baseSql = base && hasBaseCommitColumns(db2) ? `, ${base} AS base_commit` : "";
+  return getRow(
+    db2,
+    `SELECT ${COLUMN2[field]} AS html, status, ai_verdict AS verdict, ai_score AS score, priority, complexity${baseSql}
+     FROM cards WHERE id = ?`,
+    id
+  );
+}
+function readSplit(db2, id) {
+  if (!hasSplitTables(db2)) return void 0;
+  const row = getRow(
+    db2,
+    "SELECT payload, status FROM card_split_proposals WHERE card_id = ?",
+    id
+  );
+  if (!row) return null;
+  if (row.status !== "pending" && row.status !== "dismissed") return void 0;
+  return { payload: row.payload, status: row.status };
+}
+var sameSplit = (a, b2) => a === b2 || !!a && !!b2 && a.payload === b2.payload && a.status === b2.status;
+function snapshotOf(row, field) {
+  const snapshot = { html: row.html ?? "" };
+  if (field === "solutionSummary") snapshot.status = row.status;
+  if (row.base_commit !== void 0) snapshot.baseCommit = row.base_commit;
+  if (field === "aiOpinion") {
+    snapshot.verdict = row.verdict;
+    snapshot.score = row.score;
+    snapshot.priority = row.priority;
+    snapshot.complexity = row.complexity;
+  }
+  return snapshot;
+}
+function undoSnapshot(db2, id, field) {
+  const row = readRow2(db2, id, field);
+  if (!row) return null;
+  const snapshot = snapshotOf(row, field);
+  if (field === "aiOpinion") {
+    const split = readSplit(db2, id);
+    if (split !== void 0) snapshot.split = split;
+  }
+  return snapshot;
+}
+function restoreField(db2, args) {
+  const { id, field, previous, expected, now } = args;
+  return transaction(db2, () => {
+    const row = readRow2(db2, id, field);
+    if (!row) return { ok: false, reason: "not-found" };
+    if ((row.html ?? "") !== expected.html) return { ok: false, reason: "changed" };
+    if (field === "aiOpinion" && OPINION_KEYS.some((key) => (row[key] ?? null) !== (expected[key] ?? null))) {
+      return { ok: false, reason: "changed" };
+    }
+    const splitTracked = field === "aiOpinion" && expected.split !== void 0 && previous.split !== void 0;
+    const currentSplit = splitTracked ? readSplit(db2, id) : void 0;
+    if (splitTracked && !sameSplit(currentSplit, expected.split)) return { ok: false, reason: "changed" };
+    runChanges(db2, `UPDATE cards SET ${COLUMN2[field]} = ?, updated_at = ? WHERE id = ?`, previous.html, now, id);
+    recordAuthorship(db2, {
+      cardId: id,
+      author: args.author,
+      now,
+      before: { [field]: row.html },
+      after: { [field]: previous.html }
+    });
+    if (field === "aiOpinion") {
+      runChanges(
+        db2,
+        `UPDATE cards SET ai_verdict = ?, ai_score = ?, priority = COALESCE(?, priority), complexity = COALESCE(?, complexity) WHERE id = ?`,
+        previous.verdict ?? null,
+        previous.score ?? null,
+        previous.priority ?? null,
+        previous.complexity ?? null,
+        id
+      );
+    }
+    if (splitTracked && !sameSplit(previous.split, currentSplit)) {
+      if (!previous.split) {
+        runChanges(db2, "DELETE FROM card_split_proposals WHERE card_id = ?", id);
+      } else if (currentSplit) {
+        runChanges(
+          db2,
+          "UPDATE card_split_proposals SET payload = ?, status = ?, updated_at = ? WHERE card_id = ?",
+          previous.split.payload,
+          previous.split.status,
+          now,
+          id
+        );
+      } else {
+        runChanges(
+          db2,
+          `INSERT INTO card_split_proposals (card_id, payload, status, created_at, updated_at) VALUES (?, ?, ?, ?, ?)`,
+          id,
+          previous.split.payload,
+          previous.split.status,
+          now,
+          now
+        );
+      }
+    }
+    const base = BASE_COMMIT[field];
+    if (base && row.base_commit !== void 0 && previous.baseCommit !== void 0) {
+      runChanges(db2, `UPDATE cards SET ${base} = ? WHERE id = ?`, previous.baseCommit, id);
+    }
+    if (field === "solutionSummary" && isStatus(previous.status) && expected.status !== previous.status && row.status === expected.status) {
+      const moved = moveCard(db2, id, previous.status, now);
+      if (moved.ok && moved.changed) return { ok: true, movedBack: previous.status };
+    }
+    return { ok: true };
+  });
+}
+function parseUndoSnapshot(raw) {
+  if (!raw || typeof raw !== "object") return null;
+  const value = raw;
+  if (typeof value.html !== "string") return null;
+  const snapshot = { html: value.html };
+  const text2 = (v2) => v2 === null || typeof v2 === "string";
+  if (value.status !== void 0) {
+    if (!isStatus(value.status)) return null;
+    snapshot.status = value.status;
+  }
+  for (const key of ["baseCommit", "verdict", "priority", "complexity"]) {
+    if (value[key] === void 0) continue;
+    if (!text2(value[key])) return null;
+    snapshot[key] = value[key];
+  }
+  if (value.score !== void 0) {
+    if (value.score !== null && typeof value.score !== "number") return null;
+    snapshot.score = value.score;
+  }
+  if (value.split !== void 0) {
+    const split = parseSplitSnapshot(value.split);
+    if (split === void 0) return null;
+    snapshot.split = split;
+  }
+  return snapshot;
+}
+function parseSplitSnapshot(raw) {
+  if (raw === null) return null;
+  if (!raw || typeof raw !== "object") return void 0;
+  const { payload, status } = raw;
+  if (typeof payload !== "string" || status !== "pending" && status !== "dismissed") return void 0;
+  let json2;
+  try {
+    json2 = JSON.parse(payload);
+  } catch {
+    return void 0;
+  }
+  return parseSplitInto(json2).ok ? { payload, status } : void 0;
+}
+
+// ../lib/card-ops/drift.ts
+var MAX_LISTED = 20;
+var MAX_FILES = 200;
+var escapeRegExp2 = (text2) => text2.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+function driftSince(db2, cardId, field) {
+  try {
+    if (!hasBaseCommitColumns(db2)) return null;
+    const row = getRow(
+      db2,
+      `SELECT c.tests_base_commit AS testsBase, c.plan_base_commit AS planBase,
+              c.test_scenarios AS tests, c.solution_summary AS plan,
+              c.task_number AS taskNumber, p.id_prefix AS idPrefix,
+              p.folder_path AS projectFolder, c.project_folder AS cardFolder
+       FROM cards c LEFT JOIN projects p ON p.id = c.project_id WHERE c.id = ?`,
+      cardId
+    );
+    if (!row) return null;
+    const base = field === "plan" ? row.planBase : row.testsBase;
+    if (!base || !stripHtml((field === "plan" ? row.plan : row.tests) ?? "")) return null;
+    const repo = row.projectFolder || row.cardFolder;
+    if (!repo || !commitExists(repo, base)) return null;
+    const displayId = formatDisplayId(row.idPrefix, row.taskNumber);
+    const files = new Set(extractPlanFiles(row.plan ?? ""));
+    if (displayId) {
+      const own = gitRead(repo, ["log", "--all", "-E", `--grep=^Card: ${escapeRegExp2(displayId)}$`, "--name-only", "--format="]);
+      for (const line of (own ?? "").split("\n")) if (line.trim()) files.add(line.trim());
+    }
+    const watched = [...files].filter((file2) => !isGenerated(file2)).slice(0, MAX_FILES);
+    if (watched.length === 0) return null;
+    const chainTip = chainTipFor(db2, cardId, repo);
+    const tip = chainTip?.ref ?? "HEAD";
+    const log = gitRead(repo, ["log", "--format=%H%x1f%s%x1f%cI%x1f%b%x1e", `${base}..${tip}`, "--", ...watched]);
+    if (log === null) return null;
+    const ownTrailer = displayId ? new RegExp(`^Card: ${escapeRegExp2(displayId)}\\s*$`, "m") : null;
+    const commits = [];
+    for (const record2 of log.split("")) {
+      const [sha, subject, at, body] = record2.replace(/^\n+/, "").split("");
+      if (!sha || !/^[0-9a-f]{40}$/.test(sha.trim())) continue;
+      if (ownTrailer?.test(body ?? "")) continue;
+      commits.push({ sha: sha.trim(), subject: (subject ?? "").trim(), at: (at ?? "").trim() });
+    }
+    return { base, files: watched, commits: commits.slice(0, MAX_LISTED), total: commits.length, head: chainTip?.sha ?? currentHead(repo) };
+  } catch {
+    return null;
+  }
+}
+var testsDriftFor = (db2, cardId) => driftSince(db2, cardId, "tests");
+var planDriftFor = (db2, cardId) => driftSince(db2, cardId, "plan");
+function planDriftLine(db2, cardId) {
+  try {
+    const row = getRow(db2, `SELECT status FROM cards WHERE id = ?`, cardId);
+    if (!row?.status || !["backlog", "bugs", "progress"].includes(row.status)) return null;
+    const drift = planDriftFor(db2, cardId);
+    if (!drift || drift.total === 0) return null;
+    return `Plan drift: ${drift.total} commit(s) touched this card's files since its plan was written \u2014 the code wins; read them with git show before following the plan (get_card lists them as planDrift). Once checked, confirm it is still current or add a dated "Updates against code" section (save_plan confirmCurrent / appendRefresh, with the user's OK).`;
+  } catch {
+    return null;
+  }
+}
+
+// ../lib/card-ops/story.ts
+var GIT_TTL_MS = 3e4;
+var gitCache = /* @__PURE__ */ new Map();
+function defaultBranch(repo) {
+  const remote = gitRead(repo, ["symbolic-ref", "--short", "refs/remotes/origin/HEAD"]);
+  if (remote) return remote.replace(/^origin\//, "");
+  for (const name of ["main", "master"]) {
+    if (gitRead(repo, ["show-ref", "--verify", "--quiet", `refs/heads/${name}`]) !== null) return name;
+  }
+  return null;
+}
+function branchStoryCounts(repo, branch) {
+  const head = gitRead(repo, ["rev-parse", "--verify", "--quiet", `refs/heads/${branch}`]);
+  if (!head) return { exists: false, ahead: 0, files: 0 };
+  const key = `${repo}\0${branch}\0${head}`;
+  const cached4 = gitCache.get(key);
+  if (cached4 && Date.now() - cached4.at < GIT_TTL_MS) return cached4.value;
+  const base = defaultBranch(repo);
+  if (!base) return null;
+  const ahead = Number(gitRead(repo, ["rev-list", "--count", `${base}..${branch}`]) ?? NaN);
+  const names = gitRead(repo, ["diff", "--name-only", `${base}...${branch}`]);
+  if (!Number.isFinite(ahead) || names === null) return null;
+  const value = { exists: true, ahead, files: names.split("\n").filter((line) => line.trim()).length };
+  gitCache.set(key, { at: Date.now(), value });
+  return value;
+}
+function loadStoryInputs(db2, cardId) {
+  try {
+    const row = getRow(
+      db2,
+      `SELECT c.git_branch_name AS branch, p.folder_path AS projectFolder, c.project_folder AS cardFolder
+       FROM cards c LEFT JOIN projects p ON p.id = c.project_id WHERE c.id = ?`,
+      cardId
+    );
+    if (!row) return { opinionUserMessages: null, git: null };
+    const messages = getRow(
+      db2,
+      `SELECT COUNT(*) AS n FROM conversations WHERE card_id = ? AND section_type = 'opinion' AND role = 'user'`,
+      cardId
+    );
+    const repo = row.projectFolder || row.cardFolder;
+    return {
+      opinionUserMessages: messages ? Number(messages.n) : null,
+      git: row.branch && repo ? branchStoryCounts(repo, row.branch) : null
+    };
+  } catch {
+    return { opinionUserMessages: null, git: null };
+  }
+}
+
+// ../lib/card-ops/branch-files.ts
+import { existsSync as existsSync6 } from "fs";
+function defaultBranchName(repo) {
+  const remote = gitRead(repo, ["symbolic-ref", "refs/remotes/origin/HEAD"]);
+  if (remote) return remote.replace("refs/remotes/origin/", "").replace("refs/heads/", "");
+  return gitRead(repo, ["show-ref", "--verify", "--quiet", "refs/heads/main"]) !== null ? "main" : "master";
+}
+var lines = (stdout) => stdout.split("\n").map((line) => line.trim()).filter(Boolean);
+function listChangedFiles(repoPath, opts) {
+  const base = opts.baseRef || defaultBranchName(repoPath);
+  const renames = opts.noRenames ? ["--no-renames"] : [];
+  if (opts.worktreePath) {
+    if (!existsSync6(opts.worktreePath)) return [];
+    const mergeBase = gitRead(opts.worktreePath, ["merge-base", base, "HEAD"]);
+    if (!mergeBase) return [];
+    const stdout = gitRead(opts.worktreePath, ["diff", "--name-only", ...renames, mergeBase]);
+    return stdout === null ? [] : lines(stdout);
+  }
+  if (opts.branchName) {
+    const stdout = gitRead(repoPath, ["diff", "--name-only", ...renames, `${base}...${opts.branchName}`]);
+    return stdout === null ? [] : lines(stdout);
+  }
+  return [];
+}
+var TTL_MS = 3e4;
+var touchedCache = /* @__PURE__ */ new Map();
+var escapeRegExp3 = (text2) => text2.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+function cached3(key, read) {
+  const hit = touchedCache.get(key);
+  if (hit && Date.now() - hit.at < TTL_MS) return hit.value;
+  const value = read();
+  touchedCache.set(key, { at: Date.now(), value });
+  return value;
+}
+function touchedFiles(db2, cardId, row, repo) {
+  const base = chainTipFor(db2, cardId, repo)?.ref ?? defaultBranchName(repo);
+  if (row.worktreeStatus === "active" && row.worktreePath && existsSync6(row.worktreePath)) {
+    const head = currentHead(row.worktreePath);
+    const found = cached3(`${row.worktreePath}\0${base}\0${head}`, () => {
+      const changed = listChangedFiles(repo, { worktreePath: row.worktreePath, baseRef: base, noRenames: true });
+      const untracked = gitRead(row.worktreePath, ["ls-files", "--others", "--exclude-standard"]);
+      const files = Array.from(/* @__PURE__ */ new Set([...changed, ...untracked ? lines(untracked) : []]));
+      return files.length ? { source: "worktree", ref: row.branch || base, files } : null;
+    });
+    if (found) return found;
+  }
+  if (row.branch) {
+    const head = gitRead(repo, ["rev-parse", "--verify", "--quiet", `refs/heads/${row.branch}`]);
+    if (head) {
+      const found = cached3(`${repo}\0${row.branch}\0${base}\0${head}`, () => {
+        const files = listChangedFiles(repo, { branchName: row.branch, baseRef: base, noRenames: true });
+        return files.length ? { source: "branch", ref: row.branch, files } : null;
+      });
+      if (found) return found;
+    }
+  }
+  const displayId = formatDisplayId(row.idPrefix, row.taskNumber);
+  if (!displayId) return null;
+  return cached3(`${repo}\0${displayId}\0${currentHead(repo)}`, () => {
+    const stdout = gitRead(repo, [
+      "log",
+      "--all",
+      "-E",
+      `--grep=^Card: ${escapeRegExp3(displayId)}$`,
+      "--no-renames",
+      "--name-only",
+      "--format="
+    ]);
+    const files = stdout === null ? [] : Array.from(new Set(lines(stdout)));
+    return files.length ? { source: "commits", ref: base, files } : null;
+  });
+}
+function planBranchFilesFor(db2, cardId) {
+  try {
+    const row = getRow(
+      db2,
+      `SELECT c.solution_summary AS plan, c.git_worktree_path AS worktreePath,
+              c.git_worktree_status AS worktreeStatus, c.git_branch_name AS branch,
+              c.task_number AS taskNumber, p.id_prefix AS idPrefix,
+              p.folder_path AS projectFolder, c.project_folder AS cardFolder
+       FROM cards c LEFT JOIN projects p ON p.id = c.project_id WHERE c.id = ?`,
+      cardId
+    );
+    if (!row) return null;
+    const planned = extractPlanFiles(row.plan ?? "");
+    if (planned.length === 0) return null;
+    const repo = row.projectFolder || row.cardFolder;
+    if (!repo || !currentHead(repo)) return null;
+    const touched = touchedFiles(db2, cardId, row, repo);
+    if (!touched) return null;
+    const rows = comparePlanFiles(planned, touched.files);
+    const counts = { touched: 0, planned: 0, outside: 0 };
+    for (const { state } of rows) counts[state]++;
+    return { source: touched.source, ref: touched.ref, displayId: formatDisplayId(row.idPrefix, row.taskNumber), rows, counts };
+  } catch {
+    return null;
+  }
+}
+
+// ../lib/output-paths.ts
+function parseOutputPaths(value) {
+  if (!value) return null;
+  try {
+    const parsed = JSON.parse(value);
+    if (!Array.isArray(parsed)) return null;
+    const paths = parsed.filter((entry) => typeof entry === "string");
+    return paths.length ? paths : null;
+  } catch {
+    return null;
+  }
+}
+
+// ../lib/card-ops/output-paths.ts
+function addOutputPath(db2, id, relativePath, now) {
+  return transaction(db2, () => {
+    const row = getRow(db2, `SELECT output_paths FROM cards WHERE id = ?`, id);
+    if (!row) return { ok: false, reason: "not-found" };
+    const existing = parseOutputPaths(row.output_paths) ?? [];
+    if (existing.includes(relativePath)) return { ok: true, outputPaths: existing, alreadyRecorded: true };
+    const outputPaths = [...existing, relativePath];
+    runChanges(db2, `UPDATE cards SET output_paths = ?, updated_at = ? WHERE id = ?`, JSON.stringify(outputPaths), now, id);
+    return { ok: true, outputPaths, alreadyRecorded: false };
+  });
+}
+
+// ../lib/card-ops/save-test-report.ts
+function saveTestReport(db2, args) {
+  return transaction(db2, () => {
+    const row = getRow(db2, `SELECT test_reports FROM cards WHERE id = ?`, args.id);
+    if (!row) return { ok: false, reason: "not-found" };
+    const { runs, dropped } = prependTestReportRun(parseTestReports(row.test_reports) ?? [], args.run);
+    runChanges(
+      db2,
+      `UPDATE cards SET test_reports = ?, updated_at = ? WHERE id = ?`,
+      JSON.stringify(runs),
+      args.now,
+      args.id
+    );
+    return { ok: true, runs, dropped };
+  });
+}
+function addTestReportWarnings(db2, args) {
+  return transaction(db2, () => {
+    const row = getRow(db2, `SELECT test_reports FROM cards WHERE id = ?`, args.id);
+    if (!row) return { ok: false, reason: "not-found" };
+    const existing = parseTestReports(row.test_reports) ?? [];
+    let runs;
+    let dropped = [];
+    if (existing.some((run2) => run2.id === args.runId)) {
+      runs = existing.map(
+        (run2) => run2.id === args.runId ? { ...run2, warnings: normalizeTestReportWarnings([...run2.warnings ?? [], ...args.warnings]) } : run2
+      );
+    } else {
+      const run2 = buildTestReportRun({
+        id: args.runId,
+        items: [],
+        now: args.now,
+        platform: args.platform ?? null,
+        source: "autonomous",
+        evidence: args.evidence ?? "text",
+        scope: "run",
+        checklistApplied: true
+      });
+      run2.warnings = normalizeTestReportWarnings(args.warnings);
+      ({ runs, dropped } = prependTestReportRun(existing, run2));
+    }
+    runChanges(
+      db2,
+      `UPDATE cards SET test_reports = ?, updated_at = ? WHERE id = ?`,
+      JSON.stringify(runs),
+      args.now,
+      args.id
+    );
+    return { ok: true, runs, dropped };
+  });
+}
+function markTestReportVideosRemoved(db2, args) {
+  if (args.runIds.length === 0) return { ok: true };
+  return transaction(db2, () => {
+    const row = getRow(db2, `SELECT test_reports FROM cards WHERE id = ?`, args.id);
+    if (!row) return { ok: false };
+    const remove = new Set(args.runIds);
+    const runs = (parseTestReports(row.test_reports) ?? []).map(
+      (run2) => run2.video && remove.has(run2.id) && run2.video.removedAt === null ? { ...run2, video: { ...run2.video, removedAt: args.now } } : run2
+    );
+    runChanges(db2, `UPDATE cards SET test_reports = ? WHERE id = ?`, JSON.stringify(runs), args.id);
+    return { ok: true };
+  });
+}
+
+// ../lib/work-templates.ts
+var WORK_TEMPLATES_SETTING_KEY = "work_templates";
+var SKILL_DECIDES_EXT = "";
+function normalizeOutputExt(value) {
+  const raw = typeof value === "string" ? value.trim().toLowerCase() : "";
+  const bare = raw.replace(/^\.+/, "").replace(/[^a-z0-9]/g, "");
+  return bare ? `.${bare}` : ".md";
+}
+function normalizeWorkTemplates(value) {
+  let parsed = value;
+  if (typeof value === "string") {
+    try {
+      parsed = JSON.parse(value);
+    } catch {
+      parsed = null;
+    }
+  }
+  if (!Array.isArray(parsed)) return DEFAULT_WORK_TEMPLATES;
+  const seen = /* @__PURE__ */ new Set();
+  const templates = [];
+  for (const entry of parsed) {
+    if (!entry || typeof entry !== "object") continue;
+    const raw = entry;
+    const name = typeof raw.name === "string" ? raw.name.trim() : "";
+    if (!name) continue;
+    let id = typeof raw.id === "string" && raw.id.trim() ? raw.id.trim() : slugify3(name);
+    while (seen.has(id)) id = `${id}-${templates.length + 1}`;
+    seen.add(id);
+    const skill = typeof raw.skill === "string" && raw.skill.trim() ? raw.skill.trim() : null;
+    templates.push({
+      id,
+      name,
+      skill,
+      promptPreset: typeof raw.promptPreset === "string" ? raw.promptPreset : "",
+      outputExt: skill && raw.outputExt === SKILL_DECIDES_EXT ? SKILL_DECIDES_EXT : normalizeOutputExt(raw.outputExt)
+    });
+  }
+  return templates.length ? templates : DEFAULT_WORK_TEMPLATES;
+}
+function projectWorkTemplates(projectValue, legacyGlobal) {
+  if (projectValue !== null && projectValue !== void 0) return normalizeWorkTemplates(projectValue);
+  return normalizeWorkTemplates(legacyGlobal ?? null);
+}
+function initialWorkTemplateId(templates, lastId) {
+  return resolveWorkTemplate(templates, lastId).id;
+}
+function resolveWorkTemplate(templates, templateId) {
+  const list = templates.length ? templates : DEFAULT_WORK_TEMPLATES;
+  return list.find((t) => t.id === templateId) ?? list[0];
+}
+function slugify3(name) {
+  return name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "template";
+}
+
+// ../lib/card-ops/work-templates.ts
+function listWorkTemplates(db2, projectId) {
+  const project = projectId ? projectTemplateRow(db2, projectId) : void 0;
+  const legacy = getRow(
+    db2,
+    "SELECT value FROM settings WHERE key = ?",
+    WORK_TEMPLATES_SETTING_KEY
+  );
+  return projectWorkTemplates(project?.work_templates ?? null, legacy?.value ?? null);
+}
+function projectTemplateRow(db2, projectId) {
+  return getRow(db2, "SELECT * FROM projects WHERE id = ?", projectId);
+}
+function defaultWorkTemplateId(db2, projectId) {
+  if (!projectId) return null;
+  const project = projectTemplateRow(db2, projectId);
+  if (project?.mode !== "work") return null;
+  return initialWorkTemplateId(listWorkTemplates(db2, projectId), project.last_work_template_id ?? null);
+}
+function rememberWorkTemplate(db2, projectId, templateId) {
+  if (!projectId || !templateId) return;
+  const project = projectTemplateRow(db2, projectId);
+  if (project?.mode !== "work" || !("last_work_template_id" in project)) return;
+  db2.prepare("UPDATE projects SET last_work_template_id = ? WHERE id = ?").run(templateId, projectId);
+}
+function isWorkProject(db2, projectId) {
+  const row = getRow(db2, "SELECT * FROM projects WHERE id = ?", projectId);
+  return row?.mode === "work";
+}
+function checkWorkTemplateId(db2, projectId, value) {
+  const id = typeof value === "string" ? value.trim() : value;
+  if (id === null || id === void 0 || id === "") return { ok: true, id: null };
+  if (!projectId) return { ok: false, reason: "no-project", templates: [] };
+  if (!isWorkProject(db2, projectId)) return { ok: false, reason: "not-work-project", templates: [] };
+  const templates = listWorkTemplates(db2, projectId);
+  if (typeof id === "string" && templates.some((t) => t.id === id)) return { ok: true, id };
+  return { ok: false, reason: "unknown-id", templates };
+}
+function workTemplateIdError(value, check2) {
+  switch (check2.reason) {
+    case "no-project":
+      return "workTemplateId needs a card with a project: it only applies to Work projects";
+    case "not-work-project":
+      return "workTemplateId only applies to Work projects";
+    case "unknown-id":
+      return `workTemplateId ${JSON.stringify(value)} is not a template. Valid: ${check2.templates.map((t) => `${t.id} \xB7 ${t.name}`).join(", ")}`;
+  }
+}
+function cardWorkTemplate(db2, projectId, workTemplateId) {
+  const templates = listWorkTemplates(db2, projectId);
+  const template = resolveWorkTemplate(templates, workTemplateId);
+  return {
+    id: template.id,
+    name: template.name,
+    source: workTemplateId && template.id === workTemplateId ? "card" : "default"
+  };
+}
+
 // ../lib/card-ops/create-card.ts
 function createCard(db2, given, now, author) {
   const input = externalizeFields(given.id, given, CARD_RICH_FIELDS);
@@ -28371,7 +29887,9 @@ function createCard(db2, given, now, author) {
       ai_score: input.aiScore ?? null,
       ai_platform: input.aiPlatform || null,
       use_worktree: serializeUseWorktreeForDb(input.useWorktree ?? null),
-      work_template_id: input.workTemplateId || null,
+      // A Work card created without a template starts with the one last chosen
+      // in its project (IDE-660), so a later reorder never shifts its template.
+      work_template_id: input.workTemplateId || defaultWorkTemplateId(db2, projectId),
       split_from_card_id: input.splitFromCardId || null,
       completed_at: completedAt
     };
@@ -28384,6 +29902,7 @@ function createCard(db2, given, now, author) {
       `INSERT INTO cards (${names.join(", ")}) VALUES (${names.map(() => "?").join(", ")})`,
       ...Object.values(columns)
     );
+    if (input.workTemplateId) rememberWorkTemplate(db2, projectId, input.workTemplateId);
     if (input.blockedBy && input.blockedBy.length > 0) setBlockedBy(db2, input.id, input.blockedBy, now, "add");
     recordAuthorship(db2, {
       cardId: input.id,
@@ -28622,6 +30141,7 @@ function updateCard(db2, args) {
         }
       });
     }
+    if (typeof set2.workTemplateId === "string") rememberWorkTemplate(db2, projectId, set2.workTemplateId);
     const placed = args.afterCardId !== void 0 ? moveCardInChain(db2, id, args.afterCardId) : null;
     if (args.blockedBy !== void 0) setBlockedBy(db2, id, args.blockedBy, now, "replace");
     return {
@@ -28633,504 +30153,6 @@ function updateCard(db2, args) {
       placed
     };
   });
-}
-
-// ../lib/card-queue.ts
-var card_queue_exports = {};
-__export(card_queue_exports, {
-  APP_RUN_CARD_ENV: () => APP_RUN_CARD_ENV,
-  QUEUE_CLEARING_STATUSES: () => QUEUE_CLEARING_STATUSES,
-  TERMINAL_WRITE_OPTIONS: () => TERMINAL_WRITE_OPTIONS,
-  compareByQueuePosition: () => compareByQueuePosition,
-  conflictingLiveRun: () => conflictingLiveRun,
-  folderHoldFor: () => folderHoldFor,
-  liveRunPhrase: () => liveRunPhrase,
-  liveRunSubject: () => liveRunSubject,
-  queueIneligibleReason: () => queueIneligibleReason,
-  queueRanks: () => queueRanks,
-  sharedWorkingCopyWith: () => sharedWorkingCopyWith,
-  withoutOwnAppRun: () => withoutOwnAppRun,
-  writeConflictFor: () => writeConflictFor
-});
-var QUEUE_CLEARING_STATUSES = /* @__PURE__ */ new Set([
-  "test",
-  "completed",
-  "withdrawn",
-  "ideation"
-]);
-function compareByQueuePosition(a, b2) {
-  const ap = a.queuePosition ?? Number.MAX_SAFE_INTEGER;
-  const bp = b2.queuePosition ?? Number.MAX_SAFE_INTEGER;
-  if (ap !== bp) return ap - bp;
-  return (a.taskNumber ?? Number.MAX_SAFE_INTEGER) - (b2.taskNumber ?? Number.MAX_SAFE_INTEGER);
-}
-function queueRanks(cards) {
-  const ranks = /* @__PURE__ */ new Map();
-  cards.filter((card) => card.queuePosition !== null).sort(compareByQueuePosition).forEach((card, index) => ranks.set(card.id, index + 1));
-  return ranks;
-}
-function queueIneligibleReason(input) {
-  if (input.status === "test") {
-    if (input.phase !== "verify") return "it is in test";
-    if (input.projectMode === "work") return "Work projects have no queued pre-verify";
-    if (!input.hasDescription) return "it has no description";
-    if (!input.hasCoreFlow) return "its checklist has no core-flow group";
-    if (input.gitBranchStatus === "rolled_back") return "its branch was rolled back";
-    if (input.processingType) return "a run is already going on it";
-    return null;
-  }
-  if (QUEUE_CLEARING_STATUSES.has(input.status)) return `it is in ${input.status}`;
-  if (input.projectMode === "work") return "Work projects have no implementation run";
-  if (!input.hasDescription) return "it has no description";
-  if (input.phase === "planning") {
-    if (!input.autopilotPlanning || input.status !== "backlog" && input.status !== "bugs") return "it has no plan yet";
-    if (input.processingType) return "a run is already going on it";
-    return null;
-  }
-  if (input.phase !== "implementation") return "it already has a test checklist";
-  if (input.hasOpenDecision) return "its plan needs your decision";
-  if (input.processingType) return "a run is already going on it";
-  return null;
-}
-function sharedWorkingCopyWith(self, ahead) {
-  if (self.runsInWorktree) return null;
-  for (let i = ahead.length - 1; i >= 0; i--) {
-    const other = ahead[i];
-    if (other.id === self.id || other.runsInWorktree || other.kind === "verify" || other.kind === "planning") continue;
-    if (other.projectId === self.projectId) return other;
-  }
-  return null;
-}
-function conflictingLiveRun(self, live) {
-  if (self.runsInWorktree || self.kind === "planning") return null;
-  for (const other of live) {
-    if (other.id === self.id || other.runsInWorktree || other.kind === "planning") continue;
-    if (other.projectId === self.projectId) return other;
-  }
-  return null;
-}
-function liveRunSubject(run2) {
-  if (run2.kind === "terminal") {
-    return run2.displayId ? `${run2.displayId}'s terminal session is editing` : "a terminal session is editing";
-  }
-  const name = run2.displayId ?? "a card";
-  if (run2.kind === "tests-chat") return `${name}'s Tests chat is working`;
-  if (run2.fromQueue) return `${name} is running from the queue`;
-  return `${name} is running`;
-}
-function liveRunPhrase(run2) {
-  const subject = liveRunSubject(run2);
-  return `${subject.charAt(0).toUpperCase()}${subject.slice(1)} in the same folder.`;
-}
-var TERMINAL_WRITE_OPTIONS = "Wait for it, work in a worktree, or continue only if the user confirms.";
-var APP_RUN_CARD_ENV = "IDEAFY_APP_RUN_CARD";
-function withoutOwnAppRun(runs, appRunCardId) {
-  if (!appRunCardId) return runs;
-  return runs.filter((run2) => run2.kind === "terminal" || run2.cardId !== appRunCardId);
-}
-function writeConflictFor(input) {
-  const open = (run2) => !input.acknowledged?.has(run2.id);
-  const live = conflictingLiveRun(input.self, input.live.filter(open));
-  if (live) {
-    return {
-      conflictId: live.id,
-      conflictCardId: live.cardId,
-      reason: "live-run",
-      message: `${liveRunPhrase(live)} ${TERMINAL_WRITE_OPTIONS}`
-    };
-  }
-  if (!input.armed) return null;
-  const next = input.waiting.find((row) => open(row) && conflictingLiveRun(input.self, [row]));
-  if (!next) return null;
-  return {
-    conflictId: next.id,
-    conflictCardId: next.cardId,
-    reason: "queue",
-    message: `The queue is running on main (${next.displayId ?? "a card"} is next). ${TERMINAL_WRITE_OPTIONS}`
-  };
-}
-function folderHoldFor(next, writers) {
-  const writer = conflictingLiveRun(next, writers);
-  if (!writer) return null;
-  const folder = next.displayId ? `${next.displayId}'s folder` : "the next card's folder";
-  return `${liveRunSubject(writer)} in ${folder}`;
-}
-
-// ../lib/prompts/phase.ts
-function detectPhase(card) {
-  const hasSolution = card.solutionSummary && stripHtml(card.solutionSummary) !== "";
-  const hasTests = hasOwnChecklist(card.testScenarios);
-  if (card.status === "test") return "verify";
-  if (!hasSolution) return "planning";
-  if (!hasTests) return "implementation";
-  return "retest";
-}
-
-// ../lib/workspace.ts
-var workspace_exports = {};
-__export(workspace_exports, {
-  OPEN_ADD_PROJECT_EVENT: () => OPEN_ADD_PROJECT_EVENT,
-  isCardInWorkspace: () => isCardInWorkspace,
-  normalizeProjectMode: () => normalizeProjectMode,
-  projectModeOf: () => projectModeOf,
-  projectsInWorkspace: () => projectsInWorkspace,
-  resolveEffectiveWorktree: () => resolveEffectiveWorktree,
-  shouldUseWorktree: () => shouldUseWorktree,
-  worktreeOverrideFor: () => worktreeOverrideFor
-});
-var OPEN_ADD_PROJECT_EVENT = "ideafy:open-add-project";
-function normalizeProjectMode(v2, fallback = DEFAULT_PROJECT_MODE) {
-  return typeof v2 === "string" && PROJECT_MODES.includes(v2) ? v2 : fallback;
-}
-function projectModeOf(projectId, projects) {
-  if (!projectId) return DEFAULT_PROJECT_MODE;
-  return projects.find((project) => project.id === projectId)?.mode ?? DEFAULT_PROJECT_MODE;
-}
-function projectsInWorkspace(projects, workspace) {
-  return projects.filter((project) => (project.mode ?? DEFAULT_PROJECT_MODE) === workspace);
-}
-function isCardInWorkspace(card, projects, workspace) {
-  return projectModeOf(card.projectId, projects) === workspace;
-}
-function shouldUseWorktree(card, project) {
-  if (project?.mode === "work") return false;
-  return card.useWorktree ?? project?.useWorktrees ?? true;
-}
-function resolveEffectiveWorktree(card, project) {
-  const effective = shouldUseWorktree(card, project);
-  if (!effective) return { enforced: false, targetBranch: null };
-  if (card.gitBranchName) {
-    return { enforced: true, targetBranch: card.gitBranchName };
-  }
-  if (project && card.taskNumber != null) {
-    return {
-      enforced: true,
-      targetBranch: generateBranchName(project.idPrefix, card.taskNumber, card.title)
-    };
-  }
-  return { enforced: true, targetBranch: null };
-}
-function worktreeOverrideFor(choice, projectDefault) {
-  return choice === projectDefault ? null : choice;
-}
-
-// ../lib/card-ops/queue.ts
-var ROW_SELECT = `
-  SELECT c.id, c.title, c.status, c.description,
-         c.solution_summary AS solutionSummary,
-         c.test_scenarios AS testScenarios,
-         c.processing_type AS processingType,
-         c.queue_position AS queuePosition,
-         c.queue_verify_scope AS queueVerifyScope,
-         c.task_number AS taskNumber,
-         c.use_worktree AS useWorktree,
-         c.git_branch_status AS gitBranchStatus,
-         c.git_worktree_path AS gitWorktreePath,
-         c.git_worktree_status AS gitWorktreeStatus,
-         c.project_id AS projectId,
-         p.id_prefix AS idPrefix,
-         p.mode AS projectMode,
-         p.use_worktrees AS projectUseWorktrees,
-         c.autopilot_stage AS autopilotStage
-  FROM cards c LEFT JOIN projects p ON p.id = c.project_id`;
-function toQueueRow(raw) {
-  return {
-    ...raw,
-    // Anything but "all" is the default; a stray value never widens a run.
-    queueVerifyScope: raw.queueVerifyScope === null ? null : raw.queueVerifyScope === "all" ? "all" : "next",
-    useWorktree: raw.useWorktree === null ? null : !!raw.useWorktree,
-    projectUseWorktrees: raw.projectUseWorktrees === null ? null : !!raw.projectUseWorktrees
-  };
-}
-function listQueueRows(db2) {
-  return allRows(db2, `${ROW_SELECT} WHERE c.queue_position IS NOT NULL`).map(toQueueRow).sort(compareByQueuePosition);
-}
-function getQueueRow(db2, cardId) {
-  const raw = getRow(db2, `${ROW_SELECT} WHERE c.id = ?`, cardId);
-  return raw ? toQueueRow(raw) : void 0;
-}
-function queueDisplayId(row) {
-  return formatDisplayId(row.idPrefix, row.taskNumber) ?? row.title;
-}
-function queueRowIneligibleReason(row) {
-  const progress = parseTestProgress(row.testScenarios ?? "");
-  const core = progress?.core;
-  const reason = queueIneligibleReason({
-    status: row.status,
-    hasDescription: stripHtml(row.description ?? "") !== "",
-    phase: detectPhase(row),
-    processingType: row.processingType,
-    projectMode: row.projectMode,
-    hasCoreFlow: !!core,
-    gitBranchStatus: row.gitBranchStatus,
-    hasOpenDecision: hasOpenPlanDecision(row),
-    autopilotPlanning: row.autopilotStage === "planning"
-  });
-  if (reason) return reason;
-  if (row.status === "test" && !nextVerifyGroup(progress)) {
-    return manualLeftIn(progress) > 0 ? "only [manual] items are left \u2014 they are yours" : "its checklist is fully ticked";
-  }
-  return null;
-}
-function queueKindOf(row) {
-  const phase = detectPhase(row);
-  return phase === "verify" ? "verify" : phase === "planning" ? "planning" : "implementation";
-}
-function queuedWaitReason(db2, row) {
-  return queueKindOf(row) === "verify" ? null : queueWaitReason(db2, row.id);
-}
-function nextQueueStep(db2) {
-  const rows = listQueueRows(db2);
-  let waiting = 0;
-  for (const row of rows) {
-    const reason = queueRowIneligibleReason(row);
-    if (reason) return { kind: "drop", row, reason };
-    if (queuedWaitReason(db2, row)) {
-      waiting++;
-      continue;
-    }
-    return { kind: "start", row };
-  }
-  return { kind: "idle", waiting };
-}
-function queuedRunsInWorktree(row) {
-  const activeWorktree = !!row.gitWorktreePath && row.gitWorktreeStatus === "active";
-  const kind = queueKindOf(row);
-  if (kind === "verify") return activeWorktree;
-  if (kind === "planning") return false;
-  const useWorktree = shouldUseWorktree(
-    { useWorktree: row.useWorktree },
-    { useWorktrees: row.projectUseWorktrees, mode: row.projectMode }
-  );
-  return useWorktree && !!row.projectId && row.taskNumber != null || activeWorktree;
-}
-function writeQueueOrder(db2, ids, removed = []) {
-  const place = db2.prepare(`UPDATE cards SET queue_position = ? WHERE id = ?`);
-  ids.forEach((id, index) => place.run(index + 1, id));
-  const unqueue = db2.prepare(`UPDATE cards SET queue_position = NULL WHERE id = ?`);
-  for (const id of removed) unqueue.run(id);
-}
-function enqueueCard(db2, cardId, afterCardId, verifyScope) {
-  if (afterCardId === cardId) {
-    return { ok: false, reason: "after-self", message: "A card cannot be placed after itself" };
-  }
-  return transaction(db2, () => {
-    const row = getQueueRow(db2, cardId);
-    if (!row) return { ok: false, reason: "not-found", message: "Card not found" };
-    const ineligible = queueRowIneligibleReason(row);
-    if (ineligible) {
-      return { ok: false, reason: "ineligible", message: `Cannot queue ${queueDisplayId(row)}: ${ineligible}` };
-    }
-    const members = listQueueRows(db2);
-    const others = members.filter((m2) => m2.id !== cardId);
-    if (afterCardId && !others.some((m2) => m2.id === afterCardId)) {
-      return { ok: false, reason: "after-not-queued", message: "afterCardId is not in the queue" };
-    }
-    const after = afterCardId === void 0 ? others[others.length - 1]?.id ?? null : afterCardId;
-    const moved = members.length !== others.length;
-    const chainShaped = members.map((m2) => ({ id: m2.id, groupOrder: m2.queuePosition, taskNumber: m2.taskNumber }));
-    if (!moved) chainShaped.push({ id: cardId, groupOrder: null, taskNumber: row.taskNumber });
-    const order = placeAfter(chainShaped, cardId, after);
-    writeQueueOrder(db2, order);
-    let queueVerifyScope = row.queueVerifyScope;
-    if (!moved || verifyScope !== void 0) {
-      queueVerifyScope = queueKindOf(row) === "verify" ? verifyScope ?? null : null;
-      db2.prepare(`UPDATE cards SET queue_verify_scope = ? WHERE id = ?`).run(queueVerifyScope, cardId);
-    }
-    return { ok: true, row: { ...row, queueVerifyScope }, rank: order.indexOf(cardId) + 1, moved };
-  });
-}
-function dequeueCard(db2, cardId) {
-  return transaction(db2, () => {
-    const members = listQueueRows(db2);
-    if (!members.some((m2) => m2.id === cardId)) return false;
-    writeQueueOrder(
-      db2,
-      members.filter((m2) => m2.id !== cardId).map((m2) => m2.id),
-      [cardId]
-    );
-    return true;
-  });
-}
-function restoreQueueCards(db2, cardIds) {
-  return transaction(db2, () => {
-    const members = listQueueRows(db2);
-    const queued = new Set(members.map((m2) => m2.id));
-    const restored = [];
-    const skipped = [];
-    for (const cardId of new Set(cardIds)) {
-      if (queued.has(cardId)) {
-        restored.push(cardId);
-        continue;
-      }
-      const row = getQueueRow(db2, cardId);
-      const reason = row ? queueRowIneligibleReason(row) : "it was deleted";
-      if (reason) skipped.push({ cardId, displayId: row ? queueDisplayId(row) : cardId, reason });
-      else restored.push(cardId);
-    }
-    const back = new Set(restored);
-    writeQueueOrder(db2, [...restored, ...members.filter((m2) => !back.has(m2.id)).map((m2) => m2.id)]);
-    return { restored, skipped };
-  });
-}
-function clearQueue(db2, keep = /* @__PURE__ */ new Set()) {
-  return transaction(db2, () => {
-    const rows = allRows(
-      db2,
-      `SELECT c.id, c.title, c.queue_position AS queuePosition, c.task_number AS taskNumber,
-              p.id_prefix AS idPrefix
-       FROM cards c LEFT JOIN projects p ON p.id = c.project_id
-       WHERE c.queue_position IS NOT NULL`
-    ).sort(compareByQueuePosition);
-    const cleared = rows.filter((row) => !keep.has(row.id));
-    const unqueue = db2.prepare(`UPDATE cards SET queue_position = NULL WHERE id = ?`);
-    for (const row of cleared) unqueue.run(row.id);
-    return cleared.map((row) => ({ cardId: row.id, displayId: queueDisplayId(row) }));
-  });
-}
-
-// ../lib/card-ops/autopilot.ts
-var ROW_SELECT2 = `
-  SELECT c.id, c.title, c.status,
-         c.solution_summary AS solutionSummary,
-         c.test_scenarios AS testScenarios,
-         c.processing_type AS processingType,
-         c.use_worktree AS useWorktree,
-         c.git_worktree_path AS gitWorktreePath,
-         c.git_worktree_status AS gitWorktreeStatus,
-         c.task_number AS taskNumber,
-         p.id_prefix AS idPrefix,
-         p.mode AS projectMode,
-         c.autopilot_stage AS stage,
-         c.autopilot_stop_reason AS stopReason,
-         c.autopilot_retried AS retried,
-         c.autopilot_fix_used AS fixUsed
-  FROM cards c LEFT JOIN projects p ON p.id = c.project_id
-  WHERE c.id = ?`;
-function readRow2(db2, cardId) {
-  return getRow(db2, ROW_SELECT2, cardId);
-}
-function stateOf(row) {
-  return {
-    stage: isAutopilotStage(row.stage) ? row.stage : null,
-    stopReason: row.stopReason,
-    retried: !!row.retried,
-    fixUsed: !!row.fixUsed
-  };
-}
-function getAutopilotState(db2, cardId) {
-  const row = readRow2(db2, cardId);
-  return row ? stateOf(row) : { stage: null, stopReason: null, retried: false, fixUsed: false };
-}
-function worktreeIsDirty(row) {
-  if (row.status !== "progress" || !row.gitWorktreePath || row.gitWorktreeStatus !== "active") return false;
-  return !!gitRead(row.gitWorktreePath, ["status", "--porcelain"]);
-}
-function ineligibleReason(row) {
-  const html = row.testScenarios ?? "";
-  return autopilotIneligibleReason({
-    dirtyWorktree: worktreeIsDirty(row),
-    status: row.status,
-    hasPlan: stripHtml(row.solutionSummary ?? "") !== "",
-    hasChecklist: hasOwnChecklist(html),
-    hasCoreFlow: !!parseTestProgress(html)?.core,
-    projectMode: row.projectMode,
-    useWorktree: row.useWorktree === null ? null : !!row.useWorktree,
-    activeWorktree: !!row.gitWorktreePath && row.gitWorktreeStatus === "active",
-    stage: row.stage,
-    processingType: row.processingType,
-    openDecision: findPlanDecisions(row.solutionSummary).length > 0
-  });
-}
-function autopilotContinueQuestion(cardId) {
-  return `Autopilot stopped on this card for a plan decision, and the plan no longer asks one. Ask the user whether to continue on Autopilot. Call queue_card({ cardId: "${cardId}", autopilot: true }) only after the user explicitly says yes.`;
-}
-function autopilotLine(db2, cardId) {
-  const row = readRow2(db2, cardId);
-  if (!row) return null;
-  const { stage, stopReason } = stateOf(row);
-  if (isActiveAutopilotStage(stage)) {
-    return `Autopilot is running this card (${stage}) in its worktree; do not edit there. Ask the user to stop Autopilot first.`;
-  }
-  const resume = autopilotResume({ autopilotStage: stage, autopilotStopReason: stopReason, solutionSummary: row.solutionSummary });
-  const askToContinue = `Call queue_card({ cardId: "${cardId}", autopilot: true }) only after the user explicitly says yes.`;
-  if (resume === "decision-answered") return `In your first sentence: ${autopilotContinueQuestion(cardId)}`;
-  if (resume === "decision-open") {
-    return `Autopilot stopped on this card: ${sanitizeForReminder(stopReason || "no reason given", 200)}. Say so in your first sentence: the user answers the decision in the plan and deletes its [NEEDS_DECISION] marker before Autopilot can continue.`;
-  }
-  if (resume === "stopped") {
-    return `Autopilot stopped on this card: ${sanitizeForReminder(stopReason || "no reason given", 200)}. Say so in your first sentence, and once it is dealt with ask whether to continue on Autopilot. ${askToContinue}`;
-  }
-  return null;
-}
-function autopilotRefusal(db2, cardId) {
-  const row = readRow2(db2, cardId);
-  return row ? ineligibleReason(row) : "Card not found";
-}
-var Refused = class extends Error {
-};
-function startAutopilot(db2, cardId) {
-  try {
-    return transaction(db2, () => {
-      const row = readRow2(db2, cardId);
-      if (!row) return { ok: false, reason: "not-found", message: "Card not found" };
-      const displayId = queueDisplayId(row);
-      const refusal = ineligibleReason(row);
-      if (refusal) return { ok: false, reason: "ineligible", message: `Cannot send ${displayId} to Autopilot: ${refusal}` };
-      const stage = row.status === "test" ? "verifying" : stripHtml(row.solutionSummary ?? "") === "" ? "planning" : "implementing";
-      db2.prepare(
-        `UPDATE cards SET use_worktree = 1, autopilot_stage = ?, autopilot_stop_reason = NULL,
-                autopilot_retried = 0, autopilot_fix_used = 0
-         WHERE id = ?`
-      ).run(stage, cardId);
-      const queued = enqueueCard(db2, cardId, null, "next");
-      if (!queued.ok) {
-        throw new Refused(`Cannot send ${displayId} to Autopilot: ${queued.message.replace(/^Cannot queue [^:]+: /, "")}`);
-      }
-      return { ok: true, stage, rank: queued.rank, displayId };
-    });
-  } catch (error2) {
-    if (error2 instanceof Refused) return { ok: false, reason: "ineligible", message: error2.message };
-    throw error2;
-  }
-}
-function setAutopilotStage(db2, cardId, stage, used = {}) {
-  db2.prepare(
-    `UPDATE cards SET autopilot_stage = ?, autopilot_stop_reason = NULL,
-            autopilot_retried = COALESCE(?, autopilot_retried),
-            autopilot_fix_used = COALESCE(?, autopilot_fix_used)
-     WHERE id = ?`
-  ).run(
-    stage,
-    used.retried === void 0 ? null : used.retried ? 1 : 0,
-    used.fixUsed === void 0 ? null : used.fixUsed ? 1 : 0,
-    cardId
-  );
-}
-function stopAutopilot(db2, cardId, reason) {
-  transaction(db2, () => {
-    db2.prepare(`UPDATE cards SET autopilot_stage = 'stopped', autopilot_stop_reason = ? WHERE id = ?`).run(reason, cardId);
-    dequeueCard(db2, cardId);
-  });
-}
-function clearAutopilot(db2, cardId, opts = {}) {
-  return transaction(db2, () => {
-    const had = !!readRow2(db2, cardId)?.stage;
-    db2.prepare(
-      `UPDATE cards SET autopilot_stage = NULL, autopilot_stop_reason = NULL,
-              autopilot_retried = NULL, autopilot_fix_used = NULL
-       WHERE id = ?`
-    ).run(cardId);
-    if (opts.dequeue !== false) dequeueCard(db2, cardId);
-    return had;
-  });
-}
-function strandedAutopilotCardIds(db2) {
-  return db2.prepare(
-    `SELECT id FROM cards
-       WHERE autopilot_stage IN ('planning', 'implementing', 'verifying', 'fixing')
-         AND queue_position IS NULL AND processing_type IS NULL`
-  ).all().map((row) => row.id);
 }
 
 // ../lib/card-ops/chain.ts
@@ -29378,7 +30400,7 @@ function acknowledgeWrite(db2, input) {
 }
 
 // ../lib/card-ops/projects.ts
-import * as path5 from "path";
+import * as path6 from "path";
 var OPEN_COLUMNS = ["ideation", "backlog", "bugs", "progress", "test"];
 function toRef4(row) {
   return {
@@ -29392,13 +30414,13 @@ function toRef4(row) {
 function resolveProjectByFolder(db2, dir) {
   if (!dir || typeof dir !== "string") return null;
   const statement = db2.prepare("SELECT * FROM projects WHERE folder_path = ?");
-  let current = path5.resolve(dir);
-  const root = path5.parse(current).root;
+  let current = path6.resolve(dir);
+  const root = path6.parse(current).root;
   for (let i = 0; i < 64; i++) {
     const row = statement.get(current);
     if (row) return toRef4({ ...row });
     if (current === root) return null;
-    const parent = path5.dirname(current);
+    const parent = path6.dirname(current);
     if (parent === current) return null;
     current = parent;
   }
@@ -29416,7 +30438,7 @@ function listProjects(db2, options = {}) {
   if (query) {
     const exact = projects.filter((p) => p.idPrefix.toLowerCase() === query);
     projects = exact.length ? exact : projects.filter(
-      (p) => p.name.toLowerCase().includes(query) || p.idPrefix.toLowerCase().includes(query) || path5.basename(p.folderPath).toLowerCase().includes(query)
+      (p) => p.name.toLowerCase().includes(query) || p.idPrefix.toLowerCase().includes(query) || path6.basename(p.folderPath).toLowerCase().includes(query)
     );
   }
   const counts = db2.prepare(
@@ -29503,27 +30525,27 @@ function projectIdOfCard(db2, cardId) {
 }
 
 // ../lib/linked-folders.ts
-import { existsSync as existsSync7, realpathSync as realpathSync3, statSync as statSync3 } from "fs";
+import { existsSync as existsSync7, realpathSync as realpathSync3, statSync as statSync4 } from "fs";
 import { homedir as homedir2 } from "os";
-import path6 from "path";
+import path7 from "path";
 function parseLinkedFolders(raw) {
   if (!raw) return [];
   try {
     const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed.filter((p) => typeof p === "string" && path6.isAbsolute(p)) : [];
+    return Array.isArray(parsed) ? parsed.filter((p) => typeof p === "string" && path7.isAbsolute(p)) : [];
   } catch {
     return [];
   }
 }
 function isInside2(child, parent) {
-  return child === parent || child.startsWith(parent + path6.sep);
+  return child === parent || child.startsWith(parent + path7.sep);
 }
 function linkedFolderProblem(folder, homeDir = homedir2()) {
-  if (!folder || !path6.isAbsolute(folder)) return "Use an absolute folder path";
+  if (!folder || !path7.isAbsolute(folder)) return "Use an absolute folder path";
   let real;
   try {
     real = realpathSync3(folder);
-    if (!statSync3(real).isDirectory()) return "Not a folder";
+    if (!statSync4(real).isDirectory()) return "Not a folder";
   } catch {
     return "Folder not found";
   }
@@ -29646,22 +30668,22 @@ var SplitCardError = class extends Error {
   }
   kind;
 };
-function escapeHtml2(text2) {
+function escapeHtml3(text2) {
   return text2.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 function childDescription(card, parentLabel) {
   const parts = [];
-  if (card.scope) parts.push(`<p>${escapeHtml2(card.scope)}</p>`);
-  if (card.reason) parts.push(`<p><em>${escapeHtml2(card.reason)}</em></p>`);
+  if (card.scope) parts.push(`<p>${escapeHtml3(card.scope)}</p>`);
+  if (card.reason) parts.push(`<p><em>${escapeHtml3(card.reason)}</em></p>`);
   if (card.carries) {
-    parts.push(`<h3>Carried from ${escapeHtml2(parentLabel)}</h3>`, `<p>${escapeHtml2(card.carries)}</p>`);
+    parts.push(`<h3>Carried from ${escapeHtml3(parentLabel)}</h3>`, `<p>${escapeHtml3(card.carries)}</p>`);
   }
   return parts.join("");
 }
 var CHIP_RE = /<span\b[^>]*data-type="artifactMention"[^>]*>[\s\S]*?<\/span>/gi;
 function fileLink(absPath, name) {
   const label2 = name?.trim() || absPath.split("/").pop() || absPath;
-  return `<a href="${escapeHtml2(pathToFileUrl(absPath))}">${escapeHtml2(label2)}</a>`;
+  return `<a href="${escapeHtml3(pathToFileUrl(absPath))}">${escapeHtml3(label2)}</a>`;
 }
 function parentMockupHtml(parent, parentLabel) {
   const paths = cardMockups(parent).filter(isFile);
@@ -29681,11 +30703,11 @@ function parentMockupHtml(parent, parentLabel) {
   }
   const inProse = new Set(listMockupArtifacts(prose));
   const rest = paths.filter((p) => !inProse.has(p)).map((p) => `<p>${fileLink(p)}</p>`);
-  return `<h3>Mockup (from ${escapeHtml2(parentLabel)})</h3>${prose}${rest.join("")}`;
+  return `<h3>Mockup (from ${escapeHtml3(parentLabel)})</h3>${prose}${rest.join("")}`;
 }
 function flowsHtml(flows) {
-  const items = flows.map((flow) => isManualItem(flow) ? flow : `${flow.trim()} ${MANUAL_ITEM_TOKEN}`).map(
-    (flow) => `<li data-type="taskItem" data-checked="false"><label><input type="checkbox"><span></span></label><div><p>${escapeHtml2(flow)}</p></div></li>`
+  const items = flows.map((flow) => flow.trim()).map(
+    (flow) => `<li data-type="taskItem" data-checked="false"><label><input type="checkbox"><span></span></label><div><p>${escapeHtml3(flow)}</p></div></li>`
   ).join("");
   return `<h2>${SPLIT_FLOWS_HEADING}</h2><ul data-type="taskList">${items}</ul>`;
 }
@@ -29827,7 +30849,7 @@ function splitInTransaction(db2, cardId, choices, now, author, madeFolders) {
     );
     if (proposal.flows.length > 0) {
       const html = `${parent.testScenarios ?? ""}${flowsHtml(proposal.flows)}`;
-      const saved = saveTests(db2, { id: parent.id, html, now, author, guard: "merge", moveTo: null });
+      const saved = saveTests(db2, { id: parent.id, html, now, author, guard: "merge", moveTo: null, manualLimit: "drop" });
       if (!saved.ok) throw new SplitCardError("Could not write the end-to-end flows to the parent's Tests.", "invalid");
     }
     runChanges(
@@ -30174,13 +31196,7 @@ async function mergeCard(db2, cardId, opts = {}) {
           at
         );
         runChanges(db2, `UPDATE cards SET chain_merged_at = ?, chain_merge_commit = ? WHERE id = ?`, at, chainCommit, cardId);
-        runChanges(
-          db2,
-          `UPDATE cards SET autopilot_stage = NULL, autopilot_stop_reason = NULL,
-                  autopilot_retried = NULL, autopilot_fix_used = NULL
-           WHERE id = ?`,
-          cardId
-        );
+        clearAutopilot(db2, cardId, { dequeue: false });
       });
       log(`[Merge] Success - ${branchName} merged into ${targetBranch}, card kept in Human Test`);
       const stashRestoreWarning2 = await restoreStash();
@@ -30231,6 +31247,7 @@ async function mergeCard(db2, cardId, opts = {}) {
           now()
         );
       }
+      clearAutopilot(db2, cardId);
     });
     log(`[Merge] Success - branch merged, worktree removed, branch deleted${complete ? "" : ", card kept in Human Test"}`);
     const stashRestoreWarning = await restoreStash();
@@ -30276,16 +31293,37 @@ var Refused2 = class extends Error {
   }
   refusals;
 };
-function refusalMessage(code, refusals) {
+var IntegrationBlocked = class extends Error {
+  constructor(blockers, text2) {
+    super("integration-blocked");
+    this.blockers = blockers;
+    this.text = text2;
+  }
+  blockers;
+  text;
+};
+function refusalMessage(code, refusals, name = "Autopilot") {
   const parts = refusals.map((r) => `${r.displayId}: ${r.reason}`);
-  return `Cannot send ${code} to Autopilot \u2014 ${refusals.length === 1 ? "1 card" : `${refusals.length} cards`} cannot go: ${parts.join("; ")}`;
+  return `Cannot send ${code} to ${name} \u2014 ${refusals.length === 1 ? "1 card" : `${refusals.length} cards`} cannot go: ${parts.join("; ")}`;
 }
-function startChainAutopilot(db2, groupId) {
+function startChainAutopilot(db2, groupId, opts = {}) {
+  const ralph = opts.mode === "ralph";
+  const name = ralph ? "Ralph" : "Autopilot";
   const group = getIntegrationGroup(db2, groupId);
   const plain = group ? null : getRow(db2, `SELECT code FROM card_groups WHERE id = ?`, groupId);
   if (!group && !plain) return { ok: false, reason: "not-found", message: "Chain not found" };
   const code = group?.code ?? plain.code;
-  if (!group?.integrationBranch) {
+  if (ralph) {
+    if (!hasAutopilotModeColumn(db2) || !hasChainRalphColumn(db2) || !group) {
+      return {
+        ok: false,
+        reason: "ineligible",
+        message: `Cannot send ${code} to Ralph: the database has no Chain Ralph columns yet \u2014 open the Ideafy app once so it migrates`
+      };
+    }
+    const browser = (opts.browserCheck ?? browserPrereqs)();
+    if (!browser.ok) return { ok: false, reason: "ineligible", message: `Cannot send ${code} to Ralph: ${browser.reason}` };
+  } else if (!group?.integrationBranch) {
     return {
       ok: false,
       reason: "not-integration",
@@ -30302,9 +31340,14 @@ function startChainAutopilot(db2, groupId) {
   const ready = [];
   const toQueue = [];
   const refusals = [];
+  const modes = ralph ? memberModes(db2, ordered.map((row) => row.id)) : /* @__PURE__ */ new Map();
   for (const row of ordered) {
     const stage = isAutopilotStage(row.stage) ? row.stage : null;
     if (isActiveAutopilotStage(stage) || stage === "ready") {
+      if (ralph && isActiveAutopilotStage(stage) && modes.get(row.id) !== "ralph") {
+        refusals.push({ cardId: row.id, displayId: nameOf(row), reason: "already on Autopilot \u2014 stop the chain, then send it to Ralph" });
+        continue;
+      }
       kept.push(row.id);
       continue;
     }
@@ -30316,22 +31359,50 @@ function startChainAutopilot(db2, groupId) {
     if (refusal) refusals.push({ cardId: row.id, displayId: nameOf(row), reason: refusal });
     else toQueue.push(row);
   }
-  if (refusals.length > 0) return { ok: false, reason: "ineligible", message: refusalMessage(code, refusals), refusals };
+  if (refusals.length > 0) return { ok: false, reason: "ineligible", message: refusalMessage(code, refusals, name), refusals };
   if (toQueue.length === 0 && ready.length === 0) {
     return {
       ok: false,
       reason: "nothing",
-      message: kept.length > 0 ? `${code} is already on Autopilot` : `${code} has no open card left to carry`
+      message: kept.length > 0 ? `${code} is already on ${name}` : `${code} has no open card left to carry`
     };
   }
+  let branch = group.integrationBranch;
+  let openedBranch = null;
+  let maxRounds;
   try {
     const queued = transaction(db2, () => {
+      if (ralph && !branch) {
+        const set2 = setIntegrationBranch(db2, groupId, true);
+        if (set2.kind === "blocked") throw new IntegrationBlocked(set2.blockers, set2.text);
+        if (set2.kind !== "ok" || !set2.branch) {
+          throw new IntegrationBlocked([], "text" in set2 ? set2.text : `${code} could not get an integration branch`);
+        }
+        branch = set2.branch;
+        openedBranch = set2.branch;
+      }
       const out = [];
       const writeStage = db2.prepare(
         `UPDATE cards SET use_worktree = 1, autopilot_stage = ?, autopilot_stop_reason = NULL,
                 autopilot_retried = 0, autopilot_fix_used = 0
          WHERE id = ?`
       );
+      const writeMode = hasAutopilotModeColumn(db2) ? db2.prepare(`UPDATE cards SET autopilot_mode = ? WHERE id = ?`) : null;
+      const projectId = getRow(db2, `SELECT project_id AS projectId FROM card_groups WHERE id = ?`, groupId)?.projectId ?? null;
+      if (ralph && hasRalphLoopColumns(db2)) {
+        const projectValue = projectId ? getRow(db2, `SELECT ralph_max_rounds AS v FROM projects WHERE id = ?`, projectId)?.v ?? null : null;
+        maxRounds = isRalphMaxRounds(opts.maxRounds) ? opts.maxRounds : resolveRalphMaxRounds(null, projectValue);
+        if (isRalphMaxRounds(opts.maxRounds) && projectId) {
+          db2.prepare(`UPDATE projects SET ralph_max_rounds = ? WHERE id = ?`).run(opts.maxRounds, projectId);
+        }
+      }
+      for (const id of [...ready, ...toQueue.map((row) => row.id)]) {
+        writeMode?.run(ralph ? "ralph" : null, id);
+        clearRalphLoop(db2, id);
+        if (ralph && maxRounds !== void 0) {
+          db2.prepare(`UPDATE cards SET autopilot_max_rounds = ?, autopilot_fail_count = 0 WHERE id = ?`).run(maxRounds, id);
+        }
+      }
       for (const id of ready) writeStage.run("ready", id);
       let after = null;
       for (const row of toQueue) {
@@ -30346,18 +31417,75 @@ function startChainAutopilot(db2, groupId) {
         after = row.id;
         out.push({ cardId: row.id, displayId: nameOf(row), stage });
       }
+      if (ralph) {
+        db2.prepare(`UPDATE card_groups SET ralph_deadline = ? WHERE id = ?`).run(
+          chainRalphDeadline(opts.now ?? Date.now(), out.length),
+          groupId
+        );
+      } else if (hasChainRalphColumn(db2)) {
+        db2.prepare(`UPDATE card_groups SET ralph_deadline = NULL WHERE id = ?`).run(groupId);
+      }
       return out;
     });
     const parts = [`${queued.length} queued`];
-    if (ready.length > 0) parts.push(`${ready.length} going into ${group.integrationBranch}`);
-    if (kept.length > 0) parts.push(`${kept.length} already on Autopilot`);
-    return { ok: true, code, queued, ready, kept, message: `Sent ${code} to Autopilot: ${parts.join(", ")}` };
+    if (ready.length > 0) parts.push(`${ready.length} going into ${branch}`);
+    if (kept.length > 0) parts.push(`${kept.length} already on ${name}`);
+    let message = `Sent ${code} to ${name}: ${parts.join(", ")}`;
+    if (ralph) {
+      const opened = openedBranch ? `opened ${openedBranch} for it, ` : "";
+      const rounds = maxRounds !== void 0 ? ` \xB7 stops after the same failure ${ralphRoundsText(maxRounds)}\xD7` : "";
+      message = `Sent ${code} to Ralph: ${opened}${parts.join(", ")}${rounds} \xB7 chain time cap ${chainCapText(queued.length)}`;
+    }
+    return {
+      ok: true,
+      code,
+      queued,
+      ready,
+      kept,
+      message,
+      mode: ralph ? "ralph" : "default",
+      openedBranch,
+      ...maxRounds !== void 0 ? { maxRounds } : {}
+    };
   } catch (error2) {
     if (error2 instanceof Refused2) {
-      return { ok: false, reason: "ineligible", message: refusalMessage(code, error2.refusals), refusals: error2.refusals };
+      return { ok: false, reason: "ineligible", message: refusalMessage(code, error2.refusals, name), refusals: error2.refusals };
+    }
+    if (error2 instanceof IntegrationBlocked) {
+      return { ok: false, reason: "integration-blocked", message: error2.text, blockers: error2.blockers };
     }
     throw error2;
   }
+}
+function memberModes(db2, ids) {
+  const out = /* @__PURE__ */ new Map();
+  if (!hasAutopilotModeColumn(db2)) return out;
+  for (const id of ids) {
+    out.set(id, getRow(db2, `SELECT autopilot_mode AS mode FROM cards WHERE id = ?`, id)?.mode ?? null);
+  }
+  return out;
+}
+var chainRalphCache = /* @__PURE__ */ new WeakMap();
+function hasChainRalphColumn(db2) {
+  if (chainRalphCache.get(db2)) return true;
+  const has = db2.prepare(`PRAGMA table_info("card_groups")`).all().some(
+    (column) => column.name === "ralph_deadline"
+  );
+  if (has) chainRalphCache.set(db2, true);
+  return has;
+}
+function chainRalphDeadlineFor(db2, cardId) {
+  if (!hasChainRalphColumn(db2)) return null;
+  return getRow(
+    db2,
+    `SELECT g.ralph_deadline AS deadline FROM cards c JOIN card_groups g ON g.id = c.group_id WHERE c.id = ?`,
+    cardId
+  )?.deadline ?? null;
+}
+function stampRalphStart(db2, cardId, now) {
+  if (!hasRalphLoopColumns(db2)) return null;
+  db2.prepare(`UPDATE cards SET autopilot_started_at = ? WHERE id = ? AND autopilot_started_at IS NULL`).run(now, cardId);
+  return getRow(db2, `SELECT autopilot_started_at AS at FROM cards WHERE id = ?`, cardId)?.at ?? null;
 }
 function stripPlan(db2, cardId) {
   const row = getRow(db2, `SELECT solution_summary AS plan FROM cards WHERE id = ?`, cardId);
@@ -30441,10 +31569,12 @@ function chainAutopilotLine(db2, groupId) {
       `SELECT c.id, c.title, c.status, c.task_number AS taskNumber, p.id_prefix AS idPrefix,
               c.group_order AS groupOrder, c.git_branch_status AS gitBranchStatus,
               c.autopilot_stage AS stage, c.autopilot_stop_reason AS stopReason,
-              c.processing_type AS processingType, c.test_scenarios AS testScenarios
+              c.processing_type AS processingType, c.test_scenarios AS testScenarios,
+              ${hasAutopilotModeColumn(db2) ? "c.autopilot_mode" : "NULL"} AS mode
        FROM cards c LEFT JOIN projects p ON p.id = c.project_id WHERE c.group_id = ?`,
       groupId
     ).sort(compareByChainOrder);
+    const accepted = acceptedDecisionCounts(db2);
     return chainAutopilotSummary(
       rows.map((row) => ({
         id: row.id,
@@ -30455,100 +31585,14 @@ function chainAutopilotLine(db2, groupId) {
         autopilotStopReason: row.stopReason,
         running: !!row.processingType,
         isParent: isChainParent(db2, row.id, groupId),
-        manualLeft: manualLeftIn(parseTestProgress(row.testScenarios ?? ""))
+        manualLeft: manualLeftIn(parseTestProgress(row.testScenarios ?? "")),
+        ralph: row.mode === "ralph",
+        accepted: accepted.get(row.id) ?? 0
       }))
     );
   } catch {
     return null;
   }
-}
-
-// ../lib/work-templates.ts
-var WORK_TEMPLATES_SETTING_KEY = "work_templates";
-function normalizeOutputExt(value) {
-  const raw = typeof value === "string" ? value.trim().toLowerCase() : "";
-  const bare = raw.replace(/^\.+/, "").replace(/[^a-z0-9]/g, "");
-  return bare ? `.${bare}` : ".md";
-}
-function normalizeWorkTemplates(value) {
-  let parsed = value;
-  if (typeof value === "string") {
-    try {
-      parsed = JSON.parse(value);
-    } catch {
-      parsed = null;
-    }
-  }
-  if (!Array.isArray(parsed)) return DEFAULT_WORK_TEMPLATES;
-  const seen = /* @__PURE__ */ new Set();
-  const templates = [];
-  for (const entry of parsed) {
-    if (!entry || typeof entry !== "object") continue;
-    const raw = entry;
-    const name = typeof raw.name === "string" ? raw.name.trim() : "";
-    if (!name) continue;
-    let id = typeof raw.id === "string" && raw.id.trim() ? raw.id.trim() : slugify3(name);
-    while (seen.has(id)) id = `${id}-${templates.length + 1}`;
-    seen.add(id);
-    const skill = typeof raw.skill === "string" && raw.skill.trim() ? raw.skill.trim() : null;
-    templates.push({
-      id,
-      name,
-      skill,
-      promptPreset: typeof raw.promptPreset === "string" ? raw.promptPreset : "",
-      outputExt: normalizeOutputExt(raw.outputExt)
-    });
-  }
-  return templates.length ? templates : DEFAULT_WORK_TEMPLATES;
-}
-function resolveWorkTemplate(templates, templateId) {
-  const list = templates.length ? templates : DEFAULT_WORK_TEMPLATES;
-  return list.find((t) => t.id === templateId) ?? list[0];
-}
-function slugify3(name) {
-  return name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "template";
-}
-
-// ../lib/card-ops/work-templates.ts
-function listWorkTemplates(db2, _projectId) {
-  const row = getRow(
-    db2,
-    "SELECT value FROM settings WHERE key = ?",
-    WORK_TEMPLATES_SETTING_KEY
-  );
-  return normalizeWorkTemplates(row?.value ?? null);
-}
-function isWorkProject(db2, projectId) {
-  const row = getRow(db2, "SELECT * FROM projects WHERE id = ?", projectId);
-  return row?.mode === "work";
-}
-function checkWorkTemplateId(db2, projectId, value) {
-  const id = typeof value === "string" ? value.trim() : value;
-  if (id === null || id === void 0 || id === "") return { ok: true, id: null };
-  if (!projectId) return { ok: false, reason: "no-project", templates: [] };
-  if (!isWorkProject(db2, projectId)) return { ok: false, reason: "not-work-project", templates: [] };
-  const templates = listWorkTemplates(db2, projectId);
-  if (typeof id === "string" && templates.some((t) => t.id === id)) return { ok: true, id };
-  return { ok: false, reason: "unknown-id", templates };
-}
-function workTemplateIdError(value, check2) {
-  switch (check2.reason) {
-    case "no-project":
-      return "workTemplateId needs a card with a project: it only applies to Work projects";
-    case "not-work-project":
-      return "workTemplateId only applies to Work projects";
-    case "unknown-id":
-      return `workTemplateId ${JSON.stringify(value)} is not a template. Valid: ${check2.templates.map((t) => `${t.id} \xB7 ${t.name}`).join(", ")}`;
-  }
-}
-function cardWorkTemplate(db2, projectId, workTemplateId) {
-  const templates = listWorkTemplates(db2, projectId);
-  const template = resolveWorkTemplate(templates, workTemplateId);
-  return {
-    id: template.id,
-    name: template.name,
-    source: workTemplateId && template.id === workTemplateId ? "card" : "default"
-  };
 }
 
 // ../lib/card-story.ts
@@ -30742,6 +31786,7 @@ var STEP_DESC = {
   generate: "Write the document from the description",
   queue: "Runs when the queue reaches it",
   autopilot: "Implement, pre-verify every group, stop at Ready to merge",
+  ralph: "Autopilot that proves every [ui] item in the browser",
   "stop-autopilot": "Leave the card where it is; a run going finishes",
   discuss: "Open a session about the idea",
   argue: "Push back on the opinion in the card chat",
@@ -30776,6 +31821,7 @@ function chainMergeReason(card, ctx) {
 function phasePrimary(card, flags, ctx, rows) {
   const has = (id) => rows.has(id);
   if (flags.canGenerate) return "generate";
+  if (card.autopilotStage === "stopped" && has("ralph") && card.autopilotMode === "ralph" && !rows.get("ralph")?.disabledReason) return "ralph";
   if (card.autopilotStage === "stopped" && has("autopilot") && !rows.get("autopilot")?.disabledReason) return "autopilot";
   if (card.status === "ideation") {
     if (!ctx.hasOpinion) return has("evaluate") ? "evaluate" : "accept";
@@ -30786,6 +31832,7 @@ function phasePrimary(card, flags, ctx, rows) {
   }
   if (card.status === "bugs" && has("quick-fix")) return "quick-fix";
   if (card.status === "test") {
+    if (card.rebaseConflict && ctx.hasBranch && has("merge") && !rows.get("merge")?.disabledReason) return "merge";
     if (flags.phase === "verify" && nextVerifyGroup(ctx.testProgress)) return "play";
     const progress = ctx.testProgress;
     const allTicked = !!progress && progress.total > 0 && progress.checked === progress.total;
@@ -30885,7 +31932,7 @@ function nextStepFor(card, flags, ctx) {
     });
   }
   if (isActiveAutopilotStage(card.autopilotStage ?? null)) {
-    row(ideafy, { id: "stop-autopilot", title: "Stop Autopilot", kind: "ai" });
+    row(ideafy, { id: "stop-autopilot", title: card.autopilotMode === "ralph" ? "Stop Ralph" : "Stop Autopilot", kind: "ai" });
   } else if (flags.canStart && ctx.mode !== "work") {
     const html = card.testScenarios ?? "";
     const refusal = autopilotIneligibleReason({
@@ -30898,13 +31945,24 @@ function nextStepFor(card, flags, ctx) {
       activeWorktree: !!card.gitWorktreePath && card.gitWorktreeStatus === "active",
       stage: card.autopilotStage ?? null,
       processingType: card.processingType,
-      openDecision: findPlanDecisions(card.solutionSummary).length > 0
+      openDecision: findPlanDecisions(card.solutionSummary).length > 0,
+      rebaseConflict: !!card.rebaseConflict
     });
+    const disabledReason = autonomousBlock ?? (refusal ? refusal.charAt(0).toUpperCase() + refusal.slice(1) : void 0);
+    const stoppedOn = card.autopilotStage === "stopped" ? card.autopilotMode === "ralph" ? "ralph" : "autopilot" : null;
+    if (stoppedOn !== "ralph") {
+      row(ideafy, {
+        id: "autopilot",
+        title: stoppedOn === "autopilot" ? "Continue on Autopilot" : "Send to Autopilot",
+        kind: "ai",
+        disabledReason
+      });
+    }
     row(ideafy, {
-      id: "autopilot",
-      title: card.autopilotStage === "stopped" ? "Continue on Autopilot" : "Send to Autopilot",
+      id: "ralph",
+      title: stoppedOn === "ralph" ? "Continue on Ralph" : "Send to Ralph",
       kind: "ai",
-      disabledReason: autonomousBlock ?? (refusal ? refusal.charAt(0).toUpperCase() + refusal.slice(1) : void 0)
+      disabledReason
     });
   }
   if (flags.canEvaluate) {
@@ -31010,6 +32068,9 @@ function cardLastActivityAt(card) {
 }
 
 // ../lib/card-turn.ts
+function hasOpenBranch(card) {
+  return !!card.gitBranchName && card.gitBranchStatus === "active";
+}
 function runMinutes(startedAt, now) {
   if (!startedAt) return null;
   const started = Date.parse(startedAt);
@@ -31139,7 +32200,8 @@ function nextTurnFor(card, ctx = {}) {
     blocker: ctx.blocker ?? null,
     hasOpinion: !!stripHtml(card.aiOpinion || ""),
     testProgress,
-    hasBranch: ctx.hasBranch ?? (!!card.gitBranchName || card.gitWorktreeStatus === "active"),
+    // A merged branch keeps its name on the card; only an active one is Merge (IDE-705).
+    hasBranch: ctx.hasBranch ?? (hasOpenBranch(card) || card.gitWorktreeStatus === "active"),
     surface: "desktop"
   });
   if (!primary) return null;
@@ -31466,16 +32528,109 @@ function buildEvaluationGuide() {
 ${EVALUATION_SAVE_INSTRUCTION}`;
 }
 
+// ../lib/prompts/plan-format.ts
+var plan_format_exports = {};
+__export(plan_format_exports, {
+  PLAN_HEADINGS: () => PLAN_HEADINGS,
+  PLAN_MARKERS_RULE: () => PLAN_MARKERS_RULE,
+  PLAN_MARKER_PATTERNS: () => PLAN_MARKER_PATTERNS,
+  buildPlanFormat: () => buildPlanFormat,
+  buildPlanFormatGuide: () => buildPlanFormatGuide,
+  planFormatGaps: () => planFormatGaps,
+  planFormatWarning: () => planFormatWarning,
+  planHeadingKind: () => planHeadingKind
+});
+var PLAN_HEADINGS = {
+  development: ["Files to Modify", "Implementation Steps", "Edge Cases", "Dependencies"],
+  // The first label is long on purpose: it is what tells the run to name the
+  // deliverable and where it is saved.
+  work: [
+    "Output (what gets produced and the name it is saved under in the project folder)",
+    "Steps",
+    "Sources and Inputs",
+    "Open Questions"
+  ]
+};
+var PLAN_MARKERS_RULE = `Must include at the end:
+[COMPLEXITY: trivial/low/medium/high/very_high]
+[PRIORITY: low/medium/high]
+
+Give low (or trivial) only when the change is small and touches none of these: concurrency or async ordering, migrations or schema, auth and security, state shared between the app and MCP, stream parsers. A change that touches any of them is at least medium, however few lines it is. A low plan is implemented at a lower reasoning effort.`;
+var PLAN_MARKER_PATTERNS = [/\[COMPLEXITY:/i, /\[PRIORITY:/i];
+var MARKER_LABELS = ["[COMPLEXITY:]", "[PRIORITY:]"];
+function buildPlanFormat(mode) {
+  const headings = PLAN_HEADINGS[mode].map((heading) => `- ${heading}`).join("\n");
+  return `Plan format:
+${headings}
+
+${PLAN_MARKERS_RULE}`;
+}
+function buildPlanFormatGuide() {
+  const list = (mode) => PLAN_HEADINGS[mode].map((heading) => `### ${heading.replace(/ \(.*\)$/, "")}`).join(", ");
+  return `PLAN FORMAT (the one the app's planning run writes; get_card's \`project.mode\` says which set applies):
+- development (or no mode): ${list("development")}.
+- work: ${list("work")}. Under Output, name what gets produced and the name it is saved under in the project folder.
+Use these four headings, in this order, in every voice \u2014 the voice decides how the prose under them reads, not which sections exist. An engineer's Changed Files table (| File | Change |) sits under Files to Modify, not in a section of its own.
+A development plan ends on a \`Files: path/a.ts, path/b.ts\` line with every path it will change (or lists them under Files to Modify). list_open_work, the file-overlap check and planVsBranch read only those two places; a file named only in prose is invisible to them.
+
+${PLAN_MARKERS_RULE}`;
+}
+var NOT_LETTER = "(?![\\p{L}])";
+var HEADING_PATTERNS = [
+  [new RegExp(`^(files(\\s+to\\s+(modify|change))?|de\u011F[\u0131i]\u015Ft[\u0131i]r[\u0131i]lecek\\s+dosyalar|dosyalar)${NOT_LETTER}`, "iu"), "files"],
+  [new RegExp(`^(implementation\\s+steps|uygulama\\s+ad[\u0131i]mlar[\u0131i]|ad[\u0131i]mlar|steps)${NOT_LETTER}`, "iu"), "steps"],
+  [new RegExp(`^(edge\\s+cases|u\xE7\\s+durumlar|kenar\\s+durumlar)${NOT_LETTER}`, "iu"), "edge"],
+  [new RegExp(`^(dependencies|ba\u011F[\u0131i]ml[\u0131i]l[\u0131i]klar)${NOT_LETTER}`, "iu"), "deps"],
+  [new RegExp(`^(output|\xE7[\u0131i]kt[\u0131i])${NOT_LETTER}`, "iu"), "output"],
+  [new RegExp(`^(sources(\\s+and\\s+inputs)?|kaynaklar(\\s+ve\\s+girdiler)?)${NOT_LETTER}`, "iu"), "sources"],
+  [new RegExp(`^(open\\s+questions|a\xE7[\u0131i]k\\s+sorular)${NOT_LETTER}`, "iu"), "questions"]
+];
+function planHeadingKind(headingText2) {
+  const text2 = headingText2.replace(/İ/g, "i").replace(/\s+/g, " ").trim().replace(/:$/, "");
+  for (const [pattern, kind] of HEADING_PATTERNS) {
+    if (pattern.test(text2)) return kind;
+  }
+  return null;
+}
+var MODE_KINDS = {
+  development: ["files", "steps", "edge", "deps"],
+  work: ["output", "steps", "sources", "questions"]
+};
+function headingTexts(plan) {
+  const html = [...plan.matchAll(/<h[1-6][^>]*>([\s\S]*?)<\/h[1-6]>/gi)].map((m2) => htmlToText(m2[1]));
+  const markdown = [...plan.matchAll(/^\s{0,3}#{1,6}\s+(.+?)\s*#*\s*$/gm)].map((m2) => m2[1]);
+  const bold = [...plan.matchAll(/^\s*(?:<p>)?\s*(?:\*\*|<strong>)([^*<]+?)(?:\*\*|<\/strong>)\s*:?\s*(?:<\/p>)?\s*$/gim)].map((m2) => m2[1]);
+  return [...html, ...markdown, ...bold].map((text2) => text2.replace(/[*_`]/g, "").trim());
+}
+function planFormatGaps(plan, mode) {
+  const kinds = new Set(headingTexts(plan).map(planHeadingKind).filter((kind) => kind !== null));
+  const gaps = [];
+  MODE_KINDS[mode].forEach((kind, i) => {
+    if (!kinds.has(kind)) gaps.push(PLAN_HEADINGS[mode][i].replace(/ \(.*\)$/, ""));
+  });
+  const text2 = htmlToText(plan);
+  PLAN_MARKER_PATTERNS.forEach((pattern, i) => {
+    if (!pattern.test(text2)) gaps.push(MARKER_LABELS[i]);
+  });
+  if (mode === "development" && extractPlanFiles(plan).length === 0) gaps.push("a Files: line");
+  return gaps;
+}
+function planFormatWarning(plan, mode) {
+  const gaps = planFormatGaps(plan, mode);
+  if (gaps.length === 0) return null;
+  return `Format: missing ${gaps.join(", ")} \u2014 the board reads plans by these (see PLAN FORMAT in save_plan's description); fix it with save_plan in this turn.`;
+}
+
 // ../lib/card-mockups.ts
 var card_mockups_exports = {};
 __export(card_mockups_exports, {
   mockupState: () => mockupState,
   resolveCardMockupFile: () => resolveCardMockupFile
 });
-import { existsSync as existsSync9, realpathSync as realpathSync4, statSync as statSync4 } from "fs";
-import path7 from "path";
+import { existsSync as existsSync9, realpathSync as realpathSync4, statSync as statSync5 } from "fs";
+import path8 from "path";
 function isInside3(child, parent) {
-  return child === parent || child.startsWith(parent + path7.sep);
+  return child === parent || child.startsWith(parent + path8.sep);
 }
 function realDir(dir) {
   try {
@@ -31485,17 +32640,17 @@ function realDir(dir) {
   }
 }
 function mockupState(cardId, absPath, cardDir = cardArtifactDir(cardId)) {
-  if (!path7.isAbsolute(absPath) || absPath.includes("\0")) return { state: "missing" };
+  if (!path8.isAbsolute(absPath) || absPath.includes("\0")) return { state: "missing" };
   let real;
   try {
     real = realpathSync4(absPath);
-    if (!statSync4(real).isFile()) return { state: "missing" };
+    if (!statSync5(real).isFile()) return { state: "missing" };
   } catch {
     return { state: "missing" };
   }
   const root = realDir(cardDir);
   if (!root || !isInside3(real, root) || real === root) return { state: "outside" };
-  return { state: "preview", relPath: path7.relative(root, real).split(path7.sep).join("/") };
+  return { state: "preview", relPath: path8.relative(root, real).split(path8.sep).join("/") };
 }
 function resolveCardMockupFile(cardId, segments, cardDir = cardArtifactDir(cardId)) {
   if (segments.length === 0) return null;
@@ -31506,27 +32661,31 @@ function resolveCardMockupFile(cardId, segments, cardDir = cardArtifactDir(cardI
   }
   const root = realDir(cardDir);
   if (!root) return null;
-  const candidate = path7.join(root, ...segments);
+  const candidate = path8.join(root, ...segments);
   if (!existsSync9(candidate)) return null;
   const real = realpathSync4(candidate);
-  if (!isInside3(real, root) || real === root || !statSync4(real).isFile()) return null;
+  if (!isInside3(real, root) || real === root || !statSync5(real).isFile()) return null;
   return real;
 }
 
 // ../lib/test-report-files.ts
 var test_report_files_exports = {};
 __export(test_report_files_exports, {
+  findRunVideos: () => findRunVideos,
   importTerminalArtifacts: () => importTerminalArtifacts,
   keepWrittenArtifacts: () => keepWrittenArtifacts,
+  removeRunVideoFiles: () => removeRunVideoFiles,
   removeTestReportRunDirs: () => removeTestReportRunDirs,
-  testReportRunDir: () => testReportRunDir
+  stampArtifactVideoTimes: () => stampArtifactVideoTimes,
+  testReportRunDir: () => testReportRunDir,
+  waitForRunVideos: () => waitForRunVideos
 });
-import { copyFileSync as copyFileSync3, mkdirSync as mkdirSync5, rmSync as rmSync2, statSync as statSync5 } from "fs";
+import { copyFileSync as copyFileSync3, mkdirSync as mkdirSync5, readdirSync as readdirSync2, rmSync as rmSync2, statSync as statSync6 } from "fs";
 import { homedir as homedir3 } from "os";
-import path8 from "path";
+import path9 from "path";
 var MAX_SCREENSHOT_BYTES = 20 * 1024 * 1024;
 function testReportRunDir(cardId, runId, homeDir) {
-  return path8.join(cardArtifactDir(cardId, homeDir), TEST_REPORT_DIR, runId);
+  return path9.join(cardArtifactDir(cardId, homeDir), TEST_REPORT_DIR, runId);
 }
 function removeTestReportRunDirs(cardId, runs, homeDir) {
   for (const run2 of runs) {
@@ -31540,7 +32699,7 @@ function removeTestReportRunDirs(cardId, runs, homeDir) {
 }
 function isFile2(p) {
   try {
-    const stat = statSync5(p);
+    const stat = statSync6(p);
     return stat.isFile() && stat.size <= MAX_SCREENSHOT_BYTES;
   } catch {
     return false;
@@ -31549,7 +32708,7 @@ function isFile2(p) {
 function keepWrittenArtifacts(items, runDir) {
   return items.map((item) => ({
     ...item,
-    artifacts: item.artifacts.map((artifact) => ({ ...artifact, file: path8.basename(artifact.file) })).filter((artifact) => isTestReportImageName(artifact.file) && isFile2(path8.join(runDir, artifact.file)))
+    artifacts: item.artifacts.map((artifact) => ({ ...artifact, file: path9.basename(artifact.file) })).filter((artifact) => isTestReportImageName(artifact.file) && isFile2(path9.join(runDir, artifact.file)))
   }));
 }
 function importTerminalArtifacts(items, runDir) {
@@ -31558,9 +32717,9 @@ function importTerminalArtifacts(items, runDir) {
   return items.map((item) => ({
     ...item,
     artifacts: item.artifacts.flatMap((artifact) => {
-      const source = artifact.file.startsWith("~/") ? path8.join(homedir3(), artifact.file.slice(2)) : artifact.file;
-      if (!path8.isAbsolute(source) || !isFile2(source)) return [];
-      const ext = path8.extname(source).toLowerCase();
+      const source = artifact.file.startsWith("~/") ? path9.join(homedir3(), artifact.file.slice(2)) : artifact.file;
+      if (!path9.isAbsolute(source) || !isFile2(source)) return [];
+      const ext = path9.extname(source).toLowerCase();
       const file2 = `shot-${++n}${ext}`;
       if (!isTestReportImageName(file2)) return [];
       try {
@@ -31568,11 +32727,63 @@ function importTerminalArtifacts(items, runDir) {
           mkdirSync5(runDir, { recursive: true });
           made = true;
         }
-        copyFileSync3(source, path8.join(runDir, file2));
+        copyFileSync3(source, path9.join(runDir, file2));
         return [{ ...artifact, file: file2 }];
       } catch {
         return [];
       }
+    })
+  }));
+}
+function findRunVideos(runDir) {
+  let names;
+  try {
+    names = readdirSync2(runDir);
+  } catch {
+    return [];
+  }
+  const videos = [];
+  for (const file2 of names) {
+    if (!file2.endsWith(".webm") || !isTestReportVideoName(file2)) continue;
+    try {
+      const stat = statSync6(path9.join(runDir, file2));
+      if (stat.isFile()) videos.push({ file: file2, size: stat.size, birthMs: stat.birthtimeMs || 0 });
+    } catch {
+    }
+  }
+  return videos.sort((a, b2) => a.birthMs - b2.birthMs || a.file.localeCompare(b2.file));
+}
+async function waitForRunVideos(runDir, maxMs = 5e3, pollMs = 500) {
+  const deadline = Date.now() + maxMs;
+  let last = "";
+  while (Date.now() < deadline) {
+    const now = findRunVideos(runDir).map((video) => `${video.file}:${video.size}`).join(",");
+    if (now === "") return;
+    if (now === last) return;
+    last = now;
+    await new Promise((resolve4) => setTimeout(resolve4, pollMs));
+  }
+}
+function removeRunVideoFiles(runDir, files) {
+  for (const file2 of files ?? findRunVideos(runDir).map((video) => video.file)) {
+    if (!isTestReportVideoName(file2)) continue;
+    try {
+      rmSync2(path9.join(runDir, file2), { force: true });
+    } catch (error2) {
+      console.warn(`[test-report] could not remove video ${file2}:`, error2);
+    }
+  }
+}
+function stampArtifactVideoTimes(items, runDir, offset) {
+  return items.map((item) => ({
+    ...item,
+    artifacts: item.artifacts.map((artifact) => {
+      let mtimeMs = NaN;
+      try {
+        mtimeMs = statSync6(path9.join(runDir, artifact.file)).mtimeMs;
+      } catch {
+      }
+      return { ...artifact, videoAt: offset(mtimeMs) };
     })
   }));
 }
@@ -31638,8 +32849,9 @@ function runLine(run2, index, total) {
 function indent(text2, prefix) {
   return text2.split("\n").map((line) => `${prefix}${line}`).join("\n");
 }
-function itemText(item, number3, full) {
-  const head = `${number3}. [${item.status}] ${item.item}`;
+function itemText(item, number3, full, clip) {
+  const video = clip ? ` \xB7 video ${formatVideoTime(clip.start)}\u2013${formatVideoTime(clip.at)} (${clip.start}s\u2013${clip.at}s)` : "";
+  const head = `${number3}. [${item.status}] ${item.item}${video}`;
   if (!full) return head;
   const lines2 = [head];
   const field = (label2, value) => {
@@ -31664,8 +32876,19 @@ function itemText(item, number3, full) {
   }
   return lines2.join("\n");
 }
+function videoLines(video, videoPath) {
+  if (video.removedAt) return [`Video: removed by the retention rule on ${video.removedAt.slice(0, 10)}.`];
+  const lines2 = [`Video: ${videoPath ?? video.file}`];
+  lines2.push(
+    video.intervals.length ? `   Browser busy (seconds): ${video.intervals.map(([start, end]) => `${start}\u2013${end}`).join(", ")}` : "   No browser activity was timed; watch it straight through."
+  );
+  if (video.truncated) lines2.push("   The run was cut off; the recording ends where it stopped.");
+  if (video.extraTabs) lines2.push(`   ${video.extraTabs} more tab(s) were recorded and dropped; only the first is kept.`);
+  lines2.push("   Items below show their second in it as `video mm:ss`.");
+  return lines2;
+}
 function formatTestReport(input) {
-  const { displayId, runs, index, status, checklistHtml, screenshotsAttached } = input;
+  const { displayId, runs, index, status, checklistHtml, screenshotsAttached, videoPath } = input;
   const run2 = runs[index];
   const total = runs.length;
   const out = [];
@@ -31683,6 +32906,12 @@ function formatTestReport(input) {
     out.push("", "Warnings from the run:");
     for (const warning of warnings) out.push(`- ${warning}`);
   }
+  const video = run2.video;
+  if (video) {
+    out.push("", ...videoLines(video, videoPath ?? null));
+  } else if (run2.source === "terminal") {
+    out.push("", "Video: none \u2014 runs a terminal session saves carry no recording; only the app's visual runs record the screen.");
+  }
   const conflicts = checklistHtml ? testReportConflicts(run2, checklistHtml) : [];
   if (conflicts.length) {
     out.push("", "Where the Tests tab disagrees with this run:");
@@ -31697,8 +32926,9 @@ function formatTestReport(input) {
   if (!shown.length) {
     out.push(status ? `No ${status} items in this run.` : "This run has no items.");
   }
+  const clips = new Map(hasPlayableVideo(run2) ? testReportItemClips(run2).map((clip) => [clip.item, clip]) : []);
   for (const { item, number: number3 } of shown) {
-    out.push(itemText(item, number3, Boolean(status) || item.status !== "passed"));
+    out.push(itemText(item, number3, Boolean(status) || item.status !== "passed", clips.get(item.item) ?? null));
   }
   if (!status && shown.some(({ item }) => item.status === "passed")) {
     out.push("", 'Passed items are one line each; pass status: "passed" for their detail.');
@@ -31889,6 +33119,8 @@ var {
   mergeCard: mergeCard2,
   mergeChain: mergeChain2,
   rollbackChain: rollbackChain2,
+  setIntegrationBranch: setIntegrationBranch2,
+  integrationOnText: integrationOnText2,
   cardBaseBranch: cardBaseBranch2,
   cardIntegrationGroup: cardIntegrationGroup2,
   chainConflictText: chainConflictText2,
@@ -31899,6 +33131,9 @@ var {
   getAutopilotState: getAutopilotState2,
   autopilotLine: autopilotLine2,
   autopilotContinueQuestion: autopilotContinueQuestion2,
+  autopilotModeFor: autopilotModeFor2,
+  listCardDecisions: listCardDecisions2,
+  decisionsForCard: decisionsForCard2,
   startChainAutopilot: startChainAutopilot2,
   landReadyChainMembers: landReadyChainMembers2,
   getIntegrationGroup: getIntegrationGroup2,
@@ -31912,6 +33147,7 @@ var { writeConflictFor: writeConflictFor2, withoutOwnAppRun: withoutOwnAppRun2, 
 var { normalizeComplexity: normalizeComplexity2, describeOpinionMarkers: describeOpinionMarkers2, countOpinionConcerns: countOpinionConcerns2 } = unwrap(opinion_markers_exports);
 var { buildCardStory: buildCardStory2 } = unwrap(card_story_exports);
 var { EVALUATION_OUTPUT_SCHEMA: EVALUATION_OUTPUT_SCHEMA2, EVALUATION_HEADINGS_RULE: EVALUATION_HEADINGS_RULE2, buildEvaluationGuide: buildEvaluationGuide2 } = unwrap(evaluation_exports);
+var { buildPlanFormat: buildPlanFormat2, buildPlanFormatGuide: buildPlanFormatGuide2, planFormatWarning: planFormatWarning2 } = unwrap(plan_format_exports);
 var { LINKED_FILE_RULE: LINKED_FILE_RULE2, MOCKUP_OFFER_HINT: MOCKUP_OFFER_HINT2, cardMockups: cardMockups2 } = unwrap(mockup_request_exports);
 var { mockupState: mockupState2 } = unwrap(card_mockups_exports);
 var { cardArtifactDir: cardArtifactDir2, materializeArtifactFences: materializeArtifactFences2 } = unwrap(artifact_links_exports);
@@ -31925,7 +33161,7 @@ var { formatTestReport: formatTestReport2, selectTestReportRun: selectTestReport
 var { importTerminalArtifacts: importTerminalArtifacts2, removeTestReportRunDirs: removeTestReportRunDirs2, testReportRunDir: testReportRunDir2 } = unwrap(test_report_files_exports);
 var { attachmentRefs: attachmentRefs2, attachmentContentType: attachmentContentType2 } = unwrap(card_attachments_exports);
 var { canStartCard: canStartCard2, detectBoardPhase: detectBoardPhase2, terminalStartRefusal: terminalStartRefusal2 } = unwrap(card_phase_exports);
-var { parseTestProgress: parseTestProgress2 } = unwrap(test_progress_exports);
+var { parseTestProgress: parseTestProgress2, manualLimitMessage: manualLimitMessage2 } = unwrap(test_progress_exports);
 var { stripHtml: stripHtml2 } = unwrap(utils_exports);
 var { git: git2 } = unwrap(core_exports3);
 var { isGitRepo: isGitRepo2, getCurrentBranch: getCurrentBranch2, branchExists: branchExists2, getDefaultBranch: getDefaultBranch2 } = unwrap(repo_exports);
@@ -31934,6 +33170,7 @@ var { slugify: slugify4, generateBranchName: generateBranchName2 } = unwrap(bran
 var { shouldUseWorktree: shouldUseWorktree2, resolveEffectiveWorktree: resolveEffectiveWorktree2, normalizeProjectMode: normalizeProjectMode2 } = unwrap(workspace_exports);
 var { COLUMNS: COLUMNS2, formatDisplayId: formatDisplayId2 } = unwrap(types_exports);
 var { stopProcessGroup: stopProcessGroup2 } = unwrap(process_group_exports);
+var { integrationSuggestion: integrationSuggestion2, splitProposalAsk: splitProposalAsk2 } = unwrap(split_proposal_exports);
 
 // db.ts
 var MIN_NODE = [22, 5];
@@ -31952,9 +33189,9 @@ function loadSqlite() {
     );
   }
 }
-function openDatabase(path10) {
+function openDatabase(path11) {
   const { DatabaseSync } = loadSqlite();
-  const db2 = new DatabaseSync(path10);
+  const db2 = new DatabaseSync(path11);
   db2.exec("PRAGMA journal_mode = WAL");
   db2.exec("PRAGMA foreign_keys = ON");
   db2.exec("PRAGMA busy_timeout = 5000");
@@ -31967,7 +33204,7 @@ import { fileURLToPath } from "url";
 import { homedir as homedir5 } from "os";
 import { mkdirSync as mkdirSync7 } from "fs";
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/uuid/dist/esm/stringify.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/uuid/dist/esm/stringify.js
 var byteToHex = [];
 for (let i = 0; i < 256; ++i) {
   byteToHex.push((i + 256).toString(16).slice(1));
@@ -31976,7 +33213,7 @@ function unsafeStringify(arr, offset = 0) {
   return (byteToHex[arr[offset + 0]] + byteToHex[arr[offset + 1]] + byteToHex[arr[offset + 2]] + byteToHex[arr[offset + 3]] + "-" + byteToHex[arr[offset + 4]] + byteToHex[arr[offset + 5]] + "-" + byteToHex[arr[offset + 6]] + byteToHex[arr[offset + 7]] + "-" + byteToHex[arr[offset + 8]] + byteToHex[arr[offset + 9]] + "-" + byteToHex[arr[offset + 10]] + byteToHex[arr[offset + 11]] + byteToHex[arr[offset + 12]] + byteToHex[arr[offset + 13]] + byteToHex[arr[offset + 14]] + byteToHex[arr[offset + 15]]).toLowerCase();
 }
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/uuid/dist/esm/rng.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/uuid/dist/esm/rng.js
 import { randomFillSync } from "crypto";
 var rnds8Pool = new Uint8Array(256);
 var poolPtr = rnds8Pool.length;
@@ -31988,11 +33225,11 @@ function rng() {
   return rnds8Pool.slice(poolPtr, poolPtr += 16);
 }
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/uuid/dist/esm/native.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/uuid/dist/esm/native.js
 import { randomUUID } from "crypto";
 var native_default = { randomUUID };
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/uuid/dist/esm/v4.js
+// ../../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/uuid/dist/esm/v4.js
 function v4(options, buf, offset) {
   if (native_default.randomUUID && !buf && !options) {
     return native_default.randomUUID();
@@ -32075,12 +33312,14 @@ ${MOCKUP_OFFER_HINT2}
 
 ${LINKED_FILE_RULE2}`;
 }
-function buildPriorDecisionsNote(card) {
+function buildPriorDecisionsNote(card, mode = "development") {
   if (!PLANNING_STATUSES.has(card.status)) return null;
   return `Before you write a plan for this card:
 ${PRIOR_DECISIONS_RULE2}
 
-${PLAN_DECISION_RULE2}`;
+${PLAN_DECISION_RULE2}
+
+${buildPlanFormat2(mode)}`;
 }
 function buildEvaluationNote(card, statuses = ["ideation", "backlog"]) {
   if (!statuses.includes(card.status)) return null;
@@ -32136,7 +33375,15 @@ var CAPABILITIES = {
   /** card_split_proposals (0034) — a break-up an opinion proposed, written by save_opinion's `splitInto`. */
   splitProposals: ["card_split_proposals", "card_id"],
   /** autopilot_stage (0035) — the card's Autopilot stage, written by queue_card's `autopilot`. */
-  autopilot: ["cards", "autopilot_stage"]
+  autopilot: ["cards", "autopilot_stage"],
+  /** autopilot_mode (0038) — Ralph (IDE-731), written by queue_card's `mode: "ralph"`. */
+  ralph: ["cards", "autopilot_mode"],
+  /** card_decisions (0039) — the decision ledger (IDE-732), read by get_card's `decisions`. */
+  decisions: ["card_decisions", "card_id"],
+  /** autopilot_fail_count (0040) — Ralph's same-failure counter and round limit (IDE-733), written by queue_card's `maxRounds`. */
+  ralphLoop: ["cards", "autopilot_fail_count"],
+  /** ralph_deadline (0041) — Chain Ralph's time cap (IDE-734), written by queue_card's `groupId` + `mode: "ralph"`. */
+  chainRalph: ["card_groups", "ralph_deadline"]
 };
 var knownColumns = /* @__PURE__ */ new WeakMap();
 function hasColumn(db2, table, column) {
@@ -32162,7 +33409,7 @@ function missingCapabilityMessage(tool, capability) {
 }
 
 // output-paths.ts
-import { existsSync as existsSync10, realpathSync as realpathSync5, statSync as statSync6 } from "fs";
+import { existsSync as existsSync10, realpathSync as realpathSync5, statSync as statSync7 } from "fs";
 import { homedir as homedir4 } from "os";
 import { isAbsolute, relative, resolve as resolve2, sep } from "path";
 var OutputPathError = class extends Error {
@@ -32197,7 +33444,7 @@ function resolveOutputPath(projectFolder, inputPath) {
     );
   }
   const fileReal = realpathSync5(absolute);
-  if (!statSync6(fileReal).isFile()) {
+  if (!statSync7(fileReal).isFile()) {
     throw new OutputPathError(
       `Not a file: ${absolute}. save_output records one file at a time \u2014 call it once per file.`
     );
@@ -32260,12 +33507,12 @@ function appPort(runtime = null, env = process.env) {
   if (runtime?.appState === "open" && runtime.port?.trim()) return runtime.port.trim();
   return "3030";
 }
-async function callApp(method, path10, body, options = {}) {
+async function callApp(method, path11, body, options = {}) {
   const port = options.port ?? appPort();
   const doFetch = options.fetchImpl ?? fetch;
   let response;
   try {
-    response = await doFetch(`http://127.0.0.1:${port}${path10}`, {
+    response = await doFetch(`http://127.0.0.1:${port}${path11}`, {
       method,
       headers: body === void 0 ? void 0 : { "Content-Type": "application/json" },
       body: body === void 0 ? void 0 : JSON.stringify(body),
@@ -32574,7 +33821,7 @@ function mergeChainText(result) {
 
 // test-report.ts
 import { readFileSync as readFileSync5 } from "node:fs";
-import path9 from "node:path";
+import path10 from "node:path";
 function readTerminalReport(db2, report) {
   if (!hasCapability(db2, "testReports")) {
     return { ok: false, message: missingCapabilityMessage("save_tests", "testReports") };
@@ -32653,7 +33900,9 @@ function readTestReport(db2, card, opts = {}) {
         index: selected.index,
         status,
         checklistHtml: row?.testScenarios ?? null,
-        screenshotsAttached: Boolean(opts.screenshots)
+        screenshotsAttached: Boolean(opts.screenshots),
+        // The recording's absolute path (IDE-699), for a terminal to open.
+        videoPath: run2.video ? path10.join(testReportRunDir2(card.id, run2.id, opts.homeDir), run2.video.file) : null
       })
     }
   ];
@@ -32669,7 +33918,7 @@ function readTestReport(db2, card, opts = {}) {
     tried++;
     let data;
     try {
-      data = readFileSync5(path9.join(dir, artifact.file)).toString("base64");
+      data = readFileSync5(path10.join(dir, artifact.file)).toString("base64");
     } catch {
       continue;
     }
@@ -32743,9 +33992,9 @@ async function listUncommittedFiles(cwd, files) {
     if (files && files.length > 0) args.push("--", ...files);
     const { stdout } = await git2(cwd, ...args);
     return stdout.split("\n").filter((line) => line.length > 3).map((line) => {
-      const path10 = line.slice(3);
-      const arrow = path10.indexOf(" -> ");
-      return (arrow === -1 ? path10 : path10.slice(arrow + 4)).replace(/^"|"$/g, "");
+      const path11 = line.slice(3);
+      const arrow = path11.indexOf(" -> ");
+      return (arrow === -1 ? path11 : path11.slice(arrow + 4)).replace(/^"|"$/g, "");
     });
   } catch {
     return [];
@@ -33068,6 +34317,10 @@ function readStatus(id) {
   const row = db.prepare(`SELECT status FROM cards WHERE id = ?`).get(id);
   return row?.status ?? "unknown";
 }
+function readProjectModeForCard(id) {
+  const row = db.prepare(`SELECT p.* FROM cards c JOIN projects p ON p.id = c.project_id WHERE c.id = ?`).get(id);
+  return normalizeProjectMode2(row?.mode);
+}
 function cardFieldHtml(id, markdown) {
   const withFiles = materializeArtifactFences2(markdown, cardArtifactDir2(id));
   const linked = linkCardsInHtml2(db, markdownToTiptapHtml2(withFiles), projectIdOfCard2(db, id));
@@ -33179,7 +34432,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
     tools: [
       {
         name: "get_card",
-        description: "Get a kanban card by ID. When the card belongs to a chain, `chain` gives its place in that chain: position/total, predecessors and successors in chain order (displayId, title, status), and `next`, the chain's first member that is neither completed nor withdrawn. When the card has blocked-by links, `blockedBy` lists the cards it waits on and `blocks` the cards waiting on it, each with displayId, title, status, `landed` (its code is already in what this card would start from) and the link's note. When an opinion or plan suggested a link the user has not answered yet, `suggestedBlockedBy` lists those cards with the reason: ask the user, then add_dependency on yes or remove_dependency on no. When an opinion proposed breaking the card into cards and the user has not answered, `splitProposal` holds the cards: ask the user, then split_card on yes or split_card with keepAsOne on no. `split` names the card this one was broken out of (`parent`) and the cards broken out of it (`children`), with `role`, the one sentence this relation gives the card: a parent joins its children and shows the whole works end to end, a child keeps to its own scope. Each child carries `status`, `tests` (ticked/total such as 4/6, null without a checklist), a short `plan` summary, the `files` its plan names, and `ready`: Completed, or in Human Test with every item ticked and its branch merged. A parent waits on its children by this stricter rule, so a child's `landed` in `blockedBy` follows `ready`; every other link keeps the plain code-is-in rule. When the card has a Test Report, `testReport` gives how many runs it holds and how the newest came out; read the runs themselves with get_test_report. When commits have touched the card's files since its checklist was written, `testsDrift` lists them (base, files, commits, total): the checklist may have gone stale. `planDrift` does the same since its plan was written: the code wins over the plan. When the plan's Files list and what the card's work changed disagree, `planVsBranch` lists both sides: `touched`, `untouched` (planned, not changed yet) and `offPlan` (changed, not in the plan), read from its worktree, its branch, or (`source: commits`) its `Card:` trailer commits. When a Backlog or Bugs card's plan carries `[NEEDS_DECISION: \u2026]` questions, `planDecisions` lists them: the card does not start or queue until the user writes the decision into the plan and deletes the marker. `authorship` says who wrote and who last edited each tab (`you` or `ideafy`, with the date) and who ticked each checked item, so you can see what the user changed by hand. `story` is the card's eight steps (Idea, Verdict, Argued, Plan, Built, Proof, Your test, Merge; seven on a Work card) with who moves at each and its state (done, now, todo, skipped), the step in play as `now`, and `banner`, whose move it is in the words of the app's turn banner (null when nobody's).",
+        description: "Get a kanban card by ID. When the card belongs to a chain, `chain` gives its place in that chain: position/total, predecessors and successors in chain order (displayId, title, status), and `next`, the chain's first member that is neither completed nor withdrawn. When the card has blocked-by links, `blockedBy` lists the cards it waits on and `blocks` the cards waiting on it, each with displayId, title, status, `landed` (its code is already in what this card would start from) and the link's note. When an opinion or plan suggested a link the user has not answered yet, `suggestedBlockedBy` lists those cards with the reason: ask the user, then add_dependency on yes or remove_dependency on no. When an opinion proposed breaking the card into cards and the user has not answered, `splitProposal` holds the cards: ask the user, then split_card on yes or split_card with keepAsOne on no. `split` names the card this one was broken out of (`parent`) and the cards broken out of it (`children`), with `role`, the one sentence this relation gives the card: a parent joins its children and shows the whole works end to end, a child keeps to its own scope. Each child carries `status`, `tests` (ticked/total such as 4/6, null without a checklist), a short `plan` summary, the `files` its plan names, and `ready`: Completed, or in Human Test with every item ticked and its branch merged. A parent waits on its children by this stricter rule, so a child's `landed` in `blockedBy` follows `ready`; every other link keeps the plain code-is-in rule. When the card has a Test Report, `testReport` gives how many runs it holds and how the newest came out; read the runs themselves with get_test_report. When commits have touched the card's files since its checklist was written, `testsDrift` lists them (base, files, commits, total): the checklist may have gone stale. `planDrift` does the same since its plan was written: the code wins over the plan. When the plan's Files list and what the card's work changed disagree, `planVsBranch` lists both sides: `touched`, `untouched` (planned, not changed yet) and `offPlan` (changed, not in the plan), read from its worktree, its branch, or (`source: commits`) its `Card:` trailer commits. When a Backlog or Bugs card's plan carries `[NEEDS_DECISION: \u2026]` questions, `planDecisions` lists them: the card does not start or queue until the user writes the decision into the plan and deletes the marker. `decisions` is the card's decision ledger, read only: each question Ralph took with the recommended option (kind `acceptance`, with `recommended` and the plan `step` it shaped); its plan shows them as `[NEEDS_DECISION accepted: \u2026]`. `authorship` says who wrote and who last edited each tab (`you` or `ideafy`, with the date) and who ticked each checked item, so you can see what the user changed by hand. `story` is the card's eight steps (Idea, Verdict, Argued, Plan, Built, Proof, Your test, Merge; seven on a Work card) with who moves at each and its state (done, now, todo, skipped), the step in play as `now`, and `banner`, whose move it is in the words of the app's turn banner (null when nobody's).",
         inputSchema: {
           type: "object",
           properties: {
@@ -33193,7 +34446,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
       },
       {
         name: "get_test_report",
-        description: "Read a card's Test Report: how its pre-verify, re-verify, Verify on screen and Re-test runs tested the checklist items. Read-only. Returns every run in one line (newest first, numbered as the Test Report tab numbers them: #1 is the oldest), then one run in full: the run's warnings, where the Tests tab's ticks disagree with it, and its items \u2014 failed and manual ones with approach, steps, expected vs observed, error, command and output; passed ones a line each. Read it before answering why a run failed or whether a ticked item really passed.",
+        description: "Read a card's Test Report: how its pre-verify, re-verify, Verify on screen and Re-test runs tested the checklist items. Read-only. Returns every run in one line (newest first, numbered as the Test Report tab numbers them: #1 is the oldest), then one run in full: the run's warnings, its screen recording when the app's visual run made one (absolute .webm path, the seconds the browser was busy, each item's `video mm:ss\u2013mm:ss`, from where it starts to its first screenshot; terminal-saved runs carry none), where the Tests tab's ticks disagree with it, and its items \u2014 failed and manual ones with approach, steps, expected vs observed, error, command and output; passed ones a line each. Read it before answering why a run failed or whether a ticked item really passed.",
         inputSchema: {
           type: "object",
           properties: {
@@ -33238,7 +34491,9 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
             },
             solutionSummary: {
               type: "string",
-              description: "Detailed implementation summary in markdown. Should include: root cause analysis, current code flow, step-by-step changes with file paths and code snippets, changed files table, and notes. Write prose-level detail, not just headings."
+              description: `The card's plan in markdown. To write or replace a plan, prefer save_plan; either way use its format:
+
+${buildPlanFormatGuide2()}`
             },
             status: {
               type: "string",
@@ -33355,7 +34610,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
             newChain: { type: "boolean", description: "Optional. Open a new chain even when the parent is in one." },
             chainCode: { type: "string", description: "Optional, with a new chain. Its code (up to 6 letters or digits); a taken code is refused. Defaults to one made from the parent's title." },
             chainName: { type: "string", description: "Optional, with a new chain. Its name; defaults to the parent's title." },
-            integrationBranch: { type: "boolean", description: "Optional, with a new chain (IDE-612): give it an integration branch, so the children branch off it, land there one by one and reach main with the parent's Merge & Complete. Only when the user asked for it." }
+            integrationBranch: { type: "boolean", description: "Optional, with a new chain (IDE-612): give it an integration branch, so the children branch off it, land there one by one and reach main with the parent's Merge & Complete. Pass true only when the user agreed to it: when get_card's splitProposal suggests one (integrationBranch.suggested), ask; never set it unasked." }
           },
           required: ["id"]
         }
@@ -33469,7 +34724,9 @@ Reading the results: a newer decision overrides an older one (compare completedA
             },
             solutionSummary: {
               type: "string",
-              description: "Detailed implementation summary in markdown. MUST include: (1) Root cause / problem analysis, (2) Current architecture understanding with relevant code flow, (3) Step-by-step changes with specific file paths and code snippets showing before/after, (4) Changed files table (| File | Change |), (5) Important notes or caveats. Write prose-level detail, not just headings."
+              description: `The card's plan in markdown, when it is opened with one \u2014 the same format save_plan takes:
+
+${buildPlanFormatGuide2()}`
             },
             status: {
               type: "string",
@@ -33508,7 +34765,7 @@ Reading the results: a newer decision overrides an older one (compare completedA
             },
             workTemplateId: {
               type: ["string", "null"],
-              description: "Work projects only: the template Generate runs this card with. Omit or null and the card runs with the first template. Valid ids are in list_projects / get_project_by_folder (workTemplates); an unknown id or a Development project is rejected."
+              description: "Work projects only: the template Generate runs this card with. Omit or null and the card starts with the template last chosen in its project (the first one if none). Valid ids are in list_projects / get_project_by_folder (workTemplates); an unknown id or a Development project is rejected."
             }
           },
           required: ["title", "projectId"]
@@ -33522,11 +34779,11 @@ NOT the exit from Ideation. A card in the \`ideation\` column has not been evalu
 
 VOICE CONTRACT (mandatory \u2014 adapt your prose to match the project's voice):
 
-Before drafting the plan, call get_card to read the project's voice. Voice changes ONLY the tone, never the technical content \u2014 file paths, change lists, and trade-offs MUST appear in all three voices.
+Before drafting the plan, call get_card to read the project's voice and mode. Voice changes ONLY the tone, never the headings (see PLAN FORMAT under solutionSummary) or the technical content \u2014 file paths, change lists, and trade-offs MUST appear in all three voices.
 
 - entrepreneur \u2014 Plain prose. Lead with user impact and "why". Name the files/areas that change in human terms ("the login flow, the session check"), but skip line numbers and snippets. Trade-offs in one sentence each.
 - builder (default) \u2014 Plain technical paragraphs grouped by feature area. Name file paths inline. End with a short Files line. No spec bullets unless a step has 5+ sub-changes.
-- engineer \u2014 Numbered spec steps with file:line scope, function/symbol names, code snippets where they clarify, and explicit trade-offs. End with a Changed Files table (| File | Change |).
+- engineer \u2014 Numbered spec steps with file:line scope, function/symbol names, code snippets where they clarify, and explicit trade-offs. A Changed Files table (| File | Change |) under the Files to Modify heading.
 
 AI OPINION CONTRACT (mandatory \u2014 get_card returns the card's \`aiOpinion\` and \`aiVerdict\`):
 
@@ -33548,7 +34805,9 @@ ${PRIOR_DECISIONS_RULE2}`,
             },
             solutionSummary: {
               type: "string",
-              description: "Detailed implementation plan in markdown. MUST include: (1) Brief summary of the approach, (2) Current architecture understanding with relevant code flow (e.g. `Settings UI \u2192 POST /api/... \u2192 provider.method()`), (3) Step-by-step implementation with specific file paths, function names, and code snippets showing the planned changes, (4) Changed files table (| File | Change |), (5) Important notes or caveats. Write prose-level detail with code examples, not just headings or bullet points. Adapt the tone to the project's voice (see tool description)."
+              description: `The plan in markdown: prose-level detail under each heading (file paths, function names, the code flow it changes), not just headings. Adapt the tone to the project's voice (see the tool description).
+
+${buildPlanFormatGuide2()}`
             },
             dependsOn: DEPENDS_ON_SCHEMA,
             confirmCurrent: {
@@ -33819,6 +35078,15 @@ The server writes the card's verdict, score, priority and complexity from those 
             autopilot: {
               type: "boolean",
               description: "Send to Autopilot, the app's button of that name (IDE-608): only when the user explicitly asked for Autopilot on this card. The card goes to the FRONT of the queue and Ideafy carries it on its own, unattended \u2014 a plan run first for a Backlog/Bugs card with no plan (IDE-610; a plan that leaves a [NEEDS_DECISION: \u2026] question stops it there, in Backlog/Bugs, for the user to answer), implementation in its worktree, then a pre-verify of each checklist group in turn, at most one automatic fix round \u2014 and stops at Ready to merge, or where it is with the reason on the card. It never merges. Takes a Backlog/Bugs card (planned or not), an In Progress card with a plan and no checklist, or a Human Test card with a core flow and a worktree; Ideation, Work projects and In Progress cards with no plan are refused with the reason. afterCardId and scope are ignored with it."
+            },
+            mode: {
+              type: "string",
+              enum: ["default", "ralph"],
+              description: `Only with autopilot: true (a cardId or a groupId), and only when the user explicitly asked for Ralph (IDE-731): "ralph" sends the card to Ralph, the app's Send to Ralph \u2014 Autopilot in a stricter mode. Ralph does not start unless this machine has the Playwright browser (npx and Google Chrome); the refusal names what is missing and writes nothing. On a checklist group with [ui] items Ralph does not accept a text report: a run that never used the browser stops the card instead. Groups with no [ui] items run as on Autopilot. Omitted, the card keeps the mode it was last on (Continue on a stopped Ralph card stays Ralph); "default" puts it back on plain Autopilot. With groupId it is Chain Ralph (IDE-734), the app's Send chain to Ralph: every open member goes on Ralph with the same maxRounds, under a chain time cap of 3 hours per queued card. A chain with no integration branch gets one (chain/\u2026) when no member has started yet \u2014 sending to Ralph is the user's yes to it, and the reply names the branch; a chain with a started member is refused with the list of what started. Merge & Complete to main stays the user's.`
+            },
+            maxRounds: {
+              oneOf: [{ type: "integer", minimum: 1, maximum: 10 }, { type: "string", enum: ["unlimited"] }],
+              description: `Only with mode: "ralph" (IDE-733), the app's Send to Ralph stepper (with groupId, for every member of the chain): how many times the same failure may come back before Ralph stops the card \u2014 1 to 10, or "unlimited" (Ralph still stops after 3 hours). A failure is the same when the same checklist item in the same group fails again, even after Ralph reworded it. Omitted, the project's last value is used (3 when there is none). The value given becomes the project's last value.`
             }
           }
         }
@@ -34014,6 +35282,10 @@ The server writes the card's verdict, score, priority and complexity from those 
             archived: {
               type: "boolean",
               description: "true archives the chain (no open cards allowed), false unarchives it"
+            },
+            integrationBranch: {
+              type: "boolean",
+              description: "true gives the chain an integration branch, only while no card in it has started (no worktree, branch, queue place, Autopilot or run; none in Progress, Human Test or Completed); refused otherwise, naming each card. false takes it away while its branch is not open yet. Only when the user asked for it."
             }
           },
           required: ["id"]
@@ -34161,10 +35433,10 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         const splitProposal = getSplitProposal2(db, card.id);
         if (splitProposal?.status === "pending") {
           Object.assign(card, {
-            splitProposal: {
-              ...splitProposal.proposal,
-              ask: "Ask the user in one sentence whether to break the card into these cards: on yes call split_card, on no call split_card with keepAsOne."
-            }
+            splitProposal: (() => {
+              const suggestion = integrationSuggestion2(splitProposal.proposal.cards);
+              return { ...splitProposal.proposal, integrationBranch: suggestion, ask: splitProposalAsk2(suggestion) };
+            })()
           });
         }
         const split = splitRelations2(db, card.id);
@@ -34206,8 +35478,27 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           if (autopilot.stage) {
             card.autopilot = {
               stage: autopilot.stage,
-              stopReason: autopilot.stopReason
+              stopReason: autopilot.stopReason,
+              // IDE-731: "ralph" or "default"; continue a Ralph card with mode: "ralph".
+              mode: autopilot.mode ?? "default",
+              // IDE-733: Ralph's round limit (0 = none) and how many rounds in a row failed the same way.
+              ...autopilot.ralph ? { maxRounds: autopilot.ralph.maxRounds, failCount: autopilot.ralph.failCount } : {}
             };
+          }
+        }
+        if (hasCapability(db, "decisions")) {
+          const decisions = decisionsForCard2(db, card.id);
+          if (decisions.length > 0) {
+            card.decisions = decisions.map((d2) => ({
+              kind: d2.kind,
+              question: d2.question,
+              recommended: d2.recommended,
+              step: d2.stepExcerpt,
+              ...d2.kind === "revision" ? { originalText: d2.originalText, newText: d2.newText } : {},
+              source: d2.source,
+              at: d2.createdAt,
+              ...d2.fromDisplayId ? { from: d2.fromDisplayId } : {}
+            }));
           }
         }
         const projectRow = card.projectId ? db.prepare(`SELECT * FROM projects WHERE id = ?`).get(card.projectId) : void 0;
@@ -34247,7 +35538,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         if (planningNote) {
           content.push({ type: "text", text: planningNote });
         }
-        const priorDecisionsNote = buildPriorDecisionsNote(card);
+        const priorDecisionsNote = buildPriorDecisionsNote(card, normalizeProjectMode2(projectRow?.mode));
         if (priorDecisionsNote) {
           content.push({ type: "text", text: priorDecisionsNote });
         }
@@ -34848,9 +36139,11 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           };
         }
         const suggested = suggestionNote(id, dependsOn);
-        const resume = saved.autopilotDecisionAnswered ? ` ${autopilotContinueQuestion2(id)}` : "";
+        const formatWarning = planFormatWarning2(htmlContent, readProjectModeForCard(id));
+        const resume = saved.autopilotDecisionAnswered ? ` ${autopilotContinueQuestion2(id, autopilotModeFor2(db, id))}` : "";
         return {
-          content: [{ type: "text", text: `Plan saved to card ${id}. Card is in "${readStatus(id)}".${suggested ? ` ${suggested}` : ""}${resume}` }]
+          content: [{ type: "text", text: `Plan saved to card ${id}. Card is in "${readStatus(id)}".${suggested ? ` ${suggested}` : ""}${resume}${formatWarning ? `
+${formatWarning}` : ""}` }]
         };
       }
       case "save_tests": {
@@ -34901,8 +36194,12 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           html: htmlContent,
           now: (/* @__PURE__ */ new Date()).toISOString(),
           author: IDEAFY_AUTHOR2,
-          guard: deletionRequested ? "replace" : "append-only"
+          guard: deletionRequested ? "replace" : "append-only",
+          manualLimit: "refuse"
         });
+        if (!saved.ok && saved.reason === "manual-limit") {
+          return { content: [{ type: "text", text: manualLimitMessage2("save_tests", saved.items) }], isError: true };
+        }
         if (!saved.ok && saved.reason === "unsafe") {
           return {
             content: [{
@@ -34954,13 +36251,26 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           revisions: pairs,
           now: (/* @__PURE__ */ new Date()).toISOString(),
           author: IDEAFY_AUTHOR2,
-          confirmCurrent: !!confirmCurrent
+          confirmCurrent: !!confirmCurrent,
+          refuseManualOverLimit: true
         });
+        if (!saved.ok && saved.reason === "manual-limit") {
+          return { content: [{ type: "text", text: manualLimitMessage2("revise_tests", saved.items) }], isError: true };
+        }
         if (!saved.ok && saved.reason === "missing") {
           return {
             content: [{
               type: "text",
               text: `revise_tests refused, nothing written: not on the checklist \u2014 ${saved.missing.map((m2) => `"${m2}"`).join(", ")}. Read the card with get_card and quote each item word for word as it reads now.`
+            }],
+            isError: true
+          };
+        }
+        if (!saved.ok && saved.reason === "refused") {
+          return {
+            content: [{
+              type: "text",
+              text: `revise_tests refused, nothing written: ${saved.message} \u2014 ${saved.items.map((m2) => `"${m2}"`).join(", ")}. Fix the code instead, or leave the item for the person.`
             }],
             isError: true
           };
@@ -35310,7 +36620,7 @@ ${waiting}` : ""}` : choice === "silent" ? `${bound} This session is outside eve
         const withAutopilot = hasCapability(db, "autopilot");
         const autopilotField = (id) => {
           const state = withAutopilot ? getAutopilotState2(db, id) : null;
-          return state?.stage ? { autopilot: { stage: state.stage, stopReason: state.stopReason } } : {};
+          return state?.stage ? { autopilot: { stage: state.stage, stopReason: state.stopReason, mode: state.mode ?? "default" } } : {};
         };
         const items = listQueueRows2(db).map((row, index) => ({
           rank: index + 1,
@@ -35470,7 +36780,35 @@ ${waiting}` : ""}` : choice === "silent" ? `${bound} This session is outside eve
             isError: true
           };
         }
-        const { cardId: rawCardId, groupId: rawGroupId, afterCardId: rawAfterCardId, scope: rawScope, autopilot } = args;
+        const { cardId: rawCardId, groupId: rawGroupId, afterCardId: rawAfterCardId, scope: rawScope, autopilot, mode: rawMode } = args;
+        const rawMaxRounds = args.maxRounds;
+        let maxRounds;
+        if (rawMaxRounds !== void 0) {
+          if (rawMode !== "ralph") {
+            return { content: [{ type: "text", text: 'queue_card: maxRounds goes with mode: "ralph". Nothing was written.' }], isError: true };
+          }
+          maxRounds = rawMaxRounds === "unlimited" ? 0 : rawMaxRounds;
+          if (!(typeof maxRounds === "number" && Number.isInteger(maxRounds) && maxRounds >= (rawMaxRounds === "unlimited" ? 0 : 1) && maxRounds <= 10)) {
+            return { content: [{ type: "text", text: 'queue_card: maxRounds must be 1 to 10 or "unlimited". Nothing was written.' }], isError: true };
+          }
+          if (!hasCapability(db, "ralphLoop")) {
+            return { content: [{ type: "text", text: missingCapabilityMessage("queue_card", "ralphLoop") }], isError: true };
+          }
+        }
+        if (rawMode !== void 0) {
+          if (rawMode !== "default" && rawMode !== "ralph") {
+            return { content: [{ type: "text", text: `queue_card: mode must be "default" or "ralph". Nothing was written.` }], isError: true };
+          }
+          if (autopilot !== true) {
+            return { content: [{ type: "text", text: "queue_card: mode goes with autopilot: true. Nothing was written." }], isError: true };
+          }
+          if (rawGroupId !== void 0 && rawMode === "ralph" && !hasCapability(db, "chainRalph")) {
+            return { content: [{ type: "text", text: missingCapabilityMessage("queue_card", "chainRalph") }], isError: true };
+          }
+          if (rawMode === "ralph" && !hasCapability(db, "ralph")) {
+            return { content: [{ type: "text", text: missingCapabilityMessage("queue_card", "ralph") }], isError: true };
+          }
+        }
         if (rawGroupId !== void 0) {
           if (autopilot !== true || rawCardId !== void 0) {
             return {
@@ -35485,7 +36823,11 @@ ${waiting}` : ""}` : choice === "silent" ? `${bound} This session is outside eve
           if (!group) {
             return { content: [{ type: "text", text: `Chain not found: ${rawGroupId}` }], isError: true };
           }
-          const started = startChainAutopilot2(db, group.id);
+          const started = startChainAutopilot2(
+            db,
+            group.id,
+            rawMode === "ralph" ? { mode: "ralph", ...maxRounds !== void 0 ? { maxRounds } : {} } : {}
+          );
           if (!started.ok) {
             return { content: [{ type: "text", text: `queue_card: ${started.message}. Nothing was written.` }], isError: true };
           }
@@ -35515,16 +36857,21 @@ ${waiting}` : ""}` : choice === "silent" ? `${bound} This session is outside eve
           if (!hasCapability(db, "autopilot")) {
             return { content: [{ type: "text", text: missingCapabilityMessage("queue_card", "autopilot") }], isError: true };
           }
-          const started = startAutopilot2(db, cardId);
+          const started = startAutopilot2(
+            db,
+            cardId,
+            rawMode === void 0 ? {} : { mode: rawMode, ...maxRounds !== void 0 ? { maxRounds } : {} }
+          );
           if (!started.ok) {
             return { content: [{ type: "text", text: `queue_card: ${started.message}. Nothing was written.` }], isError: true };
           }
           const runtime2 = readRuntime2(db);
+          const ralphLimit = started.mode === "ralph" && started.maxRounds !== void 0 ? started.maxRounds === 0 ? " \xB7 no round limit, stops after 3 hours" : ` \xB7 stops after the same failure ${started.maxRounds}\xD7` : "";
           const armed2 = runtime2.appState === "closed" ? "The Ideafy app is closed, so nothing starts; the queue opens paused on the next launch." : await armQueueIfIdle({ port: appPort(runtime2) });
           return {
             content: [{
               type: "text",
-              text: `${started.displayId} is on Autopilot (${started.stage}) at #${started.rank} in the run queue. ${armed2} It stops at Ready to merge or with a reason on the card; merging stays the user's call.`
+              text: `${started.displayId} is on ${started.mode === "ralph" ? "Ralph" : "Autopilot"}${ralphLimit} (${started.stage}) at #${started.rank} in the run queue. ${armed2} It stops at Ready to merge or with a reason on the card; merging stays the user's call.` + (started.mode === "ralph" ? " A [ui] group whose run never used the browser stops it \u2014 Ralph does not accept a text report." : "")
             }]
           };
         }
@@ -35639,16 +36986,25 @@ ${waiting}` : ""}` : choice === "silent" ? `${bound} This session is outside eve
           return {
             content: [{
               type: "text",
-              text: `update_group: nothing to update for group ${id}. Pass code, name, color, projectId or archived.`
+              text: `update_group: nothing to update for group ${id}. Pass code, name, color, projectId, archived or integrationBranch.`
             }],
             isError: true
           };
         }
-        const group = updateGroup2(db, id, updates);
+        const { integrationBranch, ...fields } = updates;
+        let integrationLine = "";
+        if (typeof integrationBranch === "boolean") {
+          const result = setIntegrationBranch2(db, id, integrationBranch);
+          if (result.kind !== "ok") {
+            return { content: [{ type: "text", text: result.text }], isError: true };
+          }
+          integrationLine = !result.changed ? integrationBranch ? ` Chain ${result.code} already uses ${result.branch}.` : ` Chain ${result.code} has no integration branch.` : result.branch ? ` ${integrationOnText2(result.code, result.branch)}` : ` Chain ${result.code} has no integration branch now: its cards land on main one by one.`;
+        }
+        const group = updateGroup2(db, id, fields);
         return {
           content: [{
             type: "text",
-            text: group.archivedAt ? `Group ${group.id} updated: ${group.code} \xB7 ${group.name}, archived \u2014 no longer offered, code ${group.code} is free for a new group.` : `Group ${group.id} updated: ${group.code} \xB7 ${group.name}.`
+            text: (group.archivedAt ? `Group ${group.id} updated: ${group.code} \xB7 ${group.name}, archived \u2014 no longer offered, code ${group.code} is free for a new group.` : `Group ${group.id} updated: ${group.code} \xB7 ${group.name}.`) + integrationLine
           }]
         };
       }
