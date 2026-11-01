@@ -1,5 +1,5 @@
 {
-  "description": "Ideafy kanban integration: card tracking on prompt submit, pre-edit guardrails (branch and one writer per folder), plan-to-card sync on plan approval, folder release on session end.",
+  "description": "Ideafy kanban integration: card tracking on prompt submit, pre-edit guardrails (branch and one writer per folder), plan-to-card sync on plan approval, folder release on session end, and what each session is doing, so the board can hold the card it works on.",
   "hooks": {
     "UserPromptSubmit": [
       {
@@ -7,6 +7,15 @@
           {
             "type": "command",
             "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/card-tracking.sh\"",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/session-activity.sh\"",
             "timeout": 5
           }
         ]
@@ -22,6 +31,16 @@
             "timeout": 5
           }
         ]
+      },
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/session-activity.sh\"",
+            "async": true
+          }
+        ]
       }
     ],
     "PostToolUse": [
@@ -34,6 +53,16 @@
             "timeout": 5
           }
         ]
+      },
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/session-activity.sh\"",
+            "async": true
+          }
+        ]
       }
     ],
     "SessionEnd": [
@@ -42,6 +71,59 @@
           {
             "type": "command",
             "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/session-end.sh\"",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/session-activity.sh\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PostToolUseFailure": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/session-activity.sh\"",
+            "async": true
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/session-activity.sh\"",
+            "async": true
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/session-activity.sh\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "StopFailure": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/session-activity.sh\"",
             "timeout": 5
           }
         ]
