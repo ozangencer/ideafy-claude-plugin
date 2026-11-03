@@ -23368,6 +23368,7 @@ var card_queue_exports = {};
 __export(card_queue_exports, {
   APP_RUN_CARD_ENV: () => APP_RUN_CARD_ENV,
   QUEUE_CLEARING_STATUSES: () => QUEUE_CLEARING_STATUSES,
+  TERMINAL_EDIT_GRACE_MS: () => TERMINAL_EDIT_GRACE_MS,
   TERMINAL_WRITE_OPTIONS: () => TERMINAL_WRITE_OPTIONS,
   compareByQueuePosition: () => compareByQueuePosition,
   conflictingLiveRun: () => conflictingLiveRun,
@@ -23377,6 +23378,7 @@ __export(card_queue_exports, {
   queueIneligibleReason: () => queueIneligibleReason,
   queueRanks: () => queueRanks,
   sharedWorkingCopyWith: () => sharedWorkingCopyWith,
+  terminalWriterHolds: () => terminalWriterHolds,
   withoutOwnAppRun: () => withoutOwnAppRun,
   writeConflictFor: () => writeConflictFor
 });
@@ -23436,6 +23438,12 @@ function conflictingLiveRun(self, live) {
     if (other.projectId === self.projectId) return other;
   }
   return null;
+}
+var TERMINAL_EDIT_GRACE_MS = 15e3;
+function terminalWriterHolds(writer, now) {
+  if (writer.runsInWorktree) return true;
+  if (now - writer.lastEditAt < TERMINAL_EDIT_GRACE_MS) return true;
+  return writer.uncommitted !== false;
 }
 function liveRunSubject(run2) {
   if (run2.kind === "terminal") {
