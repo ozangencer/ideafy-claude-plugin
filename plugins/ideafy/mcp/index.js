@@ -30,9 +30,9 @@ var __toESM = (mod, isNodeMode, target2) => (target2 = mod != null ? __create(__
   mod
 ));
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/code.js
+// node_modules/ajv/dist/compile/codegen/code.js
 var require_code = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/code.js"(exports) {
+  "node_modules/ajv/dist/compile/codegen/code.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.regexpCode = exports.getEsmExportName = exports.getProperty = exports.safeStringify = exports.stringify = exports.strConcat = exports.addCodeArg = exports.str = exports._ = exports.nil = exports._Code = exports.Name = exports.IDENTIFIER = exports._CodeOrName = void 0;
@@ -184,9 +184,9 @@ var require_code = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/scope.js
+// node_modules/ajv/dist/compile/codegen/scope.js
 var require_scope = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/scope.js"(exports) {
+  "node_modules/ajv/dist/compile/codegen/scope.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.ValueScope = exports.ValueScopeName = exports.Scope = exports.varKinds = exports.UsedValueState = void 0;
@@ -329,9 +329,9 @@ var require_scope = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/index.js
+// node_modules/ajv/dist/compile/codegen/index.js
 var require_codegen = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/codegen/index.js"(exports) {
+  "node_modules/ajv/dist/compile/codegen/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.or = exports.and = exports.not = exports.CodeGen = exports.operators = exports.varKinds = exports.ValueScopeName = exports.ValueScope = exports.Scope = exports.Name = exports.regexpCode = exports.stringify = exports.getProperty = exports.nil = exports.strConcat = exports.str = exports._ = void 0;
@@ -1049,9 +1049,9 @@ var require_codegen = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/util.js
+// node_modules/ajv/dist/compile/util.js
 var require_util = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/util.js"(exports) {
+  "node_modules/ajv/dist/compile/util.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.checkStrictMode = exports.getErrorPath = exports.Type = exports.useFunc = exports.setEvaluated = exports.evaluatedPropsToName = exports.mergeEvaluated = exports.eachItem = exports.unescapeJsonPointer = exports.escapeJsonPointer = exports.escapeFragment = exports.unescapeFragment = exports.schemaRefOrVal = exports.schemaHasRulesButRef = exports.schemaHasRules = exports.checkUnknownRules = exports.alwaysValidSchema = exports.toHash = void 0;
@@ -1216,9 +1216,9 @@ var require_util = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/names.js
+// node_modules/ajv/dist/compile/names.js
 var require_names = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/names.js"(exports) {
+  "node_modules/ajv/dist/compile/names.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -1255,9 +1255,9 @@ var require_names = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/errors.js
+// node_modules/ajv/dist/compile/errors.js
 var require_errors = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/errors.js"(exports) {
+  "node_modules/ajv/dist/compile/errors.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.extendErrors = exports.resetErrorsCount = exports.reportExtraError = exports.reportError = exports.keyword$DataError = exports.keywordError = void 0;
@@ -1377,9 +1377,9 @@ var require_errors = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/boolSchema.js
+// node_modules/ajv/dist/compile/validate/boolSchema.js
 var require_boolSchema = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/boolSchema.js"(exports) {
+  "node_modules/ajv/dist/compile/validate/boolSchema.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.boolOrEmptySchema = exports.topBoolOrEmptySchema = void 0;
@@ -1428,9 +1428,9 @@ var require_boolSchema = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/rules.js
+// node_modules/ajv/dist/compile/rules.js
 var require_rules = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/rules.js"(exports) {
+  "node_modules/ajv/dist/compile/rules.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.getRules = exports.isJSONType = void 0;
@@ -1459,9 +1459,9 @@ var require_rules = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/applicability.js
+// node_modules/ajv/dist/compile/validate/applicability.js
 var require_applicability = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/applicability.js"(exports) {
+  "node_modules/ajv/dist/compile/validate/applicability.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.shouldUseRule = exports.shouldUseGroup = exports.schemaHasRulesForType = void 0;
@@ -1482,9 +1482,9 @@ var require_applicability = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/dataType.js
+// node_modules/ajv/dist/compile/validate/dataType.js
 var require_dataType = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/dataType.js"(exports) {
+  "node_modules/ajv/dist/compile/validate/dataType.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.reportTypeError = exports.checkDataTypes = exports.checkDataType = exports.coerceAndCheckDataType = exports.getJSONTypes = exports.getSchemaTypes = exports.DataType = void 0;
@@ -1666,9 +1666,9 @@ var require_dataType = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/defaults.js
+// node_modules/ajv/dist/compile/validate/defaults.js
 var require_defaults = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/defaults.js"(exports) {
+  "node_modules/ajv/dist/compile/validate/defaults.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.assignDefaults = void 0;
@@ -1703,9 +1703,9 @@ var require_defaults = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/code.js
+// node_modules/ajv/dist/vocabularies/code.js
 var require_code2 = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/code.js"(exports) {
+  "node_modules/ajv/dist/vocabularies/code.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.validateUnion = exports.validateArray = exports.usePattern = exports.callValidateCode = exports.schemaProperties = exports.allSchemaProperties = exports.noPropertyInData = exports.propertyInData = exports.isOwnProperty = exports.hasPropFunc = exports.reportMissingProp = exports.checkMissingProp = exports.checkReportMissingProp = void 0;
@@ -1836,9 +1836,9 @@ var require_code2 = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/keyword.js
+// node_modules/ajv/dist/compile/validate/keyword.js
 var require_keyword = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/keyword.js"(exports) {
+  "node_modules/ajv/dist/compile/validate/keyword.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.validateKeywordUsage = exports.validSchemaType = exports.funcKeywordCode = exports.macroKeywordCode = void 0;
@@ -1954,9 +1954,9 @@ var require_keyword = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/subschema.js
+// node_modules/ajv/dist/compile/validate/subschema.js
 var require_subschema = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/subschema.js"(exports) {
+  "node_modules/ajv/dist/compile/validate/subschema.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.extendSubschemaMode = exports.extendSubschemaData = exports.getSubschema = void 0;
@@ -2037,9 +2037,9 @@ var require_subschema = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-deep-equal/index.js
+// node_modules/fast-deep-equal/index.js
 var require_fast_deep_equal = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-deep-equal/index.js"(exports, module) {
+  "node_modules/fast-deep-equal/index.js"(exports, module) {
     "use strict";
     module.exports = function equal(a, b2) {
       if (a === b2) return true;
@@ -2072,9 +2072,9 @@ var require_fast_deep_equal = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/json-schema-traverse/index.js
+// node_modules/json-schema-traverse/index.js
 var require_json_schema_traverse = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/json-schema-traverse/index.js"(exports, module) {
+  "node_modules/json-schema-traverse/index.js"(exports, module) {
     "use strict";
     var traverse = module.exports = function(schema, opts, cb) {
       if (typeof opts == "function") {
@@ -2160,9 +2160,9 @@ var require_json_schema_traverse = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/resolve.js
+// node_modules/ajv/dist/compile/resolve.js
 var require_resolve = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/resolve.js"(exports) {
+  "node_modules/ajv/dist/compile/resolve.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.getSchemaRefs = exports.resolveUrl = exports.normalizeId = exports._getFullPath = exports.getFullPath = exports.inlineRef = void 0;
@@ -2316,9 +2316,9 @@ var require_resolve = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/index.js
+// node_modules/ajv/dist/compile/validate/index.js
 var require_validate = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/validate/index.js"(exports) {
+  "node_modules/ajv/dist/compile/validate/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.getData = exports.KeywordCxt = exports.validateFunctionCode = void 0;
@@ -2824,9 +2824,9 @@ var require_validate = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/validation_error.js
+// node_modules/ajv/dist/runtime/validation_error.js
 var require_validation_error = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/validation_error.js"(exports) {
+  "node_modules/ajv/dist/runtime/validation_error.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var ValidationError = class extends Error {
@@ -2840,9 +2840,9 @@ var require_validation_error = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/ref_error.js
+// node_modules/ajv/dist/compile/ref_error.js
 var require_ref_error = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/ref_error.js"(exports) {
+  "node_modules/ajv/dist/compile/ref_error.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var resolve_1 = require_resolve();
@@ -2857,9 +2857,9 @@ var require_ref_error = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/index.js
+// node_modules/ajv/dist/compile/index.js
 var require_compile = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/compile/index.js"(exports) {
+  "node_modules/ajv/dist/compile/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.resolveSchema = exports.getCompilingSchema = exports.resolveRef = exports.compileSchema = exports.SchemaEnv = void 0;
@@ -3081,9 +3081,9 @@ var require_compile = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/refs/data.json
+// node_modules/ajv/dist/refs/data.json
 var require_data = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/refs/data.json"(exports, module) {
+  "node_modules/ajv/dist/refs/data.json"(exports, module) {
     module.exports = {
       $id: "https://raw.githubusercontent.com/ajv-validator/ajv/master/lib/refs/data.json#",
       description: "Meta-schema for $data reference (JSON AnySchema extension proposal)",
@@ -3100,9 +3100,9 @@ var require_data = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/lib/utils.js
+// node_modules/fast-uri/lib/utils.js
 var require_utils = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/lib/utils.js"(exports, module) {
+  "node_modules/fast-uri/lib/utils.js"(exports, module) {
     "use strict";
     var isUUID = RegExp.prototype.test.bind(/^[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}$/iu);
     var isIPv4 = RegExp.prototype.test.bind(/^(?:(?:25[0-5]|2[0-4]\d|1\d{2}|[1-9]\d|\d)\.){3}(?:25[0-5]|2[0-4]\d|1\d{2}|[1-9]\d|\d)$/u);
@@ -3357,9 +3357,9 @@ var require_utils = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/lib/schemes.js
+// node_modules/fast-uri/lib/schemes.js
 var require_schemes = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/lib/schemes.js"(exports, module) {
+  "node_modules/fast-uri/lib/schemes.js"(exports, module) {
     "use strict";
     var { isUUID } = require_utils();
     var URN_REG = /([\da-z][\d\-a-z]{0,31}):((?:[\w!$'()*+,\-.:;=@]|%[\da-f]{2})+)/iu;
@@ -3567,9 +3567,9 @@ var require_schemes = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/index.js
+// node_modules/fast-uri/index.js
 var require_fast_uri = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/fast-uri/index.js"(exports, module) {
+  "node_modules/fast-uri/index.js"(exports, module) {
     "use strict";
     var { normalizeIPv6, removeDotSegments, recomposeAuthority, normalizeComponentEncoding, isIPv4, nonSimpleDomain } = require_utils();
     var { SCHEMES, getSchemeHandler } = require_schemes();
@@ -3822,9 +3822,9 @@ var require_fast_uri = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/uri.js
+// node_modules/ajv/dist/runtime/uri.js
 var require_uri = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/uri.js"(exports) {
+  "node_modules/ajv/dist/runtime/uri.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var uri = require_fast_uri();
@@ -3833,9 +3833,9 @@ var require_uri = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/core.js
+// node_modules/ajv/dist/core.js
 var require_core = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/core.js"(exports) {
+  "node_modules/ajv/dist/core.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.CodeGen = exports.Name = exports.nil = exports.stringify = exports.str = exports._ = exports.KeywordCxt = void 0;
@@ -4444,9 +4444,9 @@ var require_core = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/id.js
+// node_modules/ajv/dist/vocabularies/core/id.js
 var require_id = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/id.js"(exports) {
+  "node_modules/ajv/dist/vocabularies/core/id.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var def = {
@@ -4459,9 +4459,9 @@ var require_id = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/ref.js
+// node_modules/ajv/dist/vocabularies/core/ref.js
 var require_ref = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/ref.js"(exports) {
+  "node_modules/ajv/dist/vocabularies/core/ref.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.callRef = exports.getValidate = void 0;
@@ -4581,9 +4581,9 @@ var require_ref = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/index.js
+// node_modules/ajv/dist/vocabularies/core/index.js
 var require_core2 = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/core/index.js"(exports) {
+  "node_modules/ajv/dist/vocabularies/core/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var id_1 = require_id();
@@ -4602,9 +4602,9 @@ var require_core2 = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitNumber.js
+// node_modules/ajv/dist/vocabularies/validation/limitNumber.js
 var require_limitNumber = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitNumber.js"(exports) {
+  "node_modules/ajv/dist/vocabularies/validation/limitNumber.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -4634,9 +4634,9 @@ var require_limitNumber = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/multipleOf.js
+// node_modules/ajv/dist/vocabularies/validation/multipleOf.js
 var require_multipleOf = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/multipleOf.js"(exports) {
+  "node_modules/ajv/dist/vocabularies/validation/multipleOf.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -4662,9 +4662,9 @@ var require_multipleOf = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/ucs2length.js
+// node_modules/ajv/dist/runtime/ucs2length.js
 var require_ucs2length = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/ucs2length.js"(exports) {
+  "node_modules/ajv/dist/runtime/ucs2length.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     function ucs2length(str2) {
@@ -4688,9 +4688,9 @@ var require_ucs2length = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitLength.js
+// node_modules/ajv/dist/vocabularies/validation/limitLength.js
 var require_limitLength = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitLength.js"(exports) {
+  "node_modules/ajv/dist/vocabularies/validation/limitLength.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -4720,9 +4720,9 @@ var require_limitLength = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/pattern.js
+// node_modules/ajv/dist/vocabularies/validation/pattern.js
 var require_pattern = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/pattern.js"(exports) {
+  "node_modules/ajv/dist/vocabularies/validation/pattern.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -4757,9 +4757,9 @@ var require_pattern = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitProperties.js
+// node_modules/ajv/dist/vocabularies/validation/limitProperties.js
 var require_limitProperties = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitProperties.js"(exports) {
+  "node_modules/ajv/dist/vocabularies/validation/limitProperties.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -4786,9 +4786,9 @@ var require_limitProperties = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/required.js
+// node_modules/ajv/dist/vocabularies/validation/required.js
 var require_required = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/required.js"(exports) {
+  "node_modules/ajv/dist/vocabularies/validation/required.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -4868,9 +4868,9 @@ var require_required = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitItems.js
+// node_modules/ajv/dist/vocabularies/validation/limitItems.js
 var require_limitItems = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/limitItems.js"(exports) {
+  "node_modules/ajv/dist/vocabularies/validation/limitItems.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -4897,9 +4897,9 @@ var require_limitItems = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/equal.js
+// node_modules/ajv/dist/runtime/equal.js
 var require_equal = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/runtime/equal.js"(exports) {
+  "node_modules/ajv/dist/runtime/equal.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var equal = require_fast_deep_equal();
@@ -4908,9 +4908,9 @@ var require_equal = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/uniqueItems.js
+// node_modules/ajv/dist/vocabularies/validation/uniqueItems.js
 var require_uniqueItems = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/uniqueItems.js"(exports) {
+  "node_modules/ajv/dist/vocabularies/validation/uniqueItems.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var dataType_1 = require_dataType();
@@ -4975,9 +4975,9 @@ var require_uniqueItems = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/const.js
+// node_modules/ajv/dist/vocabularies/validation/const.js
 var require_const = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/const.js"(exports) {
+  "node_modules/ajv/dist/vocabularies/validation/const.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5004,9 +5004,9 @@ var require_const = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/enum.js
+// node_modules/ajv/dist/vocabularies/validation/enum.js
 var require_enum = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/enum.js"(exports) {
+  "node_modules/ajv/dist/vocabularies/validation/enum.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5053,9 +5053,9 @@ var require_enum = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/index.js
+// node_modules/ajv/dist/vocabularies/validation/index.js
 var require_validation = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/validation/index.js"(exports) {
+  "node_modules/ajv/dist/vocabularies/validation/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var limitNumber_1 = require_limitNumber();
@@ -5091,9 +5091,9 @@ var require_validation = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/additionalItems.js
+// node_modules/ajv/dist/vocabularies/applicator/additionalItems.js
 var require_additionalItems = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/additionalItems.js"(exports) {
+  "node_modules/ajv/dist/vocabularies/applicator/additionalItems.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.validateAdditionalItems = void 0;
@@ -5144,9 +5144,9 @@ var require_additionalItems = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/items.js
+// node_modules/ajv/dist/vocabularies/applicator/items.js
 var require_items = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/items.js"(exports) {
+  "node_modules/ajv/dist/vocabularies/applicator/items.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.validateTuple = void 0;
@@ -5201,9 +5201,9 @@ var require_items = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/prefixItems.js
+// node_modules/ajv/dist/vocabularies/applicator/prefixItems.js
 var require_prefixItems = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/prefixItems.js"(exports) {
+  "node_modules/ajv/dist/vocabularies/applicator/prefixItems.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var items_1 = require_items();
@@ -5218,9 +5218,9 @@ var require_prefixItems = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/items2020.js
+// node_modules/ajv/dist/vocabularies/applicator/items2020.js
 var require_items2020 = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/items2020.js"(exports) {
+  "node_modules/ajv/dist/vocabularies/applicator/items2020.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5253,9 +5253,9 @@ var require_items2020 = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/contains.js
+// node_modules/ajv/dist/vocabularies/applicator/contains.js
 var require_contains = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/contains.js"(exports) {
+  "node_modules/ajv/dist/vocabularies/applicator/contains.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5347,9 +5347,9 @@ var require_contains = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/dependencies.js
+// node_modules/ajv/dist/vocabularies/applicator/dependencies.js
 var require_dependencies = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/dependencies.js"(exports) {
+  "node_modules/ajv/dist/vocabularies/applicator/dependencies.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.validateSchemaDeps = exports.validatePropertyDeps = exports.error = void 0;
@@ -5441,9 +5441,9 @@ var require_dependencies = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/propertyNames.js
+// node_modules/ajv/dist/vocabularies/applicator/propertyNames.js
 var require_propertyNames = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/propertyNames.js"(exports) {
+  "node_modules/ajv/dist/vocabularies/applicator/propertyNames.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5484,9 +5484,9 @@ var require_propertyNames = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/additionalProperties.js
+// node_modules/ajv/dist/vocabularies/applicator/additionalProperties.js
 var require_additionalProperties = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/additionalProperties.js"(exports) {
+  "node_modules/ajv/dist/vocabularies/applicator/additionalProperties.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -5590,9 +5590,9 @@ var require_additionalProperties = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/properties.js
+// node_modules/ajv/dist/vocabularies/applicator/properties.js
 var require_properties = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/properties.js"(exports) {
+  "node_modules/ajv/dist/vocabularies/applicator/properties.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var validate_1 = require_validate();
@@ -5648,9 +5648,9 @@ var require_properties = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/patternProperties.js
+// node_modules/ajv/dist/vocabularies/applicator/patternProperties.js
 var require_patternProperties = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/patternProperties.js"(exports) {
+  "node_modules/ajv/dist/vocabularies/applicator/patternProperties.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -5722,9 +5722,9 @@ var require_patternProperties = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/not.js
+// node_modules/ajv/dist/vocabularies/applicator/not.js
 var require_not = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/not.js"(exports) {
+  "node_modules/ajv/dist/vocabularies/applicator/not.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var util_1 = require_util();
@@ -5753,9 +5753,9 @@ var require_not = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/anyOf.js
+// node_modules/ajv/dist/vocabularies/applicator/anyOf.js
 var require_anyOf = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/anyOf.js"(exports) {
+  "node_modules/ajv/dist/vocabularies/applicator/anyOf.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var code_1 = require_code2();
@@ -5770,9 +5770,9 @@ var require_anyOf = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/oneOf.js
+// node_modules/ajv/dist/vocabularies/applicator/oneOf.js
 var require_oneOf = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/oneOf.js"(exports) {
+  "node_modules/ajv/dist/vocabularies/applicator/oneOf.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5828,9 +5828,9 @@ var require_oneOf = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/allOf.js
+// node_modules/ajv/dist/vocabularies/applicator/allOf.js
 var require_allOf = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/allOf.js"(exports) {
+  "node_modules/ajv/dist/vocabularies/applicator/allOf.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var util_1 = require_util();
@@ -5855,9 +5855,9 @@ var require_allOf = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/if.js
+// node_modules/ajv/dist/vocabularies/applicator/if.js
 var require_if = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/if.js"(exports) {
+  "node_modules/ajv/dist/vocabularies/applicator/if.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -5924,9 +5924,9 @@ var require_if = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/thenElse.js
+// node_modules/ajv/dist/vocabularies/applicator/thenElse.js
 var require_thenElse = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/thenElse.js"(exports) {
+  "node_modules/ajv/dist/vocabularies/applicator/thenElse.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var util_1 = require_util();
@@ -5942,9 +5942,9 @@ var require_thenElse = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/index.js
+// node_modules/ajv/dist/vocabularies/applicator/index.js
 var require_applicator = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/applicator/index.js"(exports) {
+  "node_modules/ajv/dist/vocabularies/applicator/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var additionalItems_1 = require_additionalItems();
@@ -5990,9 +5990,9 @@ var require_applicator = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/format/format.js
+// node_modules/ajv/dist/vocabularies/format/format.js
 var require_format = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/format/format.js"(exports) {
+  "node_modules/ajv/dist/vocabularies/format/format.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -6080,9 +6080,9 @@ var require_format = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/format/index.js
+// node_modules/ajv/dist/vocabularies/format/index.js
 var require_format2 = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/format/index.js"(exports) {
+  "node_modules/ajv/dist/vocabularies/format/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var format_1 = require_format();
@@ -6091,9 +6091,9 @@ var require_format2 = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/metadata.js
+// node_modules/ajv/dist/vocabularies/metadata.js
 var require_metadata = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/metadata.js"(exports) {
+  "node_modules/ajv/dist/vocabularies/metadata.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.contentVocabulary = exports.metadataVocabulary = void 0;
@@ -6114,9 +6114,9 @@ var require_metadata = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/draft7.js
+// node_modules/ajv/dist/vocabularies/draft7.js
 var require_draft7 = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/draft7.js"(exports) {
+  "node_modules/ajv/dist/vocabularies/draft7.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var core_1 = require_core2();
@@ -6136,9 +6136,9 @@ var require_draft7 = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/discriminator/types.js
+// node_modules/ajv/dist/vocabularies/discriminator/types.js
 var require_types = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/discriminator/types.js"(exports) {
+  "node_modules/ajv/dist/vocabularies/discriminator/types.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.DiscrError = void 0;
@@ -6150,9 +6150,9 @@ var require_types = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/discriminator/index.js
+// node_modules/ajv/dist/vocabularies/discriminator/index.js
 var require_discriminator = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/vocabularies/discriminator/index.js"(exports) {
+  "node_modules/ajv/dist/vocabularies/discriminator/index.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
@@ -6255,9 +6255,9 @@ var require_discriminator = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/refs/json-schema-draft-07.json
+// node_modules/ajv/dist/refs/json-schema-draft-07.json
 var require_json_schema_draft_07 = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/refs/json-schema-draft-07.json"(exports, module) {
+  "node_modules/ajv/dist/refs/json-schema-draft-07.json"(exports, module) {
     module.exports = {
       $schema: "http://json-schema.org/draft-07/schema#",
       $id: "http://json-schema.org/draft-07/schema#",
@@ -6412,9 +6412,9 @@ var require_json_schema_draft_07 = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/ajv.js
+// node_modules/ajv/dist/ajv.js
 var require_ajv = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv/dist/ajv.js"(exports, module) {
+  "node_modules/ajv/dist/ajv.js"(exports, module) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.MissingRefError = exports.ValidationError = exports.CodeGen = exports.Name = exports.nil = exports.stringify = exports.str = exports._ = exports.KeywordCxt = exports.Ajv = void 0;
@@ -6482,9 +6482,9 @@ var require_ajv = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/formats.js
+// node_modules/ajv-formats/dist/formats.js
 var require_formats = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/formats.js"(exports) {
+  "node_modules/ajv-formats/dist/formats.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.formatNames = exports.fastFormats = exports.fullFormats = void 0;
@@ -6685,9 +6685,9 @@ var require_formats = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/limit.js
+// node_modules/ajv-formats/dist/limit.js
 var require_limit = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/limit.js"(exports) {
+  "node_modules/ajv-formats/dist/limit.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.formatLimitDefinition = void 0;
@@ -6757,9 +6757,9 @@ var require_limit = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/index.js
+// node_modules/ajv-formats/dist/index.js
 var require_dist = __commonJS({
-  "../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/ajv-formats/dist/index.js"(exports, module) {
+  "node_modules/ajv-formats/dist/index.js"(exports, module) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var formats_1 = require_formats();
@@ -6799,7 +6799,7 @@ var require_dist = __commonJS({
   }
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/helpers/util.js
+// node_modules/zod/v3/helpers/util.js
 var util;
 (function(util2) {
   util2.assertEqual = (_2) => {
@@ -6933,7 +6933,7 @@ var getParsedType = (data) => {
   }
 };
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/ZodError.js
+// node_modules/zod/v3/ZodError.js
 var ZodIssueCode = util.arrayToEnum([
   "invalid_type",
   "invalid_literal",
@@ -7047,7 +7047,7 @@ ZodError.create = (issues) => {
   return error2;
 };
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/locales/en.js
+// node_modules/zod/v3/locales/en.js
 var errorMap = (issue2, _ctx) => {
   let message;
   switch (issue2.code) {
@@ -7150,13 +7150,13 @@ var errorMap = (issue2, _ctx) => {
 };
 var en_default = errorMap;
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/errors.js
+// node_modules/zod/v3/errors.js
 var overrideErrorMap = en_default;
 function getErrorMap() {
   return overrideErrorMap;
 }
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/helpers/parseUtil.js
+// node_modules/zod/v3/helpers/parseUtil.js
 var makeIssue = (params) => {
   const { data, path: path12, errorMaps, issueData } = params;
   const fullPath = [...path12, ...issueData.path || []];
@@ -7265,14 +7265,14 @@ var isDirty = (x2) => x2.status === "dirty";
 var isValid = (x2) => x2.status === "valid";
 var isAsync = (x2) => typeof Promise !== "undefined" && x2 instanceof Promise;
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/helpers/errorUtil.js
+// node_modules/zod/v3/helpers/errorUtil.js
 var errorUtil;
 (function(errorUtil2) {
   errorUtil2.errToObj = (message) => typeof message === "string" ? { message } : message || {};
   errorUtil2.toString = (message) => typeof message === "string" ? message : message?.message;
 })(errorUtil || (errorUtil = {}));
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v3/types.js
+// node_modules/zod/v3/types.js
 var ParseInputLazyPath = class {
   constructor(parent, value, path12, key) {
     this._cachedPath = [];
@@ -10675,7 +10675,7 @@ var nullableType = ZodNullable.create;
 var preprocessType = ZodEffects.createWithPreprocess;
 var pipelineType = ZodPipeline.create;
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/core.js
+// node_modules/zod/v4/core/core.js
 var NEVER = Object.freeze({
   status: "aborted"
 });
@@ -10749,7 +10749,7 @@ function config(newConfig) {
   return globalConfig;
 }
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/util.js
+// node_modules/zod/v4/core/util.js
 var util_exports = {};
 __export(util_exports, {
   BIGINT_FORMAT_RANGES: () => BIGINT_FORMAT_RANGES,
@@ -11428,7 +11428,7 @@ var Class = class {
   }
 };
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/errors.js
+// node_modules/zod/v4/core/errors.js
 var initializer = (inst, def) => {
   inst.name = "$ZodError";
   Object.defineProperty(inst, "_zod", {
@@ -11494,7 +11494,7 @@ function formatError(error2, mapper = (issue2) => issue2.message) {
   return fieldErrors;
 }
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/parse.js
+// node_modules/zod/v4/core/parse.js
 var _parse = (_Err) => (schema, value, _ctx, _params) => {
   const ctx = _ctx ? Object.assign(_ctx, { async: false }) : { async: false };
   const result = schema._zod.run({ value, issues: [] }, ctx);
@@ -11574,7 +11574,7 @@ var _safeDecodeAsync = (_Err) => async (schema, value, _ctx) => {
   return _safeParseAsync(_Err)(schema, value, _ctx);
 };
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/regexes.js
+// node_modules/zod/v4/core/regexes.js
 var regexes_exports = {};
 __export(regexes_exports, {
   base64: () => base64,
@@ -11731,7 +11731,7 @@ var sha512_hex = /^[0-9a-fA-F]{128}$/;
 var sha512_base64 = /* @__PURE__ */ fixedBase64(86, "==");
 var sha512_base64url = /* @__PURE__ */ fixedBase64url(86);
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/checks.js
+// node_modules/zod/v4/core/checks.js
 var $ZodCheck = /* @__PURE__ */ $constructor("$ZodCheck", (inst, def) => {
   var _a2;
   inst._zod ?? (inst._zod = {});
@@ -12279,7 +12279,7 @@ var $ZodCheckOverwrite = /* @__PURE__ */ $constructor("$ZodCheckOverwrite", (ins
   };
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/doc.js
+// node_modules/zod/v4/core/doc.js
 var Doc = class {
   constructor(args = []) {
     this.content = [];
@@ -12315,14 +12315,14 @@ var Doc = class {
   }
 };
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/versions.js
+// node_modules/zod/v4/core/versions.js
 var version = {
   major: 4,
   minor: 3,
   patch: 6
 };
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/schemas.js
+// node_modules/zod/v4/core/schemas.js
 var $ZodType = /* @__PURE__ */ $constructor("$ZodType", (inst, def) => {
   var _a2;
   inst ?? (inst = {});
@@ -14293,7 +14293,7 @@ function handleRefineResult(result, payload, input, inst) {
   }
 }
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/locales/en.js
+// node_modules/zod/v4/locales/en.js
 var error = () => {
   const Sizable = {
     string: { unit: "characters", verb: "to have" },
@@ -14402,7 +14402,7 @@ function en_default2() {
   };
 }
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/registries.js
+// node_modules/zod/v4/core/registries.js
 var _a;
 var $ZodRegistry = class {
   constructor() {
@@ -14450,7 +14450,7 @@ function registry() {
 (_a = globalThis).__zod_globalRegistry ?? (_a.__zod_globalRegistry = registry());
 var globalRegistry = globalThis.__zod_globalRegistry;
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/api.js
+// node_modules/zod/v4/core/api.js
 // @__NO_SIDE_EFFECTS__
 function _string(Class2, params) {
   return new Class2({
@@ -15254,7 +15254,7 @@ function _stringFormat(Class2, format, fnOrRegex, _params = {}) {
   return inst;
 }
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/to-json-schema.js
+// node_modules/zod/v4/core/to-json-schema.js
 function initializeContext(params) {
   let target2 = params?.target ?? "draft-2020-12";
   if (target2 === "draft-4")
@@ -15606,7 +15606,7 @@ var createStandardJSONSchemaMethod = (schema, io, processors = {}) => (params) =
   return finalize(ctx, schema);
 };
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/core/json-schema-processors.js
+// node_modules/zod/v4/core/json-schema-processors.js
 var formatMap = {
   guid: "uuid",
   url: "uri",
@@ -16082,7 +16082,7 @@ var lazyProcessor = (schema, ctx, _json, params) => {
   seen.ref = innerType;
 };
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/zod-compat.js
+// node_modules/@modelcontextprotocol/sdk/dist/esm/server/zod-compat.js
 function isZ4Schema(s) {
   const schema = s;
   return !!schema._zod;
@@ -16145,7 +16145,7 @@ function getLiteralValue(schema) {
   return void 0;
 }
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/schemas.js
+// node_modules/zod/v4/classic/schemas.js
 var schemas_exports3 = {};
 __export(schemas_exports3, {
   ZodAny: () => ZodAny2,
@@ -16314,7 +16314,7 @@ __export(schemas_exports3, {
   xor: () => xor
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/checks.js
+// node_modules/zod/v4/classic/checks.js
 var checks_exports2 = {};
 __export(checks_exports2, {
   endsWith: () => _endsWith,
@@ -16348,7 +16348,7 @@ __export(checks_exports2, {
   uppercase: () => _uppercase
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/iso.js
+// node_modules/zod/v4/classic/iso.js
 var iso_exports2 = {};
 __export(iso_exports2, {
   ZodISODate: () => ZodISODate,
@@ -16389,7 +16389,7 @@ function duration2(params) {
   return _isoDuration(ZodISODuration, params);
 }
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/errors.js
+// node_modules/zod/v4/classic/errors.js
 var initializer2 = (inst, issues) => {
   $ZodError.init(inst, issues);
   inst.name = "ZodError";
@@ -16429,7 +16429,7 @@ var ZodRealError = $constructor("ZodError", initializer2, {
   Parent: Error
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/parse.js
+// node_modules/zod/v4/classic/parse.js
 var parse2 = /* @__PURE__ */ _parse(ZodRealError);
 var parseAsync2 = /* @__PURE__ */ _parseAsync(ZodRealError);
 var safeParse3 = /* @__PURE__ */ _safeParse(ZodRealError);
@@ -16443,7 +16443,7 @@ var safeDecode2 = /* @__PURE__ */ _safeDecode(ZodRealError);
 var safeEncodeAsync2 = /* @__PURE__ */ _safeEncodeAsync(ZodRealError);
 var safeDecodeAsync2 = /* @__PURE__ */ _safeDecodeAsync(ZodRealError);
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/schemas.js
+// node_modules/zod/v4/classic/schemas.js
 var ZodType2 = /* @__PURE__ */ $constructor("ZodType", (inst, def) => {
   $ZodType.init(inst, def);
   Object.assign(inst["~standard"], {
@@ -17522,22 +17522,22 @@ function preprocess(fn, schema) {
   return pipe(transform(fn), schema);
 }
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/compat.js
+// node_modules/zod/v4/classic/compat.js
 var ZodFirstPartyTypeKind2;
 /* @__PURE__ */ (function(ZodFirstPartyTypeKind3) {
 })(ZodFirstPartyTypeKind2 || (ZodFirstPartyTypeKind2 = {}));
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/from-json-schema.js
+// node_modules/zod/v4/classic/from-json-schema.js
 var z = {
   ...schemas_exports3,
   ...checks_exports2,
   iso: iso_exports2
 };
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod/v4/classic/external.js
+// node_modules/zod/v4/classic/external.js
 config(en_default2());
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/types.js
+// node_modules/@modelcontextprotocol/sdk/dist/esm/types.js
 var LATEST_PROTOCOL_VERSION = "2025-11-25";
 var SUPPORTED_PROTOCOL_VERSIONS = [LATEST_PROTOCOL_VERSION, "2025-06-18", "2025-03-26", "2024-11-05", "2024-10-07"];
 var RELATED_TASK_META_KEY = "io.modelcontextprotocol/related-task";
@@ -19056,15 +19056,15 @@ var UrlElicitationRequiredError = class extends McpError {
   }
 };
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/interfaces.js
+// node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/interfaces.js
 function isTerminal(status) {
   return status === "completed" || status === "failed" || status === "cancelled";
 }
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/zod-to-json-schema/dist/esm/parsers/string.js
+// node_modules/zod-to-json-schema/dist/esm/parsers/string.js
 var ALPHA_NUMERIC = new Set("ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvxyz0123456789");
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/zod-json-schema-compat.js
+// node_modules/@modelcontextprotocol/sdk/dist/esm/server/zod-json-schema-compat.js
 function getMethodLiteral(schema) {
   const shape = getObjectShape(schema);
   const methodSchema = shape?.method;
@@ -19085,7 +19085,7 @@ function parseWithCompat(schema, data) {
   return result.data;
 }
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/shared/protocol.js
+// node_modules/@modelcontextprotocol/sdk/dist/esm/shared/protocol.js
 var DEFAULT_REQUEST_TIMEOUT_MSEC = 6e4;
 var Protocol = class {
   constructor(_options) {
@@ -20039,7 +20039,7 @@ function mergeCapabilities(base, additional) {
   return result;
 }
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/validation/ajv-provider.js
+// node_modules/@modelcontextprotocol/sdk/dist/esm/validation/ajv-provider.js
 var import_ajv = __toESM(require_ajv(), 1);
 var import_ajv_formats = __toESM(require_dist(), 1);
 function createDefaultAjvInstance() {
@@ -20107,7 +20107,7 @@ var AjvJsonSchemaValidator = class {
   }
 };
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/server.js
+// node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/server.js
 var ExperimentalServerTasks = class {
   constructor(_server) {
     this._server = _server;
@@ -20320,7 +20320,7 @@ var ExperimentalServerTasks = class {
   }
 };
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/helpers.js
+// node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/tasks/helpers.js
 function assertToolsCallTaskCapability(requests, method, entityName) {
   if (!requests) {
     throw new Error(`${entityName} does not support task creation (required for ${method})`);
@@ -20355,7 +20355,7 @@ function assertClientRequestTaskCapability(requests, method, entityName) {
   }
 }
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/index.js
+// node_modules/@modelcontextprotocol/sdk/dist/esm/server/index.js
 var Server = class extends Protocol {
   /**
    * Initializes this server with the given name and version information.
@@ -20735,10 +20735,10 @@ var Server = class extends Protocol {
   }
 };
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/stdio.js
+// node_modules/@modelcontextprotocol/sdk/dist/esm/server/stdio.js
 import process3 from "node:process";
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/shared/stdio.js
+// node_modules/@modelcontextprotocol/sdk/dist/esm/shared/stdio.js
 var ReadBuffer = class {
   append(chunk) {
     this._buffer = this._buffer ? Buffer.concat([this._buffer, chunk]) : chunk;
@@ -20766,7 +20766,7 @@ function serializeMessage(message) {
   return JSON.stringify(message) + "\n";
 }
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/@modelcontextprotocol/sdk/dist/esm/server/stdio.js
+// node_modules/@modelcontextprotocol/sdk/dist/esm/server/stdio.js
 var StdioServerTransport = class {
   constructor(_stdin = process3.stdin, _stdout = process3.stdout) {
     this._stdin = _stdin;
@@ -21007,8 +21007,12 @@ __export(test_progress_exports, {
   describeTestGroup: () => describeTestGroup,
   distinctItems: () => distinctItems,
   dropManualTokens: () => dropManualTokens,
+  finalTestNote: () => finalTestNote,
+  flowsOnlyChecklist: () => flowsOnlyChecklist,
   hasOwnChecklist: () => hasOwnChecklist,
+  hasRealPlan: () => hasRealPlan,
   isCoreHeading: () => isCoreHeading,
+  isFinalTestNote: () => isFinalTestNote,
   isManualItem: () => isManualItem,
   isUiItem: () => isUiItem,
   isVerifyScope: () => isVerifyScope,
@@ -21019,6 +21023,7 @@ __export(test_progress_exports, {
   manualLeftIn: () => manualLeftIn,
   manualLimitMessage: () => manualLimitMessage,
   manualOverLimit: () => manualOverLimit,
+  markManualItems: () => markManualItems,
   nextVerifyGroup: () => nextVerifyGroup,
   parseTestProgress: () => parseTestProgress,
   pickCurrentItems: () => pickCurrentItems,
@@ -21128,6 +21133,21 @@ function hasOwnChecklist(html) {
   if (!html) return false;
   return plainTextLabel(withoutSplitFlows(html)) !== "";
 }
+function flowsOnlyChecklist(html) {
+  if (!html || hasOwnChecklist(html)) return false;
+  return splitSections(html).some((s) => s.label === SPLIT_FLOWS_LABEL && countChecks(s.body).total > 0);
+}
+function finalTestNote(children) {
+  const verb = children === 1 ? "child card is" : "child cards are";
+  return `<p>All ${children} ${verb} ready; no plan was written.</p>`;
+}
+var FINAL_TEST_NOTE = /^All \d+ child cards? (?:is|are) ready; no plan was written\.$/;
+function isFinalTestNote(html) {
+  return FINAL_TEST_NOTE.test(plainTextLabel(html ?? ""));
+}
+function hasRealPlan(html) {
+  return plainTextLabel(html ?? "") !== "" && !isFinalTestNote(html);
+}
 function carrySplitFlows(newHtml, previousHtml) {
   if (!previousHtml || hasOwnChecklist(previousHtml)) return newHtml;
   if (sectionBlocks(newHtml).some((b2) => b2.label === SPLIT_FLOWS_LABEL)) return newHtml;
@@ -21140,6 +21160,7 @@ function parseTestProgress(html) {
   if (overall.total === 0) return null;
   const sections = splitSections(html);
   const coreIndex = sections.findIndex((s) => CORE_HEADING.test(s.label));
+  const flowsIndex = coreIndex === -1 && flowsOnlyChecklist(html) ? sections.findIndex((s) => s.label === SPLIT_FLOWS_LABEL && countChecks(s.body).total > 0) : -1;
   const seen = /* @__PURE__ */ new Map();
   const groups = [];
   sections.forEach((section2, index) => {
@@ -21147,9 +21168,10 @@ function parseTestProgress(html) {
     seen.set(section2.label, occurrence);
     const counts = countChecks(section2.body);
     if (counts.total === 0) return;
-    const core2 = index === coreIndex;
-    const manual = core2 ? 0 : sectionItems(section2.body, false).filter(isManualItem).length;
-    groups.push({ heading: section2.heading, occurrence, core: core2, ...counts, manual });
+    const flows = index === flowsIndex;
+    const core2 = index === coreIndex || flows;
+    const manual = index === coreIndex ? 0 : sectionItems(section2.body, false).filter(isManualItem).length;
+    groups.push({ heading: section2.heading, occurrence, core: core2, ...flows ? { flows } : {}, ...counts, manual });
   });
   const core = groups.find((g) => g.core);
   if (!core) return { ...overall, groups };
@@ -21256,7 +21278,7 @@ function stripItemTokens(text2) {
   return text2.replace(ITEM_TOKEN_PATTERN, "").replace(/\s+/g, " ").trim();
 }
 function manualItemTexts(html, groups) {
-  return untickedItemTexts(html, groups.filter((g) => !g.core)).filter(isManualItem);
+  return untickedItemTexts(html, groups.filter((g) => !g.core || g.flows)).filter(isManualItem);
 }
 function runnableItemTexts(html, groups) {
   const manual = new Set(manualItemTexts(html, groups));
@@ -21292,6 +21314,19 @@ function dropManualTokens(html, items) {
     return li.replace(inner, inner.replace(TRAILING_MANUAL, ""));
   });
 }
+function markManualItems(html, items) {
+  if (items.length === 0) return html;
+  const left = [...items];
+  return html.replace(new RegExp(ITEM.source, ITEM.flags), (li, _checked, inner) => {
+    const text2 = headingText(inner);
+    const index = left.indexOf(text2);
+    if (index === -1) return li;
+    left.splice(index, 1);
+    const closing = inner.lastIndexOf("</p>");
+    const tokened = isManualItem(text2) ? inner : closing === -1 ? `${inner} ${MANUAL_ITEM_TOKEN}` : `${inner.slice(0, closing)} ${MANUAL_ITEM_TOKEN}${inner.slice(closing)}`;
+    return li.replace(inner, () => tokened).replace('data-checked="true"', 'data-checked="false"').replace(/\s+checked="checked"/, "");
+  });
+}
 function uiItemTexts(html, groups) {
   return runnableItemTexts(html, groups).filter(isUiItem);
 }
@@ -21302,7 +21337,7 @@ function defaultVisualItems(candidates) {
 function allUiItemTexts(html) {
   const progress = parseTestProgress(html);
   if (!progress) return [];
-  const later = progress.groups.filter((g) => !g.core);
+  const later = progress.groups.filter((g) => !g.core || g.flows);
   const manual = new Set(
     [...itemTexts(html, later, true), ...itemTexts(html, later, false)].filter(isManualItem)
   );
@@ -21395,6 +21430,13 @@ paths, session IDs, URLs, column names.
   save_tests refuses more. Pre-verify and Autopilot skip \`[manual]\` items
   and leave them to the person; a ticked one needs no screenshot. Never in the
   core flow \u2014 there it is ignored. \`[ui] [manual]\` together is fine.
+- Native browser UI (a \`<datalist>\` popup, an open \`<select>\`, a date picker,
+  a file or print dialog) may not be drawn in a headless run. Write the step
+  against what the page holds (\`#x option\`). When seeing the popup is the point
+  and the group is not the core flow, end it with \`[manual]\`.
+- A step whose result depends on data names the data that shows the behaviour:
+  "type \`al\` with notes Alpha and Beta, the list narrows to Alpha" beats "the
+  list narrows on every letter".
 
 ### Good examples (follow this style)
 
@@ -21487,6 +21529,13 @@ session ID, URL, kolon ad\u0131.
   Autopilot \`[manual]\` maddeleri atlar, insana b\u0131rak\u0131r; tiklenmi\u015F olan\u0131
   ekran g\xF6r\xFCnt\xFCs\xFC istemez. Temel ak\u0131\u015Fta asla \u2014 orada yok say\u0131l\u0131r.
   \`[ui] [manual]\` birlikte yaz\u0131labilir.
+- Taray\u0131c\u0131n\u0131n kendi aray\xFCz\xFC (\`<datalist>\` listesi, a\xE7\u0131k \`<select>\`, tarih
+  se\xE7ici, dosya ya da yazd\u0131rma diyalo\u011Fu) headless ko\u015Fuda g\xF6r\xFCnmeyebilir. Maddeyi
+  sayfan\u0131n tuttu\u011Fu \u015Feye g\xF6re yaz (\`#x option\`). A\xE7\u0131l\u0131r listeyi g\xF6rmek \u015Fartsa ve
+  grup Temel ak\u0131\u015F de\u011Filse sonuna \`[manual]\` yaz.
+- Sonucu veriye ba\u011Fl\u0131 bir madde, davran\u0131\u015F\u0131 g\xF6steren veriyi ad\u0131yla yazar:
+  "Alpha ve Beta notlar\u0131yla \`al\` yaz, liste Alpha'ya daralmal\u0131" > "liste her
+  harfte daralmal\u0131".
 
 ### \u0130yi \xF6rnek (bu stile uy)
 
@@ -21578,8 +21627,8 @@ function buildPhaseHint(status) {
   return `Column: ${status} \u2014 expected next action: ${firstSentence}.`;
 }
 var OPINION_ON_CREATE_STATUSES = /* @__PURE__ */ new Set(["backlog", "progress", "test"]);
-function buildCreatedCardOpinionClause(status, hasPlan) {
-  if (!OPINION_ON_CREATE_STATUSES.has(status) || hasPlan) return null;
+function buildCreatedCardOpinionClause(status, hasPlan2) {
+  if (!OPINION_ON_CREATE_STATUSES.has(status) || hasPlan2) return null;
   return [
     "The user's yes to opening this card covers its AI Opinion too. In this same turn, without asking,",
     "write the opinion with the evaluation rule below and save it with save_opinion; only after that",
@@ -21596,7 +21645,7 @@ function sanitizeForReminder(value, maxLength = 120) {
   const neutralized = collapsed.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, '\\"');
   return neutralized.length > maxLength ? `${neutralized.slice(0, maxLength)}\u2026` : neutralized;
 }
-var SPLIT_PARENT_RULE = "This card was split into the cards below. Your job is to join the pieces and show the idea works end to end. Do not redo what the child cards did: read their plans and changes first (get_card). Fix a joining gap in your own plan and commit; for a bigger gap, propose a new card. The `## End-to-end` group on its checklist was written before any child existed: when you write the checklist, write that group too, after your own groups and under the same heading, naming the children's real cards, screens and files. A flow that needs nested AI runs or a merge is still a run's to walk on a verify-server copy; give a long one its own group rather than `[manual]`, which stays for what no run on this machine can do.";
+var SPLIT_PARENT_RULE = "This card was split into the cards below. Your job is to join the pieces and show the idea works end to end. Do not redo what the child cards did: read their plans and changes first (get_card). Fix a joining gap in your own plan and commit; for a bigger gap, propose a new card. The `## End-to-end` group on its checklist was written before any child existed: when you write the checklist, write that group too, after your own groups and under the same heading, naming the children's real cards, screens and files. A flow that needs nested AI runs or a merge is still a run's to walk on a verify-server copy; give a long one its own group rather than `[manual]`, which stays for what no run on this machine can do. Once every child is ready and the card has neither a plan nor a checklist of its own, its next step is the final test, not a plan: it walks the `## End-to-end` flows as they stand, a failed flow gets one fix through the verify-fix round, and it stops at Ready to merge. Write a plan only if the person asks for one. Nothing walks the items a child in the chain left unticked; Merge counts them.";
 function splitChildRule(parentName) {
   return `Your scope is this card; ${parentName} joins the whole. Do not take on the parent card's work.`;
 }
@@ -22016,7 +22065,7 @@ var SPLIT_PROPOSAL_RULE = (where) => `Break-up: propose breaking this card into 
 ${SPLIT_FENCE_FORMAT}
 ` : `Put the proposal after the evaluation in this block, once:
 ${SPLIT_FENCE_FORMAT}
-To change a proposal the user is shaping with you, write only the updated block. `) + `Do not announce the break-up in the opinion's text: the proposal lives in ${where === "tool" ? "`splitInto` (or the block)" : "the block"}, and the Opinion tab shows it with its button. Text that says the card is several cards without carrying the proposal leaves the user nothing to click. The cards are opened only when the user accepts; a proposal the user turned down is not made again.`;
+To change a proposal the user is shaping with you, write only the updated block. `) + `A flow in \`flows\` that only a physical device can show ends with \`[manual]\`: the parent's final test walks every other one on this machine. Do not announce the break-up in the opinion's text: the proposal lives in ${where === "tool" ? "`splitInto` (or the block)" : "the block"}, and the Opinion tab shows it with its button. Text that says the card is several cards without carrying the proposal leaves the user nothing to click. The cards are opened only when the user accepts; a proposal the user turned down is not made again. ` + (where === "tool" ? `If the card has a pending proposal and one card is now right, pass \`splitInto: { withdraw: true }\` with the opinion (when you write the opinion as your final message, put \`{"withdraw": true}\` in the block instead): the proposal closes with the text. ` : `If the card has a pending proposal and one card is now right, write the block with only \`{"withdraw": true}\`: the proposal closes with the text. `) + `\`split_card\` with \`keepAsOne\` records the user's own no: never use it to take back your proposal.`;
 var PRIOR_DECISIONS_RULE = `${PRIOR_DECISIONS_CHECK}
 - If an open card brings in something this card needs to work correctly, or breaks it, that is extra work. When it is a precondition for this card, add it as its own step under Implementation Steps labelled "(because of <displayId>)"; otherwise suggest it as a note for the other card. Never widen the scope silently.
 - Contradictions, precedents and overlaps go under Edge Cases; dependencies go under Dependencies. Do not add a heading for them. A card sits under one heading only: a dependency is not repeated in Edge Cases, and an overlap you checked and ruled out is not written down.
@@ -22269,6 +22318,7 @@ __export(chain_order_exports, {
   classifyChainMember: () => classifyChainMember,
   compareByChainOrder: () => compareByChainOrder,
   hasLanded: () => hasLanded,
+  isFinalTestReady: () => isFinalTestReady,
   isFinished: () => isFinished,
   isInChain: () => isInChain,
   isLoudBlocker: () => isLoudBlocker,
@@ -22277,7 +22327,8 @@ __export(chain_order_exports, {
   linkState: () => linkState,
   openLinkReason: () => openLinkReason,
   placeAfter: () => placeAfter,
-  testTicks: () => testTicks
+  testTicks: () => testTicks,
+  unwalkedItems: () => unwalkedItems
 });
 var isFinished = (card) => card.status === "completed" || card.status === "withdrawn";
 function compareByChainOrder(a, b2) {
@@ -22319,6 +22370,19 @@ function isReadyForParent(child) {
   if (child.status !== "test" || child.gitBranchStatus === "active") return false;
   const progress = parseTestProgress(child.testScenarios ?? "");
   return !!progress && progress.total > 0 && progress.checked === progress.total;
+}
+function isFinalTestReady(parent, children) {
+  if (parent.status !== "backlog" && parent.status !== "bugs") return false;
+  if (hasRealPlan(parent.solutionSummary) || hasOwnChecklist(parent.testScenarios)) return false;
+  const live = children.filter((child) => child.status !== "withdrawn");
+  if (live.length === 0 || !live.every(isReadyForParent)) return false;
+  return !!nextVerifyGroup(parseTestProgress(parent.testScenarios ?? ""));
+}
+function unwalkedItems(children) {
+  return children.filter((child) => child.status === "test").reduce((sum, child) => {
+    const progress = parseTestProgress(child.testScenarios ?? "");
+    return sum + (progress ? progress.total - progress.checked : 0);
+  }, 0);
 }
 function chainMergeBlocker(testScenarios) {
   const progress = parseTestProgress(testScenarios ?? "");
@@ -22532,260 +22596,13 @@ function comparePlanFiles(planned, touched) {
   return [...done, ...waiting, ...outside];
 }
 
-// ../lib/card-number-query.ts
-var card_number_query_exports = {};
-__export(card_number_query_exports, {
-  matchesCardNumber: () => matchesCardNumber,
-  parseCardNumberQuery: () => parseCardNumberQuery
+// ../lib/open-work.ts
+var open_work_exports = {};
+__export(open_work_exports, {
+  MAX_OPEN_WORK_FILES: () => MAX_OPEN_WORK_FILES,
+  listOpenWork: () => listOpenWork
 });
-var DISPLAY_ID = /^([A-Z][A-Z0-9]*)-(\d+)$/i;
-var TASK_NUMBER = /^(\d+)$/;
-function parseCardNumberQuery(query) {
-  const value = query.trim();
-  const display = value.match(DISPLAY_ID);
-  if (display) return { prefix: display[1].toUpperCase(), taskNumber: Number(display[2]) };
-  const bare = value.match(TASK_NUMBER);
-  if (bare) return { prefix: null, taskNumber: Number(bare[1]) };
-  return null;
-}
-function matchesCardNumber(parsed, card) {
-  if (!parsed || card.taskNumber == null || card.taskNumber !== parsed.taskNumber) return false;
-  if (parsed.prefix === null) return true;
-  return !!card.idPrefix && card.idPrefix.toUpperCase() === parsed.prefix;
-}
-
-// ../lib/card-ops/index.ts
-var card_ops_exports = {};
-__export(card_ops_exports, {
-  APP_HEARTBEAT_STALE_MS: () => APP_HEARTBEAT_STALE_MS,
-  AUTHORSHIP_FIELDS: () => AUTHORSHIP_FIELDS,
-  CARD_RUNTIME_FIELDS: () => CARD_RUNTIME_FIELDS,
-  CardDependencyError: () => CardDependencyError,
-  CardGroupError: () => CardGroupError,
-  DEFAULT_GROUP_COLOR: () => DEFAULT_GROUP_COLOR,
-  GLOBAL_AGENT_MODE_SETTING_KEY: () => GLOBAL_AGENT_MODE_SETTING_KEY,
-  GROUP_CODE_MAX: () => GROUP_CODE_MAX,
-  IDEAFY_AUTHOR: () => IDEAFY_AUTHOR,
-  MAX_CARD_TITLE_LENGTH: () => MAX_CARD_TITLE_LENGTH,
-  PARKABLE_STATUSES: () => PARKABLE_STATUSES,
-  SplitCardError: () => SplitCardError,
-  TERMINAL_WRITER_TTL_MS: () => TERMINAL_WRITER_TTL_MS,
-  YOU_AUTHOR: () => YOU_AUTHOR,
-  acceptPlanDecisions: () => acceptPlanDecisions,
-  acceptedDecisionCounts: () => acceptedDecisionCounts,
-  acknowledgeWrite: () => acknowledgeWrite,
-  addDependency: () => addDependency,
-  addOutputPath: () => addOutputPath,
-  addTestReportWarnings: () => addTestReportWarnings,
-  allRows: () => allRows,
-  appendPlanRefresh: () => appendPlanRefresh,
-  assertGroupAssignable: () => assertGroupAssignable,
-  authorFromSource: () => authorFromSource,
-  authorshipRows: () => authorshipRows,
-  autopilotContinueQuestion: () => autopilotContinueQuestion,
-  autopilotLine: () => autopilotLine,
-  autopilotModeFor: () => autopilotModeFor,
-  autopilotRefusal: () => autopilotRefusal,
-  branchStoryCounts: () => branchStoryCounts,
-  cardAuthorship: () => cardAuthorship,
-  cardBaseBranch: () => cardBaseBranch,
-  cardHasRalphEvents: () => cardHasRalphEvents,
-  cardHasRunReport: () => cardHasRunReport,
-  cardHead: () => cardHead,
-  cardIntegrationGroup: () => cardIntegrationGroup,
-  cardRepoFolder: () => cardRepoFolder,
-  cardWorkTemplate: () => cardWorkTemplate,
-  chainAckId: () => chainAckId,
-  chainAutopilotLine: () => chainAutopilotLine,
-  chainConflictText: () => chainConflictText,
-  chainMergeForCard: () => chainMergeForCard,
-  chainOrderWarningFor: () => chainOrderWarningFor,
-  chainRalphDeadlineFor: () => chainRalphDeadlineFor,
-  chainWriteConflictFor: () => chainWriteConflictFor,
-  chainsWithReadyMembers: () => chainsWithReadyMembers,
-  checkWorkTemplateId: () => checkWorkTemplateId,
-  chooseBoundPolicy: () => chooseBoundPolicy,
-  clearAutopilot: () => clearAutopilot,
-  clearChainAutopilot: () => clearChainAutopilot,
-  clearParked: () => clearParked,
-  clearQueue: () => clearQueue,
-  completedAtFor: () => completedAtFor,
-  completedAtOnCreate: () => completedAtOnCreate,
-  confirmPlanCurrent: () => confirmPlanCurrent,
-  createCard: () => createCard,
-  createCardResolver: () => createCardResolver,
-  createGroup: () => createGroup,
-  decisionsForCard: () => decisionsForCard,
-  defaultWorkTemplateId: () => defaultWorkTemplateId,
-  deleteGroup: () => deleteGroup,
-  dequeueCard: () => dequeueCard,
-  dismissSplitProposal: () => dismissSplitProposal,
-  driftSince: () => driftSince,
-  enqueueCard: () => enqueueCard,
-  ensureIntegrationBranch: () => ensureIntegrationBranch,
-  getAutopilotState: () => getAutopilotState,
-  getGroup: () => getGroup,
-  getIntegrationGroup: () => getIntegrationGroup,
-  getQueueRow: () => getQueueRow,
-  getRow: () => getRow,
-  getSplitProposal: () => getSplitProposal,
-  globalAgentModeEnabled: () => globalAgentModeEnabled,
-  globalEditDenial: () => globalEditDenial,
-  hasAuthorshipTable: () => hasAuthorshipTable,
-  hasAutopilotModeColumn: () => hasAutopilotModeColumn,
-  hasBaseCommitColumns: () => hasBaseCommitColumns,
-  hasChainRalphColumn: () => hasChainRalphColumn,
-  hasDecisionLedger: () => hasDecisionLedger,
-  hasDependencyTable: () => hasDependencyTable,
-  hasIntegrationColumns: () => hasIntegrationColumns,
-  hasParkedColumn: () => hasParkedColumn,
-  hasRalphEvents: () => hasRalphEvents,
-  hasRalphLoopColumns: () => hasRalphLoopColumns,
-  hasSplitTables: () => hasSplitTables,
-  hasSuggestionTable: () => hasSuggestionTable,
-  integrationBranchName: () => integrationBranchName,
-  integrationGateMembers: () => integrationGateMembers,
-  integrationOnText: () => integrationOnText,
-  isChainParent: () => isChainParent,
-  isParkableStatus: () => isParkableStatus,
-  isStatus: () => isStatus,
-  landReadyChainMembers: () => landReadyChainMembers,
-  linkCardsInHtml: () => linkCardsInHtml,
-  listCardDecisions: () => listCardDecisions,
-  listChainDecisions: () => listChainDecisions,
-  listChangedFiles: () => listChangedFiles,
-  listDependencies: () => listDependencies,
-  listDependencyEdges: () => listDependencyEdges,
-  listDependencySuggestions: () => listDependencySuggestions,
-  listGroups: () => listGroups,
-  listProjects: () => listProjects,
-  listQueueRows: () => listQueueRows,
-  listWorkTemplates: () => listWorkTemplates,
-  loadStoryInputs: () => loadStoryInputs,
-  markTestReportVideosRemoved: () => markTestReportVideosRemoved,
-  mergeCard: () => mergeCard,
-  mergeChain: () => mergeChain,
-  mergeCommitMessage: () => mergeCommitMessage,
-  moveCard: () => moveCard,
-  moveCardInChain: () => moveCardInChain,
-  nextQueueStep: () => nextQueueStep,
-  normalizeGroupCode: () => normalizeGroupCode,
-  normalizeGroupId: () => normalizeGroupId,
-  opinionEditFields: () => opinionEditFields,
-  parseBlockedBy: () => parseBlockedBy,
-  parseUndoSnapshot: () => parseUndoSnapshot,
-  parseWriteAck: () => parseWriteAck,
-  pendingDependencySuggestionCounts: () => pendingDependencySuggestionCounts,
-  pendingSplitCounts: () => pendingSplitCounts,
-  persistCardFieldArtifacts: () => persistCardFieldArtifacts,
-  planBranchFilesFor: () => planBranchFilesFor,
-  planDriftFor: () => planDriftFor,
-  planDriftLine: () => planDriftLine,
-  projectIdOfCard: () => projectIdOfCard,
-  queueDisplayId: () => queueDisplayId,
-  queueKindOf: () => queueKindOf,
-  queueRowIneligibleReason: () => queueRowIneligibleReason,
-  queueWaitReason: () => queueWaitReason,
-  queuedChainWarningFor: () => queuedChainWarningFor,
-  queuedRunsInWorktree: () => queuedRunsInWorktree,
-  queuedWaitReason: () => queuedWaitReason,
-  ralphEventCardIds: () => ralphEventCardIds,
-  ralphEventsFor: () => ralphEventsFor,
-  readRuntime: () => readRuntime,
-  readWriteAck: () => readWriteAck,
-  readyAfterLinks: () => readyAfterLinks,
-  recordAuthorship: () => recordAuthorship,
-  recordDecision: () => recordDecision,
-  recordRalphEvent: () => recordRalphEvent,
-  recordRalphRound: () => recordRalphRound,
-  recordRalphSend: () => recordRalphSend,
-  recordRalphStopByPerson: () => recordRalphStopByPerson,
-  rememberWorkTemplate: () => rememberWorkTemplate,
-  removeDependency: () => removeDependency,
-  resolveCardRef: () => resolveCardRef,
-  resolveProjectByFolder: () => resolveProjectByFolder,
-  restoreDependencies: () => restoreDependencies,
-  restoreField: () => restoreField,
-  restoreParked: () => restoreParked,
-  restoreQueueCards: () => restoreQueueCards,
-  reviseTests: () => reviseTests,
-  rollbackChain: () => rollbackChain,
-  runChanges: () => runChanges,
-  runReportCardIds: () => runReportCardIds,
-  runtimeAssignments: () => runtimeAssignments,
-  saveOpinion: () => saveOpinion,
-  savePlan: () => savePlan,
-  savePlanAndTests: () => savePlanAndTests,
-  saveSplitProposal: () => saveSplitProposal,
-  saveTestReport: () => saveTestReport,
-  saveTests: () => saveTests,
-  serializeBooleanForDb: () => serializeBooleanForDb,
-  serializeUseWorktreeForDb: () => serializeUseWorktreeForDb,
-  setAutopilotStage: () => setAutopilotStage,
-  setBlockedBy: () => setBlockedBy,
-  setCardRuntime: () => setCardRuntime,
-  setIntegrationBranch: () => setIntegrationBranch,
-  setParked: () => setParked,
-  sharedPrefixes: () => sharedPrefixes,
-  splitCard: () => splitCard,
-  splitProposalOutcome: () => splitProposalOutcome,
-  splitRelations: () => splitRelations,
-  splitRoleLine: () => splitRoleLine,
-  stampBaseCommit: () => stampBaseCommit,
-  stampRalphStart: () => stampRalphStart,
-  startAutopilot: () => startAutopilot,
-  startChainAutopilot: () => startChainAutopilot,
-  statusAfterPlan: () => statusAfterPlan,
-  statusAfterTests: () => statusAfterTests,
-  stopAutopilot: () => stopAutopilot,
-  strandedAutopilotCardIds: () => strandedAutopilotCardIds,
-  suggestDependencies: () => suggestDependencies,
-  syncMainIntoChain: () => syncMainIntoChain,
-  testsDriftFor: () => testsDriftFor,
-  tickChanges: () => tickChanges,
-  tickItem: () => tickItem,
-  transaction: () => transaction,
-  undoSnapshot: () => undoSnapshot,
-  updateCard: () => updateCard,
-  updateGroup: () => updateGroup,
-  validateCardTitle: () => validateCardTitle,
-  waitingOnLine: () => waitingOnLine,
-  workTemplateIdError: () => workTemplateIdError,
-  writeRuntime: () => writeRuntime
-});
-
-// ../lib/card-ops/db.ts
-function runChanges(db2, sql, ...params) {
-  const result = db2.prepare(sql).run(...params);
-  return { changes: Number(result.changes), lastInsertRowid: Number(result.lastInsertRowid) };
-}
-function getRow(db2, sql, ...params) {
-  const row = db2.prepare(sql).get(...params);
-  return row ? { ...row } : void 0;
-}
-function allRows(db2, sql, ...params) {
-  return db2.prepare(sql).all(...params).map((row) => ({ ...row }));
-}
-var depth = /* @__PURE__ */ new WeakMap();
-function transaction(db2, fn) {
-  const level = depth.get(db2) ?? 0;
-  const savepoint = `ideafy_tx_${level}`;
-  db2.exec(level === 0 ? "BEGIN IMMEDIATE" : `SAVEPOINT ${savepoint}`);
-  depth.set(db2, level + 1);
-  try {
-    const result = fn();
-    db2.exec(level === 0 ? "COMMIT" : `RELEASE ${savepoint}`);
-    return result;
-  } catch (error2) {
-    try {
-      db2.exec(level === 0 ? "ROLLBACK" : `ROLLBACK TO ${savepoint}; RELEASE ${savepoint}`);
-    } catch {
-    }
-    throw error2;
-  } finally {
-    depth.set(db2, level);
-  }
-}
+import { existsSync } from "fs";
 
 // ../lib/types.ts
 var types_exports = {};
@@ -23019,6 +22836,351 @@ var PRIORITY_OPTIONS = [
   { value: "high", label: "High", color: "#ef4444" }
 ];
 
+// ../lib/open-work.ts
+var MAX_OPEN_WORK_FILES = 40;
+function findOverlap(cardFiles, callerFiles) {
+  const card = cardFiles.map(normalizePath);
+  return callerFiles.filter((f) => card.some((c) => pathsOverlap(c, f)));
+}
+var OPEN_STATUSES = ["backlog", "bugs", "progress", "test"];
+var PLAN_STATUSES = /* @__PURE__ */ new Set(["backlog", "bugs", "progress"]);
+async function listOpenWork(db2, opts, deps) {
+  const pathExists = deps.pathExists ?? existsSync;
+  const project = db2.prepare(`SELECT folder_path as folderPath, id_prefix as idPrefix FROM projects WHERE id = ?`).get(opts.projectId);
+  if (!project) return [];
+  const hasBranchColumns = deps.hasBranchColumns ? deps.hasBranchColumns() : true;
+  const rows = db2.prepare(
+    `SELECT id, title, status, task_number as taskNumber,
+              solution_summary as solutionSummary,
+              git_worktree_path as gitWorktreePath,
+              git_worktree_status as gitWorktreeStatus,
+              ${hasBranchColumns ? "git_branch_name" : "NULL"} as gitBranchName,
+              ${hasBranchColumns ? "git_branch_status" : "NULL"} as gitBranchStatus
+         FROM cards
+        WHERE project_id = ?
+          AND status IN (${OPEN_STATUSES.map(() => "?").join(", ")})
+          AND id != ?
+        ORDER BY updated_at DESC`
+  ).all(opts.projectId, ...OPEN_STATUSES, opts.excludeCardId ?? "");
+  const repoPath = project.folderPath;
+  const inGit = repoPath ? await deps.isGitRepo(repoPath) : false;
+  const callerFiles = Array.from(
+    new Set((opts.files ?? []).map(normalizePath).filter(Boolean))
+  );
+  const result = [];
+  for (const row of rows) {
+    const base = {
+      id: row.id,
+      displayId: formatDisplayId(project.idPrefix, row.taskNumber),
+      title: htmlToText(row.title),
+      status: row.status
+    };
+    let files = [];
+    let source = "git";
+    let branch = null;
+    if (inGit && repoPath && row.gitWorktreeStatus === "active" && row.gitWorktreePath) {
+      if (!pathExists(row.gitWorktreePath)) continue;
+      files = await deps.changedFiles(repoPath, { worktreePath: row.gitWorktreePath });
+      branch = row.gitBranchName;
+    } else if (inGit && repoPath && row.gitBranchStatus === "active" && row.gitBranchName) {
+      files = await deps.changedFiles(repoPath, { branchName: row.gitBranchName });
+      branch = row.gitBranchName;
+    }
+    if (files.length === 0 && PLAN_STATUSES.has(row.status)) {
+      files = extractPlanFiles(row.solutionSummary);
+      source = "plan";
+    }
+    if (files.length === 0) continue;
+    const entry = {
+      ...base,
+      branch,
+      source,
+      files: files.slice(0, MAX_OPEN_WORK_FILES)
+    };
+    if (files.length > MAX_OPEN_WORK_FILES) entry.moreFiles = files.length - MAX_OPEN_WORK_FILES;
+    if (callerFiles.length) {
+      const overlap = findOverlap(files, callerFiles);
+      if (overlap.length) entry.overlap = overlap;
+    }
+    result.push(entry);
+  }
+  if (callerFiles.length) {
+    result.sort((a, b2) => Number(Boolean(b2.overlap)) - Number(Boolean(a.overlap)));
+  }
+  return result;
+}
+
+// ../lib/card-number-query.ts
+var card_number_query_exports = {};
+__export(card_number_query_exports, {
+  matchesCardNumber: () => matchesCardNumber,
+  parseCardNumberQuery: () => parseCardNumberQuery
+});
+var DISPLAY_ID = /^([A-Z][A-Z0-9]*)-(\d+)$/i;
+var TASK_NUMBER = /^(\d+)$/;
+function parseCardNumberQuery(query) {
+  const value = query.trim();
+  const display = value.match(DISPLAY_ID);
+  if (display) return { prefix: display[1].toUpperCase(), taskNumber: Number(display[2]) };
+  const bare = value.match(TASK_NUMBER);
+  if (bare) return { prefix: null, taskNumber: Number(bare[1]) };
+  return null;
+}
+function matchesCardNumber(parsed, card) {
+  if (!parsed || card.taskNumber == null || card.taskNumber !== parsed.taskNumber) return false;
+  if (parsed.prefix === null) return true;
+  return !!card.idPrefix && card.idPrefix.toUpperCase() === parsed.prefix;
+}
+
+// ../lib/card-ops/index.ts
+var card_ops_exports = {};
+__export(card_ops_exports, {
+  APP_HEARTBEAT_STALE_MS: () => APP_HEARTBEAT_STALE_MS,
+  AUTHORSHIP_FIELDS: () => AUTHORSHIP_FIELDS,
+  CARD_RUNTIME_FIELDS: () => CARD_RUNTIME_FIELDS,
+  CardDependencyError: () => CardDependencyError,
+  CardGroupError: () => CardGroupError,
+  DEFAULT_GROUP_COLOR: () => DEFAULT_GROUP_COLOR,
+  GLOBAL_AGENT_MODE_SETTING_KEY: () => GLOBAL_AGENT_MODE_SETTING_KEY,
+  GROUP_CODE_MAX: () => GROUP_CODE_MAX,
+  IDEAFY_AUTHOR: () => IDEAFY_AUTHOR,
+  MAX_CARD_TITLE_LENGTH: () => MAX_CARD_TITLE_LENGTH,
+  PARKABLE_STATUSES: () => PARKABLE_STATUSES,
+  RALPH_CORE_REVISION_SOURCE: () => RALPH_CORE_REVISION_SOURCE,
+  RALPH_UNVERIFIABLE_SOURCE: () => RALPH_UNVERIFIABLE_SOURCE,
+  SplitCardError: () => SplitCardError,
+  TERMINAL_WRITER_TTL_MS: () => TERMINAL_WRITER_TTL_MS,
+  YOU_AUTHOR: () => YOU_AUTHOR,
+  acceptPlanDecisions: () => acceptPlanDecisions,
+  acceptedDecisionCounts: () => acceptedDecisionCounts,
+  acknowledgeWrite: () => acknowledgeWrite,
+  addDependency: () => addDependency,
+  addOutputPath: () => addOutputPath,
+  addTestReportWarnings: () => addTestReportWarnings,
+  allRows: () => allRows,
+  appendPlanRefresh: () => appendPlanRefresh,
+  assertGroupAssignable: () => assertGroupAssignable,
+  authorFromSource: () => authorFromSource,
+  authorshipRows: () => authorshipRows,
+  autopilotContinueQuestion: () => autopilotContinueQuestion,
+  autopilotLine: () => autopilotLine,
+  autopilotModeFor: () => autopilotModeFor,
+  autopilotRefusal: () => autopilotRefusal,
+  branchStoryCounts: () => branchStoryCounts,
+  cardAuthorship: () => cardAuthorship,
+  cardBaseBranch: () => cardBaseBranch,
+  cardHasRalphEvents: () => cardHasRalphEvents,
+  cardHasRunReport: () => cardHasRunReport,
+  cardHead: () => cardHead,
+  cardIntegrationGroup: () => cardIntegrationGroup,
+  cardRepoFolder: () => cardRepoFolder,
+  cardWorkTemplate: () => cardWorkTemplate,
+  chainAckId: () => chainAckId,
+  chainAutopilotLine: () => chainAutopilotLine,
+  chainCheckFor: () => chainCheckFor,
+  chainCheckWarnings: () => chainCheckWarnings,
+  chainConflictText: () => chainConflictText,
+  chainMergeForCard: () => chainMergeForCard,
+  chainOrderWarningFor: () => chainOrderWarningFor,
+  chainRalphDeadlineFor: () => chainRalphDeadlineFor,
+  chainUnwalkedItems: () => chainUnwalkedItems,
+  chainWriteConflictFor: () => chainWriteConflictFor,
+  chainsWithReadyMembers: () => chainsWithReadyMembers,
+  checkWorkTemplateId: () => checkWorkTemplateId,
+  chooseBoundPolicy: () => chooseBoundPolicy,
+  clearAutopilot: () => clearAutopilot,
+  clearChainAutopilot: () => clearChainAutopilot,
+  clearParked: () => clearParked,
+  clearQueue: () => clearQueue,
+  completedAtFor: () => completedAtFor,
+  completedAtOnCreate: () => completedAtOnCreate,
+  confirmPlanCurrent: () => confirmPlanCurrent,
+  createCard: () => createCard,
+  createCardResolver: () => createCardResolver,
+  createGroup: () => createGroup,
+  decisionsForCard: () => decisionsForCard,
+  defaultWorkTemplateId: () => defaultWorkTemplateId,
+  deleteGroup: () => deleteGroup,
+  dequeueCard: () => dequeueCard,
+  dismissSplitProposal: () => dismissSplitProposal,
+  driftSince: () => driftSince,
+  enqueueCard: () => enqueueCard,
+  ensureIntegrationBranch: () => ensureIntegrationBranch,
+  enterFinalTest: () => enterFinalTest,
+  finalTestFixFiles: () => finalTestFixFiles,
+  finalTestOpensWorktree: () => finalTestOpensWorktree,
+  finalTestReady: () => finalTestReady,
+  finalTestReadyIds: () => finalTestReadyIds,
+  getAutopilotState: () => getAutopilotState,
+  getGroup: () => getGroup,
+  getIntegrationGroup: () => getIntegrationGroup,
+  getQueueRow: () => getQueueRow,
+  getRow: () => getRow,
+  getSplitProposal: () => getSplitProposal,
+  globalAgentModeEnabled: () => globalAgentModeEnabled,
+  globalEditDenial: () => globalEditDenial,
+  hasAuthorshipTable: () => hasAuthorshipTable,
+  hasAutopilotModeColumn: () => hasAutopilotModeColumn,
+  hasBaseCommitColumns: () => hasBaseCommitColumns,
+  hasChainRalphColumn: () => hasChainRalphColumn,
+  hasDecisionLedger: () => hasDecisionLedger,
+  hasDependencyTable: () => hasDependencyTable,
+  hasIntegrationColumns: () => hasIntegrationColumns,
+  hasParkedColumn: () => hasParkedColumn,
+  hasRalphEvents: () => hasRalphEvents,
+  hasRalphLoopColumns: () => hasRalphLoopColumns,
+  hasSplitTables: () => hasSplitTables,
+  hasSuggestionTable: () => hasSuggestionTable,
+  integrationBranchName: () => integrationBranchName,
+  integrationGateMembers: () => integrationGateMembers,
+  integrationOnText: () => integrationOnText,
+  isChainParent: () => isChainParent,
+  isParkableStatus: () => isParkableStatus,
+  isStatus: () => isStatus,
+  landReadyChainMembers: () => landReadyChainMembers,
+  linkCardsInHtml: () => linkCardsInHtml,
+  listCardDecisions: () => listCardDecisions,
+  listChainDecisions: () => listChainDecisions,
+  listChangedFiles: () => listChangedFiles,
+  listDependencies: () => listDependencies,
+  listDependencyEdges: () => listDependencyEdges,
+  listDependencySuggestions: () => listDependencySuggestions,
+  listGroups: () => listGroups,
+  listProjects: () => listProjects,
+  listQueueRows: () => listQueueRows,
+  listWorkTemplates: () => listWorkTemplates,
+  loadStoryInputs: () => loadStoryInputs,
+  markTestReportVideosRemoved: () => markTestReportVideosRemoved,
+  mergeCard: () => mergeCard,
+  mergeChain: () => mergeChain,
+  mergeCommitMessage: () => mergeCommitMessage,
+  moveCard: () => moveCard,
+  moveCardInChain: () => moveCardInChain,
+  nextQueueStep: () => nextQueueStep,
+  normalizeGroupCode: () => normalizeGroupCode,
+  normalizeGroupId: () => normalizeGroupId,
+  opinionEditFields: () => opinionEditFields,
+  parseBlockedBy: () => parseBlockedBy,
+  parseUndoSnapshot: () => parseUndoSnapshot,
+  parseWriteAck: () => parseWriteAck,
+  pendingDependencySuggestionCounts: () => pendingDependencySuggestionCounts,
+  pendingSplitCounts: () => pendingSplitCounts,
+  persistCardFieldArtifacts: () => persistCardFieldArtifacts,
+  planBranchFilesFor: () => planBranchFilesFor,
+  planDriftFor: () => planDriftFor,
+  planDriftLine: () => planDriftLine,
+  projectIdOfCard: () => projectIdOfCard,
+  queueDisplayId: () => queueDisplayId,
+  queueKindOf: () => queueKindOf,
+  queueRowIneligibleReason: () => queueRowIneligibleReason,
+  queueWaitReason: () => queueWaitReason,
+  queuedChainWarningFor: () => queuedChainWarningFor,
+  queuedRunsInWorktree: () => queuedRunsInWorktree,
+  queuedWaitReason: () => queuedWaitReason,
+  ralphCoreRewordOpen: () => ralphCoreRewordOpen,
+  ralphEventCardIds: () => ralphEventCardIds,
+  ralphEventsFor: () => ralphEventsFor,
+  ralphMayReviseItem: () => ralphMayReviseItem,
+  ralphWroteChecklist: () => ralphWroteChecklist,
+  readRuntime: () => readRuntime,
+  readWriteAck: () => readWriteAck,
+  readyAfterLinks: () => readyAfterLinks,
+  recordAuthorship: () => recordAuthorship,
+  recordDecision: () => recordDecision,
+  recordRalphEvent: () => recordRalphEvent,
+  recordRalphRound: () => recordRalphRound,
+  recordRalphSend: () => recordRalphSend,
+  recordRalphStopByPerson: () => recordRalphStopByPerson,
+  rememberWorkTemplate: () => rememberWorkTemplate,
+  removeDependency: () => removeDependency,
+  resolveCardRef: () => resolveCardRef,
+  resolveProjectByFolder: () => resolveProjectByFolder,
+  restoreDependencies: () => restoreDependencies,
+  restoreField: () => restoreField,
+  restoreParked: () => restoreParked,
+  restoreQueueCards: () => restoreQueueCards,
+  reviseTests: () => reviseTests,
+  rollbackChain: () => rollbackChain,
+  runChanges: () => runChanges,
+  runReportCardIds: () => runReportCardIds,
+  runtimeAssignments: () => runtimeAssignments,
+  saveOpinion: () => saveOpinion,
+  savePlan: () => savePlan,
+  savePlanAndTests: () => savePlanAndTests,
+  saveSplitProposal: () => saveSplitProposal,
+  saveTestReport: () => saveTestReport,
+  saveTests: () => saveTests,
+  serializeBooleanForDb: () => serializeBooleanForDb,
+  serializeUseWorktreeForDb: () => serializeUseWorktreeForDb,
+  setAutopilotStage: () => setAutopilotStage,
+  setBlockedBy: () => setBlockedBy,
+  setCardRuntime: () => setCardRuntime,
+  setIntegrationBranch: () => setIntegrationBranch,
+  setParked: () => setParked,
+  sharedPrefixes: () => sharedPrefixes,
+  splitCard: () => splitCard,
+  splitProposalOutcome: () => splitProposalOutcome,
+  splitRelations: () => splitRelations,
+  splitRoleLine: () => splitRoleLine,
+  stampBaseCommit: () => stampBaseCommit,
+  stampRalphStart: () => stampRalphStart,
+  startAutopilot: () => startAutopilot,
+  startChainAutopilot: () => startChainAutopilot,
+  statusAfterPlan: () => statusAfterPlan,
+  statusAfterTests: () => statusAfterTests,
+  stopAutopilot: () => stopAutopilot,
+  strandedAutopilotCardIds: () => strandedAutopilotCardIds,
+  suggestDependencies: () => suggestDependencies,
+  syncMainIntoChain: () => syncMainIntoChain,
+  testsDriftFor: () => testsDriftFor,
+  tickChanges: () => tickChanges,
+  tickItem: () => tickItem,
+  transaction: () => transaction,
+  undoSnapshot: () => undoSnapshot,
+  unwalkedChildItems: () => unwalkedChildItems,
+  unwalkedChildItemsText: () => unwalkedChildItemsText,
+  updateCard: () => updateCard,
+  updateGroup: () => updateGroup,
+  validateCardTitle: () => validateCardTitle,
+  waitingOnLine: () => waitingOnLine,
+  withdrawSplitProposal: () => withdrawSplitProposal,
+  workTemplateIdError: () => workTemplateIdError,
+  writeRuntime: () => writeRuntime
+});
+
+// ../lib/card-ops/db.ts
+function runChanges(db2, sql, ...params) {
+  const result = db2.prepare(sql).run(...params);
+  return { changes: Number(result.changes), lastInsertRowid: Number(result.lastInsertRowid) };
+}
+function getRow(db2, sql, ...params) {
+  const row = db2.prepare(sql).get(...params);
+  return row ? { ...row } : void 0;
+}
+function allRows(db2, sql, ...params) {
+  return db2.prepare(sql).all(...params).map((row) => ({ ...row }));
+}
+var depth = /* @__PURE__ */ new WeakMap();
+function transaction(db2, fn) {
+  const level = depth.get(db2) ?? 0;
+  const savepoint = `ideafy_tx_${level}`;
+  db2.exec(level === 0 ? "BEGIN IMMEDIATE" : `SAVEPOINT ${savepoint}`);
+  depth.set(db2, level + 1);
+  try {
+    const result = fn();
+    db2.exec(level === 0 ? "COMMIT" : `RELEASE ${savepoint}`);
+    return result;
+  } catch (error2) {
+    try {
+      db2.exec(level === 0 ? "ROLLBACK" : `ROLLBACK TO ${savepoint}; RELEASE ${savepoint}`);
+    } catch {
+    }
+    throw error2;
+  } finally {
+    depth.set(db2, level);
+  }
+}
+
 // ../lib/ready-to-merge.ts
 function manualYoursText(n) {
   return `${n} [manual] item${n === 1 ? " is" : "s are"} yours`;
@@ -23060,7 +23222,7 @@ function ralphRoundsText(maxRounds) {
   return maxRounds === 0 ? "\u221E" : String(maxRounds);
 }
 function norm(text2) {
-  return stripItemTokens(stripHtml(text2 ?? "")).toLowerCase().replace(/\s+/g, " ").trim();
+  return stripItemTokens(stripHtml(text2 ?? "")).replace(/[*_`]/g, "").toLowerCase().replace(/\s+/g, " ").trim();
 }
 function originalItemText(itemText2, revisions) {
   let current = itemText2;
@@ -23094,7 +23256,7 @@ function chainRalphDeadline(nowMs, members) {
 function chainCapText(members) {
   return `${RALPH_TIME_CAP_MS * Math.max(1, members) / 36e5}h`;
 }
-var RALPH_REVISE_REFUSAL = "Ralph does not reword core-flow, End-to-end or [manual] items";
+var RALPH_REVISE_REFUSAL = "Ralph rewords a core-flow item only on a checklist it wrote itself on this card and once per item, keeps [ui], never adds [manual], and never touches End-to-end or [manual] items";
 function ralphMayRevise(item) {
   if (!item) return true;
   const flows = (item.heading ?? "").trim().toLowerCase() === SPLIT_FLOWS_HEADING.toLowerCase();
@@ -23138,7 +23300,7 @@ function autopilotIneligibleReason(card) {
   if (card.openDecision) return "the plan still has an open decision";
   if (card.status === "test") {
     if (!card.hasCoreFlow) return "its checklist has no core-flow group";
-    if (!card.activeWorktree) return "it has no worktree \u2014 a fix round would write to main";
+    if (!card.activeWorktree && !card.opensWorktree) return "it has no worktree \u2014 a fix round would write to main";
     return null;
   }
   if (!card.hasPlan && card.status !== "backlog" && card.status !== "bugs") return "no plan yet";
@@ -23181,7 +23343,7 @@ function chainAutopilotStatusOf(members) {
   }
   const parent = open.find((m2) => m2.isParent && stageOf(m2) === "ready");
   if (parent || allInChain) {
-    const manual = parent?.manualLeft ?? 0;
+    const manual = open.reduce((sum, m2) => sum + (m2.manualLeft ?? 0), 0);
     return {
       kind: "ready",
       ...parent ? { mergeFrom: parent } : {},
@@ -23324,7 +23486,7 @@ function folderHoldFor(next, writers) {
 
 // ../lib/prompts/phase.ts
 function detectPhase(card) {
-  const hasSolution = card.solutionSummary && stripHtml(card.solutionSummary) !== "";
+  const hasSolution = hasRealPlan(card.solutionSummary);
   const hasTests = hasOwnChecklist(card.testScenarios);
   if (card.status === "test") return "verify";
   if (!hasSolution) return "planning";
@@ -23980,10 +24142,14 @@ function nextQueueStep(db2) {
   }
   return { kind: "idle", waiting };
 }
+function finalTestOpensWorktree(row) {
+  if (row.gitBranchStatus || !flowsOnlyChecklist(row.testScenarios)) return false;
+  return row.projectMode !== "work" && !!row.projectId && row.taskNumber != null;
+}
 function queuedRunsInWorktree(row) {
   const activeWorktree = !!row.gitWorktreePath && row.gitWorktreeStatus === "active";
   const kind = queueKindOf(row);
-  if (kind === "verify") return activeWorktree;
+  if (kind === "verify") return activeWorktree || finalTestOpensWorktree(row);
   if (kind === "planning") return false;
   const useWorktree = shouldUseWorktree(
     { useWorktree: row.useWorktree },
@@ -24263,7 +24429,7 @@ __export(markdown_exports, {
   untickTaskItems: () => untickTaskItems
 });
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/node_modules/marked/lib/marked.esm.js
+// ../node_modules/marked/lib/marked.esm.js
 function L() {
   return { async: false, breaks: false, extensions: null, gfm: true, hooks: null, pedantic: false, renderer: null, silent: false, tokenizer: null, walkTokens: null };
 }
@@ -26102,7 +26268,7 @@ __export(card_attachments_exports, {
   storeImageIn: () => storeImageIn
 });
 import { createHash } from "crypto";
-import { copyFileSync as copyFileSync2, existsSync as existsSync2, mkdirSync as mkdirSync2, readFileSync as readFileSync3, renameSync, writeFileSync as writeFileSync2 } from "fs";
+import { copyFileSync as copyFileSync2, existsSync as existsSync3, mkdirSync as mkdirSync2, readFileSync as readFileSync3, renameSync, writeFileSync as writeFileSync2 } from "fs";
 import path2 from "path";
 
 // ../lib/artifact-links.ts
@@ -26120,7 +26286,7 @@ __export(artifact_links_exports, {
   persistArtifacts: () => persistArtifacts,
   persistCardArtifacts: () => persistCardArtifacts
 });
-import { copyFileSync, existsSync, mkdirSync, readFileSync as readFileSync2, realpathSync, statSync, writeFileSync } from "fs";
+import { copyFileSync, existsSync as existsSync2, mkdirSync, readFileSync as readFileSync2, realpathSync, statSync, writeFileSync } from "fs";
 import { homedir, tmpdir } from "os";
 import path from "path";
 
@@ -26294,7 +26460,7 @@ function destinationFor(base, dir, isSame) {
   const stem = ext ? base.slice(0, -ext.length) : base;
   for (let n = 1; ; n++) {
     const candidate = path.join(dir, n === 1 ? base : `${stem}-${n}${ext}`);
-    if (!existsSync(candidate)) return candidate;
+    if (!existsSync2(candidate)) return candidate;
     if (isSame(candidate)) return candidate;
   }
 }
@@ -26325,7 +26491,7 @@ function saveArtifactFences(text2, cardDir) {
     try {
       mkdirSync(scratchDir, { recursive: true });
       const target2 = destinationFor(fence.filename, scratchDir, (candidate) => sameBytes(candidate, contents));
-      if (!existsSync(target2)) writeFileSync(target2, contents);
+      if (!existsSync2(target2)) writeFileSync(target2, contents);
       const link = `[${path.basename(target2)}](${pathToFileUrl(target2)})`;
       links.push({ start: out.length, end: out.length + link.length });
       out += link;
@@ -26456,7 +26622,7 @@ function persistArtifactLinks(html, cardDir, sources = {}) {
         realCardDir,
         (candidate) => sameContents(realSource, candidate)
       );
-      if (!existsSync(target2)) copyFileSync(realSource, target2);
+      if (!existsSync2(target2)) copyFileSync(realSource, target2);
       return `href=${quote}${escapeAttr2(pathToFileUrl(target2))}${quote}`;
     } catch (error2) {
       console.error("Failed to persist artifact:", source, error2);
@@ -26509,7 +26675,7 @@ function storeImageIn(dir, bytes) {
   if (!ext) return null;
   const file2 = `${createHash("sha256").update(bytes).digest("hex")}.${ext}`;
   const target2 = path2.join(dir, file2);
-  if (!existsSync2(target2)) {
+  if (!existsSync3(target2)) {
     mkdirSync2(dir, { recursive: true });
     const partial2 = `${target2}.${process.pid}.partial`;
     writeFileSync2(partial2, bytes);
@@ -26542,8 +26708,8 @@ function adoptForeign(cardId, url2, ownerId, file2, homeDir) {
   const target2 = attachmentPath(cardId, file2, homeDir);
   if (!source || !target2) return url2;
   try {
-    if (!existsSync2(target2)) {
-      if (!existsSync2(source)) return url2;
+    if (!existsSync3(target2)) {
+      if (!existsSync3(source)) return url2;
       mkdirSync2(path2.dirname(target2), { recursive: true });
       copyFileSync2(source, target2);
     }
@@ -26587,7 +26753,7 @@ function attachmentRefs(html, homeDir) {
     if (seen.has(key)) continue;
     seen.add(key);
     const p = attachmentPath(cardId, file2, homeDir);
-    if (p && existsSync2(p)) refs.push({ cardId, file: file2, path: p });
+    if (p && existsSync3(p)) refs.push({ cardId, file: file2, path: p });
   }
   return refs;
 }
@@ -26633,7 +26799,7 @@ function gitRead(cwd, args) {
 }
 
 // ../lib/card-ops/integration-branch.ts
-import { existsSync as existsSync5, mkdirSync as mkdirSync4 } from "fs";
+import { existsSync as existsSync6, mkdirSync as mkdirSync4 } from "fs";
 import { join as join2 } from "path";
 
 // ../lib/git/core.ts
@@ -26672,7 +26838,7 @@ __export(repo_exports, {
   isGitRepo: () => isGitRepo,
   worktreeHasUncommittedChanges: () => worktreeHasUncommittedChanges
 });
-import { existsSync as existsSync3 } from "fs";
+import { existsSync as existsSync4 } from "fs";
 async function isGitRepo(projectPath) {
   try {
     await git(projectPath, "rev-parse", "--git-dir");
@@ -26737,7 +26903,7 @@ async function getBranchStatus(projectPath, branchName) {
   }
 }
 async function worktreeHasUncommittedChanges(worktreePath) {
-  if (!existsSync3(worktreePath)) return false;
+  if (!existsSync4(worktreePath)) return false;
   try {
     const { stdout } = await git(worktreePath, "status", "--porcelain", "-uno");
     return stdout.trim().length > 0;
@@ -26804,7 +26970,7 @@ async function fetchRemote(projectPath) {
   }
 }
 async function getUnpushedStatus(projectPath, options = {}) {
-  if (!existsSync3(projectPath) || !await isGitRepo(projectPath)) return UNSUPPORTED;
+  if (!existsSync4(projectPath) || !await isGitRepo(projectPath)) return UNSUPPORTED;
   try {
     const { stdout: remotes } = await git(projectPath, "remote");
     if (!remotes.trim()) return UNSUPPORTED;
@@ -26882,7 +27048,7 @@ __export(worktree_exports, {
   squashMergeFromWorktree: () => squashMergeFromWorktree,
   worktreeExists: () => worktreeExists
 });
-import { existsSync as existsSync4, mkdirSync as mkdirSync3, realpathSync as realpathSync2 } from "fs";
+import { existsSync as existsSync5, mkdirSync as mkdirSync3, realpathSync as realpathSync2 } from "fs";
 import path3, { join } from "path";
 function getWorktreeBaseDir(projectPath) {
   return join(projectPath, ".worktrees", "kanban");
@@ -26893,7 +27059,7 @@ function getWorktreePath(projectPath, branchName) {
 }
 async function worktreeExists(projectPath, worktreePath) {
   try {
-    if (!existsSync4(worktreePath)) {
+    if (!existsSync5(worktreePath)) {
       return false;
     }
     const { stdout } = await git(projectPath, "worktree", "list", "--porcelain");
@@ -26940,7 +27106,7 @@ async function createWorktree(projectPath, branchName, baseBranch) {
   const worktreePath = getWorktreePath(projectPath, branchName);
   const baseDir = getWorktreeBaseDir(projectPath);
   try {
-    if (!existsSync4(baseDir)) {
+    if (!existsSync5(baseDir)) {
       mkdirSync3(baseDir, { recursive: true });
       console.log(`[Git Worktree] Created base directory: ${baseDir}`);
     }
@@ -27092,7 +27258,7 @@ async function findCardBranch(projectPath, idPrefix, taskNumber) {
   if (names.size !== 1) return null;
   const [branchName] = names;
   const worktree = (await listWorktrees(projectPath)).find(
-    (w2) => w2.branch === branchName && !w2.isPrunable && existsSync4(w2.path)
+    (w2) => w2.branch === branchName && !w2.isPrunable && existsSync5(w2.path)
   );
   return { branchName, worktreePath: worktree?.path ?? null };
 }
@@ -27437,6 +27603,14 @@ function cardHasRalphEvents(db2, cardId) {
   if (!hasRalphEvents(db2)) return false;
   return !!getRow(db2, `SELECT 1 AS ok FROM ralph_events WHERE card_id = ? LIMIT 1`, cardId);
 }
+function firstRalphSendAt(db2, cardId) {
+  if (!hasRalphEvents(db2)) return null;
+  return getRow(
+    db2,
+    `SELECT at FROM ralph_events WHERE card_id = ? AND kind IN ('sent', 'continued') ORDER BY at, id LIMIT 1`,
+    cardId
+  )?.at ?? null;
+}
 function recordRalphSend(db2, cardId, detail, at) {
   recordRalphEvent(db2, { cardId, kind: cardHasRalphEvents(db2, cardId) ? "continued" : "sent", at, detail });
 }
@@ -27585,7 +27759,7 @@ async function ensureIntegrationBranch(db2, groupId, opts = {}) {
     if (holder) return { kind: "ok", branch, worktreePath: holder, created: false };
     const worktreePath = integrationWorktreePath(workingDir, branch);
     const parent = join2(worktreePath, "..");
-    if (!existsSync5(parent)) mkdirSync4(parent, { recursive: true });
+    if (!existsSync6(parent)) mkdirSync4(parent, { recursive: true });
     let created = false;
     if (await branchExists(workingDir, branch)) {
       await git(workingDir, "worktree", "add", worktreePath, branch);
@@ -27848,6 +28022,8 @@ __export(test_report_exports, {
   MISSING_EVIDENCE_NOTE: () => MISSING_EVIDENCE_NOTE,
   TEST_REPORT_DIR: () => TEST_REPORT_DIR,
   TEST_REPORT_FENCE: () => TEST_REPORT_FENCE,
+  TEST_REPORT_IMPACTS: () => TEST_REPORT_IMPACTS,
+  TEST_REPORT_IMPACT_LABEL: () => TEST_REPORT_IMPACT_LABEL,
   TEST_REPORT_VIDEO_NAME: () => TEST_REPORT_VIDEO_NAME,
   buildTestReportRun: () => buildTestReportRun,
   countByStatus: () => countByStatus,
@@ -27870,12 +28046,20 @@ __export(test_report_exports, {
   readTestReportSummary: () => readTestReportSummary,
   summarizeTestReportRun: () => summarizeTestReportRun,
   testReportConflicts: () => testReportConflicts,
+  testReportFailureLine: () => testReportFailureLine,
   testReportItemAt: () => testReportItemAt,
   testReportItemClips: () => testReportItemClips,
   testReportItemVideoAt: () => testReportItemVideoAt,
   testReportMissingItems: () => testReportMissingItems,
   testReportSupersededItems: () => testReportSupersededItems
 });
+var TEST_REPORT_IMPACTS = ["broken", "flaw", "cosmetic", "test_wrong"];
+var TEST_REPORT_IMPACT_LABEL = {
+  broken: "Broken",
+  flaw: "Partly wrong",
+  cosmetic: "Cosmetic",
+  test_wrong: "Test out of date"
+};
 function isTestReportScope(value) {
   return value === "run" || value === "reverify" || value === "single" || value === "retest" || value === "text";
 }
@@ -28036,6 +28220,9 @@ function normalizeStatus(value) {
   if (["failed", "fail", "error", "kald\u0131"].includes(text2)) return "failed";
   return "manual";
 }
+function normalizeImpact(value) {
+  return TEST_REPORT_IMPACTS.find((impact) => impact === value) ?? null;
+}
 function normalizeArtifacts(value) {
   if (!Array.isArray(value)) return [];
   const artifacts = [];
@@ -28065,6 +28252,7 @@ function normalizeTestReportItem(value) {
     status = "manual";
     note = MISSING_EVIDENCE_NOTE;
   }
+  const impact = status === "failed" ? normalizeImpact(record2.impact) : null;
   return {
     item,
     status,
@@ -28072,6 +28260,7 @@ function normalizeTestReportItem(value) {
     steps,
     expected: str(record2.expected),
     observed,
+    ...impact ? { impact } : {},
     error: error2,
     command: str(record2.command, MAX_TEXT),
     output: str(record2.output, MAX_OUTPUT),
@@ -28215,6 +28404,25 @@ function countByStatus(run2) {
   for (const item of run2.items) counts[item.status]++;
   return counts;
 }
+var IMPACT_COUNT_LABEL = {
+  broken: (count) => `${count} broken`,
+  flaw: (count) => `${count} partly wrong`,
+  cosmetic: (count) => `${count} cosmetic`,
+  test_wrong: (count) => `${count} outdated test${count === 1 ? "" : "s"}`
+};
+function testReportFailureLine(items) {
+  const failed = items.filter((item) => item.status === "failed");
+  const labelled = failed.filter((item) => item.impact);
+  if (labelled.length === 0) return null;
+  const count = (impact) => labelled.filter((item) => item.impact === impact).length;
+  const parts = TEST_REPORT_IMPACTS.filter((impact) => count(impact) > 0).map(
+    (impact) => IMPACT_COUNT_LABEL[impact](count(impact))
+  );
+  const unlabelled = failed.length - labelled.length;
+  if (unlabelled > 0) parts.push(`${unlabelled} not labelled`);
+  const nothingBroken = unlabelled === 0 && count("broken") === 0 && count("flaw") === 0;
+  return `${failed.length} failed${nothingBroken ? ": nothing is broken" : ""} \xB7 ${parts.join(" \xB7 ")}`;
+}
 
 // ../lib/card-authorship.ts
 var DEFAULT_WRITER = {
@@ -28270,7 +28478,7 @@ function summarizeAuthorship(input) {
   for (const entry of extractTaskItems(checklist)) {
     if (!entry.checked) continue;
     const item = plainTextLabel(entry.rawText);
-    const revisedAt = testRows.filter((r) => r.action === "edit" && sameItem(r.item, item)).reduce((latest, r) => r.at > latest ? r.at : latest, "");
+    const revisedAt = testRows.filter((r) => (r.action === "edit" || r.action === "apply" || r.action === "enrich") && sameItem(r.item, item)).reduce((latest, r) => r.at > latest ? r.at : latest, "");
     const last = testRows.filter((r) => (r.action === "tick" || r.action === "untick") && r.at >= revisedAt && sameItem(r.item, item)).pop();
     const tick = last?.action === "tick" ? { item, by: last.actor, at: last.at } : derivedTick(item, input.testReports ?? []);
     if (tick) ticks.push(tick);
@@ -28340,7 +28548,7 @@ function recordAuthorship(db2, args) {
   const { actor } = author;
   if (args.revisedItems) {
     for (const item of args.revisedItems) {
-      insert(db2, cardId, { field: "testScenarios", actor, action: "edit", item: plainTextLabel(item), at: now });
+      insert(db2, cardId, { field: "testScenarios", actor, action: author.via ?? "edit", item: plainTextLabel(item), at: now });
     }
   }
   for (const field of AUTHORSHIP_FIELDS) {
@@ -28420,6 +28628,187 @@ function authorFromSource(source) {
 }
 var IDEAFY_AUTHOR = { actor: "ideafy" };
 var YOU_AUTHOR = { actor: "you" };
+
+// ../lib/card-ops/runtime.ts
+var APP_PORT_SETTING_KEY = "app_port";
+var TERMINAL_HOLDS_SETTING_KEY = "terminal_holds";
+var APP_HEARTBEAT_STALE_MS = 9e4;
+var TERMINAL_WRITER_TTL_MS = 10 * 6e4;
+function writeRuntime(db2, input) {
+  transaction(db2, () => {
+    runChanges(db2, "DELETE FROM live_folder_runs");
+    const insert2 = db2.prepare(
+      `INSERT INTO live_folder_runs
+         (id, project_id, card_id, display_id, kind, runs_in_worktree, source, from_queue, touched_files, seen_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+    );
+    for (const run2 of input.runs) {
+      insert2.run(
+        run2.id,
+        run2.projectId,
+        run2.cardId,
+        run2.displayId,
+        run2.kind,
+        run2.runsInWorktree ? 1 : 0,
+        run2.source,
+        run2.fromQueue ? 1 : 0,
+        run2.touchedFiles.length ? JSON.stringify(run2.touchedFiles) : null,
+        run2.seenAt
+      );
+    }
+    runChanges(
+      db2,
+      `INSERT INTO queue_runtime (id, armed, paused_reason, held_by, heartbeat_at) VALUES (1, ?, ?, ?, ?)
+       ON CONFLICT(id) DO UPDATE SET armed = excluded.armed, paused_reason = excluded.paused_reason,
+         held_by = excluded.held_by, heartbeat_at = excluded.heartbeat_at`,
+      input.armed ? 1 : 0,
+      input.pausedReason,
+      input.heldBy,
+      input.now
+    );
+    if (input.port) {
+      runChanges(
+        db2,
+        `INSERT INTO settings (key, value, updated_at) VALUES (?, ?, ?)
+         ON CONFLICT(key) DO UPDATE SET value = excluded.value, updated_at = excluded.updated_at
+         WHERE settings.value <> excluded.value`,
+        APP_PORT_SETTING_KEY,
+        input.port,
+        input.now
+      );
+    }
+    if (input.holds) {
+      runChanges(
+        db2,
+        `INSERT INTO settings (key, value, updated_at) VALUES (?, ?, ?)
+         ON CONFLICT(key) DO UPDATE SET value = excluded.value, updated_at = excluded.updated_at
+         WHERE settings.value <> excluded.value`,
+        TERMINAL_HOLDS_SETTING_KEY,
+        JSON.stringify(input.holds),
+        input.now
+      );
+    }
+  });
+}
+function hasTable2(db2, name) {
+  return !!getRow(db2, "SELECT name FROM sqlite_master WHERE type = 'table' AND name = ?", name);
+}
+function stringList(value) {
+  return Array.isArray(value) ? value.filter((item) => typeof item === "string") : [];
+}
+function parseList(raw) {
+  if (!raw) return [];
+  try {
+    return stringList(JSON.parse(raw));
+  } catch {
+    return [];
+  }
+}
+function parseHolds(raw) {
+  if (!raw) return [];
+  try {
+    const value = JSON.parse(raw);
+    return Array.isArray(value) ? value.filter(
+      (hold) => !!hold && typeof hold.cardId === "string" && typeof hold.reason === "string"
+    ) : [];
+  } catch {
+    return [];
+  }
+}
+function readRuntime(db2, now = Date.now()) {
+  const closed = (appState, heartbeatAt = null) => ({
+    appState,
+    armed: false,
+    pausedReason: null,
+    heldBy: null,
+    heartbeatAt,
+    port: null,
+    runs: [],
+    holds: []
+  });
+  if (!hasTable2(db2, "queue_runtime") || !hasTable2(db2, "live_folder_runs")) return closed("unknown");
+  const state = getRow(
+    db2,
+    "SELECT armed, paused_reason AS pausedReason, held_by AS heldBy, heartbeat_at AS heartbeatAt FROM queue_runtime WHERE id = 1"
+  );
+  if (!state) return closed("closed");
+  const beat = Date.parse(state.heartbeatAt);
+  if (!Number.isFinite(beat) || now - beat > APP_HEARTBEAT_STALE_MS) return closed("closed", state.heartbeatAt);
+  const runs = allRows(
+    db2,
+    `SELECT id, project_id AS projectId, card_id AS cardId, display_id AS displayId, kind,
+            runs_in_worktree AS runsInWorktree, source, from_queue AS fromQueue,
+            touched_files AS touchedFiles, seen_at AS seenAt
+     FROM live_folder_runs`
+  ).map(
+    (row) => ({
+      ...row,
+      runsInWorktree: !!row.runsInWorktree,
+      source: row.source === "terminal" ? "terminal" : "app",
+      fromQueue: !!row.fromQueue,
+      touchedFiles: parseList(row.touchedFiles)
+    })
+  ).filter((run2) => run2.source !== "terminal" || now - Date.parse(run2.seenAt) <= TERMINAL_WRITER_TTL_MS);
+  const port = hasTable2(db2, "settings") ? getRow(db2, "SELECT value FROM settings WHERE key = ?", APP_PORT_SETTING_KEY)?.value ?? null : null;
+  const holds = hasTable2(db2, "settings") ? parseHolds(getRow(db2, "SELECT value FROM settings WHERE key = ?", TERMINAL_HOLDS_SETTING_KEY)?.value) : [];
+  return {
+    appState: "open",
+    armed: !!state.armed,
+    pausedReason: state.pausedReason,
+    heldBy: state.heldBy,
+    heartbeatAt: state.heartbeatAt,
+    port,
+    runs,
+    holds
+  };
+}
+function parseWriteAck(raw) {
+  if (!raw) return { conflicts: [], files: [] };
+  try {
+    const value = JSON.parse(raw);
+    return { conflicts: stringList(value?.conflicts), files: stringList(value?.files) };
+  } catch {
+    return { conflicts: [], files: [] };
+  }
+}
+function readWriteAck(db2, sessionId) {
+  const row = getRow(
+    db2,
+    "SELECT write_ack AS writeAck FROM ideafy_sessions WHERE session_id = ?",
+    sessionId
+  );
+  return parseWriteAck(row?.writeAck);
+}
+function acknowledgeWrite(db2, input) {
+  return transaction(db2, () => {
+    const current = readWriteAck(db2, input.sessionId);
+    const next = {
+      conflicts: Array.from(/* @__PURE__ */ new Set([...current.conflicts, ...input.conflicts])),
+      files: Array.from(/* @__PURE__ */ new Set([...current.files, ...input.files]))
+    };
+    const json2 = JSON.stringify(next);
+    const updated = runChanges(
+      db2,
+      "UPDATE ideafy_sessions SET write_ack = ?, updated_at = ? WHERE session_id = ?",
+      json2,
+      input.now,
+      input.sessionId
+    );
+    if (updated.changes === 0) {
+      runChanges(
+        db2,
+        `INSERT INTO ideafy_sessions (session_id, project_id, state, created_at, updated_at, write_ack)
+         VALUES (?, ?, 'offered', ?, ?, ?)`,
+        input.sessionId,
+        input.projectId,
+        input.now,
+        input.now,
+        json2
+      );
+    }
+    return next;
+  });
+}
 
 // ../lib/autonomous-run/browser-prereqs.ts
 import { accessSync, constants, readdirSync, statSync as statSync2 } from "fs";
@@ -28510,278 +28899,108 @@ function browserPrereqs() {
   return result;
 }
 
-// ../lib/card-ops/autopilot.ts
-var ROW_SELECT2 = `
-  SELECT c.id, c.title, c.status,
-         c.solution_summary AS solutionSummary,
-         c.test_scenarios AS testScenarios,
-         c.processing_type AS processingType,
-         c.use_worktree AS useWorktree,
-         c.git_worktree_path AS gitWorktreePath,
-         c.git_worktree_status AS gitWorktreeStatus,
-         c.rebase_conflict AS rebaseConflict,
-         c.task_number AS taskNumber,
-         p.id_prefix AS idPrefix,
-         p.mode AS projectMode,
-         c.autopilot_stage AS stage,
-         c.autopilot_stop_reason AS stopReason,
-         c.autopilot_retried AS retried,
-         c.autopilot_fix_used AS fixUsed,
-         %MODE% AS mode,
-         %LOOP%
-  FROM cards c LEFT JOIN projects p ON p.id = c.project_id
-  WHERE c.id = ?`;
-var LOOP_SELECT = `c.autopilot_max_rounds AS maxRounds, c.autopilot_fail_signature AS failSignature,
-         c.autopilot_fail_count AS failCount, c.autopilot_started_at AS startedAt, p.ralph_max_rounds AS projectMaxRounds`;
-var NO_LOOP_SELECT = `NULL AS maxRounds, NULL AS failSignature, NULL AS failCount, NULL AS startedAt, NULL AS projectMaxRounds`;
-var modeColumnCache = /* @__PURE__ */ new WeakMap();
-var loopColumnCache = /* @__PURE__ */ new WeakMap();
-function hasRalphLoopColumns(db2) {
-  if (loopColumnCache.get(db2)) return true;
-  const has = db2.prepare(`PRAGMA table_info("cards")`).all().some((c) => c.name === "autopilot_fail_count") && db2.prepare(`PRAGMA table_info("projects")`).all().some((c) => c.name === "ralph_max_rounds");
-  if (has) loopColumnCache.set(db2, true);
-  return has;
+// ../lib/card-ops/branch-files.ts
+import { existsSync as existsSync7 } from "fs";
+function defaultBranchName(repo) {
+  const remote = gitRead(repo, ["symbolic-ref", "refs/remotes/origin/HEAD"]);
+  if (remote) return remote.replace("refs/remotes/origin/", "").replace("refs/heads/", "");
+  return gitRead(repo, ["show-ref", "--verify", "--quiet", "refs/heads/main"]) !== null ? "main" : "master";
 }
-function hasAutopilotModeColumn(db2) {
-  const known = modeColumnCache.get(db2);
-  if (known !== void 0) return known;
-  const has = db2.prepare(`PRAGMA table_info("cards")`).all().some(
-    (column) => column.name === "autopilot_mode"
-  );
-  if (has) modeColumnCache.set(db2, true);
-  return has;
-}
-function readRow(db2, cardId) {
-  const sql = ROW_SELECT2.replace("%MODE%", hasAutopilotModeColumn(db2) ? "c.autopilot_mode" : "NULL").replace(
-    "%LOOP%",
-    hasRalphLoopColumns(db2) ? LOOP_SELECT : NO_LOOP_SELECT
-  );
-  return getRow(db2, sql, cardId);
-}
-function stateOf(row) {
-  const mode = autopilotModeOf(row.mode);
-  return {
-    stage: isAutopilotStage(row.stage) ? row.stage : null,
-    stopReason: row.stopReason,
-    retried: !!row.retried,
-    fixUsed: !!row.fixUsed,
-    mode,
-    ...mode === "ralph" ? {
-      ralph: {
-        maxRounds: resolveRalphMaxRounds(row.maxRounds, row.projectMaxRounds),
-        failCount: row.failCount ?? 0,
-        signature: row.failSignature,
-        startedAt: row.startedAt
-      }
-    } : {}
-  };
-}
-function getAutopilotState(db2, cardId) {
-  const row = readRow(db2, cardId);
-  return row ? stateOf(row) : { stage: null, stopReason: null, retried: false, fixUsed: false, mode: "default" };
-}
-function worktreeIsDirty(row) {
-  if (row.status !== "progress" || !row.gitWorktreePath || row.gitWorktreeStatus !== "active") return false;
-  return !!gitRead(row.gitWorktreePath, ["status", "--porcelain"]);
-}
-function ineligibleReason(row) {
-  const html = row.testScenarios ?? "";
-  return autopilotIneligibleReason({
-    dirtyWorktree: worktreeIsDirty(row),
-    status: row.status,
-    hasPlan: stripHtml(row.solutionSummary ?? "") !== "",
-    hasChecklist: hasOwnChecklist(html),
-    hasCoreFlow: !!parseTestProgress(html)?.core,
-    projectMode: row.projectMode,
-    useWorktree: row.useWorktree === null ? null : !!row.useWorktree,
-    activeWorktree: !!row.gitWorktreePath && row.gitWorktreeStatus === "active",
-    stage: row.stage,
-    processingType: row.processingType,
-    openDecision: findPlanDecisions(row.solutionSummary).length > 0,
-    rebaseConflict: !!row.rebaseConflict
-  });
-}
-function autopilotContinueQuestion(cardId, mode = "default") {
-  const name = autopilotModeName(mode);
-  return `${name} stopped on this card for a plan decision, and the plan no longer asks one. Ask the user whether to continue on ${name}. Call ${queueCallFor(cardId, mode)} only after the user explicitly says yes.`;
-}
-function queueCallFor(cardId, mode) {
-  return mode === "ralph" ? `queue_card({ cardId: "${cardId}", autopilot: true, mode: "ralph" })` : `queue_card({ cardId: "${cardId}", autopilot: true })`;
-}
-function autopilotModeFor(db2, cardId) {
-  const row = readRow(db2, cardId);
-  return autopilotModeOf(row?.mode);
-}
-function autopilotLine(db2, cardId) {
-  const row = readRow(db2, cardId);
-  if (!row) return null;
-  const { stage, stopReason, mode = "default" } = stateOf(row);
-  const name = autopilotModeName(mode);
-  if (isActiveAutopilotStage(stage)) {
-    return `${name} is running this card (${stage}) in its worktree; do not edit there. Ask the user to stop ${name} first.`;
+var lines = (stdout) => stdout.split("\n").map((line) => line.trim()).filter(Boolean);
+function listChangedFiles(repoPath, opts) {
+  const base = opts.baseRef || defaultBranchName(repoPath);
+  const renames = opts.noRenames ? ["--no-renames"] : [];
+  if (opts.worktreePath) {
+    if (!existsSync7(opts.worktreePath)) return [];
+    const mergeBase = gitRead(opts.worktreePath, ["merge-base", base, "HEAD"]);
+    if (!mergeBase) return [];
+    const stdout = gitRead(opts.worktreePath, ["diff", "--name-only", ...renames, mergeBase]);
+    return stdout === null ? [] : lines(stdout);
   }
-  const resume = autopilotResume({ autopilotStage: stage, autopilotStopReason: stopReason, solutionSummary: row.solutionSummary });
-  const askToContinue = `Call ${queueCallFor(cardId, mode)} only after the user explicitly says yes.`;
-  if (resume === "decision-answered") return `In your first sentence: ${autopilotContinueQuestion(cardId, mode)}`;
-  if (resume === "decision-open") {
-    return `${name} stopped on this card: ${sanitizeForReminder(stopReason || "no reason given", 200)}. Say so in your first sentence: the user answers the decision in the plan and deletes its [NEEDS_DECISION] marker before ${name} can continue.`;
+  if (opts.branchName) {
+    const stdout = gitRead(repoPath, ["diff", "--name-only", ...renames, `${base}...${opts.branchName}`]);
+    return stdout === null ? [] : lines(stdout);
   }
-  if (resume === "stopped") {
-    return `${name} stopped on this card: ${sanitizeForReminder(stopReason || "no reason given", 200)}. Say so in your first sentence, and once it is dealt with ask whether to continue on ${name}. ${askToContinue}`;
-  }
-  return null;
+  return [];
 }
-function autopilotRefusal(db2, cardId) {
-  const row = readRow(db2, cardId);
-  return row ? ineligibleReason(row) : "Card not found";
+var TTL_MS = 3e4;
+var touchedCache = /* @__PURE__ */ new Map();
+var escapeRegExp2 = (text2) => text2.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+function cached3(key, read) {
+  const hit = touchedCache.get(key);
+  if (hit && Date.now() - hit.at < TTL_MS) return hit.value;
+  const value = read();
+  touchedCache.set(key, { at: Date.now(), value });
+  return value;
 }
-var Refused = class extends Error {
-};
-function startAutopilot(db2, cardId, opts = {}) {
-  try {
-    return transaction(db2, () => {
-      const row = readRow(db2, cardId);
-      if (!row) return { ok: false, reason: "not-found", message: "Card not found" };
-      const displayId = queueDisplayId(row);
-      const mode = opts.mode ?? autopilotModeOf(row.mode);
-      const name = autopilotModeName(mode);
-      const hasModeColumn = hasAutopilotModeColumn(db2);
-      if (mode === "ralph") {
-        if (!hasModeColumn) {
-          return { ok: false, reason: "ineligible", message: `Cannot send ${displayId} to Ralph: the database has no autopilot_mode column yet \u2014 open the Ideafy app once so it migrates` };
-        }
-        const browser = (opts.browserCheck ?? browserPrereqs)();
-        if (!browser.ok) return { ok: false, reason: "ineligible", message: `Cannot send ${displayId} to Ralph: ${browser.reason}` };
-      }
-      const refusal = ineligibleReason(row);
-      if (refusal) return { ok: false, reason: "ineligible", message: `Cannot send ${displayId} to ${name}: ${refusal}` };
-      const stage = row.status === "test" ? "verifying" : stripHtml(row.solutionSummary ?? "") === "" ? "planning" : "implementing";
-      db2.prepare(
-        `UPDATE cards SET use_worktree = 1, autopilot_stage = ?, autopilot_stop_reason = NULL,
-                autopilot_retried = 0, autopilot_fix_used = 0
-         WHERE id = ?`
-      ).run(stage, cardId);
-      if (hasModeColumn) {
-        db2.prepare(`UPDATE cards SET autopilot_mode = ? WHERE id = ?`).run(mode === "ralph" ? "ralph" : null, cardId);
-      }
-      let maxRounds;
-      if (mode === "ralph" && hasRalphLoopColumns(db2)) {
-        maxRounds = isRalphMaxRounds(opts.maxRounds) ? opts.maxRounds : resolveRalphMaxRounds(row.maxRounds, row.projectMaxRounds);
-        db2.prepare(
-          `UPDATE cards SET autopilot_max_rounds = ?, autopilot_fail_signature = NULL, autopilot_fail_count = 0,
-                  autopilot_started_at = ?
-           WHERE id = ?`
-        ).run(maxRounds, opts.now ?? (/* @__PURE__ */ new Date()).toISOString(), cardId);
-        if (isRalphMaxRounds(opts.maxRounds)) {
-          db2.prepare(`UPDATE projects SET ralph_max_rounds = ? WHERE id = (SELECT project_id FROM cards WHERE id = ?)`).run(
-            opts.maxRounds,
-            cardId
-          );
-        }
-      }
-      if (mode === "ralph") renewChainRalphDeadline(db2, cardId, opts.now ? Date.parse(opts.now) : Date.now());
-      const queued = enqueueCard(db2, cardId, null, "next");
-      if (!queued.ok) {
-        throw new Refused(`Cannot send ${displayId} to ${name}: ${queued.message.replace(/^Cannot queue [^:]+: /, "")}`);
-      }
-      if (mode === "ralph") recordRalphSend(db2, cardId, { stage, ...maxRounds !== void 0 ? { maxRounds } : {} }, opts.now);
-      return { ok: true, stage, rank: queued.rank, displayId, mode, ...maxRounds !== void 0 ? { maxRounds } : {} };
+function touchedFiles(db2, cardId, row, repo) {
+  const base = chainTipFor(db2, cardId, repo)?.ref ?? defaultBranchName(repo);
+  if (row.worktreeStatus === "active" && row.worktreePath && existsSync7(row.worktreePath)) {
+    const head = currentHead(row.worktreePath);
+    const found = cached3(`${row.worktreePath}\0${base}\0${head}`, () => {
+      const changed = listChangedFiles(repo, { worktreePath: row.worktreePath, baseRef: base, noRenames: true });
+      const untracked = gitRead(row.worktreePath, ["ls-files", "--others", "--exclude-standard"]);
+      const files = Array.from(/* @__PURE__ */ new Set([...changed, ...untracked ? lines(untracked) : []]));
+      return files.length ? { source: "worktree", ref: row.branch || base, files } : null;
     });
-  } catch (error2) {
-    if (error2 instanceof Refused) return { ok: false, reason: "ineligible", message: error2.message };
-    throw error2;
+    if (found) return found;
   }
-}
-function setAutopilotStage(db2, cardId, stage, used = {}) {
-  db2.prepare(
-    `UPDATE cards SET autopilot_stage = ?, autopilot_stop_reason = NULL,
-            autopilot_retried = COALESCE(?, autopilot_retried),
-            autopilot_fix_used = COALESCE(?, autopilot_fix_used)
-     WHERE id = ?`
-  ).run(
-    stage,
-    used.retried === void 0 ? null : used.retried ? 1 : 0,
-    used.fixUsed === void 0 ? null : used.fixUsed ? 1 : 0,
-    cardId
-  );
-}
-function stopAutopilot(db2, cardId, reason) {
-  transaction(db2, () => {
-    db2.prepare(`UPDATE cards SET autopilot_stage = 'stopped', autopilot_stop_reason = ? WHERE id = ?`).run(reason, cardId);
-    dequeueCard(db2, cardId);
-    if (autopilotModeFor(db2, cardId) === "ralph") recordRalphEvent(db2, { cardId, kind: "stopped", detail: { reason } });
+  if (row.branch) {
+    const head = gitRead(repo, ["rev-parse", "--verify", "--quiet", `refs/heads/${row.branch}`]);
+    if (head) {
+      const found = cached3(`${repo}\0${row.branch}\0${base}\0${head}`, () => {
+        const files = listChangedFiles(repo, { branchName: row.branch, baseRef: base, noRenames: true });
+        return files.length ? { source: "branch", ref: row.branch, files } : null;
+      });
+      if (found) return found;
+    }
+  }
+  const displayId = formatDisplayId(row.idPrefix, row.taskNumber);
+  if (!displayId) return null;
+  return cached3(`${repo}\0${displayId}\0${currentHead(repo)}`, () => {
+    const stdout = gitRead(repo, [
+      "log",
+      "--all",
+      "-E",
+      `--grep=^Card: ${escapeRegExp2(displayId)}$`,
+      "--no-renames",
+      "--name-only",
+      "--format="
+    ]);
+    const files = stdout === null ? [] : Array.from(new Set(lines(stdout)));
+    return files.length ? { source: "commits", ref: base, files } : null;
   });
 }
-function clearAutopilot(db2, cardId, opts = {}) {
-  return transaction(db2, () => {
-    const had = !!getRow(db2, `SELECT autopilot_stage AS stage FROM cards WHERE id = ?`, cardId)?.stage;
-    db2.prepare(
-      `UPDATE cards SET autopilot_stage = NULL, autopilot_stop_reason = NULL,
-              autopilot_retried = NULL, autopilot_fix_used = NULL
-       WHERE id = ?`
-    ).run(cardId);
-    if (hasAutopilotModeColumn(db2)) db2.prepare(`UPDATE cards SET autopilot_mode = NULL WHERE id = ?`).run(cardId);
-    clearRalphLoop(db2, cardId);
-    if (opts.dequeue !== false) dequeueCard(db2, cardId);
-    return had;
-  });
-}
-function strandedAutopilotCardIds(db2) {
-  return db2.prepare(
-    `SELECT id FROM cards
-       WHERE autopilot_stage IN ('planning', 'implementing', 'verifying', 'fixing')
-         AND queue_position IS NULL AND processing_type IS NULL`
-  ).all().map((row) => row.id);
-}
-function renewChainRalphDeadline(db2, cardId, nowMs) {
-  const hasColumn2 = db2.prepare(`PRAGMA table_info("card_groups")`).all().some(
-    (column) => column.name === "ralph_deadline"
-  );
-  if (!hasColumn2) return;
-  const row = getRow(
-    db2,
-    `SELECT c.group_id AS groupId, g.ralph_deadline AS deadline FROM cards c JOIN card_groups g ON g.id = c.group_id WHERE c.id = ?`,
-    cardId
-  );
-  if (!row?.groupId || !row.deadline) return;
-  const at = Date.parse(row.deadline);
-  if (Number.isFinite(at) && at > nowMs) return;
-  const open = getRow(
-    db2,
-    `SELECT COUNT(*) AS n FROM cards WHERE group_id = ? AND status NOT IN ('completed', 'withdrawn')
-         AND COALESCE(git_branch_status, '') <> 'in_chain'`,
-    row.groupId
-  )?.n ?? 1;
-  db2.prepare(`UPDATE card_groups SET ralph_deadline = ? WHERE id = ?`).run(chainRalphDeadline(nowMs, open), row.groupId);
-}
-function clearRalphLoop(db2, cardId) {
-  if (!hasRalphLoopColumns(db2)) return;
-  db2.prepare(
-    `UPDATE cards SET autopilot_max_rounds = NULL, autopilot_fail_signature = NULL, autopilot_fail_count = NULL,
-            autopilot_started_at = NULL
-     WHERE id = ?`
-  ).run(cardId);
-}
-function recordRalphRound(db2, cardId, failures, revisions) {
-  const signature = failureSignature(failures, revisions);
-  if (!hasRalphLoopColumns(db2)) return nextRalphCounter(null, signature);
-  return transaction(db2, () => {
-    const prev = getRow(
+function planBranchFilesFor(db2, cardId) {
+  try {
+    const row = getRow(
       db2,
-      `SELECT autopilot_fail_signature AS signature, autopilot_fail_count AS count FROM cards WHERE id = ?`,
+      `SELECT c.solution_summary AS plan, c.git_worktree_path AS worktreePath,
+              c.git_worktree_status AS worktreeStatus, c.git_branch_name AS branch,
+              c.task_number AS taskNumber, p.id_prefix AS idPrefix,
+              p.folder_path AS projectFolder, c.project_folder AS cardFolder
+       FROM cards c LEFT JOIN projects p ON p.id = c.project_id WHERE c.id = ?`,
       cardId
     );
-    const next = nextRalphCounter(prev ? { signature: prev.signature, count: prev.count ?? 0 } : null, signature);
-    db2.prepare(`UPDATE cards SET autopilot_fail_signature = ?, autopilot_fail_count = ? WHERE id = ?`).run(
-      next.signature,
-      next.count,
-      cardId
-    );
-    return next;
-  });
+    if (!row) return null;
+    const planned = extractPlanFiles(row.plan ?? "");
+    if (planned.length === 0) return null;
+    const repo = row.projectFolder || row.cardFolder;
+    if (!repo || !currentHead(repo)) return null;
+    const touched = touchedFiles(db2, cardId, row, repo);
+    if (!touched) return null;
+    const rows = comparePlanFiles(planned, touched.files);
+    const counts = { touched: 0, planned: 0, outside: 0 };
+    for (const { state } of rows) counts[state]++;
+    return { source: touched.source, ref: touched.ref, displayId: formatDisplayId(row.idPrefix, row.taskNumber), rows, counts };
+  } catch {
+    return null;
+  }
 }
 
 // ../lib/decision-ledger.ts
+var RALPH_CORE_REVISION_SOURCE = "ralph-verify-core";
+var RALPH_UNVERIFIABLE_SOURCE = "ralph-unverifiable";
 var RECOMMENDED_RE = /\s*[—–]\s*recommended:\s*|\s+-{1,2}\s*recommended:\s*/i;
 var OPEN_MARKER_RE = /\[NEEDS_DECISION:([^\]\n]*)\]/gi;
 var CODE_RE = /(<pre[\s>][\s\S]*?<\/pre>|<code[\s>][\s\S]*?<\/code>|```[\s\S]*?```|`[^`\n]*`)/gi;
@@ -28934,6 +29153,461 @@ function acceptedDecisionCounts(db2) {
     out.set(row.cardId, Number(row.n));
   }
   return out;
+}
+
+// ../lib/card-ops/drift.ts
+var MAX_LISTED = 20;
+var MAX_FILES = 200;
+var escapeRegExp3 = (text2) => text2.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+function driftSince(db2, cardId, field) {
+  try {
+    if (!hasBaseCommitColumns(db2)) return null;
+    const row = getRow(
+      db2,
+      `SELECT c.tests_base_commit AS testsBase, c.plan_base_commit AS planBase,
+              c.test_scenarios AS tests, c.solution_summary AS plan,
+              c.task_number AS taskNumber, p.id_prefix AS idPrefix,
+              p.folder_path AS projectFolder, c.project_folder AS cardFolder
+       FROM cards c LEFT JOIN projects p ON p.id = c.project_id WHERE c.id = ?`,
+      cardId
+    );
+    if (!row) return null;
+    const base = field === "plan" ? row.planBase : row.testsBase;
+    if (!base || !stripHtml((field === "plan" ? row.plan : row.tests) ?? "")) return null;
+    const repo = row.projectFolder || row.cardFolder;
+    if (!repo || !commitExists(repo, base)) return null;
+    const displayId = formatDisplayId(row.idPrefix, row.taskNumber);
+    const files = new Set(extractPlanFiles(row.plan ?? ""));
+    if (displayId) {
+      const own = gitRead(repo, ["log", "--all", "-E", `--grep=^Card: ${escapeRegExp3(displayId)}$`, "--name-only", "--format="]);
+      for (const line of (own ?? "").split("\n")) if (line.trim()) files.add(line.trim());
+    }
+    const watched = [...files].filter((file2) => !isGenerated(file2)).slice(0, MAX_FILES);
+    if (watched.length === 0) return null;
+    const chainTip = chainTipFor(db2, cardId, repo);
+    const tip = chainTip?.ref ?? "HEAD";
+    const log = gitRead(repo, ["log", "--format=%H%x1f%s%x1f%cI%x1f%b%x1e", `${base}..${tip}`, "--", ...watched]);
+    if (log === null) return null;
+    const ownTrailer = displayId ? new RegExp(`^Card: ${escapeRegExp3(displayId)}\\s*$`, "m") : null;
+    const commits = [];
+    for (const record2 of log.split("")) {
+      const [sha, subject, at, body] = record2.replace(/^\n+/, "").split("");
+      if (!sha || !/^[0-9a-f]{40}$/.test(sha.trim())) continue;
+      if (ownTrailer?.test(body ?? "")) continue;
+      commits.push({ sha: sha.trim(), subject: (subject ?? "").trim(), at: (at ?? "").trim() });
+    }
+    return { base, files: watched, commits: commits.slice(0, MAX_LISTED), total: commits.length, head: chainTip?.sha ?? currentHead(repo) };
+  } catch {
+    return null;
+  }
+}
+var testsDriftFor = (db2, cardId) => driftSince(db2, cardId, "tests");
+var planDriftFor = (db2, cardId) => driftSince(db2, cardId, "plan");
+function planDriftLine(db2, cardId) {
+  try {
+    const row = getRow(db2, `SELECT status FROM cards WHERE id = ?`, cardId);
+    if (!row?.status || !["backlog", "bugs", "progress"].includes(row.status)) return null;
+    const drift = planDriftFor(db2, cardId);
+    if (!drift || drift.total === 0) return null;
+    return `Plan drift: ${drift.total} commit(s) touched this card's files since its plan was written \u2014 the code wins; read them with git show before following the plan (get_card lists them as planDrift). Once checked, confirm it is still current or add a dated "Updates against code" section (save_plan confirmCurrent / appendRefresh, with the user's OK).`;
+  } catch {
+    return null;
+  }
+}
+
+// ../lib/card-ops/final-test.ts
+var CHILD_SELECT = `SELECT c.id, c.title, c.status, c.git_branch_status AS gitBranchStatus,
+    c.test_scenarios AS testScenarios, c.task_number AS taskNumber, p.id_prefix AS idPrefix
+  FROM cards c LEFT JOIN projects p ON p.id = c.project_id
+  WHERE c.split_from_card_id = ? ORDER BY c.task_number`;
+var PARENT_SELECT = `SELECT c.id, c.status, c.solution_summary AS solutionSummary,
+    c.test_scenarios AS testScenarios, p.mode AS projectMode
+  FROM cards c LEFT JOIN projects p ON p.id = c.project_id`;
+function hasSplitColumn2(db2) {
+  return allRows(db2, "PRAGMA table_info(cards)").some((column) => column.name === "split_from_card_id");
+}
+function childrenOf(db2, cardId) {
+  return allRows(db2, CHILD_SELECT, cardId);
+}
+var parentReady = (db2, parent) => parent.projectMode !== "work" && isFinalTestReady(parent, childrenOf(db2, parent.id));
+function finalTestReady(db2, cardId) {
+  if (!hasSplitColumn2(db2)) return false;
+  const parent = getRow(db2, `${PARENT_SELECT} WHERE c.id = ?`, cardId);
+  return !!parent && parentReady(db2, parent);
+}
+function finalTestReadyIds(db2) {
+  const ids = /* @__PURE__ */ new Set();
+  if (!hasSplitColumn2(db2)) return ids;
+  const parents = allRows(
+    db2,
+    `${PARENT_SELECT} WHERE c.status IN ('backlog', 'bugs')
+       AND EXISTS (SELECT 1 FROM cards child WHERE child.split_from_card_id = c.id)`
+  );
+  for (const parent of parents) if (parentReady(db2, parent)) ids.add(parent.id);
+  return ids;
+}
+function enterFinalTest(db2, cardId, now) {
+  return transaction(db2, () => {
+    if (!finalTestReady(db2, cardId)) return { ok: false, reason: "not-ready" };
+    const children = childrenOf(db2, cardId).filter((child) => child.status !== "withdrawn").length;
+    const saved = savePlan(db2, {
+      id: cardId,
+      html: finalTestNote(children),
+      now,
+      author: IDEAFY_AUTHOR,
+      moveTo: "test",
+      base: false
+    });
+    return saved.ok ? { ok: true, children } : { ok: false, reason: "not-ready" };
+  });
+}
+function chainCheckFor(db2, cardId) {
+  if (!hasSplitColumn2(db2)) return [];
+  const check2 = [];
+  for (const child of childrenOf(db2, cardId)) {
+    if (child.status === "withdrawn") continue;
+    const plan = planBranchFilesFor(db2, child.id);
+    const progress = parseTestProgress(child.testScenarios ?? "");
+    const row = {
+      name: formatDisplayId(child.idPrefix, child.taskNumber) ?? child.title,
+      untouched: plan?.rows.filter((file2) => file2.state === "planned").map((file2) => file2.path) ?? [],
+      offPlan: plan?.rows.filter((file2) => file2.state === "outside").map((file2) => file2.path) ?? [],
+      driftCommits: testsDriftFor(db2, child.id)?.total ?? 0,
+      // A Completed child was closed by someone: unwalkedItems does not count it either.
+      unticked: progress && child.status === "test" ? progress.total - progress.checked : 0,
+      decisions: decisionsForCard(db2, child.id).filter((entry) => entry.kind === "acceptance").map((entry) => entry.question ?? "").filter(Boolean)
+    };
+    if (row.untouched.length || row.offPlan.length || row.driftCommits || row.unticked || row.decisions.length) check2.push(row);
+  }
+  return check2;
+}
+var LISTED_FILES = 5;
+function fileList(files) {
+  const shown = files.slice(0, LISTED_FILES).join(", ");
+  return files.length > LISTED_FILES ? `${shown} +${files.length - LISTED_FILES}` : shown;
+}
+var plural2 = (n, word) => `${n} ${word}${n === 1 ? "" : "s"}`;
+function chainCheckWarnings(check2) {
+  return check2.map((child) => {
+    const parts = [];
+    if (child.untouched.length) parts.push(`plan named but not touched: ${fileList(child.untouched)}`);
+    if (child.offPlan.length) parts.push(`changed outside its plan: ${fileList(child.offPlan)}`);
+    if (child.driftCommits) parts.push(`${plural2(child.driftCommits, "commit")} on its files since its checklist`);
+    if (child.unticked) parts.push(`${plural2(child.unticked, "item")} not walked`);
+    if (child.decisions.length) parts.push(`${plural2(child.decisions.length, "decision")} taken by Ralph`);
+    return `Chain check \xB7 ${child.name}: ${parts.join("; ")}`;
+  });
+}
+function finalTestFixFiles(db2, cardId) {
+  if (!hasSplitColumn2(db2)) return [];
+  const files = /* @__PURE__ */ new Set();
+  for (const child of childrenOf(db2, cardId)) {
+    if (child.status === "withdrawn") continue;
+    for (const file2 of planBranchFilesFor(db2, child.id)?.rows ?? []) files.add(file2.path);
+  }
+  const chain = cardIntegrationGroup(db2, cardId);
+  if (chain?.integrationBranch && chain.folderPath) {
+    for (const file2 of listChangedFiles(chain.folderPath, { branchName: chain.integrationBranch, noRenames: true })) files.add(file2);
+  }
+  return [...files];
+}
+function unwalkedChildItems(db2, cardId) {
+  if (!hasSplitColumn2(db2)) return 0;
+  return unwalkedItems(childrenOf(db2, cardId));
+}
+function chainUnwalkedItems(db2, groupId) {
+  if (!hasSplitColumn2(db2)) return 0;
+  return unwalkedItems(
+    allRows(
+      db2,
+      `SELECT status, git_branch_status AS gitBranchStatus, test_scenarios AS testScenarios
+       FROM cards WHERE group_id = ? AND split_from_card_id IS NOT NULL`,
+      groupId
+    )
+  );
+}
+function unwalkedChildItemsText(count) {
+  if (count <= 0) return null;
+  return `${count} child item${count === 1 ? " was" : "s were"} not walked`;
+}
+
+// ../lib/card-ops/autopilot.ts
+var ROW_SELECT2 = `
+  SELECT c.id, c.title, c.status,
+         c.solution_summary AS solutionSummary,
+         c.test_scenarios AS testScenarios,
+         c.processing_type AS processingType,
+         c.use_worktree AS useWorktree,
+         c.git_worktree_path AS gitWorktreePath,
+         c.git_worktree_status AS gitWorktreeStatus,
+         c.git_branch_status AS gitBranchStatus,
+         c.rebase_conflict AS rebaseConflict,
+         c.task_number AS taskNumber,
+         p.id_prefix AS idPrefix,
+         p.mode AS projectMode,
+         c.autopilot_stage AS stage,
+         c.autopilot_stop_reason AS stopReason,
+         c.autopilot_retried AS retried,
+         c.autopilot_fix_used AS fixUsed,
+         %MODE% AS mode,
+         %LOOP%
+  FROM cards c LEFT JOIN projects p ON p.id = c.project_id
+  WHERE c.id = ?`;
+var LOOP_SELECT = `c.autopilot_max_rounds AS maxRounds, c.autopilot_fail_signature AS failSignature,
+         c.autopilot_fail_count AS failCount, c.autopilot_started_at AS startedAt, p.ralph_max_rounds AS projectMaxRounds`;
+var NO_LOOP_SELECT = `NULL AS maxRounds, NULL AS failSignature, NULL AS failCount, NULL AS startedAt, NULL AS projectMaxRounds`;
+var modeColumnCache = /* @__PURE__ */ new WeakMap();
+var loopColumnCache = /* @__PURE__ */ new WeakMap();
+function hasRalphLoopColumns(db2) {
+  if (loopColumnCache.get(db2)) return true;
+  const has = db2.prepare(`PRAGMA table_info("cards")`).all().some((c) => c.name === "autopilot_fail_count") && db2.prepare(`PRAGMA table_info("projects")`).all().some((c) => c.name === "ralph_max_rounds");
+  if (has) loopColumnCache.set(db2, true);
+  return has;
+}
+function hasAutopilotModeColumn(db2) {
+  const known = modeColumnCache.get(db2);
+  if (known !== void 0) return known;
+  const has = db2.prepare(`PRAGMA table_info("cards")`).all().some(
+    (column) => column.name === "autopilot_mode"
+  );
+  if (has) modeColumnCache.set(db2, true);
+  return has;
+}
+function readRow(db2, cardId) {
+  const sql = ROW_SELECT2.replace("%MODE%", hasAutopilotModeColumn(db2) ? "c.autopilot_mode" : "NULL").replace(
+    "%LOOP%",
+    hasRalphLoopColumns(db2) ? LOOP_SELECT : NO_LOOP_SELECT
+  );
+  return getRow(db2, sql, cardId);
+}
+function stateOf(row) {
+  const mode = autopilotModeOf(row.mode);
+  return {
+    stage: isAutopilotStage(row.stage) ? row.stage : null,
+    stopReason: row.stopReason,
+    retried: !!row.retried,
+    fixUsed: !!row.fixUsed,
+    mode,
+    ...mode === "ralph" ? {
+      ralph: {
+        maxRounds: resolveRalphMaxRounds(row.maxRounds, row.projectMaxRounds),
+        failCount: row.failCount ?? 0,
+        signature: row.failSignature,
+        startedAt: row.startedAt
+      }
+    } : {}
+  };
+}
+function getAutopilotState(db2, cardId) {
+  const row = readRow(db2, cardId);
+  return row ? stateOf(row) : { stage: null, stopReason: null, retried: false, fixUsed: false, mode: "default" };
+}
+function worktreeIsDirty(row) {
+  if (row.status !== "progress" || !row.gitWorktreePath || row.gitWorktreeStatus !== "active") return false;
+  return !!gitRead(row.gitWorktreePath, ["status", "--porcelain"]);
+}
+function ineligibleReason(row) {
+  const html = row.testScenarios ?? "";
+  return autopilotIneligibleReason({
+    dirtyWorktree: worktreeIsDirty(row),
+    status: row.status,
+    hasPlan: hasRealPlan(row.solutionSummary),
+    hasChecklist: hasOwnChecklist(html),
+    hasCoreFlow: !!parseTestProgress(html)?.core,
+    projectMode: row.projectMode,
+    useWorktree: row.useWorktree === null ? null : !!row.useWorktree,
+    activeWorktree: !!row.gitWorktreePath && row.gitWorktreeStatus === "active",
+    opensWorktree: flowsOnlyChecklist(html) && !row.gitBranchStatus,
+    stage: row.stage,
+    processingType: row.processingType,
+    openDecision: findPlanDecisions(row.solutionSummary).length > 0,
+    rebaseConflict: !!row.rebaseConflict
+  });
+}
+function autopilotContinueQuestion(cardId, mode = "default") {
+  const name = autopilotModeName(mode);
+  return `${name} stopped on this card for a plan decision, and the plan no longer asks one. Ask the user whether to continue on ${name}. Call ${queueCallFor(cardId, mode)} only after the user explicitly says yes.`;
+}
+function queueCallFor(cardId, mode) {
+  return mode === "ralph" ? `queue_card({ cardId: "${cardId}", autopilot: true, mode: "ralph" })` : `queue_card({ cardId: "${cardId}", autopilot: true })`;
+}
+function autopilotModeFor(db2, cardId) {
+  const row = readRow(db2, cardId);
+  return autopilotModeOf(row?.mode);
+}
+function autopilotLine(db2, cardId) {
+  const row = readRow(db2, cardId);
+  if (!row) return null;
+  const { stage, stopReason, mode = "default" } = stateOf(row);
+  const name = autopilotModeName(mode);
+  if (isActiveAutopilotStage(stage)) {
+    return `${name} is running this card (${stage}) in its worktree; do not edit there. Ask the user to stop ${name} first.`;
+  }
+  const resume = autopilotResume({ autopilotStage: stage, autopilotStopReason: stopReason, solutionSummary: row.solutionSummary });
+  const askToContinue = `Call ${queueCallFor(cardId, mode)} only after the user explicitly says yes.`;
+  if (resume === "decision-answered") return `In your first sentence: ${autopilotContinueQuestion(cardId, mode)}`;
+  if (resume === "decision-open") {
+    return `${name} stopped on this card: ${sanitizeForReminder(stopReason || "no reason given", 200)}. Say so in your first sentence: the user answers the decision in the plan and deletes its [NEEDS_DECISION] marker before ${name} can continue.`;
+  }
+  if (resume === "stopped") {
+    return `${name} stopped on this card: ${sanitizeForReminder(stopReason || "no reason given", 200)}. Say so in your first sentence, and once it is dealt with ask whether to continue on ${name}. ${askToContinue}`;
+  }
+  return null;
+}
+function autopilotRefusal(db2, cardId) {
+  const row = readRow(db2, cardId);
+  return row ? ineligibleReason(row) ?? sessionHoldRefusal(db2, cardId) : "Card not found";
+}
+function sessionHoldRefusal(db2, cardId) {
+  const hold = readRuntime(db2).holds.find((h) => h.cardId === cardId);
+  return hold ? `it is ${hold.reason.charAt(0).toLowerCase()}${hold.reason.slice(1)}` : null;
+}
+var Refused = class extends Error {
+};
+function startAutopilot(db2, cardId, opts = {}) {
+  try {
+    return transaction(db2, () => {
+      const row = readRow(db2, cardId);
+      if (!row) return { ok: false, reason: "not-found", message: "Card not found" };
+      const displayId = queueDisplayId(row);
+      const mode = opts.mode ?? autopilotModeOf(row.mode);
+      const name = autopilotModeName(mode);
+      const hasModeColumn = hasAutopilotModeColumn(db2);
+      if (mode === "ralph") {
+        if (!hasModeColumn) {
+          return { ok: false, reason: "ineligible", message: `Cannot send ${displayId} to Ralph: the database has no autopilot_mode column yet \u2014 open the Ideafy app once so it migrates` };
+        }
+        const browser = (opts.browserCheck ?? browserPrereqs)();
+        if (!browser.ok) return { ok: false, reason: "ineligible", message: `Cannot send ${displayId} to Ralph: ${browser.reason}` };
+      }
+      const refusal = ineligibleReason(row) ?? sessionHoldRefusal(db2, cardId);
+      if (refusal) return { ok: false, reason: "ineligible", message: `Cannot send ${displayId} to ${name}: ${refusal}` };
+      const entersFinalTest = row.status !== "test" && finalTestReady(db2, cardId);
+      if (entersFinalTest) enterFinalTest(db2, cardId, opts.now ?? (/* @__PURE__ */ new Date()).toISOString());
+      const stage = row.status === "test" || entersFinalTest ? "verifying" : hasRealPlan(row.solutionSummary) ? "implementing" : "planning";
+      db2.prepare(
+        `UPDATE cards SET use_worktree = 1, autopilot_stage = ?, autopilot_stop_reason = NULL,
+                autopilot_retried = 0, autopilot_fix_used = 0
+         WHERE id = ?`
+      ).run(stage, cardId);
+      if (hasModeColumn) {
+        db2.prepare(`UPDATE cards SET autopilot_mode = ? WHERE id = ?`).run(mode === "ralph" ? "ralph" : null, cardId);
+      }
+      let maxRounds;
+      if (mode === "ralph" && hasRalphLoopColumns(db2)) {
+        maxRounds = isRalphMaxRounds(opts.maxRounds) ? opts.maxRounds : resolveRalphMaxRounds(row.maxRounds, row.projectMaxRounds);
+        db2.prepare(
+          `UPDATE cards SET autopilot_max_rounds = ?, autopilot_fail_signature = NULL, autopilot_fail_count = 0,
+                  autopilot_started_at = ?
+           WHERE id = ?`
+        ).run(maxRounds, opts.now ?? (/* @__PURE__ */ new Date()).toISOString(), cardId);
+        if (isRalphMaxRounds(opts.maxRounds)) {
+          db2.prepare(`UPDATE projects SET ralph_max_rounds = ? WHERE id = (SELECT project_id FROM cards WHERE id = ?)`).run(
+            opts.maxRounds,
+            cardId
+          );
+        }
+      }
+      if (mode === "ralph") renewChainRalphDeadline(db2, cardId, opts.now ? Date.parse(opts.now) : Date.now());
+      const queued = enqueueCard(db2, cardId, null, "next");
+      if (!queued.ok) {
+        throw new Refused(`Cannot send ${displayId} to ${name}: ${queued.message.replace(/^Cannot queue [^:]+: /, "")}`);
+      }
+      if (mode === "ralph") recordRalphSend(db2, cardId, { stage, ...maxRounds !== void 0 ? { maxRounds } : {} }, opts.now);
+      return { ok: true, stage, rank: queued.rank, displayId, mode, ...maxRounds !== void 0 ? { maxRounds } : {} };
+    });
+  } catch (error2) {
+    if (error2 instanceof Refused) return { ok: false, reason: "ineligible", message: error2.message };
+    throw error2;
+  }
+}
+function setAutopilotStage(db2, cardId, stage, used = {}) {
+  db2.prepare(
+    `UPDATE cards SET autopilot_stage = ?, autopilot_stop_reason = NULL,
+            autopilot_retried = COALESCE(?, autopilot_retried),
+            autopilot_fix_used = COALESCE(?, autopilot_fix_used)
+     WHERE id = ?`
+  ).run(
+    stage,
+    used.retried === void 0 ? null : used.retried ? 1 : 0,
+    used.fixUsed === void 0 ? null : used.fixUsed ? 1 : 0,
+    cardId
+  );
+}
+function stopAutopilot(db2, cardId, reason) {
+  transaction(db2, () => {
+    db2.prepare(`UPDATE cards SET autopilot_stage = 'stopped', autopilot_stop_reason = ? WHERE id = ?`).run(reason, cardId);
+    dequeueCard(db2, cardId);
+    if (autopilotModeFor(db2, cardId) === "ralph") recordRalphEvent(db2, { cardId, kind: "stopped", detail: { reason } });
+  });
+}
+function clearAutopilot(db2, cardId, opts = {}) {
+  return transaction(db2, () => {
+    const had = !!getRow(db2, `SELECT autopilot_stage AS stage FROM cards WHERE id = ?`, cardId)?.stage;
+    db2.prepare(
+      `UPDATE cards SET autopilot_stage = NULL, autopilot_stop_reason = NULL,
+              autopilot_retried = NULL, autopilot_fix_used = NULL
+       WHERE id = ?`
+    ).run(cardId);
+    if (hasAutopilotModeColumn(db2)) db2.prepare(`UPDATE cards SET autopilot_mode = NULL WHERE id = ?`).run(cardId);
+    clearRalphLoop(db2, cardId);
+    if (opts.dequeue !== false) dequeueCard(db2, cardId);
+    return had;
+  });
+}
+function strandedAutopilotCardIds(db2) {
+  return db2.prepare(
+    `SELECT id FROM cards
+       WHERE autopilot_stage IN ('planning', 'implementing', 'verifying', 'fixing')
+         AND queue_position IS NULL AND processing_type IS NULL`
+  ).all().map((row) => row.id);
+}
+function renewChainRalphDeadline(db2, cardId, nowMs) {
+  const hasColumn2 = db2.prepare(`PRAGMA table_info("card_groups")`).all().some(
+    (column) => column.name === "ralph_deadline"
+  );
+  if (!hasColumn2) return;
+  const row = getRow(
+    db2,
+    `SELECT c.group_id AS groupId, g.ralph_deadline AS deadline FROM cards c JOIN card_groups g ON g.id = c.group_id WHERE c.id = ?`,
+    cardId
+  );
+  if (!row?.groupId || !row.deadline) return;
+  const at = Date.parse(row.deadline);
+  if (Number.isFinite(at) && at > nowMs) return;
+  const open = getRow(
+    db2,
+    `SELECT COUNT(*) AS n FROM cards WHERE group_id = ? AND status NOT IN ('completed', 'withdrawn')
+         AND COALESCE(git_branch_status, '') <> 'in_chain'`,
+    row.groupId
+  )?.n ?? 1;
+  db2.prepare(`UPDATE card_groups SET ralph_deadline = ? WHERE id = ?`).run(chainRalphDeadline(nowMs, open), row.groupId);
+}
+function clearRalphLoop(db2, cardId) {
+  if (!hasRalphLoopColumns(db2)) return;
+  db2.prepare(
+    `UPDATE cards SET autopilot_max_rounds = NULL, autopilot_fail_signature = NULL, autopilot_fail_count = NULL,
+            autopilot_started_at = NULL
+     WHERE id = ?`
+  ).run(cardId);
+}
+function recordRalphRound(db2, cardId, failures, revisions) {
+  const signature = failureSignature(failures, revisions);
+  if (!hasRalphLoopColumns(db2)) return nextRalphCounter(null, signature);
+  return transaction(db2, () => {
+    const prev = getRow(
+      db2,
+      `SELECT autopilot_fail_signature AS signature, autopilot_fail_count AS count FROM cards WHERE id = ?`,
+      cardId
+    );
+    const next = nextRalphCounter(prev ? { signature: prev.signature, count: prev.count ?? 0 } : null, signature);
+    db2.prepare(`UPDATE cards SET autopilot_fail_signature = ?, autopilot_fail_count = ? WHERE id = ?`).run(
+      next.signature,
+      next.count,
+      cardId
+    );
+    return next;
+  });
 }
 
 // ../lib/card-ops/save-content.ts
@@ -29131,6 +29805,32 @@ function ralphRevisionTargets(html, revisions) {
     return { revision, item: index >= 0 ? items[index] : null };
   });
 }
+function ralphWroteChecklist(db2, cardId) {
+  if (!hasAuthorshipTable(db2)) return false;
+  const sentAt = Date.parse(firstRalphSendAt(db2, cardId) ?? "");
+  if (!Number.isFinite(sentAt)) return false;
+  const rows = authorshipRows(db2, cardId).filter(
+    (row) => row.field === "testScenarios" && row.action !== "tick" && row.action !== "untick"
+  );
+  if (rows.some((row) => row.actor === "you" || row.action === "apply" || row.action === "enrich")) return false;
+  const write = [...rows].reverse().find((row) => row.action === "write");
+  return !!write && write.actor === "ideafy" && Date.parse(write.at) >= sentAt;
+}
+function ralphMayReviseItem(db2, cardId, item) {
+  if (ralphMayRevise(item)) return true;
+  if (!item?.core || isManualItem(item.text)) return false;
+  if (!ralphWroteChecklist(db2, cardId)) return false;
+  const revisions = listCardDecisions(db2, cardId).filter((entry) => entry.kind === "revision");
+  return originalItemText(item.text, revisions) === item.text;
+}
+function ralphCoreRewordOpen(db2, cardId) {
+  const row = getRow(db2, `SELECT test_scenarios AS tests FROM cards WHERE id = ?`, cardId);
+  return checklistItems(row?.tests).some((item) => item.core && ralphMayReviseItem(db2, cardId, item));
+}
+function ralphRewordKeepsTokens(item, to) {
+  if (isManualItem(to)) return false;
+  return !(item?.core && isUiItem(item.text) && !isUiItem(to));
+}
 function onRalph(db2, cardId) {
   if (!hasAutopilotModeColumn(db2)) return false;
   const row = getRow(
@@ -29159,7 +29859,7 @@ function reviseTests(db2, args) {
     const ralph = args.author.actor === "ideafy" && !args.author.via && onRalph(db2, args.id);
     const targets = ralph ? ralphRevisionTargets(previous, args.revisions) : [];
     if (ralph) {
-      const refused = targets.filter((t) => !ralphMayRevise(t.item)).map((t) => t.item?.text ?? t.revision.from);
+      const refused = targets.filter((t) => !ralphMayReviseItem(db2, args.id, t.item) || !ralphRewordKeepsTokens(t.item, t.revision.to)).map((t) => t.item?.text ?? t.revision.from);
       if (refused.length > 0) return { ok: false, reason: "refused", message: RALPH_REVISE_REFUSAL, items: refused };
     }
     const { html, missing } = reviseTaskItems(previous, args.revisions);
@@ -29182,9 +29882,10 @@ function reviseTests(db2, args) {
           cardId: args.id,
           kind: "revision",
           question: item?.heading ?? "Checklist",
+          recommended: revision.reason || null,
           originalText: item?.text ?? revision.from,
           newText: revision.to,
-          source: "ralph-verify",
+          source: item?.core ? RALPH_CORE_REVISION_SOURCE : "ralph-verify",
           now: args.now
         });
       }
@@ -29279,6 +29980,7 @@ __export(split_proposal_exports, {
   defaultSplitChain: () => defaultSplitChain,
   integrationReason: () => integrationReason,
   integrationSuggestion: () => integrationSuggestion,
+  isSplitWithdrawal: () => isSplitWithdrawal,
   parseSplitInto: () => parseSplitInto,
   splitDepths: () => splitDepths,
   splitLinkCount: () => splitLinkCount,
@@ -29323,6 +30025,11 @@ function parseSplitInto(value) {
   }
   const flows = (Array.isArray(raw.flows) ? raw.flows : []).map((flow) => text(flow, 500)).filter(Boolean);
   return { ok: true, proposal: { reason: text(raw.reason, 1e3), cards, flows } };
+}
+function isSplitWithdrawal(value) {
+  if (!value || typeof value !== "object") return false;
+  const raw = value;
+  return raw.withdraw === true && raw.cards === void 0;
 }
 function splitLinkCount(proposal) {
   return proposal.cards.reduce((sum, card) => sum + card.blockedBy.length, 0);
@@ -29410,8 +30117,23 @@ function saveSplitProposal(db2, args) {
   }
   return { saved: true, proposal: parsed.proposal };
 }
+function withdrawSplitProposal(db2, cardId) {
+  if (!hasSplitTables(db2)) return { withdrawn: false, reason: "unsupported" };
+  const stored = getSplitProposal(db2, cardId);
+  if (!stored) return { withdrawn: false, reason: "none" };
+  if (stored.status !== "pending") return { withdrawn: false, reason: stored.status };
+  runChanges(db2, "DELETE FROM card_split_proposals WHERE card_id = ? AND status = 'pending'", cardId);
+  return { withdrawn: true, proposal: stored.proposal };
+}
 function splitProposalOutcome(split) {
   if (!split) return void 0;
+  if ("withdrawn" in split) {
+    if (split.withdrawn) return "withdrawn";
+    if (split.reason === "dismissed") return "kept-dismissed";
+    if (split.reason === "applied") return "already-split";
+    if (split.reason === "none") return "nothing-to-withdraw";
+    return void 0;
+  }
   if (split.saved) return "updated";
   if (split.reason === "dismissed") return "kept-dismissed";
   if (split.reason === "applied") return "already-split";
@@ -29475,7 +30197,7 @@ function toChild(row) {
 }
 var REF_SELECT = `SELECT c.id, c.title, c.status, c.task_number AS taskNumber, p.id_prefix AS idPrefix
   FROM cards c LEFT JOIN projects p ON p.id = c.project_id`;
-var CHILD_SELECT = `SELECT c.id, c.title, c.status, c.task_number AS taskNumber, p.id_prefix AS idPrefix,
+var CHILD_SELECT2 = `SELECT c.id, c.title, c.status, c.task_number AS taskNumber, p.id_prefix AS idPrefix,
     c.git_branch_status AS gitBranchStatus, c.test_scenarios AS testScenarios, c.solution_summary AS solutionSummary
   FROM cards c LEFT JOIN projects p ON p.id = c.project_id`;
 var refName = (ref) => ref.displayId ?? ref.title;
@@ -29498,7 +30220,7 @@ function splitRelations(db2, cardId) {
   const columns = allRows(db2, "PRAGMA table_info(cards)");
   if (!columns.some((column) => column.name === "split_from_card_id")) return null;
   const own = getRow(db2, "SELECT split_from_card_id AS parentId FROM cards WHERE id = ?", cardId);
-  const children = allRows(db2, `${CHILD_SELECT} WHERE c.split_from_card_id = ? ORDER BY c.task_number`, cardId).map(toChild);
+  const children = allRows(db2, `${CHILD_SELECT2} WHERE c.split_from_card_id = ? ORDER BY c.task_number`, cardId).map(toChild);
   let parent = null;
   if (own?.parentId) {
     const row = getRow(db2, `${REF_SELECT} WHERE c.id = ?`, own.parentId);
@@ -29506,7 +30228,8 @@ function splitRelations(db2, cardId) {
   }
   if (!parent && children.length === 0) return null;
   const role = children.length > 0 ? SPLIT_PARENT_RULE : parent && !("missing" in parent) ? splitChildRule(refName(parent)) : null;
-  return { parent, children, role };
+  const unwalked = children.length > 0 ? unwalkedChildItems(db2, cardId) : 0;
+  return { parent, children, role, ...unwalked > 0 ? { unwalkedChildItems: unwalked } : {} };
 }
 function splitRoleLine(db2, cardId) {
   try {
@@ -29518,7 +30241,8 @@ function splitRoleLine(db2, cardId) {
         const ticks = child.tests ? `, tests ${child.tests}` : "";
         return `${sanitizeForReminder(refName(child), 80)} (${child.status}${ticks}, ${state})`;
       });
-      return `Split parent of ${parts.join(", ")}. ${SPLIT_PARENT_RULE}`;
+      const next = finalTestReady(db2, cardId) ? " Every child is ready: the next step is the End-to-end test (start_card_run), not a plan; write a plan only if the user asks." : "";
+      return `Split parent of ${parts.join(", ")}. ${SPLIT_PARENT_RULE}${next}`;
     }
     const parent = split.parent;
     const line = `Split out of ${sanitizeForReminder(refName(parent), 80)} \xB7 ${sanitizeForReminder(parent.title, 80)}. ${splitChildRule(sanitizeForReminder(refName(parent), 80))}`;
@@ -29703,66 +30427,6 @@ function parseSplitSnapshot(raw) {
   return parseSplitInto(json2).ok ? { payload, status } : void 0;
 }
 
-// ../lib/card-ops/drift.ts
-var MAX_LISTED = 20;
-var MAX_FILES = 200;
-var escapeRegExp2 = (text2) => text2.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-function driftSince(db2, cardId, field) {
-  try {
-    if (!hasBaseCommitColumns(db2)) return null;
-    const row = getRow(
-      db2,
-      `SELECT c.tests_base_commit AS testsBase, c.plan_base_commit AS planBase,
-              c.test_scenarios AS tests, c.solution_summary AS plan,
-              c.task_number AS taskNumber, p.id_prefix AS idPrefix,
-              p.folder_path AS projectFolder, c.project_folder AS cardFolder
-       FROM cards c LEFT JOIN projects p ON p.id = c.project_id WHERE c.id = ?`,
-      cardId
-    );
-    if (!row) return null;
-    const base = field === "plan" ? row.planBase : row.testsBase;
-    if (!base || !stripHtml((field === "plan" ? row.plan : row.tests) ?? "")) return null;
-    const repo = row.projectFolder || row.cardFolder;
-    if (!repo || !commitExists(repo, base)) return null;
-    const displayId = formatDisplayId(row.idPrefix, row.taskNumber);
-    const files = new Set(extractPlanFiles(row.plan ?? ""));
-    if (displayId) {
-      const own = gitRead(repo, ["log", "--all", "-E", `--grep=^Card: ${escapeRegExp2(displayId)}$`, "--name-only", "--format="]);
-      for (const line of (own ?? "").split("\n")) if (line.trim()) files.add(line.trim());
-    }
-    const watched = [...files].filter((file2) => !isGenerated(file2)).slice(0, MAX_FILES);
-    if (watched.length === 0) return null;
-    const chainTip = chainTipFor(db2, cardId, repo);
-    const tip = chainTip?.ref ?? "HEAD";
-    const log = gitRead(repo, ["log", "--format=%H%x1f%s%x1f%cI%x1f%b%x1e", `${base}..${tip}`, "--", ...watched]);
-    if (log === null) return null;
-    const ownTrailer = displayId ? new RegExp(`^Card: ${escapeRegExp2(displayId)}\\s*$`, "m") : null;
-    const commits = [];
-    for (const record2 of log.split("")) {
-      const [sha, subject, at, body] = record2.replace(/^\n+/, "").split("");
-      if (!sha || !/^[0-9a-f]{40}$/.test(sha.trim())) continue;
-      if (ownTrailer?.test(body ?? "")) continue;
-      commits.push({ sha: sha.trim(), subject: (subject ?? "").trim(), at: (at ?? "").trim() });
-    }
-    return { base, files: watched, commits: commits.slice(0, MAX_LISTED), total: commits.length, head: chainTip?.sha ?? currentHead(repo) };
-  } catch {
-    return null;
-  }
-}
-var testsDriftFor = (db2, cardId) => driftSince(db2, cardId, "tests");
-var planDriftFor = (db2, cardId) => driftSince(db2, cardId, "plan");
-function planDriftLine(db2, cardId) {
-  try {
-    const row = getRow(db2, `SELECT status FROM cards WHERE id = ?`, cardId);
-    if (!row?.status || !["backlog", "bugs", "progress"].includes(row.status)) return null;
-    const drift = planDriftFor(db2, cardId);
-    if (!drift || drift.total === 0) return null;
-    return `Plan drift: ${drift.total} commit(s) touched this card's files since its plan was written \u2014 the code wins; read them with git show before following the plan (get_card lists them as planDrift). Once checked, confirm it is still current or add a dated "Updates against code" section (save_plan confirmCurrent / appendRefresh, with the user's OK).`;
-  } catch {
-    return null;
-  }
-}
-
 // ../lib/card-ops/story.ts
 var GIT_TTL_MS = 3e4;
 var gitCache = /* @__PURE__ */ new Map();
@@ -29774,13 +30438,13 @@ function defaultBranch(repo) {
   }
   return null;
 }
-function branchStoryCounts(repo, branch) {
+function branchStoryCounts(repo, branch, against) {
   const head = gitRead(repo, ["rev-parse", "--verify", "--quiet", `refs/heads/${branch}`]);
   if (!head) return { exists: false, ahead: 0, files: 0 };
-  const key = `${repo}\0${branch}\0${head}`;
+  const key = `${repo}\0${branch}\0${head}\0${against ?? ""}`;
   const cached4 = gitCache.get(key);
   if (cached4 && Date.now() - cached4.at < GIT_TTL_MS) return cached4.value;
-  const base = defaultBranch(repo);
+  const base = against || defaultBranch(repo);
   if (!base) return null;
   const ahead = Number(gitRead(repo, ["rev-list", "--count", `${base}..${branch}`]) ?? NaN);
   const names = gitRead(repo, ["diff", "--name-only", `${base}...${branch}`]);
@@ -29793,7 +30457,7 @@ function loadStoryInputs(db2, cardId) {
   try {
     const row = getRow(
       db2,
-      `SELECT c.git_branch_name AS branch, p.folder_path AS projectFolder, c.project_folder AS cardFolder
+      `SELECT c.git_branch_name AS branch, c.git_branch_status AS branchStatus, p.folder_path AS projectFolder, c.project_folder AS cardFolder
        FROM cards c LEFT JOIN projects p ON p.id = c.project_id WHERE c.id = ?`,
       cardId
     );
@@ -29804,111 +30468,13 @@ function loadStoryInputs(db2, cardId) {
       cardId
     );
     const repo = row.projectFolder || row.cardFolder;
+    const against = repo && row.branch && row.branchStatus !== "in_chain" ? chainTipFor(db2, cardId, repo)?.ref : null;
     return {
       opinionUserMessages: messages ? Number(messages.n) : null,
-      git: row.branch && repo ? branchStoryCounts(repo, row.branch) : null
+      git: row.branch && repo ? branchStoryCounts(repo, row.branch, against) : null
     };
   } catch {
     return { opinionUserMessages: null, git: null };
-  }
-}
-
-// ../lib/card-ops/branch-files.ts
-import { existsSync as existsSync6 } from "fs";
-function defaultBranchName(repo) {
-  const remote = gitRead(repo, ["symbolic-ref", "refs/remotes/origin/HEAD"]);
-  if (remote) return remote.replace("refs/remotes/origin/", "").replace("refs/heads/", "");
-  return gitRead(repo, ["show-ref", "--verify", "--quiet", "refs/heads/main"]) !== null ? "main" : "master";
-}
-var lines = (stdout) => stdout.split("\n").map((line) => line.trim()).filter(Boolean);
-function listChangedFiles(repoPath, opts) {
-  const base = opts.baseRef || defaultBranchName(repoPath);
-  const renames = opts.noRenames ? ["--no-renames"] : [];
-  if (opts.worktreePath) {
-    if (!existsSync6(opts.worktreePath)) return [];
-    const mergeBase = gitRead(opts.worktreePath, ["merge-base", base, "HEAD"]);
-    if (!mergeBase) return [];
-    const stdout = gitRead(opts.worktreePath, ["diff", "--name-only", ...renames, mergeBase]);
-    return stdout === null ? [] : lines(stdout);
-  }
-  if (opts.branchName) {
-    const stdout = gitRead(repoPath, ["diff", "--name-only", ...renames, `${base}...${opts.branchName}`]);
-    return stdout === null ? [] : lines(stdout);
-  }
-  return [];
-}
-var TTL_MS = 3e4;
-var touchedCache = /* @__PURE__ */ new Map();
-var escapeRegExp3 = (text2) => text2.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-function cached3(key, read) {
-  const hit = touchedCache.get(key);
-  if (hit && Date.now() - hit.at < TTL_MS) return hit.value;
-  const value = read();
-  touchedCache.set(key, { at: Date.now(), value });
-  return value;
-}
-function touchedFiles(db2, cardId, row, repo) {
-  const base = chainTipFor(db2, cardId, repo)?.ref ?? defaultBranchName(repo);
-  if (row.worktreeStatus === "active" && row.worktreePath && existsSync6(row.worktreePath)) {
-    const head = currentHead(row.worktreePath);
-    const found = cached3(`${row.worktreePath}\0${base}\0${head}`, () => {
-      const changed = listChangedFiles(repo, { worktreePath: row.worktreePath, baseRef: base, noRenames: true });
-      const untracked = gitRead(row.worktreePath, ["ls-files", "--others", "--exclude-standard"]);
-      const files = Array.from(/* @__PURE__ */ new Set([...changed, ...untracked ? lines(untracked) : []]));
-      return files.length ? { source: "worktree", ref: row.branch || base, files } : null;
-    });
-    if (found) return found;
-  }
-  if (row.branch) {
-    const head = gitRead(repo, ["rev-parse", "--verify", "--quiet", `refs/heads/${row.branch}`]);
-    if (head) {
-      const found = cached3(`${repo}\0${row.branch}\0${base}\0${head}`, () => {
-        const files = listChangedFiles(repo, { branchName: row.branch, baseRef: base, noRenames: true });
-        return files.length ? { source: "branch", ref: row.branch, files } : null;
-      });
-      if (found) return found;
-    }
-  }
-  const displayId = formatDisplayId(row.idPrefix, row.taskNumber);
-  if (!displayId) return null;
-  return cached3(`${repo}\0${displayId}\0${currentHead(repo)}`, () => {
-    const stdout = gitRead(repo, [
-      "log",
-      "--all",
-      "-E",
-      `--grep=^Card: ${escapeRegExp3(displayId)}$`,
-      "--no-renames",
-      "--name-only",
-      "--format="
-    ]);
-    const files = stdout === null ? [] : Array.from(new Set(lines(stdout)));
-    return files.length ? { source: "commits", ref: base, files } : null;
-  });
-}
-function planBranchFilesFor(db2, cardId) {
-  try {
-    const row = getRow(
-      db2,
-      `SELECT c.solution_summary AS plan, c.git_worktree_path AS worktreePath,
-              c.git_worktree_status AS worktreeStatus, c.git_branch_name AS branch,
-              c.task_number AS taskNumber, p.id_prefix AS idPrefix,
-              p.folder_path AS projectFolder, c.project_folder AS cardFolder
-       FROM cards c LEFT JOIN projects p ON p.id = c.project_id WHERE c.id = ?`,
-      cardId
-    );
-    if (!row) return null;
-    const planned = extractPlanFiles(row.plan ?? "");
-    if (planned.length === 0) return null;
-    const repo = row.projectFolder || row.cardFolder;
-    if (!repo || !currentHead(repo)) return null;
-    const touched = touchedFiles(db2, cardId, row, repo);
-    if (!touched) return null;
-    const rows = comparePlanFiles(planned, touched.files);
-    const counts = { touched: 0, planned: 0, outside: 0 };
-    for (const { state } of rows) counts[state]++;
-    return { source: touched.source, ref: touched.ref, displayId: formatDisplayId(row.idPrefix, row.taskNumber), rows, counts };
-  } catch {
-    return null;
   }
 }
 
@@ -30273,6 +30839,7 @@ function extractSplitFence(text2) {
   } catch {
     return { found: true, text: cleaned, error: "The ideafy-split block is not valid JSON." };
   }
+  if (isSplitWithdrawal(json2)) return { found: true, text: cleaned, withdraw: true };
   const parsed = parseSplitInto(json2);
   return parsed.ok ? { found: true, text: cleaned, proposal: parsed.proposal } : { found: true, text: cleaned, error: parsed.error };
 }
@@ -30289,6 +30856,9 @@ function saveOpinion(db2, args) {
   return transaction(db2, () => {
     const result = writeOpinion(db2, args, html, verdict, markers, keep);
     if (!result.ok) return result;
+    if (args.splitInto == null ? fence.withdraw === true : isSplitWithdrawal(args.splitInto)) {
+      return keep ? result : { ...result, withdrawal: withdrawSplitProposal(db2, args.id) };
+    }
     const proposal = args.splitInto ?? (fence.found ? fence.proposal : void 0);
     if (proposal !== void 0) {
       return { ...result, split: saveSplitProposal(db2, { cardId: args.id, proposal, now: args.now }) };
@@ -30581,161 +31151,6 @@ function chainWriteConflictFor(db2, cardId) {
   }
 }
 
-// ../lib/card-ops/runtime.ts
-var APP_PORT_SETTING_KEY = "app_port";
-var APP_HEARTBEAT_STALE_MS = 9e4;
-var TERMINAL_WRITER_TTL_MS = 10 * 6e4;
-function writeRuntime(db2, input) {
-  transaction(db2, () => {
-    runChanges(db2, "DELETE FROM live_folder_runs");
-    const insert2 = db2.prepare(
-      `INSERT INTO live_folder_runs
-         (id, project_id, card_id, display_id, kind, runs_in_worktree, source, from_queue, touched_files, seen_at)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
-    );
-    for (const run2 of input.runs) {
-      insert2.run(
-        run2.id,
-        run2.projectId,
-        run2.cardId,
-        run2.displayId,
-        run2.kind,
-        run2.runsInWorktree ? 1 : 0,
-        run2.source,
-        run2.fromQueue ? 1 : 0,
-        run2.touchedFiles.length ? JSON.stringify(run2.touchedFiles) : null,
-        run2.seenAt
-      );
-    }
-    runChanges(
-      db2,
-      `INSERT INTO queue_runtime (id, armed, paused_reason, held_by, heartbeat_at) VALUES (1, ?, ?, ?, ?)
-       ON CONFLICT(id) DO UPDATE SET armed = excluded.armed, paused_reason = excluded.paused_reason,
-         held_by = excluded.held_by, heartbeat_at = excluded.heartbeat_at`,
-      input.armed ? 1 : 0,
-      input.pausedReason,
-      input.heldBy,
-      input.now
-    );
-    if (input.port) {
-      runChanges(
-        db2,
-        `INSERT INTO settings (key, value, updated_at) VALUES (?, ?, ?)
-         ON CONFLICT(key) DO UPDATE SET value = excluded.value, updated_at = excluded.updated_at
-         WHERE settings.value <> excluded.value`,
-        APP_PORT_SETTING_KEY,
-        input.port,
-        input.now
-      );
-    }
-  });
-}
-function hasTable2(db2, name) {
-  return !!getRow(db2, "SELECT name FROM sqlite_master WHERE type = 'table' AND name = ?", name);
-}
-function stringList(value) {
-  return Array.isArray(value) ? value.filter((item) => typeof item === "string") : [];
-}
-function parseList(raw) {
-  if (!raw) return [];
-  try {
-    return stringList(JSON.parse(raw));
-  } catch {
-    return [];
-  }
-}
-function readRuntime(db2, now = Date.now()) {
-  const closed = (appState, heartbeatAt = null) => ({
-    appState,
-    armed: false,
-    pausedReason: null,
-    heldBy: null,
-    heartbeatAt,
-    port: null,
-    runs: []
-  });
-  if (!hasTable2(db2, "queue_runtime") || !hasTable2(db2, "live_folder_runs")) return closed("unknown");
-  const state = getRow(
-    db2,
-    "SELECT armed, paused_reason AS pausedReason, held_by AS heldBy, heartbeat_at AS heartbeatAt FROM queue_runtime WHERE id = 1"
-  );
-  if (!state) return closed("closed");
-  const beat = Date.parse(state.heartbeatAt);
-  if (!Number.isFinite(beat) || now - beat > APP_HEARTBEAT_STALE_MS) return closed("closed", state.heartbeatAt);
-  const runs = allRows(
-    db2,
-    `SELECT id, project_id AS projectId, card_id AS cardId, display_id AS displayId, kind,
-            runs_in_worktree AS runsInWorktree, source, from_queue AS fromQueue,
-            touched_files AS touchedFiles, seen_at AS seenAt
-     FROM live_folder_runs`
-  ).map(
-    (row) => ({
-      ...row,
-      runsInWorktree: !!row.runsInWorktree,
-      source: row.source === "terminal" ? "terminal" : "app",
-      fromQueue: !!row.fromQueue,
-      touchedFiles: parseList(row.touchedFiles)
-    })
-  ).filter((run2) => run2.source !== "terminal" || now - Date.parse(run2.seenAt) <= TERMINAL_WRITER_TTL_MS);
-  const port = hasTable2(db2, "settings") ? getRow(db2, "SELECT value FROM settings WHERE key = ?", APP_PORT_SETTING_KEY)?.value ?? null : null;
-  return {
-    appState: "open",
-    armed: !!state.armed,
-    pausedReason: state.pausedReason,
-    heldBy: state.heldBy,
-    heartbeatAt: state.heartbeatAt,
-    port,
-    runs
-  };
-}
-function parseWriteAck(raw) {
-  if (!raw) return { conflicts: [], files: [] };
-  try {
-    const value = JSON.parse(raw);
-    return { conflicts: stringList(value?.conflicts), files: stringList(value?.files) };
-  } catch {
-    return { conflicts: [], files: [] };
-  }
-}
-function readWriteAck(db2, sessionId) {
-  const row = getRow(
-    db2,
-    "SELECT write_ack AS writeAck FROM ideafy_sessions WHERE session_id = ?",
-    sessionId
-  );
-  return parseWriteAck(row?.writeAck);
-}
-function acknowledgeWrite(db2, input) {
-  return transaction(db2, () => {
-    const current = readWriteAck(db2, input.sessionId);
-    const next = {
-      conflicts: Array.from(/* @__PURE__ */ new Set([...current.conflicts, ...input.conflicts])),
-      files: Array.from(/* @__PURE__ */ new Set([...current.files, ...input.files]))
-    };
-    const json2 = JSON.stringify(next);
-    const updated = runChanges(
-      db2,
-      "UPDATE ideafy_sessions SET write_ack = ?, updated_at = ? WHERE session_id = ?",
-      json2,
-      input.now,
-      input.sessionId
-    );
-    if (updated.changes === 0) {
-      runChanges(
-        db2,
-        `INSERT INTO ideafy_sessions (session_id, project_id, state, created_at, updated_at, write_ack)
-         VALUES (?, ?, 'offered', ?, ?, ?)`,
-        input.sessionId,
-        input.projectId,
-        input.now,
-        input.now,
-        json2
-      );
-    }
-    return next;
-  });
-}
-
 // ../lib/card-ops/projects.ts
 import * as path6 from "path";
 var OPEN_COLUMNS = ["ideation", "backlog", "bugs", "progress", "test"];
@@ -30866,7 +31281,7 @@ function projectIdOfCard(db2, cardId) {
 }
 
 // ../lib/linked-folders.ts
-import { existsSync as existsSync7, realpathSync as realpathSync3, statSync as statSync4 } from "fs";
+import { existsSync as existsSync8, realpathSync as realpathSync3, statSync as statSync4 } from "fs";
 import { homedir as homedir2 } from "os";
 import path7 from "path";
 function parseLinkedFolders(raw) {
@@ -31344,7 +31759,12 @@ async function mergeChain(db2, groupId, opts = {}) {
 }
 
 // ../lib/card-ops/merge-card.ts
-import { existsSync as existsSync8, readFileSync as readFileSync4 } from "fs";
+import { existsSync as existsSync9, readFileSync as readFileSync4 } from "fs";
+function isSplitParent(db2, cardId) {
+  const columns = db2.prepare(`PRAGMA table_info("cards")`).all();
+  if (!columns.some((column) => column.name === "split_from_card_id")) return false;
+  return !!getRow(db2, `SELECT id FROM cards WHERE split_from_card_id = ? LIMIT 1`, cardId);
+}
 function chainMergeCommitMessage(displayId, title, branchName) {
   return `feat(${displayId}): ${title}
 
@@ -31439,7 +31859,7 @@ async function mergeCard(db2, cardId, opts = {}) {
   }
   const displayId = formatDisplayId(project?.idPrefix, card.taskNumber) ?? `TASK-${card.taskNumber || "X"}`;
   const commitMessage = intoChain ? chainMergeCommitMessage(displayId, card.title, branchName) : mergeCommitMessage(displayId, card.title, branchName);
-  const worktreePath = card.gitWorktreePath && existsSync8(card.gitWorktreePath) ? card.gitWorktreePath : null;
+  const worktreePath = card.gitWorktreePath && existsSync9(card.gitWorktreePath) ? card.gitWorktreePath : null;
   const markConflict = (conflictFiles) => setCardRuntime(db2, cardId, { rebaseConflict: true, conflictFiles }, now());
   let stashSha = null;
   const stashMessage = `kanban-merge-stash-${cardId}-${Date.now()}`;
@@ -31456,10 +31876,68 @@ async function mergeCard(db2, cardId, opts = {}) {
       return `Stash could not be restored automatically. Changes remain in stash ${stashName}. Run 'git stash list' and resolve manually.`;
     }
   };
+  const closeEmptyParent = async () => {
+    if (card.gitWorktreePath) {
+      const removed = await removeWorktree(workingDir, card.gitWorktreePath, log);
+      if (!removed.success) log(`[Merge] Failed to remove worktree: ${removed.error}`);
+    }
+    if (!intoChain) {
+      await git(workingDir, "branch", "-D", "--", branchName).catch(
+        (branchError) => log(`[Merge] Failed to delete branch: ${branchError}`)
+      );
+    }
+    await pruneWorktrees(workingDir, log);
+    const at = now();
+    const complete = !intoChain && opts.complete !== false;
+    transaction(db2, () => {
+      if (intoChain) {
+        setCardRuntime(
+          db2,
+          cardId,
+          { gitBranchStatus: "in_chain", gitWorktreePath: null, gitWorktreeStatus: "removed", devServerPort: null, devServerPid: null, rebaseConflict: null, conflictFiles: null },
+          at
+        );
+        runChanges(db2, `UPDATE cards SET chain_merged_at = ?, chain_merge_commit = NULL WHERE id = ?`, at, cardId);
+        if (cardHasRalphEvents(db2, cardId)) {
+          recordRalphEvent(db2, {
+            cardId,
+            kind: "in_chain",
+            at,
+            detail: { commit: null, target: targetBranch, by: opts.landedByRalph ? "ideafy" : "you" }
+          });
+        }
+        clearAutopilot(db2, cardId, { dequeue: false });
+        return;
+      }
+      if (cardHasRalphEvents(db2, cardId)) {
+        recordRalphEvent(db2, { cardId, kind: "merged", at, detail: { commit: null, target: targetBranch } });
+      }
+      const runtime = { gitBranchStatus: "merged", gitWorktreeStatus: "removed", devServerPort: null, devServerPid: null, rebaseConflict: null, conflictFiles: null };
+      if (complete) {
+        setCardRuntime(db2, cardId, runtime);
+        moveCard(db2, cardId, "completed", at);
+      } else {
+        setCardRuntime(db2, cardId, { ...runtime, gitBranchName: null, gitWorktreePath: null, gitWorktreeStatus: null }, at);
+      }
+      clearAutopilot(db2, cardId);
+    });
+    log(`[Merge] ${branchName} has no commits; split parent closed without a merge`);
+    return {
+      kind: "ok",
+      cardId,
+      newStatus: intoChain ? "in_chain" : complete ? "completed" : "test",
+      branchName,
+      targetBranch,
+      displayId,
+      noCommits: true,
+      message: intoChain ? `Branch ${branchName} has no commits; card stays in Human Test until the chain lands` : `Branch ${branchName} has no commits; nothing was merged, worktree and branch removed`,
+      stashRestoreWarning: null
+    };
+  };
   try {
     if (worktreePath) {
       const gitDir = worktreeGitDir(worktreePath);
-      if (existsSync8(`${gitDir}/rebase-merge`) || existsSync8(`${gitDir}/rebase-apply`)) {
+      if (existsSync9(`${gitDir}/rebase-merge`) || existsSync9(`${gitDir}/rebase-apply`)) {
         log(`[Merge] Ongoing rebase detected in worktree`);
         const conflictFiles = await unmergedFiles(worktreePath);
         if (!card.rebaseConflict) markConflict(conflictFiles);
@@ -31483,7 +31961,10 @@ async function mergeCard(db2, cardId, opts = {}) {
       const { stdout } = await git(workingDir, "rev-list", "--count", `${targetBranch}..${branchName}`);
       const count = parseInt(stdout.trim(), 10);
       log(`[Merge] Branch has ${count} commits ahead of ${targetBranch}`);
-      if (count === 0) return { kind: "noCommits", targetBranch };
+      if (count === 0) {
+        if (!isSplitParent(db2, cardId)) return { kind: "noCommits", targetBranch };
+        return await closeEmptyParent();
+      }
     } catch (countError) {
       log(`[Merge] Could not check commit count: ${countError}`);
     }
@@ -31777,7 +32258,7 @@ function startChainAutopilot(db2, groupId, opts = {}) {
       if (ralph) for (const id of ready) recordRalphSend(db2, id, { stage: "ready", ...rounds }, sentAt);
       let after = null;
       for (const row of toQueue) {
-        const stage = row.status === "test" ? "verifying" : stripPlan(db2, row.id) === "" ? "planning" : "implementing";
+        const stage = row.status === "test" ? "verifying" : hasPlan(db2, row.id) ? "implementing" : "planning";
         writeStage.run(stage, row.id);
         const result = enqueueCard(db2, row.id, after, "next");
         if (!result.ok) {
@@ -31859,9 +32340,9 @@ function stampRalphStart(db2, cardId, now) {
   db2.prepare(`UPDATE cards SET autopilot_started_at = ? WHERE id = ? AND autopilot_started_at IS NULL`).run(now, cardId);
   return getRow(db2, `SELECT autopilot_started_at AS at FROM cards WHERE id = ?`, cardId)?.at ?? null;
 }
-function stripPlan(db2, cardId) {
+function hasPlan(db2, cardId) {
   const row = getRow(db2, `SELECT solution_summary AS plan FROM cards WHERE id = ?`, cardId);
-  return stripHtml(row?.plan ?? "");
+  return hasRealPlan(row?.plan);
 }
 function clearChainAutopilot(db2, groupId) {
   const ids = allRows(
@@ -32005,7 +32486,7 @@ function detectBoardPhase(card, solutionText, testText) {
     return hasTests ? "retest" : "implementation";
   }
   if (card.status === "test" && !!testText) return "verify";
-  const hasSolution = !!solutionText;
+  const hasSolution = !!solutionText && hasRealPlan(card.solutionSummary);
   if (!hasSolution) return "planning";
   if (!hasTests) return "implementation";
   return "retest";
@@ -32040,7 +32521,7 @@ function phaseLabels(phase, mode, verifyGroup) {
       return {
         // No group left to tick: the press can only re-check the core flow
         // on screen, for the Test Report (IDE-468).
-        play: !verifyGroup ? "Re-check core flow on screen" : !verifyGroup.core ? `Pre-verify ${testGroupLabel(verifyGroup)}` : "Pre-verify core flow",
+        play: !verifyGroup ? "Re-check core flow on screen" : !verifyGroup.core || verifyGroup.flows ? `Pre-verify ${testGroupLabel(verifyGroup)}` : "Pre-verify core flow",
         // Human Test'te terminal, çeklisti yürüten değil çeklistin dışına çıkan
         // oturumdur: gündemi kullanıcı getirir, kartta yazmayan bir şeydir.
         terminal: "Open in terminal"
@@ -32066,7 +32547,7 @@ function verifyRunBlurb(scope, group) {
   if (scope === "all" && group) {
     return `The agent runs every group that still has unticked steps, starting with "${testGroupLabel(group)}", and ticks the steps that pass. Your own ticks stay untouched.`;
   }
-  if (group && !group.core) {
+  if (group && (!group.core || group.flows)) {
     return `The agent runs the "${testGroupLabel(group)}" group only and ticks the steps that pass. Other groups and your own ticks stay untouched.`;
   }
   return "The agent runs the core flow only and ticks the steps that pass. Later groups and your own ticks stay untouched.";
@@ -32149,7 +32630,7 @@ var STEP_DESC = {
   stop: "Kill the run and release the card",
   "chat-running": "Wait for the chat on this card to finish",
   locked: "Someone else is working on this card",
-  unlock: "Release the card once the terminal session is done",
+  unlock: "Release the card once the session is done",
   queued: "Will run automatically",
   "start-now": "Leave the queue and run it now",
   unqueue: "Keep the card, drop its queued run",
@@ -32170,6 +32651,8 @@ var STEP_DESC = {
   "test-together": "Walk the checklist in a session",
   "break-up": "Review the proposed cards, then open them",
   accept: "Move it to Backlog",
+  park: "Not now: keep it at the foot of its column",
+  unpark: "Back into the column",
   withdraw: "Set it aside, keep its history",
   merge: "Land the branch on main",
   complete: "Close the card, nothing to merge",
@@ -32188,6 +32671,8 @@ var TERMINAL_DESC = {
   retest: "Fix the failed steps in a session",
   verify: "Report an issue in a session"
 };
+var FINAL_TEST_AUTOPILOT_DESC = "Test and fix, stop at Ready to merge";
+var FINAL_TEST_RALPH_DESC = "Prove it in the browser, fix";
 function chainMergeReason(card, ctx) {
   if (ctx.chainMerge !== "into-chain") return void 0;
   const reason = chainMergeBlocker(card.testScenarios);
@@ -32198,6 +32683,7 @@ function phasePrimary(card, flags, ctx, rows) {
   if (flags.canGenerate) return "generate";
   if (card.autopilotStage === "stopped" && has("ralph") && card.autopilotMode === "ralph" && !rows.get("ralph")?.disabledReason) return "ralph";
   if (card.autopilotStage === "stopped" && has("autopilot") && !rows.get("autopilot")?.disabledReason) return "autopilot";
+  if (card.finalTestReady && has("autopilot")) return "autopilot";
   if (card.status === "ideation") {
     if (!ctx.hasOpinion) return has("evaluate") ? "evaluate" : "accept";
     if (has("break-up")) return "break-up";
@@ -32227,8 +32713,8 @@ function nextStepFor(card, flags, ctx) {
   const open = card.status !== "completed" && card.status !== "withdrawn";
   if (!open) return { primary: null, ideafy: [], together: [] };
   const verifyGroup = phase === "verify" ? nextVerifyGroup(ctx.testProgress) : null;
-  const interactiveBlock = ctx.running ? "A run is going" : ctx.chatting ? "Chat running" : ctx.softLock ? "Someone else is working on this card" : ctx.locked ? "Session open" : ctx.surface === "mobile" ? "Works at your Mac" : void 0;
-  const autonomousBlock = ctx.running ? "A run is going" : ctx.chatting ? "Chat running" : ctx.softLock ? "Someone else is working on this card" : ctx.locked ? "Session open" : ctx.queueRank > 0 ? `Queued #${ctx.queueRank}` : void 0;
+  const interactiveBlock = ctx.running ? "A run is going" : ctx.chatting ? "Chat running" : ctx.softLock ? "Someone else is working on this card" : ctx.locked ? ctx.terminalHold ?? "Session open" : ctx.surface === "mobile" ? "Works at your Mac" : void 0;
+  const autonomousBlock = ctx.running ? "A run is going" : ctx.chatting ? "Chat running" : ctx.softLock ? "Someone else is working on this card" : ctx.locked ? ctx.terminalHold ?? "Session open" : ctx.queueRank > 0 ? `Queued #${ctx.queueRank}` : void 0;
   const mobileMeta = ctx.surface === "mobile" ? "at Mac" : void 0;
   const ideafy = [];
   const together = [];
@@ -32250,7 +32736,8 @@ function nextStepFor(card, flags, ctx) {
     row(ideafy, { id: "generate", title: "Generate", kind: "ai", disabledReason: autonomousBlock });
   }
   const playOffered = flags.canStart && phase !== "retest" && !(ctx.mode === "work" && phase === "implementation");
-  if (playOffered && phase !== "verify") {
+  const finalTest = !!card.finalTestReady && ctx.mode !== "work" && flags.canStart;
+  if (playOffered && phase !== "verify" && !finalTest) {
     row(ideafy, {
       id: "play",
       title: labels.play,
@@ -32259,7 +32746,7 @@ function nextStepFor(card, flags, ctx) {
       disabledReason: autonomousBlock ?? (flags.canRunAutonomous ? void 0 : "Not available in this column")
     });
   }
-  if (flags.canQuickFix) {
+  if (flags.canQuickFix && !finalTest) {
     row(ideafy, {
       id: "quick-fix",
       title: card.status === "bugs" ? "Fix" : "Quick fix, no plan",
@@ -32298,10 +32785,12 @@ function nextStepFor(card, flags, ctx) {
       disabledReason: autonomousBlock
     });
   }
-  if (playOffered && ctx.mode !== "work") {
+  if (playOffered && ctx.mode !== "work" && !finalTest) {
     row(ideafy, {
       id: "queue",
       title: "Add to queue",
+      // The queue waits for the session, so this one stays open (IDE-755).
+      ...ctx.terminalHold ? { desc: "Runs when this turn ends" } : {},
       kind: "ai",
       disabledReason: ctx.running ? "A run is going" : ctx.queueRank > 0 ? `Already queued #${ctx.queueRank}` : ctx.canQueue ? void 0 : phase === "planning" ? "Needs a plan first" : phase === "verify" ? "Nothing left to pre-verify" : "Not available in this column"
     });
@@ -32312,12 +32801,13 @@ function nextStepFor(card, flags, ctx) {
     const html = card.testScenarios ?? "";
     const refusal = autopilotIneligibleReason({
       status: card.status,
-      hasPlan: stripHtml(card.solutionSummary ?? "") !== "",
+      hasPlan: hasRealPlan(card.solutionSummary),
       hasChecklist: hasOwnChecklist(html),
       hasCoreFlow: !!ctx.testProgress?.core,
       projectMode: ctx.mode,
       useWorktree: card.useWorktree,
       activeWorktree: !!card.gitWorktreePath && card.gitWorktreeStatus === "active",
+      opensWorktree: flowsOnlyChecklist(html) && !card.gitBranchStatus,
       stage: card.autopilotStage ?? null,
       processingType: card.processingType,
       openDecision: findPlanDecisions(card.solutionSummary).length > 0,
@@ -32329,6 +32819,7 @@ function nextStepFor(card, flags, ctx) {
       row(ideafy, {
         id: "autopilot",
         title: stoppedOn === "autopilot" ? "Continue on Autopilot" : "Send to Autopilot",
+        ...finalTest ? { desc: FINAL_TEST_AUTOPILOT_DESC } : {},
         kind: "ai",
         disabledReason
       });
@@ -32336,6 +32827,7 @@ function nextStepFor(card, flags, ctx) {
     row(ideafy, {
       id: "ralph",
       title: stoppedOn === "ralph" ? "Continue on Ralph" : "Send to Ralph",
+      ...finalTest ? { desc: FINAL_TEST_RALPH_DESC } : {},
       kind: "ai",
       disabledReason
     });
@@ -32376,6 +32868,18 @@ function nextStepFor(card, flags, ctx) {
       kind: "you",
       disabledReason: ctx.running ? "A run is going" : void 0
     });
+  }
+  if (card.parkedAt) {
+    row(together, { id: "unpark", title: "Unpark", kind: "you" });
+  } else if (isParkableStatus(card.status)) {
+    row(together, {
+      id: "park",
+      title: "Park",
+      kind: "you",
+      disabledReason: isActiveAutopilotStage(card.autopilotStage ?? null) ? "On Autopilot" : void 0
+    });
+  }
+  if (card.status === "ideation") {
     row(together, { id: "withdraw", title: "Withdraw", kind: "you" });
   }
   if (card.status === "test" && ctx.chainMerge !== "in-chain") {
@@ -32405,14 +32909,17 @@ function nextStepFor(card, flags, ctx) {
   } else if (ctx.softLock) {
     primary = { id: "locked", title: "Locked", desc: STEP_DESC.locked, kind: "neutral", disabledReason: STEP_DESC.locked };
   } else if (ctx.locked) {
-    primary = { id: "unlock", title: "Unlock", desc: "Session open", kind: "neutral" };
+    primary = { id: "unlock", title: "Unlock", desc: ctx.terminalHold ?? "Session open", kind: "neutral" };
   } else if (ctx.queueRank > 0) {
     primary = { id: "queued", title: `Queued #${ctx.queueRank}`, desc: STEP_DESC.queued, kind: "neutral", disabledReason: STEP_DESC.queued };
   } else {
     const id = phasePrimary(card, flags, ctx, rows);
     const base = id ? rows.get(id) : void 0;
     primary = base ? { ...base } : null;
-    if (primary && ctx.blocker) primary.disabledReason = `waits for ${ctx.blocker}`;
+    if (primary && ctx.blocker) {
+      primary.disabledReason = `waits for ${ctx.blocker}`;
+      primary.buttonLabel = `Waits for ${ctx.blocker}`;
+    }
   }
   if (primary && rows.has(primary.id) && !ctx.blocker) {
     const mark = (list) => {
@@ -32452,6 +32959,12 @@ function runMinutes(startedAt, now) {
   if (Number.isNaN(started)) return null;
   return Math.max(0, Math.floor((now - started) / 6e4));
 }
+
+// ../lib/terminal-session-state.ts
+var SESSION_TURN_SILENCE_MS = 5 * 6e4;
+var SESSION_TOOL_SILENCE_MS = 30 * 6e4;
+var SESSION_QUIET_MS = 10 * 6e4;
+var SESSION_OPEN_TTL_MS = 12 * 60 * 6e4;
 
 // ../lib/board-focus.ts
 var YOUR_TURN_ORDER = [
@@ -32586,7 +33099,7 @@ function nextTurnFor(card, ctx = {}) {
 
 // ../lib/card-story.ts
 var EMPTY_STORY_INPUTS = { opinionUserMessages: null, git: null };
-var plural2 = (n, word) => `${n} ${word}${n === 1 ? "" : "s"}`;
+var plural3 = (n, word) => `${n} ${word}${n === 1 ? "" : "s"}`;
 var hasText = (html) => !!stripHtml((html || "").replace(/&nbsp;/g, " ")).trim();
 function shortDate(iso) {
   const date4 = new Date(iso);
@@ -32601,7 +33114,7 @@ function verdictStep(card) {
     id: "verdict",
     who: "ai",
     label: "Verdict",
-    sub: happened ? concerns != null ? `${score} \xB7 ${plural2(concerns, "concern")}` : score : "",
+    sub: happened ? concerns != null ? `${score} \xB7 ${plural3(concerns, "concern")}` : score : "",
     happened,
     tab: "opinion"
   };
@@ -32612,20 +33125,20 @@ function arguedStep(inputs) {
     id: "argued",
     who: "you",
     label: "Argued",
-    sub: n == null ? "\u2026" : n > 0 ? plural2(n, "message") : "",
+    sub: n == null ? "\u2026" : n > 0 ? plural3(n, "message") : "",
     // Unknown until the fetch lands: shown as done with "…", not as skipped.
     happened: n == null || n > 0,
     tab: "opinion"
   };
 }
 function planStep(card) {
-  const happened = hasText(card.solutionSummary);
+  const happened = hasRealPlan(card.solutionSummary);
   const steps = countPlanSteps(card.solutionSummary);
   return {
     id: "plan",
     who: "ai",
     label: "Plan",
-    sub: happened ? steps != null ? plural2(steps, "step") : "plan written" : "",
+    sub: happened ? steps != null ? plural3(steps, "step") : "plan written" : "",
     happened,
     tab: "solution"
   };
@@ -32634,8 +33147,9 @@ function builtStep(card, inputs) {
   const merged = card.gitBranchStatus === "merged";
   const rolledBack = card.gitBranchStatus === "rolled_back";
   const git3 = inputs.git;
+  const viaFinalTest = !!card.finalTestReady || isFinalTestNote(card.solutionSummary);
   let sub = "";
-  if (git3?.exists) sub = `${plural2(git3.ahead, "commit")} \xB7 ${plural2(git3.files, "file")}`;
+  if (git3?.exists) sub = `${plural3(git3.ahead, "commit")} \xB7 ${plural3(git3.files, "file")}`;
   else if (merged) sub = "merged";
   else if (rolledBack) sub = "rolled back";
   else if (card.gitBranchName && !git3) sub = "\u2026";
@@ -32644,7 +33158,9 @@ function builtStep(card, inputs) {
     who: "ai",
     label: "Built",
     sub,
-    happened: merged || rolledBack || (git3?.exists ?? false) || !!card.gitBranchName || card.gitWorktreeStatus != null,
+    // On the final test's road a worktree alone built nothing: the step
+    // happened only if a fix round left a commit (IDE-765).
+    happened: merged || rolledBack || (viaFinalTest ? !!git3?.exists && git3.ahead > 0 : (git3?.exists ?? false) || !!card.gitBranchName || card.gitWorktreeStatus != null),
     tab: "solution"
   };
 }
@@ -32654,7 +33170,7 @@ function proofStep(card) {
   if (run2) {
     const passed = run2.items.filter((item) => item.status === "passed").length;
     const shots = run2.items.reduce((sum, item) => sum + item.artifacts.length, 0);
-    sub = `${passed}/${run2.items.length} passed${shots > 0 ? ` \xB7 ${plural2(shots, "shot")}` : ""}`;
+    sub = `${passed}/${run2.items.length} passed${shots > 0 ? ` \xB7 ${plural3(shots, "shot")}` : ""}`;
   }
   return { id: "proof", who: "ai", label: "Proof", sub, happened: !!run2, tab: "report" };
 }
@@ -32702,7 +33218,7 @@ function workSteps(card, inputs) {
       id: "draft",
       who: "ai",
       label: "Draft",
-      sub: outputs > 0 ? plural2(outputs, "file") : "",
+      sub: outputs > 0 ? plural3(outputs, "file") : "",
       happened: outputs > 0,
       tab: "detail"
     },
@@ -32723,7 +33239,7 @@ function nowStepId(card, work, running, chainMerge) {
       return hasText(card.aiOpinion) ? "argued" : "verdict";
     case "backlog":
     case "bugs":
-      return "plan";
+      return card.finalTestReady && !work ? "proof" : "plan";
     case "progress":
       return work ? "draft" : "built";
     case "test":
@@ -32740,12 +33256,17 @@ function bannerFor(card, ctx, now) {
   const running = ctx.running ?? !!card.processingType;
   if (running) return { kind: "ai", detail: focusDetail(card, now, "agent-running", void 0, ctx.runStartedAt) };
   if (ctx.chatting) return { kind: "ai", detail: "replying in chat" };
+  if (ctx.session?.phase === "running") return { kind: "ai", detail: ctx.session.label };
+  if (ctx.session?.phase === "waiting") return { kind: "you", detail: ctx.session.label, failed: null, since: null };
+  if (ctx.session?.phase === "quiet") return null;
   const turn = nextTurnFor(card, ctx);
   if ((ctx.queueRank ?? 0) > 0) {
     return { kind: "queued", rank: ctx.queueRank ?? 0, detail: turn?.label ?? "waiting in the queue" };
   }
   const state = getFocusState(card);
   const unread = ctx.unread;
+  const stillAsks = state === "blocked" || !!unread || card.autopilotStage === "stopped" || openPlanDecisions(card).length > 0;
+  if (ctx.heldByCard && !stillAsks) return null;
   if (!isYourTurn(state) && !unread && turn?.who !== "you") return null;
   let detail = isYourTurn(state) ? focusDetail(card, now, state) : turn?.label ?? "";
   let failed = null;
@@ -32794,6 +33315,7 @@ __export(evaluation_exports, {
   EVALUATION_HEADINGS_RULE: () => EVALUATION_HEADINGS_RULE,
   EVALUATION_OUTPUT_SCHEMA: () => EVALUATION_OUTPUT_SCHEMA,
   EVALUATION_SAVE_INSTRUCTION: () => EVALUATION_SAVE_INSTRUCTION,
+  buildChainCheckSection: () => buildChainCheckSection,
   buildChainSection: () => buildChainSection,
   buildEvaluationGuide: () => buildEvaluationGuide,
   buildPriorDecisionsSection: () => buildPriorDecisionsSection,
@@ -32871,7 +33393,7 @@ function buildSplitSection(split) {
     return `
 ## Split
 ${split.role ?? ""}
-A child is ready once it is Completed, or in Human Test with every item ticked and its branch merged.
+A child is ready once it is Completed, or in Human Test with every item ticked and its branch merged, or in its chain's branch: that one counts as ready whatever its ticks say, and nothing walks the items it left.
 ${blocks.join("\n")}
 `;
   }
@@ -32891,6 +33413,23 @@ If this card changes UI, open and read these HTML files before you plan or write
 This card was broken out of ${splitName(split.parent)}.
 ${split.role ?? ""}
 ${mockupLines}`;
+}
+function buildChainCheckSection(check2) {
+  if (check2.length === 0) return "";
+  const lines2 = check2.map((child) => {
+    const parts = [];
+    if (child.untouched.length) parts.push(`plan named but not touched: ${child.untouched.join(", ")}`);
+    if (child.offPlan.length) parts.push(`changed outside its plan: ${child.offPlan.join(", ")}`);
+    if (child.driftCommits) parts.push(`${child.driftCommits} commit(s) on its files since its checklist`);
+    if (child.unticked) parts.push(`${child.unticked} item(s) nobody walked`);
+    if (child.decisions.length) parts.push(`decisions Ralph took: ${child.decisions.join(" / ")}`);
+    return `- ${child.name}: ${parts.join("; ")}`;
+  });
+  return `
+## Chain check
+What the child cards left behind. Read it before you walk the flows: it says where a gap between them is most likely. It is read only: do not write to a child card, and the server already puts these facts on the Test Report, so do not repeat them there.
+${lines2.join("\n")}
+`;
 }
 var EVALUATION_SAVE_INSTRUCTION = `Then write the evaluation in this template and save it with save_opinion (aiOpinion as markdown). ${DEPENDS_ON_RULE("save_opinion", "a Related Cards line of the kind dependency")} ${EVALUATION_HEADINGS_RULE}
 
@@ -33002,7 +33541,7 @@ __export(card_mockups_exports, {
   mockupState: () => mockupState,
   resolveCardMockupFile: () => resolveCardMockupFile
 });
-import { existsSync as existsSync9, realpathSync as realpathSync4, statSync as statSync5 } from "fs";
+import { existsSync as existsSync10, realpathSync as realpathSync4, statSync as statSync5 } from "fs";
 import path8 from "path";
 function isInside3(child, parent) {
   return child === parent || child.startsWith(parent + path8.sep);
@@ -33037,7 +33576,7 @@ function resolveCardMockupFile(cardId, segments, cardDir = cardArtifactDir(cardI
   const root = realDir(cardDir);
   if (!root) return null;
   const candidate = path8.join(root, ...segments);
-  if (!existsSync9(candidate)) return null;
+  if (!existsSync10(candidate)) return null;
   const real = realpathSync4(candidate);
   if (!isInside3(real, root) || real === root || !statSync5(real).isFile()) return null;
   return real;
@@ -33239,6 +33778,7 @@ function itemText(item, number3, full, clip) {
   }
   field("Expected", item.expected);
   field("Observed", item.observed);
+  field("Impact (the run's own reading)", item.impact ?? null);
   field("Error", item.error);
   field("Command", item.command);
   if (item.output) lines2.push("   Output:", indent(item.output, "     "));
@@ -33276,6 +33816,8 @@ function formatTestReport(input) {
   if (!run2.checklistApplied) {
     out.push("Its checklist was refused, so none of its ticks reached the Tests tab.");
   }
+  const failureLine = testReportFailureLine(run2.items);
+  if (failureLine) out.push("", failureLine);
   const warnings = run2.warnings ?? [];
   if (warnings.length) {
     out.push("", "Warnings from the run:");
@@ -33316,6 +33858,7 @@ function formatTestReport(input) {
 function testReportCardSummary(runs) {
   if (!runs?.length) return null;
   const latest = runs[0];
+  const failures = testReportFailureLine(latest.items);
   return {
     runs: runs.length,
     latest: {
@@ -33323,7 +33866,8 @@ function testReportCardSummary(runs) {
       runAt: latest.runAt,
       scope: testReportRunLabel(latest),
       evidence: latest.evidence,
-      ...countByStatus(latest)
+      ...countByStatus(latest),
+      ...failures ? { failures } : {}
     },
     read: "get_test_report for the items, what each run observed and where the Tests tab disagrees"
   };
@@ -33393,6 +33937,7 @@ function runOf(cardId, run2, index, total, fileSize) {
     platform: run2.platform,
     checklistApplied: run2.checklistApplied,
     counts: countByStatus(run2),
+    failureLine: testReportFailureLine(run2.items),
     warnings: run2.warnings ?? [],
     video,
     items: run2.items.map((item) => ({
@@ -33402,6 +33947,7 @@ function runOf(cardId, run2, index, total, fileSize) {
       steps: item.steps,
       expected: item.expected,
       observed: item.observed,
+      impact: item.impact ?? null,
       error: item.error,
       command: item.command,
       output: item.output,
@@ -33663,6 +34209,7 @@ function collectRunReport(db2, cardId, opts) {
       const decision = {
         displayId: displayIdOf2(row),
         kind: entry.kind,
+        source: entry.source,
         question: entry.question,
         recommended: entry.recommended,
         stepExcerpt: entry.stepExcerpt,
@@ -33672,7 +34219,11 @@ function collectRunReport(db2, cardId, opts) {
         seen: looked?.hit.observed ?? null,
         shots: looked ? shotsOf(row.id, looked.run.id, looked.hit.artifacts, opts.fileSize) : []
       };
-      if (entry.kind === "acceptance") {
+      if (entry.source === RALPH_UNVERIFIABLE_SOURCE) {
+        gaps.push({ kind: "unverifiable", displayId: decision.displayId, text: `${entry.originalText ?? entry.question}${entry.recommended ? ` ${entry.recommended}` : ""}` });
+      } else if (entry.source === RALPH_CORE_REVISION_SOURCE) {
+        gaps.push({ kind: "core-revision", displayId: decision.displayId, text: `${entry.originalText ?? entry.question} \u2192 ${entry.newText ?? ""}`.trim() });
+      } else if (entry.kind === "acceptance") {
         gaps.push({ kind: "accepted-decision", displayId: decision.displayId, text: entry.recommended ? `${entry.question} Took: ${entry.recommended}` : entry.question });
       } else if (entry.kind === "revision") {
         gaps.push({ kind: "revision", displayId: decision.displayId, text: `${entry.originalText ?? entry.question} \u2192 ${entry.newText ?? ""}`.trim() });
@@ -33771,6 +34322,8 @@ var GAP_HEADINGS = {
   "ui-text-only": "On-screen items with only text evidence",
   "ticked-by-you": "Ticked by a person, not by a run",
   unticked: "Not ticked: still open or left to you",
+  "core-revision": "Core-flow items Ralph reworded",
+  unverifiable: "Items Ralph could not verify, now yours",
   "accepted-decision": "Decisions Ralph took for you",
   revision: "Test items Ralph reworded",
   "video-removed": "Recordings no longer on disk",
@@ -33874,21 +34427,25 @@ function renderRunReport(data, embed) {
   }).join("");
   parts.push(`<h2>Decisions</h2>`);
   if (data.decisions.length === 0) {
-    parts.push(`<p class="muted">Ralph took no decision for you and reworded no test item.</p>`);
+    parts.push(`<p class="muted">Ralph took no decision for you, reworded no test item and handed none over.</p>`);
   } else {
     parts.push(`<div class="t"><table><thead><tr><th>Card</th><th>Kind</th><th>Question or item</th><th>What it took</th></tr></thead><tbody>`);
     for (const decision of data.decisions) {
-      const taken = decision.kind === "revision" ? `<span class="muted">Was:</span> ${esc2(decision.originalText)}<br><span class="muted">Now:</span> ${esc2(decision.newText)}` : esc2(decision.recommended ?? "the plan's option");
+      const couldNotVerify = decision.source === RALPH_UNVERIFIABLE_SOURCE;
+      const kindLabel = couldNotVerify ? "could not verify" : decision.source === RALPH_CORE_REVISION_SOURCE ? "core-flow revision" : decision.kind;
+      const why = decision.kind === "revision" && decision.recommended ? `<br><span class="muted">Why:</span> ${esc2(decision.recommended)}` : "";
+      const taken = couldNotVerify ? `<span class="muted">Item:</span> ${esc2(decision.originalText)}<br><span class="muted">Why:</span> ${esc2(decision.recommended)}` : decision.kind === "revision" ? `<span class="muted">Was:</span> ${esc2(decision.originalText)}<br><span class="muted">Now:</span> ${esc2(decision.newText)}${why}` : esc2(decision.recommended ?? "the plan's option");
       const seen = decision.seen ? `<br><span class="small"><span class="muted">Saw:</span> ${esc2(decision.seen)}</span>` : "";
       parts.push(
-        `<tr><td class="mono">${esc2(decision.displayId)}</td><td>${esc2(decision.kind)}</td><td>${esc2(decision.question)}${decision.stepExcerpt ? `<br><span class="small muted">Plan step: ${esc2(decision.stepExcerpt)}</span>` : ""}</td><td>${taken}${seen}${shotsHtml(decision.shots, decision.question)}</td></tr>`
+        `<tr><td class="mono">${esc2(decision.displayId)}</td><td>${esc2(kindLabel)}</td><td>${esc2(decision.question)}${decision.stepExcerpt ? `<br><span class="small muted">Plan step: ${esc2(decision.stepExcerpt)}</span>` : ""}</td><td>${taken}${seen}${shotsHtml(decision.shots, decision.question)}</td></tr>`
       );
     }
     parts.push(`</tbody></table></div>`);
   }
   parts.push(`<h2>Cards</h2>`);
   const itemHtml = (item) => {
-    const label2 = `<span class="${item.status === "passed" ? "ok" : item.status === "failed" ? "bad" : "muted"}">${STATUS_LABEL[item.status]}</span>`;
+    const impact = item.impact ? ` <span class="${item.impact === "broken" || item.impact === "flaw" ? "bad" : "muted"}">\xB7 ${TEST_REPORT_IMPACT_LABEL[item.impact]}</span>` : "";
+    const label2 = `<span class="${item.status === "passed" ? "ok" : item.status === "failed" ? "bad" : "muted"}">${STATUS_LABEL[item.status]}</span>${impact}`;
     const at = item.videoAt !== null ? ` <span class="small muted num">video ${Math.floor(item.videoAt / 60)}:${String(Math.floor(item.videoAt % 60)).padStart(2, "0")}</span>` : "";
     const lines2 = [`<div class="item"><p>${label2} ${esc2(item.item)}${at}</p>`];
     if (item.note) lines2.push(`<p class="small muted">${esc2(item.note)}</p>`);
@@ -33952,6 +34509,7 @@ function renderRunReport(data, embed) {
       parts.push(
         `<details${index === 0 ? " open" : ""}><summary>Run #${run2.number} \xB7 ${atFull(run2.runAt)} \xB7 ${esc2(run2.label)} \xB7 ${esc2(run2.evidence)}${counts ? ` \xB7 ${counts}` : ""}</summary>`
       );
+      if (run2.failureLine) parts.push(`<p class="small">${esc2(run2.failureLine)}</p>`);
       if (!run2.checklistApplied) parts.push(`<p class="small muted">This run's ticks were not applied: its checklist was refused.</p>`);
       for (const warning of run2.warnings) parts.push(`<p class="small">${esc2(warning)}</p>`);
       parts.push(videoHtml(run2));
@@ -34136,6 +34694,7 @@ var { linkCardReferences: linkCardReferences2 } = unwrap(card_links_exports);
 var { buildChainContext: buildChainContext2, compareByChainOrder: compareByChainOrder2, isFinished: isFinished3, placeAfter: placeAfter2 } = unwrap(chain_order_exports);
 var { extractPlanFiles: extractPlanFiles2, htmlToText: htmlToText2, normalizePath: normalizePath2, pathsOverlap: pathsOverlap2, countPlanSteps: countPlanSteps2, comparePlanFiles: comparePlanFiles2, isGenerated: isGenerated2 } = unwrap(plan_files_exports);
 var { parseCardNumberQuery: parseCardNumberQuery2, matchesCardNumber: matchesCardNumber2 } = unwrap(card_number_query_exports);
+var { listOpenWork: listOpenWork2, MAX_OPEN_WORK_FILES: MAX_OPEN_WORK_FILES2 } = unwrap(open_work_exports);
 var {
   transaction: transaction2,
   moveCard: moveCard2,
@@ -34210,6 +34769,10 @@ var {
   validateCardTitle: validateCardTitle2,
   cardAuthorship: cardAuthorship2,
   loadStoryInputs: loadStoryInputs2,
+  chainUnwalkedItems: chainUnwalkedItems2,
+  finalTestReady: finalTestReady2,
+  unwalkedChildItems: unwalkedChildItems2,
+  unwalkedChildItemsText: unwalkedChildItemsText2,
   IDEAFY_AUTHOR: IDEAFY_AUTHOR2,
   getSplitProposal: getSplitProposal2,
   saveSplitProposal: saveSplitProposal2,
@@ -34236,6 +34799,7 @@ var {
   autopilotModeFor: autopilotModeFor2,
   listCardDecisions: listCardDecisions2,
   decisionsForCard: decisionsForCard2,
+  RALPH_UNVERIFIABLE_SOURCE: RALPH_UNVERIFIABLE_SOURCE2,
   startChainAutopilot: startChainAutopilot2,
   landReadyChainMembers: landReadyChainMembers2,
   getIntegrationGroup: getIntegrationGroup2,
@@ -34307,7 +34871,7 @@ import { fileURLToPath } from "url";
 import { homedir as homedir6 } from "os";
 import { mkdirSync as mkdirSync8 } from "fs";
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/uuid/dist/esm/stringify.js
+// node_modules/uuid/dist/esm/stringify.js
 var byteToHex = [];
 for (let i = 0; i < 256; ++i) {
   byteToHex.push((i + 256).toString(16).slice(1));
@@ -34316,7 +34880,7 @@ function unsafeStringify(arr, offset = 0) {
   return (byteToHex[arr[offset + 0]] + byteToHex[arr[offset + 1]] + byteToHex[arr[offset + 2]] + byteToHex[arr[offset + 3]] + "-" + byteToHex[arr[offset + 4]] + byteToHex[arr[offset + 5]] + "-" + byteToHex[arr[offset + 6]] + byteToHex[arr[offset + 7]] + "-" + byteToHex[arr[offset + 8]] + byteToHex[arr[offset + 9]] + "-" + byteToHex[arr[offset + 10]] + byteToHex[arr[offset + 11]] + byteToHex[arr[offset + 12]] + byteToHex[arr[offset + 13]] + byteToHex[arr[offset + 14]] + byteToHex[arr[offset + 15]]).toLowerCase();
 }
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/uuid/dist/esm/rng.js
+// node_modules/uuid/dist/esm/rng.js
 import { randomFillSync } from "crypto";
 var rnds8Pool = new Uint8Array(256);
 var poolPtr = rnds8Pool.length;
@@ -34328,11 +34892,11 @@ function rng() {
   return rnds8Pool.slice(poolPtr, poolPtr += 16);
 }
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/uuid/dist/esm/native.js
+// node_modules/uuid/dist/esm/native.js
 import { randomUUID } from "crypto";
 var native_default = { randomUUID };
 
-// ../../../../../../../../Users/ozangencer/vibecode/ideafy/mcp-server/node_modules/uuid/dist/esm/v4.js
+// node_modules/uuid/dist/esm/v4.js
 function v4(options, buf, offset) {
   if (native_default.randomUUID && !buf && !options) {
     return native_default.randomUUID();
@@ -34519,7 +35083,7 @@ function missingCapabilityMessage(tool, capability) {
 }
 
 // output-paths.ts
-import { existsSync as existsSync10, realpathSync as realpathSync5, statSync as statSync8 } from "fs";
+import { existsSync as existsSync11, realpathSync as realpathSync5, statSync as statSync8 } from "fs";
 import { homedir as homedir5 } from "os";
 import { isAbsolute, relative, resolve as resolve3, sep } from "path";
 var OutputPathError = class extends Error {
@@ -34548,7 +35112,7 @@ function resolveOutputPath(projectFolder, inputPath) {
       `The card's project folder does not exist on this machine: ${projectFolder}. Nothing was recorded.`
     );
   }
-  if (!existsSync10(absolute)) {
+  if (!existsSync11(absolute)) {
     throw new OutputPathError(
       `File not found: ${absolute}. save_output records a file that already exists \u2014 write it first, then call save_output again.`
     );
@@ -34596,8 +35160,18 @@ function recordOutputPath(db2, cardId, inputPath) {
 
 // split-note.ts
 var NO_SPLIT_STORED_NOTE = "No break-up proposal was stored. If this opinion says the card should be several cards, call save_opinion again with splitInto: the text alone opens no button.";
-function splitNote(displayId, outcome, remind) {
-  if (!outcome) return remind ? NO_SPLIT_STORED_NOTE : null;
+function splitNote(displayId, outcome, remind, pendingCards = 0) {
+  if (!outcome) {
+    if (!remind) return null;
+    return pendingCards > 0 ? `${NO_SPLIT_STORED_NOTE} A break-up proposal of ${pendingCards} cards is still open on this card: if this opinion no longer supports it, call save_opinion again with splitInto: { withdraw: true }.` : NO_SPLIT_STORED_NOTE;
+  }
+  if ("withdrawn" in outcome) {
+    if (outcome.withdrawn) return `Break-up proposal withdrawn: ${displayId} no longer proposes ${outcome.proposal.cards.length} cards. A later evaluation may propose again.`;
+    if (outcome.reason === "dismissed") return "Nothing was withdrawn: the user already chose to keep this card as one, and that choice stays.";
+    if (outcome.reason === "applied") return "Nothing was withdrawn: this card was already broken into cards.";
+    if (outcome.reason === "unsupported") return `Nothing was withdrawn: ${missingCapabilityMessage("splitInto", "splitProposals")}`;
+    return "Nothing was withdrawn: this card has no pending break-up proposal.";
+  }
   if (outcome.saved) {
     const n = outcome.proposal.cards.length;
     return `Break-up proposal stored: ${displayId} into ${n} cards. In a conversation, ask the user in one sentence whether to break the card into these ${n} cards: on yes call split_card, on no call split_card with keepAsOne so it is not proposed again. In a one-shot run, leave it: the card shows "Break into ${n} cards" and "Keep as one card".`;
@@ -34752,10 +35326,11 @@ async function startCardRunTool(db2, input, deps = {}) {
     }
   }
   const verifyScope = card.status === "test" ? input.verifyScope : void 0;
+  const finalTest = !input.plan && modeOf(card) !== "work" && finalTestReady2(db2, card.id);
   const result = await callApp(
     "POST",
     `/api/cards/${encodeURIComponent(card.id)}/start`,
-    { detach: true, ...verifyScope ? { verifyScope } : {} },
+    { detach: true, ...verifyScope ? { verifyScope } : {}, ...finalTest ? { finalTest: true } : {} },
     { port: appPort(runtime, deps.env), fetchImpl: deps.fetchImpl, timeoutMs: deps.timeoutMs ?? HANDOFF_TIMEOUT_MS }
   );
   const failure = failureText("start_card_run", name, result);
@@ -34807,6 +35382,15 @@ Warning: ${warning}` : text2;
 function mergeCardText(result) {
   switch (result.kind) {
     case "ok":
+      if (result.noCommits) {
+        return {
+          ok: true,
+          text: withStashWarning(
+            result.newStatus === "in_chain" ? `${result.displayId} had no commits, so nothing was merged. It stays in Human Test, in chain; its worktree was removed and branch ${result.branchName} is kept until the chain lands. The chain reaches main with merge_chain.` : `${result.displayId} had no commits, so nothing was merged. Its worktree and branch ${result.branchName} were deleted${result.newStatus === "completed" ? " and it moved to Completed" : ""}.`,
+            result.stashRestoreWarning
+          )
+        };
+      }
       if (result.newStatus === "in_chain") {
         return {
           ok: true,
@@ -34893,6 +35477,7 @@ function mergeCardText(result) {
   }
 }
 async function mergeCardTool(db2, args) {
+  const unwalked = unwalkedChildItemsText2(unwalkedChildItems2(db2, args.cardId));
   const result = await mergeCard2(db2, args.cardId, {
     commitFirst: args.commitFirst === true,
     targetBranch: args.targetBranch?.trim() || void 0,
@@ -34900,7 +35485,8 @@ async function mergeCardTool(db2, args) {
     cwd: args.cwd,
     stopProcess: (pid) => stopProcessGroup2(pid)
   });
-  return mergeCardText(result);
+  const answer = mergeCardText(result);
+  return unwalked && answer.ok ? { ...answer, text: `${answer.text} ${unwalked}.` } : answer;
 }
 function mergeChainText(result) {
   switch (result.kind) {
@@ -34945,7 +35531,7 @@ function readTerminalReport(db2, report) {
   if (!parsed.ok) {
     return {
       ok: false,
-      message: `save_tests refused: report is ${parsed.error}. Send { "items": [{ "item", "status", "approach", "steps", "expected", "observed", "error", "command", "output", "screenshots" }] } \u2014 or leave report out. Nothing was written.`
+      message: `save_tests refused: report is ${parsed.error}. Send { "items": [{ "item", "status", "approach", "steps", "expected", "observed", "impact", "error", "command", "output", "screenshots" }] } \u2014 or leave report out. Nothing was written.`
     };
   }
   return { ok: true, items: parsed.items, warnings };
@@ -35052,7 +35638,7 @@ function readTestReport(db2, card, opts = {}) {
 }
 
 // git-helpers.ts
-import { existsSync as existsSync11, mkdirSync as mkdirSync7 } from "fs";
+import { existsSync as existsSync12, mkdirSync as mkdirSync7 } from "fs";
 async function getCurrentBranch3(cwd) {
   try {
     return await getCurrentBranch2(cwd);
@@ -35064,7 +35650,7 @@ async function createWorktree2(projectPath, branchName, baseBranch) {
   const worktreePath = getWorktreePath2(projectPath, branchName);
   const baseDir = getWorktreeBaseDir2(projectPath);
   try {
-    if (!existsSync11(baseDir)) {
+    if (!existsSync12(baseDir)) {
       mkdirSync7(baseDir, { recursive: true });
     }
     if (await worktreeExists2(projectPath, worktreePath)) {
@@ -35112,7 +35698,6 @@ async function listUncommittedFiles(cwd, files) {
 }
 
 // card-search.ts
-import { existsSync as existsSync12 } from "fs";
 var foldCache = /* @__PURE__ */ new Map();
 function foldChar(c) {
   let ch = foldCache.get(c);
@@ -35215,77 +35800,8 @@ function searchCards(db2, opts) {
   );
   return scored.slice(0, limit).map((s) => s.result);
 }
-var MAX_OPEN_WORK_FILES = 40;
-function findOverlap(cardFiles, callerFiles) {
-  const card = cardFiles.map(normalizePath2);
-  return callerFiles.filter((f) => card.some((c) => pathsOverlap2(c, f)));
-}
-var OPEN_STATUSES = ["backlog", "bugs", "progress", "test"];
-var PLAN_STATUSES = /* @__PURE__ */ new Set(["backlog", "bugs", "progress"]);
-async function listOpenWork(db2, opts, deps) {
-  const pathExists = deps.pathExists ?? existsSync12;
-  const project = db2.prepare(`SELECT folder_path as folderPath, id_prefix as idPrefix FROM projects WHERE id = ?`).get(opts.projectId);
-  if (!project) return [];
-  const hasBranchColumns = hasCapability(db2, "branchStatus");
-  const rows = db2.prepare(
-    `SELECT id, title, status, task_number as taskNumber,
-              solution_summary as solutionSummary,
-              git_worktree_path as gitWorktreePath,
-              git_worktree_status as gitWorktreeStatus,
-              ${hasBranchColumns ? "git_branch_name" : "NULL"} as gitBranchName,
-              ${hasBranchColumns ? "git_branch_status" : "NULL"} as gitBranchStatus
-         FROM cards
-        WHERE project_id = ?
-          AND status IN (${OPEN_STATUSES.map(() => "?").join(", ")})
-          AND id != ?
-        ORDER BY updated_at DESC`
-  ).all(opts.projectId, ...OPEN_STATUSES, opts.excludeCardId ?? "");
-  const repoPath = project.folderPath;
-  const inGit = repoPath ? await deps.isGitRepo(repoPath) : false;
-  const callerFiles = Array.from(
-    new Set((opts.files ?? []).map(normalizePath2).filter(Boolean))
-  );
-  const result = [];
-  for (const row of rows) {
-    const base = {
-      id: row.id,
-      displayId: displayIdFor(project.idPrefix, row.taskNumber),
-      title: htmlToText2(row.title),
-      status: row.status
-    };
-    let files = [];
-    let source = "git";
-    let branch = null;
-    if (inGit && repoPath && row.gitWorktreeStatus === "active" && row.gitWorktreePath) {
-      if (!pathExists(row.gitWorktreePath)) continue;
-      files = await deps.changedFiles(repoPath, { worktreePath: row.gitWorktreePath });
-      branch = row.gitBranchName;
-    } else if (inGit && repoPath && row.gitBranchStatus === "active" && row.gitBranchName) {
-      files = await deps.changedFiles(repoPath, { branchName: row.gitBranchName });
-      branch = row.gitBranchName;
-    }
-    if (files.length === 0 && PLAN_STATUSES.has(row.status)) {
-      files = extractPlanFiles2(row.solutionSummary);
-      source = "plan";
-    }
-    if (files.length === 0) continue;
-    const entry = {
-      ...base,
-      branch,
-      source,
-      files: files.slice(0, MAX_OPEN_WORK_FILES)
-    };
-    if (files.length > MAX_OPEN_WORK_FILES) entry.moreFiles = files.length - MAX_OPEN_WORK_FILES;
-    if (callerFiles.length) {
-      const overlap = findOverlap(files, callerFiles);
-      if (overlap.length) entry.overlap = overlap;
-    }
-    result.push(entry);
-  }
-  if (callerFiles.length) {
-    result.sort((a, b2) => Number(Boolean(b2.overlap)) - Number(Boolean(a.overlap)));
-  }
-  return result;
+function listOpenWork3(db2, opts, deps) {
+  return listOpenWork2(db2, opts, { ...deps, hasBranchColumns: () => hasCapability(db2, "branchStatus") });
 }
 
 // card-args.ts
@@ -35469,16 +35985,19 @@ var SPLIT_CARD_SCHEMA = {
 var SPLIT_INTO_SCHEMA = {
   type: "object",
   properties: {
+    withdraw: {
+      type: "boolean",
+      description: "true, with no cards: take back this card's pending proposal, because one card is now right. It closes with this opinion; a later evaluation may propose again."
+    },
     reason: { type: "string", description: "Why the card should be broken up." },
-    cards: { type: "array", items: SPLIT_CARD_SCHEMA, description: "2-8 child cards in the order they should be built." },
+    cards: { type: "array", items: SPLIT_CARD_SCHEMA, description: "2-8 child cards in the order they should be built. Required unless withdraw is true." },
     flows: {
       type: "array",
       items: { type: "string" },
       description: "End-to-end flows the parent card verifies once its children land; they go to the parent's Tests."
     }
   },
-  required: ["cards"],
-  description: "Optional. Only when the card is really too big for one card: several parts that ship on their own, different layers, or different risks. Stored as a break-up proposal the user accepts (split_card) or turns down (split_card with keepAsOne) \u2014 never applied by itself. A proposal the user turned down is not made again."
+  description: "Optional. Only when the card is really too big for one card: several parts that ship on their own, different layers, or different risks. Stored as a break-up proposal the user accepts (split_card) or turns down (split_card with keepAsOne) \u2014 never applied by itself. A proposal the user turned down is not made again. To take back a pending proposal, pass { withdraw: true } instead; keepAsOne is the user's own no, not a way to retract."
 };
 var SKIP_REASONS = {
   "not-found": "no such card",
@@ -35548,7 +36067,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
     tools: [
       {
         name: "get_card",
-        description: "Get a kanban card by ID. When the card belongs to a chain, `chain` gives its place in that chain: position/total, predecessors and successors in chain order (displayId, title, status), and `next`, the chain's first member that is neither completed nor withdrawn. When the card has blocked-by links, `blockedBy` lists the cards it waits on and `blocks` the cards waiting on it, each with displayId, title, status, `landed` (its code is already in what this card would start from) and the link's note. When an opinion or plan suggested a link the user has not answered yet, `suggestedBlockedBy` lists those cards with the reason: ask the user, then add_dependency on yes or remove_dependency on no. When an opinion proposed breaking the card into cards and the user has not answered, `splitProposal` holds the cards: ask the user, then split_card on yes or split_card with keepAsOne on no. `split` names the card this one was broken out of (`parent`) and the cards broken out of it (`children`), with `role`, the one sentence this relation gives the card: a parent joins its children and shows the whole works end to end, a child keeps to its own scope. Each child carries `status`, `tests` (ticked/total such as 4/6, null without a checklist), a short `plan` summary, the `files` its plan names, and `ready`: Completed, or in Human Test with every item ticked and its branch merged. A parent waits on its children by this stricter rule, so a child's `landed` in `blockedBy` follows `ready`; every other link keeps the plain code-is-in rule. When the card has a Test Report, `testReport` gives how many runs it holds and how the newest came out; read the runs themselves with get_test_report. When commits have touched the card's files since its checklist was written, `testsDrift` lists them (base, files, commits, total): the checklist may have gone stale. `planDrift` does the same since its plan was written: the code wins over the plan. When the plan's Files list and what the card's work changed disagree, `planVsBranch` lists both sides: `touched`, `untouched` (planned, not changed yet) and `offPlan` (changed, not in the plan), read from its worktree, its branch, or (`source: commits`) its `Card:` trailer commits. When a Backlog or Bugs card's plan carries `[NEEDS_DECISION: \u2026]` questions, `planDecisions` lists them: the card does not start or queue until the user writes the decision into the plan and deletes the marker. `decisions` is the card's decision ledger, read only: each question Ralph took with the recommended option (kind `acceptance`, with `recommended` and the plan `step` it shaped); its plan shows them as `[NEEDS_DECISION accepted: \u2026]`. `authorship` says who wrote and who last edited each tab (`you` or `ideafy`, with the date) and who ticked each checked item, so you can see what the user changed by hand. `story` is the card's eight steps (Idea, Verdict, Argued, Plan, Built, Proof, Your test, Merge; seven on a Work card) with who moves at each and its state (done, now, todo, skipped), the step in play as `now`, and `banner`, whose move it is in the words of the app's turn banner (null when nobody's).",
+        description: "Get a kanban card by ID. When the card belongs to a chain, `chain` gives its place in that chain: position/total, predecessors and successors in chain order (displayId, title, status), and `next`, the chain's first member that is neither completed nor withdrawn. When the card has blocked-by links, `blockedBy` lists the cards it waits on and `blocks` the cards waiting on it, each with displayId, title, status, `landed` (its code is already in what this card would start from) and the link's note. When an opinion or plan suggested a link the user has not answered yet, `suggestedBlockedBy` lists those cards with the reason: ask the user, then add_dependency on yes or remove_dependency on no. When an opinion proposed breaking the card into cards and the user has not answered, `splitProposal` holds the cards: ask the user, then split_card on yes or split_card with keepAsOne on no. `split` names the card this one was broken out of (`parent`) and the cards broken out of it (`children`), with `role`, the one sentence this relation gives the card: a parent joins its children and shows the whole works end to end, a child keeps to its own scope. Each child carries `status`, `tests` (ticked/total such as 4/6, null without a checklist), a short `plan` summary, the `files` its plan names, and `ready`: Completed, in Human Test with every item ticked and its branch merged, or in its chain's branch, whatever its ticks say. A parent waits on its children by this stricter rule, so a child's `landed` in `blockedBy` follows `ready`; every other link keeps the plain code-is-in rule. `split.unwalkedChildItems` counts the items a child in the chain left that nothing walks. `finalTestReady: true` means a split parent with every child ready and no plan or checklist of its own: its next step is the End-to-end test (start_card_run), not a plan. When the card has a Test Report, `testReport` gives how many runs it holds and how the newest came out; read the runs themselves with get_test_report. When commits have touched the card's files since its checklist was written, `testsDrift` lists them (base, files, commits, total): the checklist may have gone stale. `planDrift` does the same since its plan was written: the code wins over the plan. When the plan's Files list and what the card's work changed disagree, `planVsBranch` lists both sides: `touched`, `untouched` (planned, not changed yet) and `offPlan` (changed, not in the plan), read from its worktree, its branch, or (`source: commits`) its `Card:` trailer commits. When a Backlog or Bugs card's plan carries `[NEEDS_DECISION: \u2026]` questions, `planDecisions` lists them: the card does not start or queue until the user writes the decision into the plan and deletes the marker. `decisions` is the card's decision ledger, read only: each question Ralph took with the recommended option (kind `acceptance`, with `recommended` and the plan `step` it shaped); its plan shows them as `[NEEDS_DECISION accepted: \u2026]`. Kind `revision` is a checklist item Ralph reworded (`originalText`, `newText`, `reason`; source `ralph-verify-core` when it was a core-flow item on a checklist Ralph wrote itself). Source `ralph-unverifiable` is an item Ralph could not verify on this machine (`item`, `reason`), now `[manual]` and the person's. `authorship` says who wrote and who last edited each tab (`you` or `ideafy`, with the date) and who ticked each checked item, so you can see what the user changed by hand. `story` is the card's eight steps (Idea, Verdict, Argued, Plan, Built, Proof, Your test, Merge; seven on a Work card) with who moves at each and its state (done, now, todo, skipped), the step in play as `now`, and `banner`, whose move it is in the words of the app's turn banner (null when nobody's).",
         inputSchema: {
           type: "object",
           properties: {
@@ -35821,7 +36340,7 @@ Reading the results: a newer decision overrides an older one (compare completedA
       },
       {
         name: "list_open_work",
-        description: `List a project's unmerged work and the files each piece touches, to spot overlap before you plan. Two sources per card: \`git\` \u2014 cards with a live worktree or branch, listing the files changed since the branch left the default branch; \`plan\` \u2014 backlog/bugs/progress cards with a written plan but no branch yet, listing the files the plan's Files line names. Returns displayId, title, status, branch, source and at most ${MAX_OPEN_WORK_FILES} file paths per card \u2014 no diffs and no plan text. Pass the files your card will change as \`files\` and each row that touches one of them carries it under \`overlap\`, matched against the card's full list even past the cap; those rows come first. A project that is not a git repository only has plan rows.`,
+        description: `List a project's unmerged work and the files each piece touches, to spot overlap before you plan. Two sources per card: \`git\` \u2014 cards with a live worktree or branch, listing the files changed since the branch left the default branch; \`plan\` \u2014 backlog/bugs/progress cards with a written plan but no branch yet, listing the files the plan's Files line names. Returns displayId, title, status, branch, source and at most ${MAX_OPEN_WORK_FILES2} file paths per card \u2014 no diffs and no plan text. Pass the files your card will change as \`files\` and each row that touches one of them carries it under \`overlap\`, matched against the card's full list even past the cap; those rows come first. A project that is not a git repository only has plan rows.`,
         inputSchema: {
           type: "object",
           properties: {
@@ -36004,6 +36523,11 @@ Test Report (report): when you have just verified checklist items yourself \u201
                       steps: { type: "array", items: { type: "string" }, description: "One action each: URL opened, command run, what was clicked or typed." },
                       expected: { type: "string" },
                       observed: { type: "string" },
+                      impact: {
+                        type: "string",
+                        enum: ["broken", "flaw", "cosmetic", "test_wrong"],
+                        description: "On a failed item, how much it matters, judged by behaviour: broken (the item's main promise did not happen), flaw (it happened, part of it behaves wrongly), cosmetic (behaviour right, only the look is off), test_wrong (you saw the feature do what the plan says and the item's expectation is out of date). Between two, the more serious. Changes no status or tick."
+                      },
                       error: { type: "string", description: "Required with observed when status is failed." },
                       command: { type: "string" },
                       output: { type: "string", description: "The few lines that prove the result." },
@@ -36257,7 +36781,7 @@ The server writes the card's verdict, score, priority and complexity from those 
       },
       {
         name: "start_card_run",
-        description: "Start a card's autonomous run now, the same as Play on the board: plan, implement or pre-verify, whichever the card's column calls for. Only when the user explicitly asks to start this card's run now \u2014 a started run works unattended in the card's folder or worktree and writes code. It does not touch the run queue (a queued card started here leaves the queue). Works only while the Ideafy app is open; with the app closed it says so and sends nothing. Refused where the board shows no Play, and when another run works in the same folder: the answer quotes the reason and nothing starts. On an implementation that jumps its chain it does not start and returns the warning instead: tell the user, and only on their OK call again with ackChainOrder: true. Answers as soon as the run is let go; its result shows in the app's bell and on the card when it ends.",
+        description: "Start a card's autonomous run now, the same as Play on the board: plan, implement or pre-verify, whichever the card's column calls for; on a split parent with `finalTestReady`, the End-to-end test, which moves it to Human Test with no plan. Only when the user explicitly asks to start this card's run now \u2014 a started run works unattended in the card's folder or worktree and writes code. It does not touch the run queue (a queued card started here leaves the queue). Works only while the Ideafy app is open; with the app closed it says so and sends nothing. Refused where the board shows no Play, and when another run works in the same folder: the answer quotes the reason and nothing starts. On an implementation that jumps its chain it does not start and returns the warning instead: tell the user, and only on their OK call again with ackChainOrder: true. Answers as soon as the run is let go; its result shows in the app's bell and on the card when it ends.",
         inputSchema: {
           type: "object",
           properties: {
@@ -36273,6 +36797,10 @@ The server writes the card's verdict, score, priority and complexity from those 
             ackChainOrder: {
               type: "boolean",
               description: "Start even though a predecessor in the card's chain has not landed. Only after the user saw the warning and said to go ahead."
+            },
+            plan: {
+              type: "boolean",
+              description: "On a split parent with `finalTestReady`, write a plan instead of running the End-to-end test, the menu's Write plan. Only when the user asked for a plan."
             }
           },
           required: ["cardId"]
@@ -36576,6 +37104,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         }
         const split = splitRelations2(db, card.id);
         if (split) Object.assign(card, { split });
+        if (finalTestReady2(db, card.id)) Object.assign(card, { finalTestReady: true });
         const testsDrift = testsDriftFor2(db, card.id);
         if (testsDrift && testsDrift.total > 0) {
           card.testsDrift = testsDrift;
@@ -36629,7 +37158,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
               question: d2.question,
               recommended: d2.recommended,
               step: d2.stepExcerpt,
-              ...d2.kind === "revision" ? { originalText: d2.originalText, newText: d2.newText } : {},
+              ...d2.kind === "revision" ? { originalText: d2.originalText, newText: d2.newText, reason: d2.recommended } : {},
+              ...d2.source === RALPH_UNVERIFIABLE_SOURCE2 ? { item: d2.originalText, reason: d2.recommended } : {},
               source: d2.source,
               at: d2.createdAt,
               ...d2.fromDisplayId ? { from: d2.fromDisplayId } : {}
@@ -36652,17 +37182,20 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         const storyRow = db.prepare(
           `SELECT git_branch_name AS gitBranchName, git_branch_status AS gitBranchStatus,
                     processing_type AS processingType, rebase_conflict AS rebaseConflict,
+                    ${hasCapability(db, "autopilot") ? "autopilot_stage AS autopilotStage," : ""}
                     test_scenarios AS testScenarios, solution_summary AS solutionSummary
              FROM cards WHERE id = ?`
         ).get(card.id);
         const queueIndex = listQueueRows2(db).findIndex((row) => row.id === card.id);
+        const openLinks = dependencies?.blockedBy.filter((link) => !link.landed) ?? [];
         card.story = buildCardStory2(
           { ...card, ...storyRow, rebaseConflict: !!storyRow?.rebaseConflict, testReports: reportRuns },
           loadStoryInputs2(db, card.id),
           {
             mode: normalizeProjectMode2(projectRow?.mode),
             queueRank: queueIndex + 1,
-            chainMerge: chainMergeForCard2(db, card.id)
+            chainMerge: chainMergeForCard2(db, card.id),
+            heldByCard: openLinks.length > 0 && openLinks.every((link) => link.status !== "withdrawn")
           }
         );
         const { cleanedCard, images } = extractCardImages(card);
@@ -37161,7 +37694,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             isError: true
           };
         }
-        const rows = await listOpenWork(
+        const rows = await listOpenWork3(
           db,
           {
             projectId,
@@ -37514,7 +38047,9 @@ ${formatWarning}` : ""}` }]
         }
         const suggested = suggestionNote(id, dependsOn);
         const canSplit = hasCapability(db, "splitProposals");
-        const split = splitInto !== void 0 && !canSplit ? `splitInto was not stored: ${missingCapabilityMessage("splitInto", "splitProposals")}` : splitNote(queueDisplayIdOf(id), result.split, canSplit);
+        const openProposal = canSplit && !result.split && !result.withdrawal ? getSplitProposal2(db, id) : null;
+        const stillPendingCards = openProposal?.status === "pending" ? openProposal.proposal.cards.length : 0;
+        const split = splitInto !== void 0 && !canSplit ? `splitInto was not stored: ${missingCapabilityMessage("splitInto", "splitProposals")}` : splitNote(queueDisplayIdOf(id), result.withdrawal ?? result.split, canSplit, stillPendingCards);
         return {
           content: [{
             type: "text",
@@ -37910,7 +38445,7 @@ ${waiting}` : ""}` : choice === "silent" ? `${bound} This session is outside eve
         const checkout = inWorktree ? process.cwd() : folder;
         const ownFiles = new Set(self?.touchedFiles ?? []);
         const uncommitted = checkout && await isGitRepo2(checkout) ? (await listUncommittedFiles(checkout, files.length ? files : null)).map((f) => inWorktree && folder ? relative2(folder, resolve4(checkout, f)) : f).filter((f) => !ownFiles.has(f)) : [];
-        const openWork = files.length ? (await listOpenWork(
+        const openWork = files.length ? (await listOpenWork3(
           db,
           { projectId, excludeCardId: buildingCardId, files },
           { isGitRepo: isGitRepo2, changedFiles: listChangedFiles2 }
@@ -37953,8 +38488,8 @@ ${waiting}` : ""}` : choice === "silent" ? `${bound} This session is outside eve
                     } : {}
                   };
                 }),
-                uncommitted: uncommitted.slice(0, MAX_OPEN_WORK_FILES),
-                ...uncommitted.length > MAX_OPEN_WORK_FILES ? { moreUncommitted: uncommitted.length - MAX_OPEN_WORK_FILES } : {},
+                uncommitted: uncommitted.slice(0, MAX_OPEN_WORK_FILES2),
+                ...uncommitted.length > MAX_OPEN_WORK_FILES2 ? { moreUncommitted: uncommitted.length - MAX_OPEN_WORK_FILES2 } : {},
                 openWork,
                 ...acknowledged ? { acknowledged } : {},
                 next
@@ -38123,7 +38658,7 @@ ${waiting}` : ""}` : choice === "silent" ? `${bound} This session is outside eve
       }
       case "start_card_run":
       case "open_card_session": {
-        const { cardId: rawCardId, verifyScope, ackChainOrder } = args;
+        const { cardId: rawCardId, verifyScope, ackChainOrder, plan } = args;
         if (verifyScope !== void 0 && verifyScope !== "next" && verifyScope !== "all") {
           return { content: [{ type: "text", text: `${name}: verifyScope must be "next" or "all". Nothing was changed.` }], isError: true };
         }
@@ -38131,7 +38666,7 @@ ${waiting}` : ""}` : choice === "silent" ? `${bound} This session is outside eve
         if (!cardId) {
           return { content: [{ type: "text", text: `Card not found: ${rawCardId}` }], isError: true };
         }
-        const result = name === "start_card_run" ? await startCardRunTool(db, { cardId, verifyScope, ackChainOrder: ackChainOrder === true }) : await openCardSessionTool(db, { cardId });
+        const result = name === "start_card_run" ? await startCardRunTool(db, { cardId, verifyScope, ackChainOrder: ackChainOrder === true, plan: plan === true }) : await openCardSessionTool(db, { cardId });
         return { content: [{ type: "text", text: result.text }], ...result.ok ? {} : { isError: true } };
       }
       case "merge_card": {
@@ -38145,8 +38680,13 @@ ${waiting}` : ""}` : choice === "silent" ? `${bound} This session is outside eve
       }
       case "merge_chain": {
         const { groupId } = args;
+        const unwalked = unwalkedChildItemsText2(chainUnwalkedItems2(db, groupId));
         const result = await mergeChain2(db, groupId);
-        return { content: [{ type: "text", text: mergeChainText(result) }], ...result.kind === "ok" ? {} : { isError: true } };
+        const text2 = mergeChainText(result);
+        return {
+          content: [{ type: "text", text: result.kind === "ok" && unwalked ? `${text2} ${unwalked}.` : text2 }],
+          ...result.kind === "ok" ? {} : { isError: true }
+        };
       }
       case "rollback_chain": {
         const { groupId } = args;
