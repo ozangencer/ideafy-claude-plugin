@@ -1198,8 +1198,8 @@ var require_util = __commonJS({
     })(Type || (exports.Type = Type = {}));
     function getErrorPath(dataProp, dataPropType, jsPropertySyntax) {
       if (dataProp instanceof codegen_1.Name) {
-        const isNumber = dataPropType === Type.Num;
-        return jsPropertySyntax ? isNumber ? (0, codegen_1._)`"[" + ${dataProp} + "]"` : (0, codegen_1._)`"['" + ${dataProp} + "']"` : isNumber ? (0, codegen_1._)`"/" + ${dataProp}` : (0, codegen_1._)`"/" + ${dataProp}.replace(/~/g, "~0").replace(/\\//g, "~1")`;
+        const isNumber2 = dataPropType === Type.Num;
+        return jsPropertySyntax ? isNumber2 ? (0, codegen_1._)`"[" + ${dataProp} + "]"` : (0, codegen_1._)`"['" + ${dataProp} + "']"` : isNumber2 ? (0, codegen_1._)`"/" + ${dataProp}` : (0, codegen_1._)`"/" + ${dataProp}.replace(/~/g, "~0").replace(/\\//g, "~1")`;
       }
       return jsPropertySyntax ? (0, codegen_1.getProperty)(dataProp).toString() : "/" + escapeJsonPointer(dataProp);
     }
@@ -1826,8 +1826,8 @@ var require_code2 = __commonJS({
           compositeRule: true
         }, schValid);
         gen.assign(valid, (0, codegen_1._)`${valid} || ${schValid}`);
-        const merged = cxt.mergeValidEvaluated(schCxt, schValid);
-        if (!merged)
+        const merged2 = cxt.mergeValidEvaluated(schCxt, schValid);
+        if (!merged2)
           gen.if((0, codegen_1.not)(valid));
       }));
       cxt.result(valid, () => cxt.reset(), () => cxt.error(true));
@@ -9214,7 +9214,7 @@ var ZodObject = class _ZodObject extends ZodType {
    * upgrade if you are experiencing issues.
    */
   merge(merging) {
-    const merged = new _ZodObject({
+    const merged2 = new _ZodObject({
       unknownKeys: merging._def.unknownKeys,
       catchall: merging._def.catchall,
       shape: () => ({
@@ -9223,7 +9223,7 @@ var ZodObject = class _ZodObject extends ZodType {
       }),
       typeName: ZodFirstPartyTypeKind.ZodObject
     });
-    return merged;
+    return merged2;
   }
   // merge<
   //   Incoming extends AnyZodObject,
@@ -9628,8 +9628,8 @@ var ZodIntersection = class extends ZodType {
       if (isAborted(parsedLeft) || isAborted(parsedRight)) {
         return INVALID;
       }
-      const merged = mergeValues(parsedLeft.value, parsedRight.value);
-      if (!merged.valid) {
+      const merged2 = mergeValues(parsedLeft.value, parsedRight.value);
+      if (!merged2.valid) {
         addIssueToContext(ctx, {
           code: ZodIssueCode.invalid_intersection_types
         });
@@ -9638,7 +9638,7 @@ var ZodIntersection = class extends ZodType {
       if (isDirty(parsedLeft) || isDirty(parsedRight)) {
         status.dirty();
       }
-      return { status: status.value, value: merged.data };
+      return { status: status.value, value: merged2.data };
     };
     if (ctx.common.async) {
       return Promise.all([
@@ -13468,11 +13468,11 @@ function handleIntersectionResults(result, left, right) {
   }
   if (aborted(result))
     return result;
-  const merged = mergeValues2(left.value, right.value);
-  if (!merged.valid) {
-    throw new Error(`Unmergable intersection. Error path: ${JSON.stringify(merged.mergeErrorPath)}`);
+  const merged2 = mergeValues2(left.value, right.value);
+  if (!merged2.valid) {
+    throw new Error(`Unmergable intersection. Error path: ${JSON.stringify(merged2.mergeErrorPath)}`);
   }
-  result.value = merged.data;
+  result.value = merged2.data;
   return result;
 }
 var $ZodTuple = /* @__PURE__ */ $constructor("$ZodTuple", (inst, def) => {
@@ -21026,6 +21026,7 @@ __export(test_progress_exports, {
   manualOverLimit: () => manualOverLimit,
   markManualItems: () => markManualItems,
   nextVerifyGroup: () => nextVerifyGroup,
+  nothingToVerifyReason: () => nothingToVerifyReason,
   parseTestProgress: () => parseTestProgress,
   pickCurrentItems: () => pickCurrentItems,
   runnableItemTexts: () => runnableItemTexts,
@@ -21232,6 +21233,10 @@ function verifyTargets(progress, scope) {
 }
 function nextVerifyGroup(progress) {
   return verifyTargets(progress, "next")[0] ?? null;
+}
+function nothingToVerifyReason(progress) {
+  if (nextVerifyGroup(progress)) return null;
+  return manualLeftIn(progress) > 0 ? "only [manual] items are left \u2014 they are yours" : "its checklist is fully ticked";
 }
 function canVerifyAllGroups(progress) {
   return verifyTargets(progress, "all").length > 1;
@@ -22334,6 +22339,7 @@ __export(chain_order_exports, {
   buildChainContext: () => buildChainContext,
   chainMergeBlocker: () => chainMergeBlocker,
   chainOrderWarning: () => chainOrderWarning,
+  chainParentIsNext: () => chainParentIsNext,
   classifyChainMember: () => classifyChainMember,
   compareByChainOrder: () => compareByChainOrder,
   finalTestPlanOpen: () => finalTestPlanOpen,
@@ -22391,6 +22397,14 @@ function isReadyForParent(child) {
   if (child.status !== "test" || child.gitBranchStatus === "active") return false;
   const progress = parseTestProgress(child.testScenarios ?? "");
   return !!progress && progress.total > 0 && progress.checked === progress.total;
+}
+function chainParentIsNext(members) {
+  const live = members.filter((member) => member.status !== "withdrawn");
+  const parentIds = new Set(live.map((member) => member.splitFromCardId));
+  const parent = live.find((member) => parentIds.has(member.id));
+  if (parent) return parent.status !== "completed" && live.every((m2) => m2.id === parent.id || isReadyForParent(m2));
+  const open = live.filter((member) => member.status !== "completed");
+  return open.length > 0 && open.every(isInChain);
 }
 function isFinalTestReady(parent, children) {
   if (parent.status !== "backlog" && parent.status !== "bugs") return false;
@@ -22966,6 +22980,8 @@ __export(card_ops_exports, {
   APP_HEARTBEAT_STALE_MS: () => APP_HEARTBEAT_STALE_MS,
   AUTHORSHIP_FIELDS: () => AUTHORSHIP_FIELDS,
   CARD_RUNTIME_FIELDS: () => CARD_RUNTIME_FIELDS,
+  CODEX_BIND_FALLBACK_MS: () => CODEX_BIND_FALLBACK_MS,
+  CODEX_HOOK_LAST_HEARD_KEY: () => CODEX_HOOK_LAST_HEARD_KEY,
   CardDependencyError: () => CardDependencyError,
   CardGroupError: () => CardGroupError,
   DEFAULT_GROUP_COLOR: () => DEFAULT_GROUP_COLOR,
@@ -22994,6 +23010,8 @@ __export(card_ops_exports, {
   autopilotLine: () => autopilotLine,
   autopilotModeFor: () => autopilotModeFor,
   autopilotRefusal: () => autopilotRefusal,
+  bindCodexSessionFromTool: () => bindCodexSessionFromTool,
+  bindSession: () => bindSession,
   boundSessionHearsPolicy: () => boundSessionHearsPolicy,
   branchStoryCounts: () => branchStoryCounts,
   canReopenFinalTest: () => canReopenFinalTest,
@@ -23009,10 +23027,15 @@ __export(card_ops_exports, {
   chainAutopilotLine: () => chainAutopilotLine,
   chainCheckFor: () => chainCheckFor,
   chainCheckWarnings: () => chainCheckWarnings,
+  chainConflictBlocksNow: () => chainConflictBlocksNow,
+  chainConflictCard: () => chainConflictCard,
   chainConflictText: () => chainConflictText,
+  chainMainConflict: () => chainMainConflict,
+  chainMainProbe: () => chainMainProbe,
   chainMergeForCard: () => chainMergeForCard,
   chainMergeReview: () => chainMergeReview,
   chainOrderWarningFor: () => chainOrderWarningFor,
+  chainParentMainConflict: () => chainParentMainConflict,
   chainRalphDeadlineFor: () => chainRalphDeadlineFor,
   chainUnwalkedItems: () => chainUnwalkedItems,
   chainWriteConflictFor: () => chainWriteConflictFor,
@@ -23023,6 +23046,7 @@ __export(card_ops_exports, {
   clearChainAutopilot: () => clearChainAutopilot,
   clearParked: () => clearParked,
   clearQueue: () => clearQueue,
+  codexHookLastHeard: () => codexHookLastHeard,
   completedAtFor: () => completedAtFor,
   completedAtOnCreate: () => completedAtOnCreate,
   confirmPlanCurrent: () => confirmPlanCurrent,
@@ -23042,6 +23066,7 @@ __export(card_ops_exports, {
   finalTestOpensWorktree: () => finalTestOpensWorktree,
   finalTestReady: () => finalTestReady,
   finalTestReadyIds: () => finalTestReadyIds,
+  findFreshUnboundCodexSession: () => findFreshUnboundCodexSession,
   getAutopilotState: () => getAutopilotState,
   getGroup: () => getGroup,
   getIntegrationGroup: () => getIntegrationGroup,
@@ -23066,6 +23091,7 @@ __export(card_ops_exports, {
   integrationBranchName: () => integrationBranchName,
   integrationGateMembers: () => integrationGateMembers,
   integrationOnText: () => integrationOnText,
+  isBindToolName: () => isBindToolName,
   isChainParent: () => isChainParent,
   isParkableStatus: () => isParkableStatus,
   isStatus: () => isStatus,
@@ -23120,6 +23146,7 @@ __export(card_ops_exports, {
   readWriteAck: () => readWriteAck,
   readyAfterLinks: () => readyAfterLinks,
   recordAuthorship: () => recordAuthorship,
+  recordCodexTurn: () => recordCodexTurn,
   recordDecision: () => recordDecision,
   recordRalphEvent: () => recordRalphEvent,
   recordRalphRound: () => recordRalphRound,
@@ -23159,6 +23186,7 @@ __export(card_ops_exports, {
   splitRelations: () => splitRelations,
   splitRoleLine: () => splitRoleLine,
   stampBaseCommit: () => stampBaseCommit,
+  stampCodexHookHeard: () => stampCodexHookHeard,
   stampRalphStart: () => stampRalphStart,
   startAutopilot: () => startAutopilot,
   startChainAutopilot: () => startChainAutopilot,
@@ -23316,14 +23344,35 @@ function autopilotModeName(mode) {
 var RALPH_BROWSER_PREFIX = "Ralph needs the browser: ";
 var RALPH_BROWSER_UNUSED = "the browser was not used on [ui] items \u2014 Ralph does not accept a text report";
 var DECISION_STOP_PREFIX = "plan needs your decision: ";
+var CHAIN_CONFLICT_STOP_PREFIX = "main did not merge into ";
+function nothingLeftToRun(card) {
+  if (card.status !== "test") return false;
+  const progress = parseTestProgress(card.testScenarios ?? "");
+  return !!progress && progress.total > 0 && nothingToVerifyReason(progress) !== null;
+}
 function autopilotResume(card) {
   if (card.autopilotStage !== "stopped") return null;
   if (findPlanDecisions(card.solutionSummary).length > 0) return "decision-open";
+  if ((card.autopilotStopReason ?? "").startsWith(CHAIN_CONFLICT_STOP_PREFIX)) return "chain-conflict";
+  if (nothingLeftToRun(card)) return "nothing-left";
   if ((card.autopilotStopReason ?? "").startsWith(DECISION_STOP_PREFIX)) return "decision-answered";
   return "stopped";
 }
 function plural(n, word) {
   return `${n} ${word}${n === 1 ? "" : "s"}`;
+}
+var CHECKLIST_STOP = /^(\d+ items? (blocked|still unticked|left unticked)\b|not ready to merge:)/;
+function stopReasonOutdated(card) {
+  if (!nothingLeftToRun(card)) return false;
+  const reason = card.autopilotStopReason ?? "";
+  return reason.startsWith(DECISION_STOP_PREFIX) || CHECKLIST_STOP.test(reason);
+}
+function autopilotStopText(card) {
+  if (stopReasonOutdated(card)) {
+    const manual = manualLeftIn(parseTestProgress(card.testScenarios ?? ""));
+    return manual > 0 ? manualYoursText(manual) : "checklist done since";
+  }
+  return card.autopilotStopReason || "no reason given";
 }
 var AUTOPILOT_CONFLICT_REASON = "its branch has a rebase conflict \u2014 press Merge to solve it first";
 function autopilotIneligibleReason(card) {
@@ -23336,6 +23385,7 @@ function autopilotIneligibleReason(card) {
   if (card.openDecision) return "the plan still has an open decision";
   if (card.status === "test") {
     if (!card.hasCoreFlow) return "its checklist has no core-flow group";
+    if (card.nothingToVerify) return card.nothingToVerify;
     if (!card.activeWorktree && !card.opensWorktree) return "it has no worktree \u2014 a fix round would write to main";
     return null;
   }
@@ -23373,7 +23423,7 @@ function chainAutopilotStatusOf(members) {
   const stopped = open.filter((m2) => !inChain(m2) && stageOf(m2) === "stopped");
   if (stopped.length > 0) {
     const first = stopped[0];
-    const reason = first.autopilotStopReason || "no reason given";
+    const reason = autopilotStopText(first);
     const line = stopped.length === 1 ? `Autopilot stopped at ${nameList2(stopped)}: ${reason}` : `Autopilot stopped at ${nameList2(stopped)} \xB7 ${first.displayId || "the first"}: ${reason}`;
     return { kind: "stopped", line, stopped: first };
   }
@@ -24160,10 +24210,7 @@ function queueRowIneligibleReason(row) {
     autopilotPlanning: row.autopilotStage === "planning"
   });
   if (reason) return reason;
-  if (row.status === "test" && !nextVerifyGroup(progress)) {
-    return manualLeftIn(progress) > 0 ? "only [manual] items are left \u2014 they are yours" : "its checklist is fully ticked";
-  }
-  return null;
+  return row.status === "test" ? nothingToVerifyReason(progress) : null;
 }
 function queueKindOf(row) {
   const phase = detectPhase(row);
@@ -26841,6 +26888,25 @@ function commitExists(cwd, sha) {
 function gitRead(cwd, args) {
   return run(cwd, args);
 }
+var PROBE_TIMEOUT_MS = 5e3;
+function mergeProbe(cwd, ours, theirs) {
+  if (!cwd) return { kind: "unknown" };
+  try {
+    execFileSync("git", ["merge-tree", "--write-tree", "--name-only", "--no-messages", "-z", ours, theirs], {
+      cwd,
+      encoding: "utf8",
+      timeout: PROBE_TIMEOUT_MS,
+      stdio: ["ignore", "pipe", "ignore"],
+      maxBuffer: 8 * 1024 * 1024
+    });
+    return { kind: "clean" };
+  } catch (error2) {
+    const { status, stdout } = error2;
+    if (status !== 1 || !stdout) return { kind: "unknown" };
+    const files = stdout.split("\0").slice(1).filter(Boolean);
+    return files.length > 0 ? { kind: "conflict", files } : { kind: "unknown" };
+  }
+}
 
 // ../lib/card-ops/integration-branch.ts
 import { existsSync as existsSync6, mkdirSync as mkdirSync4 } from "fs";
@@ -26979,7 +27045,7 @@ async function getMergeReality(projectPath, branchName, worktreePath) {
   } catch {
     contentIdentical = false;
   }
-  const merged = ahead === 0 || contentIdentical;
+  const merged2 = ahead === 0 || contentIdentical;
   return {
     ...base,
     exists: true,
@@ -26988,7 +27054,7 @@ async function getMergeReality(projectPath, branchName, worktreePath) {
     contentIdentical,
     // Uncommitted work in the worktree is still work: it would be committed
     // and merged, so the branch is not done regardless of what the tips say.
-    state: merged && !needsCommit ? "nothing-to-merge" : "ready"
+    state: merged2 && !needsCommit ? "nothing-to-merge" : "ready"
   };
 }
 async function hasStagedChanges(projectPath) {
@@ -27834,6 +27900,12 @@ async function syncMainIntoChain(db2, groupId, opts = {}) {
     const main2 = await getDefaultBranch(worktreePath);
     const { stdout: behind } = await git(worktreePath, "rev-list", "--count", `${branch}..${main2}`);
     if (parseInt(behind.trim(), 10) === 0) return { kind: "ok", branch, worktreePath, merged: false };
+    if (gitRead(worktreePath, ["rev-parse", "--verify", "--quiet", "MERGE_HEAD"])) {
+      const { stdout } = await git(worktreePath, "diff", "--name-only", "--diff-filter=U").catch(() => ({ stdout: "" }));
+      const files = stdout.trim().split("\n").filter(Boolean);
+      log(`[Chain] a merge is under way in ${worktreePath}, left as it is`);
+      return { kind: "conflict", branch, worktreePath, files, inProgress: true };
+    }
     try {
       await git(worktreePath, "merge", "--no-ff", "--no-edit", main2, "-m", `Merge ${main2} into ${branch}`);
       log(`[Chain] ${main2} merged into ${branch}`);
@@ -27852,8 +27924,79 @@ async function syncMainIntoChain(db2, groupId, opts = {}) {
     return { kind: "failed", error: error2 instanceof Error ? error2.message : String(error2) };
   }
 }
-function chainConflictText(branch, files, worktreePath) {
-  return `Merging main into ${branch} conflicts in ${files.length} file${files.length === 1 ? "" : "s"}: ${files.join(", ")}. The merge was aborted and ${branch} is untouched. Resolve it by hand in ${worktreePath} (git merge main, fix, commit), then start again.`;
+function chainConflictText(branch, files, worktreePath, opts = {}) {
+  const lead = "main is untouched and nothing started.";
+  if (opts.inProgress) {
+    const named = files.length > 0 ? ` Still conflicting: ${files.join(", ")}.` : "";
+    return `${lead} A merge is already under way in ${worktreePath}, and it was left as it is.${named} Finish it there (fix, commit), then start again.`;
+  }
+  const count = `${files.length} file${files.length === 1 ? "" : "s"}: ${files.join(", ")}`;
+  const happened = opts.dryRun ? `Merging main into ${branch} would conflict in ${count}. Nothing was merged, and ${branch} is as it was.` : `Merging main into ${branch} conflicts in ${count}. The merge was rolled back and ${branch} is as it was.`;
+  return `${lead} ${happened} Solve it in ${worktreePath} (git merge main, fix, commit), then start again.`;
+}
+var probeCache = /* @__PURE__ */ new Map();
+function defaultBranchOf(repo) {
+  const origin = gitRead(repo, ["symbolic-ref", "refs/remotes/origin/HEAD"]);
+  if (origin) return origin.replace("refs/remotes/origin/", "").replace("refs/heads/", "");
+  return gitRead(repo, ["rev-parse", "--verify", "--quiet", "refs/heads/main"]) ? "main" : "master";
+}
+function chainWorktreeOf(repo, branch) {
+  let path12 = null;
+  for (const line of (gitRead(repo, ["worktree", "list", "--porcelain"]) ?? "").split("\n")) {
+    if (line.startsWith("worktree ")) path12 = line.slice("worktree ".length);
+    else if (line === `branch refs/heads/${branch}` && path12) return path12;
+  }
+  return integrationWorktreePath(repo, branch);
+}
+function chainMainProbe(db2, groupId) {
+  const group = getIntegrationGroup(db2, groupId);
+  if (!group?.integrationBranch || group.mergedCommit || !group.folderPath) return { state: "clean" };
+  const repo = group.folderPath;
+  const branch = group.integrationBranch;
+  const chainTip = gitRead(repo, ["rev-parse", "--verify", "--quiet", `refs/heads/${branch}`]);
+  if (!chainTip) return { state: "clean" };
+  const mainTip = gitRead(repo, ["rev-parse", "--verify", "--quiet", `refs/heads/${defaultBranchOf(repo)}`]);
+  if (!mainTip) return { state: "unknown" };
+  const tips = `${chainTip}:${mainTip}`;
+  const cached4 = probeCache.get(groupId);
+  if (cached4?.tips === tips) return cached4.probe;
+  const merged2 = mergeProbe(repo, chainTip, mainTip);
+  const probe = merged2.kind === "conflict" ? { state: "conflict", branch, worktreePath: chainWorktreeOf(repo, branch), files: merged2.files } : { state: merged2.kind };
+  probeCache.set(groupId, { tips, probe });
+  return probe;
+}
+function chainMainConflict(db2, groupId) {
+  const probe = chainMainProbe(db2, groupId);
+  if (probe.state !== "conflict") return null;
+  const { branch, worktreePath, files } = probe;
+  return { branch, worktreePath, files };
+}
+function chainParentMainConflict(db2, cardId) {
+  const group = cardIntegrationGroup(db2, cardId);
+  if (!group || !isChainParent(db2, cardId, group.id)) return null;
+  const conflict = chainMainConflict(db2, group.id);
+  return conflict ? { ...conflict, groupId: group.id } : null;
+}
+function chainMembersOf(db2, groupId) {
+  const split = cardColumns(db2).has("split_from_card_id") ? "c.split_from_card_id" : "NULL";
+  return allRows(
+    db2,
+    `SELECT c.id, c.title, c.status, c.git_branch_status AS gitBranchStatus, c.test_scenarios AS testScenarios,
+            ${split} AS splitFromCardId, c.task_number AS taskNumber, p.id_prefix AS idPrefix
+     FROM cards c LEFT JOIN projects p ON p.id = c.project_id
+     WHERE c.group_id = ? ORDER BY c.task_number`,
+    groupId
+  );
+}
+function chainConflictBlocksNow(db2, groupId) {
+  return chainParentIsNext(chainMembersOf(db2, groupId));
+}
+function chainConflictCard(db2, groupId) {
+  const members = chainMembersOf(db2, groupId);
+  const open = members.filter((m2) => m2.status !== "completed" && m2.status !== "withdrawn");
+  const parentIds = new Set(members.map((m2) => m2.splitFromCardId));
+  const card = open.find((m2) => parentIds.has(m2.id)) ?? open[open.length - 1];
+  return card ? { id: card.id, displayId: formatDisplayId(card.idPrefix, card.taskNumber) ?? card.id.slice(0, 8) } : null;
 }
 function inChainMembers(db2, groupId) {
   return allRows(
@@ -28190,6 +28333,7 @@ var TEST_REPORT_DIR = "test-report";
 var TEST_REPORT_FENCE = "test-report";
 var MAX_TEXT = 2e3;
 var MAX_OUTPUT = 4e3;
+var MAX_PLAIN = 400;
 var MAX_STEPS = 20;
 var MAX_ITEMS = 50;
 var MAX_WARNINGS = 20;
@@ -28296,6 +28440,8 @@ function normalizeTestReportItem(value) {
     status = "manual";
     note = MISSING_EVIDENCE_NOTE;
   }
+  const plainItem = str(record2.plainItem, MAX_PLAIN);
+  const plainObserved = str(record2.plainObserved, MAX_PLAIN);
   const impact = status === "failed" ? normalizeImpact(record2.impact) : null;
   return {
     item,
@@ -28304,6 +28450,8 @@ function normalizeTestReportItem(value) {
     steps,
     expected: str(record2.expected),
     observed,
+    ...plainItem ? { plainItem } : {},
+    ...plainObserved ? { plainObserved } : {},
     ...impact ? { impact } : {},
     error: error2,
     command: str(record2.command, MAX_TEXT),
@@ -28877,6 +29025,45 @@ function buildEnv() {
     USER: user,
     PATH: newPath
   };
+}
+
+// ../lib/run-video/clicks.ts
+var CLICK_LOG_FILE = "clicks.jsonl";
+function isNumber(value) {
+  return typeof value === "number" && Number.isFinite(value);
+}
+function parseLine(line) {
+  let note;
+  try {
+    note = JSON.parse(line);
+  } catch {
+    return null;
+  }
+  if (!note || !isNumber(note.at) || !isNumber(note.x) || !isNumber(note.y) || !isNumber(note.w) || !isNumber(note.h)) return null;
+  if (note.w <= 0 || note.h <= 0) return null;
+  return { at: note.at, tab: note.tab ?? 0, x: note.x, y: note.y, rect: note.rect ?? null, w: note.w, h: note.h };
+}
+function parseClickLog(text2, startedAtMs) {
+  if (!Number.isFinite(startedAtMs)) return [];
+  const clicks = [];
+  for (const line of text2.split("\n")) {
+    if (!line.trim()) continue;
+    const note = parseLine(line);
+    if (!note || note.tab !== 0) continue;
+    const at = (note.at - startedAtMs) / 1e3;
+    if (at < 0) continue;
+    const positioned = note.x !== 0 || note.y !== 0;
+    if (!positioned && !note.rect) continue;
+    const x2 = positioned ? note.x : note.rect.x + note.rect.w / 2;
+    const y2 = positioned ? note.y : note.rect.y + note.rect.h / 2;
+    if (x2 < 0 || y2 < 0 || x2 > note.w || y2 > note.h) continue;
+    clicks.push({
+      at: Math.round(at * 100) / 100,
+      x: Math.round(x2 / note.w * 1e3) / 1e3,
+      y: Math.round(y2 / note.h * 1e3) / 1e3
+    });
+  }
+  return clicks.sort((a, b2) => a.at - b2.at);
 }
 
 // ../lib/userdata-sandbox.ts
@@ -29558,6 +29745,7 @@ function ineligibleReason(row) {
     hasPlan: hasRealPlan(row.solutionSummary),
     hasChecklist: hasOwnChecklist(html),
     hasCoreFlow: !!parseTestProgress(html)?.core,
+    nothingToVerify: nothingToVerifyReason(parseTestProgress(html)),
     projectMode: row.projectMode,
     useWorktree: row.useWorktree === null ? null : !!row.useWorktree,
     activeWorktree: !!row.gitWorktreePath && row.gitWorktreeStatus === "active",
@@ -29593,11 +29781,25 @@ function autopilotLine(db2, cardId) {
   if (isActiveAutopilotStage(stage)) {
     return `${name} is running this card (${stage}) in its worktree; do not edit there. Ask the user to stop ${name} first.`;
   }
-  const resume = autopilotResume({ autopilotStage: stage, autopilotStopReason: stopReason, solutionSummary: row.solutionSummary });
+  const resume = autopilotResume({
+    status: row.status,
+    testScenarios: row.testScenarios,
+    autopilotStage: stage,
+    autopilotStopReason: stopReason,
+    solutionSummary: row.solutionSummary
+  });
   const askToContinue = `Call ${queueCallFor(cardId, mode)} only after the user explicitly says yes. ${ownHoldLine(name)}`;
   if (resume === "decision-answered") return `In your first sentence: ${autopilotContinueQuestion(cardId, mode)}`;
   if (resume === "decision-open") {
     return `${name} stopped on this card: ${sanitizeForReminder(stopReason || "no reason given", 200)}. Say so in your first sentence: the user answers the decision in the plan and deletes its [NEEDS_DECISION] marker before ${name} can continue.`;
+  }
+  if (resume === "chain-conflict") {
+    const next = nothingLeftToRun(row) ? `Its checklist leaves a run nothing, so do not offer to continue on ${name}.` : `Once the conflict is solved in the chain's worktree (git merge main, fix, commit, never a rebase), ask whether to continue on ${name}. ${askToContinue}`;
+    return `${name} stopped on this card: ${sanitizeForReminder(stopReason || "no reason given", 200)}. Say so in your first sentence: main was not touched and no run started. get_card's chain.mainConflict names the files. ${next}`;
+  }
+  if (resume === "nothing-left") {
+    if (stopReasonOutdated({ status: row.status, testScenarios: row.testScenarios, autopilotStopReason: stopReason })) return null;
+    return `${name} stopped on this card: ${sanitizeForReminder(stopReason || "no reason given", 200)}. Say so in your first sentence. Its checklist leaves a run nothing, so do not offer to continue on ${name}.`;
   }
   if (resume === "stopped") {
     return `${name} stopped on this card: ${sanitizeForReminder(stopReason || "no reason given", 200)}. Say so in your first sentence, and once it is dealt with ask whether to continue on ${name}. ${askToContinue}`;
@@ -29615,6 +29817,7 @@ function sessionHoldRefusal(db2, cardId) {
 var Refused = class extends Error {
 };
 function startAutopilot(db2, cardId, opts = {}) {
+  const conflict = chainParentMainConflict(db2, cardId);
   try {
     return transaction(db2, () => {
       const row = readRow(db2, cardId);
@@ -29635,6 +29838,15 @@ function startAutopilot(db2, cardId, opts = {}) {
       const refusal = ineligible ?? held;
       if (refusal) {
         return { ok: false, reason: "ineligible", message: `Cannot send ${displayId} to ${name}: ${refusal}`, ...held ? { heldBySession: true } : {} };
+      }
+      if (conflict) {
+        const count = conflict.files.length;
+        return {
+          ok: false,
+          reason: "ineligible",
+          message: `Cannot send ${displayId} to ${name}: main conflicts with ${conflict.branch} in ${count} file${count === 1 ? "" : "s"}. Nothing started, and main is untouched`,
+          chainConflict: conflict
+        };
       }
       const entersFinalTest = row.status !== "test" && finalTestReady(db2, cardId);
       if (entersFinalTest) enterFinalTest(db2, cardId, opts.now ?? (/* @__PURE__ */ new Date()).toISOString());
@@ -29777,7 +29989,7 @@ function savePlan(db2, args) {
     if (hasRealPlan(planHtml)) reopenFinalTest(db2, args.id, args.now, args.author);
     const row = getRow(
       db2,
-      `SELECT status, solution_summary, autopilot_stage, autopilot_stop_reason FROM cards WHERE id = ?`,
+      `SELECT status, solution_summary, test_scenarios, autopilot_stage, autopilot_stop_reason FROM cards WHERE id = ?`,
       args.id
     );
     if (!row) return { ok: false, reason: "not-found" };
@@ -29814,7 +30026,12 @@ function savePlan(db2, args) {
     });
     const to = holdForDecision(target(args.moveTo, row.status, statusAfterPlan), row.status, planHtml);
     if (to) moveCard(db2, args.id, to, args.now);
-    const stopped = { autopilotStage: row.autopilot_stage, autopilotStopReason: row.autopilot_stop_reason };
+    const stopped = {
+      status: row.status,
+      testScenarios: row.test_scenarios,
+      autopilotStage: row.autopilot_stage,
+      autopilotStopReason: row.autopilot_stop_reason
+    };
     const autopilotDecisionAnswered = autopilotResume({ ...stopped, solutionSummary: row.solution_summary }) === "decision-open" && autopilotResume({ ...stopped, solutionSummary: planHtml }) === "decision-answered";
     return {
       ok: true,
@@ -29841,15 +30058,15 @@ function appendPlanRefresh(db2, args) {
   );
   if (!row) return { ok: false, reason: "not-found" };
   const existing = row.solution_summary ?? "";
-  const merged = mergeHtmlSections(existing, args.html.slice(section2.start));
+  const merged2 = mergeHtmlSections(existing, args.html.slice(section2.start));
   const base = refreshBase(db2, args.id, section2.sha);
-  if (merged.added === 0) {
+  if (merged2.added === 0) {
     stampBaseCommit(db2, args.id, "plan", base);
     return { ok: true, html: existing, previous: existing, from: row.status, status: row.status, added: 0, base };
   }
-  const saved = savePlan(db2, { id: args.id, html: merged.html, now: args.now, author: args.author, moveTo: null, base: base ?? false });
+  const saved = savePlan(db2, { id: args.id, html: merged2.html, now: args.now, author: args.author, moveTo: null, base: base ?? false });
   if (!saved.ok) return saved;
-  return { ...saved, added: merged.added, base };
+  return { ...saved, added: merged2.added, base };
 }
 function refreshBase(db2, cardId, sha) {
   if (sha) {
@@ -30589,6 +30806,884 @@ function parseSplitSnapshot(raw) {
   return parseSplitInto(json2).ok ? { payload, status } : void 0;
 }
 
+// ../lib/card-story.ts
+var card_story_exports = {};
+__export(card_story_exports, {
+  EMPTY_STORY_INPUTS: () => EMPTY_STORY_INPUTS,
+  buildCardStory: () => buildCardStory
+});
+
+// ../lib/card-phase.ts
+var card_phase_exports = {};
+__export(card_phase_exports, {
+  BOARD_PHASE_ACTIONS: () => BOARD_PHASE_ACTIONS,
+  QUICK_FIX_STATUSES: () => QUICK_FIX_STATUSES,
+  canEvaluateFor: () => canEvaluateFor,
+  canGenerateFor: () => canGenerateFor,
+  canPreVerify: () => canPreVerify,
+  canQuickFixFor: () => canQuickFixFor,
+  canRecheckOnScreen: () => canRecheckOnScreen,
+  canRunAutonomousFor: () => canRunAutonomousFor,
+  canStartCard: () => canStartCard,
+  canTestTogetherFor: () => canTestTogetherFor,
+  detectBoardPhase: () => detectBoardPhase,
+  getPhaseActionFlags: () => getPhaseActionFlags,
+  getPhaseLabels: () => getPhaseLabels,
+  isAutonomousAction: () => isAutonomousAction,
+  isPhaseActionShown: () => isPhaseActionShown,
+  nextStepFor: () => nextStepFor,
+  terminalStartRefusal: () => terminalStartRefusal,
+  verifyRunBlurb: () => verifyRunBlurb
+});
+function detectBoardPhase(card, solutionText, testText) {
+  const hasTests = hasOwnChecklist(card.testScenarios);
+  if (card.status === "progress") {
+    if (isFinalTestNote(card.solutionSummary)) return "planning";
+    return hasTests ? "retest" : "implementation";
+  }
+  if (card.status === "test" && !!testText) return "verify";
+  const hasSolution = !!solutionText && hasRealPlan(card.solutionSummary);
+  if (!hasSolution) return "planning";
+  if (!hasTests) return "implementation";
+  return "retest";
+}
+function getPhaseLabels(phase, mode = "development", verifyGroup = null) {
+  const labels = phaseLabels(phase, mode, verifyGroup);
+  const playHint = phase === "verify" && mode !== "work" && verifyGroup ? `${labels.play} \xB7 text or visual` : labels.play;
+  return { ...labels, playHint };
+}
+function phaseLabels(phase, mode, verifyGroup) {
+  if (mode === "work") {
+    if (phase === "planning") {
+      return { play: "Write plan", terminal: "Work on it" };
+    }
+    if (phase === "implementation") {
+      return { play: "Implement", terminal: "Work on it" };
+    }
+    if (phase === "retest") {
+      return { play: "Re-test", terminal: "Revise" };
+    }
+  }
+  switch (phase) {
+    // No "(Autonomous)" / "(Interactive)" suffix (IDE-485): the next-step
+    // menu's two sections say which kind a row is.
+    case "planning":
+      return { play: "Write plan", terminal: "Plan together" };
+    case "implementation":
+      return { play: "Implement", terminal: "Implement together" };
+    case "retest":
+      return { play: "Re-test", terminal: "Fix together" };
+    case "verify":
+      return {
+        // No group left to tick: the press can only re-check the core flow
+        // on screen, for the Test Report (IDE-468).
+        play: !verifyGroup ? "Re-check core flow on screen" : !verifyGroup.core || verifyGroup.flows ? `Pre-verify ${testGroupLabel(verifyGroup)}` : "Pre-verify core flow",
+        // Human Test'te terminal, çeklisti yürüten değil çeklistin dışına çıkan
+        // oturumdur: gündemi kullanıcı getirir, kartta yazmayan bir şeydir.
+        terminal: "Open in terminal"
+      };
+  }
+}
+function canPreVerify(card, testProgress) {
+  return card.status === "test" && !!nextVerifyGroup(testProgress);
+}
+function canRecheckOnScreen(card, testProgress, mode = "development") {
+  return mode !== "work" && card.status === "test" && (testProgress?.groups.find((g) => g.core)?.checked ?? 0) > 0;
+}
+function canStartCard(card) {
+  return !!(card.description && (card.projectId || card.projectFolder) && card.status !== "completed" && card.status !== "ideation");
+}
+function canRunAutonomousFor(card, testProgress, mode = "development") {
+  return canStartCard(card) && (card.status !== "test" || canPreVerify(card, testProgress) || canRecheckOnScreen(card, testProgress, mode));
+}
+function canTestTogetherFor(card, testScenariosText) {
+  return card.status === "test" && !!(card.testScenarios && testScenariosText !== "" && (card.projectId || card.projectFolder));
+}
+function verifyRunBlurb(scope, group) {
+  if (scope === "all" && group) {
+    return `The agent runs every group that still has unticked steps, starting with "${testGroupLabel(group)}", and ticks the steps that pass. Your own ticks stay untouched.`;
+  }
+  if (group && (!group.core || group.flows)) {
+    return `The agent runs the "${testGroupLabel(group)}" group only and ticks the steps that pass. Other groups and your own ticks stay untouched.`;
+  }
+  return "The agent runs the core flow only and ticks the steps that pass. Later groups and your own ticks stay untouched.";
+}
+var QUICK_FIX_STATUSES = ["bugs", "backlog"];
+function canQuickFixFor(card) {
+  return QUICK_FIX_STATUSES.includes(card.status) && !!(card.description && (card.projectId || card.projectFolder));
+}
+function canGenerateFor(card, mode) {
+  return mode === "work" && canStartCard(card) && (card.status === "backlog" || card.status === "bugs" || card.status === "progress");
+}
+function canEvaluateFor(card) {
+  return card.status === "ideation" && !!(card.description && (card.projectId || card.projectFolder));
+}
+function isAutonomousAction(action) {
+  return action === "play" || action === "quick-fix" || action === "evaluate" || action === "generate";
+}
+var BOARD_PHASE_ACTIONS = [
+  "discuss",
+  "evaluate",
+  "quick-fix",
+  "terminal",
+  "play",
+  "generate",
+  "test-together"
+];
+function getPhaseActionFlags(card, solutionText, testText, testProgress, mode = "development") {
+  const phase = detectBoardPhase(card, solutionText, testText);
+  const isWork = mode === "work";
+  return {
+    phase,
+    labels: getPhaseLabels(phase, mode, phase === "verify" ? nextVerifyGroup(testProgress) : null),
+    canStart: canStartCard(card),
+    // Autonomous implement writes code on a branch; a Work card has neither.
+    // Planning and pre-verify stay: both read and write the card, not a repo.
+    canRunAutonomous: canRunAutonomousFor(card, testProgress, mode) && !(isWork && phase === "implementation"),
+    canQuickFix: !isWork && canQuickFixFor(card),
+    canEvaluate: canEvaluateFor(card),
+    canTestTogether: !isWork && canTestTogetherFor(card, testText),
+    canGenerate: canGenerateFor(card, mode),
+    showDevControls: !isWork || card.gitWorktreeStatus === "active"
+  };
+}
+function isPhaseActionShown(action, flags, isLocked) {
+  switch (action) {
+    case "discuss":
+      return flags.canEvaluate && !isLocked;
+    case "evaluate":
+      return flags.canEvaluate;
+    case "quick-fix":
+      return flags.canQuickFix;
+    case "terminal":
+      return flags.canStart && !isLocked;
+    case "play":
+      return flags.canRunAutonomous && flags.phase !== "retest";
+    case "test-together":
+      return flags.canTestTogether && !isLocked;
+    case "generate":
+      return flags.canGenerate;
+  }
+}
+function terminalStartRefusal(card, solutionText, testText, testProgress, mode = "development") {
+  const full = card;
+  if (card.status === "withdrawn" || !canStartCard(full)) {
+    return card.description ? `the board offers no Start on a card in ${card.status}` : "the card has no description to use as prompt";
+  }
+  const flags = getPhaseActionFlags(full, solutionText, testText, testProgress, mode);
+  if (flags.phase === "retest") {
+    return "the card has a plan and a checklist, and the board's run for that is a session, not an autonomous run \u2014 use open_card_session";
+  }
+  if (mode === "work" && flags.phase === "implementation") {
+    return "a Work card's implementation is done in a session, not an autonomous run \u2014 use open_card_session";
+  }
+  if (card.status === "test" && !canPreVerify(full, testProgress)) {
+    return "nothing is left to pre-verify: every group is ticked, or the checklist has no Core flow / Temel ak\u0131\u015F group";
+  }
+  return null;
+}
+var STEP_DESC = {
+  stop: "Kill the run and release the card",
+  "chat-running": "Wait for the chat on this card to finish",
+  locked: "Someone else is working on this card",
+  "session-running": "The session holds this card until its turn ends",
+  "session-waiting": "The session waits for your approval there",
+  unlock: "Release the card once the session is done",
+  queued: "Will run automatically",
+  "start-now": "Leave the queue and run it now",
+  unqueue: "Keep the card, drop its queued run",
+  evaluate: "Ideafy writes an opinion with a verdict",
+  play: "",
+  "pre-verify-all": "Walk every group with unticked steps",
+  recheck: "Run the ticked core flow again in a browser",
+  "quick-fix": "Straight to code, no plan first",
+  generate: "Write the document from the description",
+  queue: "Runs when the queue reaches it",
+  autopilot: "Implement, pre-verify every group, stop at Ready to merge",
+  ralph: "Autopilot that proves every [ui] item in the browser",
+  "stop-autopilot": "Leave the card where it is; a run going finishes",
+  "plan-after-test": "Too big to patch? Back to In Progress",
+  discuss: "Open a session about the idea",
+  argue: "Push back on the opinion in the card chat",
+  talk: "Settle the open questions in the card chat",
+  terminal: "",
+  "test-together": "Walk the checklist in a session",
+  "break-up": "Review the proposed cards, then open them",
+  accept: "Move it to Backlog",
+  park: "Not now: keep it at the foot of its column",
+  unpark: "Back into the column",
+  withdraw: "Set it aside, keep its history",
+  merge: "Land the branch on main",
+  complete: "Close the card, nothing to merge",
+  "didnt-work": "Send it back to Bugs",
+  report: "Screens and notes from the last run"
+};
+var PLAY_DESC = {
+  planning: "Ideafy writes the plan",
+  implementation: "Ideafy builds it from the plan",
+  retest: "",
+  verify: "Ideafy walks the group and ticks what passes"
+};
+var TERMINAL_DESC = {
+  planning: "Write the plan with Claude in a session",
+  implementation: "Build it with Claude in a session",
+  retest: "Fix the failed steps in a session",
+  verify: "Report an issue in a session"
+};
+var FINAL_TEST_AUTOPILOT_DESC = "Test and fix, stop at Ready to merge";
+var FINAL_TEST_RALPH_DESC = "Prove it in the browser, fix";
+function chainMergeReason(card, ctx) {
+  if (ctx.chainMerge !== "into-chain") return void 0;
+  const reason = chainMergeBlocker(card.testScenarios);
+  return reason ? `Tick the Core flow first: ${reason}` : void 0;
+}
+function phasePrimary(card, flags, ctx, rows) {
+  const has = (id) => rows.has(id);
+  if (flags.canGenerate) return "generate";
+  if (card.autopilotStage === "stopped" && has("ralph") && card.autopilotMode === "ralph" && !rows.get("ralph")?.disabledReason) return "ralph";
+  if (card.autopilotStage === "stopped" && has("autopilot") && !rows.get("autopilot")?.disabledReason) return "autopilot";
+  if (card.finalTestReady && has("autopilot")) return "autopilot";
+  if (card.status === "ideation") {
+    if (!ctx.hasOpinion) return has("evaluate") ? "evaluate" : "accept";
+    if (has("break-up")) return "break-up";
+    if (card.aiVerdict === "maybe") return "talk";
+    if (card.aiVerdict === "negative") return "withdraw";
+    return "accept";
+  }
+  if (card.status === "bugs" && has("quick-fix")) return "quick-fix";
+  if (card.status === "test") {
+    if (card.rebaseConflict && ctx.hasBranch && has("merge") && !rows.get("merge")?.disabledReason) return "merge";
+    if (flags.phase === "verify" && nextVerifyGroup(ctx.testProgress)) return "play";
+    const progress = ctx.testProgress;
+    const allTicked = !!progress && progress.total > 0 && progress.checked === progress.total;
+    if (ctx.chainMerge === "in-chain") return null;
+    if (ctx.chainMerge === "into-chain") {
+      return chainMergeBlocker(card.testScenarios) && has("test-together") ? "test-together" : "merge";
+    }
+    if (!allTicked && has("test-together")) return "test-together";
+    return ctx.hasBranch ? "merge" : "complete";
+  }
+  if (flags.phase === "retest") return has("terminal") ? "terminal" : null;
+  if (flags.canRunAutonomous && flags.phase !== "verify") return "play";
+  return has("terminal") ? "terminal" : null;
+}
+function nextStepFor(card, flags, ctx) {
+  const { phase, labels } = flags;
+  const open = card.status !== "completed" && card.status !== "withdrawn";
+  if (!open) return { primary: null, ideafy: [], together: [] };
+  const verifyGroup = phase === "verify" ? nextVerifyGroup(ctx.testProgress) : null;
+  const interactiveBlock = ctx.running ? "A run is going" : ctx.chatting ? "Chat running" : ctx.softLock ? "Someone else is working on this card" : ctx.locked ? ctx.terminalHold ?? "Session open" : ctx.surface === "mobile" ? "Works at your Mac" : void 0;
+  const autonomousBlock = ctx.running ? "A run is going" : ctx.chatting ? "Chat running" : ctx.softLock ? "Someone else is working on this card" : ctx.locked ? ctx.terminalHold ?? "Session open" : ctx.queueRank > 0 ? `Queued #${ctx.queueRank}` : void 0;
+  const mobileMeta = ctx.surface === "mobile" ? "at Mac" : void 0;
+  const ideafy = [];
+  const together = [];
+  const row = (list, r) => {
+    const full = { ...r, desc: r.desc ?? STEP_DESC[r.id] };
+    if (!full.disabledReason) delete full.disabledReason;
+    if (!full.meta) delete full.meta;
+    list.push(full);
+  };
+  if (flags.canEvaluate) {
+    row(ideafy, {
+      id: "evaluate",
+      title: ctx.hasOpinion ? "Re-evaluate" : "Evaluate",
+      kind: "ai",
+      disabledReason: autonomousBlock
+    });
+  }
+  if (flags.canGenerate) {
+    row(ideafy, { id: "generate", title: "Generate", kind: "ai", disabledReason: autonomousBlock });
+  }
+  const playOffered = flags.canStart && phase !== "retest" && !(ctx.mode === "work" && phase === "implementation");
+  const finalTest = !!card.finalTestReady && ctx.mode !== "work" && flags.canStart;
+  if (playOffered && phase !== "verify" && !finalTest) {
+    row(ideafy, {
+      id: "play",
+      title: labels.play,
+      desc: PLAY_DESC[phase],
+      kind: "ai",
+      disabledReason: autonomousBlock ?? (flags.canRunAutonomous ? void 0 : "Not available in this column")
+    });
+  }
+  if (flags.canQuickFix && !finalTest) {
+    row(ideafy, {
+      id: "quick-fix",
+      title: card.status === "bugs" ? "Fix" : "Quick fix, no plan",
+      kind: "ai",
+      disabledReason: autonomousBlock
+    });
+  }
+  if (phase === "verify" && ctx.mode !== "work") {
+    if (verifyGroup) {
+      row(ideafy, {
+        id: "play",
+        title: labels.play,
+        desc: PLAY_DESC.verify,
+        kind: "ai",
+        disabledReason: autonomousBlock
+      });
+      row(ideafy, {
+        id: "pre-verify-all",
+        title: "Pre-verify all groups",
+        kind: "ai",
+        disabledReason: autonomousBlock ?? (canVerifyAllGroups(ctx.testProgress) ? void 0 : "Only one group left")
+      });
+    }
+    row(ideafy, {
+      id: "recheck",
+      title: "Re-check core flow on screen",
+      kind: "ai",
+      disabledReason: autonomousBlock ?? (verifyGroup ? "Once every group is ticked" : canRecheckOnScreen(card, ctx.testProgress, ctx.mode) ? void 0 : "No ticked core flow step yet")
+    });
+  } else if (phase === "verify" && verifyGroup) {
+    row(ideafy, {
+      id: "play",
+      title: labels.play,
+      desc: PLAY_DESC.verify,
+      kind: "ai",
+      disabledReason: autonomousBlock
+    });
+  }
+  if (playOffered && ctx.mode !== "work" && !finalTest) {
+    row(ideafy, {
+      id: "queue",
+      title: "Add to queue",
+      // The queue waits for the session, so this one stays open (IDE-755).
+      ...ctx.terminalHold ? { desc: "Runs when this turn ends" } : {},
+      kind: "ai",
+      disabledReason: ctx.running ? "A run is going" : ctx.queueRank > 0 ? `Already queued #${ctx.queueRank}` : ctx.canQueue ? void 0 : phase === "planning" ? "Needs a plan first" : phase === "verify" ? "Nothing left to pre-verify" : "Not available in this column"
+    });
+  }
+  if (isActiveAutopilotStage(card.autopilotStage ?? null)) {
+    row(ideafy, { id: "stop-autopilot", title: card.autopilotMode === "ralph" ? "Stop Ralph" : "Stop Autopilot", kind: "ai" });
+  } else if (flags.canStart && ctx.mode !== "work") {
+    const html = card.testScenarios ?? "";
+    const refusal = autopilotIneligibleReason({
+      status: card.status,
+      hasPlan: hasRealPlan(card.solutionSummary),
+      hasChecklist: hasOwnChecklist(html),
+      hasCoreFlow: !!ctx.testProgress?.core,
+      nothingToVerify: nothingToVerifyReason(ctx.testProgress),
+      projectMode: ctx.mode,
+      useWorktree: card.useWorktree,
+      activeWorktree: !!card.gitWorktreePath && card.gitWorktreeStatus === "active",
+      opensWorktree: flowsOnlyChecklist(html) && !card.gitBranchStatus,
+      stage: card.autopilotStage ?? null,
+      processingType: card.processingType,
+      openDecision: findPlanDecisions(card.solutionSummary).length > 0,
+      rebaseConflict: !!card.rebaseConflict
+    });
+    const disabledReason = autonomousBlock ?? (refusal ? refusal.charAt(0).toUpperCase() + refusal.slice(1) : void 0);
+    const stoppedOn = card.autopilotStage === "stopped" ? card.autopilotMode === "ralph" ? "ralph" : "autopilot" : null;
+    if (stoppedOn !== "ralph") {
+      row(ideafy, {
+        id: "autopilot",
+        title: stoppedOn === "autopilot" ? "Continue on Autopilot" : "Send to Autopilot",
+        ...finalTest ? { desc: FINAL_TEST_AUTOPILOT_DESC } : {},
+        kind: "ai",
+        disabledReason
+      });
+    }
+    row(ideafy, {
+      id: "ralph",
+      title: stoppedOn === "ralph" ? "Continue on Ralph" : "Send to Ralph",
+      ...finalTest ? { desc: FINAL_TEST_RALPH_DESC } : {},
+      kind: "ai",
+      disabledReason
+    });
+  }
+  if (flags.canStart && ctx.mode !== "work" && finalTestPlanOpen(card)) {
+    row(ideafy, {
+      id: "plan-after-test",
+      title: "Write plan",
+      kind: "ai",
+      disabledReason: autonomousBlock ?? (isActiveAutopilotStage(card.autopilotStage ?? null) ? "On Autopilot" : void 0)
+    });
+  }
+  if (flags.canEvaluate) {
+    row(together, { id: "discuss", title: "Discuss the idea", kind: "you", disabledReason: interactiveBlock, meta: mobileMeta });
+  }
+  if (card.status === "ideation" && ctx.hasOpinion) {
+    if (card.aiVerdict === "maybe") row(together, { id: "talk", title: "Talk it through", kind: "you" });
+    else row(together, { id: "argue", title: "Argue back", kind: "you" });
+  }
+  if (flags.canStart) {
+    const terminalTitle = card.status === "bugs" && phase !== "retest" && ctx.mode !== "work" ? "Fix together" : labels.terminal;
+    row(together, {
+      id: "terminal",
+      title: terminalTitle,
+      desc: TERMINAL_DESC[phase],
+      kind: "you",
+      disabledReason: interactiveBlock,
+      meta: mobileMeta
+    });
+  }
+  if (flags.canTestTogether) {
+    row(together, { id: "test-together", title: "Test together", kind: "you", disabledReason: interactiveBlock, meta: mobileMeta });
+  }
+  if (card.status === "ideation" && ctx.hasOpinion && (card.pendingSplitCards ?? 0) > 0) {
+    row(together, {
+      id: "break-up",
+      title: `Break into ${card.pendingSplitCards} cards`,
+      kind: "you",
+      disabledReason: ctx.running ? "A run is going" : void 0
+    });
+  }
+  if (card.status === "ideation") {
+    row(together, {
+      id: "accept",
+      title: "Accept to backlog",
+      kind: "you",
+      disabledReason: ctx.running ? "A run is going" : void 0
+    });
+  }
+  if (card.parkedAt) {
+    row(together, { id: "unpark", title: "Unpark", kind: "you" });
+  } else if (isParkableStatus(card.status)) {
+    row(together, {
+      id: "park",
+      title: "Park",
+      kind: "you",
+      disabledReason: isActiveAutopilotStage(card.autopilotStage ?? null) ? "On Autopilot" : void 0
+    });
+  }
+  if (card.status === "ideation") {
+    row(together, { id: "withdraw", title: "Withdraw", kind: "you" });
+  }
+  if (card.status === "test" && ctx.chainMerge !== "in-chain") {
+    row(together, {
+      id: ctx.hasBranch ? "merge" : "complete",
+      title: ctx.chainMerge === "into-chain" ? "Merge into chain" : ctx.hasBranch ? "Merge" : "Complete",
+      kind: "you",
+      disabledReason: ctx.running ? "A run is going" : chainMergeReason(card, ctx)
+    });
+    if (!ctx.hasBranch) {
+      row(together, {
+        id: "didnt-work",
+        title: ctx.mode === "work" ? "Needs revisions" : "Didn't work",
+        kind: "you",
+        disabledReason: ctx.running ? "A run is going" : void 0
+      });
+    }
+    if (ctx.hasReport !== false) row(together, { id: "report", title: "Open the test report", kind: "you" });
+  }
+  const rows = /* @__PURE__ */ new Map();
+  for (const r of [...ideafy, ...together]) if (!rows.has(r.id)) rows.set(r.id, r);
+  let primary;
+  if (ctx.running) {
+    primary = { id: "stop", title: "Stop", desc: STEP_DESC.stop, kind: "neutral" };
+  } else if (ctx.chatting) {
+    primary = { id: "chat-running", title: "Chat running", desc: STEP_DESC["chat-running"], kind: "neutral", disabledReason: "Chat running" };
+  } else if (ctx.softLock) {
+    primary = { id: "locked", title: "Locked", desc: STEP_DESC.locked, kind: "neutral", disabledReason: STEP_DESC.locked };
+  } else if (ctx.terminalLive) {
+    const id = ctx.terminalLive.phase === "waiting" ? "session-waiting" : "session-running";
+    primary = { id, title: ctx.terminalLive.title, desc: STEP_DESC[id], kind: "neutral", disabledReason: STEP_DESC[id] };
+  } else if (ctx.locked) {
+    primary = { id: "unlock", title: "Unlock", desc: ctx.terminalHold ?? "Session open", kind: "neutral" };
+  } else if (ctx.queueRank > 0) {
+    primary = { id: "queued", title: `Queued #${ctx.queueRank}`, desc: STEP_DESC.queued, kind: "neutral", disabledReason: STEP_DESC.queued };
+  } else {
+    const id = phasePrimary(card, flags, ctx, rows);
+    const base = id ? rows.get(id) : void 0;
+    primary = base ? { ...base } : null;
+    if (primary && ctx.blocker) {
+      primary.disabledReason = `waits for ${ctx.blocker}`;
+      primary.buttonLabel = `Waits for ${ctx.blocker}`;
+    }
+  }
+  if (primary && rows.has(primary.id) && !ctx.blocker) {
+    const mark = (list) => {
+      const i = list.findIndex((r) => r.id === primary.id);
+      if (i >= 0) list[i] = { ...list[i], meta: "default" };
+    };
+    mark(ideafy);
+    mark(together);
+  }
+  if (ctx.queueRank > 0 && !ctx.running) {
+    ideafy.unshift(
+      { id: "start-now", title: "Start now", desc: STEP_DESC["start-now"], kind: "ai", meta: `#${ctx.queueRank}` },
+      { id: "unqueue", title: "Remove from queue", desc: STEP_DESC.unqueue, kind: "neutral" }
+    );
+  }
+  return { primary, ideafy, together };
+}
+
+// ../lib/card-age.ts
+function formatAgeShort(days) {
+  if (days < 7) return `${days}d`;
+  if (days < 31) return `${Math.floor(days / 7)}w`;
+  if (days < 365) return `${Math.floor(days / 30)}mo`;
+  return `${Math.floor(days / 365)}y`;
+}
+function cardLastActivityAt(card) {
+  return card.updatedAt || card.createdAt;
+}
+
+// ../lib/card-turn.ts
+function hasOpenBranch(card) {
+  return !!card.gitBranchName && card.gitBranchStatus === "active";
+}
+function runMinutes(startedAt, now) {
+  if (!startedAt) return null;
+  const started = Date.parse(startedAt);
+  if (Number.isNaN(started)) return null;
+  return Math.max(0, Math.floor((now - started) / 6e4));
+}
+
+// ../lib/terminal-session-state.ts
+var SESSION_TURN_SILENCE_MS = 5 * 6e4;
+var SESSION_TOOL_SILENCE_MS = 30 * 6e4;
+var SESSION_QUIET_MS = 10 * 6e4;
+var SESSION_OPEN_TTL_MS = 12 * 60 * 6e4;
+
+// ../lib/board-focus.ts
+var YOUR_TURN_ORDER = [
+  "blocked",
+  // A conversation waiting on your answer loses its context the longer it
+  // waits, so it outranks a finished run that will read the same tomorrow.
+  "your-reply",
+  "your-review",
+  "your-test",
+  "your-decision"
+];
+function isYourTurn(state) {
+  return YOUR_TURN_ORDER.includes(state);
+}
+var isFinished2 = (status) => status === "completed" || status === "withdrawn";
+function getFocusState(card) {
+  if (isFinished2(card.status)) return "waiting";
+  if (card.processingType) return "agent-running";
+  if (card.rebaseConflict) return "blocked";
+  if (card.status === "progress") return "your-review";
+  if (card.status === "test" && card.gitBranchStatus === "in_chain") return "waiting";
+  if (card.status === "test") return "your-test";
+  if (card.status === "ideation" && card.aiVerdict) return "your-decision";
+  return "waiting";
+}
+var PROCESSING_LABELS = {
+  autonomous: "running autonomously",
+  "quick-fix": "quick fix",
+  "verify-fix": "fixing what pre-verify found",
+  evaluate: "evaluating",
+  generate: "generating"
+};
+function formatSince(iso, now = Date.now()) {
+  const minutes = runMinutes(iso, now);
+  if (minutes === null) return "unknown";
+  if (minutes < 60) return `${minutes}m ago`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours}h ago`;
+  return `${formatAgeShort(Math.floor(hours / 24))} ago`;
+}
+function latestReportFailed(card) {
+  const run2 = card.testReports?.[0];
+  return run2 ? run2.items.filter((item) => item.status === "failed").length : 0;
+}
+function failedOnScreenLabel(failed) {
+  return `${failed} failed on screen`;
+}
+function yourTestLine(card, now) {
+  const progress = parseTestProgress(card.testScenarios);
+  if (!progress) return `no checklist yet \xB7 ${formatSince(cardLastActivityAt(card), now)}`;
+  if (progress.core) {
+    const left2 = progress.core.total - progress.core.checked;
+    if (left2 > 0) {
+      return `${progress.core.checked}/${progress.core.total} core \u2713 \xB7 ${left2} left for you`;
+    }
+    const optionalLeft = progress.total - progress.core.total - (progress.checked - progress.core.checked);
+    return optionalLeft > 0 ? `core flow done \xB7 ${optionalLeft} optional left` : "core flow done";
+  }
+  const left = progress.total - progress.checked;
+  return left > 0 ? `${progress.checked}/${progress.total} checked \xB7 ${left} left for you` : `${progress.checked}/${progress.total} checked`;
+}
+function focusDetail(card, now = Date.now(), state = getFocusState(card), reply, runStartedAt) {
+  switch (state) {
+    case "blocked": {
+      const files = card.conflictFiles?.length ?? 0;
+      return files > 0 ? `rebase conflict \xB7 ${files} file${files === 1 ? "" : "s"}` : "rebase conflict";
+    }
+    case "your-review": {
+      const agentRan = card.gitWorktreeStatus === "active";
+      return `${agentRan ? "agent done" : "in progress"} \xB7 ${formatSince(
+        cardLastActivityAt(card),
+        now
+      )}`;
+    }
+    case "your-test": {
+      const failed = latestReportFailed(card);
+      const line = yourTestLine(card, now);
+      return failed > 0 ? `${failedOnScreenLabel(failed)} \xB7 ${line}` : line;
+    }
+    case "your-reply":
+      return reply ? replyLine(reply, now) : `new reply \xB7 ${formatSince(cardLastActivityAt(card), now)}`;
+    case "your-decision":
+      if ((card.pendingSplitCards ?? 0) > 0) return `proposed as ${card.pendingSplitCards} cards \xB7 break it up?`;
+      if (card.aiVerdict === "positive") return "verdict: yes \xB7 move to backlog?";
+      if (card.aiVerdict === "maybe") return "verdict: maybe \xB7 discuss?";
+      return "verdict: no \xB7 withdraw?";
+    case "agent-running": {
+      const label2 = PROCESSING_LABELS[card.processingType ?? ""] ?? "running";
+      return runStartedAt ? `${label2} \xB7 started ${formatSince(runStartedAt, now)}` : label2;
+    }
+    default:
+      return formatSince(cardLastActivityAt(card), now);
+  }
+}
+function replyLine(reply, now = Date.now()) {
+  return `${reply.label} \xB7 ${formatSince(reply.at, now)}`;
+}
+var NEUTRAL_STEP_WHO = {
+  stop: "ai",
+  queued: "ai",
+  unlock: "you",
+  locked: "you",
+  // A session outside the app reads as the board card does: running is Ideafy's, approving yours.
+  "session-running": "ai",
+  "session-waiting": "you",
+  // A chat writing its reply is Ideafy's turn, as Focus and the board card read it (IDE-599, IDE-651).
+  "chat-running": "ai"
+};
+function nextTurnFor(card, ctx = {}) {
+  if (isFinished2(card.status)) return null;
+  const mode = ctx.mode ?? "development";
+  const testProgress = ctx.testProgress === void 0 ? parseTestProgress(card.testScenarios) : ctx.testProgress;
+  const solutionText = stripHtml((card.solutionSummary || "").replace(/&nbsp;/g, " "));
+  const testText = stripHtml((card.testScenarios || "").replace(/&nbsp;/g, " "));
+  const flags = getPhaseActionFlags(card, solutionText, testText, testProgress, mode);
+  const { primary } = nextStepFor(card, flags, {
+    mode,
+    running: ctx.running ?? !!card.processingType,
+    chatting: ctx.chatting ?? false,
+    softLock: false,
+    locked: ctx.locked ?? false,
+    terminalLive: ctx.terminalLive ?? null,
+    queueRank: ctx.queueRank ?? 0,
+    canQueue: false,
+    blocker: ctx.blocker ?? null,
+    hasOpinion: !!stripHtml(card.aiOpinion || ""),
+    testProgress,
+    // A merged branch keeps its name on the card; only an active one is Merge (IDE-705).
+    hasBranch: ctx.hasBranch ?? (hasOpenBranch(card) || card.gitWorktreeStatus === "active"),
+    surface: "desktop"
+  });
+  if (!primary) return null;
+  const who = primary.kind === "neutral" ? NEUTRAL_STEP_WHO[primary.id] ?? "you" : primary.kind;
+  return { who, label: primary.title };
+}
+
+// ../lib/card-story.ts
+var EMPTY_STORY_INPUTS = { opinionUserMessages: null, git: null };
+var plural3 = (n, word) => `${n} ${word}${n === 1 ? "" : "s"}`;
+var hasText = (html) => !!stripHtml((html || "").replace(/&nbsp;/g, " ")).trim();
+function shortDate(iso) {
+  const date4 = new Date(iso);
+  if (Number.isNaN(date4.getTime())) return "";
+  return date4.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+}
+function verdictStep(card) {
+  const happened = hasText(card.aiOpinion);
+  const concerns = countOpinionConcerns(card.aiOpinion);
+  const score = card.aiScore != null ? `${card.aiScore}/10` : "verdict";
+  return {
+    id: "verdict",
+    who: "ai",
+    label: "Verdict",
+    sub: happened ? concerns != null ? `${score} \xB7 ${plural3(concerns, "concern")}` : score : "",
+    happened,
+    tab: "opinion"
+  };
+}
+function arguedStep(inputs) {
+  const n = inputs.opinionUserMessages;
+  return {
+    id: "argued",
+    who: "you",
+    label: "Argued",
+    sub: n == null ? "\u2026" : n > 0 ? plural3(n, "message") : "",
+    // Unknown until the fetch lands: shown as done with "…", not as skipped.
+    happened: n == null || n > 0,
+    tab: "opinion"
+  };
+}
+function planStep(card) {
+  const happened = hasRealPlan(card.solutionSummary);
+  const steps = countPlanSteps(card.solutionSummary);
+  return {
+    id: "plan",
+    who: "ai",
+    label: "Plan",
+    sub: happened ? steps != null ? plural3(steps, "step") : "plan written" : "",
+    happened,
+    tab: "solution"
+  };
+}
+function builtStep(card, inputs) {
+  const merged2 = card.gitBranchStatus === "merged";
+  const rolledBack = card.gitBranchStatus === "rolled_back";
+  const git3 = inputs.git;
+  const viaFinalTest = !!card.finalTestReady || isFinalTestNote(card.solutionSummary);
+  let sub = "";
+  if (git3?.exists) sub = `${plural3(git3.ahead, "commit")} \xB7 ${plural3(git3.files, "file")}`;
+  else if (merged2) sub = "merged";
+  else if (rolledBack) sub = "rolled back";
+  else if (card.gitBranchName && !git3) sub = "\u2026";
+  return {
+    id: "built",
+    who: "ai",
+    label: "Built",
+    sub,
+    // On the final test's road a worktree alone built nothing: the step
+    // happened only if a fix round left a commit (IDE-765).
+    happened: merged2 || rolledBack || (viaFinalTest ? !!git3?.exists && git3.ahead > 0 : (git3?.exists ?? false) || !!card.gitBranchName || card.gitWorktreeStatus != null),
+    tab: "solution"
+  };
+}
+function proofStep(card) {
+  const run2 = card.testReports?.[0];
+  let sub = "";
+  if (run2) {
+    const passed = run2.items.filter((item) => item.status === "passed").length;
+    const shots = run2.items.reduce((sum, item) => sum + item.artifacts.length, 0);
+    sub = `${passed}/${run2.items.length} passed${shots > 0 ? ` \xB7 ${plural3(shots, "shot")}` : ""}`;
+  }
+  return { id: "proof", who: "ai", label: "Proof", sub, happened: !!run2, tab: "report" };
+}
+function yourTestStep(card, id, label2) {
+  const progress = parseTestProgress(card.testScenarios);
+  const left = progress ? progress.total - progress.checked : 0;
+  return {
+    id,
+    who: "you",
+    label: label2,
+    sub: progress ? left > 0 ? `${left} unticked` : "all ticked" : "",
+    happened: !!progress && progress.checked > 0 || card.status === "completed",
+    tab: "tests"
+  };
+}
+function developmentSteps(card, inputs) {
+  const merged2 = card.gitBranchStatus === "merged";
+  const inChain = card.gitBranchStatus === "in_chain";
+  return [
+    { id: "idea", who: "you", label: "Idea", sub: shortDate(card.createdAt), happened: true, tab: "detail" },
+    verdictStep(card),
+    arguedStep(inputs),
+    planStep(card),
+    builtStep(card, inputs),
+    proofStep(card),
+    yourTestStep(card, "your-test", "Your test"),
+    {
+      id: "merge",
+      who: "you",
+      label: "Merge",
+      sub: merged2 ? "merged" : inChain ? "in chain" : card.status === "completed" ? "completed" : "",
+      happened: merged2 || inChain || card.status === "completed",
+      tab: "tests"
+    }
+  ];
+}
+function workSteps(card, inputs) {
+  const outputs = card.outputPaths?.length ?? 0;
+  return [
+    { id: "idea", who: "you", label: "Idea", sub: shortDate(card.createdAt), happened: true, tab: "detail" },
+    verdictStep(card),
+    arguedStep(inputs),
+    planStep(card),
+    {
+      id: "draft",
+      who: "ai",
+      label: "Draft",
+      sub: outputs > 0 ? plural3(outputs, "file") : "",
+      happened: outputs > 0,
+      tab: "detail"
+    },
+    yourTestStep(card, "review", "Review"),
+    {
+      id: "done",
+      who: "you",
+      label: "Done",
+      sub: card.status === "completed" ? "completed" : "",
+      happened: card.status === "completed",
+      tab: "tests"
+    }
+  ];
+}
+function nowStepId(card, work, running, chainMerge) {
+  switch (card.status) {
+    case "ideation":
+      return hasText(card.aiOpinion) ? "argued" : "verdict";
+    case "backlog":
+    case "bugs":
+      return card.finalTestReady && !work ? "proof" : "plan";
+    case "progress":
+      return work ? "draft" : "built";
+    case "test":
+      if (work) return "review";
+      if (card.gitBranchStatus === "in_chain" && !running) return null;
+      if (running) return "proof";
+      return chainMerge === "into-chain" && !chainMergeBlocker(card.testScenarios) ? "merge" : "your-test";
+    default:
+      return null;
+  }
+}
+function bannerFor(card, ctx, now) {
+  if (card.status === "completed" || card.status === "withdrawn") return null;
+  const running = ctx.running ?? !!card.processingType;
+  if (running) return { kind: "ai", detail: focusDetail(card, now, "agent-running", void 0, ctx.runStartedAt) };
+  if (ctx.chatting) return { kind: "ai", detail: "replying in chat" };
+  if (ctx.session?.phase === "running") return { kind: "ai", detail: ctx.session.label };
+  if (ctx.session?.phase === "waiting") return { kind: "you", detail: ctx.session.label, failed: null, since: null };
+  if (ctx.session?.phase === "quiet") return null;
+  const turn = nextTurnFor(card, ctx);
+  if ((ctx.queueRank ?? 0) > 0) {
+    return { kind: "queued", rank: ctx.queueRank ?? 0, detail: turn?.label ?? "waiting in the queue" };
+  }
+  const state = getFocusState(card);
+  const unread = ctx.unread;
+  const stillAsks = state === "blocked" || !!unread || card.autopilotStage === "stopped" || openPlanDecisions(card).length > 0;
+  if (ctx.heldByCard && !stillAsks) return null;
+  if (!isYourTurn(state) && !unread && turn?.who !== "you") return null;
+  let detail = isYourTurn(state) ? focusDetail(card, now, state) : turn?.label ?? "";
+  let failed = null;
+  if (state === "your-test") {
+    const count = latestReportFailed(card);
+    if (count > 0) {
+      failed = failedOnScreenLabel(count);
+      detail = detail.startsWith(`${failed} \xB7 `) ? detail.slice(failed.length + 3) : detail;
+    }
+    if (ctx.chainMerge === "into-chain" && !failed) {
+      detail = chainMergeBlocker(card.testScenarios) ? "tick the Core flow, then Merge into chain" : "ready for Merge into chain";
+    }
+  }
+  return { kind: "you", detail, failed, since: unread ? replyLine(unread, now) : null };
+}
+function buildCardStory(card, inputs = EMPTY_STORY_INPUTS, ctx = {}) {
+  const now = ctx.now ?? Date.now();
+  const work = (ctx.mode ?? "development") === "work";
+  const running = ctx.running ?? !!card.processingType;
+  const drafts = work ? workSteps(card, inputs) : developmentSteps(card, inputs);
+  const nowId = nowStepId(card, work, running, ctx.chainMerge);
+  const testedWithChain = card.gitBranchStatus === "in_chain" || ctx.chainMerge === "into-chain";
+  const nowIndex = nowId ? drafts.findIndex((d2) => d2.id === nowId) : drafts.length;
+  const steps = drafts.map((draft, index) => {
+    let state;
+    if (index === nowIndex) state = "now";
+    else if (index < nowIndex) state = draft.happened ? "done" : "skipped";
+    else state = card.status === "withdrawn" ? "skipped" : "todo";
+    if (draft.id === "merge" && card.gitBranchStatus === "rolled_back" && state !== "now") state = "skipped";
+    if (draft.id === "your-test" && testedWithChain && state !== "now") state = "skipped";
+    return {
+      id: draft.id,
+      who: draft.who,
+      state,
+      label: draft.label,
+      sub: state === "skipped" ? "skipped" : state === "todo" ? "" : draft.sub,
+      tab: draft.tab
+    };
+  });
+  return { steps, now: nowId, banner: bannerFor(card, ctx, now) };
+}
+
 // ../lib/card-ops/story.ts
 var GIT_TTL_MS = 3e4;
 var gitCache = /* @__PURE__ */ new Map();
@@ -30638,6 +31733,30 @@ function loadStoryInputs(db2, cardId) {
   } catch {
     return { opinionUserMessages: null, git: null };
   }
+}
+function loadCardStory(db2, cardId) {
+  const row = getRow(
+    db2,
+    `SELECT c.title, c.description, c.status, c.ai_opinion AS aiOpinion, c.ai_score AS aiScore, c.ai_verdict AS aiVerdict,
+            c.solution_summary AS solutionSummary, c.test_scenarios AS testScenarios, c.test_reports AS testReports,
+            c.git_branch_name AS gitBranchName, c.git_branch_status AS gitBranchStatus,
+            c.git_worktree_path AS gitWorktreePath, c.git_worktree_status AS gitWorktreeStatus,
+            c.processing_type AS processingType, c.rebase_conflict AS rebaseConflict, c.output_paths AS outputPaths,
+            c.autopilot_stage AS autopilotStage, c.autopilot_mode AS autopilotMode, c.use_worktree AS useWorktree,
+            c.project_folder AS projectFolder, c.project_id AS projectId, c.created_at AS createdAt, c.id, p.mode AS mode
+     FROM cards c LEFT JOIN projects p ON p.id = c.project_id WHERE c.id = ?`,
+    cardId
+  );
+  if (!row) return null;
+  const card = {
+    ...row,
+    rebaseConflict: !!row.rebaseConflict,
+    testReports: parseTestReports(row.testReports) ?? []
+  };
+  return buildCardStory(card, loadStoryInputs(db2, cardId), {
+    mode: row.mode === "work" ? "work" : "development",
+    chainMerge: chainMergeForCard(db2, cardId)
+  });
 }
 
 // ../lib/output-paths.ts
@@ -32608,6 +33727,7 @@ function chainAutopilotLine(db2, groupId) {
         gitBranchStatus: row.gitBranchStatus,
         autopilotStage: row.stage,
         autopilotStopReason: row.stopReason,
+        testScenarios: row.testScenarios,
         running: !!row.processingType,
         isParent: isChainParent(db2, row.id, groupId),
         manualLeft: manualLeftIn(parseTestProgress(row.testScenarios ?? "")),
@@ -32620,881 +33740,148 @@ function chainAutopilotLine(db2, groupId) {
   }
 }
 
-// ../lib/card-story.ts
-var card_story_exports = {};
-__export(card_story_exports, {
-  EMPTY_STORY_INPUTS: () => EMPTY_STORY_INPUTS,
-  buildCardStory: () => buildCardStory
-});
-
-// ../lib/card-phase.ts
-var card_phase_exports = {};
-__export(card_phase_exports, {
-  BOARD_PHASE_ACTIONS: () => BOARD_PHASE_ACTIONS,
-  QUICK_FIX_STATUSES: () => QUICK_FIX_STATUSES,
-  canEvaluateFor: () => canEvaluateFor,
-  canGenerateFor: () => canGenerateFor,
-  canPreVerify: () => canPreVerify,
-  canQuickFixFor: () => canQuickFixFor,
-  canRecheckOnScreen: () => canRecheckOnScreen,
-  canRunAutonomousFor: () => canRunAutonomousFor,
-  canStartCard: () => canStartCard,
-  canTestTogetherFor: () => canTestTogetherFor,
-  detectBoardPhase: () => detectBoardPhase,
-  getPhaseActionFlags: () => getPhaseActionFlags,
-  getPhaseLabels: () => getPhaseLabels,
-  isAutonomousAction: () => isAutonomousAction,
-  isPhaseActionShown: () => isPhaseActionShown,
-  nextStepFor: () => nextStepFor,
-  terminalStartRefusal: () => terminalStartRefusal,
-  verifyRunBlurb: () => verifyRunBlurb
-});
-function detectBoardPhase(card, solutionText, testText) {
-  const hasTests = hasOwnChecklist(card.testScenarios);
-  if (card.status === "progress") {
-    if (isFinalTestNote(card.solutionSummary)) return "planning";
-    return hasTests ? "retest" : "implementation";
-  }
-  if (card.status === "test" && !!testText) return "verify";
-  const hasSolution = !!solutionText && hasRealPlan(card.solutionSummary);
-  if (!hasSolution) return "planning";
-  if (!hasTests) return "implementation";
-  return "retest";
+// ../lib/card-ops/session-binding.ts
+var CODEX_BIND_FALLBACK_MS = 2 * 6e4;
+var CODEX_HOOK_LAST_HEARD_KEY = "codex_hook_last_heard_at";
+var CODEX_HOOK_HEARD_STAMP_MS = 60 * 6e4;
+function sessionRow(db2, sessionId) {
+  return getRow(
+    db2,
+    `SELECT session_id, state, card_id, provider FROM ideafy_sessions WHERE session_id = ?`,
+    sessionId
+  );
 }
-function getPhaseLabels(phase, mode = "development", verifyGroup = null) {
-  const labels = phaseLabels(phase, mode, verifyGroup);
-  const playHint = phase === "verify" && mode !== "work" && verifyGroup ? `${labels.play} \xB7 text or visual` : labels.play;
-  return { ...labels, playHint };
+function cardInProject(db2, cardId, projectId) {
+  const card = getRow(
+    db2,
+    `SELECT id, project_id FROM cards WHERE id = ?`,
+    cardId
+  );
+  return card && card.project_id === projectId ? card.id : null;
 }
-function phaseLabels(phase, mode, verifyGroup) {
-  if (mode === "work") {
-    if (phase === "planning") {
-      return { play: "Write plan", terminal: "Work on it" };
-    }
-    if (phase === "implementation") {
-      return { play: "Implement", terminal: "Work on it" };
-    }
-    if (phase === "retest") {
-      return { play: "Re-test", terminal: "Revise" };
-    }
-  }
-  switch (phase) {
-    // No "(Autonomous)" / "(Interactive)" suffix (IDE-485): the next-step
-    // menu's two sections say which kind a row is.
-    case "planning":
-      return { play: "Write plan", terminal: "Plan together" };
-    case "implementation":
-      return { play: "Implement", terminal: "Implement together" };
-    case "retest":
-      return { play: "Re-test", terminal: "Fix together" };
-    case "verify":
-      return {
-        // No group left to tick: the press can only re-check the core flow
-        // on screen, for the Test Report (IDE-468).
-        play: !verifyGroup ? "Re-check core flow on screen" : !verifyGroup.core || verifyGroup.flows ? `Pre-verify ${testGroupLabel(verifyGroup)}` : "Pre-verify core flow",
-        // Human Test'te terminal, çeklisti yürüten değil çeklistin dışına çıkan
-        // oturumdur: gündemi kullanıcı getirir, kartta yazmayan bir şeydir.
-        terminal: "Open in terminal"
-      };
-  }
-}
-function canPreVerify(card, testProgress) {
-  return card.status === "test" && !!nextVerifyGroup(testProgress);
-}
-function canRecheckOnScreen(card, testProgress, mode = "development") {
-  return mode !== "work" && card.status === "test" && (testProgress?.groups.find((g) => g.core)?.checked ?? 0) > 0;
-}
-function canStartCard(card) {
-  return !!(card.description && (card.projectId || card.projectFolder) && card.status !== "completed" && card.status !== "ideation");
-}
-function canRunAutonomousFor(card, testProgress, mode = "development") {
-  return canStartCard(card) && (card.status !== "test" || canPreVerify(card, testProgress) || canRecheckOnScreen(card, testProgress, mode));
-}
-function canTestTogetherFor(card, testScenariosText) {
-  return card.status === "test" && !!(card.testScenarios && testScenariosText !== "" && (card.projectId || card.projectFolder));
-}
-function verifyRunBlurb(scope, group) {
-  if (scope === "all" && group) {
-    return `The agent runs every group that still has unticked steps, starting with "${testGroupLabel(group)}", and ticks the steps that pass. Your own ticks stay untouched.`;
-  }
-  if (group && (!group.core || group.flows)) {
-    return `The agent runs the "${testGroupLabel(group)}" group only and ticks the steps that pass. Other groups and your own ticks stay untouched.`;
-  }
-  return "The agent runs the core flow only and ticks the steps that pass. Later groups and your own ticks stay untouched.";
-}
-var QUICK_FIX_STATUSES = ["bugs", "backlog"];
-function canQuickFixFor(card) {
-  return QUICK_FIX_STATUSES.includes(card.status) && !!(card.description && (card.projectId || card.projectFolder));
-}
-function canGenerateFor(card, mode) {
-  return mode === "work" && canStartCard(card) && (card.status === "backlog" || card.status === "bugs" || card.status === "progress");
-}
-function canEvaluateFor(card) {
-  return card.status === "ideation" && !!(card.description && (card.projectId || card.projectFolder));
-}
-function isAutonomousAction(action) {
-  return action === "play" || action === "quick-fix" || action === "evaluate" || action === "generate";
-}
-var BOARD_PHASE_ACTIONS = [
-  "discuss",
-  "evaluate",
-  "quick-fix",
-  "terminal",
-  "play",
-  "generate",
-  "test-together"
-];
-function getPhaseActionFlags(card, solutionText, testText, testProgress, mode = "development") {
-  const phase = detectBoardPhase(card, solutionText, testText);
-  const isWork = mode === "work";
-  return {
-    phase,
-    labels: getPhaseLabels(phase, mode, phase === "verify" ? nextVerifyGroup(testProgress) : null),
-    canStart: canStartCard(card),
-    // Autonomous implement writes code on a branch; a Work card has neither.
-    // Planning and pre-verify stay: both read and write the card, not a repo.
-    canRunAutonomous: canRunAutonomousFor(card, testProgress, mode) && !(isWork && phase === "implementation"),
-    canQuickFix: !isWork && canQuickFixFor(card),
-    canEvaluate: canEvaluateFor(card),
-    canTestTogether: !isWork && canTestTogetherFor(card, testText),
-    canGenerate: canGenerateFor(card, mode),
-    showDevControls: !isWork || card.gitWorktreeStatus === "active"
-  };
-}
-function isPhaseActionShown(action, flags, isLocked) {
-  switch (action) {
-    case "discuss":
-      return flags.canEvaluate && !isLocked;
-    case "evaluate":
-      return flags.canEvaluate;
-    case "quick-fix":
-      return flags.canQuickFix;
-    case "terminal":
-      return flags.canStart && !isLocked;
-    case "play":
-      return flags.canRunAutonomous && flags.phase !== "retest";
-    case "test-together":
-      return flags.canTestTogether && !isLocked;
-    case "generate":
-      return flags.canGenerate;
-  }
-}
-function terminalStartRefusal(card, solutionText, testText, testProgress, mode = "development") {
-  const full = card;
-  if (card.status === "withdrawn" || !canStartCard(full)) {
-    return card.description ? `the board offers no Start on a card in ${card.status}` : "the card has no description to use as prompt";
-  }
-  const flags = getPhaseActionFlags(full, solutionText, testText, testProgress, mode);
-  if (flags.phase === "retest") {
-    return "the card has a plan and a checklist, and the board's run for that is a session, not an autonomous run \u2014 use open_card_session";
-  }
-  if (mode === "work" && flags.phase === "implementation") {
-    return "a Work card's implementation is done in a session, not an autonomous run \u2014 use open_card_session";
-  }
-  if (card.status === "test" && !canPreVerify(full, testProgress)) {
-    return "nothing is left to pre-verify: every group is ticked, or the checklist has no Core flow / Temel ak\u0131\u015F group";
-  }
-  return null;
-}
-var STEP_DESC = {
-  stop: "Kill the run and release the card",
-  "chat-running": "Wait for the chat on this card to finish",
-  locked: "Someone else is working on this card",
-  "session-running": "The session holds this card until its turn ends",
-  "session-waiting": "The session waits for your approval there",
-  unlock: "Release the card once the session is done",
-  queued: "Will run automatically",
-  "start-now": "Leave the queue and run it now",
-  unqueue: "Keep the card, drop its queued run",
-  evaluate: "Ideafy writes an opinion with a verdict",
-  play: "",
-  "pre-verify-all": "Walk every group with unticked steps",
-  recheck: "Run the ticked core flow again in a browser",
-  "quick-fix": "Straight to code, no plan first",
-  generate: "Write the document from the description",
-  queue: "Runs when the queue reaches it",
-  autopilot: "Implement, pre-verify every group, stop at Ready to merge",
-  ralph: "Autopilot that proves every [ui] item in the browser",
-  "stop-autopilot": "Leave the card where it is; a run going finishes",
-  "plan-after-test": "Too big to patch? Back to In Progress",
-  discuss: "Open a session about the idea",
-  argue: "Push back on the opinion in the card chat",
-  talk: "Settle the open questions in the card chat",
-  terminal: "",
-  "test-together": "Walk the checklist in a session",
-  "break-up": "Review the proposed cards, then open them",
-  accept: "Move it to Backlog",
-  park: "Not now: keep it at the foot of its column",
-  unpark: "Back into the column",
-  withdraw: "Set it aside, keep its history",
-  merge: "Land the branch on main",
-  complete: "Close the card, nothing to merge",
-  "didnt-work": "Send it back to Bugs",
-  report: "Screens and notes from the last run"
-};
-var PLAY_DESC = {
-  planning: "Ideafy writes the plan",
-  implementation: "Ideafy builds it from the plan",
-  retest: "",
-  verify: "Ideafy walks the group and ticks what passes"
-};
-var TERMINAL_DESC = {
-  planning: "Write the plan with Claude in a session",
-  implementation: "Build it with Claude in a session",
-  retest: "Fix the failed steps in a session",
-  verify: "Report an issue in a session"
-};
-var FINAL_TEST_AUTOPILOT_DESC = "Test and fix, stop at Ready to merge";
-var FINAL_TEST_RALPH_DESC = "Prove it in the browser, fix";
-function chainMergeReason(card, ctx) {
-  if (ctx.chainMerge !== "into-chain") return void 0;
-  const reason = chainMergeBlocker(card.testScenarios);
-  return reason ? `Tick the Core flow first: ${reason}` : void 0;
-}
-function phasePrimary(card, flags, ctx, rows) {
-  const has = (id) => rows.has(id);
-  if (flags.canGenerate) return "generate";
-  if (card.autopilotStage === "stopped" && has("ralph") && card.autopilotMode === "ralph" && !rows.get("ralph")?.disabledReason) return "ralph";
-  if (card.autopilotStage === "stopped" && has("autopilot") && !rows.get("autopilot")?.disabledReason) return "autopilot";
-  if (card.finalTestReady && has("autopilot")) return "autopilot";
-  if (card.status === "ideation") {
-    if (!ctx.hasOpinion) return has("evaluate") ? "evaluate" : "accept";
-    if (has("break-up")) return "break-up";
-    if (card.aiVerdict === "maybe") return "talk";
-    if (card.aiVerdict === "negative") return "withdraw";
-    return "accept";
-  }
-  if (card.status === "bugs" && has("quick-fix")) return "quick-fix";
-  if (card.status === "test") {
-    if (card.rebaseConflict && ctx.hasBranch && has("merge") && !rows.get("merge")?.disabledReason) return "merge";
-    if (flags.phase === "verify" && nextVerifyGroup(ctx.testProgress)) return "play";
-    const progress = ctx.testProgress;
-    const allTicked = !!progress && progress.total > 0 && progress.checked === progress.total;
-    if (ctx.chainMerge === "in-chain") return null;
-    if (ctx.chainMerge === "into-chain") {
-      return chainMergeBlocker(card.testScenarios) && has("test-together") ? "test-together" : "merge";
-    }
-    if (!allTicked && has("test-together")) return "test-together";
-    return ctx.hasBranch ? "merge" : "complete";
-  }
-  if (flags.phase === "retest") return has("terminal") ? "terminal" : null;
-  if (flags.canRunAutonomous && flags.phase !== "verify") return "play";
-  return has("terminal") ? "terminal" : null;
-}
-function nextStepFor(card, flags, ctx) {
-  const { phase, labels } = flags;
-  const open = card.status !== "completed" && card.status !== "withdrawn";
-  if (!open) return { primary: null, ideafy: [], together: [] };
-  const verifyGroup = phase === "verify" ? nextVerifyGroup(ctx.testProgress) : null;
-  const interactiveBlock = ctx.running ? "A run is going" : ctx.chatting ? "Chat running" : ctx.softLock ? "Someone else is working on this card" : ctx.locked ? ctx.terminalHold ?? "Session open" : ctx.surface === "mobile" ? "Works at your Mac" : void 0;
-  const autonomousBlock = ctx.running ? "A run is going" : ctx.chatting ? "Chat running" : ctx.softLock ? "Someone else is working on this card" : ctx.locked ? ctx.terminalHold ?? "Session open" : ctx.queueRank > 0 ? `Queued #${ctx.queueRank}` : void 0;
-  const mobileMeta = ctx.surface === "mobile" ? "at Mac" : void 0;
-  const ideafy = [];
-  const together = [];
-  const row = (list, r) => {
-    const full = { ...r, desc: r.desc ?? STEP_DESC[r.id] };
-    if (!full.disabledReason) delete full.disabledReason;
-    if (!full.meta) delete full.meta;
-    list.push(full);
-  };
-  if (flags.canEvaluate) {
-    row(ideafy, {
-      id: "evaluate",
-      title: ctx.hasOpinion ? "Re-evaluate" : "Evaluate",
-      kind: "ai",
-      disabledReason: autonomousBlock
-    });
-  }
-  if (flags.canGenerate) {
-    row(ideafy, { id: "generate", title: "Generate", kind: "ai", disabledReason: autonomousBlock });
-  }
-  const playOffered = flags.canStart && phase !== "retest" && !(ctx.mode === "work" && phase === "implementation");
-  const finalTest = !!card.finalTestReady && ctx.mode !== "work" && flags.canStart;
-  if (playOffered && phase !== "verify" && !finalTest) {
-    row(ideafy, {
-      id: "play",
-      title: labels.play,
-      desc: PLAY_DESC[phase],
-      kind: "ai",
-      disabledReason: autonomousBlock ?? (flags.canRunAutonomous ? void 0 : "Not available in this column")
-    });
-  }
-  if (flags.canQuickFix && !finalTest) {
-    row(ideafy, {
-      id: "quick-fix",
-      title: card.status === "bugs" ? "Fix" : "Quick fix, no plan",
-      kind: "ai",
-      disabledReason: autonomousBlock
-    });
-  }
-  if (phase === "verify" && ctx.mode !== "work") {
-    if (verifyGroup) {
-      row(ideafy, {
-        id: "play",
-        title: labels.play,
-        desc: PLAY_DESC.verify,
-        kind: "ai",
-        disabledReason: autonomousBlock
-      });
-      row(ideafy, {
-        id: "pre-verify-all",
-        title: "Pre-verify all groups",
-        kind: "ai",
-        disabledReason: autonomousBlock ?? (canVerifyAllGroups(ctx.testProgress) ? void 0 : "Only one group left")
-      });
-    }
-    row(ideafy, {
-      id: "recheck",
-      title: "Re-check core flow on screen",
-      kind: "ai",
-      disabledReason: autonomousBlock ?? (verifyGroup ? "Once every group is ticked" : canRecheckOnScreen(card, ctx.testProgress, ctx.mode) ? void 0 : "No ticked core flow step yet")
-    });
-  } else if (phase === "verify" && verifyGroup) {
-    row(ideafy, {
-      id: "play",
-      title: labels.play,
-      desc: PLAY_DESC.verify,
-      kind: "ai",
-      disabledReason: autonomousBlock
-    });
-  }
-  if (playOffered && ctx.mode !== "work" && !finalTest) {
-    row(ideafy, {
-      id: "queue",
-      title: "Add to queue",
-      // The queue waits for the session, so this one stays open (IDE-755).
-      ...ctx.terminalHold ? { desc: "Runs when this turn ends" } : {},
-      kind: "ai",
-      disabledReason: ctx.running ? "A run is going" : ctx.queueRank > 0 ? `Already queued #${ctx.queueRank}` : ctx.canQueue ? void 0 : phase === "planning" ? "Needs a plan first" : phase === "verify" ? "Nothing left to pre-verify" : "Not available in this column"
-    });
-  }
-  if (isActiveAutopilotStage(card.autopilotStage ?? null)) {
-    row(ideafy, { id: "stop-autopilot", title: card.autopilotMode === "ralph" ? "Stop Ralph" : "Stop Autopilot", kind: "ai" });
-  } else if (flags.canStart && ctx.mode !== "work") {
-    const html = card.testScenarios ?? "";
-    const refusal = autopilotIneligibleReason({
-      status: card.status,
-      hasPlan: hasRealPlan(card.solutionSummary),
-      hasChecklist: hasOwnChecklist(html),
-      hasCoreFlow: !!ctx.testProgress?.core,
-      projectMode: ctx.mode,
-      useWorktree: card.useWorktree,
-      activeWorktree: !!card.gitWorktreePath && card.gitWorktreeStatus === "active",
-      opensWorktree: flowsOnlyChecklist(html) && !card.gitBranchStatus,
-      stage: card.autopilotStage ?? null,
-      processingType: card.processingType,
-      openDecision: findPlanDecisions(card.solutionSummary).length > 0,
-      rebaseConflict: !!card.rebaseConflict
-    });
-    const disabledReason = autonomousBlock ?? (refusal ? refusal.charAt(0).toUpperCase() + refusal.slice(1) : void 0);
-    const stoppedOn = card.autopilotStage === "stopped" ? card.autopilotMode === "ralph" ? "ralph" : "autopilot" : null;
-    if (stoppedOn !== "ralph") {
-      row(ideafy, {
-        id: "autopilot",
-        title: stoppedOn === "autopilot" ? "Continue on Autopilot" : "Send to Autopilot",
-        ...finalTest ? { desc: FINAL_TEST_AUTOPILOT_DESC } : {},
-        kind: "ai",
-        disabledReason
-      });
-    }
-    row(ideafy, {
-      id: "ralph",
-      title: stoppedOn === "ralph" ? "Continue on Ralph" : "Send to Ralph",
-      ...finalTest ? { desc: FINAL_TEST_RALPH_DESC } : {},
-      kind: "ai",
-      disabledReason
-    });
-  }
-  if (flags.canStart && ctx.mode !== "work" && finalTestPlanOpen(card)) {
-    row(ideafy, {
-      id: "plan-after-test",
-      title: "Write plan",
-      kind: "ai",
-      disabledReason: autonomousBlock ?? (isActiveAutopilotStage(card.autopilotStage ?? null) ? "On Autopilot" : void 0)
-    });
-  }
-  if (flags.canEvaluate) {
-    row(together, { id: "discuss", title: "Discuss the idea", kind: "you", disabledReason: interactiveBlock, meta: mobileMeta });
-  }
-  if (card.status === "ideation" && ctx.hasOpinion) {
-    if (card.aiVerdict === "maybe") row(together, { id: "talk", title: "Talk it through", kind: "you" });
-    else row(together, { id: "argue", title: "Argue back", kind: "you" });
-  }
-  if (flags.canStart) {
-    const terminalTitle = card.status === "bugs" && phase !== "retest" && ctx.mode !== "work" ? "Fix together" : labels.terminal;
-    row(together, {
-      id: "terminal",
-      title: terminalTitle,
-      desc: TERMINAL_DESC[phase],
-      kind: "you",
-      disabledReason: interactiveBlock,
-      meta: mobileMeta
-    });
-  }
-  if (flags.canTestTogether) {
-    row(together, { id: "test-together", title: "Test together", kind: "you", disabledReason: interactiveBlock, meta: mobileMeta });
-  }
-  if (card.status === "ideation" && ctx.hasOpinion && (card.pendingSplitCards ?? 0) > 0) {
-    row(together, {
-      id: "break-up",
-      title: `Break into ${card.pendingSplitCards} cards`,
-      kind: "you",
-      disabledReason: ctx.running ? "A run is going" : void 0
-    });
-  }
-  if (card.status === "ideation") {
-    row(together, {
-      id: "accept",
-      title: "Accept to backlog",
-      kind: "you",
-      disabledReason: ctx.running ? "A run is going" : void 0
-    });
-  }
-  if (card.parkedAt) {
-    row(together, { id: "unpark", title: "Unpark", kind: "you" });
-  } else if (isParkableStatus(card.status)) {
-    row(together, {
-      id: "park",
-      title: "Park",
-      kind: "you",
-      disabledReason: isActiveAutopilotStage(card.autopilotStage ?? null) ? "On Autopilot" : void 0
-    });
-  }
-  if (card.status === "ideation") {
-    row(together, { id: "withdraw", title: "Withdraw", kind: "you" });
-  }
-  if (card.status === "test" && ctx.chainMerge !== "in-chain") {
-    row(together, {
-      id: ctx.hasBranch ? "merge" : "complete",
-      title: ctx.chainMerge === "into-chain" ? "Merge into chain" : ctx.hasBranch ? "Merge" : "Complete",
-      kind: "you",
-      disabledReason: ctx.running ? "A run is going" : chainMergeReason(card, ctx)
-    });
-    if (!ctx.hasBranch) {
-      row(together, {
-        id: "didnt-work",
-        title: ctx.mode === "work" ? "Needs revisions" : "Didn't work",
-        kind: "you",
-        disabledReason: ctx.running ? "A run is going" : void 0
-      });
-    }
-    if (ctx.hasReport !== false) row(together, { id: "report", title: "Open the test report", kind: "you" });
-  }
-  const rows = /* @__PURE__ */ new Map();
-  for (const r of [...ideafy, ...together]) if (!rows.has(r.id)) rows.set(r.id, r);
-  let primary;
-  if (ctx.running) {
-    primary = { id: "stop", title: "Stop", desc: STEP_DESC.stop, kind: "neutral" };
-  } else if (ctx.chatting) {
-    primary = { id: "chat-running", title: "Chat running", desc: STEP_DESC["chat-running"], kind: "neutral", disabledReason: "Chat running" };
-  } else if (ctx.softLock) {
-    primary = { id: "locked", title: "Locked", desc: STEP_DESC.locked, kind: "neutral", disabledReason: STEP_DESC.locked };
-  } else if (ctx.terminalLive) {
-    const id = ctx.terminalLive.phase === "waiting" ? "session-waiting" : "session-running";
-    primary = { id, title: ctx.terminalLive.title, desc: STEP_DESC[id], kind: "neutral", disabledReason: STEP_DESC[id] };
-  } else if (ctx.locked) {
-    primary = { id: "unlock", title: "Unlock", desc: ctx.terminalHold ?? "Session open", kind: "neutral" };
-  } else if (ctx.queueRank > 0) {
-    primary = { id: "queued", title: `Queued #${ctx.queueRank}`, desc: STEP_DESC.queued, kind: "neutral", disabledReason: STEP_DESC.queued };
-  } else {
-    const id = phasePrimary(card, flags, ctx, rows);
-    const base = id ? rows.get(id) : void 0;
-    primary = base ? { ...base } : null;
-    if (primary && ctx.blocker) {
-      primary.disabledReason = `waits for ${ctx.blocker}`;
-      primary.buttonLabel = `Waits for ${ctx.blocker}`;
-    }
-  }
-  if (primary && rows.has(primary.id) && !ctx.blocker) {
-    const mark = (list) => {
-      const i = list.findIndex((r) => r.id === primary.id);
-      if (i >= 0) list[i] = { ...list[i], meta: "default" };
-    };
-    mark(ideafy);
-    mark(together);
-  }
-  if (ctx.queueRank > 0 && !ctx.running) {
-    ideafy.unshift(
-      { id: "start-now", title: "Start now", desc: STEP_DESC["start-now"], kind: "ai", meta: `#${ctx.queueRank}` },
-      { id: "unqueue", title: "Remove from queue", desc: STEP_DESC.unqueue, kind: "neutral" }
+function recordCodexTurn(db2, input) {
+  const existing = sessionRow(db2, input.sessionId);
+  if (existing) {
+    if (existing.state === "bound") return "bound";
+    runChanges(
+      db2,
+      `UPDATE ideafy_sessions SET updated_at = ?, cwd = ?, project_id = ? WHERE session_id = ?`,
+      input.now,
+      input.cwd,
+      input.projectId,
+      input.sessionId
     );
+    return "offered";
   }
-  return { primary, ideafy, together };
+  const cardId = input.cardHint ? cardInProject(db2, input.cardHint, input.projectId) : null;
+  runChanges(
+    db2,
+    `INSERT INTO ideafy_sessions (session_id, project_id, state, card_id, provider, cwd, created_at, updated_at)
+     VALUES (?, ?, ?, ?, 'codex', ?, ?, ?)`,
+    input.sessionId,
+    input.projectId,
+    cardId ? "bound" : "offered",
+    cardId,
+    input.cwd,
+    input.now,
+    input.now
+  );
+  return cardId ? "bound" : "offered";
 }
-
-// ../lib/card-age.ts
-function formatAgeShort(days) {
-  if (days < 7) return `${days}d`;
-  if (days < 31) return `${Math.floor(days / 7)}w`;
-  if (days < 365) return `${Math.floor(days / 30)}mo`;
-  return `${Math.floor(days / 365)}y`;
-}
-function cardLastActivityAt(card) {
-  return card.updatedAt || card.createdAt;
-}
-
-// ../lib/card-turn.ts
-function hasOpenBranch(card) {
-  return !!card.gitBranchName && card.gitBranchStatus === "active";
-}
-function runMinutes(startedAt, now) {
-  if (!startedAt) return null;
-  const started = Date.parse(startedAt);
-  if (Number.isNaN(started)) return null;
-  return Math.max(0, Math.floor((now - started) / 6e4));
-}
-
-// ../lib/terminal-session-state.ts
-var SESSION_TURN_SILENCE_MS = 5 * 6e4;
-var SESSION_TOOL_SILENCE_MS = 30 * 6e4;
-var SESSION_QUIET_MS = 10 * 6e4;
-var SESSION_OPEN_TTL_MS = 12 * 60 * 6e4;
-
-// ../lib/board-focus.ts
-var YOUR_TURN_ORDER = [
-  "blocked",
-  // A conversation waiting on your answer loses its context the longer it
-  // waits, so it outranks a finished run that will read the same tomorrow.
-  "your-reply",
-  "your-review",
-  "your-test",
-  "your-decision"
-];
-function isYourTurn(state) {
-  return YOUR_TURN_ORDER.includes(state);
-}
-var isFinished2 = (status) => status === "completed" || status === "withdrawn";
-function getFocusState(card) {
-  if (isFinished2(card.status)) return "waiting";
-  if (card.processingType) return "agent-running";
-  if (card.rebaseConflict) return "blocked";
-  if (card.status === "progress") return "your-review";
-  if (card.status === "test" && card.gitBranchStatus === "in_chain") return "waiting";
-  if (card.status === "test") return "your-test";
-  if (card.status === "ideation" && card.aiVerdict) return "your-decision";
-  return "waiting";
-}
-var PROCESSING_LABELS = {
-  autonomous: "running autonomously",
-  "quick-fix": "quick fix",
-  "verify-fix": "fixing what pre-verify found",
-  evaluate: "evaluating",
-  generate: "generating"
-};
-function formatSince(iso, now = Date.now()) {
-  const minutes = runMinutes(iso, now);
-  if (minutes === null) return "unknown";
-  if (minutes < 60) return `${minutes}m ago`;
-  const hours = Math.floor(minutes / 60);
-  if (hours < 24) return `${hours}h ago`;
-  return `${formatAgeShort(Math.floor(hours / 24))} ago`;
-}
-function latestReportFailed(card) {
-  const run2 = card.testReports?.[0];
-  return run2 ? run2.items.filter((item) => item.status === "failed").length : 0;
-}
-function failedOnScreenLabel(failed) {
-  return `${failed} failed on screen`;
-}
-function yourTestLine(card, now) {
-  const progress = parseTestProgress(card.testScenarios);
-  if (!progress) return `no checklist yet \xB7 ${formatSince(cardLastActivityAt(card), now)}`;
-  if (progress.core) {
-    const left2 = progress.core.total - progress.core.checked;
-    if (left2 > 0) {
-      return `${progress.core.checked}/${progress.core.total} core \u2713 \xB7 ${left2} left for you`;
-    }
-    const optionalLeft = progress.total - progress.core.total - (progress.checked - progress.core.checked);
-    return optionalLeft > 0 ? `core flow done \xB7 ${optionalLeft} optional left` : "core flow done";
+function bindSession(db2, input) {
+  if (sessionRow(db2, input.sessionId)) {
+    runChanges(
+      db2,
+      `UPDATE ideafy_sessions SET project_id = ?, state = 'bound', card_id = ?, updated_at = ? WHERE session_id = ?`,
+      input.projectId,
+      input.cardId,
+      input.now,
+      input.sessionId
+    );
+    return;
   }
-  const left = progress.total - progress.checked;
-  return left > 0 ? `${progress.checked}/${progress.total} checked \xB7 ${left} left for you` : `${progress.checked}/${progress.total} checked`;
+  runChanges(
+    db2,
+    `INSERT INTO ideafy_sessions (session_id, project_id, state, card_id, provider, cwd, created_at, updated_at)
+     VALUES (?, ?, 'bound', ?, ?, ?, ?, ?)`,
+    input.sessionId,
+    input.projectId,
+    input.cardId,
+    input.provider ?? "claude",
+    input.cwd ?? null,
+    input.now,
+    input.now
+  );
 }
-function focusDetail(card, now = Date.now(), state = getFocusState(card), reply, runStartedAt) {
-  switch (state) {
-    case "blocked": {
-      const files = card.conflictFiles?.length ?? 0;
-      return files > 0 ? `rebase conflict \xB7 ${files} file${files === 1 ? "" : "s"}` : "rebase conflict";
-    }
-    case "your-review": {
-      const agentRan = card.gitWorktreeStatus === "active";
-      return `${agentRan ? "agent done" : "in progress"} \xB7 ${formatSince(
-        cardLastActivityAt(card),
-        now
-      )}`;
-    }
-    case "your-test": {
-      const failed = latestReportFailed(card);
-      const line = yourTestLine(card, now);
-      return failed > 0 ? `${failedOnScreenLabel(failed)} \xB7 ${line}` : line;
-    }
-    case "your-reply":
-      return reply ? replyLine(reply, now) : `new reply \xB7 ${formatSince(cardLastActivityAt(card), now)}`;
-    case "your-decision":
-      if ((card.pendingSplitCards ?? 0) > 0) return `proposed as ${card.pendingSplitCards} cards \xB7 break it up?`;
-      if (card.aiVerdict === "positive") return "verdict: yes \xB7 move to backlog?";
-      if (card.aiVerdict === "maybe") return "verdict: maybe \xB7 discuss?";
-      return "verdict: no \xB7 withdraw?";
-    case "agent-running": {
-      const label2 = PROCESSING_LABELS[card.processingType ?? ""] ?? "running";
-      return runStartedAt ? `${label2} \xB7 started ${formatSince(runStartedAt, now)}` : label2;
-    }
-    default:
-      return formatSince(cardLastActivityAt(card), now);
-  }
+function isBindToolName(toolName) {
+  return /(^|[_.:/])bind_session_to_card$/.test(toolName);
 }
-function replyLine(reply, now = Date.now()) {
-  return `${reply.label} \xB7 ${formatSince(reply.at, now)}`;
-}
-var NEUTRAL_STEP_WHO = {
-  stop: "ai",
-  queued: "ai",
-  unlock: "you",
-  locked: "you",
-  // A session outside the app reads as the board card does: running is Ideafy's, approving yours.
-  "session-running": "ai",
-  "session-waiting": "you",
-  // A chat writing its reply is Ideafy's turn, as Focus and the board card read it (IDE-599, IDE-651).
-  "chat-running": "ai"
-};
-function nextTurnFor(card, ctx = {}) {
-  if (isFinished2(card.status)) return null;
-  const mode = ctx.mode ?? "development";
-  const testProgress = ctx.testProgress === void 0 ? parseTestProgress(card.testScenarios) : ctx.testProgress;
-  const solutionText = stripHtml((card.solutionSummary || "").replace(/&nbsp;/g, " "));
-  const testText = stripHtml((card.testScenarios || "").replace(/&nbsp;/g, " "));
-  const flags = getPhaseActionFlags(card, solutionText, testText, testProgress, mode);
-  const { primary } = nextStepFor(card, flags, {
-    mode,
-    running: ctx.running ?? !!card.processingType,
-    chatting: ctx.chatting ?? false,
-    softLock: false,
-    locked: ctx.locked ?? false,
-    terminalLive: ctx.terminalLive ?? null,
-    queueRank: ctx.queueRank ?? 0,
-    canQueue: false,
-    blocker: ctx.blocker ?? null,
-    hasOpinion: !!stripHtml(card.aiOpinion || ""),
-    testProgress,
-    // A merged branch keeps its name on the card; only an active one is Merge (IDE-705).
-    hasBranch: ctx.hasBranch ?? (hasOpenBranch(card) || card.gitWorktreeStatus === "active"),
-    surface: "desktop"
+function bindCodexSessionFromTool(db2, input) {
+  const resolved = resolveCardInProject(db2, input.cardId, input.projectId);
+  if (!resolved) return false;
+  bindSession(db2, {
+    sessionId: input.sessionId,
+    cardId: resolved,
+    projectId: input.projectId,
+    provider: "codex",
+    cwd: input.cwd,
+    now: input.now
   });
-  if (!primary) return null;
-  const who = primary.kind === "neutral" ? NEUTRAL_STEP_WHO[primary.id] ?? "you" : primary.kind;
-  return { who, label: primary.title };
+  return true;
 }
-
-// ../lib/card-story.ts
-var EMPTY_STORY_INPUTS = { opinionUserMessages: null, git: null };
-var plural3 = (n, word) => `${n} ${word}${n === 1 ? "" : "s"}`;
-var hasText = (html) => !!stripHtml((html || "").replace(/&nbsp;/g, " ")).trim();
-function shortDate(iso) {
-  const date4 = new Date(iso);
-  if (Number.isNaN(date4.getTime())) return "";
-  return date4.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+function resolveCardInProject(db2, ref, projectId) {
+  const trimmed = ref.trim();
+  if (!trimmed) return null;
+  const direct = cardInProject(db2, trimmed, projectId);
+  if (direct) return direct;
+  const match = /^(?:([A-Za-z][A-Za-z0-9]*)-)?(\d+)$/.exec(trimmed);
+  if (!match) return null;
+  const row = getRow(
+    db2,
+    `SELECT c.id, p.id_prefix FROM cards c JOIN projects p ON p.id = c.project_id
+     WHERE c.project_id = ? AND c.task_number = ?`,
+    projectId,
+    Number(match[2])
+  );
+  if (!row) return null;
+  if (match[1] && row.id_prefix && match[1].toUpperCase() !== row.id_prefix.toUpperCase()) return null;
+  return row.id;
 }
-function verdictStep(card) {
-  const happened = hasText(card.aiOpinion);
-  const concerns = countOpinionConcerns(card.aiOpinion);
-  const score = card.aiScore != null ? `${card.aiScore}/10` : "verdict";
-  return {
-    id: "verdict",
-    who: "ai",
-    label: "Verdict",
-    sub: happened ? concerns != null ? `${score} \xB7 ${plural3(concerns, "concern")}` : score : "",
-    happened,
-    tab: "opinion"
-  };
+function findFreshUnboundCodexSession(db2, now, opts = {}) {
+  const since = new Date(now - (opts.windowMs ?? CODEX_BIND_FALLBACK_MS)).toISOString();
+  const all = db2.prepare(
+    `SELECT session_id, cwd FROM ideafy_sessions
+       WHERE provider = 'codex' AND state = 'offered' AND updated_at >= ?
+       ORDER BY updated_at DESC`
+  ).all(since);
+  const near = opts.cwd ? all.filter((row) => row.cwd && sameTree(row.cwd, opts.cwd)) : [];
+  const rows = near.length > 0 ? near : all;
+  if (rows.length === 0) return { kind: "none" };
+  if (rows.length > 1) return { kind: "many", count: rows.length };
+  return { kind: "one", sessionId: rows[0].session_id, cwd: rows[0].cwd };
 }
-function arguedStep(inputs) {
-  const n = inputs.opinionUserMessages;
-  return {
-    id: "argued",
-    who: "you",
-    label: "Argued",
-    sub: n == null ? "\u2026" : n > 0 ? plural3(n, "message") : "",
-    // Unknown until the fetch lands: shown as done with "…", not as skipped.
-    happened: n == null || n > 0,
-    tab: "opinion"
-  };
+function sameTree(a, b2) {
+  const strip = (p) => p.replace(/\/+$/, "");
+  const x2 = strip(a);
+  const y2 = strip(b2);
+  return x2 === y2 || x2.startsWith(`${y2}/`) || y2.startsWith(`${x2}/`);
 }
-function planStep(card) {
-  const happened = hasRealPlan(card.solutionSummary);
-  const steps = countPlanSteps(card.solutionSummary);
-  return {
-    id: "plan",
-    who: "ai",
-    label: "Plan",
-    sub: happened ? steps != null ? plural3(steps, "step") : "plan written" : "",
-    happened,
-    tab: "solution"
-  };
+function stampCodexHookHeard(db2, now) {
+  const row = getRow(db2, `SELECT value FROM settings WHERE key = ?`, CODEX_HOOK_LAST_HEARD_KEY);
+  const last = row ? Date.parse(row.value) : NaN;
+  if (!Number.isNaN(last) && now - last < CODEX_HOOK_HEARD_STAMP_MS) return;
+  const iso = new Date(now).toISOString();
+  runChanges(
+    db2,
+    `INSERT INTO settings (key, value, updated_at) VALUES (?, ?, ?)
+     ON CONFLICT(key) DO UPDATE SET value = excluded.value, updated_at = excluded.updated_at`,
+    CODEX_HOOK_LAST_HEARD_KEY,
+    iso,
+    iso
+  );
 }
-function builtStep(card, inputs) {
-  const merged = card.gitBranchStatus === "merged";
-  const rolledBack = card.gitBranchStatus === "rolled_back";
-  const git3 = inputs.git;
-  const viaFinalTest = !!card.finalTestReady || isFinalTestNote(card.solutionSummary);
-  let sub = "";
-  if (git3?.exists) sub = `${plural3(git3.ahead, "commit")} \xB7 ${plural3(git3.files, "file")}`;
-  else if (merged) sub = "merged";
-  else if (rolledBack) sub = "rolled back";
-  else if (card.gitBranchName && !git3) sub = "\u2026";
-  return {
-    id: "built",
-    who: "ai",
-    label: "Built",
-    sub,
-    // On the final test's road a worktree alone built nothing: the step
-    // happened only if a fix round left a commit (IDE-765).
-    happened: merged || rolledBack || (viaFinalTest ? !!git3?.exists && git3.ahead > 0 : (git3?.exists ?? false) || !!card.gitBranchName || card.gitWorktreeStatus != null),
-    tab: "solution"
-  };
-}
-function proofStep(card) {
-  const run2 = card.testReports?.[0];
-  let sub = "";
-  if (run2) {
-    const passed = run2.items.filter((item) => item.status === "passed").length;
-    const shots = run2.items.reduce((sum, item) => sum + item.artifacts.length, 0);
-    sub = `${passed}/${run2.items.length} passed${shots > 0 ? ` \xB7 ${plural3(shots, "shot")}` : ""}`;
-  }
-  return { id: "proof", who: "ai", label: "Proof", sub, happened: !!run2, tab: "report" };
-}
-function yourTestStep(card, id, label2) {
-  const progress = parseTestProgress(card.testScenarios);
-  const left = progress ? progress.total - progress.checked : 0;
-  return {
-    id,
-    who: "you",
-    label: label2,
-    sub: progress ? left > 0 ? `${left} unticked` : "all ticked" : "",
-    happened: !!progress && progress.checked > 0 || card.status === "completed",
-    tab: "tests"
-  };
-}
-function developmentSteps(card, inputs) {
-  const merged = card.gitBranchStatus === "merged";
-  const inChain = card.gitBranchStatus === "in_chain";
-  return [
-    { id: "idea", who: "you", label: "Idea", sub: shortDate(card.createdAt), happened: true, tab: "detail" },
-    verdictStep(card),
-    arguedStep(inputs),
-    planStep(card),
-    builtStep(card, inputs),
-    proofStep(card),
-    yourTestStep(card, "your-test", "Your test"),
-    {
-      id: "merge",
-      who: "you",
-      label: "Merge",
-      sub: merged ? "merged" : inChain ? "in chain" : card.status === "completed" ? "completed" : "",
-      happened: merged || inChain || card.status === "completed",
-      tab: "tests"
-    }
-  ];
-}
-function workSteps(card, inputs) {
-  const outputs = card.outputPaths?.length ?? 0;
-  return [
-    { id: "idea", who: "you", label: "Idea", sub: shortDate(card.createdAt), happened: true, tab: "detail" },
-    verdictStep(card),
-    arguedStep(inputs),
-    planStep(card),
-    {
-      id: "draft",
-      who: "ai",
-      label: "Draft",
-      sub: outputs > 0 ? plural3(outputs, "file") : "",
-      happened: outputs > 0,
-      tab: "detail"
-    },
-    yourTestStep(card, "review", "Review"),
-    {
-      id: "done",
-      who: "you",
-      label: "Done",
-      sub: card.status === "completed" ? "completed" : "",
-      happened: card.status === "completed",
-      tab: "tests"
-    }
-  ];
-}
-function nowStepId(card, work, running, chainMerge) {
-  switch (card.status) {
-    case "ideation":
-      return hasText(card.aiOpinion) ? "argued" : "verdict";
-    case "backlog":
-    case "bugs":
-      return card.finalTestReady && !work ? "proof" : "plan";
-    case "progress":
-      return work ? "draft" : "built";
-    case "test":
-      if (work) return "review";
-      if (card.gitBranchStatus === "in_chain" && !running) return null;
-      if (running) return "proof";
-      return chainMerge === "into-chain" && !chainMergeBlocker(card.testScenarios) ? "merge" : "your-test";
-    default:
-      return null;
-  }
-}
-function bannerFor(card, ctx, now) {
-  if (card.status === "completed" || card.status === "withdrawn") return null;
-  const running = ctx.running ?? !!card.processingType;
-  if (running) return { kind: "ai", detail: focusDetail(card, now, "agent-running", void 0, ctx.runStartedAt) };
-  if (ctx.chatting) return { kind: "ai", detail: "replying in chat" };
-  if (ctx.session?.phase === "running") return { kind: "ai", detail: ctx.session.label };
-  if (ctx.session?.phase === "waiting") return { kind: "you", detail: ctx.session.label, failed: null, since: null };
-  if (ctx.session?.phase === "quiet") return null;
-  const turn = nextTurnFor(card, ctx);
-  if ((ctx.queueRank ?? 0) > 0) {
-    return { kind: "queued", rank: ctx.queueRank ?? 0, detail: turn?.label ?? "waiting in the queue" };
-  }
-  const state = getFocusState(card);
-  const unread = ctx.unread;
-  const stillAsks = state === "blocked" || !!unread || card.autopilotStage === "stopped" || openPlanDecisions(card).length > 0;
-  if (ctx.heldByCard && !stillAsks) return null;
-  if (!isYourTurn(state) && !unread && turn?.who !== "you") return null;
-  let detail = isYourTurn(state) ? focusDetail(card, now, state) : turn?.label ?? "";
-  let failed = null;
-  if (state === "your-test") {
-    const count = latestReportFailed(card);
-    if (count > 0) {
-      failed = failedOnScreenLabel(count);
-      detail = detail.startsWith(`${failed} \xB7 `) ? detail.slice(failed.length + 3) : detail;
-    }
-    if (ctx.chainMerge === "into-chain" && !failed) {
-      detail = chainMergeBlocker(card.testScenarios) ? "tick the Core flow, then Merge into chain" : "ready for Merge into chain";
-    }
-  }
-  return { kind: "you", detail, failed, since: unread ? replyLine(unread, now) : null };
-}
-function buildCardStory(card, inputs = EMPTY_STORY_INPUTS, ctx = {}) {
-  const now = ctx.now ?? Date.now();
-  const work = (ctx.mode ?? "development") === "work";
-  const running = ctx.running ?? !!card.processingType;
-  const drafts = work ? workSteps(card, inputs) : developmentSteps(card, inputs);
-  const nowId = nowStepId(card, work, running, ctx.chainMerge);
-  const testedWithChain = card.gitBranchStatus === "in_chain" || ctx.chainMerge === "into-chain";
-  const nowIndex = nowId ? drafts.findIndex((d2) => d2.id === nowId) : drafts.length;
-  const steps = drafts.map((draft, index) => {
-    let state;
-    if (index === nowIndex) state = "now";
-    else if (index < nowIndex) state = draft.happened ? "done" : "skipped";
-    else state = card.status === "withdrawn" ? "skipped" : "todo";
-    if (draft.id === "merge" && card.gitBranchStatus === "rolled_back" && state !== "now") state = "skipped";
-    if (draft.id === "your-test" && testedWithChain && state !== "now") state = "skipped";
-    return {
-      id: draft.id,
-      who: draft.who,
-      state,
-      label: draft.label,
-      sub: state === "skipped" ? "skipped" : state === "todo" ? "" : draft.sub,
-      tab: draft.tab
-    };
-  });
-  return { steps, now: nowId, banner: bannerFor(card, ctx, now) };
+function codexHookLastHeard(db2) {
+  return getRow(db2, `SELECT value FROM settings WHERE key = ?`, CODEX_HOOK_LAST_HEARD_KEY)?.value ?? null;
 }
 
 // ../lib/prompts/evaluation.ts
@@ -33875,6 +34262,7 @@ function removeRunVideoFiles(runDir, files) {
       console.warn(`[test-report] could not remove video ${file2}:`, error2);
     }
   }
+  if (!files) rmSync2(path9.join(runDir, CLICK_LOG_FILE), { force: true });
 }
 function stampArtifactVideoTimes(items, runDir, offset) {
   return items.map((item) => ({
@@ -33966,6 +34354,7 @@ function itemText(item, number3, full, clip) {
   }
   field("Expected", item.expected);
   field("Observed", item.observed);
+  field("In plain words", [item.plainItem, item.plainObserved].filter(Boolean).join(" ") || null);
   field("Impact (the run's own reading)", item.impact ?? null);
   field("Error", item.error);
   field("Command", item.command);
@@ -33991,7 +34380,7 @@ function videoLines(video, videoPath) {
   return lines2;
 }
 function formatTestReport(input) {
-  const { displayId, runs, index, status, checklistHtml, screenshotsAttached, videoPath } = input;
+  const { displayId, runs, index, status, checklistHtml, screenshotsAttached, videoPath, summaryLine } = input;
   const run2 = runs[index];
   const total = runs.length;
   const out = [];
@@ -34014,6 +34403,7 @@ function formatTestReport(input) {
   const video = run2.video;
   if (video) {
     out.push("", ...videoLines(video, videoPath ?? null));
+    if (summaryLine) out.push(summaryLine);
   } else if (run2.source === "terminal") {
     out.push("", "Video: none \u2014 runs a terminal session saves carry no recording; only the app's visual runs record the screen.");
   }
@@ -34066,12 +34456,325 @@ var write_exports = {};
 __export(write_exports, {
   RUN_REPORT_VIDEO_CAP_BYTES: () => RUN_REPORT_VIDEO_CAP_BYTES,
   buildRunReport: () => buildRunReport,
+  cardSummaryDir: () => cardSummaryDir,
+  cardSummarySourceKey: () => cardSummarySourceKey,
+  cardSummaryState: () => cardSummaryState,
+  cardSummaryWanted: () => cardSummaryWanted,
+  collectReportData: () => collectReportData,
   runReportFilename: () => runReportFilename,
+  summaryLocation: () => summaryLocation,
+  summarySourceKey: () => summarySourceKey,
+  summarySpecOf: () => summarySpecOf,
   writeRunReport: () => writeRunReport
 });
 import { mkdirSync as mkdirSync6, readFileSync as readFileSync5, statSync as statSync7, writeFileSync as writeFileSync3 } from "fs";
 import { homedir as homedir4 } from "os";
 import path10 from "path";
+
+// ../lib/run-video/plan.ts
+var RUN_VIDEO_VERSION = 1;
+var REPORT_CLIP_FILE = "report-clip.mp4";
+var REPORT_CLIP_NOTE = "report-clip.json";
+var RENDER_MAX_FAILURES = 2;
+function clipsFromIntervals(intervals) {
+  const clips = intervals.filter(([from, to]) => Number.isFinite(from) && Number.isFinite(to) && to > from);
+  return clips.length > 0 ? clips : [[0, null]];
+}
+function clipTimeOf(sec, clips) {
+  let elapsed = 0;
+  for (const [from, to] of clips) {
+    if (sec < from) return elapsed;
+    if (to === null || sec <= to) return elapsed + (sec - from);
+    elapsed += to - from;
+  }
+  return elapsed;
+}
+function renderSourceKey(file2, bytes, clips) {
+  return JSON.stringify([RUN_VIDEO_VERSION, file2, bytes, clips]);
+}
+
+// ../lib/run-video/summary.ts
+var SUMMARY_VERSION = 10;
+var SUMMARY_FILE = "summary.mp4";
+var SUMMARY_NOTE = "summary.json";
+var CARD_SUMMARY_FILE = "card-summary.mp4";
+var CARD_SUMMARY_NOTE = "card-summary.json";
+var CARD_SUMMARY_DAYS = 7;
+var SUMMARY_MAX_SECONDS = 180;
+var SUMMARY_CARD_SECONDS = 30;
+var SUMMARY_COVER_SECONDS = 5;
+var SUMMARY_TITLE_SECONDS = 4;
+var SUMMARY_RESULT_SECONDS = 6;
+var MOMENT_LEAD = 8;
+var MOMENT_TAIL = 2;
+var MIN_PIECE = 2;
+var SUMMARY_SLOW_SECONDS = 2.5;
+var SUMMARY_HOLD_SECONDS = 3;
+var SUMMARY_HOLD_READING_SECONDS = 5;
+var MOMENT_EXTRA = SUMMARY_SLOW_SECONDS + SUMMARY_HOLD_READING_SECONDS;
+function summaryHoldSeconds(moment) {
+  return moment.observed ? SUMMARY_HOLD_READING_SECONDS : SUMMARY_HOLD_SECONDS;
+}
+var ITEM_TEXT_MAX = 170;
+var OBSERVED_TEXT_MAX = 180;
+var TECHNICAL = /\b[a-z]+_[a-z_]+\b|\blucide-|\b\w+=\S|\b(?:DB|DOM|SQL|API|HTTP|JSON|PID|SSIM|localhost)\b|\b(?:curl|ffprobe|sqlite3?|npm|npx|verify-server|querySelector|currentTime)\b|\/api\/|127\.0\.0\.1|:\d{4}\b|\w+\.(?:tsx?|json|sql|mjs)\b|=>|[{}]|\b\w+\(\)/i;
+var CAMEL_CASE = /\b[a-z]+[A-Z][a-zA-Z]+\b/;
+function isTechnical(text2) {
+  return TECHNICAL.test(text2) || CAMEL_CASE.test(text2);
+}
+var SETUP_PREFIX = /^(?:[A-Z]+-\d+:\s*)?(?:(?:ayn\u0131\s+)?kopyada\s+|(?:in|on)\s+the\s+copy,?\s+)?/i;
+function merged(segments) {
+  const out = [];
+  for (const [from, to] of [...segments].sort((a, b2) => a[0] - b2[0])) {
+    const last = out[out.length - 1];
+    if (last && from <= last[1]) last[1] = Math.max(last[1], to);
+    else out.push([from, to]);
+  }
+  return out;
+}
+var lengthOf = (segments) => segments.reduce((sum, [from, to]) => sum + (to - from), 0);
+function playable(run2) {
+  return run2.video?.state === "embedded" || run2.video?.state === "left-out";
+}
+function windowOf(at, run2) {
+  const duration3 = run2.video?.durationSec ?? Infinity;
+  const from = Math.max(0, at - MOMENT_LEAD);
+  const to = Math.min(duration3, at + MOMENT_TAIL);
+  if (to <= from) return [];
+  const intervals = run2.video?.intervals ?? [];
+  const busy = intervals.map(([start, end]) => [Math.max(start, from), Math.min(end, to)]).filter(([start, end]) => end - start >= MIN_PIECE || start <= at && at <= end);
+  return busy.length > 0 ? busy : [[from, to]];
+}
+function timedItems(run2) {
+  return run2.items.filter((item) => item.videoAt !== null);
+}
+function endsOf(run2) {
+  const items = timedItems(run2);
+  if (items.length > 0) {
+    const sorted = [...items].sort((a, b2) => a.videoAt - b2.videoAt);
+    const earliest = sorted[0];
+    const latest = sorted[sorted.length - 1];
+    return {
+      first: { run: run2, item: earliest, segments: windowOf(earliest.videoAt, run2) },
+      last: { run: run2, item: latest, segments: windowOf(latest.videoAt, run2) }
+    };
+  }
+  const intervals = run2.video?.intervals ?? [];
+  if (intervals.length > 0) {
+    const [firstFrom, firstTo] = intervals[0];
+    const [lastFrom, lastTo] = intervals[intervals.length - 1];
+    const span = MOMENT_LEAD + MOMENT_TAIL;
+    return {
+      first: { run: run2, segments: [[firstFrom, Math.min(firstTo, firstFrom + span)]] },
+      last: { run: run2, segments: [[Math.max(lastFrom, lastTo - span), lastTo]] }
+    };
+  }
+  return { first: { run: run2, segments: [[0, Math.min(run2.video?.durationSec ?? MOMENT_LEAD, MOMENT_LEAD)]] }, last: { run: run2, segments: [] } };
+}
+function failedMoments(run2) {
+  return timedItems(run2).filter((item) => item.status === "failed").sort((a, b2) => b2.videoAt - a.videoAt).map((item) => ({ run: run2, item, segments: windowOf(item.videoAt, run2) }));
+}
+function nearestFirst(segments, at) {
+  if (at === void 0) return segments;
+  const distance = ([from, to]) => Math.max(0, from - at, at - to);
+  return [...segments].sort((a, b2) => distance(a) - distance(b2));
+}
+function otherMoments(run2, taken) {
+  const items = new Set(taken.map((wanted) => wanted.item));
+  return timedItems(run2).filter((item) => !items.has(item)).sort((a, b2) => a.videoAt - b2.videoAt).map((item) => ({ run: run2, item, segments: windowOf(item.videoAt, run2) }));
+}
+function sentencesOf(text2) {
+  const sentences = [];
+  let current = "";
+  let quoted = false;
+  let single = false;
+  let depth2 = 0;
+  const isLetter = (char) => !!char && /[\p{L}\p{N}]/u.test(char);
+  for (let index = 0; index < text2.length; index++) {
+    const char = text2[index];
+    current += char;
+    if (char === '"') quoted = !quoted;
+    else if (char === "(") depth2 += 1;
+    else if (char === ")") depth2 = Math.max(0, depth2 - 1);
+    else if (char === "'") {
+      if (!single && !isLetter(text2[index - 1]) && isLetter(text2[index + 1])) single = true;
+      else if (single && !isLetter(text2[index + 1])) single = false;
+    }
+    const closes = char === "." || char === "!" || char === "?" || char === "\u2026";
+    const next = text2[index + 1];
+    const after = text2[index + 2];
+    if (closes && !quoted && !single && depth2 === 0 && next === " " && after !== void 0 && !/[a-z\u00e7\u011f\u0131\u00f6\u015f\u00fc]/.test(after)) {
+      sentences.push(current.trim());
+      current = "";
+    }
+  }
+  if (current.trim()) sentences.push(current.trim());
+  return sentences;
+}
+function upperFirst(text2, locale) {
+  return text2.charAt(0).toLocaleUpperCase(locale) + text2.slice(1);
+}
+function fitSentence(sentence, max) {
+  if (sentence.length <= max) return sentence;
+  const head = sentence.slice(0, max);
+  const pause = Math.max(head.lastIndexOf(", "), head.lastIndexOf("; "), head.lastIndexOf(": "));
+  if (pause > max * 0.4) return head.slice(0, pause);
+  return head.slice(0, head.lastIndexOf(" ")).trimEnd();
+}
+function readableText(text2, max, redact, sentences = Infinity) {
+  let clean = text2.replace(/\s*\[(?:ui|manual)\]/gi, "").replace(/\*\*|`/g, "").replace(/\s*\([^()]{30,}\)/g, "").replace(/\s*\(([^()]*)\)/g, (aside, inner) => isTechnical(inner) ? "" : aside).replace(/\s+/g, " ").trim();
+  for (const [folder, stand] of redact) clean = clean.split(folder).join(stand);
+  const locale = /[\u00e7\u011f\u0131\u00f6\u015f\u00fc]/i.test(clean) ? "tr" : "en";
+  const kept = sentencesOf(clean).filter((sentence) => !isTechnical(sentence)).map((sentence) => upperFirst(sentence.replace(SETUP_PREFIX, ""), locale));
+  if (kept.length === 0) return null;
+  let out = fitSentence(kept[0], max);
+  for (const sentence of kept.slice(1, sentences)) {
+    if (out.length + 1 + sentence.length > max) break;
+    out += ` ${sentence}`;
+  }
+  return out;
+}
+function pickCardClips(card, budget, redact = [], videoRoom = Infinity) {
+  const runs = card.runs.filter(playable).sort((a, b2) => b2.runAt.localeCompare(a.runAt));
+  if (runs.length === 0) return [];
+  const [newest, ...older] = runs;
+  const ends = endsOf(newest);
+  const first = [ends.last, ends.first, ...failedMoments(newest), ...older.flatMap(failedMoments)];
+  const wanted = [...first, ...otherMoments(newest, first)];
+  const picked = /* @__PURE__ */ new Map();
+  const shown = /* @__PURE__ */ new Map();
+  let left = budget;
+  let room = videoRoom;
+  for (const { run: run2, segments, item } of wanted) {
+    const isNew = !!item && !shown.get(run2)?.includes(item);
+    const extra = isNew ? MOMENT_EXTRA : 0;
+    if (Math.min(left, room - extra) < MIN_PIECE) break;
+    let added = false;
+    for (const segment of nearestFirst(segments, item?.videoAt)) {
+      const allowed = Math.min(left, room - extra);
+      if (allowed < MIN_PIECE) break;
+      const had = picked.get(run2) ?? [];
+      const whole = merged([...had, segment]);
+      const gain = lengthOf(whole) - lengthOf(had);
+      if (gain <= 0) {
+        added = true;
+        continue;
+      }
+      const fitted = gain > allowed ? [segment[1] - allowed, segment[1]] : segment;
+      const next = merged([...had, fitted]);
+      const used = lengthOf(next) - lengthOf(had);
+      left -= used;
+      room -= used;
+      picked.set(run2, next);
+      added = true;
+    }
+    if (added && isNew && item) {
+      room -= extra;
+      shown.set(run2, [...shown.get(run2) ?? [], item]);
+    }
+  }
+  return [...picked.entries()].sort(([a], [b2]) => a.runAt.localeCompare(b2.runAt)).flatMap(
+    ([run2, segments]) => segments.map(([from, to]) => {
+      const start = Math.round(from * 10) / 10;
+      const end = Math.round(to * 10) / 10;
+      return {
+        cardId: card.id,
+        runId: run2.id,
+        file: run2.video?.recordingFile ?? "",
+        from: start,
+        to: end,
+        moments: (shown.get(run2) ?? []).filter((item) => item.videoAt >= start && item.videoAt <= end).sort((a, b2) => a.videoAt - b2.videoAt).map((item) => ({
+          at: item.videoAt,
+          // The run's plain sentence first (IDE-759). An agent can ignore the
+          // rule, so it gets the same check, and a technical one falls back.
+          // A step with nothing readable left still says it was a checklist item.
+          item: (item.plainItem ? readableText(item.plainItem, ITEM_TEXT_MAX, redact, 1) : null) ?? readableText(item.item, ITEM_TEXT_MAX, redact, 1) ?? "A checklist item",
+          status: item.status,
+          observed: (item.plainObserved ? readableText(item.plainObserved, OBSERVED_TEXT_MAX, redact) : null) ?? (item.observed ? readableText(item.observed, OBSERVED_TEXT_MAX, redact) : null)
+        })),
+        ...run2.video?.clicks ? { clicks: run2.video.clicks.filter((click) => click.at >= start && click.at <= end) } : {}
+      };
+    })
+  );
+}
+function toneOf(card, banner) {
+  if (card.status === "completed") return "done";
+  const newest = [...card.runs].sort((a, b2) => b2.runAt.localeCompare(a.runAt))[0];
+  if (newest && newest.counts.failed > 0) return "failed";
+  return banner?.kind ?? "neutral";
+}
+function bannerOf(story) {
+  const banner = story?.banner;
+  if (!banner || banner.kind === "queued") return null;
+  return { kind: banner.kind, detail: banner.detail, failed: banner.kind === "you" ? banner.failed : null };
+}
+function coverBanner(cards, banners) {
+  if (cards.length === 1) return banners[0];
+  const yours = banners.filter((banner) => banner?.kind === "you").length;
+  if (yours > 0) return { kind: "you", detail: `${yours} card${yours === 1 ? "" : "s"} wait${yours === 1 ? "s" : ""} for you`, failed: null };
+  const running = banners.filter((banner) => banner?.kind === "ai").length;
+  if (running > 0) return { kind: "ai", detail: `${running} card${running === 1 ? "" : "s"} on Ralph`, failed: null };
+  return null;
+}
+function buildSummarySpec(data, stories = /* @__PURE__ */ new Map()) {
+  const shown = data.cards.filter((card) => !card.isParent || card.runs.some(playable));
+  const withVideo = shown.filter((card) => card.runs.some(playable));
+  const titled = shown.length > 1;
+  const titleTime = titled ? shown.length * SUMMARY_TITLE_SECONDS : 0;
+  const room = SUMMARY_MAX_SECONDS - SUMMARY_COVER_SECONDS - SUMMARY_RESULT_SECONDS - titleTime;
+  const cardRoom = withVideo.length > 0 ? (room - 2) / withVideo.length : 0;
+  const date4 = data.lastAt ?? data.firstAt;
+  const day = date4 ? new Intl.DateTimeFormat("en-GB", { timeZone: data.timeZone, day: "numeric", month: "short", year: "numeric" }).format(new Date(date4)) : null;
+  const ticked = data.cards.reduce((sum, card) => sum + card.ticked, 0);
+  const total = data.cards.reduce((sum, card) => sum + card.total, 0);
+  const plural4 = (count, word) => `${count} ${word}${count === 1 ? "" : "s"}`;
+  const storyOf = (card) => stories.get(card.id) ?? void 0;
+  const banners = data.cards.map((card) => bannerOf(storyOf(card)));
+  return {
+    code: data.chain?.code ?? data.cards[0]?.displayId ?? data.code,
+    ralph: !!data.ralph,
+    title: data.chain?.name ?? data.cards[0]?.title ?? data.title,
+    banner: coverBanner(data.cards, banners),
+    meta: [data.projectName, day].filter(Boolean).join(" \xB7 "),
+    // Runs and stops count Ralph's events: a zero there says nothing about the card.
+    outcome: [
+      `${ticked}/${total} checked`,
+      ...data.totals.runs > 0 ? [plural4(data.totals.runs, "run")] : [],
+      ...data.totals.stops > 0 ? [plural4(data.totals.stops, "stop")] : []
+    ].join(" \xB7 "),
+    titled,
+    cards: shown.map((card) => ({
+      displayId: card.displayId,
+      title: card.title,
+      clips: pickCardClips(card, SUMMARY_CARD_SECONDS, data.redact, cardRoom),
+      steps: (storyOf(card)?.steps ?? []).map(({ label: label2, who, state }) => ({ label: label2, who, state })),
+      banner: bannerOf(storyOf(card))
+    })),
+    rows: data.cards.map((card, index) => ({
+      displayId: card.displayId,
+      title: card.title,
+      where: card.where,
+      tests: `${card.ticked}/${card.total}`,
+      tone: toneOf(card, banners[index])
+    }))
+  };
+}
+function summaryHasClips(spec) {
+  return spec.cards.some((card) => card.clips.length > 0);
+}
+function summaryDuration(spec) {
+  const clips = spec.cards.flatMap((card) => card.clips).reduce((sum, clip) => {
+    let extra = 0;
+    let reached = clip.from;
+    for (const moment of clip.moments) {
+      extra += Math.max(0, moment.at - Math.max(reached, moment.at - SUMMARY_SLOW_SECONDS)) + summaryHoldSeconds(moment);
+      reached = moment.at;
+    }
+    return sum + (clip.to - clip.from) + extra;
+  }, 0);
+  const titles = spec.titled ? spec.cards.length * SUMMARY_TITLE_SECONDS : 0;
+  return SUMMARY_COVER_SECONDS + titles + clips + SUMMARY_RESULT_SECONDS;
+}
 
 // ../lib/run-report/collect.ts
 function stopNextStep(reason) {
@@ -34104,16 +34807,22 @@ function shotsOf(cardId, runId, artifacts, fileSize) {
     present: fileSize({ cardId, runId, file: artifact.file }) !== null
   }));
 }
-function runOf(cardId, run2, index, total, fileSize) {
+function runOf(cardId, run2, index, total, fileSize, readyClipBytes2, readClicks2) {
   const video = run2.video ? (() => {
     const ref = { cardId, runId: run2.id, file: run2.video.file };
     const bytes = run2.video.removedAt ? null : fileSize(ref);
+    const clipBytes = bytes !== null ? readyClipBytes2?.(ref, run2.video) ?? null : null;
     return {
       ...ref,
-      bytes: bytes ?? 0,
+      file: clipBytes !== null ? REPORT_CLIP_FILE : ref.file,
+      bytes: clipBytes ?? bytes ?? 0,
       durationSec: run2.video.durationSec,
       state: run2.video.removedAt ? "removed" : bytes === null ? "missing" : "embedded",
-      removedAt: run2.video.removedAt
+      removedAt: run2.video.removedAt,
+      clips: clipBytes !== null ? clipsFromIntervals(run2.video.intervals) : null,
+      recordingFile: ref.file,
+      intervals: run2.video.intervals,
+      clicks: bytes !== null ? readClicks2?.(ref, run2.video) ?? null : null
     };
   })() : null;
   return {
@@ -34135,6 +34844,8 @@ function runOf(cardId, run2, index, total, fileSize) {
       steps: item.steps,
       expected: item.expected,
       observed: item.observed,
+      ...item.plainItem ? { plainItem: item.plainItem } : {},
+      ...item.plainObserved ? { plainObserved: item.plainObserved } : {},
       impact: item.impact ?? null,
       error: item.error,
       command: item.command,
@@ -34298,12 +35009,13 @@ function timelineOf(events, nameOf3, reportRuns) {
   return rows;
 }
 function collectRunReport(db2, cardId, opts) {
-  if (!cardHasRunReport(db2, cardId)) return null;
+  const ralph = cardHasRunReport(db2, cardId);
+  if (!ralph && !opts.cardOnly) return null;
   const select = `SELECT c.*, p.id_prefix AS idPrefix, p.name AS projectName, p.folder_path AS projectFolder
                   FROM cards c LEFT JOIN projects p ON p.id = c.project_id`;
   const own = getRow(db2, `${select} WHERE c.id = ?`, cardId);
   if (!own) return null;
-  const groupId = own.group_id;
+  const groupId = opts.cardOnly ? null : own.group_id;
   const group = groupId ? getIntegrationGroup(db2, groupId) : null;
   const plain = groupId && !group ? getRow(db2, `SELECT code, name FROM card_groups WHERE id = ?`, groupId) : null;
   const rows = groupId ? allRows(db2, `${select} WHERE c.group_id = ? AND c.status <> 'withdrawn'`, groupId).map((row) => ({ ...row, groupOrder: row.group_order, taskNumber: row.task_number })).sort(compareByChainOrder) : [own];
@@ -34318,7 +35030,7 @@ function collectRunReport(db2, cardId, opts) {
   const cards = ordered.map((row) => {
     const displayId = displayIdOf2(row);
     const stored = parseTestReports(row.test_reports) ?? [];
-    const runs = stored.map((run2, index) => runOf(row.id, run2, index, stored.length, opts.fileSize));
+    const runs = stored.map((run2, index) => runOf(row.id, run2, index, stored.length, opts.fileSize, opts.readyClipBytes, opts.readClicks));
     for (const run2 of runs) reportRuns.set(`${row.id}\0${run2.id}`, run2);
     const ticks = cardAuthorship(db2, row.id)?.ticks ?? [];
     const tickerOf = (text2) => {
@@ -34441,6 +35153,7 @@ function collectRunReport(db2, cardId, opts) {
   return {
     title: `${code} \xB7 ${name}`,
     code,
+    ralph,
     projectName: own.projectName,
     chain: groupId ? {
       code,
@@ -34521,7 +35234,7 @@ var GAP_HEADINGS = {
 var GAP_ORDER = Object.keys(GAP_HEADINGS);
 var WHO_LABEL = { ideafy: "IDEAFY", you: "YOU" };
 var STATUS_LABEL = { passed: "Passed", failed: "Failed", manual: "Manual" };
-function renderRunReport(data, embed) {
+function renderRunReport(data, embed, summary = { state: "none" }) {
   const esc2 = (value) => {
     let text2 = String(value ?? "");
     for (const [folder, stand] of data.redact) text2 = text2.split(folder).join(stand);
@@ -34559,6 +35272,15 @@ function renderRunReport(data, embed) {
   parts.push(
     `<p class="note">Screenshots and videos may contain sensitive data: check before you share this file. This is Ideafy's own evidence from the runs. No check outside the runs looked at it.</p>`
   );
+  if (summary.state === "in-file") {
+    const seconds = Math.round(summary.durationSec);
+    const length = `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, "0")}`;
+    parts.push(
+      `<video controls playsinline preload="metadata" src="${summary.src}"></video><p class="small muted">Summary video \xB7 ${length} \xB7 ${(summary.bytes / (1024 * 1024)).toFixed(1)} MB. Its moments were chosen from the run's data, not by AI.</p>`
+    );
+  } else if (summary.state === "not-ready") {
+    parts.push(`<p class="small muted">Summary video not ready yet: open Ideafy, then download again.</p>`);
+  }
   parts.push(`<h2>Summary</h2>`);
   const landed = data.chain?.mergedCommit ? `Landed on ${esc2(data.chain.landedOn ?? "main")} as <code>${esc2(data.chain.mergedCommit.slice(0, 7))}</code>. ` : "";
   const span = data.firstAt && data.lastAt ? formatMs(Date.parse(data.lastAt) - Date.parse(data.firstAt)) : null;
@@ -34631,18 +35353,26 @@ function renderRunReport(data, embed) {
     parts.push(`</tbody></table></div>`);
   }
   parts.push(`<h2>Cards</h2>`);
-  const itemHtml = (item) => {
+  const itemHtml = (item, run2) => {
     const impact = item.impact ? ` <span class="${item.impact === "broken" || item.impact === "flaw" ? "bad" : "muted"}">\xB7 ${TEST_REPORT_IMPACT_LABEL[item.impact]}</span>` : "";
     const label2 = `<span class="${item.status === "passed" ? "ok" : item.status === "failed" ? "bad" : "muted"}">${STATUS_LABEL[item.status]}</span>${impact}`;
-    const at = item.videoAt !== null ? ` <span class="small muted num">video ${Math.floor(item.videoAt / 60)}:${String(Math.floor(item.videoAt % 60)).padStart(2, "0")}</span>` : "";
-    const lines2 = [`<div class="item"><p>${label2} ${esc2(item.item)}${at}</p>`];
+    const clips = run2.video?.state === "embedded" ? run2.video.clips : null;
+    const second = item.videoAt !== null && clips ? clipTimeOf(item.videoAt, clips) : item.videoAt;
+    const at = second !== null ? ` <span class="small muted num">video ${Math.floor(second / 60)}:${String(Math.floor(second % 60)).padStart(2, "0")}</span>` : "";
+    const lines2 = [`<div class="item"><p>${label2} ${esc2(item.plainItem ?? item.item)}${at}</p>`];
+    if (item.plainItem) lines2.push(`<p class="small muted">${esc2(item.item)}</p>`);
     if (item.note) lines2.push(`<p class="small muted">${esc2(item.note)}</p>`);
     if (item.status !== "passed" && item.approach) lines2.push(`<p class="small">${esc2(item.approach)}</p>`);
     if (item.status !== "passed" && item.steps.length > 0) {
       lines2.push(`<ul class="small">${item.steps.map((step) => `<li>${esc2(step)}</li>`).join("")}</ul>`);
     }
     if (item.status !== "passed" && item.expected) lines2.push(`<p class="small"><span class="muted">Expected:</span> ${esc2(item.expected)}</p>`);
-    if (item.observed) lines2.push(`<p class="small"><span class="muted">Saw:</span> ${esc2(item.observed)}</p>`);
+    if (item.plainObserved) lines2.push(`<p class="small"><span class="muted">Saw:</span> ${esc2(item.plainObserved)}</p>`);
+    if (item.observed) {
+      lines2.push(
+        item.plainObserved ? `<p class="small muted">${esc2(item.observed)}</p>` : `<p class="small"><span class="muted">Saw:</span> ${esc2(item.observed)}</p>`
+      );
+    }
     if (item.error) lines2.push(`<p class="small bad">${esc2(item.error)}</p>`);
     if (item.status !== "passed" && item.command) lines2.push(`<pre>${esc2(item.command)}</pre>`);
     if (item.status !== "passed" && item.output) lines2.push(`<pre>${esc2(item.output)}</pre>`);
@@ -34662,7 +35392,8 @@ function renderRunReport(data, embed) {
     const firstShot = run2.items.flatMap((item) => item.shots).find((shot) => shot.present);
     const poster = firstShot ? embed(firstShot) : null;
     const size = `${(video.bytes / (1024 * 1024)).toFixed(1)} MB`;
-    return `<video controls playsinline preload="none"${poster ? ` poster="${poster}"` : ""} src="${src}"></video><p class="small muted">Screen recording of this run \xB7 WebM \xB7 ${size}. A phone that cannot play WebM still shows the screenshots.</p>`;
+    const caption = video.clips ? `Screen recording of this run \xB7 MP4 \xB7 idle parts cut \xB7 ${size}.` : `Screen recording of this run \xB7 WebM \xB7 ${size}. A phone that cannot play WebM still shows the screenshots.`;
+    return `<video controls playsinline preload="none"${poster ? ` poster="${poster}"` : ""} src="${src}"></video><p class="small muted">${caption}</p>`;
   };
   const checklistHtml = (card) => {
     if (card.checklist.length === 0) return `<p class="muted small">No checklist.</p>`;
@@ -34701,7 +35432,7 @@ function renderRunReport(data, embed) {
       if (!run2.checklistApplied) parts.push(`<p class="small muted">This run's ticks were not applied: its checklist was refused.</p>`);
       for (const warning of run2.warnings) parts.push(`<p class="small">${esc2(warning)}</p>`);
       parts.push(videoHtml(run2));
-      for (const item of run2.items) parts.push(itemHtml(item));
+      for (const item of run2.items) parts.push(itemHtml(item, run2));
       parts.push(`</details>`);
     });
   }
@@ -34741,31 +35472,128 @@ var MIME2 = {
   ".jpeg": "image/jpeg",
   ".webp": "image/webp",
   ".gif": "image/gif",
-  ".webm": "video/webm"
+  ".webm": "video/webm",
+  ".mp4": "video/mp4"
 };
 function runFile(ref, homeDir) {
   return path10.join(testReportRunDir(ref.cardId, ref.runId, homeDir), path10.basename(ref.file));
+}
+function fileBytes(target2) {
+  try {
+    const stat = statSync7(target2);
+    return stat.isFile() ? stat.size : null;
+  } catch {
+    return null;
+  }
+}
+function readyClipBytes(ref, video, homeDir) {
+  const runDir = testReportRunDir(ref.cardId, ref.runId, homeDir);
+  const sourceBytes = fileBytes(path10.join(runDir, path10.basename(video.file)));
+  if (sourceBytes === null) return null;
+  let note;
+  try {
+    note = JSON.parse(readFileSync5(path10.join(runDir, REPORT_CLIP_NOTE), "utf8"));
+  } catch {
+    return null;
+  }
+  if (!note.renderedAt || note.sourceKey !== renderSourceKey(video.file, sourceBytes, clipsFromIntervals(video.intervals))) return null;
+  return fileBytes(path10.join(runDir, REPORT_CLIP_FILE));
+}
+function readClicks(ref, video, homeDir) {
+  let text2;
+  try {
+    text2 = readFileSync5(path10.join(testReportRunDir(ref.cardId, ref.runId, homeDir), CLICK_LOG_FILE), "utf8");
+  } catch {
+    return null;
+  }
+  return parseClickLog(text2, Date.parse(video.startedAt));
 }
 function runReportFilename(code, at) {
   const safe = code.replace(/[^A-Za-z0-9._-]+/g, "-").replace(/^-+|-+$/g, "") || "card";
   return `ralph-report-${safe}-${at.slice(0, 10)}.html`;
 }
-function buildRunReport(db2, cardId, opts = {}) {
-  const data = collectRunReport(db2, cardId, {
+function collectReportData(db2, cardId, opts = {}) {
+  return collectRunReport(db2, cardId, {
+    cardOnly: opts.cardOnly,
     videoCapBytes: opts.videoCapBytes ?? RUN_REPORT_VIDEO_CAP_BYTES,
     now: opts.now,
     timeZone: opts.timeZone,
     redactFolders: [[opts.homeDir ?? homedir4(), "~"]],
-    fileSize: (ref) => {
-      try {
-        const stat = statSync7(runFile(ref, opts.homeDir));
-        return stat.isFile() ? stat.size : null;
-      } catch {
-        return null;
-      }
-    }
+    fileSize: (ref) => fileBytes(runFile(ref, opts.homeDir)),
+    readyClipBytes: (ref, video) => readyClipBytes(ref, video, opts.homeDir),
+    readClicks: (ref, video) => readClicks(ref, video, opts.homeDir)
   });
+}
+function summaryLocation(data, homeDir) {
+  const anchor = (data.cards.find((card) => card.isParent) ?? data.cards[0]).id;
+  return { anchor, dir: path10.join(cardArtifactDir(anchor, homeDir), "run-report") };
+}
+function summarySpecOf(db2, data) {
+  return buildSummarySpec(data, new Map(data.cards.map((card) => [card.id, loadCardStory(db2, card.id)])));
+}
+function summarySourceKey(spec) {
+  return JSON.stringify([SUMMARY_VERSION, spec]);
+}
+function readySummary(data, spec, homeDir) {
+  const { dir } = summaryLocation(data, homeDir);
+  let note;
+  try {
+    note = JSON.parse(readFileSync5(path10.join(dir, SUMMARY_NOTE), "utf8"));
+  } catch {
+    return null;
+  }
+  if (!note.renderedAt || note.sourceKey !== summarySourceKey(spec)) return null;
+  const file2 = path10.join(dir, SUMMARY_FILE);
+  const bytes = fileBytes(file2);
+  return bytes === null ? null : { file: file2, bytes };
+}
+function cardSummaryDir(cardId, homeDir) {
+  return path10.join(cardArtifactDir(cardId, homeDir), "run-report");
+}
+function cardSummarySourceKey(spec) {
+  return JSON.stringify([SUMMARY_VERSION, spec.cards.map((card) => card.clips)]);
+}
+function cardSummaryWanted(status, runs, now = /* @__PURE__ */ new Date()) {
+  if (status === "completed" || status === "withdrawn") return false;
+  const newest = runs.find(hasPlayableVideo);
+  if (!newest) return false;
+  return now.getTime() - Date.parse(newest.runAt) < CARD_SUMMARY_DAYS * 24 * 60 * 60 * 1e3;
+}
+function cardSummaryState(db2, cardId, opts = {}) {
+  const row = getRow(db2, `SELECT status, test_reports FROM cards WHERE id = ?`, cardId);
+  if (!row) return { state: "none" };
+  const data = collectReportData(db2, cardId, { homeDir: opts.homeDir, cardOnly: true });
+  if (!data) return { state: "none" };
+  const spec = buildSummarySpec(data);
+  if (!summaryHasClips(spec)) return { state: "none" };
+  const dir = cardSummaryDir(cardId, opts.homeDir);
+  let note = null;
+  try {
+    note = JSON.parse(readFileSync5(path10.join(dir, CARD_SUMMARY_NOTE), "utf8"));
+  } catch {
+  }
+  const current = note?.sourceKey === cardSummarySourceKey(spec);
+  const file2 = path10.join(dir, CARD_SUMMARY_FILE);
+  if (current && note?.renderedAt && fileBytes(file2) !== null) return { state: "ready", file: file2, version: note.renderedAt };
+  if (current && (note?.failures ?? 0) >= RENDER_MAX_FAILURES) return { state: "none" };
+  return cardSummaryWanted(row.status, parseTestReports(row.test_reports) ?? [], opts.now) ? { state: "pending" } : { state: "none" };
+}
+function buildRunReport(db2, cardId, opts = {}) {
+  let data = collectReportData(db2, cardId, opts);
   if (!data) return null;
+  const spec = summarySpecOf(db2, data);
+  const ready = readySummary(data, spec, opts.homeDir);
+  let summary = { state: summaryHasClips(spec) ? "not-ready" : "none" };
+  if (ready) {
+    summary = {
+      state: "in-file",
+      src: `data:video/mp4;base64,${readFileSync5(ready.file).toString("base64")}`,
+      bytes: ready.bytes,
+      durationSec: summaryDuration(spec)
+    };
+    const cap = opts.videoCapBytes ?? RUN_REPORT_VIDEO_CAP_BYTES;
+    data = collectReportData(db2, cardId, { ...opts, videoCapBytes: Math.max(0, cap - ready.bytes) }) ?? data;
+  }
   const html = renderRunReport(data, (ref) => {
     const mime = MIME2[path10.extname(ref.file).toLowerCase()];
     if (!mime) return null;
@@ -34774,13 +35602,14 @@ function buildRunReport(db2, cardId, opts = {}) {
     } catch {
       return null;
     }
-  });
+  }, summary);
   return {
     html,
     filename: runReportFilename(data.code, data.generatedAt),
     bytes: Buffer.byteLength(html),
     videosEmbedded: data.videos.embedded,
-    videosLeftOut: data.videos.leftOut
+    videosLeftOut: data.videos.leftOut,
+    summaryVideo: summary.state
   };
 }
 function writeRunReport(db2, cardId, opts = {}) {
@@ -34790,7 +35619,7 @@ function writeRunReport(db2, cardId, opts = {}) {
   mkdirSync6(folder, { recursive: true });
   const file2 = path10.join(folder, built.filename);
   writeFileSync3(file2, built.html);
-  return { path: file2, bytes: built.bytes, videosEmbedded: built.videosEmbedded, videosLeftOut: built.videosLeftOut };
+  return { path: file2, bytes: built.bytes, videosEmbedded: built.videosEmbedded, videosLeftOut: built.videosLeftOut, summaryVideo: built.summaryVideo };
 }
 
 // ../lib/process-group.ts
@@ -34954,6 +35783,8 @@ var {
   persistCardFieldArtifacts: persistCardFieldArtifacts2,
   resolveCardRef: resolveCardRef2,
   chooseBoundPolicy: chooseBoundPolicy2,
+  bindSession: bindSession2,
+  findFreshUnboundCodexSession: findFreshUnboundCodexSession2,
   validateCardTitle: validateCardTitle2,
   cardAuthorship: cardAuthorship2,
   loadStoryInputs: loadStoryInputs2,
@@ -34980,6 +35811,7 @@ var {
   cardBaseBranch: cardBaseBranch2,
   cardIntegrationGroup: cardIntegrationGroup2,
   chainConflictText: chainConflictText2,
+  chainMainConflict: chainMainConflict2,
   chainMergeForCard: chainMergeForCard2,
   isChainParent: isChainParent2,
   syncMainIntoChain: syncMainIntoChain2,
@@ -35017,7 +35849,7 @@ var {
 var { parseTestReportItems: parseTestReportItems2, parseTestReports: parseTestReports2, buildTestReportRun: buildTestReportRun2, normalizeTestReportWarnings: normalizeTestReportWarnings2, MAX_ARTIFACTS_PER_ITEM: MAX_ARTIFACTS_PER_ITEM2 } = unwrap(test_report_exports);
 var { formatTestReport: formatTestReport2, selectTestReportRun: selectTestReportRun2, testReportCardSummary: testReportCardSummary2 } = unwrap(test_report_text_exports);
 var { importTerminalArtifacts: importTerminalArtifacts2, removeTestReportRunDirs: removeTestReportRunDirs2, testReportRunDir: testReportRunDir2 } = unwrap(test_report_files_exports);
-var { writeRunReport: writeRunReport2 } = unwrap(write_exports);
+var { cardSummaryState: cardSummaryState2, writeRunReport: writeRunReport2 } = unwrap(write_exports);
 var { attachmentRefs: attachmentRefs2, attachmentContentType: attachmentContentType2 } = unwrap(card_attachments_exports);
 var { canStartCard: canStartCard2, detectBoardPhase: detectBoardPhase2, terminalStartRefusal: terminalStartRefusal2 } = unwrap(card_phase_exports);
 var { parseTestProgress: parseTestProgress2, manualLimitMessage: manualLimitMessage2 } = unwrap(test_progress_exports);
@@ -35712,7 +36544,7 @@ function mergeChainText(result) {
     case "notRepo":
       return `${result.workingDir} is not a git repository. Nothing was merged.`;
     case "conflict":
-      return `${chainConflictText2(result.branch, result.files, result.worktreePath)} Nothing was merged.`;
+      return `${chainConflictText2(result.branch, result.files, result.worktreePath, { inProgress: result.inProgress })} Nothing was merged.`;
     case "failed":
       return withStashWarning(result.error, result.stashRestoreWarning);
   }
@@ -35790,6 +36622,8 @@ function readTestReport(db2, card, opts = {}) {
   const selected = selectTestReportRun2(runs, opts.run);
   if ("error" in selected) return fail(`get_test_report: ${selected.error}`);
   const run2 = runs[selected.index];
+  const newestVideo = runs.find((candidate) => candidate.video && !candidate.video.removedAt);
+  const summary = newestVideo?.id === run2.id ? cardSummaryState2(db2, card.id, { homeDir: opts.homeDir }) : null;
   const content = [
     {
       type: "text",
@@ -35801,7 +36635,8 @@ function readTestReport(db2, card, opts = {}) {
         checklistHtml: row?.testScenarios ?? null,
         screenshotsAttached: Boolean(opts.screenshots),
         // The recording's absolute path (IDE-699), for a terminal to open.
-        videoPath: run2.video ? path11.join(testReportRunDir2(card.id, run2.id, opts.homeDir), run2.video.file) : null
+        videoPath: run2.video ? path11.join(testReportRunDir2(card.id, run2.id, opts.homeDir), run2.video.file) : null,
+        summaryLine: summary?.state === "ready" ? `Summary video: ${summary.file}` : summary?.state === "pending" ? "Summary video: not ready yet; the app makes it while it is open and no run is going." : null
       })
     }
   ];
@@ -36270,7 +37105,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
     tools: [
       {
         name: "get_card",
-        description: "Get a kanban card by ID. When the card belongs to a chain, `chain` gives its place in that chain: position/total, predecessors and successors in chain order (displayId, title, status), and `next`, the chain's first member that is neither completed nor withdrawn. When the card has blocked-by links, `blockedBy` lists the cards it waits on and `blocks` the cards waiting on it, each with displayId, title, status, `landed` (its code is already in what this card would start from) and the link's note. When an opinion or plan suggested a link the user has not answered yet, `suggestedBlockedBy` lists those cards with the reason: ask the user, then add_dependency on yes or remove_dependency on no. When an opinion proposed breaking the card into cards and the user has not answered, `splitProposal` holds the cards: ask the user, then split_card on yes or split_card with keepAsOne on no. `split` names the card this one was broken out of (`parent`) and the cards broken out of it (`children`), with `role`, the one sentence this relation gives the card: a parent joins its children and shows the whole works end to end, a child keeps to its own scope. Each child carries `status`, `tests` (ticked/total such as 4/6, null without a checklist), a short `plan` summary, the `files` its plan names, and `ready`: Completed, in Human Test with every item ticked and its branch merged, or in its chain's branch, whatever its ticks say. A parent waits on its children by this stricter rule, so a child's `landed` in `blockedBy` follows `ready`; every other link keeps the plain code-is-in rule. `split.unwalkedChildItems` counts the items a child in the chain left that nothing walks, and `split.mergeReview` lists them per card with what Ralph decided there, read only, as the Merge window does. `finalTestReady: true` means a split parent with every child ready and no plan or checklist of its own: its next step is the End-to-end test (start_card_run), not a plan. When the card has a Test Report, `testReport` gives how many runs it holds and how the newest came out; read the runs themselves with get_test_report. When commits have touched the card's files since its checklist was written, `testsDrift` lists them (base, files, commits, total): the checklist may have gone stale. `planDrift` does the same since its plan was written: the code wins over the plan. When the plan's Files list and what the card's work changed disagree, `planVsBranch` lists both sides: `touched`, `untouched` (planned, not changed yet) and `offPlan` (changed, not in the plan), read from its worktree, its branch, or (`source: commits`) its `Card:` trailer commits. When a Backlog or Bugs card's plan carries `[NEEDS_DECISION: \u2026]` questions, `planDecisions` lists them: the card does not start or queue until the user writes the decision into the plan and deletes the marker. `decisions` is the card's decision ledger, read only: each question Ralph took with the recommended option (kind `acceptance`, with `recommended` and the plan `step` it shaped); its plan shows them as `[NEEDS_DECISION accepted: \u2026]`. Kind `revision` is a checklist item Ralph reworded (`originalText`, `newText`, `reason`; source `ralph-verify-core` when it was a core-flow item on a checklist Ralph wrote itself). Source `ralph-unverifiable` is an item Ralph could not verify on this machine (`item`, `reason`), now `[manual]` and the person's. `authorship` says who wrote and who last edited each tab (`you` or `ideafy`, with the date) and who ticked each checked item, so you can see what the user changed by hand. `story` is the card's eight steps (Idea, Verdict, Argued, Plan, Built, Proof, Your test, Merge; seven on a Work card) with who moves at each and its state (done, now, todo, skipped), the step in play as `now`, and `banner`, whose move it is in the words of the app's turn banner (null when nobody's).",
+        description: "Get a kanban card by ID. When the card belongs to a chain, `chain` gives its place in that chain: position/total, predecessors and successors in chain order (displayId, title, status), and `next`, the chain's first member that is neither completed nor withdrawn. `chain.mainConflict: { files }` appears when bringing main into the chain's integration branch would conflict (a dry run; nothing is merged). When the card has blocked-by links, `blockedBy` lists the cards it waits on and `blocks` the cards waiting on it, each with displayId, title, status, `landed` (its code is already in what this card would start from) and the link's note. When an opinion or plan suggested a link the user has not answered yet, `suggestedBlockedBy` lists those cards with the reason: ask the user, then add_dependency on yes or remove_dependency on no. When an opinion proposed breaking the card into cards and the user has not answered, `splitProposal` holds the cards: ask the user, then split_card on yes or split_card with keepAsOne on no. `split` names the card this one was broken out of (`parent`) and the cards broken out of it (`children`), with `role`, the one sentence this relation gives the card: a parent joins its children and shows the whole works end to end, a child keeps to its own scope. Each child carries `status`, `tests` (ticked/total such as 4/6, null without a checklist), a short `plan` summary, the `files` its plan names, and `ready`: Completed, in Human Test with every item ticked and its branch merged, or in its chain's branch, whatever its ticks say. A parent waits on its children by this stricter rule, so a child's `landed` in `blockedBy` follows `ready`; every other link keeps the plain code-is-in rule. `split.unwalkedChildItems` counts the items a child in the chain left that nothing walks, and `split.mergeReview` lists them per card with what Ralph decided there, read only, as the Merge window does. `finalTestReady: true` means a split parent with every child ready and no plan or checklist of its own: its next step is the End-to-end test (start_card_run), not a plan. When the card has a Test Report, `testReport` gives how many runs it holds and how the newest came out; read the runs themselves with get_test_report. When commits have touched the card's files since its checklist was written, `testsDrift` lists them (base, files, commits, total): the checklist may have gone stale. `planDrift` does the same since its plan was written: the code wins over the plan. When the plan's Files list and what the card's work changed disagree, `planVsBranch` lists both sides: `touched`, `untouched` (planned, not changed yet) and `offPlan` (changed, not in the plan), read from its worktree, its branch, or (`source: commits`) its `Card:` trailer commits. When a Backlog or Bugs card's plan carries `[NEEDS_DECISION: \u2026]` questions, `planDecisions` lists them: the card does not start or queue until the user writes the decision into the plan and deletes the marker. `decisions` is the card's decision ledger, read only: each question Ralph took with the recommended option (kind `acceptance`, with `recommended` and the plan `step` it shaped); its plan shows them as `[NEEDS_DECISION accepted: \u2026]`. Kind `revision` is a checklist item Ralph reworded (`originalText`, `newText`, `reason`; source `ralph-verify-core` when it was a core-flow item on a checklist Ralph wrote itself). Source `ralph-unverifiable` is an item Ralph could not verify on this machine (`item`, `reason`), now `[manual]` and the person's. `authorship` says who wrote and who last edited each tab (`you` or `ideafy`, with the date) and who ticked each checked item, so you can see what the user changed by hand. `story` is the card's eight steps (Idea, Verdict, Argued, Plan, Built, Proof, Your test, Merge; seven on a Work card) with who moves at each and its state (done, now, todo, skipped), the step in play as `now`, and `banner`, whose move it is in the words of the app's turn banner (null when nobody's).",
         inputSchema: {
           type: "object",
           properties: {
@@ -36311,7 +37146,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
       },
       {
         name: "export_run_report",
-        description: "Write a Ralph run report as one HTML file with its screenshots and videos inside: the same file as the app's Download report. It opens on a double-click, on a phone too, with no server. A card in a chain reports its whole chain. Holds where each card stands and which commit it landed with, the timeline with each stop's reason, the decisions Ralph took, the test results, time and cost, and a rule-based Look at first list; no AI commentary. Built from the card as it is now, so write it again after a Continue. Screenshots and videos may contain sensitive data: say so when you hand the path over. Returns the file's path, its size and how many videos did not fit under the size limit. Nothing on the card changes.",
+        description: "Write a Ralph run report as one HTML file with its screenshots and videos inside: the same file as the app's Download report. It opens on a double-click, on a phone too, with no server. A card in a chain reports its whole chain. Holds where each card stands and which commit it landed with, the timeline with each stop's reason, the decisions Ralph took, the test results, time and cost, and a rule-based Look at first list; no AI commentary. Built from the card as it is now, so write it again after a Continue. Screenshots and videos may contain sensitive data: say so when you hand the path over. Returns the file's path, its size, how many videos did not fit under the size limit and whether the summary video is in the file. Nothing on the card changes.",
         inputSchema: {
           type: "object",
           properties: {
@@ -36726,6 +37561,8 @@ Test Report (report): when you have just verified checklist items yourself \u201
                       steps: { type: "array", items: { type: "string" }, description: "One action each: URL opened, command run, what was clicked or typed." },
                       expected: { type: "string" },
                       observed: { type: "string" },
+                      plainItem: { type: "string", description: "What this item tries, one sentence for someone who has never seen the code: no code, column or file names, commands, ports or card IDs. The run's video and report show it first; item stays word for word." },
+                      plainObserved: { type: "string", description: "What you saw, in one such sentence. Only what observed also says; on a failed item, what went wrong." },
                       impact: {
                         type: "string",
                         enum: ["broken", "flaw", "cosmetic", "test_wrong"],
@@ -37217,20 +38054,20 @@ The server writes the card's verdict, score, priority and complexity from those 
       },
       {
         name: "bind_session_to_card",
-        description: "Bind the current Claude Code session to an Ideafy card. The call returns the card's phase policy, which applies from this turn onward; the hook re-injects it on every later turn. A session running outside the card's project folder (global mode) gets the global policy instead: board work only, code work handed off. Call this immediately after create_card when starting work from a plain terminal, or when the user names an existing card (e.g. 'this is for IDE-125'). The sessionId is provided by Claude Code in the hook input as the session_id field.",
+        description: "Bind the current Claude Code or Codex session to an Ideafy card. The call returns the card's phase policy, which applies from this turn onward; in Claude Code the hook re-injects it on every later turn. A session running outside the card's project folder (global mode) gets the global policy instead: board work only, code work handed off. Call this immediately after create_card when starting work from a plain terminal, or when the user names an existing card (e.g. 'this is for IDE-125'). Claude Code provides the sessionId in the hook input as the session_id field. A Codex session (CLI or the ChatGPT app) does not know its own id: leave sessionId out and the board binds the Codex session that just started a turn here; if it answers that more than one is open, ask the user for the session id (`codex resume` lists them).",
         inputSchema: {
           type: "object",
           properties: {
             sessionId: {
               type: "string",
-              description: "Claude Code session ID. Read it from the hook input's session_id field, or from the SESSION_ID environment variable if available."
+              description: "Session ID. Claude Code: read it from the hook input's session_id field, or from the SESSION_ID environment variable if available. Codex: leave it out unless the user gave you one."
             },
             cardId: {
               type: "string",
               description: "Card to bind this session to: UUID, display ID (e.g., IDE-125), or task number."
             }
           },
-          required: ["sessionId", "cardId"]
+          required: ["cardId"]
         }
       }
     ]
@@ -37286,7 +38123,11 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         card.outputPaths = outputPaths.length ? outputPaths : null;
         const chain = getChainForCard(db, card);
         if (chain) {
-          card.chain = chain;
+          const mainConflict = card.groupId ? chainMainConflict2(db, card.groupId) : null;
+          card.chain = {
+            ...chain,
+            ...mainConflict ? { mainConflict: { files: mainConflict.files } } : {}
+          };
         }
         const dependencies = listDependencies2(db, card.id);
         if (dependencies && (dependencies.blockedBy.length > 0 || dependencies.blocks.length > 0)) {
@@ -37481,10 +38322,11 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         }
         const megabytes = (written.bytes / (1024 * 1024)).toFixed(1);
         const leftOut = written.videosLeftOut > 0 ? ` ${written.videosLeftOut} video(s) did not fit under the size limit: the file names them and they stay on the card.` : "";
+        const summaryNote = written.summaryVideo === "in-file" ? " A summary video is on top." : written.summaryVideo === "not-ready" ? " No summary video yet: the app renders it while it is open; write the report again afterwards." : "";
         return {
           content: [{
             type: "text",
-            text: `Run report written: ${written.path} (${megabytes} MB, ${written.videosEmbedded} video(s) inside).${leftOut} Screenshots and videos may contain sensitive data: check before sharing.`
+            text: `Run report written: ${written.path} (${megabytes} MB, ${written.videosEmbedded} video(s) inside).${leftOut}${summaryNote} Screenshots and videos may contain sensitive data: check before sharing.`
           }]
         };
       }
@@ -38407,7 +39249,7 @@ ${formatWarning}` : ""}` }]
               content: [
                 {
                   type: "text",
-                  text: synced.kind === "conflict" ? chainConflictText2(synced.branch, synced.files, synced.worktreePath) : `Could not merge main into the chain's branch: ${synced.error}`
+                  text: synced.kind === "conflict" ? chainConflictText2(synced.branch, synced.files, synced.worktreePath, { inProgress: synced.inProgress }) : `Could not merge main into the chain's branch: ${synced.error}`
                 }
               ],
               isError: true
@@ -38444,12 +39286,28 @@ ${formatWarning}` : ""}` }]
         };
       }
       case "bind_session_to_card": {
-        const { sessionId, cardId } = args;
-        if (!sessionId || !cardId) {
+        const { sessionId: givenSessionId, cardId } = args;
+        if (!cardId) {
           return {
-            content: [{ type: "text", text: "sessionId and cardId are required" }],
+            content: [{ type: "text", text: "cardId is required" }],
             isError: true
           };
+        }
+        let sessionId = givenSessionId ?? "";
+        if (!sessionId) {
+          const fallback = findFreshUnboundCodexSession2(db, Date.now(), { cwd: process.cwd() });
+          if (fallback.kind !== "one") {
+            return {
+              content: [
+                {
+                  type: "text",
+                  text: fallback.kind === "many" ? `${fallback.count} Codex sessions started a turn in the last two minutes and none is bound; pass sessionId to say which one.` : "No session to bind: pass sessionId. In Codex, install the hooks in Ideafy's Settings \u2192 Connections (Codex CLI row) so the board can see this session."
+                }
+              ],
+              isError: true
+            };
+          }
+          sessionId = fallback.sessionId;
         }
         const existing = db.prepare(`SELECT session_id, cwd FROM ideafy_sessions WHERE session_id = ?`).get(sessionId);
         const sessionDir = existing?.cwd || process.cwd();
@@ -38466,16 +39324,12 @@ ${formatWarning}` : ""}` }]
             isError: true
           };
         }
-        const now = (/* @__PURE__ */ new Date()).toISOString();
-        if (existing) {
-          db.prepare(
-            `UPDATE ideafy_sessions SET project_id = ?, state = 'bound', card_id = ?, updated_at = ? WHERE session_id = ?`
-          ).run(card.projectId, card.id, now, sessionId);
-        } else {
-          db.prepare(
-            `INSERT INTO ideafy_sessions (session_id, project_id, state, card_id, created_at, updated_at) VALUES (?, ?, 'bound', ?, ?, ?)`
-          ).run(sessionId, card.projectId, card.id, now, now);
-        }
+        bindSession2(db, {
+          sessionId,
+          cardId: card.id,
+          projectId: card.projectId,
+          now: (/* @__PURE__ */ new Date()).toISOString()
+        });
         const project = card.projectId ? db.prepare(
           // SELECT * for the same reason as ensure_branch: `mode` may
           // not exist yet on a DB the app has not migrated.
@@ -38797,7 +39651,8 @@ ${waiting}` : ""}` : choice === "silent" ? `${bound} This session is outside eve
             rawMode === void 0 ? {} : { mode: rawMode, ...maxRounds !== void 0 ? { maxRounds } : {} }
           );
           if (!started.ok) {
-            const nextStep = started.heldBySession ? ` ${sessionHoldNextStep2(rawMode === "ralph" ? "Ralph" : "Autopilot")}` : "";
+            const conflict = started.chainConflict;
+            const nextStep = started.heldBySession ? ` ${sessionHoldNextStep2(rawMode === "ralph" ? "Ralph" : "Autopilot")}` : conflict ? ` Conflicting files: ${conflict.files.join(", ")}. Solve it in ${conflict.worktreePath} (git merge main, fix, commit, never a rebase), then send it again. Solve with AI on the card in the app does the same.` : "";
             return { content: [{ type: "text", text: `queue_card: ${started.message}. Nothing was written.${nextStep}` }], isError: true };
           }
           const runtime2 = readRuntime2(db);
@@ -38989,7 +39844,7 @@ ${waiting}` : ""}` : choice === "silent" ? `${bound} This session is outside eve
               SELECT
                 id, name, folder_path as folderPath, id_prefix as idPrefix,
                 color, next_task_number as nextTaskNumber,
-                voice
+                voice, narrative_path as narrativePath
               FROM projects
               WHERE id = ?
             `).get(match.id) : void 0;

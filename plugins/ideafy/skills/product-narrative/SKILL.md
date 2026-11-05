@@ -1,9 +1,9 @@
 ---
 name: product-narrative
 allowed-tools: Read, Write, Bash, Grep, Glob, Edit
-argument-hint: [optional output path]
-description: Interview the creator and write a rich product narrative, the document later AI runs use to judge whether an idea fits the product. Reads the codebase first, follows up where answers are thin, and updates an existing narrative in place.
-version: "2.0.0"
+argument-hint: [optional output path] [work]
+description: Interview the creator and write a rich product narrative, the document later AI runs use to judge whether an idea fits the product. Reads the codebase first, follows up where answers are thin, and updates an existing narrative in place. In a Work project it reads the folder's documents instead and writes the project brief.
+version: "2.1.1"
 ---
 
 # Product Narrative Interview
@@ -13,7 +13,12 @@ You interview the person who is building this product, then write its product na
 The narrative's main reader is the next AI that evaluates a new idea for this project: it judges "does this fit the product?" from this file. Write it so that reader can say no to an idea, and quote why. Its second reader is the person, who should recognize their own thinking in it, sharper than they said it.
 
 Argument: $ARGUMENTS
-If that ends in `.md`, it is the file to write. Otherwise (empty, or a placeholder left unfilled) write `docs/product-narrative.md`.
+
+Before anything else, settle two things:
+- **The mode.** If the argument contains the word `work`, this is a Work project. If it does not, and the Ideafy MCP tool `get_project_by_folder` is available, call it with the working directory: `project.mode` `work` means a Work project. In every other case (no MCP, no project found, mode `development`) it is a Development project.
+- **The file to write.** A word in the argument ending in `.md` is the file. Otherwise the project's `narrativePath` from `get_project_by_folder`, when it has one. Otherwise `docs/product-narrative.md`. A Work project never falls back to anything else: its file is whatever the argument or `narrativePath` names, usually `docs/project-brief.md`.
+
+**In a Work project, skip sections 1 to 4 below and follow "Work projects" at the end.** Everything up to there is the Development interview.
 
 ## 1. Read before you ask
 
@@ -99,3 +104,52 @@ The person may be coming back to a document that has grown with the product. Don
 4. Keep the document's structure and headings. Add a section from the list above only when they want it.
 5. Show the changes before writing. The new text replaces the old in place; the old sentence must not stay behind, because later AI runs read all of it.
 6. Before writing, copy the current file to `_archive/` next to it, with the date in the name. Do this even when the project uses git, because the file may be ignored by it.
+
+## Work projects
+
+A Work project is a folder of documents for a client job, a proposal or a rollout, not a codebase. You still interview the person, but you read documents instead of code and you write a project brief instead of a product narrative. The brief is what the next AI reads before writing any document in this folder.
+
+### Read before you ask
+
+Do not scan for code and do not run `git log` for history. List the folder's top level with one plain `ls -p` and nothing more: no `-R`, no loop over sub-folders, no `find`, no look inside `.claude/` or `_archive/`, and nothing above or outside the working directory. Sub-folders show up in that listing by name; name them to the person without opening them. Read CLAUDE.md and README if they exist, then at most five documents the person points at or whose name makes clear they are central (a SOW, a proposal, meeting minutes, a scope document). Name the rest without opening them. If a central file is a PDF or docx you cannot read, ask about it by name. Go into a sub-folder only when the person asks you to, and then only that one.
+
+Never ask what the documents already answer. Ask about it instead: "The SOW says three workshops by March. Is that still the commitment?" When a document and an answer disagree, say so and ask which one holds.
+
+If the target file already exists, follow "Updating an existing narrative" above; when the folder is not a git repository, skip its `git log` step.
+
+### Run the interview
+
+Same manner as the Development interview: one question at a time, in the person's language, reacting to each answer. Most good interviews take 8 to 15 questions.
+
+**You must cover these six brief topics.** The order and the number of questions are yours.
+
+1. **Context.** What the job is, for whom, and what was committed.
+2. **Stakeholders.** Who approves the deliverables, who only needs to be informed, and what each expects.
+3. **Outputs.** Which documents this folder produces, and who reads each one.
+4. **Out of scope.** What the job does not cover. Ask which request they are most tempted to say yes to; if the answer stays general, ask for a concrete name.
+5. **References.** Which documents in the folder are binding and which are background.
+6. **Done & rhythm.** What done means, deadlines, and recurring meetings or reports (a steering committee, a monthly report).
+
+The follow-up rules are the same as in the Development interview: ask for an example when an answer is vague, name a contradiction and ask which side wins, raise a risk they did not mention.
+
+**Do not ask** about tone, audience, writing rules, rivals, business model or the tech stack. The first three belong to CLAUDE.md and the project's templates, not to the brief; the rest do not apply to a document job.
+
+### Check before writing
+
+Show three things and ask if they are right: the one-sentence context, the out-of-scope list, and the reference list. Ask only this in that message, and wait for a clear yes before writing.
+
+### Write the brief
+
+Title line: `# Project Brief: {Project name}`. Then these `##` headings, exactly as written in English, in this order. Write everything else in the person's language.
+
+- **Context.** What the project is, for whom, and the commitment behind it.
+- **Stakeholders.** Who is involved, their role, and what each expects.
+- **Outputs.** The documents and deliverables produced here, and who reads them.
+- **Out of scope.** What this project does not cover, each item with its reason.
+- **References.** The documents as the person named them, one per line with its note and whether it is binding. Never rename, shorten or invent paths and links.
+- **Working rhythm.** What done looks like, deadlines, recurring meetings or reports.
+- **Open questions.** What is still undecided.
+
+There is no Vision, Positioning, Technical decisions or Evaluation section in a brief. Never state as fact what the person did not say or the documents do not show; what you infer starts with `Assumption:` (`Varsayım:` when writing Turkish) or goes to Open questions. End with the date.
+
+Create the parent folder if needed, write the file, and tell them its path.
