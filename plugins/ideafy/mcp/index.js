@@ -20999,6 +20999,7 @@ __export(test_progress_exports, {
   SPLIT_FLOWS_HEADING: () => SPLIT_FLOWS_HEADING,
   UI_ITEM_TOKEN: () => UI_ITEM_TOKEN,
   allUiItemTexts: () => allUiItemTexts,
+  appendFinalTestPlanNote: () => appendFinalTestPlanNote,
   canVerifyAllGroups: () => canVerifyAllGroups,
   carrySplitFlows: () => carrySplitFlows,
   checklistItems: () => checklistItems,
@@ -21144,6 +21145,10 @@ function finalTestNote(children) {
 var FINAL_TEST_NOTE = /^All \d+ child cards? (?:is|are) ready; no plan was written\.$/;
 function isFinalTestNote(html) {
   return FINAL_TEST_NOTE.test(plainTextLabel(html ?? ""));
+}
+function appendFinalTestPlanNote(description, note) {
+  const text2 = note.trim().replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\r?\n/g, "<br>");
+  return `${description ?? ""}<p><strong>The final test showed (plan only this):</strong> ${text2}</p>`;
 }
 function hasRealPlan(html) {
   return plainTextLabel(html ?? "") !== "" && !isFinalTestNote(html);
@@ -21645,7 +21650,7 @@ function sanitizeForReminder(value, maxLength = 120) {
   const neutralized = collapsed.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, '\\"');
   return neutralized.length > maxLength ? `${neutralized.slice(0, maxLength)}\u2026` : neutralized;
 }
-var SPLIT_PARENT_RULE = "This card was split into the cards below. Your job is to join the pieces and show the idea works end to end. Do not redo what the child cards did: read their plans and changes first (get_card). Fix a joining gap in your own plan and commit; for a bigger gap, propose a new card. The `## End-to-end` group on its checklist was written before any child existed: when you write the checklist, write that group too, after your own groups and under the same heading, naming the children's real cards, screens and files. A flow that needs nested AI runs or a merge is still a run's to walk on a verify-server copy; give a long one its own group rather than `[manual]`, which stays for what no run on this machine can do. Once every child is ready and the card has neither a plan nor a checklist of its own, its next step is the final test, not a plan: it walks the `## End-to-end` flows as they stand, a failed flow gets one fix through the verify-fix round, and it stops at Ready to merge. Write a plan only if the person asks for one. Nothing walks the items a child in the chain left unticked; Merge counts them.";
+var SPLIT_PARENT_RULE = "This card was split into the cards below. Your job is to join the pieces and show the idea works end to end. Do not redo what the child cards did: read their plans and changes first (get_card). Fix a joining gap in your own plan and commit; for a bigger gap, propose a new card. The `## End-to-end` group on its checklist was written before any child existed: when you write the checklist, write that group too, after your own groups and under the same heading, naming the children's real cards, screens and files. A flow that needs nested AI runs or a merge is still a run's to walk on a verify-server copy; give a long one its own group rather than `[manual]`, which stays for what no run on this machine can do. Once every child is ready and the card has neither a plan nor a checklist of its own, its next step is the final test, not a plan: it walks the `## End-to-end` flows as they stand, a failed flow gets one fix through the verify-fix round, and it stops at Ready to merge. Write a plan only if the person asks for one: a plan after the final test sends the card back to In Progress and clears the End-to-end ticks, so the flows are walked again on the new code. Starting that plan with start_card_run takes `planNote`: ask the person what the test showed. Nothing walks the items a child in the chain left unticked; Merge lists them.";
 function splitChildRule(parentName) {
   return `Your scope is this card; ${parentName} joins the whole. Do not take on the parent card's work.`;
 }
@@ -21774,6 +21779,20 @@ ${body}
 `;
 }
 function buildCreationOfferPolicy(project, signals) {
+  if (project.mode === "work") {
+    return [
+      "<system-reminder>",
+      `You are in Ideafy project "${sanitizeForReminder(project.name)}" (projectId: ${project.id}), a Work project.`,
+      "No Ideafy card is bound to this session. Do not offer or ask about a card;",
+      "start on what the user asked for.",
+      "If the user asks for a card, in this message or a later one, call create_card",
+      "with this projectId (status ideation, backlog or bugs, from their wording),",
+      "then bind_session_to_card with the returned id, then carry on with their work.",
+      "If they name an existing card, bind to it without creating a new one.",
+      "</system-reminder>",
+      ""
+    ].join("\n");
+  }
   const exceptionClause = [
     "1. EXCEPTION \u2014 settle this BEFORE anything below. If the user's message",
     `   already asks for a card ("Ideafy'da bir kart a\xE7", "create a card for`,
@@ -22317,6 +22336,7 @@ __export(chain_order_exports, {
   chainOrderWarning: () => chainOrderWarning,
   classifyChainMember: () => classifyChainMember,
   compareByChainOrder: () => compareByChainOrder,
+  finalTestPlanOpen: () => finalTestPlanOpen,
   hasLanded: () => hasLanded,
   isFinalTestReady: () => isFinalTestReady,
   isFinished: () => isFinished,
@@ -22328,7 +22348,8 @@ __export(chain_order_exports, {
   openLinkReason: () => openLinkReason,
   placeAfter: () => placeAfter,
   testTicks: () => testTicks,
-  unwalkedItems: () => unwalkedItems
+  unwalkedItems: () => unwalkedItems,
+  unwalkedItemsOf: () => unwalkedItemsOf
 });
 var isFinished = (card) => card.status === "completed" || card.status === "withdrawn";
 function compareByChainOrder(a, b2) {
@@ -22378,11 +22399,18 @@ function isFinalTestReady(parent, children) {
   if (live.length === 0 || !live.every(isReadyForParent)) return false;
   return !!nextVerifyGroup(parseTestProgress(parent.testScenarios ?? ""));
 }
+function finalTestPlanOpen(card) {
+  return card.status === "test" && card.gitBranchStatus !== "in_chain" && isFinalTestNote(card.solutionSummary) && flowsOnlyChecklist(card.testScenarios);
+}
 function unwalkedItems(children) {
   return children.filter((child) => child.status === "test").reduce((sum, child) => {
     const progress = parseTestProgress(child.testScenarios ?? "");
     return sum + (progress ? progress.total - progress.checked : 0);
   }, 0);
+}
+function unwalkedItemsOf(child) {
+  if (child.status !== "test") return [];
+  return checklistItems(child.testScenarios ?? "").filter((item) => !item.checked).map((item) => ({ text: item.text, heading: item.heading }));
 }
 function chainMergeBlocker(testScenarios) {
   const progress = parseTestProgress(testScenarios ?? "");
@@ -22966,7 +22994,9 @@ __export(card_ops_exports, {
   autopilotLine: () => autopilotLine,
   autopilotModeFor: () => autopilotModeFor,
   autopilotRefusal: () => autopilotRefusal,
+  boundSessionHearsPolicy: () => boundSessionHearsPolicy,
   branchStoryCounts: () => branchStoryCounts,
+  canReopenFinalTest: () => canReopenFinalTest,
   cardAuthorship: () => cardAuthorship,
   cardBaseBranch: () => cardBaseBranch,
   cardHasRalphEvents: () => cardHasRalphEvents,
@@ -22981,6 +23011,7 @@ __export(card_ops_exports, {
   chainCheckWarnings: () => chainCheckWarnings,
   chainConflictText: () => chainConflictText,
   chainMergeForCard: () => chainMergeForCard,
+  chainMergeReview: () => chainMergeReview,
   chainOrderWarningFor: () => chainOrderWarningFor,
   chainRalphDeadlineFor: () => chainRalphDeadlineFor,
   chainUnwalkedItems: () => chainUnwalkedItems,
@@ -23031,6 +23062,7 @@ __export(card_ops_exports, {
   hasRalphLoopColumns: () => hasRalphLoopColumns,
   hasSplitTables: () => hasSplitTables,
   hasSuggestionTable: () => hasSuggestionTable,
+  hintBindsSession: () => hintBindsSession,
   integrationBranchName: () => integrationBranchName,
   integrationGateMembers: () => integrationGateMembers,
   integrationOnText: () => integrationOnText,
@@ -23054,6 +23086,8 @@ __export(card_ops_exports, {
   mergeCard: () => mergeCard,
   mergeChain: () => mergeChain,
   mergeCommitMessage: () => mergeCommitMessage,
+  mergeReviewFor: () => mergeReviewFor,
+  mergeReviewText: () => mergeReviewText,
   moveCard: () => moveCard,
   moveCardInChain: () => moveCardInChain,
   nextQueueStep: () => nextQueueStep,
@@ -23093,6 +23127,7 @@ __export(card_ops_exports, {
   recordRalphStopByPerson: () => recordRalphStopByPerson,
   rememberWorkTemplate: () => rememberWorkTemplate,
   removeDependency: () => removeDependency,
+  reopenFinalTest: () => reopenFinalTest,
   resolveCardRef: () => resolveCardRef,
   resolveProjectByFolder: () => resolveProjectByFolder,
   restoreDependencies: () => restoreDependencies,
@@ -23112,6 +23147,7 @@ __export(card_ops_exports, {
   saveTests: () => saveTests,
   serializeBooleanForDb: () => serializeBooleanForDb,
   serializeUseWorktreeForDb: () => serializeUseWorktreeForDb,
+  sessionHoldNextStep: () => sessionHoldNextStep,
   setAutopilotStage: () => setAutopilotStage,
   setBlockedBy: () => setBlockedBy,
   setCardRuntime: () => setCardRuntime,
@@ -28907,6 +28943,62 @@ function browserPrereqs() {
   return result;
 }
 
+// ../lib/decision-ledger.ts
+var RALPH_CORE_REVISION_SOURCE = "ralph-verify-core";
+var RALPH_UNVERIFIABLE_SOURCE = "ralph-unverifiable";
+var RECOMMENDED_RE = /\s*[—–]\s*recommended:\s*|\s+-{1,2}\s*recommended:\s*/i;
+var OPEN_MARKER_RE = /\[NEEDS_DECISION:([^\]\n]*)\]/gi;
+var CODE_RE = /(<pre[\s>][\s\S]*?<\/pre>|<code[\s>][\s\S]*?<\/code>|```[\s\S]*?```|`[^`\n]*`)/gi;
+var EXCERPT_MAX = 240;
+var INLINE_RECOMMENDED_MAX = 120;
+function splitRecommended(text2) {
+  const clean = text2.replace(/\s+/g, " ").trim();
+  const m2 = RECOMMENDED_RE.exec(clean);
+  if (!m2) return { question: clean, recommended: null };
+  const question = clean.slice(0, m2.index).trim();
+  const recommended = clean.slice(m2.index + m2[0].length).trim();
+  return { question: question || clean, recommended: recommended || null };
+}
+function shorten(text2, max) {
+  const flat = text2.replace(/\s+/g, " ").trim();
+  return flat.length > max ? `${flat.slice(0, max - 1).trimEnd()}\u2026` : flat;
+}
+function stepExcerptBefore(planBefore) {
+  const lines2 = planText(planBefore).split("\n");
+  const own = (lines2.pop() ?? "").replace(/\[NEEDS_DECISION[^\]\n]*\]/gi, "").trim();
+  if (own) return shorten(own, EXCERPT_MAX);
+  for (let i = lines2.length - 1; i >= 0; i--) {
+    const line = lines2[i].replace(/\[NEEDS_DECISION[^\]\n]*\]/gi, "").trim();
+    if (line) return shorten(line, EXCERPT_MAX);
+  }
+  return null;
+}
+function escapeHtml2(text2) {
+  return text2.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+function acceptPlanMarkers(planHtml) {
+  const accepted = [];
+  if (!/NEEDS_DECISION:/i.test(planHtml)) return { html: planHtml, accepted };
+  const parts = planHtml.split(CODE_RE);
+  let offset = 0;
+  const out = parts.map((part, index) => {
+    const start = offset;
+    offset += part.length;
+    if (index % 2 === 1) return part;
+    return part.replace(OPEN_MARKER_RE, (whole, raw, at) => {
+      const text2 = decodeEntities(raw.replace(/<[^>]*>/g, "")).replace(/\s+/g, " ").trim();
+      if (isDecisionPlaceholder(text2)) return whole;
+      const { question, recommended } = splitRecommended(text2);
+      const stepExcerpt = stepExcerptBefore(planHtml.slice(0, start + at));
+      accepted.push({ question, recommended: recommended ?? stepExcerpt, stepExcerpt });
+      if (recommended) return `[NEEDS_DECISION accepted:${raw}]`;
+      const tail = stepExcerpt ? shorten(stepExcerpt.replace(/[[\]]/g, ""), INLINE_RECOMMENDED_MAX) : "the option the step above is written with";
+      return `[NEEDS_DECISION accepted:${raw.replace(/\s+$/, "")} \u2014 recommended: ${escapeHtml2(tail)}]`;
+    });
+  });
+  return { html: out.join(""), accepted };
+}
+
 // ../lib/card-ops/branch-files.ts
 import { existsSync as existsSync7 } from "fs";
 function defaultBranchName(repo) {
@@ -29004,62 +29096,6 @@ function planBranchFilesFor(db2, cardId) {
   } catch {
     return null;
   }
-}
-
-// ../lib/decision-ledger.ts
-var RALPH_CORE_REVISION_SOURCE = "ralph-verify-core";
-var RALPH_UNVERIFIABLE_SOURCE = "ralph-unverifiable";
-var RECOMMENDED_RE = /\s*[—–]\s*recommended:\s*|\s+-{1,2}\s*recommended:\s*/i;
-var OPEN_MARKER_RE = /\[NEEDS_DECISION:([^\]\n]*)\]/gi;
-var CODE_RE = /(<pre[\s>][\s\S]*?<\/pre>|<code[\s>][\s\S]*?<\/code>|```[\s\S]*?```|`[^`\n]*`)/gi;
-var EXCERPT_MAX = 240;
-var INLINE_RECOMMENDED_MAX = 120;
-function splitRecommended(text2) {
-  const clean = text2.replace(/\s+/g, " ").trim();
-  const m2 = RECOMMENDED_RE.exec(clean);
-  if (!m2) return { question: clean, recommended: null };
-  const question = clean.slice(0, m2.index).trim();
-  const recommended = clean.slice(m2.index + m2[0].length).trim();
-  return { question: question || clean, recommended: recommended || null };
-}
-function shorten(text2, max) {
-  const flat = text2.replace(/\s+/g, " ").trim();
-  return flat.length > max ? `${flat.slice(0, max - 1).trimEnd()}\u2026` : flat;
-}
-function stepExcerptBefore(planBefore) {
-  const lines2 = planText(planBefore).split("\n");
-  const own = (lines2.pop() ?? "").replace(/\[NEEDS_DECISION[^\]\n]*\]/gi, "").trim();
-  if (own) return shorten(own, EXCERPT_MAX);
-  for (let i = lines2.length - 1; i >= 0; i--) {
-    const line = lines2[i].replace(/\[NEEDS_DECISION[^\]\n]*\]/gi, "").trim();
-    if (line) return shorten(line, EXCERPT_MAX);
-  }
-  return null;
-}
-function escapeHtml2(text2) {
-  return text2.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-}
-function acceptPlanMarkers(planHtml) {
-  const accepted = [];
-  if (!/NEEDS_DECISION:/i.test(planHtml)) return { html: planHtml, accepted };
-  const parts = planHtml.split(CODE_RE);
-  let offset = 0;
-  const out = parts.map((part, index) => {
-    const start = offset;
-    offset += part.length;
-    if (index % 2 === 1) return part;
-    return part.replace(OPEN_MARKER_RE, (whole, raw, at) => {
-      const text2 = decodeEntities(raw.replace(/<[^>]*>/g, "")).replace(/\s+/g, " ").trim();
-      if (isDecisionPlaceholder(text2)) return whole;
-      const { question, recommended } = splitRecommended(text2);
-      const stepExcerpt = stepExcerptBefore(planHtml.slice(0, start + at));
-      accepted.push({ question, recommended: recommended ?? stepExcerpt, stepExcerpt });
-      if (recommended) return `[NEEDS_DECISION accepted:${raw}]`;
-      const tail = stepExcerpt ? shorten(stepExcerpt.replace(/[[\]]/g, ""), INLINE_RECOMMENDED_MAX) : "the option the step above is written with";
-      return `[NEEDS_DECISION accepted:${raw.replace(/\s+$/, "")} \u2014 recommended: ${escapeHtml2(tail)}]`;
-    });
-  });
-  return { html: out.join(""), accepted };
 }
 
 // ../lib/card-ops/decision-ledger.ts
@@ -29167,7 +29203,7 @@ function acceptedDecisionCounts(db2) {
 var MAX_LISTED = 20;
 var MAX_FILES = 200;
 var escapeRegExp3 = (text2) => text2.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-function driftSince(db2, cardId, field) {
+function driftSince(db2, cardId, field, opts = {}) {
   try {
     if (!hasBaseCommitColumns(db2)) return null;
     const row = getRow(
@@ -29196,12 +29232,13 @@ function driftSince(db2, cardId, field) {
     const tip = chainTip?.ref ?? "HEAD";
     const log = gitRead(repo, ["log", "--format=%H%x1f%s%x1f%cI%x1f%b%x1e", `${base}..${tip}`, "--", ...watched]);
     if (log === null) return null;
-    const ownTrailer = displayId ? new RegExp(`^Card: ${escapeRegExp3(displayId)}\\s*$`, "m") : null;
+    const skipped = [displayId, ...opts.ignoreCards ?? []].filter((id) => !!id);
+    const skipTrailer = skipped.length > 0 ? new RegExp(`^Card: (?:${skipped.map(escapeRegExp3).join("|")})\\s*$`, "m") : null;
     const commits = [];
     for (const record2 of log.split("")) {
       const [sha, subject, at, body] = record2.replace(/^\n+/, "").split("");
       if (!sha || !/^[0-9a-f]{40}$/.test(sha.trim())) continue;
-      if (ownTrailer?.test(body ?? "")) continue;
+      if (skipTrailer?.test(body ?? "")) continue;
       commits.push({ sha: sha.trim(), subject: (subject ?? "").trim(), at: (at ?? "").trim() });
     }
     return { base, files: watched, commits: commits.slice(0, MAX_LISTED), total: commits.length, head: chainTip?.sha ?? currentHead(repo) };
@@ -29269,18 +29306,70 @@ function enterFinalTest(db2, cardId, now) {
     return saved.ok ? { ok: true, children } : { ok: false, reason: "not-ready" };
   });
 }
+function reopenRow(db2, cardId) {
+  return getRow(
+    db2,
+    `SELECT status, description, solution_summary AS solutionSummary, test_scenarios AS testScenarios,
+       git_branch_status AS gitBranchStatus, processing_type AS processingType,
+       autopilot_stage AS autopilotStage, queue_position AS queuePosition
+     FROM cards WHERE id = ?`,
+    cardId
+  );
+}
+var mayReopen = (row) => !!row && finalTestPlanOpen(row) && !row.processingType && !isActiveAutopilotStage(row.autopilotStage) && row.queuePosition == null;
+function canReopenFinalTest(db2, cardId) {
+  return mayReopen(reopenRow(db2, cardId));
+}
+function reopenFinalTest(db2, cardId, now, author = IDEAFY_AUTHOR, note) {
+  return transaction(db2, () => {
+    const row = reopenRow(db2, cardId);
+    if (!mayReopen(row)) return false;
+    if (note?.trim()) {
+      const description = appendFinalTestPlanNote(row.description, note);
+      runChanges(db2, `UPDATE cards SET description = ? WHERE id = ?`, description, cardId);
+      recordAuthorship(db2, {
+        cardId,
+        author: YOU_AUTHOR,
+        now,
+        before: { description: row.description },
+        after: { description }
+      });
+    }
+    const before = row.testScenarios ?? "";
+    const after = untickTaskItems(before, extractTaskItems(before).map((item) => item.normalized));
+    runChanges(
+      db2,
+      `UPDATE cards SET test_scenarios = ?, autopilot_stage = NULL, autopilot_stop_reason = NULL,
+         autopilot_retried = 0, autopilot_fix_used = 0 WHERE id = ?`,
+      after,
+      cardId
+    );
+    recordAuthorship(db2, {
+      cardId,
+      author,
+      now,
+      before: { testScenarios: before },
+      after: { testScenarios: after },
+      ticksOnly: true
+    });
+    return moveCard(db2, cardId, "progress", now).ok;
+  });
+}
 function chainCheckFor(db2, cardId) {
   if (!hasSplitColumn2(db2)) return [];
   const check2 = [];
-  for (const child of childrenOf(db2, cardId)) {
+  const children = childrenOf(db2, cardId);
+  const nameOf3 = (child) => formatDisplayId(child.idPrefix, child.taskNumber);
+  for (const child of children) {
     if (child.status === "withdrawn") continue;
     const plan = planBranchFilesFor(db2, child.id);
+    const siblings = children.filter((other) => other.id !== child.id).map(nameOf3).filter((name) => !!name);
     const progress = parseTestProgress(child.testScenarios ?? "");
     const row = {
-      name: formatDisplayId(child.idPrefix, child.taskNumber) ?? child.title,
+      name: nameOf3(child) ?? child.title,
       untouched: plan?.rows.filter((file2) => file2.state === "planned").map((file2) => file2.path) ?? [],
       offPlan: plan?.rows.filter((file2) => file2.state === "outside").map((file2) => file2.path) ?? [],
-      driftCommits: testsDriftFor(db2, child.id)?.total ?? 0,
+      driftCommits: driftSince(db2, child.id, "tests", { ignoreCards: siblings })?.total ?? 0,
       // A Completed child was closed by someone: unwalkedItems does not count it either.
       unticked: progress && child.status === "test" ? progress.total - progress.checked : 0,
       decisions: decisionsForCard(db2, child.id).filter((entry) => entry.kind === "acceptance").map((entry) => entry.question ?? "").filter(Boolean)
@@ -29322,6 +29411,53 @@ function finalTestFixFiles(db2, cardId) {
 function unwalkedChildItems(db2, cardId) {
   if (!hasSplitColumn2(db2)) return 0;
   return unwalkedItems(childrenOf(db2, cardId));
+}
+function decisionSentence(entry) {
+  if (entry.source === RALPH_UNVERIFIABLE_SOURCE) {
+    return `Could not verify: ${stripItemTokens(entry.originalText ?? "")}${entry.recommended ? ` ${entry.recommended}` : ""}`;
+  }
+  if (entry.kind === "revision") return `Reworded: ${entry.originalText ?? ""} -> ${entry.newText ?? ""}`;
+  return entry.recommended ? `${entry.question} Took: ${entry.recommended}` : entry.question;
+}
+function mergeReviewFor(db2, cardId) {
+  if (!hasSplitColumn2(db2)) return [];
+  const review = [];
+  const add = (name, id, items) => {
+    const decisions = listCardDecisions(db2, id).map(decisionSentence);
+    if (items.length > 0 || decisions.length > 0) review.push({ name, items, decisions });
+  };
+  const children = childrenOf(db2, cardId).filter((child) => child.status !== "withdrawn");
+  for (const child of children) {
+    add(
+      formatDisplayId(child.idPrefix, child.taskNumber) ?? child.title,
+      child.id,
+      unwalkedItemsOf(child).map((item) => ({ text: stripItemTokens(item.text), heading: item.heading, manual: isManualItem(item.text) }))
+    );
+  }
+  if (children.length === 0) return review;
+  const parent = getRow(
+    db2,
+    `SELECT c.title, c.task_number AS taskNumber, p.id_prefix AS idPrefix
+     FROM cards c LEFT JOIN projects p ON p.id = c.project_id WHERE c.id = ?`,
+    cardId
+  );
+  if (parent) add(formatDisplayId(parent.idPrefix, parent.taskNumber) ?? parent.title, cardId, []);
+  return review;
+}
+function chainMergeReview(db2, groupId) {
+  if (!hasSplitColumn2(db2)) return [];
+  return allRows(
+    db2,
+    `SELECT DISTINCT split_from_card_id AS parentId FROM cards WHERE group_id = ? AND split_from_card_id IS NOT NULL`,
+    groupId
+  ).flatMap((row) => mergeReviewFor(db2, row.parentId));
+}
+function mergeReviewText(review) {
+  const lines2 = review.flatMap((card) => [
+    ...card.items.map((item) => `- ${card.name}: ${item.text}${item.manual ? " [manual]" : ""}`),
+    ...card.decisions.map((decision) => `- ${card.name}, Ralph decided: ${decision}`)
+  ]);
+  return lines2.length > 0 ? lines2.join("\n") : null;
 }
 function chainUnwalkedItems(db2, groupId) {
   if (!hasSplitColumn2(db2)) return 0;
@@ -29434,7 +29570,13 @@ function ineligibleReason(row) {
 }
 function autopilotContinueQuestion(cardId, mode = "default") {
   const name = autopilotModeName(mode);
-  return `${name} stopped on this card for a plan decision, and the plan no longer asks one. Ask the user whether to continue on ${name}. Call ${queueCallFor(cardId, mode)} only after the user explicitly says yes.`;
+  return `${name} stopped on this card for a plan decision, and the plan no longer asks one. Ask the user whether to continue on ${name}. Call ${queueCallFor(cardId, mode)} only after the user explicitly says yes. ${ownHoldLine(name)}`;
+}
+function ownHoldLine(name) {
+  return `If queue_card refuses with "it is running in ...", this session's own turn holds the card: do not retry, ask the user to press Continue on ${name} once this turn ends.`;
+}
+function sessionHoldNextStep(name) {
+  return `If that session is this one, its turn holds the card and sending again is refused the same way: do not retry, ask the user to send it to ${name} from the card in the app once this turn ends.`;
 }
 function queueCallFor(cardId, mode) {
   return mode === "ralph" ? `queue_card({ cardId: "${cardId}", autopilot: true, mode: "ralph" })` : `queue_card({ cardId: "${cardId}", autopilot: true })`;
@@ -29452,7 +29594,7 @@ function autopilotLine(db2, cardId) {
     return `${name} is running this card (${stage}) in its worktree; do not edit there. Ask the user to stop ${name} first.`;
   }
   const resume = autopilotResume({ autopilotStage: stage, autopilotStopReason: stopReason, solutionSummary: row.solutionSummary });
-  const askToContinue = `Call ${queueCallFor(cardId, mode)} only after the user explicitly says yes.`;
+  const askToContinue = `Call ${queueCallFor(cardId, mode)} only after the user explicitly says yes. ${ownHoldLine(name)}`;
   if (resume === "decision-answered") return `In your first sentence: ${autopilotContinueQuestion(cardId, mode)}`;
   if (resume === "decision-open") {
     return `${name} stopped on this card: ${sanitizeForReminder(stopReason || "no reason given", 200)}. Say so in your first sentence: the user answers the decision in the plan and deletes its [NEEDS_DECISION] marker before ${name} can continue.`;
@@ -29488,8 +29630,12 @@ function startAutopilot(db2, cardId, opts = {}) {
         const browser = (opts.browserCheck ?? browserPrereqs)();
         if (!browser.ok) return { ok: false, reason: "ineligible", message: `Cannot send ${displayId} to Ralph: ${browser.reason}` };
       }
-      const refusal = ineligibleReason(row) ?? sessionHoldRefusal(db2, cardId);
-      if (refusal) return { ok: false, reason: "ineligible", message: `Cannot send ${displayId} to ${name}: ${refusal}` };
+      const ineligible = ineligibleReason(row);
+      const held = ineligible ? null : sessionHoldRefusal(db2, cardId);
+      const refusal = ineligible ?? held;
+      if (refusal) {
+        return { ok: false, reason: "ineligible", message: `Cannot send ${displayId} to ${name}: ${refusal}`, ...held ? { heldBySession: true } : {} };
+      }
       const entersFinalTest = row.status !== "test" && finalTestReady(db2, cardId);
       if (entersFinalTest) enterFinalTest(db2, cardId, opts.now ?? (/* @__PURE__ */ new Date()).toISOString());
       const stage = row.status === "test" || entersFinalTest ? "verifying" : hasRealPlan(row.solutionSummary) ? "implementing" : "planning";
@@ -29628,6 +29774,7 @@ function savePlan(db2, args) {
   let planHtml = externalizeInlineImages(args.id, args.html);
   const head = args.base === false ? null : args.base ?? cardHead(db2, args.id);
   return transaction(db2, () => {
+    if (hasRealPlan(planHtml)) reopenFinalTest(db2, args.id, args.now, args.author);
     const row = getRow(
       db2,
       `SELECT status, solution_summary, autopilot_stage, autopilot_stop_reason FROM cards WHERE id = ?`,
@@ -30237,7 +30384,14 @@ function splitRelations(db2, cardId) {
   if (!parent && children.length === 0) return null;
   const role = children.length > 0 ? SPLIT_PARENT_RULE : parent && !("missing" in parent) ? splitChildRule(refName(parent)) : null;
   const unwalked = children.length > 0 ? unwalkedChildItems(db2, cardId) : 0;
-  return { parent, children, role, ...unwalked > 0 ? { unwalkedChildItems: unwalked } : {} };
+  const mergeReview = children.length > 0 ? mergeReviewFor(db2, cardId) : [];
+  return {
+    parent,
+    children,
+    role,
+    ...unwalked > 0 ? { unwalkedChildItems: unwalked } : {},
+    ...mergeReview.length > 0 ? { mergeReview } : {}
+  };
 }
 function splitRoleLine(db2, cardId) {
   try {
@@ -31014,7 +31168,8 @@ function updateCard(db2, args) {
     } else {
       delete set2.groupId;
     }
-    const status = fields.status ?? existing.status;
+    const reopened = fields.status === void 0 && typeof fields.solutionSummary === "string" && hasRealPlan(fields.solutionSummary) && reopenFinalTest(db2, id, now, args.author);
+    const status = reopened ? "progress" : fields.status ?? existing.status;
     const columns = [];
     const values = [];
     for (const [key, value] of Object.entries(set2)) {
@@ -31369,6 +31524,12 @@ function chooseBoundPolicy(args) {
   if (globalMode && cardProjectId) return "global-bound";
   if (sessionProjectId === null) return "silent";
   return "phase";
+}
+function hintBindsSession(state, hint) {
+  return state === "offered" && hint !== "";
+}
+function boundSessionHearsPolicy(args) {
+  return !args.isCardChat || args.hint !== "";
 }
 
 // ../lib/card-ops/card-title.ts
@@ -32491,6 +32652,7 @@ __export(card_phase_exports, {
 function detectBoardPhase(card, solutionText, testText) {
   const hasTests = hasOwnChecklist(card.testScenarios);
   if (card.status === "progress") {
+    if (isFinalTestNote(card.solutionSummary)) return "planning";
     return hasTests ? "retest" : "implementation";
   }
   if (card.status === "test" && !!testText) return "verify";
@@ -32638,6 +32800,8 @@ var STEP_DESC = {
   stop: "Kill the run and release the card",
   "chat-running": "Wait for the chat on this card to finish",
   locked: "Someone else is working on this card",
+  "session-running": "The session holds this card until its turn ends",
+  "session-waiting": "The session waits for your approval there",
   unlock: "Release the card once the session is done",
   queued: "Will run automatically",
   "start-now": "Leave the queue and run it now",
@@ -32652,6 +32816,7 @@ var STEP_DESC = {
   autopilot: "Implement, pre-verify every group, stop at Ready to merge",
   ralph: "Autopilot that proves every [ui] item in the browser",
   "stop-autopilot": "Leave the card where it is; a run going finishes",
+  "plan-after-test": "Too big to patch? Back to In Progress",
   discuss: "Open a session about the idea",
   argue: "Push back on the opinion in the card chat",
   talk: "Settle the open questions in the card chat",
@@ -32840,6 +33005,14 @@ function nextStepFor(card, flags, ctx) {
       disabledReason
     });
   }
+  if (flags.canStart && ctx.mode !== "work" && finalTestPlanOpen(card)) {
+    row(ideafy, {
+      id: "plan-after-test",
+      title: "Write plan",
+      kind: "ai",
+      disabledReason: autonomousBlock ?? (isActiveAutopilotStage(card.autopilotStage ?? null) ? "On Autopilot" : void 0)
+    });
+  }
   if (flags.canEvaluate) {
     row(together, { id: "discuss", title: "Discuss the idea", kind: "you", disabledReason: interactiveBlock, meta: mobileMeta });
   }
@@ -32916,6 +33089,9 @@ function nextStepFor(card, flags, ctx) {
     primary = { id: "chat-running", title: "Chat running", desc: STEP_DESC["chat-running"], kind: "neutral", disabledReason: "Chat running" };
   } else if (ctx.softLock) {
     primary = { id: "locked", title: "Locked", desc: STEP_DESC.locked, kind: "neutral", disabledReason: STEP_DESC.locked };
+  } else if (ctx.terminalLive) {
+    const id = ctx.terminalLive.phase === "waiting" ? "session-waiting" : "session-running";
+    primary = { id, title: ctx.terminalLive.title, desc: STEP_DESC[id], kind: "neutral", disabledReason: STEP_DESC[id] };
   } else if (ctx.locked) {
     primary = { id: "unlock", title: "Unlock", desc: ctx.terminalHold ?? "Session open", kind: "neutral" };
   } else if (ctx.queueRank > 0) {
@@ -33075,6 +33251,9 @@ var NEUTRAL_STEP_WHO = {
   queued: "ai",
   unlock: "you",
   locked: "you",
+  // A session outside the app reads as the board card does: running is Ideafy's, approving yours.
+  "session-running": "ai",
+  "session-waiting": "you",
   // A chat writing its reply is Ideafy's turn, as Focus and the board card read it (IDE-599, IDE-651).
   "chat-running": "ai"
 };
@@ -33091,6 +33270,7 @@ function nextTurnFor(card, ctx = {}) {
     chatting: ctx.chatting ?? false,
     softLock: false,
     locked: ctx.locked ?? false,
+    terminalLive: ctx.terminalLive ?? null,
     queueRank: ctx.queueRank ?? 0,
     canQueue: false,
     blocker: ctx.blocker ?? null,
@@ -34699,7 +34879,7 @@ var {
 } = unwrap(narrative_sections_exports);
 var { findPlanDecisions: findPlanDecisions2, openPlanDecisions: openPlanDecisions2 } = unwrap(plan_decisions_exports);
 var { linkCardReferences: linkCardReferences2 } = unwrap(card_links_exports);
-var { buildChainContext: buildChainContext2, compareByChainOrder: compareByChainOrder2, isFinished: isFinished3, placeAfter: placeAfter2 } = unwrap(chain_order_exports);
+var { buildChainContext: buildChainContext2, compareByChainOrder: compareByChainOrder2, finalTestPlanOpen: finalTestPlanOpen2, isFinished: isFinished3, placeAfter: placeAfter2 } = unwrap(chain_order_exports);
 var { extractPlanFiles: extractPlanFiles2, htmlToText: htmlToText2, normalizePath: normalizePath2, pathsOverlap: pathsOverlap2, countPlanSteps: countPlanSteps2, comparePlanFiles: comparePlanFiles2, isGenerated: isGenerated2 } = unwrap(plan_files_exports);
 var { parseCardNumberQuery: parseCardNumberQuery2, matchesCardNumber: matchesCardNumber2 } = unwrap(card_number_query_exports);
 var { listOpenWork: listOpenWork2, MAX_OPEN_WORK_FILES: MAX_OPEN_WORK_FILES2 } = unwrap(open_work_exports);
@@ -34777,8 +34957,11 @@ var {
   validateCardTitle: validateCardTitle2,
   cardAuthorship: cardAuthorship2,
   loadStoryInputs: loadStoryInputs2,
+  chainMergeReview: chainMergeReview2,
   chainUnwalkedItems: chainUnwalkedItems2,
   finalTestReady: finalTestReady2,
+  mergeReviewFor: mergeReviewFor2,
+  mergeReviewText: mergeReviewText2,
   unwalkedChildItems: unwalkedChildItems2,
   unwalkedChildItemsText: unwalkedChildItemsText2,
   IDEAFY_AUTHOR: IDEAFY_AUTHOR2,
@@ -34800,6 +34983,7 @@ var {
   chainMergeForCard: chainMergeForCard2,
   isChainParent: isChainParent2,
   syncMainIntoChain: syncMainIntoChain2,
+  sessionHoldNextStep: sessionHoldNextStep2,
   startAutopilot: startAutopilot2,
   getAutopilotState: getAutopilotState2,
   autopilotLine: autopilotLine2,
@@ -35321,7 +35505,15 @@ async function startCardRunTool(db2, input, deps = {}) {
   const solutionText = stripHtml2(card.solutionSummary ?? "");
   const testText = stripHtml2(card.testScenarios ?? "");
   const progress = parseTestProgress2(card.testScenarios ?? "");
-  const refusal = terminalStartRefusal2(asBoardCard(card), solutionText, testText, progress, modeOf(card));
+  const finalTestPlan = !!input.plan && modeOf(card) !== "work" && finalTestPlanOpen2(card);
+  const planNote = input.planNote?.trim() ?? "";
+  if (finalTestPlan && !planNote) {
+    return {
+      ok: false,
+      text: `start_card_run: ${name} was not started: a plan after the final test needs its subject. Ask the user what the test showed and pass it as planNote. Nothing was changed.`
+    };
+  }
+  const refusal = finalTestPlan ? null : terminalStartRefusal2(asBoardCard(card), solutionText, testText, progress, modeOf(card));
   if (refusal) return { ok: false, text: `start_card_run: ${name} was not started: ${refusal}. Nothing was changed.` };
   const phase = detectBoardPhase2(asBoardCard(card), solutionText, testText);
   if (phase === "implementation" && !input.ackChainOrder) {
@@ -35333,12 +35525,12 @@ async function startCardRunTool(db2, input, deps = {}) {
       };
     }
   }
-  const verifyScope = card.status === "test" ? input.verifyScope : void 0;
+  const verifyScope = card.status === "test" && !finalTestPlan ? input.verifyScope : void 0;
   const finalTest = !input.plan && modeOf(card) !== "work" && finalTestReady2(db2, card.id);
   const result = await callApp(
     "POST",
     `/api/cards/${encodeURIComponent(card.id)}/start`,
-    { detach: true, ...verifyScope ? { verifyScope } : {}, ...finalTest ? { finalTest: true } : {} },
+    { detach: true, ...verifyScope ? { verifyScope } : {}, ...finalTest ? { finalTest: true } : {}, ...finalTestPlan ? { finalTestPlan: true, finalTestPlanNote: planNote } : {} },
     { port: appPort(runtime, deps.env), fetchImpl: deps.fetchImpl, timeoutMs: deps.timeoutMs ?? HANDOFF_TIMEOUT_MS }
   );
   const failure = failureText("start_card_run", name, result);
@@ -35486,6 +35678,7 @@ function mergeCardText(result) {
 }
 async function mergeCardTool(db2, args) {
   const unwalked = unwalkedChildItemsText2(unwalkedChildItems2(db2, args.cardId));
+  const review = mergeReviewText2(mergeReviewFor2(db2, args.cardId));
   const result = await mergeCard2(db2, args.cardId, {
     commitFirst: args.commitFirst === true,
     targetBranch: args.targetBranch?.trim() || void 0,
@@ -35494,7 +35687,9 @@ async function mergeCardTool(db2, args) {
     stopProcess: (pid) => stopProcessGroup2(pid)
   });
   const answer = mergeCardText(result);
-  return unwalked && answer.ok ? { ...answer, text: `${answer.text} ${unwalked}.` } : answer;
+  if (!answer.ok) return answer;
+  const said = [answer.text, unwalked && `${unwalked}.`, review].filter(Boolean).join(review ? "\n" : " ");
+  return { ...answer, text: said };
 }
 function mergeChainText(result) {
   switch (result.kind) {
@@ -36075,7 +36270,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
     tools: [
       {
         name: "get_card",
-        description: "Get a kanban card by ID. When the card belongs to a chain, `chain` gives its place in that chain: position/total, predecessors and successors in chain order (displayId, title, status), and `next`, the chain's first member that is neither completed nor withdrawn. When the card has blocked-by links, `blockedBy` lists the cards it waits on and `blocks` the cards waiting on it, each with displayId, title, status, `landed` (its code is already in what this card would start from) and the link's note. When an opinion or plan suggested a link the user has not answered yet, `suggestedBlockedBy` lists those cards with the reason: ask the user, then add_dependency on yes or remove_dependency on no. When an opinion proposed breaking the card into cards and the user has not answered, `splitProposal` holds the cards: ask the user, then split_card on yes or split_card with keepAsOne on no. `split` names the card this one was broken out of (`parent`) and the cards broken out of it (`children`), with `role`, the one sentence this relation gives the card: a parent joins its children and shows the whole works end to end, a child keeps to its own scope. Each child carries `status`, `tests` (ticked/total such as 4/6, null without a checklist), a short `plan` summary, the `files` its plan names, and `ready`: Completed, in Human Test with every item ticked and its branch merged, or in its chain's branch, whatever its ticks say. A parent waits on its children by this stricter rule, so a child's `landed` in `blockedBy` follows `ready`; every other link keeps the plain code-is-in rule. `split.unwalkedChildItems` counts the items a child in the chain left that nothing walks. `finalTestReady: true` means a split parent with every child ready and no plan or checklist of its own: its next step is the End-to-end test (start_card_run), not a plan. When the card has a Test Report, `testReport` gives how many runs it holds and how the newest came out; read the runs themselves with get_test_report. When commits have touched the card's files since its checklist was written, `testsDrift` lists them (base, files, commits, total): the checklist may have gone stale. `planDrift` does the same since its plan was written: the code wins over the plan. When the plan's Files list and what the card's work changed disagree, `planVsBranch` lists both sides: `touched`, `untouched` (planned, not changed yet) and `offPlan` (changed, not in the plan), read from its worktree, its branch, or (`source: commits`) its `Card:` trailer commits. When a Backlog or Bugs card's plan carries `[NEEDS_DECISION: \u2026]` questions, `planDecisions` lists them: the card does not start or queue until the user writes the decision into the plan and deletes the marker. `decisions` is the card's decision ledger, read only: each question Ralph took with the recommended option (kind `acceptance`, with `recommended` and the plan `step` it shaped); its plan shows them as `[NEEDS_DECISION accepted: \u2026]`. Kind `revision` is a checklist item Ralph reworded (`originalText`, `newText`, `reason`; source `ralph-verify-core` when it was a core-flow item on a checklist Ralph wrote itself). Source `ralph-unverifiable` is an item Ralph could not verify on this machine (`item`, `reason`), now `[manual]` and the person's. `authorship` says who wrote and who last edited each tab (`you` or `ideafy`, with the date) and who ticked each checked item, so you can see what the user changed by hand. `story` is the card's eight steps (Idea, Verdict, Argued, Plan, Built, Proof, Your test, Merge; seven on a Work card) with who moves at each and its state (done, now, todo, skipped), the step in play as `now`, and `banner`, whose move it is in the words of the app's turn banner (null when nobody's).",
+        description: "Get a kanban card by ID. When the card belongs to a chain, `chain` gives its place in that chain: position/total, predecessors and successors in chain order (displayId, title, status), and `next`, the chain's first member that is neither completed nor withdrawn. When the card has blocked-by links, `blockedBy` lists the cards it waits on and `blocks` the cards waiting on it, each with displayId, title, status, `landed` (its code is already in what this card would start from) and the link's note. When an opinion or plan suggested a link the user has not answered yet, `suggestedBlockedBy` lists those cards with the reason: ask the user, then add_dependency on yes or remove_dependency on no. When an opinion proposed breaking the card into cards and the user has not answered, `splitProposal` holds the cards: ask the user, then split_card on yes or split_card with keepAsOne on no. `split` names the card this one was broken out of (`parent`) and the cards broken out of it (`children`), with `role`, the one sentence this relation gives the card: a parent joins its children and shows the whole works end to end, a child keeps to its own scope. Each child carries `status`, `tests` (ticked/total such as 4/6, null without a checklist), a short `plan` summary, the `files` its plan names, and `ready`: Completed, in Human Test with every item ticked and its branch merged, or in its chain's branch, whatever its ticks say. A parent waits on its children by this stricter rule, so a child's `landed` in `blockedBy` follows `ready`; every other link keeps the plain code-is-in rule. `split.unwalkedChildItems` counts the items a child in the chain left that nothing walks, and `split.mergeReview` lists them per card with what Ralph decided there, read only, as the Merge window does. `finalTestReady: true` means a split parent with every child ready and no plan or checklist of its own: its next step is the End-to-end test (start_card_run), not a plan. When the card has a Test Report, `testReport` gives how many runs it holds and how the newest came out; read the runs themselves with get_test_report. When commits have touched the card's files since its checklist was written, `testsDrift` lists them (base, files, commits, total): the checklist may have gone stale. `planDrift` does the same since its plan was written: the code wins over the plan. When the plan's Files list and what the card's work changed disagree, `planVsBranch` lists both sides: `touched`, `untouched` (planned, not changed yet) and `offPlan` (changed, not in the plan), read from its worktree, its branch, or (`source: commits`) its `Card:` trailer commits. When a Backlog or Bugs card's plan carries `[NEEDS_DECISION: \u2026]` questions, `planDecisions` lists them: the card does not start or queue until the user writes the decision into the plan and deletes the marker. `decisions` is the card's decision ledger, read only: each question Ralph took with the recommended option (kind `acceptance`, with `recommended` and the plan `step` it shaped); its plan shows them as `[NEEDS_DECISION accepted: \u2026]`. Kind `revision` is a checklist item Ralph reworded (`originalText`, `newText`, `reason`; source `ralph-verify-core` when it was a core-flow item on a checklist Ralph wrote itself). Source `ralph-unverifiable` is an item Ralph could not verify on this machine (`item`, `reason`), now `[manual]` and the person's. `authorship` says who wrote and who last edited each tab (`you` or `ideafy`, with the date) and who ticked each checked item, so you can see what the user changed by hand. `story` is the card's eight steps (Idea, Verdict, Argued, Plan, Built, Proof, Your test, Merge; seven on a Work card) with who moves at each and its state (done, now, todo, skipped), the step in play as `now`, and `banner`, whose move it is in the words of the app's turn banner (null when nobody's).",
         inputSchema: {
           type: "object",
           properties: {
@@ -36808,7 +37003,11 @@ The server writes the card's verdict, score, priority and complexity from those 
             },
             plan: {
               type: "boolean",
-              description: "On a split parent with `finalTestReady`, write a plan instead of running the End-to-end test, the menu's Write plan. Only when the user asked for a plan."
+              description: "On a split parent with `finalTestReady`, write a plan instead of running the End-to-end test. On a parent in Human Test on its final test's note, the menu's Write plan: the card goes back to In Progress and its End-to-end ticks are cleared. Only when the user asked for a plan."
+            },
+            planNote: {
+              type: "string",
+              description: "With `plan` on a parent in Human Test on its final test's note, required: what the test showed, in the user's words. It is added to the card's description, which is how the plan run learns its subject. Ask the user if they have not said."
             }
           },
           required: ["cardId"]
@@ -38598,7 +38797,8 @@ ${waiting}` : ""}` : choice === "silent" ? `${bound} This session is outside eve
             rawMode === void 0 ? {} : { mode: rawMode, ...maxRounds !== void 0 ? { maxRounds } : {} }
           );
           if (!started.ok) {
-            return { content: [{ type: "text", text: `queue_card: ${started.message}. Nothing was written.` }], isError: true };
+            const nextStep = started.heldBySession ? ` ${sessionHoldNextStep2(rawMode === "ralph" ? "Ralph" : "Autopilot")}` : "";
+            return { content: [{ type: "text", text: `queue_card: ${started.message}. Nothing was written.${nextStep}` }], isError: true };
           }
           const runtime2 = readRuntime2(db);
           const ralphLimit = started.mode === "ralph" && started.maxRounds !== void 0 ? started.maxRounds === 0 ? " \xB7 no round limit, stops after 3 hours" : ` \xB7 stops after the same failure ${started.maxRounds}\xD7` : "";
@@ -38666,7 +38866,7 @@ ${waiting}` : ""}` : choice === "silent" ? `${bound} This session is outside eve
       }
       case "start_card_run":
       case "open_card_session": {
-        const { cardId: rawCardId, verifyScope, ackChainOrder, plan } = args;
+        const { cardId: rawCardId, verifyScope, ackChainOrder, plan, planNote } = args;
         if (verifyScope !== void 0 && verifyScope !== "next" && verifyScope !== "all") {
           return { content: [{ type: "text", text: `${name}: verifyScope must be "next" or "all". Nothing was changed.` }], isError: true };
         }
@@ -38674,7 +38874,7 @@ ${waiting}` : ""}` : choice === "silent" ? `${bound} This session is outside eve
         if (!cardId) {
           return { content: [{ type: "text", text: `Card not found: ${rawCardId}` }], isError: true };
         }
-        const result = name === "start_card_run" ? await startCardRunTool(db, { cardId, verifyScope, ackChainOrder: ackChainOrder === true, plan: plan === true }) : await openCardSessionTool(db, { cardId });
+        const result = name === "start_card_run" ? await startCardRunTool(db, { cardId, verifyScope, ackChainOrder: ackChainOrder === true, plan: plan === true, planNote }) : await openCardSessionTool(db, { cardId });
         return { content: [{ type: "text", text: result.text }], ...result.ok ? {} : { isError: true } };
       }
       case "merge_card": {
@@ -38689,10 +38889,12 @@ ${waiting}` : ""}` : choice === "silent" ? `${bound} This session is outside eve
       case "merge_chain": {
         const { groupId } = args;
         const unwalked = unwalkedChildItemsText2(chainUnwalkedItems2(db, groupId));
+        const review = mergeReviewText2(chainMergeReview2(db, groupId));
         const result = await mergeChain2(db, groupId);
         const text2 = mergeChainText(result);
+        const said = [text2, unwalked && `${unwalked}.`, review].filter(Boolean).join(review ? "\n" : " ");
         return {
-          content: [{ type: "text", text: result.kind === "ok" && unwalked ? `${text2} ${unwalked}.` : text2 }],
+          content: [{ type: "text", text: result.kind === "ok" ? said : text2 }],
           ...result.kind === "ok" ? {} : { isError: true }
         };
       }

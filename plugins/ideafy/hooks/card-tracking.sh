@@ -5,8 +5,9 @@
 # Silent success: server consumes stdin JSON, responds with system-reminder text
 # that Claude Code injects into the conversation.
 # Silent failure: if the server is down, emit a "launch Ideafy" reminder ONLY when
-# the current folder is actually a tracked Ideafy project. In any other folder we
-# exit silently so unrelated projects never see the warning.
+# the current folder is actually a tracked Ideafy project that is not a Work
+# project. In any other folder we exit silently so unrelated projects never see
+# the warning.
 
 set -euo pipefail
 
@@ -31,9 +32,25 @@ is_tracked_folder() {
   [ -n "$match" ]
 }
 
+# Is the current folder's nearest project a Work project? A Work project asks
+# nobody about cards, so a closed app is nothing to interrupt the work for. Any
+# doubt (no sqlite3, no database, no mode column yet) comes out as not Work, so
+# the reminder stays. Kept apart from is_tracked_folder, which a mode query
+# must not break.
+is_work_folder() {
+  [ -f "$DB" ] || return 1
+  command -v sqlite3 >/dev/null 2>&1 || return 1
+  local dir_esc="${PROJECT_DIR//\'/\'\'}"
+  local mode
+  mode=$(sqlite3 "$DB" \
+    "SELECT mode FROM projects WHERE folder_path = '${dir_esc}' OR substr('${dir_esc}', 1, length(folder_path) + 1) = folder_path || '/' ORDER BY length(folder_path) DESC LIMIT 1;" \
+    2>/dev/null) || return 1
+  [ "$mode" = "work" ]
+}
+
 if ! ideafy_post "/api/hook-context?card_hint=${CARD_HINT}"; then
   # No port answered. Only warn when this folder is genuinely a tracked project.
-  if is_tracked_folder; then
+  if is_tracked_folder && ! is_work_folder; then
     printf '<system-reminder>\nIdeafy local server is unreachable (tried port %s). Card tracking, phase-aware policy, and session binding are OFF for this session until Ideafy is launched.\n\nAsk the user ONCE per session whether to launch Ideafy. Explain that this project is tracked by Ideafy but the server is not running, so you cannot create or update kanban cards for this session. On yes, call the Bash tool with: open -b com.ozangencer.ideafy (Ideafy Team: open -b com.ozangencer.ideafy.team). Do not re-ask on later turns in this session even if this reminder keeps appearing while the server is starting up.\n</system-reminder>\n' "$(ideafy_ports | paste -sd / -)"
   fi
   exit 0

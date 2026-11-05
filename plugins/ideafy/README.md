@@ -29,7 +29,7 @@ agents/                      reserved for future subagents
 - Ideafy SQLite DB at OS-standard userData path (MCP server resolves it automatically)
 - Node.js 22.5 or newer as `node` on PATH. The MCP server uses Node's built-in `node:sqlite`, so the plugin has no native dependency to build
 
-If the server is unreachable the hooks emit a single reminder asking the user to launch Ideafy, then stay silent.
+If the server is unreachable the hooks emit a single reminder asking the user to launch Ideafy, then stay silent. A Work project gets no reminder.
 
 ## Versioning
 
