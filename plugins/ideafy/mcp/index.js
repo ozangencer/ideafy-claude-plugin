@@ -24191,6 +24191,62 @@ function restoreDependencies(db2, links, now) {
   return restored;
 }
 
+// ../lib/card-ops/chain-overlap.ts
+function columns(db2, table) {
+  return new Set(db2.prepare(`PRAGMA table_info("${table}")`).all().map((c) => c.name));
+}
+function openChainOf(db2, cardId) {
+  if (!columns(db2, "card_groups").has("integration_branch")) return null;
+  const row = getRow(
+    db2,
+    `SELECT g.id, g.integration_branch AS branch, g.merged_commit AS merged
+     FROM cards c JOIN card_groups g ON g.id = c.group_id WHERE c.id = ?`,
+    cardId
+  );
+  return row?.branch && !row.merged ? row.id : null;
+}
+function isParentOf(db2, cardId, groupId) {
+  if (!columns(db2, "cards").has("split_from_card_id")) return false;
+  return !!getRow(db2, `SELECT id FROM cards WHERE group_id = ? AND split_from_card_id = ? LIMIT 1`, groupId, cardId);
+}
+function chainOverlapsFor(db2, cardId, solutionSummary) {
+  const groupId = openChainOf(db2, cardId);
+  if (!groupId) return [];
+  const mine = extractPlanFiles(solutionSummary);
+  if (mine.length === 0) return [];
+  const rows = allRows(
+    db2,
+    `SELECT c.id, c.task_number AS taskNumber, p.id_prefix AS idPrefix, c.title, c.solution_summary AS solutionSummary
+     FROM cards c LEFT JOIN projects p ON p.id = c.project_id
+     WHERE c.group_id = ? AND c.id != ? AND c.git_branch_status = 'active'
+       AND c.status IN ('progress', 'test')`,
+    groupId,
+    cardId
+  );
+  const out = [];
+  for (const row of rows) {
+    if (isParentOf(db2, row.id, groupId)) continue;
+    const files = sharedPlanFiles(mine, extractPlanFiles(row.solutionSummary));
+    if (files.length === 0) continue;
+    out.push({ cardId: row.id, displayId: formatDisplayId(row.idPrefix, row.taskNumber) ?? row.title, files });
+  }
+  return out;
+}
+function chainOverlapWaitReason(db2, cardId) {
+  try {
+    const row = getRow(db2, `SELECT solution_summary AS solutionSummary FROM cards WHERE id = ?`, cardId);
+    const overlaps = chainOverlapsFor(db2, cardId, row?.solutionSummary);
+    if (overlaps.length === 0) return null;
+    const first = overlaps[0];
+    const files = first.files.slice(0, 3).join(", ") + (first.files.length > 3 ? ` +${first.files.length - 3}` : "");
+    const more = overlaps.length > 1 ? ` (+${overlaps.length - 1} more)` : "";
+    return `waits for ${first.displayId} to land in the chain: both plans change ${files}${more}`;
+  } catch (error2) {
+    console.warn("[chain-overlap] wait reason skipped:", error2);
+    return null;
+  }
+}
+
 // ../lib/card-ops/queue.ts
 var ROW_SELECT = `
   SELECT c.id, c.title, c.status, c.description,
@@ -24251,7 +24307,9 @@ function queueKindOf(row) {
   return phase === "verify" ? "verify" : phase === "planning" ? "planning" : "implementation";
 }
 function queuedWaitReason(db2, row) {
-  return queueKindOf(row) === "verify" ? null : queueWaitReason(db2, row.id);
+  const kind = queueKindOf(row);
+  if (kind === "verify") return null;
+  return queueWaitReason(db2, row.id) ?? (kind === "implementation" ? chainOverlapWaitReason(db2, row.id) : null);
 }
 function nextQueueStep(db2) {
   const rows = listQueueRows(db2);
@@ -24378,8 +24436,8 @@ function isParkableStatus(status) {
 var present = /* @__PURE__ */ new WeakMap();
 function hasParkedColumn(db2) {
   if (present.get(db2)) return true;
-  const columns = db2.prepare(`PRAGMA table_info("cards")`).all();
-  const found = columns.some((column) => column.name === "parked_at");
+  const columns2 = db2.prepare(`PRAGMA table_info("cards")`).all();
+  const found = columns2.some((column) => column.name === "parked_at");
   if (found) present.set(db2, true);
   return found;
 }
@@ -28072,8 +28130,8 @@ async function rollbackChain(db2, groupId, opts = {}) {
   return { kind: "ok", branch, restored: members.length };
 }
 function isChainParent(db2, cardId, groupId) {
-  const columns = db2.prepare(`PRAGMA table_info("cards")`).all();
-  if (!columns.some((c) => c.name === "split_from_card_id")) return false;
+  const columns2 = db2.prepare(`PRAGMA table_info("cards")`).all();
+  if (!columns2.some((c) => c.name === "split_from_card_id")) return false;
   return !!getRow(
     db2,
     `SELECT id FROM cards WHERE group_id = ? AND split_from_card_id = ? LIMIT 1`,
@@ -28172,8 +28230,8 @@ var COLUMN = {
 var present3 = /* @__PURE__ */ new WeakMap();
 function hasBaseCommitColumns(db2) {
   if (present3.get(db2)) return true;
-  const columns = db2.prepare(`PRAGMA table_info("cards")`).all();
-  const found = columns.some((column) => column.name === "tests_base_commit");
+  const columns2 = db2.prepare(`PRAGMA table_info("cards")`).all();
+  const found = columns2.some((column) => column.name === "tests_base_commit");
   if (found) present3.set(db2, true);
   return found;
 }
@@ -30624,8 +30682,8 @@ function mockupsForChild(db2, parentId, childId) {
   return [.../* @__PURE__ */ new Set([...parent ? cardMockups(parent) : [], ...copies])].filter(isFile);
 }
 function splitRelations(db2, cardId) {
-  const columns = allRows(db2, "PRAGMA table_info(cards)");
-  if (!columns.some((column) => column.name === "split_from_card_id")) return null;
+  const columns2 = allRows(db2, "PRAGMA table_info(cards)");
+  if (!columns2.some((column) => column.name === "split_from_card_id")) return null;
   const own = getRow(db2, "SELECT split_from_card_id AS parentId FROM cards WHERE id = ?", cardId);
   const children = allRows(db2, `${CHILD_SELECT2} WHERE c.split_from_card_id = ? ORDER BY c.task_number`, cardId).map(toChild);
   let parent = null;
@@ -32087,7 +32145,7 @@ function createCard(db2, given, now, author) {
       }
     }
     const completedAt = completedAtOnCreate(status, now);
-    const columns = {
+    const columns2 = {
       id: input.id,
       title: input.title,
       description: input.description ?? "",
@@ -32116,13 +32174,13 @@ function createCard(db2, given, now, author) {
       completed_at: completedAt
     };
     for (const [column, value] of Object.entries(optional2)) {
-      if (value !== null) columns[column] = value;
+      if (value !== null) columns2[column] = value;
     }
-    const names = Object.keys(columns);
+    const names = Object.keys(columns2);
     runChanges(
       db2,
       `INSERT INTO cards (${names.join(", ")}) VALUES (${names.map(() => "?").join(", ")})`,
-      ...Object.values(columns)
+      ...Object.values(columns2)
     );
     if (input.workTemplateId) rememberWorkTemplate(db2, projectId, input.workTemplateId);
     if (input.blockedBy && input.blockedBy.length > 0) setBlockedBy(db2, input.id, input.blockedBy, now, "add");
@@ -32333,26 +32391,26 @@ function updateCard(db2, args) {
     }
     const reopened = fields.status === void 0 && typeof fields.solutionSummary === "string" && hasRealPlan(fields.solutionSummary) && reopenFinalTest(db2, id, now, args.author);
     const status = reopened ? "progress" : fields.status ?? existing.status;
-    const columns = [];
+    const columns2 = [];
     const values = [];
     for (const [key, value] of Object.entries(set2)) {
-      columns.push(`${COLUMN3[key]} = ?`);
+      columns2.push(`${COLUMN3[key]} = ?`);
       values.push(
         key === "useWorktree" ? serializeUseWorktreeForDb(value) : key === "aiPlatform" ? normalizeCardPlatform(value) : value
       );
     }
     if (projectChanged) {
-      columns.push("task_number = ?");
+      columns2.push("task_number = ?");
       values.push(taskNumber);
     }
     if (fields.status !== void 0 || args.completedAt !== void 0) {
-      columns.push("completed_at = ?");
+      columns2.push("completed_at = ?");
       values.push(
         args.completedAt !== void 0 ? args.completedAt : completedAtFor(existing.status, status, existing.completed_at, now)
       );
     }
-    if (columns.length > 0) {
-      runChanges(db2, `UPDATE cards SET ${[...columns, "updated_at = ?"].join(", ")} WHERE id = ?`, ...values, now, id);
+    if (columns2.length > 0) {
+      runChanges(db2, `UPDATE cards SET ${[...columns2, "updated_at = ?"].join(", ")} WHERE id = ?`, ...values, now, id);
       recordAuthorship(db2, {
         cardId: id,
         author: args.author,
@@ -33095,8 +33153,8 @@ async function mergeChain(db2, groupId, opts = {}) {
 // ../lib/card-ops/merge-card.ts
 import { existsSync as existsSync9, readFileSync as readFileSync4 } from "fs";
 function isSplitParent(db2, cardId) {
-  const columns = db2.prepare(`PRAGMA table_info("cards")`).all();
-  if (!columns.some((column) => column.name === "split_from_card_id")) return false;
+  const columns2 = db2.prepare(`PRAGMA table_info("cards")`).all();
+  if (!columns2.some((column) => column.name === "split_from_card_id")) return false;
   return !!getRow(db2, `SELECT id FROM cards WHERE split_from_card_id = ? LIMIT 1`, cardId);
 }
 function chainMergeCommitMessage(displayId, title, branchName) {
