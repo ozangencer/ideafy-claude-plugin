@@ -2232,8 +2232,8 @@ var require_resolve = __commonJS({
       }
       return count;
     }
-    function getFullPath(resolver, id = "", normalize2) {
-      if (normalize2 !== false)
+    function getFullPath(resolver, id = "", normalize3) {
+      if (normalize3 !== false)
         id = normalizeId(id);
       const p = resolver.parse(id);
       return _getFullPath(resolver, p);
@@ -3573,7 +3573,7 @@ var require_fast_uri = __commonJS({
     "use strict";
     var { normalizeIPv6, removeDotSegments, recomposeAuthority, normalizeComponentEncoding, isIPv4, nonSimpleDomain } = require_utils();
     var { SCHEMES, getSchemeHandler } = require_schemes();
-    function normalize2(uri, options) {
+    function normalize3(uri, options) {
       if (typeof uri === "string") {
         uri = /** @type {T} */
         serialize(parse4(uri, options), options);
@@ -3809,7 +3809,7 @@ var require_fast_uri = __commonJS({
     }
     var fastUri = {
       SCHEMES,
-      normalize: normalize2,
+      normalize: normalize3,
       resolve: resolve5,
       resolveComponent,
       equal,
@@ -23060,6 +23060,7 @@ __export(card_ops_exports, {
   chainOrderWarningFor: () => chainOrderWarningFor,
   chainParentMainConflict: () => chainParentMainConflict,
   chainRalphDeadlineFor: () => chainRalphDeadlineFor,
+  chainRunCodeChangesFor: () => chainRunCodeChangesFor,
   chainUnwalkedItems: () => chainUnwalkedItems,
   chainWriteConflictFor: () => chainWriteConflictFor,
   chainsWithReadyMembers: () => chainsWithReadyMembers,
@@ -23168,6 +23169,7 @@ __export(card_ops_exports, {
   readRuntime: () => readRuntime,
   readWriteAck: () => readWriteAck,
   readyAfterLinks: () => readyAfterLinks,
+  readyChainFor: () => readyChainFor,
   recordAuthorship: () => recordAuthorship,
   recordCodexTurn: () => recordCodexTurn,
   recordDecision: () => recordDecision,
@@ -23187,6 +23189,7 @@ __export(card_ops_exports, {
   reviseTests: () => reviseTests,
   rollbackChain: () => rollbackChain,
   runChanges: () => runChanges,
+  runCodeChangesFor: () => runCodeChangesFor,
   runReportCardIds: () => runReportCardIds,
   runtimeAssignments: () => runtimeAssignments,
   saveOpinion: () => saveOpinion,
@@ -23194,6 +23197,7 @@ __export(card_ops_exports, {
   savePlanAndTests: () => savePlanAndTests,
   saveSplitProposal: () => saveSplitProposal,
   saveTestReport: () => saveTestReport,
+  saveTestReportBrief: () => saveTestReportBrief,
   saveTests: () => saveTests,
   serializeBooleanForDb: () => serializeBooleanForDb,
   serializeUseWorktreeForDb: () => serializeUseWorktreeForDb,
@@ -23269,6 +23273,31 @@ function transaction(db2, fn) {
 }
 
 // ../lib/ready-to-merge.ts
+function normalize2(text2) {
+  return stripItemTokens(text2).replace(/`/g, "").toLowerCase().replace(/\s+/g, " ").trim();
+}
+function readyToMerge(input) {
+  const html = input.testScenarios ?? "";
+  const progress = parseTestProgress(html);
+  if (!progress) return { ok: false, missing: ["no checklist"], manualLeft: 0 };
+  const missing = [];
+  const manualLeft = manualLeftIn(progress);
+  const unticked = progress.total - progress.checked - manualLeft;
+  if (unticked > 0) missing.push(`${unticked} item${unticked === 1 ? "" : "s"} unticked`);
+  if (manualLeft > 0) missing.push(manualYoursText(manualLeft));
+  const runs = input.testReports ?? [];
+  const handed = new Set(
+    checklistItems(html).filter((item) => !item.checked && !item.core && isManualItem(item.text)).map((item) => normalize2(item.text))
+  );
+  const failed = runs[0]?.items.filter((item) => item.status === "failed" && !handed.has(normalize2(item.item))).length ?? 0;
+  if (failed > 0) missing.push(`${failed} failed in the last report`);
+  const shot = new Set(
+    runs.flatMap((run2) => run2.items.filter((item) => item.artifacts.length > 0).map((item) => normalize2(item.item)))
+  );
+  const noShot = allUiItemTexts(html).filter((text2) => !shot.has(normalize2(text2))).length;
+  if (noShot > 0) missing.push(`${noShot} [ui] item${noShot === 1 ? " has" : "s have"} no screenshot`);
+  return { ok: missing.length === 0, missing, manualLeft };
+}
 function manualYoursText(n) {
   return `${n} [manual] item${n === 1 ? " is" : "s are"} yours`;
 }
@@ -23932,21 +23961,21 @@ function suggestDependencies(db2, args) {
     );
   }
   return transaction(db2, () => {
-    const outcome = { suggested: [], skipped: [] };
+    const outcome2 = { suggested: [], skipped: [] };
     const cardGroup = groupOf(db2, args.cardId);
     for (const entry of args.entries) {
       let predecessor;
       try {
         predecessor = resolvePredecessor(db2, args.cardId, entry.card);
       } catch {
-        outcome.skipped.push({ card: entry.card, reason: "not-found" });
+        outcome2.skipped.push({ card: entry.card, reason: "not-found" });
         continue;
       }
       const name = label(predecessor);
       const target2 = { card: { id: args.cardId, groupId: cardGroup }, predecessor: { ...predecessor, groupId: groupOf(db2, predecessor.id) } };
       const blocker = suggestionBlocker(target2, db2);
       if (blocker) {
-        outcome.skipped.push({ card: name, reason: blocker });
+        outcome2.skipped.push({ card: name, reason: blocker });
         continue;
       }
       const existing = getRow(
@@ -23956,7 +23985,7 @@ function suggestDependencies(db2, args) {
         predecessor.id
       );
       if (existing?.status === "dismissed") {
-        outcome.skipped.push({ card: name, reason: "dismissed" });
+        outcome2.skipped.push({ card: name, reason: "dismissed" });
         continue;
       }
       const note = entry.note !== void 0 ? cleanNote(entry.note) : existing?.note ?? null;
@@ -23979,10 +24008,10 @@ function suggestDependencies(db2, args) {
           args.now
         );
       }
-      outcome.suggested = outcome.suggested.filter((s) => s.id !== predecessor.id);
-      outcome.suggested.push(toSuggestion({ ...predecessor, note }));
+      outcome2.suggested = outcome2.suggested.filter((s) => s.id !== predecessor.id);
+      outcome2.suggested.push(toSuggestion({ ...predecessor, note }));
     }
-    return outcome;
+    return outcome2;
   });
 }
 function listDependencySuggestions(db2, cardId) {
@@ -26954,55 +26983,17 @@ function inlineAttachments(html, homeDir) {
 }
 
 // ../lib/git/head.ts
+var head_exports = {};
+__export(head_exports, {
+  codeStamp: () => codeStamp,
+  commitExists: () => commitExists,
+  currentHead: () => currentHead,
+  gitRead: () => gitRead,
+  mergeProbe: () => mergeProbe
+});
 import { execFileSync } from "child_process";
-var TIMEOUT_MS = 2e3;
-function run(cwd, args) {
-  if (!cwd) return null;
-  try {
-    return execFileSync("git", args, {
-      cwd,
-      encoding: "utf8",
-      timeout: TIMEOUT_MS,
-      stdio: ["ignore", "pipe", "ignore"],
-      maxBuffer: 8 * 1024 * 1024
-    }).trim();
-  } catch {
-    return null;
-  }
-}
-function currentHead(cwd) {
-  const head = run(cwd, ["rev-parse", "HEAD"]);
-  return head && /^[0-9a-f]{40}$/.test(head) ? head : null;
-}
-function commitExists(cwd, sha) {
-  return run(cwd, ["cat-file", "-e", `${sha}^{commit}`]) !== null;
-}
-function gitRead(cwd, args) {
-  return run(cwd, args);
-}
-var PROBE_TIMEOUT_MS = 5e3;
-function mergeProbe(cwd, ours, theirs) {
-  if (!cwd) return { kind: "unknown" };
-  try {
-    execFileSync("git", ["merge-tree", "--write-tree", "--name-only", "--no-messages", "-z", ours, theirs], {
-      cwd,
-      encoding: "utf8",
-      timeout: PROBE_TIMEOUT_MS,
-      stdio: ["ignore", "pipe", "ignore"],
-      maxBuffer: 8 * 1024 * 1024
-    });
-    return { kind: "clean" };
-  } catch (error2) {
-    const { status, stdout } = error2;
-    if (status !== 1 || !stdout) return { kind: "unknown" };
-    const files = stdout.split("\0").slice(1).filter(Boolean);
-    return files.length > 0 ? { kind: "conflict", files } : { kind: "unknown" };
-  }
-}
-
-// ../lib/card-ops/integration-branch.ts
-import { existsSync as existsSync6, mkdirSync as mkdirSync4 } from "fs";
-import { join as join2 } from "path";
+import { existsSync as existsSync4, statSync as statSync2 } from "fs";
+import { join } from "path";
 
 // ../lib/git/core.ts
 var core_exports3 = {};
@@ -27026,6 +27017,99 @@ function buildCommitArgs(commitMessage) {
   return args;
 }
 
+// ../lib/git/run-changes.ts
+function parsePorcelainPaths(stdout) {
+  const parts = stdout.split("\0");
+  const paths = [];
+  for (let i = 0; i < parts.length; i++) {
+    const entry = parts[i];
+    if (entry.length < 4) continue;
+    const code = entry.slice(0, 2);
+    paths.push(entry.slice(3));
+    if (code.includes("R") || code.includes("C")) i++;
+  }
+  return paths;
+}
+
+// ../lib/git/head.ts
+var TIMEOUT_MS = 2e3;
+function run(cwd, args, raw = false) {
+  if (!cwd) return null;
+  try {
+    const out = execFileSync("git", args, {
+      cwd,
+      encoding: "utf8",
+      timeout: TIMEOUT_MS,
+      stdio: ["ignore", "pipe", "ignore"],
+      maxBuffer: 8 * 1024 * 1024
+    });
+    return raw ? out : out.trim();
+  } catch {
+    return null;
+  }
+}
+function currentHead(cwd) {
+  const head = run(cwd, ["rev-parse", "HEAD"]);
+  return head && /^[0-9a-f]{40}$/.test(head) ? head : null;
+}
+function commitExists(cwd, sha) {
+  return run(cwd, ["cat-file", "-e", `${sha}^{commit}`]) !== null;
+}
+function gitRead(cwd, args) {
+  return run(cwd, args);
+}
+var MAX_STAMP_FILES = 50;
+function codeStamp(cwd) {
+  const commit = currentHead(cwd);
+  const status = run(cwd, ["status", "--porcelain=v1", "-z", "--untracked-files=all"], true);
+  if (status === null) return commit ? { commit, dirty: [], dirtyTotal: 0 } : null;
+  const paths = [...new Set(parsePorcelainPaths(status))];
+  const listed = paths.slice(0, MAX_STAMP_FILES);
+  const present5 = listed.filter((path12) => {
+    try {
+      const full = join(cwd, path12);
+      return existsSync4(full) && statSync2(full).isFile();
+    } catch {
+      return false;
+    }
+  });
+  const hashes = /* @__PURE__ */ new Map();
+  if (present5.length > 0) {
+    const out = run(cwd, ["hash-object", "--", ...present5]);
+    const lines2 = out ? out.split("\n") : [];
+    if (lines2.length === present5.length) present5.forEach((path12, index) => hashes.set(path12, lines2[index].trim()));
+  }
+  if (!commit && listed.length === 0) return null;
+  return {
+    commit,
+    dirty: listed.map((path12) => ({ path: path12, blob: hashes.get(path12) ?? null })),
+    dirtyTotal: paths.length
+  };
+}
+var PROBE_TIMEOUT_MS = 5e3;
+function mergeProbe(cwd, ours, theirs) {
+  if (!cwd) return { kind: "unknown" };
+  try {
+    execFileSync("git", ["merge-tree", "--write-tree", "--name-only", "--no-messages", "-z", ours, theirs], {
+      cwd,
+      encoding: "utf8",
+      timeout: PROBE_TIMEOUT_MS,
+      stdio: ["ignore", "pipe", "ignore"],
+      maxBuffer: 8 * 1024 * 1024
+    });
+    return { kind: "clean" };
+  } catch (error2) {
+    const { status, stdout } = error2;
+    if (status !== 1 || !stdout) return { kind: "unknown" };
+    const files = stdout.split("\0").slice(1).filter(Boolean);
+    return files.length > 0 ? { kind: "conflict", files } : { kind: "unknown" };
+  }
+}
+
+// ../lib/card-ops/integration-branch.ts
+import { existsSync as existsSync7, mkdirSync as mkdirSync4 } from "fs";
+import { join as join3 } from "path";
+
 // ../lib/git/repo.ts
 var repo_exports = {};
 __export(repo_exports, {
@@ -27040,7 +27124,7 @@ __export(repo_exports, {
   isGitRepo: () => isGitRepo,
   worktreeHasUncommittedChanges: () => worktreeHasUncommittedChanges
 });
-import { existsSync as existsSync4 } from "fs";
+import { existsSync as existsSync5 } from "fs";
 async function isGitRepo(projectPath) {
   try {
     await git(projectPath, "rev-parse", "--git-dir");
@@ -27105,7 +27189,7 @@ async function getBranchStatus(projectPath, branchName) {
   }
 }
 async function worktreeHasUncommittedChanges(worktreePath) {
-  if (!existsSync4(worktreePath)) return false;
+  if (!existsSync5(worktreePath)) return false;
   try {
     const { stdout } = await git(worktreePath, "status", "--porcelain", "-uno");
     return stdout.trim().length > 0;
@@ -27172,7 +27256,7 @@ async function fetchRemote(projectPath) {
   }
 }
 async function getUnpushedStatus(projectPath, options = {}) {
-  if (!existsSync4(projectPath) || !await isGitRepo(projectPath)) return UNSUPPORTED;
+  if (!existsSync5(projectPath) || !await isGitRepo(projectPath)) return UNSUPPORTED;
   try {
     const { stdout: remotes } = await git(projectPath, "remote");
     if (!remotes.trim()) return UNSUPPORTED;
@@ -27250,18 +27334,18 @@ __export(worktree_exports, {
   squashMergeFromWorktree: () => squashMergeFromWorktree,
   worktreeExists: () => worktreeExists
 });
-import { existsSync as existsSync5, mkdirSync as mkdirSync3, realpathSync as realpathSync2 } from "fs";
-import path3, { join } from "path";
+import { existsSync as existsSync6, mkdirSync as mkdirSync3, realpathSync as realpathSync2 } from "fs";
+import path3, { join as join2 } from "path";
 function getWorktreeBaseDir(projectPath) {
-  return join(projectPath, ".worktrees", "kanban");
+  return join2(projectPath, ".worktrees", "kanban");
 }
 function getWorktreePath(projectPath, branchName) {
   const branchPart = branchName.startsWith("kanban/") ? branchName.slice(7) : branchName;
-  return join(getWorktreeBaseDir(projectPath), branchPart);
+  return join2(getWorktreeBaseDir(projectPath), branchPart);
 }
 async function worktreeExists(projectPath, worktreePath) {
   try {
-    if (!existsSync5(worktreePath)) {
+    if (!existsSync6(worktreePath)) {
       return false;
     }
     const { stdout } = await git(projectPath, "worktree", "list", "--porcelain");
@@ -27308,7 +27392,7 @@ async function createWorktree(projectPath, branchName, baseBranch) {
   const worktreePath = getWorktreePath(projectPath, branchName);
   const baseDir = getWorktreeBaseDir(projectPath);
   try {
-    if (!existsSync5(baseDir)) {
+    if (!existsSync6(baseDir)) {
       mkdirSync3(baseDir, { recursive: true });
       console.log(`[Git Worktree] Created base directory: ${baseDir}`);
     }
@@ -27460,7 +27544,7 @@ async function findCardBranch(projectPath, idPrefix, taskNumber) {
   if (names.size !== 1) return null;
   const [branchName] = names;
   const worktree = (await listWorktrees(projectPath)).find(
-    (w2) => w2.branch === branchName && !w2.isPrunable && existsSync5(w2.path)
+    (w2) => w2.branch === branchName && !w2.isPrunable && existsSync6(w2.path)
   );
   return { branchName, worktreePath: worktree?.path ?? null };
 }
@@ -27934,7 +28018,7 @@ function cardIntegrationGroup(db2, cardId) {
   return group?.integrationBranch && !group.mergedCommit ? group : null;
 }
 function integrationWorktreePath(projectPath, branch) {
-  return join2(getWorktreeBaseDir(projectPath), "..", branch);
+  return join3(getWorktreeBaseDir(projectPath), "..", branch);
 }
 async function checkedOutAt(projectPath, branch) {
   try {
@@ -27960,8 +28044,8 @@ async function ensureIntegrationBranch(db2, groupId, opts = {}) {
     const holder = await checkedOutAt(workingDir, branch);
     if (holder) return { kind: "ok", branch, worktreePath: holder, created: false };
     const worktreePath = integrationWorktreePath(workingDir, branch);
-    const parent = join2(worktreePath, "..");
-    if (!existsSync6(parent)) mkdirSync4(parent, { recursive: true });
+    const parent = join3(worktreePath, "..");
+    if (!existsSync7(parent)) mkdirSync4(parent, { recursive: true });
     let created = false;
     if (await branchExists(workingDir, branch)) {
       await git(workingDir, "worktree", "add", worktreePath, branch);
@@ -28316,6 +28400,7 @@ __export(test_report_exports, {
   latestResultFor: () => latestResultFor,
   newTestReportRunId: () => newTestReportRunId,
   nextPlayableTime: () => nextPlayableTime,
+  normalizeCodeStamp: () => normalizeCodeStamp,
   normalizeTestReportDecisions: () => normalizeTestReportDecisions,
   normalizeTestReportItem: () => normalizeTestReportItem,
   normalizeTestReportWarnings: () => normalizeTestReportWarnings,
@@ -28341,6 +28426,22 @@ var TEST_REPORT_IMPACT_LABEL = {
 };
 function isTestReportScope(value) {
   return value === "run" || value === "reverify" || value === "single" || value === "retest" || value === "text";
+}
+var SHA = /^[0-9a-f]{40}$/;
+function normalizeCodeStamp(value) {
+  if (!value || typeof value !== "object") return void 0;
+  const record2 = value;
+  const commit = typeof record2.commit === "string" && SHA.test(record2.commit) ? record2.commit : null;
+  const dirty = (Array.isArray(record2.dirty) ? record2.dirty : []).map((entry) => {
+    if (!entry || typeof entry !== "object") return null;
+    const path12 = str(entry.path, 500);
+    if (!path12) return null;
+    const blob = entry.blob;
+    return { path: path12, blob: typeof blob === "string" && SHA.test(blob) ? blob : null };
+  }).filter((entry) => entry !== null).slice(0, 50);
+  const total = typeof record2.dirtyTotal === "number" && Number.isFinite(record2.dirtyTotal) ? Math.floor(record2.dirtyTotal) : 0;
+  if (!commit && dirty.length === 0) return void 0;
+  return { commit, dirty, dirtyTotal: Math.max(total, dirty.length) };
 }
 var TEST_REPORT_VIDEO_NAME = /^[\w.\- @]+\.webm$/;
 function isTestReportVideoName(value) {
@@ -28434,6 +28535,7 @@ var MISSING_EVIDENCE_NOTE = "Marked failed without an observed result or an erro
 var IMAGE_FILE = /^[\w.\- ]+\.(png|jpe?g|webp|gif)$/i;
 function buildTestReportRun(input) {
   return {
+    ...input.code ? { code: input.code } : {},
     id: input.id ?? newTestReportRunId(new Date(input.now)),
     runAt: input.now,
     platform: input.platform,
@@ -28535,6 +28637,7 @@ function normalizeTestReportItem(value) {
   const plainItem = str(record2.plainItem, MAX_PLAIN);
   const plainObserved = str(record2.plainObserved, MAX_PLAIN);
   const impact = status === "failed" ? normalizeImpact(record2.impact) : null;
+  const caveat = status === "passed" ? str(record2.caveat, MAX_PLAIN) : null;
   return {
     item,
     status,
@@ -28545,6 +28648,7 @@ function normalizeTestReportItem(value) {
     ...plainItem ? { plainItem } : {},
     ...plainObserved ? { plainObserved } : {},
     ...impact ? { impact } : {},
+    ...caveat ? { caveat } : {},
     error: error2,
     command: str(record2.command, MAX_TEXT),
     output: str(record2.output, MAX_OUTPUT),
@@ -28599,6 +28703,8 @@ function normalizeRun(value) {
   const runAt = str(record2.runAt, 40);
   if (!id || !runAt || !Array.isArray(record2.items)) return null;
   const video = normalizeVideo(record2.video);
+  const brief = normalizeBrief(record2.brief);
+  const code = normalizeCodeStamp(record2.code);
   const items = record2.items.map((item) => {
     const normalized = normalizeTestReportItem(item);
     if (normalized && item && typeof item === "object") {
@@ -28624,8 +28730,19 @@ function normalizeRun(value) {
     items,
     warnings: normalizeTestReportWarnings(record2.warnings),
     ...video ? { video } : {},
-    ...Array.isArray(record2.decisions) && record2.decisions.length > 0 ? { decisions: normalizeTestReportDecisions(record2.decisions) } : {}
+    ...Array.isArray(record2.decisions) && record2.decisions.length > 0 ? { decisions: normalizeTestReportDecisions(record2.decisions) } : {},
+    ...brief ? { brief } : {},
+    ...code ? { code } : {}
   };
+}
+function normalizeBrief(value) {
+  if (!value || typeof value !== "object") return null;
+  const record2 = value;
+  const text2 = str(record2.text, 1e3);
+  const basis = str(record2.basis, 40);
+  const at = str(record2.at, 40);
+  if (!text2 || !basis || !at) return null;
+  return { text: text2, basis, platform: str(record2.platform, 40), at };
 }
 function parseTestReports(value) {
   if (!value) return null;
@@ -29095,18 +29212,18 @@ function acknowledgeWrite(db2, input) {
 }
 
 // ../lib/autonomous-run/browser-prereqs.ts
-import { accessSync, constants, readdirSync, statSync as statSync2 } from "fs";
+import { accessSync, constants, readdirSync, statSync as statSync3 } from "fs";
 import path4 from "path";
 
 // ../lib/platform/base-provider.ts
-import { join as join3 } from "path";
+import { join as join4 } from "path";
 function buildEnv() {
   const home = process.env.HOME || process.env.USERPROFILE || "";
   const user = process.env.USER || process.env.USERNAME || "";
   const existingPath = process.env.PATH || "";
   const additionalPaths = [
-    join3(home, ".local", "bin"),
-    join3(home, ".claude", "bin"),
+    join4(home, ".local", "bin"),
+    join4(home, ".claude", "bin"),
     "/usr/local/bin",
     "/opt/homebrew/bin"
   ];
@@ -29165,7 +29282,7 @@ var UNOWNED_GRACE_MS = 10 * 6e4;
 // ../lib/autonomous-run/browser-prereqs.ts
 function isExecutableFile(p) {
   try {
-    if (!statSync2(p).isFile()) return false;
+    if (!statSync3(p).isFile()) return false;
     accessSync(p, constants.X_OK);
     return true;
   } catch {
@@ -29280,7 +29397,7 @@ function acceptPlanMarkers(planHtml) {
 }
 
 // ../lib/card-ops/branch-files.ts
-import { existsSync as existsSync7 } from "fs";
+import { existsSync as existsSync8 } from "fs";
 function defaultBranchName(repo) {
   const remote = gitRead(repo, ["symbolic-ref", "refs/remotes/origin/HEAD"]);
   if (remote) return remote.replace("refs/remotes/origin/", "").replace("refs/heads/", "");
@@ -29291,7 +29408,7 @@ function listChangedFiles(repoPath, opts) {
   const base = opts.baseRef || defaultBranchName(repoPath);
   const renames = opts.noRenames ? ["--no-renames"] : [];
   if (opts.worktreePath) {
-    if (!existsSync7(opts.worktreePath)) return [];
+    if (!existsSync8(opts.worktreePath)) return [];
     const mergeBase = gitRead(opts.worktreePath, ["merge-base", base, "HEAD"]);
     if (!mergeBase) return [];
     const stdout = gitRead(opts.worktreePath, ["diff", "--name-only", ...renames, mergeBase]);
@@ -29315,7 +29432,7 @@ function cached3(key, read) {
 }
 function touchedFiles(db2, cardId, row, repo) {
   const base = chainTipFor(db2, cardId, repo)?.ref ?? defaultBranchName(repo);
-  if (row.worktreeStatus === "active" && row.worktreePath && existsSync7(row.worktreePath)) {
+  if (row.worktreeStatus === "active" && row.worktreePath && existsSync8(row.worktreePath)) {
     const head = currentHead(row.worktreePath);
     const found = cached3(`${row.worktreePath}\0${base}\0${head}`, () => {
       const changed = listChangedFiles(repo, { worktreePath: row.worktreePath, baseRef: base, noRenames: true });
@@ -29483,6 +29600,123 @@ function acceptedDecisionCounts(db2) {
 var MAX_LISTED = 20;
 var MAX_FILES = 200;
 var escapeRegExp3 = (text2) => text2.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+function watchedFiles(repo, plan, displayId) {
+  const files = new Set(extractPlanFiles(plan ?? ""));
+  if (displayId) {
+    const own = gitRead(repo, ["log", "--all", "-E", `--grep=^Card: ${escapeRegExp3(displayId)}$`, "--name-only", "--format="]);
+    for (const line of (own ?? "").split("\n")) if (line.trim()) files.add(line.trim());
+  }
+  return [...files].filter((file2) => !isGenerated(file2)).slice(0, MAX_FILES);
+}
+var MAX_RUN_COMMITS = 5;
+function blobsAt(repo, ref, paths) {
+  const out = gitRead(repo, ["ls-tree", "-r", ref, "--", ...paths]);
+  if (out === null) return null;
+  const blobs = new Map(paths.map((path12) => [path12, null]));
+  for (const line of out.split("\n")) {
+    const match = /^\d+ blob ([0-9a-f]{40})\t(.+)$/.exec(line);
+    if (match) blobs.set(match[2], match[1]);
+  }
+  return blobs;
+}
+function codeChangeFor(repo, tip, watched, code) {
+  const { commit } = code;
+  if (!commit) return { state: "unknown", reason: "no commit recorded" };
+  if (!commitExists(repo, commit)) return { state: "unknown", reason: "commit no longer in the repo" };
+  if (gitRead(repo, ["merge-base", "--is-ancestor", commit, tip]) === null) {
+    return { state: "unknown", reason: "today's code does not descend from the tested commit" };
+  }
+  const watchedSet = new Set(watched);
+  const diff = gitRead(repo, ["diff", "--name-only", commit, tip, "--", ...watched]);
+  if (diff === null) return { state: "unknown", reason: "git could not compare" };
+  const changed = new Set(diff.split("\n").map((line) => line.trim()).filter(Boolean));
+  const dirty = code.dirty.filter((entry) => watchedSet.has(entry.path));
+  const uncommitted = [];
+  if (dirty.length > 0) {
+    const paths = dirty.map((entry) => entry.path);
+    const atTip = blobsAt(repo, tip, paths);
+    const atCommit = blobsAt(repo, commit, paths);
+    if (!atTip || !atCommit) return { state: "unknown", reason: "git could not compare" };
+    for (const entry of dirty) {
+      changed.delete(entry.path);
+      const now = atTip.get(entry.path) ?? null;
+      if (now === entry.blob) continue;
+      if (now === (atCommit.get(entry.path) ?? null)) uncommitted.push(entry.path);
+      else changed.add(entry.path);
+    }
+  }
+  if (changed.size === 0) return { state: "same", uncommitted };
+  const files = [...changed].sort();
+  const log = gitRead(repo, ["log", "--no-merges", `-${MAX_RUN_COMMITS}`, "--format=%H%x1f%s%x1f%cI%x1e", `${commit}..${tip}`, "--", ...files]);
+  const commits = [];
+  for (const record2 of (log ?? "").split("")) {
+    const [sha, subject, at] = record2.replace(/^\n+/, "").split("");
+    if (!sha || !/^[0-9a-f]{40}$/.test(sha.trim())) continue;
+    commits.push({ sha: sha.trim(), subject: (subject ?? "").trim(), at: (at ?? "").trim() });
+  }
+  return { state: "changed", files, commits, uncommitted };
+}
+function runCodeChangesFor(db2, cardId, runs) {
+  const result = {};
+  try {
+    const row = getRow(
+      db2,
+      `SELECT c.test_reports AS reports, c.solution_summary AS plan, c.task_number AS taskNumber,
+              p.id_prefix AS idPrefix, p.folder_path AS projectFolder, c.project_folder AS cardFolder
+       FROM cards c LEFT JOIN projects p ON p.id = c.project_id WHERE c.id = ?`,
+      cardId
+    );
+    if (!row) return result;
+    const list = runs ?? parseTestReports(row.reports) ?? [];
+    const unstamped = (run2) => {
+      result[run2.id] = { state: "unknown", reason: "no commit stamp" };
+    };
+    const stamped = list.filter((run2) => run2.code?.commit);
+    list.filter((run2) => !run2.code?.commit).forEach(unstamped);
+    if (stamped.length === 0) return result;
+    const repo = row.projectFolder || row.cardFolder;
+    const codeFolder = cardRepoFolder(db2, cardId);
+    if (!repo || !codeFolder) {
+      stamped.forEach((run2) => result[run2.id] = { state: "unknown", reason: "no git repo" });
+      return result;
+    }
+    const tip = codeFolder !== repo ? currentHead(codeFolder) ?? currentHead(repo) : chainTipFor(db2, cardId, repo)?.sha ?? currentHead(repo);
+    const watched = watchedFiles(repo, row.plan, formatDisplayId(row.idPrefix, row.taskNumber));
+    const seen = /* @__PURE__ */ new Map();
+    for (const run2 of stamped) {
+      const code = run2.code;
+      if (!tip || watched.length === 0) {
+        result[run2.id] = { state: "unknown", reason: tip ? "the card has no files to watch" : "no git repo" };
+        continue;
+      }
+      const key = `${code.commit}|${code.dirty.map((entry) => `${entry.path}:${entry.blob}`).join(",")}`;
+      let change = seen.get(key);
+      if (!change) {
+        change = codeChangeFor(repo, tip, watched, code);
+        seen.set(key, change);
+      }
+      result[run2.id] = change;
+    }
+  } catch {
+  }
+  return result;
+}
+function chainRunCodeChangesFor(db2, parentId) {
+  const result = {};
+  let children;
+  try {
+    children = allRows(
+      db2,
+      `SELECT id FROM cards WHERE split_from_card_id = ? AND status != 'withdrawn'`,
+      parentId
+    );
+  } catch {
+    return result;
+  }
+  if (children.length === 0) return result;
+  for (const { id } of [...children, { id: parentId }]) result[id] = runCodeChangesFor(db2, id);
+  return result;
+}
 function driftSince(db2, cardId, field, opts = {}) {
   try {
     if (!hasBaseCommitColumns(db2)) return null;
@@ -29501,12 +29735,7 @@ function driftSince(db2, cardId, field, opts = {}) {
     const repo = row.projectFolder || row.cardFolder;
     if (!repo || !commitExists(repo, base)) return null;
     const displayId = formatDisplayId(row.idPrefix, row.taskNumber);
-    const files = new Set(extractPlanFiles(row.plan ?? ""));
-    if (displayId) {
-      const own = gitRead(repo, ["log", "--all", "-E", `--grep=^Card: ${escapeRegExp3(displayId)}$`, "--name-only", "--format="]);
-      for (const line of (own ?? "").split("\n")) if (line.trim()) files.add(line.trim());
-    }
-    const watched = [...files].filter((file2) => !isGenerated(file2)).slice(0, MAX_FILES);
+    const watched = watchedFiles(repo, row.plan, displayId);
     if (watched.length === 0) return null;
     const chainTip = chainTipFor(db2, cardId, repo);
     const tip = chainTip?.ref ?? "HEAD";
@@ -30360,7 +30589,7 @@ function reviseTests(db2, args) {
 }
 
 // ../lib/card-ops/split-proposals.ts
-import { statSync as statSync3 } from "fs";
+import { statSync as statSync4 } from "fs";
 import path5 from "path";
 
 // ../lib/prompts/mockup-request.ts
@@ -30668,7 +30897,7 @@ var CHILD_SELECT2 = `SELECT c.id, c.title, c.status, c.task_number AS taskNumber
 var refName = (ref) => ref.displayId ?? ref.title;
 function isFile(absPath) {
   try {
-    return statSync3(absPath).isFile();
+    return statSync4(absPath).isFile();
   } catch {
     return false;
   }
@@ -31942,6 +32171,23 @@ function markTestReportVideosRemoved(db2, args) {
     return { ok: true };
   });
 }
+function saveTestReportBrief(db2, args) {
+  return transaction(db2, () => {
+    const row = getRow(db2, `SELECT test_reports FROM cards WHERE id = ?`, args.id);
+    if (!row) return { ok: false };
+    const runs = parseTestReports(row.test_reports) ?? [];
+    if (!runs.some((run2) => run2.id === args.runId)) return { ok: false };
+    const next = runs.map((run2) => run2.id === args.runId ? { ...run2, brief: args.brief } : run2);
+    runChanges(
+      db2,
+      `UPDATE cards SET test_reports = ?, updated_at = ? WHERE id = ?`,
+      JSON.stringify(next),
+      args.brief.at,
+      args.id
+    );
+    return { ok: true };
+  });
+}
 
 // ../lib/platform/legacy-platform.ts
 var KNOWN_AI_PLATFORMS = ["claude", "antigravity", "codex", "opencode"];
@@ -32667,7 +32913,7 @@ function projectIdOfCard(db2, cardId) {
 }
 
 // ../lib/linked-folders.ts
-import { existsSync as existsSync8, realpathSync as realpathSync3, statSync as statSync4 } from "fs";
+import { existsSync as existsSync9, realpathSync as realpathSync3, statSync as statSync5 } from "fs";
 import { homedir as homedir2 } from "os";
 import path7 from "path";
 function parseLinkedFolders(raw) {
@@ -32687,7 +32933,7 @@ function linkedFolderProblem(folder, homeDir = homedir2()) {
   let real;
   try {
     real = realpathSync3(folder);
-    if (!statSync4(real).isDirectory()) return "Not a folder";
+    if (!statSync5(real).isDirectory()) return "Not a folder";
   } catch {
     return "Folder not found";
   }
@@ -33151,7 +33397,7 @@ async function mergeChain(db2, groupId, opts = {}) {
 }
 
 // ../lib/card-ops/merge-card.ts
-import { existsSync as existsSync9, readFileSync as readFileSync4 } from "fs";
+import { existsSync as existsSync10, readFileSync as readFileSync4 } from "fs";
 function isSplitParent(db2, cardId) {
   const columns2 = db2.prepare(`PRAGMA table_info("cards")`).all();
   if (!columns2.some((column) => column.name === "split_from_card_id")) return false;
@@ -33251,7 +33497,7 @@ async function mergeCard(db2, cardId, opts = {}) {
   }
   const displayId = formatDisplayId(project?.idPrefix, card.taskNumber) ?? `TASK-${card.taskNumber || "X"}`;
   const commitMessage = intoChain ? chainMergeCommitMessage(displayId, card.title, branchName) : mergeCommitMessage(displayId, card.title, branchName);
-  const worktreePath = card.gitWorktreePath && existsSync9(card.gitWorktreePath) ? card.gitWorktreePath : null;
+  const worktreePath = card.gitWorktreePath && existsSync10(card.gitWorktreePath) ? card.gitWorktreePath : null;
   const markConflict = (conflictFiles) => setCardRuntime(db2, cardId, { rebaseConflict: true, conflictFiles }, now());
   let stashSha = null;
   const stashMessage = `kanban-merge-stash-${cardId}-${Date.now()}`;
@@ -33329,7 +33575,7 @@ async function mergeCard(db2, cardId, opts = {}) {
   try {
     if (worktreePath) {
       const gitDir = worktreeGitDir(worktreePath);
-      if (existsSync9(`${gitDir}/rebase-merge`) || existsSync9(`${gitDir}/rebase-apply`)) {
+      if (existsSync10(`${gitDir}/rebase-merge`) || existsSync10(`${gitDir}/rebase-apply`)) {
         log(`[Merge] Ongoing rebase detected in worktree`);
         const conflictFiles = await unmergedFiles(worktreePath);
         if (!card.rebaseConflict) markConflict(conflictFiles);
@@ -33803,6 +34049,17 @@ async function landReadyChainMembers(db2, groupId, opts = {}) {
   }
   return out;
 }
+function readyChainFor(db2, cardId) {
+  const row = getRow(
+    db2,
+    `SELECT c.group_id AS groupId FROM cards c
+     WHERE c.id = ? AND c.group_id IS NOT NULL AND EXISTS (
+       SELECT 1 FROM cards m WHERE m.group_id = c.group_id AND m.autopilot_stage = 'ready'
+         AND m.status = 'test' AND m.git_branch_status = 'active')`,
+    cardId
+  );
+  return row?.groupId ?? null;
+}
 function chainsWithReadyMembers(db2) {
   return allRows(
     db2,
@@ -34220,7 +34477,7 @@ __export(card_mockups_exports, {
   mockupState: () => mockupState,
   resolveCardMockupFile: () => resolveCardMockupFile
 });
-import { existsSync as existsSync10, realpathSync as realpathSync4, statSync as statSync5 } from "fs";
+import { existsSync as existsSync11, realpathSync as realpathSync4, statSync as statSync6 } from "fs";
 import path8 from "path";
 function isInside3(child, parent) {
   return child === parent || child.startsWith(parent + path8.sep);
@@ -34237,7 +34494,7 @@ function mockupState(cardId, absPath, cardDir = cardArtifactDir(cardId)) {
   let real;
   try {
     real = realpathSync4(absPath);
-    if (!statSync5(real).isFile()) return { state: "missing" };
+    if (!statSync6(real).isFile()) return { state: "missing" };
   } catch {
     return { state: "missing" };
   }
@@ -34255,9 +34512,9 @@ function resolveCardMockupFile(cardId, segments, cardDir = cardArtifactDir(cardI
   const root = realDir(cardDir);
   if (!root) return null;
   const candidate = path8.join(root, ...segments);
-  if (!existsSync10(candidate)) return null;
+  if (!existsSync11(candidate)) return null;
   const real = realpathSync4(candidate);
-  if (!isInside3(real, root) || real === root || !statSync5(real).isFile()) return null;
+  if (!isInside3(real, root) || real === root || !statSync6(real).isFile()) return null;
   return real;
 }
 
@@ -34273,7 +34530,7 @@ __export(test_report_files_exports, {
   testReportRunDir: () => testReportRunDir,
   waitForRunVideos: () => waitForRunVideos
 });
-import { copyFileSync as copyFileSync3, mkdirSync as mkdirSync5, readdirSync as readdirSync2, rmSync as rmSync2, statSync as statSync6 } from "fs";
+import { copyFileSync as copyFileSync3, mkdirSync as mkdirSync5, readdirSync as readdirSync2, rmSync as rmSync2, statSync as statSync7 } from "fs";
 import { homedir as homedir3 } from "os";
 import path9 from "path";
 var MAX_SCREENSHOT_BYTES = 20 * 1024 * 1024;
@@ -34292,7 +34549,7 @@ function removeTestReportRunDirs(cardId, runs, homeDir) {
 }
 function isFile2(p) {
   try {
-    const stat = statSync6(p);
+    const stat = statSync7(p);
     return stat.isFile() && stat.size <= MAX_SCREENSHOT_BYTES;
   } catch {
     return false;
@@ -34339,7 +34596,7 @@ function findRunVideos(runDir) {
   for (const file2 of names) {
     if (!file2.endsWith(".webm") || !isTestReportVideoName(file2)) continue;
     try {
-      const stat = statSync6(path9.join(runDir, file2));
+      const stat = statSync7(path9.join(runDir, file2));
       if (stat.isFile()) videos.push({ file: file2, size: stat.size, birthMs: stat.birthtimeMs || 0 });
     } catch {
     }
@@ -34374,7 +34631,7 @@ function stampArtifactVideoTimes(items, runDir, offset) {
     artifacts: item.artifacts.map((artifact) => {
       let mtimeMs = NaN;
       try {
-        mtimeMs = statSync6(path9.join(runDir, artifact.file)).mtimeMs;
+        mtimeMs = statSync7(path9.join(runDir, artifact.file)).mtimeMs;
       } catch {
       }
       return { ...artifact, videoAt: offset(mtimeMs) };
@@ -34386,6 +34643,8 @@ function stampArtifactVideoTimes(items, runDir, offset) {
 var test_report_text_exports = {};
 __export(test_report_text_exports, {
   TEST_REPORT_SCOPE_LABEL: () => TEST_REPORT_SCOPE_LABEL,
+  cardStateLines: () => cardStateLines,
+  formatChainState: () => formatChainState,
   formatTestReport: () => formatTestReport,
   selectTestReportRun: () => selectTestReportRun,
   testReportCardSummary: () => testReportCardSummary,
@@ -34401,6 +34660,353 @@ var FENCE2 = new RegExp(
   "gm"
 );
 var PLAN_DRIFT_IMPLEMENTATION_RULE = `Plan drift: when get_card returns a \`planDrift\` field, the plan was written before those commits. The code wins \u2014 read them with \`git show <sha> -- <file>\` before you follow the plan, and do not edit the plan. After the checklist, add one fenced \`\`\`${PLAN_DEVIATIONS_FENCE} block with one line per place you deviated from the plan (what the plan said, what you did instead, why). With no \`planDrift\` field, or no deviation, leave the block out.`;
+
+// ../lib/test-report-state.ts
+var NOT_SEEN_ON_SCREEN = "not seen on screen";
+function plural4(n, word) {
+  return `${n} ${word}${n === 1 ? "" : "s"}`;
+}
+function formatRunAt(iso) {
+  const date4 = new Date(iso);
+  if (Number.isNaN(date4.getTime())) return iso;
+  return date4.toLocaleString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+}
+var SCOPE_VERB = {
+  run: "ran",
+  reverify: "re-checked after a fix",
+  single: "verified on screen",
+  retest: "re-tested",
+  text: "ran as text"
+};
+function outcome(items) {
+  const failed = items.filter((item) => item.status === "failed").length;
+  const manual = items.filter((item) => item.status === "manual").length;
+  if (items.length === 0) return "nothing ran";
+  if (failed === 0 && manual === 0) {
+    if (items.length === 1) return "passed";
+    return items.length === 2 ? "both passed" : "all passed";
+  }
+  const parts = [];
+  if (failed > 0) parts.push(`${failed} failed`);
+  if (manual > 0) parts.push(`${manual} manual`);
+  return parts.join(", ");
+}
+function lastRunLine(run2, number3) {
+  const parts = [`#${number3}`, formatRunAt(run2.runAt)];
+  if (run2.platform) parts.push(run2.platform);
+  parts.push(run2.evidence === "visual" ? "Visual" : "Text only, no recording");
+  parts.push(`${SCOPE_VERB[run2.scope]} ${run2.items.length}, ${outcome(run2.items)}`);
+  return parts.join(" \xB7 ");
+}
+function runCodeCaveat(change, runNumber) {
+  if (!change || change.state === "unknown") return null;
+  if (change.state === "changed") {
+    return `Passed before later changes \xB7 ${plural4(change.files.length, "file")} changed since #${runNumber}`;
+  }
+  if (change.uncommitted.length > 0) {
+    const names = change.uncommitted.map((path12) => path12.split("/").pop() ?? path12);
+    const shown = names.slice(0, 3).join(", ");
+    return `Passed with uncommitted code: ${shown}${names.length > 3 ? ` +${names.length - 3}` : ""}`;
+  }
+  return null;
+}
+function cardTestReportState(allRuns, checklistHtml, asOf = 0, codeChanges) {
+  const html = checklistHtml ?? "";
+  const runsAll = allRuns ?? [];
+  const offset = Math.max(0, Math.min(asOf, runsAll.length));
+  const runs = runsAll.slice(offset);
+  const numberOf = (index) => runsAll.length - (index + offset);
+  const ready = readyToMerge({ testScenarios: html, testReports: runs });
+  const latest = latestItemResults(runs, html);
+  const progress = parseTestProgress(html);
+  const manualUnticked = new Set(progress ? manualItemTexts(html, progress.groups) : []);
+  const textOnly = runs.length > 0 && runs.every((run2) => run2.evidence !== "visual");
+  const problems = [];
+  const needsYou = [];
+  const passedBut = [];
+  const notTested = [];
+  const worked = [];
+  const runKeys = runs.map(
+    (run2) => run2.items.map((item) => latestItemResults([{ ...run2, items: [item] }], html).keys().next().value ?? null)
+  );
+  const tasks = extractTaskItems(html);
+  const seen = /* @__PURE__ */ new Set();
+  for (const task of tasks) {
+    if (seen.has(task.normalized)) continue;
+    seen.add(task.normalized);
+    const text2 = plainTaskText(task.rawText);
+    const newest = latest.get(task.normalized);
+    const manualOpen = !task.checked && manualUnticked.has(text2);
+    if (!newest) {
+      const state2 = {
+        kind: manualOpen ? "needsYou" : "notTested",
+        checklistText: text2,
+        sentence: stripItemTokens(text2),
+        observed: null,
+        status: null,
+        caveat: null,
+        codeCaveat: null,
+        runNumber: null,
+        runIndex: null,
+        videoAt: null,
+        textOnly: false,
+        history: []
+      };
+      (manualOpen ? needsYou : notTested).push(state2);
+      continue;
+    }
+    const { item, run: run2, runIndex } = newest;
+    const history = [];
+    runs.forEach((r, index) => {
+      const hit = r.items.find((_2, itemIndex) => runKeys[index][itemIndex] === task.normalized);
+      if (hit) history.push({ run: numberOf(index), status: hit.status });
+    });
+    history.reverse();
+    const unseen = item.status === "passed" && run2.evidence !== "visual" && isUiItem(text2);
+    const caveat = item.status === "passed" ? item.caveat ?? (unseen ? NOT_SEEN_ON_SCREEN : null) : null;
+    const codeCaveat = item.status === "passed" ? runCodeCaveat(codeChanges?.[run2.id], numberOf(runIndex)) : null;
+    let kind;
+    if (item.status === "failed") kind = "problem";
+    else if (item.status === "manual" && !task.checked || manualOpen) kind = "needsYou";
+    else if (caveat || codeCaveat) kind = "passedBut";
+    else kind = "worked";
+    const state = {
+      kind,
+      checklistText: text2,
+      sentence: item.plainItem ?? stripItemTokens(item.item),
+      observed: item.plainObserved ?? item.observed,
+      status: item.status,
+      ...item.impact ? { impact: item.impact } : {},
+      caveat,
+      codeCaveat,
+      runNumber: numberOf(runIndex),
+      runIndex: runIndex + offset,
+      videoAt: run2.video ? testReportItemVideoAt(item) : null,
+      textOnly: run2.evidence !== "visual",
+      history,
+      result: item
+    };
+    ({ problem: problems, needsYou, passedBut, notTested, worked })[kind].push(state);
+  }
+  const passed = worked.length + passedBut.length;
+  const unseenCount = passedBut.filter((s) => s.caveat === NOT_SEEN_ON_SCREEN).length;
+  const failurePart = `${problems.length} failing`;
+  const counts = textOnly ? `${passed - unseenCount} passed \xB7 ${failurePart} \xB7 ${unseenCount} ${NOT_SEEN_ON_SCREEN}` : `${passed} passed \xB7 ${failurePart} \xB7 ${needsYou.length} manual left`;
+  const runNotes = [];
+  const newestRun = runs[0];
+  if (newestRun) {
+    for (const warning of newestRun.warnings ?? []) runNotes.push(warning);
+    if (!newestRun.checklistApplied && progress) {
+      runNotes.push(
+        `#${numberOf(0)}'s checklist was refused, so Tests still shows ${progress.checked}/${progress.total}`
+      );
+    }
+  }
+  const headlineNote = ready.ok && problems.length > 0 ? `${plural4(problems.length, "failing item")} ${problems.length === 1 ? "is" : "are"} ticked in Tests` : null;
+  return {
+    headline: ready.ok ? "Ready to merge" : "Not ready to merge",
+    ready,
+    counts,
+    failureLine: testReportFailureLine(problems.map((s) => ({ status: "failed", impact: s.impact }))),
+    lastRun: newestRun ? lastRunLine(newestRun, numberOf(0)) : null,
+    textOnly,
+    asOfRun: offset > 0 && newestRun ? numberOf(0) : null,
+    problems,
+    needsYou,
+    passedBut,
+    notTested,
+    worked,
+    runNotes,
+    passedButTitle: textOnly && runNotes.length === 0 && passedBut.length > 0 && passedBut.every((p) => p.caveat === NOT_SEEN_ON_SCREEN && !p.codeCaveat) ? "Not seen on screen" : "Passed, but",
+    headlineNote
+  };
+}
+
+// ../lib/test-report-brief.ts
+var SECTION_TITLES = [
+  ["problems", "Problems (failed)"],
+  ["needsYou", "Needs you (manual, left to the person)"],
+  ["passedBut", "Passed, but (passed with a caveat)"],
+  ["notTested", "Not tested yet"],
+  ["worked", "Worked"]
+];
+var BRIEF_RULES_VERSION = "text-only";
+function djb2(text2) {
+  let hash2 = 5381;
+  for (let i = 0; i < text2.length; i++) hash2 = (hash2 << 5) + hash2 + text2.charCodeAt(i) | 0;
+  return (hash2 >>> 0).toString(36);
+}
+function briefBasis(state) {
+  const parts = [BRIEF_RULES_VERSION, state.headline, state.textOnly ? "text" : "visual", ...state.runNotes];
+  for (const [key] of SECTION_TITLES) {
+    for (const item of state[key]) parts.push(`${item.kind}\0${item.checklistText}\0${item.caveat ?? ""}`);
+  }
+  return djb2(parts.join(""));
+}
+function currentBrief(brief, state) {
+  if (!brief) return null;
+  return brief.basis === briefBasis(state) ? brief.text : null;
+}
+
+// ../lib/chain-test-report-state.ts
+var chain_test_report_state_exports = {};
+__export(chain_test_report_state_exports, {
+  CHAIN_ACROSS_LINE: () => CHAIN_ACROSS_LINE,
+  TEXT_ONLY_CAVEAT: () => TEXT_ONLY_CAVEAT,
+  chainCaveatText: () => chainCaveatText,
+  chainDecisionText: () => chainDecisionText,
+  chainTestReportState: () => chainTestReportState,
+  stopNextStep: () => stopNextStep
+});
+function stopNextStep(reason) {
+  if (/items? blocked/.test(reason)) {
+    return "Read that item below. Check it yourself and tick it, or correct its text, then Continue. Continue with no change stops at the same place.";
+  }
+  if (/could not go into|conflict/.test(reason)) {
+    return "Two cards touched the same lines. Press Merge on the card to solve the conflict; the chain goes on by itself.";
+  }
+  if (reason.startsWith(DECISION_STOP_PREFIX)) {
+    return "Answer the decision in the plan and delete its marker, then Continue.";
+  }
+  if (/same failure/.test(reason)) return "A real failure keeps coming back. Solve it in the card's chat, then Continue.";
+  if (reason.startsWith(RALPH_BROWSER_PREFIX) || reason === RALPH_BROWSER_UNUSED || reason.includes(RALPH_BROWSER_UNUSED)) {
+    return "No visual proof. Check the project's web preview and Chrome, then Continue.";
+  }
+  if (/time cap/.test(reason)) return "Time ran out. Continue gives a fresh budget.";
+  if (/timed out|idle timeout|run failed/.test(reason)) return "Open the card's Test Report and the run's log, then Continue.";
+  return null;
+}
+var CHAIN_ACROSS_LINE = "Newest result of each item, across every run of each card";
+var TEXT_ONLY_CAVEAT = "tested as text only, no recording";
+function plural5(n, word) {
+  return `${n} ${word}${n === 1 ? "" : "s"}`;
+}
+function chainTestReportState(members, opts = {}) {
+  const live = members.filter((member) => member.status !== "withdrawn");
+  const parent = live.find((member) => member.isParent) ?? null;
+  const children = live.filter((member) => member !== parent);
+  const problems = [];
+  const needsYou = [];
+  const caveats = /* @__PURE__ */ new Map();
+  const addCaveat = (text2, displayId) => {
+    const list = caveats.get(text2) ?? [];
+    if (!list.includes(displayId)) list.push(displayId);
+    caveats.set(text2, list);
+  };
+  let passed = 0;
+  let failing = 0;
+  let notTicked = 0;
+  let unseen = 0;
+  let waiting = 0;
+  const ran = [];
+  const textRuns = [];
+  if (parent && parent.testScenarios !== void 0) {
+    const progress = parseTestProgress(parent.testScenarios ?? "");
+    const runs = parent.testReports ?? [];
+    const count = progress && progress.total > 0 ? ` (${progress.checked}/${progress.total})` : "";
+    const finished = !!progress && progress.total > 0 && progress.checked === progress.total;
+    if (runs.length === 0 && !finished) {
+      needsYou.push({ displayId: parent.displayId, cardId: parent.id, sentence: `${parent.displayId}'s final test has not run${count}`, item: null });
+    } else if (runs.length > 0 && !finished) {
+      needsYou.push({ displayId: parent.displayId, cardId: parent.id, sentence: `${parent.displayId}'s final test is not finished${count}`, item: null });
+    }
+  }
+  const cards = [...children, ...parent ? [parent] : []].map((member) => {
+    const isParent = member === parent;
+    if (member.testScenarios === void 0) {
+      waiting += 1;
+      return {
+        id: member.id,
+        displayId: member.displayId,
+        title: member.title,
+        isParent,
+        evidence: null,
+        passed: 0,
+        failing: 0,
+        ticked: 0,
+        total: 0,
+        ready: false,
+        statusLine: "loading",
+        state: null
+      };
+    }
+    const state = cardTestReportState(member.testReports, member.testScenarios, 0, member.codeChanges);
+    const progress = parseTestProgress(member.testScenarios ?? "");
+    const ticked = progress?.checked ?? 0;
+    const total = progress?.total ?? 0;
+    const newest = member.testReports?.[0] ?? null;
+    const evidence = newest ? newest.evidence === "visual" ? "visual" : "text" : null;
+    const memberPassed = state.worked.length + state.passedBut.length;
+    const memberUnseen = state.passedBut.filter((item) => item.caveat === NOT_SEEN_ON_SCREEN).length;
+    passed += memberPassed;
+    failing += state.problems.length;
+    notTicked += total - ticked;
+    unseen += memberUnseen;
+    if (newest) {
+      ran.push(true);
+      textRuns.push(state.textOnly);
+    }
+    for (const item of state.problems) problems.push({ displayId: member.displayId, cardId: member.id, sentence: item.sentence, item });
+    for (const item of state.needsYou) needsYou.push({ displayId: member.displayId, cardId: member.id, sentence: item.sentence, item });
+    if (state.textOnly) addCaveat(TEXT_ONLY_CAVEAT, member.displayId);
+    for (const note of state.runNotes) addCaveat(note, member.displayId);
+    for (const item of state.passedBut) {
+      if (item.codeCaveat) addCaveat(item.codeCaveat, member.displayId);
+      if (!item.caveat || state.textOnly && item.caveat === NOT_SEEN_ON_SCREEN) continue;
+      addCaveat(item.caveat, member.displayId);
+    }
+    const ready2 = isParent ? state.ready.ok && total > 0 && ticked === total : isReadyForParent(member);
+    const parts = [evidence ?? "no run", `${memberPassed} passed`];
+    if (state.problems.length > 0) parts.push(`${state.problems.length} failing`);
+    parts.push(total > 0 ? `${ticked}/${total}` : "no checklist");
+    return {
+      id: member.id,
+      displayId: member.displayId,
+      title: member.title,
+      isParent,
+      evidence,
+      passed: memberPassed,
+      failing: state.problems.length,
+      ticked,
+      total,
+      ready: ready2,
+      statusLine: parts.join(" \xB7 "),
+      state
+    };
+  });
+  const textOnly = ran.length > 0 && textRuns.every(Boolean);
+  const counts = textOnly ? `${passed - unseen} passed \xB7 ${failing} failing \xB7 ${unseen} ${NOT_SEEN_ON_SCREEN} \xB7 ${notTicked} not ticked yet` : `${passed} passed \xB7 ${failing} failing \xB7 ${notTicked} not ticked yet`;
+  const childrenReady = children.length > 0 && cards.filter((row) => !row.isParent).every((row) => row.ready);
+  const parentRow = cards.find((row) => row.isParent);
+  const ready = waiting === 0 && childrenReady && (parentRow ? parentRow.ready : true);
+  const stoppedMember = live.find((member) => member.autopilotStage === "stopped" && member.autopilotStopReason);
+  const decisions = live.filter((member) => (member.acceptedDecisions ?? 0) > 0).map((member) => ({ displayId: member.displayId, count: member.acceptedDecisions ?? 0 }));
+  const ralph = opts.ralph || stoppedMember || decisions.length > 0 ? {
+    stopped: stoppedMember ? {
+      displayId: stoppedMember.displayId,
+      reason: stoppedMember.autopilotStopReason ?? "",
+      next: stopNextStep(stoppedMember.autopilotStopReason ?? "")
+    } : null,
+    decisions
+  } : null;
+  return {
+    headline: ready ? "Ready to merge" : "Not ready to merge",
+    counts,
+    textOnly,
+    problems,
+    needsYou,
+    passedBut: [...caveats.entries()].map(([text2, list]) => ({ text: text2, cards: list })),
+    cards,
+    waiting,
+    ralph
+  };
+}
+function chainCaveatText(line) {
+  return `${line.cards.join(", ")}: ${line.text}`;
+}
+function chainDecisionText(entry) {
+  return `${entry.displayId} \xB7 ${plural5(entry.count, "decision")} Ralph took`;
+}
 
 // ../lib/test-report-text.ts
 var TEST_REPORT_SCOPE_LABEL = {
@@ -34438,7 +35044,13 @@ function countsText(run2) {
 }
 function runLine(run2, index, total) {
   const origin = run2.source === "terminal" ? "terminal" : "app";
-  return `#${testReportRunNumber(index, total)} \xB7 ${run2.runAt} \xB7 ${testReportRunLabel(run2)} \xB7 ${run2.evidence} \xB7 ${origin} \xB7 ${countsText(run2)}`;
+  return `#${testReportRunNumber(index, total)} \xB7 ${run2.runAt} \xB7 ${testReportRunLabel(run2)} \xB7 ${run2.evidence} \xB7 ${origin} \xB7 ${countsText(run2)} \xB7 ${codeText(run2)}`;
+}
+function codeText(run2) {
+  const commit = run2.code?.commit;
+  if (!commit) return "code: not recorded";
+  const dirty = run2.code?.dirtyTotal ?? 0;
+  return `code: ${commit.slice(0, 7)}${dirty > 0 ? ` (+${dirty} uncommitted)` : ""}`;
 }
 function indent(text2, prefix) {
   return text2.split("\n").map((line) => `${prefix}${line}`).join("\n");
@@ -34460,6 +35072,7 @@ function itemText(item, number3, full, clip) {
   field("Observed", item.observed);
   field("In plain words", [item.plainItem, item.plainObserved].filter(Boolean).join(" ") || null);
   field("Impact (the run's own reading)", item.impact ?? null);
+  field("Passed, but", item.caveat ?? null);
   field("Error", item.error);
   field("Command", item.command);
   if (item.output) lines2.push("   Output:", indent(item.output, "     "));
@@ -34484,11 +35097,16 @@ function videoLines(video, videoPath) {
   return lines2;
 }
 function formatTestReport(input) {
-  const { displayId, runs, index, status, checklistHtml, screenshotsAttached, videoPath, summaryLine } = input;
+  const { displayId, runs, index, status, checklistHtml, screenshotsAttached, videoPath, summaryLine, codeChanges } = input;
   const run2 = runs[index];
   const total = runs.length;
   const out = [];
   out.push(`Test Report \xB7 ${displayId} \xB7 ${total} run${total === 1 ? "" : "s"}, newest first`);
+  if (checklistHtml) {
+    const state = cardTestReportState(runs, checklistHtml, 0, codeChanges);
+    const briefState = codeChanges ? cardTestReportState(runs, checklistHtml) : state;
+    out.push("", ...cardStateLines(state, runs[0]?.brief, briefState), "");
+  }
   runs.forEach((r, i) => out.push(`${i === index ? "\u2192" : " "} ${runLine(r, i, total)}`));
   out.push("");
   out.push(
@@ -34537,9 +35155,38 @@ function formatTestReport(input) {
   }
   return out.join("\n");
 }
-function testReportCardSummary(runs) {
+function stateItemLine(state) {
+  const at = state.runNumber !== null ? ` (#${state.runNumber})` : "";
+  const extra = state.kind === "problem" ? [state.impact, state.observed].filter(Boolean).join(": ") : state.kind === "passedBut" ? [state.caveat, state.codeCaveat].filter(Boolean).join(". ") : "";
+  return `- ${state.sentence}${at}${extra ? ` \u2014 ${extra}` : ""}`;
+}
+function cardStateLines(state, brief, briefState = state) {
+  const out = ["Card state (newest result of each checklist item):", state.headline];
+  if (state.headlineNote) out.push(state.headlineNote);
+  out.push(state.counts);
+  if (state.failureLine) out.push(state.failureLine);
+  if (state.lastRun) out.push(`Last run: ${state.lastRun}`);
+  const aiSummary = currentBrief(brief, briefState);
+  if (aiSummary) out.push(`AI summary: ${aiSummary}`);
+  const section2 = (title, items, notes = []) => {
+    if (!items.length && !notes.length) return;
+    out.push("", `${title} \xB7 ${items.length + notes.length}`);
+    for (const item of items) out.push(stateItemLine(item));
+    for (const note of notes) out.push(`- ${note}`);
+  };
+  section2("Problems", state.problems);
+  section2("Needs you", state.needsYou);
+  section2(state.passedButTitle, state.passedBut, state.runNotes);
+  if (state.notTested.length) {
+    out.push("", `Not tested yet \xB7 ${state.notTested.length}`, state.notTested.map((s) => s.sentence).join(" \xB7 "));
+  }
+  section2("Worked", state.worked);
+  return out;
+}
+function testReportCardSummary(runs, checklistHtml) {
   if (!runs?.length) return null;
   const latest = runs[0];
+  const state = checklistHtml ? cardTestReportState(runs, checklistHtml) : null;
   const failures = testReportFailureLine(latest.items);
   return {
     runs: runs.length,
@@ -34551,8 +35198,32 @@ function testReportCardSummary(runs) {
       ...countByStatus(latest),
       ...failures ? { failures } : {}
     },
+    ...state ? { state: { headline: state.headline, counts: state.counts } } : {},
     read: "get_test_report for the items, what each run observed and where the Tests tab disagrees"
   };
+}
+function formatChainState(state) {
+  const out = ["Chain state (newest result of each item, across every card):", state.headline, state.counts];
+  if (state.waiting > 0) out.push(`${state.waiting} card${state.waiting === 1 ? "" : "s"} not read yet`);
+  const section2 = (title, lines2) => {
+    if (!lines2.length) return;
+    out.push("", `${title} \xB7 ${lines2.length}`);
+    for (const line of lines2) out.push(`- ${line}`);
+  };
+  section2("Problems", state.problems.map((line) => line.item ? `${line.displayId} \xB7 ${line.sentence}` : line.sentence));
+  section2("Needs you", state.needsYou.map((line) => line.item ? `${line.displayId} \xB7 ${line.sentence}` : line.sentence));
+  section2("Passed, but", state.passedBut.map(chainCaveatText));
+  if (state.ralph) {
+    const lines2 = [];
+    if (state.ralph.stopped) {
+      lines2.push(`Stopped at ${state.ralph.stopped.displayId}: ${state.ralph.stopped.reason}`);
+      if (state.ralph.stopped.next) lines2.push(`Next: ${state.ralph.stopped.next}`);
+    }
+    for (const entry of state.ralph.decisions) lines2.push(chainDecisionText(entry));
+    section2("Ralph", lines2);
+  }
+  section2("Cards", state.cards.map((row) => `${row.displayId}${row.isParent ? " (parent)" : ""} \xB7 ${row.title} \u2014 ${row.statusLine}`));
+  return out;
 }
 
 // ../lib/run-report/write.ts
@@ -34571,7 +35242,7 @@ __export(write_exports, {
   summarySpecOf: () => summarySpecOf,
   writeRunReport: () => writeRunReport
 });
-import { mkdirSync as mkdirSync6, readFileSync as readFileSync5, statSync as statSync7, writeFileSync as writeFileSync3 } from "fs";
+import { mkdirSync as mkdirSync6, readFileSync as readFileSync5, statSync as statSync8, writeFileSync as writeFileSync3 } from "fs";
 import { homedir as homedir4 } from "os";
 import path10 from "path";
 
@@ -34831,7 +35502,7 @@ function buildSummarySpec(data, stories = /* @__PURE__ */ new Map()) {
   const day = date4 ? new Intl.DateTimeFormat("en-GB", { timeZone: data.timeZone, day: "numeric", month: "short", year: "numeric" }).format(new Date(date4)) : null;
   const ticked = data.cards.reduce((sum, card) => sum + card.ticked, 0);
   const total = data.cards.reduce((sum, card) => sum + card.total, 0);
-  const plural4 = (count, word) => `${count} ${word}${count === 1 ? "" : "s"}`;
+  const plural6 = (count, word) => `${count} ${word}${count === 1 ? "" : "s"}`;
   const storyOf = (card) => stories.get(card.id) ?? void 0;
   const banners = data.cards.map((card) => bannerOf(storyOf(card)));
   return {
@@ -34843,8 +35514,8 @@ function buildSummarySpec(data, stories = /* @__PURE__ */ new Map()) {
     // Runs and stops count Ralph's events: a zero there says nothing about the card.
     outcome: [
       `${ticked}/${total} checked`,
-      ...data.totals.runs > 0 ? [plural4(data.totals.runs, "run")] : [],
-      ...data.totals.stops > 0 ? [plural4(data.totals.stops, "stop")] : []
+      ...data.totals.runs > 0 ? [plural6(data.totals.runs, "run")] : [],
+      ...data.totals.stops > 0 ? [plural6(data.totals.stops, "stop")] : []
     ].join(" \xB7 "),
     titled,
     cards: shown.map((card) => ({
@@ -34881,24 +35552,6 @@ function summaryDuration(spec) {
 }
 
 // ../lib/run-report/collect.ts
-function stopNextStep(reason) {
-  if (/items? blocked/.test(reason)) {
-    return "Read that item below. Check it yourself and tick it, or correct its text, then Continue. Continue with no change stops at the same place.";
-  }
-  if (/could not go into|conflict/.test(reason)) {
-    return "Two cards touched the same lines. Press Merge on the card to solve the conflict; the chain goes on by itself.";
-  }
-  if (reason.startsWith(DECISION_STOP_PREFIX)) {
-    return "Answer the decision in the plan and delete its marker, then Continue.";
-  }
-  if (/same failure/.test(reason)) return "A real failure keeps coming back. Solve it in the card's chat, then Continue.";
-  if (reason.startsWith(RALPH_BROWSER_PREFIX) || reason === RALPH_BROWSER_UNUSED || reason.includes(RALPH_BROWSER_UNUSED)) {
-    return "No visual proof. Check the project's web preview and Chrome, then Continue.";
-  }
-  if (/time cap/.test(reason)) return "Time ran out. Continue gives a fresh budget.";
-  if (/timed out|idle timeout|run failed/.test(reason)) return "Open the card's Test Report and the run's log, then Continue.";
-  return null;
-}
 function displayIdOf2(row) {
   return formatDisplayId(row.idPrefix, row.task_number) ?? row.title;
 }
@@ -35225,9 +35878,9 @@ function collectRunReport(db2, cardId, opts) {
       };
       if (entry.source === RALPH_SETUP_SOURCE) {
         const item = entry.originalText ?? entry.question;
-        const state = entry.newText ?? "granted";
-        if (state.startsWith("done: ")) gaps.push({ kind: "ralph-set-up", displayId: decision.displayId, text: `${item}: ${state.slice(6)}` });
-        else if (state.startsWith("parked: ")) gaps.push({ kind: "setup-parked", displayId: decision.displayId, text: `${item} \u2014 blocked: ${state.slice(8)}` });
+        const state2 = entry.newText ?? "granted";
+        if (state2.startsWith("done: ")) gaps.push({ kind: "ralph-set-up", displayId: decision.displayId, text: `${item}: ${state2.slice(6)}` });
+        else if (state2.startsWith("parked: ")) gaps.push({ kind: "setup-parked", displayId: decision.displayId, text: `${item} \u2014 blocked: ${state2.slice(8)}` });
       } else if (entry.source === RALPH_UNVERIFIABLE_SOURCE) {
         gaps.push({ kind: "unverifiable", displayId: decision.displayId, text: `${entry.originalText ?? entry.question}${entry.recommended ? ` ${entry.recommended}` : ""}` });
       } else if (entry.source === RALPH_CORE_REVISION_SOURCE) {
@@ -35258,6 +35911,42 @@ function collectRunReport(db2, cardId, opts) {
     for (const folder of [row.projectFolder, row.project_folder, row.git_worktree_path]) {
       if (folder && folder !== "/") redact.set(folder, "<project>");
     }
+  }
+  const parsedRuns = new Map(ordered.map((row) => [row.id, parseTestReports(row.test_reports) ?? []]));
+  const codeChangesOf = (row) => opts.cardOnly ? null : runCodeChangesFor(db2, row.id, parsedRuns.get(row.id) ?? []);
+  const briefOf = (row) => {
+    const runs = parsedRuns.get(row.id) ?? [];
+    return currentBrief(runs[0]?.brief, cardTestReportState(runs, row.test_scenarios));
+  };
+  let state;
+  if (groupId) {
+    const chain = chainTestReportState(
+      ordered.map((row) => ({
+        id: row.id,
+        displayId: displayIdOf2(row),
+        title: row.title,
+        status: row.status,
+        gitBranchStatus: row.git_branch_status,
+        testReports: parsedRuns.get(row.id) ?? [],
+        testScenarios: row.test_scenarios,
+        isParent: parentIds.has(row.id),
+        autopilotStage: row.autopilot_stage,
+        autopilotStopReason: row.autopilot_stop_reason,
+        acceptedDecisions: decisions.filter((d2) => d2.kind === "acceptance" && d2.displayId === displayIdOf2(row)).length,
+        codeChanges: row.status === "withdrawn" ? null : codeChangesOf(row)
+      })),
+      { ralph }
+    );
+    const aiSummary = {};
+    for (const row of ordered) {
+      const read = chain.cards.some((entry) => entry.id === row.id && entry.state);
+      const text2 = read ? briefOf(row) : null;
+      if (text2) aiSummary[row.id] = text2;
+    }
+    state = { kind: "chain", chain, aiSummary };
+  } else {
+    const card = cardTestReportState(parsedRuns.get(own.id) ?? [], own.test_scenarios, 0, codeChangesOf(own));
+    state = { kind: "card", displayId: displayIdOf2(own), card, aiSummary: briefOf(own) };
   }
   return {
     title: `${code} \xB7 ${name}`,
@@ -35290,7 +35979,8 @@ function collectRunReport(db2, cardId, opts) {
       phases: [...phases.values()]
     },
     videos,
-    redact: [...redact.entries()].sort((a, b2) => b2[0].length - a[0].length)
+    redact: [...redact.entries()].sort((a, b2) => b2[0].length - a[0].length),
+    state
   };
 }
 
@@ -35345,6 +36035,65 @@ var GAP_HEADINGS = {
 var GAP_ORDER = Object.keys(GAP_HEADINGS);
 var WHO_LABEL = { ideafy: "IDEAFY", you: "YOU" };
 var STATUS_LABEL = { passed: "Passed", failed: "Failed", manual: "Manual" };
+function cardStateHtml(data, esc2) {
+  const out = [`<h2>Card state</h2>`];
+  const list = (title, lines2, cls = "") => {
+    if (lines2.length === 0) return;
+    out.push(`<h4>${esc2(title)} \xB7 ${lines2.length}</h4><ul${cls ? ` class="${cls}"` : ""}>`);
+    for (const line of lines2.slice(0, 8)) out.push(`<li>${line}</li>`);
+    out.push(`</ul>`);
+    if (lines2.length > 8) {
+      out.push(`<details><summary>+${lines2.length - 8} more</summary><ul>`);
+      for (const line of lines2.slice(8)) out.push(`<li>${line}</li>`);
+      out.push(`</ul></details>`);
+    }
+  };
+  const aiLine = (text2) => `<p class="small muted"><span class="who">AI SUMMARY</span> ${esc2(text2)}</p>`;
+  let hasAi = false;
+  if (data.state.kind === "chain") {
+    const chain = data.state.chain;
+    out.push(`<p><strong class="${chain.headline === "Ready to merge" ? "ok" : "bad"}">${esc2(chain.headline)}</strong></p>`);
+    out.push(`<p class="num">${esc2(chain.counts)}</p>`);
+    out.push(`<p class="small muted">${esc2(CHAIN_ACROSS_LINE)}</p>`);
+    const itemLine = (line) => line.item ? `<span class="mono">${esc2(line.displayId)}</span> \xB7 ${esc2(line.sentence)}` : esc2(line.sentence);
+    list("Problems", chain.problems.map(itemLine), "bad");
+    list("Needs you", chain.needsYou.map(itemLine));
+    list("Passed, but", chain.passedBut.map((line) => `<span class="mono">${esc2(line.cards.join(", "))}</span>: ${esc2(line.text)}`));
+    out.push(`<div class="t"><table><thead><tr><th>Card</th><th>State</th></tr></thead><tbody>`);
+    for (const row of chain.cards) {
+      const ai = data.state.aiSummary[row.id];
+      if (ai) hasAi = true;
+      out.push(
+        `<tr><td><span class="mono">${esc2(row.displayId)}</span>${row.isParent ? ' <span class="muted small">parent</span>' : ""} ${esc2(row.title)}${ai ? aiLine(ai) : ""}</td><td class="num mono">${esc2(row.statusLine)}</td></tr>`
+      );
+    }
+    out.push(`</tbody></table></div>`);
+  } else {
+    const card = data.state.card;
+    out.push(`<p><strong class="${card.headline === "Ready to merge" ? "ok" : "bad"}">${esc2(card.headline)}</strong></p>`);
+    if (card.headlineNote) out.push(`<p class="small muted">${esc2(card.headlineNote)}</p>`);
+    out.push(`<p class="num">${esc2(card.counts)}</p>`);
+    if (card.lastRun) out.push(`<p class="small muted">Last run: ${esc2(card.lastRun)}</p>`);
+    if (data.state.aiSummary) {
+      hasAi = true;
+      out.push(aiLine(data.state.aiSummary));
+    }
+    list("Problems", card.problems.map((item) => esc2(item.sentence)), "bad");
+    list("Needs you", card.needsYou.map((item) => esc2(item.sentence)));
+    list(card.passedButTitle, [
+      // The code check (IDE-788) beside the agent's own caveat, as get_test_report joins them (IDE-771).
+      ...card.passedBut.map((item) => {
+        const note = [item.caveat, item.codeCaveat].filter(Boolean).join(". ");
+        return `${esc2(item.sentence)}${note ? ` <span class="muted">\u2014 ${esc2(note)}</span>` : ""}`;
+      }),
+      ...card.runNotes.map((note) => esc2(note))
+    ]);
+  }
+  out.push(
+    `<p class="small muted">The lines above come from the runs by rule, not by AI.${hasAi ? " Lines marked AI summary were written by AI from the state above." : ""}</p>`
+  );
+  return out;
+}
 function renderRunReport(data, embed, summary = { state: "none" }) {
   const esc2 = (value) => {
     let text2 = String(value ?? "");
@@ -35383,11 +36132,12 @@ function renderRunReport(data, embed, summary = { state: "none" }) {
   parts.push(
     `<p class="note">Screenshots and videos may contain sensitive data: check before you share this file. This is Ideafy's own evidence from the runs. No check outside the runs looked at it.</p>`
   );
+  if (data.state) parts.push(...cardStateHtml(data, esc2));
   if (summary.state === "in-file") {
     const seconds = Math.round(summary.durationSec);
     const length = `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, "0")}`;
     parts.push(
-      `<video controls playsinline preload="metadata" src="${summary.src}"></video><p class="small muted">Summary video \xB7 ${length} \xB7 ${(summary.bytes / (1024 * 1024)).toFixed(1)} MB. Its moments were chosen from the run's data, not by AI.</p>`
+      `<details class="summary-video"><summary>Watch summary \xB7 ${length}</summary><video controls playsinline preload="metadata" src="${summary.src}"></video><p class="small muted">Summary video \xB7 ${length} \xB7 ${(summary.bytes / (1024 * 1024)).toFixed(1)} MB. Its moments were chosen from the run's data, not by AI.</p></details>`
     );
   } else if (summary.state === "not-ready") {
     parts.push(`<p class="small muted">Summary video not ready yet: open Ideafy, then download again.</p>`);
@@ -35398,10 +36148,16 @@ function renderRunReport(data, embed, summary = { state: "none" }) {
   parts.push(
     `<p>${landed}${data.totals.runs} run${data.totals.runs === 1 ? "" : "s"}, ${data.totals.stops} stop${data.totals.stops === 1 ? "" : "s"}${span ? `, ${span} from first send to last event` : ""}.</p>`
   );
+  const rowOf = (id) => data.state?.kind === "chain" ? data.state.chain.cards.find((row) => row.id === id) : null;
+  const testsCell = (card) => {
+    const row = rowOf(card.id);
+    if (row) return esc2(row.statusLine);
+    return card.total > 0 ? `${card.ticked}/${card.total}` : '<span class="muted">none</span>';
+  };
   parts.push(`<div class="t"><table><thead><tr><th>Card</th><th>Where</th><th>Commit</th><th>Tests</th></tr></thead><tbody>`);
   for (const card of data.cards) {
     parts.push(
-      `<tr><td><span class="mono">${esc2(card.displayId)}</span>${card.isParent ? ' <span class="muted small">parent</span>' : ""}<br>${esc2(card.title)}${card.stopReason ? `<br><span class="small muted">Stopped: ${esc2(card.stopReason)}</span>` : ""}</td><td>${esc2(card.where)}</td><td>${card.commit ? `<code>${esc2(card.commit.slice(0, 7))}</code>` : '<span class="muted">not yet</span>'}</td><td class="num">${card.total > 0 ? `${card.ticked}/${card.total}` : '<span class="muted">none</span>'}</td></tr>`
+      `<tr><td><span class="mono">${esc2(card.displayId)}</span>${card.isParent ? ' <span class="muted small">parent</span>' : ""}<br>${esc2(card.title)}${card.stopReason ? `<br><span class="small muted">Stopped: ${esc2(card.stopReason)}</span>` : ""}</td><td>${esc2(card.where)}</td><td>${card.commit ? `<code>${esc2(card.commit.slice(0, 7))}</code>` : '<span class="muted">not yet</span>'}</td><td class="num">${testsCell(card)}</td></tr>`
     );
   }
   parts.push(`</tbody></table></div>`);
@@ -35593,7 +36349,7 @@ function runFile(ref, homeDir) {
 }
 function fileBytes(target2) {
   try {
-    const stat = statSync7(target2);
+    const stat = statSync8(target2);
     return stat.isFile() ? stat.size : null;
   } catch {
     return null;
@@ -35876,6 +36632,9 @@ var {
   testsDriftFor: testsDriftFor2,
   planDriftFor: planDriftFor2,
   planDriftLine: planDriftLine2,
+  runCodeChangesFor: runCodeChangesFor2,
+  chainRunCodeChangesFor: chainRunCodeChangesFor2,
+  cardRepoFolder: cardRepoFolder2,
   planBranchFilesFor: planBranchFilesFor2,
   listChangedFiles: listChangedFilesSync,
   confirmPlanCurrent: confirmPlanCurrent2,
@@ -35960,7 +36719,8 @@ var {
   assessAppendOnlyRewrite: assessAppendOnlyRewrite2
 } = unwrap(markdown_exports);
 var { parseTestReportItems: parseTestReportItems2, parseTestReports: parseTestReports2, buildTestReportRun: buildTestReportRun2, normalizeTestReportWarnings: normalizeTestReportWarnings2, MAX_ARTIFACTS_PER_ITEM: MAX_ARTIFACTS_PER_ITEM2 } = unwrap(test_report_exports);
-var { formatTestReport: formatTestReport2, selectTestReportRun: selectTestReportRun2, testReportCardSummary: testReportCardSummary2 } = unwrap(test_report_text_exports);
+var { formatTestReport: formatTestReport2, formatChainState: formatChainState2, selectTestReportRun: selectTestReportRun2, testReportCardSummary: testReportCardSummary2 } = unwrap(test_report_text_exports);
+var { chainTestReportState: chainTestReportState2 } = unwrap(chain_test_report_state_exports);
 var { importTerminalArtifacts: importTerminalArtifacts2, removeTestReportRunDirs: removeTestReportRunDirs2, testReportRunDir: testReportRunDir2 } = unwrap(test_report_files_exports);
 var { cardSummaryState: cardSummaryState2, writeRunReport: writeRunReport2 } = unwrap(write_exports);
 var { attachmentRefs: attachmentRefs2, attachmentContentType: attachmentContentType2 } = unwrap(card_attachments_exports);
@@ -35968,6 +36728,7 @@ var { canStartCard: canStartCard2, detectBoardPhase: detectBoardPhase2, terminal
 var { parseTestProgress: parseTestProgress2, manualLimitMessage: manualLimitMessage2 } = unwrap(test_progress_exports);
 var { stripHtml: stripHtml2 } = unwrap(utils_exports);
 var { git: git2 } = unwrap(core_exports3);
+var { codeStamp: codeStamp2 } = unwrap(head_exports);
 var { isGitRepo: isGitRepo2, getCurrentBranch: getCurrentBranch2, branchExists: branchExists2, getDefaultBranch: getDefaultBranch2 } = unwrap(repo_exports);
 var { getWorktreeBaseDir: getWorktreeBaseDir2, getWorktreePath: getWorktreePath2, worktreeExists: worktreeExists2 } = unwrap(worktree_exports);
 var { slugify: slugify4, generateBranchName: generateBranchName2 } = unwrap(branch_name_exports);
@@ -36220,7 +36981,7 @@ function missingCapabilityMessage(tool, capability) {
 }
 
 // output-paths.ts
-import { existsSync as existsSync11, realpathSync as realpathSync5, statSync as statSync8 } from "fs";
+import { existsSync as existsSync12, realpathSync as realpathSync5, statSync as statSync9 } from "fs";
 import { homedir as homedir5 } from "os";
 import { isAbsolute, relative, resolve as resolve3, sep } from "path";
 var OutputPathError = class extends Error {
@@ -36249,13 +37010,13 @@ function resolveOutputPath(projectFolder, inputPath) {
       `The card's project folder does not exist on this machine: ${projectFolder}. Nothing was recorded.`
     );
   }
-  if (!existsSync11(absolute)) {
+  if (!existsSync12(absolute)) {
     throw new OutputPathError(
       `File not found: ${absolute}. save_output records a file that already exists \u2014 write it first, then call save_output again.`
     );
   }
   const fileReal = realpathSync5(absolute);
-  if (!statSync8(fileReal).isFile()) {
+  if (!statSync9(fileReal).isFile()) {
     throw new OutputPathError(
       `Not a file: ${absolute}. save_output records one file at a time \u2014 call it once per file.`
     );
@@ -36297,26 +37058,26 @@ function recordOutputPath(db2, cardId, inputPath) {
 
 // split-note.ts
 var NO_SPLIT_STORED_NOTE = "No break-up proposal was stored. If this opinion says the card should be several cards, call save_opinion again with splitInto: the text alone opens no button.";
-function splitNote(displayId, outcome, remind, pendingCards = 0) {
-  if (!outcome) {
+function splitNote(displayId, outcome2, remind, pendingCards = 0) {
+  if (!outcome2) {
     if (!remind) return null;
     return pendingCards > 0 ? `${NO_SPLIT_STORED_NOTE} A break-up proposal of ${pendingCards} cards is still open on this card: if this opinion no longer supports it, call save_opinion again with splitInto: { withdraw: true }.` : NO_SPLIT_STORED_NOTE;
   }
-  if ("withdrawn" in outcome) {
-    if (outcome.withdrawn) return `Break-up proposal withdrawn: ${displayId} no longer proposes ${outcome.proposal.cards.length} cards. A later evaluation may propose again.`;
-    if (outcome.reason === "dismissed") return "Nothing was withdrawn: the user already chose to keep this card as one, and that choice stays.";
-    if (outcome.reason === "applied") return "Nothing was withdrawn: this card was already broken into cards.";
-    if (outcome.reason === "unsupported") return `Nothing was withdrawn: ${missingCapabilityMessage("splitInto", "splitProposals")}`;
+  if ("withdrawn" in outcome2) {
+    if (outcome2.withdrawn) return `Break-up proposal withdrawn: ${displayId} no longer proposes ${outcome2.proposal.cards.length} cards. A later evaluation may propose again.`;
+    if (outcome2.reason === "dismissed") return "Nothing was withdrawn: the user already chose to keep this card as one, and that choice stays.";
+    if (outcome2.reason === "applied") return "Nothing was withdrawn: this card was already broken into cards.";
+    if (outcome2.reason === "unsupported") return `Nothing was withdrawn: ${missingCapabilityMessage("splitInto", "splitProposals")}`;
     return "Nothing was withdrawn: this card has no pending break-up proposal.";
   }
-  if (outcome.saved) {
-    const n = outcome.proposal.cards.length;
+  if (outcome2.saved) {
+    const n = outcome2.proposal.cards.length;
     return `Break-up proposal stored: ${displayId} into ${n} cards. In a conversation, ask the user in one sentence whether to break the card into these ${n} cards: on yes call split_card, on no call split_card with keepAsOne so it is not proposed again. In a one-shot run, leave it: the card shows "Break into ${n} cards" and "Keep as one card".`;
   }
-  if (outcome.reason === "dismissed") return "splitInto was not stored: the user already chose to keep this card as one.";
-  if (outcome.reason === "applied") return "splitInto was not stored: this card was already broken into cards.";
-  if (outcome.reason === "unsupported") return `splitInto was not stored: ${missingCapabilityMessage("splitInto", "splitProposals")}`;
-  return `splitInto was not stored: ${outcome.error ?? "invalid proposal"}`;
+  if (outcome2.reason === "dismissed") return "splitInto was not stored: the user already chose to keep this card as one.";
+  if (outcome2.reason === "applied") return "splitInto was not stored: this card was already broken into cards.";
+  if (outcome2.reason === "unsupported") return `splitInto was not stored: ${missingCapabilityMessage("splitInto", "splitProposals")}`;
+  return `splitInto was not stored: ${outcome2.error ?? "invalid proposal"}`;
 }
 
 // app-http.ts
@@ -36695,6 +37456,12 @@ function writeTerminalReport(db2, cardId, items, checklistApplied, warnings = []
     scope: "run",
     checklistApplied
   });
+  try {
+    const folder = cardRepoFolder2(db2, cardId);
+    const stamp = folder ? codeStamp2(folder) : null;
+    if (stamp) run2.code = stamp;
+  } catch {
+  }
   if (warnings.length > 0) run2.warnings = warnings;
   run2.items = importTerminalArtifacts2(run2.items, testReportRunDir2(cardId, run2.id));
   const shots = run2.items.reduce((n, item) => n + item.artifacts.length, 0);
@@ -36709,6 +37476,46 @@ function writeTerminalReport(db2, cardId, items, checklistApplied, warnings = []
 }
 var MAX_REPORT_SCREENSHOTS = 6;
 var STATUSES2 = ["passed", "failed", "manual"];
+function chainStateText(db2, cardId) {
+  const select = `SELECT c.id, c.title, c.status, c.task_number AS taskNumber, p.id_prefix AS idPrefix,
+                         c.git_branch_status AS gitBranchStatus, c.test_reports AS testReports,
+                         c.test_scenarios AS testScenarios, c.autopilot_stage AS autopilotStage,
+                         c.autopilot_stop_reason AS autopilotStopReason
+                  FROM cards c LEFT JOIN projects p ON p.id = c.project_id`;
+  let parent;
+  let children;
+  try {
+    parent = db2.prepare(`${select} WHERE c.id = ?`).get(cardId);
+    children = db2.prepare(`${select} WHERE c.split_from_card_id = ? ORDER BY c.group_order, c.task_number`).all(cardId);
+  } catch {
+    return null;
+  }
+  if (!parent || children.filter((child) => child.status !== "withdrawn").length === 0) return null;
+  const decisions = /* @__PURE__ */ new Map();
+  try {
+    const rows = db2.prepare(`SELECT card_id AS cardId, COUNT(*) AS n FROM card_decisions WHERE kind = 'acceptance' GROUP BY card_id`).all();
+    for (const row of rows) decisions.set(row.cardId, row.n);
+  } catch {
+  }
+  const codeChanges = chainRunCodeChangesFor2(db2, cardId);
+  const member = (row, isParent) => ({
+    id: row.id,
+    displayId: formatDisplayId2(row.idPrefix, row.taskNumber) ?? row.title,
+    title: row.title,
+    status: row.status,
+    gitBranchStatus: row.gitBranchStatus,
+    testReports: parseTestReports2(row.testReports),
+    testScenarios: row.testScenarios,
+    isParent,
+    autopilotStage: row.autopilotStage,
+    autopilotStopReason: row.autopilotStopReason,
+    acceptedDecisions: decisions.get(row.id) ?? 0,
+    // Which members' passes came before later changes (IDE-771), as each member's own report says.
+    codeChanges: codeChanges[row.id]
+  });
+  const state = chainTestReportState2([...children.map((row) => member(row, false)), member(parent, true)]);
+  return formatChainState2(state).join("\n");
+}
 function readTestReport(db2, card, opts = {}) {
   const fail = (text2) => ({ content: [{ type: "text", text: text2 }], isError: true });
   if (!hasCapability(db2, "testReports")) {
@@ -36722,12 +37529,15 @@ function readTestReport(db2, card, opts = {}) {
   }
   const row = db2.prepare(`SELECT test_reports as testReports, test_scenarios as testScenarios FROM cards WHERE id = ?`).get(card.id);
   const runs = parseTestReports2(row?.testReports);
+  const chainBlock = chainStateText(db2, card.id);
   if (!runs) {
     return {
       content: [
         {
           type: "text",
-          text: `${card.displayId} has no Test Report yet. A pre-verify, a Verify on screen or a Re-test writes one, as does save_tests with \`report\`.`
+          text: (chainBlock ? `${chainBlock}
+
+` : "") + `${card.displayId} has no Test Report yet. A pre-verify, a Verify on screen or a Re-test writes one, as does save_tests with \`report\`.`
         }
       ]
     };
@@ -36740,7 +37550,9 @@ function readTestReport(db2, card, opts = {}) {
   const content = [
     {
       type: "text",
-      text: formatTestReport2({
+      text: (chainBlock ? `${chainBlock}
+
+` : "") + formatTestReport2({
         displayId: card.displayId,
         runs,
         index: selected.index,
@@ -36749,7 +37561,9 @@ function readTestReport(db2, card, opts = {}) {
         screenshotsAttached: Boolean(opts.screenshots),
         // The recording's absolute path (IDE-699), for a terminal to open.
         videoPath: run2.video ? path11.join(testReportRunDir2(card.id, run2.id, opts.homeDir), run2.video.file) : null,
-        summaryLine: summary?.state === "ready" ? `Summary video: ${summary.file}` : summary?.state === "pending" ? "Summary video: not ready yet; the app makes it while it is open and no run is going." : null
+        summaryLine: summary?.state === "ready" ? `Summary video: ${summary.file}` : summary?.state === "pending" ? "Summary video: not ready yet; the app makes it while it is open and no run is going." : null,
+        // Which passes came before later changes (IDE-788).
+        codeChanges: runCodeChangesFor2(db2, card.id, runs)
       })
     }
   ];
@@ -36789,7 +37603,7 @@ function readTestReport(db2, card, opts = {}) {
 }
 
 // git-helpers.ts
-import { existsSync as existsSync12, mkdirSync as mkdirSync7 } from "fs";
+import { existsSync as existsSync13, mkdirSync as mkdirSync7 } from "fs";
 async function getCurrentBranch3(cwd) {
   try {
     return await getCurrentBranch2(cwd);
@@ -36801,7 +37615,7 @@ async function createWorktree2(projectPath, branchName, baseBranch) {
   const worktreePath = getWorktreePath2(projectPath, branchName);
   const baseDir = getWorktreeBaseDir2(projectPath);
   try {
-    if (!existsSync12(baseDir)) {
+    if (!existsSync13(baseDir)) {
       mkdirSync7(baseDir, { recursive: true });
     }
     if (await worktreeExists2(projectPath, worktreePath)) {
@@ -37166,22 +37980,22 @@ function suggestionNote(cardId, raw) {
   if (!hasCapability(db, "dependencySuggestions") || !hasCapability(db, "dependencies")) {
     return `dependsOn was not stored: ${missingCapabilityMessage("dependsOn", "dependencySuggestions")}`;
   }
-  let outcome;
+  let outcome2;
   try {
-    outcome = suggestDependencies2(db, { cardId, entries, now: (/* @__PURE__ */ new Date()).toISOString() });
+    outcome2 = suggestDependencies2(db, { cardId, entries, now: (/* @__PURE__ */ new Date()).toISOString() });
   } catch (error2) {
     return `dependsOn was not stored: ${error2 instanceof Error ? error2.message : String(error2)}`;
   }
   const self = queueDisplayIdOf(cardId);
   const lines2 = [];
-  if (outcome.suggested.length > 0) {
-    const named = outcome.suggested.map((s) => `${s.displayId ?? `"${s.title}"`}${s.note ? ` (${s.note})` : ""}`).join(", ");
+  if (outcome2.suggested.length > 0) {
+    const named = outcome2.suggested.map((s) => `${s.displayId ?? `"${s.title}"`}${s.note ? ` (${s.note})` : ""}`).join(", ");
     lines2.push(
-      `Suggested link${outcome.suggested.length > 1 ? "s" : ""}: ${self} waits on ${named}. In a conversation, ask the user in one sentence whether to add ${outcome.suggested.length > 1 ? "each" : "it"} as a link: on yes call add_dependency, on no call remove_dependency so it is not suggested again. In a one-shot run, leave it: the card shows the suggestion with Add link and Dismiss.`
+      `Suggested link${outcome2.suggested.length > 1 ? "s" : ""}: ${self} waits on ${named}. In a conversation, ask the user in one sentence whether to add ${outcome2.suggested.length > 1 ? "each" : "it"} as a link: on yes call add_dependency, on no call remove_dependency so it is not suggested again. In a one-shot run, leave it: the card shows the suggestion with Add link and Dismiss.`
     );
   }
-  if (outcome.skipped.length > 0) {
-    lines2.push(`Not suggested: ${outcome.skipped.map((s) => `${s.card} (${SKIP_REASONS[s.reason]})`).join(", ")}.`);
+  if (outcome2.skipped.length > 0) {
+    lines2.push(`Not suggested: ${outcome2.skipped.map((s) => `${s.card} (${SKIP_REASONS[s.reason]})`).join(", ")}.`);
   }
   return lines2.join(" ") || null;
 }
@@ -37681,6 +38495,7 @@ Test Report (report): when you have just verified checklist items yourself \u201
                         enum: ["broken", "flaw", "cosmetic", "test_wrong"],
                         description: "On a failed item, how much it matters, judged by behaviour: broken (the item's main promise did not happen), flaw (it happened, part of it behaves wrongly), cosmetic (behaviour right, only the look is off), test_wrong (you saw the feature do what the plan says and the item's expectation is out of date). Between two, the more serious. Changes no status or tick."
                       },
+                      caveat: { type: "string", description: "On a passed item only, one sentence when the pass should not be fully trusted: taken on uncommitted code, passed because its expectation was rewritten, seen in code or a log rather than on screen, or a side problem noticed. Leave it out on a plain pass." },
                       error: { type: "string", description: "Required with observed when status is failed." },
                       command: { type: "string" },
                       output: { type: "string", description: "The few lines that prove the result." },
@@ -38291,7 +39106,10 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         }
         const cardWithReports = card;
         const reportRuns = parseTestReports2(cardWithReports.testReports);
-        const testReport = testReportCardSummary2(reportRuns);
+        const testReport = testReportCardSummary2(
+          reportRuns,
+          card.testScenarios ?? null
+        );
         delete cardWithReports.testReports;
         if (testReport) cardWithReports.testReport = testReport;
         const authorship = cardAuthorship2(db, card.id);
@@ -38581,7 +39399,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             isError: true
           };
         }
-        const outcome = updateCard2(db, {
+        const outcome2 = updateCard2(db, {
           id,
           now: (/* @__PURE__ */ new Date()).toISOString(),
           fields,
@@ -38589,7 +39407,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           afterCardId: reorder ? afterCardId ?? null : void 0,
           blockedBy
         });
-        if (!outcome.ok) {
+        if (!outcome2.ok) {
           return {
             content: [{ type: "text", text: `Card not found: ${id}` }],
             isError: true
@@ -38605,7 +39423,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           if (skip) parkNote = ` Not ${parked ? "parked" : "unparked"}: ${skip.reason}.`;
           else written.push("parked");
         }
-        const placedNote = !outcome.placed ? "" : outcome.placed.changed ? ` Chain position ${outcome.placed.position}/${outcome.placed.total}.` : ` Already at chain position ${outcome.placed.position}/${outcome.placed.total}; the order was not rewritten.`;
+        const placedNote = !outcome2.placed ? "" : outcome2.placed.changed ? ` Chain position ${outcome2.placed.position}/${outcome2.placed.total}.` : ` Already at chain position ${outcome2.placed.position}/${outcome2.placed.total}; the order was not rewritten.`;
         return {
           content: [{
             type: "text",
@@ -39228,9 +40046,9 @@ ${formatWarning}` : ""}` }]
             isError: true
           };
         }
-        const outcome = recordOutputPath(db, id, rawPath);
-        const listed = `${outcome.outputPaths.length} output(s) on the card: ${outcome.outputPaths.join(", ")}.`;
-        const summary = outcome.alreadyRecorded ? `Already recorded on card ${id}: ${outcome.relativePath} (${outcome.absolutePath}) \u2014 nothing changed.` : `Output recorded on card ${id}: ${outcome.relativePath} (${outcome.absolutePath}).`;
+        const outcome2 = recordOutputPath(db, id, rawPath);
+        const listed = `${outcome2.outputPaths.length} output(s) on the card: ${outcome2.outputPaths.join(", ")}.`;
+        const summary = outcome2.alreadyRecorded ? `Already recorded on card ${id}: ${outcome2.relativePath} (${outcome2.absolutePath}) \u2014 nothing changed.` : `Output recorded on card ${id}: ${outcome2.relativePath} (${outcome2.absolutePath}).`;
         return {
           content: [{
             type: "text",
