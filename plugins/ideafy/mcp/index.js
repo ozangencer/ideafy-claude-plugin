@@ -21038,7 +21038,8 @@ __export(test_progress_exports, {
   untickedIn: () => untickedIn,
   untickedItemTexts: () => untickedItemTexts,
   verifyAllLabel: () => verifyAllLabel,
-  verifyTargets: () => verifyTargets
+  verifyTargets: () => verifyTargets,
+  withParkedItems: () => withParkedItems
 });
 
 // ../lib/html-text.ts
@@ -21223,7 +21224,18 @@ function pickCurrentItems(picked, current) {
   return { items, dropped: asked.length - items.length };
 }
 function runnableLeft(group) {
-  return group.total - group.checked - group.manual;
+  return group.total - group.checked - group.manual - (group.parked ?? 0);
+}
+function withParkedItems(progress, html, parked) {
+  if (!progress || parked.length === 0) return progress;
+  const wanted = new Set(parked.map((item) => item.trim()));
+  const groups = progress.groups.map((group) => {
+    const manualCounts = !group.core || !!group.flows;
+    const open = itemTexts(html, [group], false).filter((text2) => !(manualCounts && isManualItem(text2)));
+    const count = open.filter((text2) => wanted.has(text2.trim())).length;
+    return count > 0 ? { ...group, parked: count } : group;
+  });
+  return { ...progress, groups };
 }
 function verifyTargets(progress, scope) {
   if (!progress?.core) return [];
@@ -21447,6 +21459,13 @@ paths, session IDs, URLs, column names.
 - A step whose result depends on data names the data that shows the behaviour:
   "type \`al\` with notes Alpha and Beta, the list narrows to Alpha" beats "the
   list narrows on every letter".
+- Every item is a check a run can pass or fail on a \`verify-server\` copy. A
+  measurement or a note to write somewhere ("measure the load time in dev and
+  production and write it in the plan") is not a test: put it in the plan, not
+  on the checklist. An item that needs a state the copy may lack (a ready
+  summary video, a card with only a text run, a pending job) says how to make
+  it \u2014 the seed, script or action that produces it \u2014 or names a card that
+  already has it.
 
 ### Good examples (follow this style)
 
@@ -21546,6 +21565,13 @@ session ID, URL, kolon ad\u0131.
 - Sonucu veriye ba\u011Fl\u0131 bir madde, davran\u0131\u015F\u0131 g\xF6steren veriyi ad\u0131yla yazar:
   "Alpha ve Beta notlar\u0131yla \`al\` yaz, liste Alpha'ya daralmal\u0131" > "liste her
   harfte daralmal\u0131".
+- Her madde bir ko\u015Funun \`verify-server\` kopyas\u0131nda ge\xE7ip kalabilece\u011Fi bir
+  kontrold\xFCr. Bir \xF6l\xE7\xFCm ya da bir yere not d\xFC\u015Fmek ("dev ve production'da
+  a\xE7\u0131l\u0131\u015F s\xFCresini \xF6l\xE7, plana yaz") test de\u011Fildir: plana yaz, \xE7ekliste de\u011Fil.
+  Kopyada olmayabilecek bir durum isteyen madde (haz\u0131r \xF6zet video, yaln\u0131zca
+  text ko\u015Fusu olan kart, bekleyen i\u015F) o durumu nas\u0131l kuraca\u011F\u0131n\u0131 s\xF6yler \u2014 onu
+  \xFCreten seed, script ya da eylem \u2014 ya da o duruma zaten sahip bir kart\u0131
+  ad\u0131yla yazar.
 
 ### \u0130yi \xF6rnek (bu stile uy)
 
@@ -22814,10 +22840,7 @@ var AI_PLATFORM_OPTIONS = [
   { value: "claude", label: "Claude Code", description: "Anthropic's coding CLI" },
   { value: "codex", label: "Codex CLI", description: "OpenAI's coding CLI" },
   { value: "antigravity", label: "Antigravity CLI", description: "Google's agent CLI (agy)" },
-  { value: "opencode", label: "OpenCode", description: "OpenCode CLI" },
-  // Kept for Code Assist Standard/Enterprise and API-key users; personal
-  // accounts lost Gemini CLI in June 2026 (IDE-583).
-  { value: "gemini", label: "Gemini CLI (legacy)", description: "Google's previous coding CLI" }
+  { value: "opencode", label: "OpenCode", description: "OpenCode CLI" }
 ];
 var TERMINAL_OPTIONS = [
   { value: "iterm2", label: "iTerm2" },
@@ -23361,7 +23384,7 @@ function autopilotResume(card) {
 function plural(n, word) {
   return `${n} ${word}${n === 1 ? "" : "s"}`;
 }
-var CHECKLIST_STOP = /^(\d+ items? (blocked|still unticked|left unticked)\b|not ready to merge:)/;
+var CHECKLIST_STOP = /^(\d+ items? (blocked|still unticked|left unticked)\b|not ready to merge:|Ralph finished · \d+ (core )?items? needs? you\b)/;
 function stopReasonOutdated(card) {
   if (!nothingLeftToRun(card)) return false;
   const reason = card.autopilotStopReason ?? "";
@@ -29133,6 +29156,7 @@ function browserPrereqs() {
 // ../lib/decision-ledger.ts
 var RALPH_CORE_REVISION_SOURCE = "ralph-verify-core";
 var RALPH_UNVERIFIABLE_SOURCE = "ralph-unverifiable";
+var RALPH_SETUP_SOURCE = "ralph-setup";
 var RECOMMENDED_RE = /\s*[—–]\s*recommended:\s*|\s+-{1,2}\s*recommended:\s*/i;
 var OPEN_MARKER_RE = /\[NEEDS_DECISION:([^\]\n]*)\]/gi;
 var CODE_RE = /(<pre[\s>][\s\S]*?<\/pre>|<code[\s>][\s\S]*?<\/code>|```[\s\S]*?```|`[^`\n]*`)/gi;
@@ -31850,6 +31874,15 @@ function markTestReportVideosRemoved(db2, args) {
   });
 }
 
+// ../lib/platform/legacy-platform.ts
+var KNOWN_AI_PLATFORMS = ["claude", "antigravity", "codex", "opencode"];
+function isKnownAiPlatform(value) {
+  return typeof value === "string" && KNOWN_AI_PLATFORMS.includes(value);
+}
+function normalizeCardPlatform(value) {
+  return isKnownAiPlatform(value) ? value : null;
+}
+
 // ../lib/work-templates.ts
 var WORK_TEMPLATES_SETTING_KEY = "work_templates";
 var SKILL_DECIDES_EXT = "";
@@ -32063,7 +32096,7 @@ function createCard(db2, given, now, author) {
       ai_opinion: input.aiOpinion || null,
       ai_verdict: input.aiVerdict ?? null,
       ai_score: input.aiScore ?? null,
-      ai_platform: input.aiPlatform || null,
+      ai_platform: normalizeCardPlatform(input.aiPlatform),
       use_worktree: serializeUseWorktreeForDb(input.useWorktree ?? null),
       // A Work card created without a template starts with the one last chosen
       // in its project (IDE-660), so a later reorder never shifts its template.
@@ -32293,7 +32326,9 @@ function updateCard(db2, args) {
     const values = [];
     for (const [key, value] of Object.entries(set2)) {
       columns.push(`${COLUMN3[key]} = ?`);
-      values.push(key === "useWorktree" ? serializeUseWorktreeForDb(value) : value);
+      values.push(
+        key === "useWorktree" ? serializeUseWorktreeForDb(value) : key === "aiPlatform" ? normalizeCardPlatform(value) : value
+      );
     }
     if (projectChanged) {
       columns.push("task_number = ?");
@@ -35119,7 +35154,12 @@ function collectRunReport(db2, cardId, opts) {
         seen: looked?.hit.observed ?? null,
         shots: looked ? shotsOf(row.id, looked.run.id, looked.hit.artifacts, opts.fileSize) : []
       };
-      if (entry.source === RALPH_UNVERIFIABLE_SOURCE) {
+      if (entry.source === RALPH_SETUP_SOURCE) {
+        const item = entry.originalText ?? entry.question;
+        const state = entry.newText ?? "granted";
+        if (state.startsWith("done: ")) gaps.push({ kind: "ralph-set-up", displayId: decision.displayId, text: `${item}: ${state.slice(6)}` });
+        else if (state.startsWith("parked: ")) gaps.push({ kind: "setup-parked", displayId: decision.displayId, text: `${item} \u2014 blocked: ${state.slice(8)}` });
+      } else if (entry.source === RALPH_UNVERIFIABLE_SOURCE) {
         gaps.push({ kind: "unverifiable", displayId: decision.displayId, text: `${entry.originalText ?? entry.question}${entry.recommended ? ` ${entry.recommended}` : ""}` });
       } else if (entry.source === RALPH_CORE_REVISION_SOURCE) {
         gaps.push({ kind: "core-revision", displayId: decision.displayId, text: `${entry.originalText ?? entry.question} \u2192 ${entry.newText ?? ""}`.trim() });
@@ -35225,6 +35265,8 @@ var GAP_HEADINGS = {
   unticked: "Not ticked: still open or left to you",
   "core-revision": "Core-flow items Ralph reworded",
   unverifiable: "Items Ralph could not verify, now yours",
+  "setup-parked": "Items Ralph parked, now yours",
+  "ralph-set-up": "Ralph set up",
   "accepted-decision": "Decisions Ralph took for you",
   revision: "Test items Ralph reworded",
   "video-removed": "Recordings no longer on disk",
@@ -35342,9 +35384,11 @@ function renderRunReport(data, embed, summary = { state: "none" }) {
     parts.push(`<div class="t"><table><thead><tr><th>Card</th><th>Kind</th><th>Question or item</th><th>What it took</th></tr></thead><tbody>`);
     for (const decision of data.decisions) {
       const couldNotVerify = decision.source === RALPH_UNVERIFIABLE_SOURCE;
-      const kindLabel = couldNotVerify ? "could not verify" : decision.source === RALPH_CORE_REVISION_SOURCE ? "core-flow revision" : decision.kind;
+      const setupRow = decision.source === RALPH_SETUP_SOURCE;
+      const setupState = setupRow ? decision.newText ?? "granted" : "";
+      const kindLabel = setupRow ? setupState.startsWith("parked: ") ? "parked" : setupState.startsWith("done: ") ? "set up" : "setup round" : couldNotVerify ? "could not verify" : decision.source === RALPH_CORE_REVISION_SOURCE ? "core-flow revision" : decision.kind;
       const why = decision.kind === "revision" && decision.recommended ? `<br><span class="muted">Why:</span> ${esc2(decision.recommended)}` : "";
-      const taken = couldNotVerify ? `<span class="muted">Item:</span> ${esc2(decision.originalText)}<br><span class="muted">Why:</span> ${esc2(decision.recommended)}` : decision.kind === "revision" ? `<span class="muted">Was:</span> ${esc2(decision.originalText)}<br><span class="muted">Now:</span> ${esc2(decision.newText)}${why}` : esc2(decision.recommended ?? "the plan's option");
+      const taken = setupRow ? `<span class="muted">Item:</span> ${esc2(decision.originalText)}<br><span class="muted">Setup:</span> ${esc2(decision.recommended)}` + (setupState === "granted" ? "" : `<br><span class="muted">${setupState.startsWith("done: ") ? "Did" : "Why not"}:</span> ${esc2(setupState.replace(/^(done|parked): /, ""))}`) : couldNotVerify ? `<span class="muted">Item:</span> ${esc2(decision.originalText)}<br><span class="muted">Why:</span> ${esc2(decision.recommended)}` : decision.kind === "revision" ? `<span class="muted">Was:</span> ${esc2(decision.originalText)}<br><span class="muted">Now:</span> ${esc2(decision.newText)}${why}` : esc2(decision.recommended ?? "the plan's option");
       const seen = decision.seen ? `<br><span class="small"><span class="muted">Saw:</span> ${esc2(decision.seen)}</span>` : "";
       parts.push(
         `<tr><td class="mono">${esc2(decision.displayId)}</td><td>${esc2(kindLabel)}</td><td>${esc2(decision.question)}${decision.stepExcerpt ? `<br><span class="small muted">Plan step: ${esc2(decision.stepExcerpt)}</span>` : ""}</td><td>${taken}${seen}${shotsHtml(decision.shots, decision.question)}</td></tr>`
