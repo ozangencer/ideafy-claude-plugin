@@ -23390,6 +23390,9 @@ function stopReasonOutdated(card) {
   const reason = card.autopilotStopReason ?? "";
   return reason.startsWith(DECISION_STOP_PREFIX) || CHECKLIST_STOP.test(reason);
 }
+function autopilotNothingToDo(card) {
+  return autopilotResume(card) === "nothing-left" && stopReasonOutdated(card) && manualLeftIn(parseTestProgress(card.testScenarios ?? "")) === 0;
+}
 function autopilotStopText(card) {
   if (stopReasonOutdated(card)) {
     const manual = manualLeftIn(parseTestProgress(card.testScenarios ?? ""));
@@ -23443,7 +23446,15 @@ function chainAutopilotStatusOf(members) {
   const active = open.filter((m2) => !inChain(m2) && isActiveAutopilotStage(stageOf(m2))).sort((a, b2) => Number(!!a.isParent) - Number(!!b2.isParent));
   const running = active.filter((m2) => m2.running);
   const waiting = active.filter((m2) => !m2.running);
-  const stopped = open.filter((m2) => !inChain(m2) && stageOf(m2) === "stopped");
+  const halted = open.filter((m2) => !inChain(m2) && stageOf(m2) === "stopped");
+  const stopped = halted.filter((m2) => !autopilotNothingToDo(m2));
+  if (stopped.length === 0 && halted.length > 0) {
+    return {
+      kind: "nothing-left",
+      line: `Autopilot \xB7 nothing left to do at ${nameList2(halted)}`,
+      stopped: halted[0]
+    };
+  }
   if (stopped.length > 0) {
     const first = stopped[0];
     const reason = autopilotStopText(first);
