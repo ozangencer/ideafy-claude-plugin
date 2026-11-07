@@ -16,7 +16,7 @@
           {
             "type": "command",
             "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/session-activity.sh\"",
-            "timeout": 5
+            "async": true
           }
         ]
       }

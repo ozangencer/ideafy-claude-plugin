@@ -22,17 +22,29 @@ ideafy_ports() {
 }
 
 # ideafy_post <path?query>: POSTs stdin to the first port that answers and
-# prints the answer. Returns 1 when none did.
+# prints the answer. Returns 1 when none did, 2 when a server took the
+# connection but was too slow to answer.
+#
+# Every request is capped (IDEAFY_HOOK_MAX_TIME, default 3s) so a busy server
+# never runs a hook into Claude Code's own 5s timeout, which throws the output
+# away and prints a red "hook timed out" line on every prompt. A slow answer
+# stops the port loop: the server that is up is the one we wanted, and trying
+# the next port would only spend the time budget twice.
 ideafy_post() {
-  local body port
+  local body port rc
+  local max_time="${IDEAFY_HOOK_MAX_TIME:-3}"
   body=$(cat)
   for port in $(ideafy_ports); do
-    if printf '%s' "$body" | curl -sf -X POST \
+    rc=0
+    printf '%s' "$body" | curl -sf -X POST \
+        --connect-timeout 1 --max-time "$max_time" \
         -H "Content-Type: application/json" \
         --data-binary @- \
-        "http://127.0.0.1:${port}$1" 2>/dev/null; then
-      return 0
-    fi
+        "http://127.0.0.1:${port}$1" 2>/dev/null || rc=$?
+    case "$rc" in
+      0) return 0 ;;
+      28) return 2 ;;
+    esac
   done
   return 1
 }

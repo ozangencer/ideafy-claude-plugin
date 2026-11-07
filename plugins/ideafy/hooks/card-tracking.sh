@@ -48,7 +48,17 @@ is_work_folder() {
   [ "$mode" = "work" ]
 }
 
-if ! ideafy_post "/api/hook-context?card_hint=${CARD_HINT}"; then
+rc=0
+ideafy_post "/api/hook-context?card_hint=${CARD_HINT}" || rc=$?
+
+# The server is up but too slow to answer this turn (busy machine, locked
+# database). Skip the turn quietly: it is not closed, so asking the user to
+# launch it would be wrong, and the next prompt tries again.
+if [ "$rc" -eq 2 ]; then
+  exit 0
+fi
+
+if [ "$rc" -ne 0 ]; then
   # No port answered. Only warn when this folder is genuinely a tracked project.
   if is_tracked_folder && ! is_work_folder; then
     printf '<system-reminder>\nIdeafy local server is unreachable (tried port %s). Card tracking, phase-aware policy, and session binding are OFF for this session until Ideafy is launched.\n\nAsk the user ONCE per session whether to launch Ideafy. Explain that this project is tracked by Ideafy but the server is not running, so you cannot create or update kanban cards for this session. On yes, call the Bash tool with: open -b com.ozangencer.ideafy (Ideafy Team: open -b com.ozangencer.ideafy.team). Do not re-ask on later turns in this session even if this reminder keeps appearing while the server is starting up.\n</system-reminder>\n' "$(ideafy_ports | paste -sd / -)"
