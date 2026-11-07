@@ -21010,6 +21010,7 @@ __export(test_progress_exports, {
   dropManualTokens: () => dropManualTokens,
   finalTestNote: () => finalTestNote,
   flowsOnlyChecklist: () => flowsOnlyChecklist,
+  groupSectionsHtml: () => groupSectionsHtml,
   hasOwnChecklist: () => hasOwnChecklist,
   hasRealPlan: () => hasRealPlan,
   isCoreHeading: () => isCoreHeading,
@@ -21124,6 +21125,17 @@ function sectionBlocks(html) {
     starts.push({ label: headingText(match[1]).toLowerCase(), start: match.index });
   }
   return starts.map((s, index) => ({ ...s, end: starts[index + 1]?.start ?? html.length }));
+}
+function groupSectionsHtml(html, groups) {
+  const wanted = new Set(groups.map((group) => `${group.heading.toLowerCase()}${group.occurrence}`));
+  const seen = /* @__PURE__ */ new Map();
+  let out = "";
+  for (const block of sectionBlocks(html)) {
+    const occurrence = (seen.get(block.label) ?? 0) + 1;
+    seen.set(block.label, occurrence);
+    if (wanted.has(`${block.label}${occurrence}`)) out += html.slice(block.start, block.end);
+  }
+  return out;
 }
 function withoutSplitFlows(html) {
   let rest = html;
@@ -22273,9 +22285,9 @@ function findAcceptedDecisions(planHtmlOrMarkdown) {
   if (!planHtmlOrMarkdown || !/NEEDS_DECISION accepted/i.test(planHtmlOrMarkdown)) return [];
   return markerQuestions(planText(planHtmlOrMarkdown), ACCEPTED_DECISION_RE);
 }
-function planText(planHtmlOrMarkdown) {
-  const text2 = planHtmlOrMarkdown.replace(/<pre[\s>][\s\S]*?<\/pre>/gi, " ").replace(/<code[\s>][\s\S]*?<\/code>/gi, " ").replace(/<br\s*\/?>/gi, "\n").replace(/<\/(?:p|li|h[1-6]|div|blockquote)>/gi, "\n").replace(/<[^>]*>/g, "");
-  return decodeEntities(text2).replace(/```[\s\S]*?```/g, " ").replace(/`[^`\n]*`/g, " ");
+function planText(planHtmlOrMarkdown, opts = {}) {
+  const text2 = planHtmlOrMarkdown.replace(/<pre[\s>][\s\S]*?<\/pre>/gi, " ").replace(/<code(?:\s[^>]*)?>([\s\S]*?)<\/code>/gi, (_whole, inner) => opts.keepInlineCode ? inner : " ").replace(/<br\s*\/?>/gi, "\n").replace(/<\/(?:p|li|h[1-6]|div|blockquote)>/gi, "\n").replace(/<[^>]*>/g, "");
+  return decodeEntities(text2).replace(/```[\s\S]*?```/g, " ").replace(/`([^`\n]*)`/g, (_whole, inner) => opts.keepInlineCode ? inner : " ");
 }
 function markerQuestions(text2, re2) {
   const questions = [];
@@ -23274,7 +23286,7 @@ function transaction(db2, fn) {
 
 // ../lib/ready-to-merge.ts
 function normalize2(text2) {
-  return stripItemTokens(text2).replace(/`/g, "").toLowerCase().replace(/\s+/g, " ").trim();
+  return stripItemTokens(text2).replace(/[`*_~]/g, "").toLowerCase().replace(/\s+/g, " ").trim();
 }
 function readyToMerge(input) {
   const html = input.testScenarios ?? "";
@@ -28335,8 +28347,13 @@ function cardHead(db2, cardId) {
   try {
     const folder = cardRepoFolder(db2, cardId);
     if (!folder) return null;
-    const inChain = getRow(db2, `SELECT git_branch_status AS status FROM cards WHERE id = ?`, cardId);
-    if (inChain?.status === "in_chain") {
+    const row = getRow(
+      db2,
+      `SELECT git_branch_status AS status, git_worktree_path AS worktree, git_worktree_status AS worktreeStatus FROM cards WHERE id = ?`,
+      cardId
+    );
+    const ownWorktree = Boolean(row?.worktree && row.worktreeStatus === "active");
+    if (row?.status === "in_chain" || !ownWorktree) {
       const tip = chainTipFor(db2, cardId, folder);
       if (tip) return tip.sha;
     }
@@ -29343,6 +29360,49 @@ function browserPrereqs() {
 var RALPH_CORE_REVISION_SOURCE = "ralph-verify-core";
 var RALPH_UNVERIFIABLE_SOURCE = "ralph-unverifiable";
 var RALPH_SETUP_SOURCE = "ralph-setup";
+function setupStateOf(newText) {
+  const text2 = newText ?? "granted";
+  if (text2.startsWith("parked: ")) return { state: "parked", detail: text2.slice("parked: ".length) };
+  if (text2.startsWith("done: ")) return { state: "done", detail: text2.slice("done: ".length) };
+  return { state: "granted", detail: "" };
+}
+function setupEntries(entries) {
+  const out = /* @__PURE__ */ new Map();
+  for (const row of entries) {
+    if (row.source !== RALPH_SETUP_SOURCE || !row.originalText) continue;
+    const { state, detail } = setupStateOf(row.newText);
+    const prev = out.get(row.originalText);
+    out.set(row.originalText, {
+      item: row.originalText,
+      heading: row.question,
+      state,
+      setup: row.recommended ?? prev?.setup ?? "",
+      detail,
+      done: [...prev?.done ?? [], ...state === "done" ? [detail] : []]
+    });
+  }
+  return out;
+}
+function foldDecisions(entries) {
+  const setups = setupEntries(entries);
+  const out = [];
+  const seen = /* @__PURE__ */ new Set();
+  for (const row of entries) {
+    let shown = row;
+    if (row.source === RALPH_SETUP_SOURCE && row.originalText) {
+      const entry = setups.get(row.originalText);
+      if (!entry) continue;
+      const newest = [...entries].reverse().find((other) => other.source === RALPH_SETUP_SOURCE && other.originalText === row.originalText) ?? row;
+      shown = { ...newest, recommended: entry.setup || null };
+    }
+    const key = [shown.kind, shown.source, shown.question, shown.recommended, shown.originalText, shown.newText].join("\0");
+    const itemKey = shown.source === RALPH_SETUP_SOURCE && shown.originalText ? `setup\0${shown.originalText}` : key;
+    if (seen.has(itemKey)) continue;
+    seen.add(itemKey);
+    out.push(shown);
+  }
+  return out;
+}
 var RECOMMENDED_RE = /\s*[—–]\s*recommended:\s*|\s+-{1,2}\s*recommended:\s*/i;
 var OPEN_MARKER_RE = /\[NEEDS_DECISION:([^\]\n]*)\]/gi;
 var CODE_RE = /(<pre[\s>][\s\S]*?<\/pre>|<code[\s>][\s\S]*?<\/code>|```[\s\S]*?```|`[^`\n]*`)/gi;
@@ -29361,7 +29421,7 @@ function shorten(text2, max) {
   return flat.length > max ? `${flat.slice(0, max - 1).trimEnd()}\u2026` : flat;
 }
 function stepExcerptBefore(planBefore) {
-  const lines2 = planText(planBefore).split("\n");
+  const lines2 = planText(planBefore, { keepInlineCode: true }).split("\n");
   const own = (lines2.pop() ?? "").replace(/\[NEEDS_DECISION[^\]\n]*\]/gi, "").trim();
   if (own) return shorten(own, EXCERPT_MAX);
   for (let i = lines2.length - 1; i >= 0; i--) {
@@ -29922,6 +29982,13 @@ function unwalkedChildItems(db2, cardId) {
   return unwalkedItems(childrenOf(db2, cardId));
 }
 function decisionSentence(entry) {
+  if (entry.source === RALPH_SETUP_SOURCE) {
+    const item = stripItemTokens(entry.originalText ?? entry.question);
+    const state = entry.newText ?? "granted";
+    if (state.startsWith("done: ")) return `Set up ${item}: ${state.slice(6)}`;
+    if (state.startsWith("parked: ")) return `Parked ${item}: ${state.slice(8)}`;
+    return `Setup round given: ${item}${entry.recommended ? ` (${entry.recommended})` : ""}`;
+  }
   if (entry.source === RALPH_UNVERIFIABLE_SOURCE) {
     return `Could not verify: ${stripItemTokens(entry.originalText ?? "")}${entry.recommended ? ` ${entry.recommended}` : ""}`;
   }
@@ -29932,7 +29999,7 @@ function mergeReviewFor(db2, cardId) {
   if (!hasSplitColumn2(db2)) return [];
   const review = [];
   const add = (name, id, items) => {
-    const decisions = listCardDecisions(db2, id).map(decisionSentence);
+    const decisions = [...new Set(foldDecisions(listCardDecisions(db2, id)).map(decisionSentence))];
     if (items.length > 0 || decisions.length > 0) review.push({ name, items, decisions });
   };
   const children = childrenOf(db2, cardId).filter((child) => child.status !== "withdrawn");
@@ -34823,6 +34890,9 @@ function cardTestReportState(allRuns, checklistHtml, asOf = 0, codeChanges) {
 }
 
 // ../lib/test-report-brief.ts
+function withoutNumbers(text2) {
+  return text2.replace(/\b[A-Z][A-Z0-9]*-\d+\b/g, "[card]").replace(/#\d+'s\b/g, "the newest run's").replace(/#?\d+(?:[.,:/]\d+)*%?/g, "").replace(/\(\s*\)/g, "").replace(/\s+([,.;:])/g, "$1").replace(/\s+/g, " ").trim();
+}
 var SECTION_TITLES = [
   ["problems", "Problems (failed)"],
   ["needsYou", "Needs you (manual, left to the person)"],
@@ -34852,10 +34922,12 @@ function currentBrief(brief, state) {
 var chain_test_report_state_exports = {};
 __export(chain_test_report_state_exports, {
   CHAIN_ACROSS_LINE: () => CHAIN_ACROSS_LINE,
+  STOP_CAUSE_LABEL: () => STOP_CAUSE_LABEL,
   TEXT_ONLY_CAVEAT: () => TEXT_ONLY_CAVEAT,
   chainCaveatText: () => chainCaveatText,
   chainDecisionText: () => chainDecisionText,
   chainTestReportState: () => chainTestReportState,
+  stopCause: () => stopCause,
   stopNextStep: () => stopNextStep
 });
 function stopNextStep(reason) {
@@ -34875,6 +34947,21 @@ function stopNextStep(reason) {
   if (/time cap/.test(reason)) return "Time ran out. Continue gives a fresh budget.";
   if (/timed out|idle timeout|run failed/.test(reason)) return "Open the card's Test Report and the run's log, then Continue.";
   return null;
+}
+var STOP_CAUSE_LABEL = {
+  you: "Waited for you",
+  conflict: "Chain conflict",
+  ralph: "Ralph's own failure",
+  environment: "Environment or network"
+};
+function stopCause(reason, byPerson = false) {
+  if (byPerson || /items? blocked/.test(reason) || reason.startsWith(DECISION_STOP_PREFIX)) return "you";
+  if (/could not go into|conflict/.test(reason)) return "conflict";
+  if (/same failure|run failed/.test(reason)) return "ralph";
+  if (/timed out|idle timeout|time cap/.test(reason) || reason.startsWith(RALPH_BROWSER_PREFIX) || reason.includes(RALPH_BROWSER_UNUSED) || /browser|preview/i.test(reason)) {
+    return "environment";
+  }
+  return "ralph";
 }
 var CHAIN_ACROSS_LINE = "Newest result of each item, across every run of each card";
 var TEXT_ONLY_CAVEAT = "tested as text only, no recording";
@@ -35230,13 +35317,18 @@ function formatChainState(state) {
 var write_exports = {};
 __export(write_exports, {
   RUN_REPORT_VIDEO_CAP_BYTES: () => RUN_REPORT_VIDEO_CAP_BYTES,
+  SHAREABLE_MAX_BYTES: () => SHAREABLE_MAX_BYTES,
+  budgetMedia: () => budgetMedia,
   buildRunReport: () => buildRunReport,
   cardSummaryDir: () => cardSummaryDir,
   cardSummarySourceKey: () => cardSummarySourceKey,
   cardSummaryState: () => cardSummaryState,
   cardSummaryWanted: () => cardSummaryWanted,
   collectReportData: () => collectReportData,
+  readStoredExecSummary: () => readStoredExecSummary,
   runReportFilename: () => runReportFilename,
+  scrubLocalPaths: () => scrubLocalPaths,
+  shareableMediaOrder: () => shareableMediaOrder,
   summaryLocation: () => summaryLocation,
   summarySourceKey: () => summarySourceKey,
   summarySpecOf: () => summarySpecOf,
@@ -35502,7 +35594,7 @@ function buildSummarySpec(data, stories = /* @__PURE__ */ new Map()) {
   const day = date4 ? new Intl.DateTimeFormat("en-GB", { timeZone: data.timeZone, day: "numeric", month: "short", year: "numeric" }).format(new Date(date4)) : null;
   const ticked = data.cards.reduce((sum, card) => sum + card.ticked, 0);
   const total = data.cards.reduce((sum, card) => sum + card.total, 0);
-  const plural6 = (count, word) => `${count} ${word}${count === 1 ? "" : "s"}`;
+  const plural7 = (count, word) => `${count} ${word}${count === 1 ? "" : "s"}`;
   const storyOf = (card) => stories.get(card.id) ?? void 0;
   const banners = data.cards.map((card) => bannerOf(storyOf(card)));
   return {
@@ -35514,8 +35606,8 @@ function buildSummarySpec(data, stories = /* @__PURE__ */ new Map()) {
     // Runs and stops count Ralph's events: a zero there says nothing about the card.
     outcome: [
       `${ticked}/${total} checked`,
-      ...data.totals.runs > 0 ? [plural6(data.totals.runs, "run")] : [],
-      ...data.totals.stops > 0 ? [plural6(data.totals.stops, "stop")] : []
+      ...data.totals.runs > 0 ? [plural7(data.totals.runs, "run")] : [],
+      ...data.totals.stops > 0 ? [plural7(data.totals.stops, "stop")] : []
     ].join(" \xB7 "),
     titled,
     cards: shown.map((card) => ({
@@ -35549,6 +35641,228 @@ function summaryDuration(spec) {
   }, 0);
   const titles = spec.titled ? spec.cards.length * SUMMARY_TITLE_SECONDS : 0;
   return SUMMARY_COVER_SECONDS + titles + clips + SUMMARY_RESULT_SECONDS;
+}
+
+// ../lib/run-report/interventions.ts
+var PLAIN = {
+  "took-off": ["card taken off Ralph", "cards taken off Ralph"],
+  "hand-merge": ["card merged into the chain by hand", "cards merged into the chain by hand"],
+  "hand-tick": ["item ticked by hand", "items ticked by hand"],
+  "hand-edit": ["hand edit of a plan or checklist", "hand edits of a plan or checklist"]
+};
+var CONTINUE_AFTER = {
+  you: "after a stop that waited for you",
+  conflict: "after a chain conflict",
+  ralph: "after Ralph's own failure",
+  environment: "after an environment or network stop"
+};
+function interventionsOf(events, authorship, window) {
+  const out = [];
+  const openStop = /* @__PURE__ */ new Map();
+  const continuedAt = /* @__PURE__ */ new Set();
+  for (const event of events) {
+    switch (event.kind) {
+      case "stopped":
+        if (event.detail.byPerson) out.push({ kind: "took-off", at: event.at });
+        openStop.set(event.cardId, event);
+        break;
+      case "continued": {
+        const stop = openStop.get(event.cardId);
+        openStop.delete(event.cardId);
+        if (!stop || continuedAt.has(event.at)) break;
+        continuedAt.add(event.at);
+        out.push({ kind: "continue", at: event.at, cause: stopCause(stop.detail.reason ?? "", Boolean(stop.detail.byPerson)) });
+        break;
+      }
+      case "in_chain":
+        if (event.detail.by === "you") out.push({ kind: "hand-merge", at: event.at });
+        openStop.delete(event.cardId);
+        break;
+      case "sent":
+      case "run":
+      case "ready":
+      case "merged":
+        openStop.delete(event.cardId);
+        break;
+    }
+  }
+  if (window.from && window.to) {
+    const inside = (at) => at >= window.from && at <= window.to;
+    for (const row of authorship) {
+      if (row.actor !== "you" || !inside(row.at)) continue;
+      if (row.action === "tick" || row.action === "untick") out.push({ kind: "hand-tick", at: row.at });
+      else if (row.action === "edit" && (row.field === "solutionSummary" || row.field === "testScenarios")) {
+        out.push({ kind: "hand-edit", at: row.at });
+      }
+    }
+  }
+  return out.sort((a, b2) => a.at.localeCompare(b2.at));
+}
+function summarizeInterventions(list) {
+  const counts = /* @__PURE__ */ new Map();
+  for (const entry of list) {
+    const key = entry.kind === "continue" ? `continue\0${entry.cause ?? "ralph"}` : entry.kind;
+    counts.set(key, (counts.get(key) ?? 0) + 1);
+  }
+  const reasons = [...counts.entries()].map(([key, count]) => {
+    if (key.startsWith("continue\0")) {
+      const cause = key.slice(9);
+      return { text: `${count} Continue ${CONTINUE_AFTER[cause]}`, count };
+    }
+    const [one, many] = PLAIN[key];
+    return { text: `${count} ${count === 1 ? one : many}`, count };
+  }).sort((a, b2) => b2.count - a.count);
+  return { count: list.length, reasons };
+}
+
+// ../lib/run-report/executive-summary.ts
+var SUMMARY_FILE_NAME = "exec-summary.json";
+var SUMMARY_PARAGRAPH_MIN = 20;
+var SUMMARY_PARAGRAPH_MAX = 600;
+var SUMMARY_RULES_VERSION = "exec-1";
+function plural6(count, one, many = `${one}s`) {
+  return `${count} ${count === 1 ? one : many}`;
+}
+function formatMs(ms) {
+  const seconds = Math.round(ms / 1e3);
+  if (seconds < 60) return `${seconds}s`;
+  const minutes = Math.floor(seconds / 60);
+  if (minutes < 60) return `${minutes}m ${seconds % 60}s`;
+  return `${Math.floor(minutes / 60)}h ${minutes % 60}m`;
+}
+function sureLine(cards, decisions) {
+  const items = cards.flatMap((card) => card.checklist);
+  const passed = items.filter((item) => item.lastStatus === "passed");
+  const onScreen = passed.filter((item) => item.lastEvidence === "visual").length;
+  const inTerminal = passed.length - onScreen;
+  const failed = items.filter((item) => item.lastStatus === "failed").length;
+  const yours = items.filter((item) => item.manual && !item.checked).length;
+  const untested = items.filter((item) => item.lastStatus === null && !item.manual).length;
+  const parts = [];
+  if (items.length === 0) parts.push("No checklist to check against");
+  else {
+    const how = passed.length === 0 ? "" : onScreen === 0 ? ", all in a terminal" : inTerminal === 0 ? ", all on screen" : `, ${onScreen} on screen and ${inTerminal} in a terminal`;
+    parts.push(`${passed.length} of ${plural6(items.length, "check")} passed${how}`);
+  }
+  const rest = [];
+  if (failed > 0) rest.push(`${failed} failed`);
+  if (untested > 0) rest.push(`${untested} not run yet`);
+  if (yours > 0) rest.push(`${yours} ${yours === 1 ? "is" : "are"} left for you`);
+  const accepted = decisions.filter((decision) => decision.kind === "acceptance").length;
+  const reworded = decisions.filter((decision) => decision.kind === "revision").length;
+  let line = rest.length > 0 ? `${parts[0]}; ${rest.join(", ")}.` : `${parts[0]}.`;
+  const took = [];
+  if (accepted > 0) took.push(`took ${plural6(accepted, "decision")} on its own`);
+  if (reworded > 0) took.push(`reworded ${plural6(reworded, "item")}`);
+  if (took.length > 0) line += ` Ralph ${took.join(" and ")}.`;
+  return line;
+}
+function selfFixLine(cards) {
+  const unreadable = cards.filter((card) => card.selfFixes === null).map((card) => card.displayId);
+  const fixes = cards.flatMap((card) => (card.selfFixes ?? []).map((fix) => ({ ...fix, displayId: card.displayId })));
+  const commits = fixes.filter((fix) => fix.kind === "commit");
+  const conflicts = fixes.filter((fix) => fix.kind === "chain-conflict").length;
+  const perCard = [...new Set(commits.map((fix) => fix.displayId))].map(
+    (id) => `${id}: ${commits.filter((fix) => fix.displayId === id).length}`
+  );
+  const parts = [];
+  if (commits.length > 0) parts.push(`Fixed ${plural6(commits.length, "problem")} its checks found${cards.length > 1 ? ` (${perCard.join(", ")})` : ""}`);
+  if (conflicts > 0) parts.push(`solved ${plural6(conflicts, "chain conflict")}`);
+  let line = parts.length > 0 ? `${parts.join(" and ")}.` : unreadable.length === cards.length ? "" : "Nothing it had to fix on its own.";
+  if (unreadable.length > 0) {
+    const where = unreadable.length === cards.length ? "" : ` for ${unreadable.join(", ")}`;
+    line = `${line}${line ? " " : ""}Its own fixes are not readable here${where}: git could not be read.`;
+  }
+  return line;
+}
+function costLine(data) {
+  const cost = data.totals.cost === null ? "cost not reported" : `$${data.totals.cost.toFixed(2)}`;
+  const span = data.firstAt && data.lastAt ? `; ${formatMs(Date.parse(data.lastAt) - Date.parse(data.firstAt))} from first send to last event` : "";
+  return `${plural6(data.totals.runs, "AI run")}, ${formatMs(data.totals.ms)} of AI time, ${cost}${span}.`;
+}
+function interventionLine(list) {
+  const summary = summarizeInterventions(list);
+  if (summary.count === 0) return "You did not step in, as far as the app recorded.";
+  return `You stepped in at least ${summary.count} ${summary.count === 1 ? "time" : "times"}: ${summary.reasons.map((reason) => reason.text).join(", ")}.`;
+}
+var INTERVENTIONS_NOTE = "A lower bound: queue pauses and resumes, and work done outside the app, are not counted.";
+function stateOf2(data, cardId) {
+  if (data.state.kind === "card") return data.state.card;
+  return data.state.chain.cards.find((entry) => entry.id === cardId)?.state ?? null;
+}
+function summaryInput(data) {
+  const lines2 = [];
+  const anyVisual = data.cards.some((card) => card.checklist.some((item) => item.lastEvidence === "visual"));
+  lines2.push(
+    anyVisual ? "Evidence: visual \u2014 at least one run recorded the screen." : "Evidence: text only \u2014 no run recorded the screen. Nothing on screen was seen; whether it works on screen is unknown."
+  );
+  const clean = (text2) => withoutNumbers(text2);
+  for (const card of data.cards) {
+    lines2.push("", `Card: ${clean(card.title)}${card.isParent ? " (joins the others; its test is end to end)" : ""}`);
+    if (card.about) lines2.push(`About: ${clean(card.about)}`);
+    const ticked = card.checklist.filter((item) => item.checked);
+    if (ticked.length > 0) {
+      lines2.push("Ticked on the card:");
+      for (const item of ticked) lines2.push(`- ${clean(stripItemTokens(item.text))}`);
+    }
+    const state = stateOf2(data, card.id);
+    if (!state) {
+      lines2.push("No test result yet.");
+      continue;
+    }
+    const section2 = (title, rows) => {
+      if (rows.length === 0) return;
+      lines2.push(`${title}:`);
+      for (const row of rows) lines2.push(`- ${row}`);
+    };
+    const stale = [...state.worked, ...state.passedBut].filter((item) => item.codeCaveat);
+    section2("Passed", state.worked.filter((item) => !item.codeCaveat).map((item) => clean(item.sentence)));
+    section2("Failed", state.problems.map((item) => `${clean(item.sentence)}${item.observed ? ` \u2014 seen: ${clean(item.observed)}` : ""}`));
+    section2("Left to the person (manual)", state.needsYou.map((item) => clean(item.sentence)));
+    section2(
+      "Passed with a caveat",
+      state.passedBut.filter((item) => !item.codeCaveat).map((item) => `${clean(item.sentence)}${item.caveat ? ` \u2014 caveat: ${clean(item.caveat)}` : ""}`)
+    );
+    section2("Passed before the code changed again", stale.map((item) => clean(item.sentence)));
+    section2("Not tested yet", state.notTested.map((item) => clean(item.sentence)));
+  }
+  const accepted = data.decisions.filter((decision) => decision.kind === "acceptance");
+  if (accepted.length > 0) {
+    lines2.push("", "Questions Ralph answered on its own (the person never chose):");
+    for (const decision of accepted) {
+      lines2.push(`- ${clean(decision.question)}${decision.recommended ? ` \u2014 took: ${clean(decision.recommended)}` : ""}`);
+    }
+  }
+  return lines2.join("\n");
+}
+function summaryBasis(input) {
+  return djb2(`${SUMMARY_RULES_VERSION}${input}`);
+}
+function cleanParagraph(text2) {
+  if (!text2) return null;
+  let out = text2.replace(/\s+/g, " ").trim();
+  const quotes = /^["'“”«»„](.*)["'“”«»]$/s.exec(out);
+  if (quotes) out = quotes[1].trim();
+  if (/\d/.test(out)) return null;
+  if (/\[card\]/i.test(out)) return null;
+  if (/[*_`#>|]|\]\(|^\s*[-•]\s/.test(out)) return null;
+  if (out.length < SUMMARY_PARAGRAPH_MIN || out.length > SUMMARY_PARAGRAPH_MAX) return null;
+  return out;
+}
+function currentSummary(stored, basis) {
+  if (!stored || stored.basis !== basis) return null;
+  const delivered = cleanParagraph(stored.delivered);
+  const watch = cleanParagraph(stored.watch);
+  return delivered || watch ? { delivered, watch } : null;
+}
+function executiveOf(data, interventions, stored) {
+  return {
+    sure: sureLine(data.cards, data.decisions),
+    selfFixes: selfFixLine(data.cards),
+    cost: costLine(data),
+    interventions: interventionLine(interventions),
+    ai: currentSummary(stored, summaryBasis(summaryInput(data)))
+  };
 }
 
 // ../lib/run-report/collect.ts
@@ -35613,19 +35927,24 @@ function runOf(cardId, run2, index, total, fileSize, readyClipBytes2, readClicks
     }))
   };
 }
-function lastResult(text2, runs) {
-  const wanted = stripItemTokens(text2);
-  for (const run2 of runs) {
-    const index = closestTaskText(wanted, run2.items.map((item) => stripItemTokens(item.item)));
-    if (index >= 0) return { status: run2.items[index].status, evidence: run2.evidence };
-  }
-  return null;
-}
-function hasVisualResult(text2, runs) {
-  const wanted = stripItemTokens(text2);
-  return runs.some(
-    (run2) => run2.evidence === "visual" && closestTaskText(wanted, run2.items.map((item) => stripItemTokens(item.item))) >= 0
+function resultsOf(runs, checklistHtml) {
+  const latest = latestItemResults(runs, checklistHtml);
+  const visual = latestItemResults(
+    runs.filter((run2) => run2.evidence === "visual"),
+    checklistHtml
   );
+  const keyOf = (text2) => matchTaskItem(text2, checklistHtml)?.normalized ?? null;
+  return {
+    last(text2) {
+      const key = keyOf(text2);
+      const hit = key !== null ? latest.get(key) : void 0;
+      return hit ? { status: hit.item.status, evidence: hit.run.evidence } : null;
+    },
+    seenOnScreen(text2) {
+      const key = keyOf(text2);
+      return key !== null && visual.has(key);
+    }
+  };
 }
 function whereOf(row, landedOn, chainBranch) {
   if (row.status === "withdrawn") return "Withdrawn";
@@ -35644,7 +35963,7 @@ function whereOf(row, landedOn, chainBranch) {
   }
   return { ideation: "Ideation", backlog: "Backlog", bugs: "Bugs", progress: "In Progress", test: "Human Test" }[row.status] ?? row.status;
 }
-function formatMs(ms) {
+function formatMs2(ms) {
   const seconds = Math.round(ms / 1e3);
   if (seconds < 60) return `${seconds}s`;
   const minutes = Math.floor(seconds / 60);
@@ -35670,9 +35989,10 @@ function capVideos(cards, capBytes) {
   }
   return { embedded, leftOut, embeddedBytes };
 }
+var MOVED_ON = /* @__PURE__ */ new Set(["continued", "run", "ready", "in_chain", "merged"]);
 function timelineOf(events, nameOf3, reportRuns) {
   const rows = [];
-  for (const event of events) {
+  for (const [index, event] of events.entries()) {
     const name = nameOf3.get(event.cardId) ?? event.cardId;
     const detail = event.detail;
     const last = rows[rows.length - 1];
@@ -35700,7 +36020,7 @@ function timelineOf(events, nameOf3, reportRuns) {
         const report = detail.reportRunId ? reportRuns.get(`${event.cardId}\0${detail.reportRunId}`) : void 0;
         const phase = detail.phase ?? "run";
         const counts = report ? ` \xB7 ${report.counts.passed} passed${report.counts.failed ? `, ${report.counts.failed} failed` : ""}${report.counts.manual ? `, ${report.counts.manual} manual` : ""} \xB7 ${report.evidence}` : detail.reportRunId && detail.outcome === "completed" ? " \xB7 its report is no longer on the card" : "";
-        const took = detail.durationMs !== void 0 ? ` \xB7 ${formatMs(detail.durationMs)}` : "";
+        const took = detail.durationMs !== void 0 ? ` \xB7 ${formatMs2(detail.durationMs)}` : "";
         const ended = detail.outcome && detail.outcome !== "completed" ? ` \xB7 ${detail.outcome}` : "";
         rows.push({
           at: event.at,
@@ -35716,6 +36036,7 @@ function timelineOf(events, nameOf3, reportRuns) {
       }
       case "stopped": {
         const reason = detail.reason ?? "no reason given";
+        const resolved = events.slice(index + 1).some((later) => later.cardId === event.cardId && MOVED_ON.has(later.kind));
         rows.push({
           at: event.at,
           kind: "stopped",
@@ -35723,8 +36044,10 @@ function timelineOf(events, nameOf3, reportRuns) {
           who: detail.byPerson ? "you" : "ideafy",
           text: "Stopped",
           reason,
-          next: detail.byPerson ? null : stopNextStep(reason),
-          failed: false
+          next: detail.byPerson || resolved ? null : stopNextStep(reason),
+          failed: false,
+          cause: stopCause(reason, Boolean(detail.byPerson)),
+          resolved
         });
         break;
       }
@@ -35795,8 +36118,9 @@ function collectRunReport(db2, cardId, opts) {
       const by = index >= 0 ? ticks[index].by : null;
       return by === "you" || by === "ideafy" ? by : null;
     };
+    const results = resultsOf(stored, row.test_scenarios ?? "");
     const checklist = checklistItems(row.test_scenarios).map((item) => {
-      const result = lastResult(item.text, stored);
+      const result = results.last(item.text);
       return {
         text: item.text,
         heading: item.heading,
@@ -35810,19 +36134,19 @@ function collectRunReport(db2, cardId, opts) {
       };
     });
     for (const item of checklist) {
-      if (!item.checked) gaps.push({ kind: "unticked", displayId, text: item.text });
-      else if (item.tickedBy === "you") gaps.push({ kind: "ticked-by-you", displayId, text: item.text });
-      if (item.ui && item.lastStatus !== null && !hasVisualResult(item.text, stored)) {
-        gaps.push({ kind: "ui-text-only", displayId, text: item.text });
+      if (!item.checked) gaps.push({ kind: "unticked", group: item.manual ? "yours" : "before-merge", displayId, text: item.text });
+      else if (item.tickedBy === "you") gaps.push({ kind: "ticked-by-you", group: "before-merge", displayId, text: item.text });
+      if (item.ui && item.lastStatus !== null && !results.seenOnScreen(item.text)) {
+        gaps.push({ kind: "ui-text-only", group: "before-merge", displayId, text: item.text });
       }
     }
     for (const run2 of runs) {
       if (run2.video?.state === "removed" || run2.video?.state === "missing") {
-        gaps.push({ kind: "video-removed", displayId, text: `Run #${run2.number} (${run2.label})` });
+        gaps.push({ kind: "video-removed", group: "info", displayId, text: `Run #${run2.number} (${run2.label})` });
       }
       for (const item of run2.items) {
         for (const shot of item.shots) {
-          if (!shot.present) gaps.push({ kind: "screenshot-missing", displayId, text: `Run #${run2.number}: ${item.item}` });
+          if (!shot.present) gaps.push({ kind: "screenshot-missing", group: "info", displayId, text: `Run #${run2.number}: ${item.item}` });
         }
       }
     }
@@ -35835,6 +36159,7 @@ function collectRunReport(db2, cardId, opts) {
       displayId,
       title: row.title,
       status: row.status,
+      about: aboutOf(row.description),
       where: whereOf(row, group?.mergedCommit || mergedEvent?.detail.commit ? mergedEvent?.detail.target ?? "main" : null, chainBranch),
       commit,
       isParent: parentIds.has(row.id),
@@ -35843,6 +36168,7 @@ function collectRunReport(db2, cardId, opts) {
       runs,
       ticked: checklist.filter((item) => item.checked).length,
       total: checklist.length,
+      selfFixes: opts.cardOnly ? null : selfFixesOf(row, displayId, events),
       aiMs: own2.reduce((sum, event) => sum + (event.detail.durationMs ?? 0), 0),
       runCount: own2.length,
       cost: costs2.length > 0 ? costs2.reduce((sum, cost) => sum + cost, 0) : null
@@ -35852,13 +36178,19 @@ function collectRunReport(db2, cardId, opts) {
   for (const card of cards) {
     for (const run2 of card.runs) {
       if (run2.video?.state === "left-out") {
-        gaps.push({ kind: "video-left-out", displayId: card.displayId, text: `Run #${run2.number} (${run2.label})` });
+        gaps.push({ kind: "video-left-out", group: "info", displayId: card.displayId, text: `Run #${run2.number} (${run2.label})` });
       }
     }
   }
+  const handOver = (kind, displayId, item, why, text2) => {
+    const mine = gaps.filter((gap) => gap.group === "yours" && gap.displayId === displayId);
+    const index = closestTaskText(stripItemTokens(item), mine.map((gap) => stripItemTokens(gap.text)));
+    if (index >= 0) mine[index].why = mine[index].why ? `${mine[index].why}; ${why}` : why;
+    else gaps.push({ kind, group: "before-merge", displayId, text: text2 });
+  };
   const decisions = ordered.flatMap((row) => {
     const stored = parseTestReports(row.test_reports) ?? [];
-    return listCardDecisions(db2, row.id).map((entry) => {
+    return foldDecisions(listCardDecisions(db2, row.id)).map((entry) => {
       const looked = stored.flatMap((run2) => {
         const hit = run2.decisions?.find((decision2) => decision2.entryId === entry.id);
         return hit ? [{ run: run2, hit }] : [];
@@ -35879,16 +36211,17 @@ function collectRunReport(db2, cardId, opts) {
       if (entry.source === RALPH_SETUP_SOURCE) {
         const item = entry.originalText ?? entry.question;
         const state2 = entry.newText ?? "granted";
-        if (state2.startsWith("done: ")) gaps.push({ kind: "ralph-set-up", displayId: decision.displayId, text: `${item}: ${state2.slice(6)}` });
-        else if (state2.startsWith("parked: ")) gaps.push({ kind: "setup-parked", displayId: decision.displayId, text: `${item} \u2014 blocked: ${state2.slice(8)}` });
+        if (state2.startsWith("done: ")) gaps.push({ kind: "ralph-set-up", group: "before-merge", displayId: decision.displayId, text: `${item}: ${state2.slice(6)}` });
+        else if (state2.startsWith("parked: ")) handOver("setup-parked", decision.displayId, item, `parked: ${state2.slice(8)}`, `${item} \u2014 blocked: ${state2.slice(8)}`);
       } else if (entry.source === RALPH_UNVERIFIABLE_SOURCE) {
-        gaps.push({ kind: "unverifiable", displayId: decision.displayId, text: `${entry.originalText ?? entry.question}${entry.recommended ? ` ${entry.recommended}` : ""}` });
+        const item = entry.originalText ?? entry.question;
+        handOver("unverifiable", decision.displayId, item, `could not verify${entry.recommended ? `: ${entry.recommended}` : ""}`, `${item}${entry.recommended ? ` ${entry.recommended}` : ""}`);
       } else if (entry.source === RALPH_CORE_REVISION_SOURCE) {
-        gaps.push({ kind: "core-revision", displayId: decision.displayId, text: `${entry.originalText ?? entry.question} \u2192 ${entry.newText ?? ""}`.trim() });
+        gaps.push({ kind: "core-revision", group: "before-merge", displayId: decision.displayId, text: `${entry.originalText ?? entry.question} \u2192 ${entry.newText ?? ""}`.trim() });
       } else if (entry.kind === "acceptance") {
-        gaps.push({ kind: "accepted-decision", displayId: decision.displayId, text: entry.recommended ? `${entry.question} Took: ${entry.recommended}` : entry.question });
+        gaps.push({ kind: "accepted-decision", group: "before-merge", displayId: decision.displayId, text: entry.recommended ? `${entry.question} Took: ${entry.recommended}` : entry.question });
       } else if (entry.kind === "revision") {
-        gaps.push({ kind: "revision", displayId: decision.displayId, text: `${entry.originalText ?? entry.question} \u2192 ${entry.newText ?? ""}`.trim() });
+        gaps.push({ kind: "revision", group: "before-merge", displayId: decision.displayId, text: `${entry.originalText ?? entry.question} \u2192 ${entry.newText ?? ""}`.trim() });
       }
       return decision;
     });
@@ -35948,7 +36281,7 @@ function collectRunReport(db2, cardId, opts) {
     const card = cardTestReportState(parsedRuns.get(own.id) ?? [], own.test_scenarios, 0, codeChangesOf(own));
     state = { kind: "card", displayId: displayIdOf2(own), card, aiSummary: briefOf(own) };
   }
-  return {
+  const data = {
     title: `${code} \xB7 ${name}`,
     code,
     ralph,
@@ -35982,6 +36315,96 @@ function collectRunReport(db2, cardId, opts) {
     redact: [...redact.entries()].sort((a, b2) => b2[0].length - a[0].length),
     state
   };
+  const next = reportNextStep(data);
+  if (opts.cardOnly) return { ...data, next, executive: null };
+  const anchor = (cards.find((card) => card.isParent) ?? cards[0])?.id;
+  const executive = executiveOf(
+    data,
+    interventionsOf(events, authorshipOf(db2, ordered.map((row) => row.id)), { from: data.firstAt, to: data.lastAt }),
+    anchor ? opts.readSummary?.(anchor) ?? null : null
+  );
+  return { ...data, next, executive };
+}
+function aboutOf(html) {
+  if (!html) return null;
+  const withoutImages = html.replace(/<img[^>]*>/gi, " ");
+  const first = /<p[^>]*>([\s\S]*?)<\/p>/i.exec(withoutImages)?.[1] ?? withoutImages;
+  const text2 = plainTextLabel(first, 400);
+  return text2 || null;
+}
+function authorshipOf(db2, cardIds) {
+  if (cardIds.length === 0 || !hasAuthorshipTable(db2)) return [];
+  return allRows(
+    db2,
+    `SELECT card_id, field, actor, action, at FROM card_authorship WHERE actor = 'you' AND card_id IN (${cardIds.map(() => "?").join(",")})`,
+    ...cardIds
+  ).map((row) => ({ cardId: row.card_id, field: row.field, actor: row.actor, action: row.action, at: row.at }));
+}
+function reportNextStep(data) {
+  const cards = data.cards;
+  const mine = data.gaps.filter((gap) => gap.group === "yours");
+  const mineOn = listOf([...new Set(mine.map((gap) => gap.displayId))]);
+  const walk = `walk ${mine.length} [manual] item${mine.length === 1 ? "" : "s"} on ${mineOn}`;
+  const landed = data.chain?.mergedCommit ?? (!data.chain && cards[0]?.status === "completed" ? cards[0].commit : null);
+  if (landed || cards.length > 0 && cards.every((card) => card.status === "completed")) {
+    const where = data.chain?.landedOn ?? "main";
+    const head = `Landed on ${where}${landed ? ` as ${landed.slice(0, 7)}` : ""}.`;
+    if (mine.length > 0) return { text: `${head} Your turn: ${walk}.`, yourTurn: true };
+    return { text: `${head} Nothing left for you.`, yourTurn: false };
+  }
+  const stopped = cards.find((card) => card.stopReason);
+  if (stopped?.stopReason) {
+    const step = stopNextStep(stopped.stopReason);
+    return { text: `Stopped on ${stopped.displayId}. Your turn: ${step ?? `${stopped.stopReason}. Read it below, then Continue.`}`, yourTurn: true };
+  }
+  const mergeCard3 = cards.find((card) => card.isParent) ?? cards[cards.length - 1];
+  if (mine.length > 0) {
+    return { text: `Your turn: ${walk}, then Merge & Complete on ${mergeCard3?.displayId ?? mineOn}.`, yourTurn: true };
+  }
+  const headline = data.state.kind === "chain" ? data.state.chain.headline : data.state.card.headline;
+  if (headline === "Ready to merge") {
+    return { text: `Ready to merge. Your turn: Merge & Complete on ${mergeCard3?.displayId ?? "the card"}.`, yourTurn: true };
+  }
+  const onRalph2 = cards.find((card) => card.where.startsWith("On Ralph")) ?? cards.find((card) => card.status !== "completed" && !card.isParent);
+  return { text: onRalph2 ? `Ralph is still on ${onRalph2.displayId}.` : headline, yourTurn: false };
+}
+function listOf(items) {
+  if (items.length <= 1) return items[0] ?? "";
+  return `${items.slice(0, -1).join(", ")} and ${items[items.length - 1]}`;
+}
+var SELF_FIX_PHASES = /* @__PURE__ */ new Set(["verify-fix", "chain-resolve"]);
+function selfFixesOf(row, displayId, events) {
+  const runs = events.filter((event) => event.cardId === row.id && event.kind === "run");
+  const firstVerify = runs.find((event) => event.detail.phase === "verify" || event.detail.phase === "reverify");
+  const rounds = runs.filter(
+    (event) => SELF_FIX_PHASES.has(event.detail.phase ?? "") || firstVerify && event.detail.phase === "running" && event.at > firstVerify.at
+  );
+  const repo = row.git_worktree_path ?? row.project_folder ?? row.projectFolder;
+  if (!repo) return null;
+  if (rounds.length === 0) return [];
+  const escaped = displayId.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const log = gitRead(repo, ["log", "--all", "-E", `--grep=^Card: ${escaped}$`, "--format=%H%x1f%s%x1f%cI%x1e"]);
+  if (log === null) return null;
+  const commits = log.split("").map((line) => line.trim().split("")).filter((parts) => parts.length >= 3).map(([hash2, subject, at]) => ({ hash: hash2, subject, ms: Date.parse(at) }));
+  const out = [];
+  const used = /* @__PURE__ */ new Set();
+  for (const round of rounds) {
+    const end = Date.parse(round.at);
+    const start = end - (round.detail.durationMs ?? 0);
+    const inside = commits.filter((commit) => commit.ms >= start - 1e3 && commit.ms <= end + 1e3 && !used.has(commit.hash));
+    for (const commit of inside) used.add(commit.hash);
+    if (round.detail.phase === "chain-resolve") {
+      out.push({
+        kind: "chain-conflict",
+        text: `Solved a chain conflict${inside.length > 0 ? `: ${inside.map((commit) => commit.subject).join("; ")}` : ""}`,
+        commit: inside[0]?.hash ?? null,
+        at: round.at
+      });
+      continue;
+    }
+    for (const commit of inside) out.push({ kind: "commit", text: commit.subject, commit: commit.hash, at: round.at });
+  }
+  return out;
 }
 
 // ../lib/run-report/render.ts
@@ -36016,8 +36439,67 @@ th{background:var(--card);font-weight:600}
 .turn{background:var(--you-soft);border:1px solid var(--you-line);border-radius:10px;padding:4px 14px 10px;margin:12px 0}
 details{border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:10px 0}
 summary{cursor:pointer;font-weight:500}
+details.evidence{border:0;border-top:1px solid var(--line);border-radius:0;padding:.8em 0 0;margin:2em 0 0}
+.evidence>summary{font-size:20px;font-weight:600;line-height:1.3}
 .item{border-top:1px solid var(--line);padding:8px 0}.item:first-of-type{border-top:0}
+.next{font-size:16px;font-weight:500;margin:.2em 0 .8em}
+.exec{border:1px solid var(--line);border-radius:10px;padding:2px 14px 10px;margin:12px 0}
+.exec h2{border:0;margin:.6em 0 .2em;padding-top:0}.exec h4{margin:1em 0 .2em}.exec .next{margin:.1em 0 .2em}
+.label{font:500 10px "Geist Mono",ui-monospace,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:4px;padding:0 4px;margin-right:6px;vertical-align:1px}
+del{color:var(--muted);text-decoration:line-through}ins{text-decoration:none;font-weight:600}
+@media(max-width:600px){
+h1{font-size:22px}
+p.num{white-space:normal}
+.rows table,.rows tbody{display:block;min-width:0;width:100%}
+.rows thead{display:none}
+.rows tr,.rows td{display:block;width:100%}
+.rows tr{border:1px solid var(--line);border-radius:8px;margin:8px 0;padding:4px 0}
+.rows td{border:0;padding:3px 10px;overflow-wrap:anywhere}
+.rows td[data-label]::before{content:attr(data-label);display:block;font:500 10.5px "Geist Mono",ui-monospace,Menlo,monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.evidence details{padding:6px 10px}
+}
 `;
+function plainRefs(text2) {
+  return text2.replace(/\[\[([A-Z][A-Z0-9]*-\d+)([^\]\n]*)\]\]/g, "$1$2").replace(/\[\[(?=[A-Z][A-Z0-9]*-\d+)/g, "");
+}
+function wordDiffHtml(before, after) {
+  const a = before.split(/(\s+)/).filter((token) => token !== "");
+  const b2 = after.split(/(\s+)/).filter((token) => token !== "");
+  if (a.length * b2.length > 25e4) return `<del>${before}</del> <ins>${after}</ins>`;
+  const lcs = Array.from({ length: a.length + 1 }, () => new Array(b2.length + 1).fill(0));
+  for (let i2 = a.length - 1; i2 >= 0; i2--) {
+    for (let j3 = b2.length - 1; j3 >= 0; j3--) {
+      lcs[i2][j3] = a[i2] === b2[j3] ? lcs[i2 + 1][j3 + 1] + 1 : Math.max(lcs[i2 + 1][j3], lcs[i2][j3 + 1]);
+    }
+  }
+  const out = [];
+  const push = (tag, token) => {
+    const last = out[out.length - 1];
+    const open = tag ? `<${tag}>` : "";
+    if (tag && last?.startsWith(open) && last.endsWith(`</${tag}>`)) {
+      out[out.length - 1] = `${last.slice(0, -(tag.length + 3))}${token}</${tag}>`;
+    } else out.push(tag ? `${open}${token}</${tag}>` : token);
+  };
+  let i = 0;
+  let j2 = 0;
+  while (i < a.length && j2 < b2.length) {
+    if (a[i] === b2[j2]) {
+      push(null, a[i]);
+      i++;
+      j2++;
+    } else if (lcs[i + 1][j2] >= lcs[i][j2 + 1]) push("del", a[i++]);
+    else push("ins", b2[j2++]);
+  }
+  while (i < a.length) push("del", a[i++]);
+  while (j2 < b2.length) push("ins", b2[j2++]);
+  return out.join("");
+}
+var GAP_GROUP_TITLE = {
+  yours: "Your turn",
+  "before-merge": "Read before Merge",
+  info: "For information"
+};
+var STOP_CAUSE_ORDER = ["you", "conflict", "ralph", "environment"];
 var GAP_HEADINGS = {
   "ui-text-only": "On-screen items with only text evidence",
   "ticked-by-you": "Ticked by a person, not by a run",
@@ -36094,9 +36576,25 @@ function cardStateHtml(data, esc2) {
   );
   return out;
 }
-function renderRunReport(data, embed, summary = { state: "none" }) {
+function executiveHtml(data, nextLine, esc2) {
+  const exec = data.executive;
+  if (!exec) return [];
+  const ai = (text2) => text2 ? `<p><span class="label">Written by AI</span>${esc2(text2)}</p>` : `<p class="small muted">AI summary not written yet.</p>`;
+  const row = (title, body) => `<h4>${title}</h4>${body}`;
+  return [
+    `<section class="exec"><h2>Executive summary</h2>`,
+    row("Outcome and next step", nextLine || `<p class="muted">\u2014</p>`),
+    row("What was delivered", ai(exec.ai?.delivered)),
+    row("How sure we are", `<p>${esc2(exec.sure)}</p>`),
+    row("What it fixed on its own", `<p>${esc2(exec.selfFixes)}</p>`),
+    row("Watch out for", ai(exec.ai?.watch)),
+    row("Cost and time", `<p>${esc2(exec.cost)}</p><p>${esc2(exec.interventions)}</p><p class="small muted">${esc2(INTERVENTIONS_NOTE)}</p>`),
+    `</section>`
+  ];
+}
+function renderRunReport(data, embed, summary = { state: "none" }, extras = {}) {
   const esc2 = (value) => {
-    let text2 = String(value ?? "");
+    let text2 = plainRefs(String(value ?? ""));
     for (const [folder, stand] of data.redact) text2 = text2.split(folder).join(stand);
     return text2.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
   };
@@ -36120,8 +36618,35 @@ function renderRunReport(data, embed, summary = { state: "none" }) {
   );
   const scope = data.chain ? `Chain of ${data.cards.length} card${data.cards.length === 1 ? "" : "s"}` : "Single card";
   parts.push(`<h1>Ralph report: ${esc2(data.title)}</h1>`);
+  const nextLine = data.next ? `<p class="next${data.next.yourTurn ? " you" : ""}">${esc2(data.next.text)}</p>` : "";
+  if (data.executive) parts.push(...executiveHtml(data, nextLine, esc2));
+  else if (nextLine) parts.push(nextLine);
+  const diffOf = (text2) => {
+    const at = text2.indexOf(" \u2192 ");
+    return at < 0 ? esc2(text2) : wordDiffHtml(esc2(text2.slice(0, at)), esc2(text2.slice(at + 3)));
+  };
+  const gapList = (group) => {
+    const out = [];
+    for (const kind of GAP_ORDER) {
+      const list = data.gaps.filter((gap) => gap.kind === kind && (gap.group ?? "before-merge") === group);
+      if (list.length === 0) continue;
+      const heading = group === "yours" ? "[manual] items left to you" : GAP_HEADINGS[kind];
+      out.push(`<h4>${esc2(heading)} (${list.length})</h4><ul>`);
+      for (const gap of list) {
+        const text2 = kind === "revision" || kind === "core-revision" ? diffOf(gap.text) : esc2(gap.text);
+        const why = gap.why ? ` <span class="small muted">\u2014 why: ${esc2(gap.why)}</span>` : "";
+        out.push(`<li><span class="mono">${esc2(gap.displayId)}</span> ${text2}${why}</li>`);
+      }
+      out.push(`</ul>`);
+    }
+    return out;
+  };
+  const yours = gapList("yours");
+  const yoursHtml = yours.length > 0 ? [`<div class="turn"><h2 style="border:0;margin-top:.4em;padding-top:.2em">${GAP_GROUP_TITLE.yours}</h2>`, ...yours, `</div>`] : [];
+  if (data.executive) parts.push(...yoursHtml);
   parts.push(
     `<p class="muted small">${[
+      extras.versionNote ? `<strong>${esc2(extras.versionNote)}</strong>` : null,
       data.projectName ? esc2(data.projectName) : null,
       scope,
       data.chain?.branch ? `<code>${esc2(data.chain.branch)}</code>` : null,
@@ -36132,6 +36657,7 @@ function renderRunReport(data, embed, summary = { state: "none" }) {
   parts.push(
     `<p class="note">Screenshots and videos may contain sensitive data: check before you share this file. This is Ideafy's own evidence from the runs. No check outside the runs looked at it.</p>`
   );
+  if (data.executive) parts.push(`<details class="evidence"><summary>Evidence</summary>`);
   if (data.state) parts.push(...cardStateHtml(data, esc2));
   if (summary.state === "in-file") {
     const seconds = Math.round(summary.durationSec);
@@ -36141,10 +36667,23 @@ function renderRunReport(data, embed, summary = { state: "none" }) {
     );
   } else if (summary.state === "not-ready") {
     parts.push(`<p class="small muted">Summary video not ready yet: open Ideafy, then download again.</p>`);
+  } else if (summary.state === "left-out") {
+    parts.push(`<p class="small muted">Summary video: left out of the shareable file, on the card.</p>`);
+  }
+  for (const card of extras.cardSummaries ?? []) {
+    if (card.state === "in-file" && card.src) {
+      parts.push(
+        `<details class="summary-video"><summary>Watch ${esc2(card.displayId)} summary</summary><video controls playsinline preload="metadata" src="${card.src}"></video><p class="small muted">${esc2(card.displayId)} summary video \xB7 ${((card.bytes ?? 0) / (1024 * 1024)).toFixed(1)} MB.</p></details>`
+      );
+    } else if (card.state === "left-out") {
+      parts.push(`<p class="small muted">${esc2(card.displayId)} summary video: left out of the shareable file, on the card.</p>`);
+    } else {
+      parts.push(`<p class="small muted">${esc2(card.displayId)} summary video not ready yet: download again from the card.</p>`);
+    }
   }
   parts.push(`<h2>Summary</h2>`);
   const landed = data.chain?.mergedCommit ? `Landed on ${esc2(data.chain.landedOn ?? "main")} as <code>${esc2(data.chain.mergedCommit.slice(0, 7))}</code>. ` : "";
-  const span = data.firstAt && data.lastAt ? formatMs(Date.parse(data.lastAt) - Date.parse(data.firstAt)) : null;
+  const span = data.firstAt && data.lastAt ? formatMs2(Date.parse(data.lastAt) - Date.parse(data.firstAt)) : null;
   parts.push(
     `<p>${landed}${data.totals.runs} run${data.totals.runs === 1 ? "" : "s"}, ${data.totals.stops} stop${data.totals.stops === 1 ? "" : "s"}${span ? `, ${span} from first send to last event` : ""}.</p>`
   );
@@ -36161,27 +36700,38 @@ function renderRunReport(data, embed, summary = { state: "none" }) {
     );
   }
   parts.push(`</tbody></table></div>`);
-  parts.push(`<div class="turn"><h2 style="border:0;margin-top:.4em;padding-top:.2em">Look at first</h2>`);
-  if (data.gaps.length === 0) {
+  if (!data.executive) parts.push(...yoursHtml);
+  parts.push(`<h2>${GAP_GROUP_TITLE["before-merge"]}</h2>`);
+  const beforeMerge = gapList("before-merge");
+  if (beforeMerge.length === 0) {
     parts.push(`<p>Nothing the data flags. That is not the same as nothing to check.</p>`);
   } else {
-    parts.push(`<p class="small">Read from the data, not judged by AI. A passing run proves only what it looked at.</p>`);
-    for (const kind of GAP_ORDER) {
-      const list = data.gaps.filter((gap) => gap.kind === kind);
+    parts.push(`<p class="small muted">Read from the data, not judged by AI. A passing run proves only what it looked at.</p>`, ...beforeMerge);
+  }
+  parts.push(
+    `<p class="small muted">A browser item without the <code>[ui]</code> tag never went through the visual gate, and this version cannot tell which those are.</p>`
+  );
+  const stops = data.timeline.filter((row) => row.kind === "stopped");
+  if (stops.length > 0) {
+    parts.push(`<h2>Stops</h2>`);
+    for (const cause of STOP_CAUSE_ORDER) {
+      const list = stops.filter((row) => (row.cause ?? "ralph") === cause);
       if (list.length === 0) continue;
-      parts.push(`<h4>${esc2(GAP_HEADINGS[kind])} (${list.length})</h4><ul>`);
-      for (const gap of list) parts.push(`<li><span class="mono">${esc2(gap.displayId)}</span> ${esc2(gap.text)}</li>`);
+      parts.push(`<h4>${esc2(STOP_CAUSE_LABEL[cause])} (${list.length})</h4><ul>`);
+      for (const row of list) {
+        const state = row.resolved ? `<span class="ok small">resolved</span>` : `<span class="you small">open</span>`;
+        parts.push(
+          `<li>${state} <span class="mono">${row.cards.map(esc2).join(", ")}</span> ${atFull(row.at)} \xB7 ${esc2(row.reason)}${row.next ? `<br><span class="small">Next: ${esc2(row.next)}</span>` : ""}</li>`
+        );
+      }
       parts.push(`</ul>`);
     }
   }
-  parts.push(
-    `<p class="small muted">A browser item without the <code>[ui]</code> tag never went through the visual gate, and this version cannot tell which those are.</p></div>`
-  );
   parts.push(`<h2>Timeline</h2>`);
   if (data.timeline.length === 0) {
     parts.push(`<p class="muted">No timeline: these runs happened before Ideafy kept this record. Test results below still stand.</p>`);
   } else {
-    parts.push(`<div class="t"><table><thead><tr><th>Time</th><th>Card</th><th>What happened</th><th>Who</th></tr></thead><tbody>`);
+    parts.push(`<div class="t rows"><table><thead><tr><th>Time</th><th>Card</th><th>What happened</th><th>Who</th></tr></thead><tbody>`);
     let lastDay = "";
     for (const row of data.timeline) {
       const date4 = validDate(row.at);
@@ -36189,15 +36739,16 @@ function renderRunReport(data, embed, summary = { state: "none" }) {
       const clock = date4 ? time3.format(date4) : esc2(row.at);
       const shown = dayLabel !== lastDay ? `${dayLabel} ${clock}` : clock;
       lastDay = dayLabel;
-      const detail = row.reason ? `<br><span class="small">${esc2(row.reason)}</span>${row.next ? `<br><span class="small muted">Next: ${esc2(row.next)}</span>` : ""}` : "";
+      const detail = row.reason ? `<br><span class="small">${esc2(row.reason)}</span>${row.resolved ? ' <span class="small ok">resolved</span>' : ""}` : "";
       const strong = row.kind === "stopped" || row.kind === "merged" || row.kind === "ready" || row.kind === "rolled_back";
       parts.push(
-        `<tr><td class="num">${shown}</td><td class="mono">${row.cards.map(esc2).join(", ")}</td><td${row.failed ? ' class="bad"' : ""}>${strong ? `<strong>${esc2(row.text)}</strong>` : esc2(row.text)}${detail}</td><td>${who(row.who)}</td></tr>`
+        `<tr><td class="num" data-label="Time">${shown}</td><td class="mono" data-label="Card">${row.cards.map(esc2).join(", ")}</td><td data-label="What happened"${row.failed ? ' class="bad"' : ""}>${strong ? `<strong>${esc2(row.text)}</strong>` : esc2(row.text)}${detail}</td><td data-label="Who">${who(row.who)}</td></tr>`
       );
     }
     parts.push(`</tbody></table></div>`);
   }
   const shotsHtml = (shots, alt) => shots.map((shot) => {
+    if (shot.leftOut) return `<p class="small muted">Screenshot ${esc2(shot.file)}: left out of the shareable file, on the card.</p>`;
     const src = shot.present ? embed(shot) : null;
     if (!src) return `<p class="small muted">Screenshot ${esc2(shot.file)} is no longer on disk.</p>`;
     return `<figure><img loading="lazy" src="${src}" alt="${esc2(shot.caption ?? alt)}">${shot.caption ? `<figcaption>${esc2(shot.caption)}</figcaption>` : ""}</figure>`;
@@ -36206,17 +36757,17 @@ function renderRunReport(data, embed, summary = { state: "none" }) {
   if (data.decisions.length === 0) {
     parts.push(`<p class="muted">Ralph took no decision for you, reworded no test item and handed none over.</p>`);
   } else {
-    parts.push(`<div class="t"><table><thead><tr><th>Card</th><th>Kind</th><th>Question or item</th><th>What it took</th></tr></thead><tbody>`);
+    parts.push(`<div class="t rows"><table><thead><tr><th>Card</th><th>Kind</th><th>Question or item</th><th>What it took</th></tr></thead><tbody>`);
     for (const decision of data.decisions) {
       const couldNotVerify = decision.source === RALPH_UNVERIFIABLE_SOURCE;
       const setupRow = decision.source === RALPH_SETUP_SOURCE;
       const setupState = setupRow ? decision.newText ?? "granted" : "";
       const kindLabel = setupRow ? setupState.startsWith("parked: ") ? "parked" : setupState.startsWith("done: ") ? "set up" : "setup round" : couldNotVerify ? "could not verify" : decision.source === RALPH_CORE_REVISION_SOURCE ? "core-flow revision" : decision.kind;
       const why = decision.kind === "revision" && decision.recommended ? `<br><span class="muted">Why:</span> ${esc2(decision.recommended)}` : "";
-      const taken = setupRow ? `<span class="muted">Item:</span> ${esc2(decision.originalText)}<br><span class="muted">Setup:</span> ${esc2(decision.recommended)}` + (setupState === "granted" ? "" : `<br><span class="muted">${setupState.startsWith("done: ") ? "Did" : "Why not"}:</span> ${esc2(setupState.replace(/^(done|parked): /, ""))}`) : couldNotVerify ? `<span class="muted">Item:</span> ${esc2(decision.originalText)}<br><span class="muted">Why:</span> ${esc2(decision.recommended)}` : decision.kind === "revision" ? `<span class="muted">Was:</span> ${esc2(decision.originalText)}<br><span class="muted">Now:</span> ${esc2(decision.newText)}${why}` : esc2(decision.recommended ?? "the plan's option");
+      const taken = setupRow ? `<span class="muted">Item:</span> ${esc2(decision.originalText)}<br><span class="muted">Setup:</span> ${esc2(decision.recommended)}` + (setupState === "granted" ? "" : `<br><span class="muted">${setupState.startsWith("done: ") ? "Did" : "Why not"}:</span> ${esc2(setupState.replace(/^(done|parked): /, ""))}`) : couldNotVerify ? `<span class="muted">Item:</span> ${esc2(decision.originalText)}<br><span class="muted">Why:</span> ${esc2(decision.recommended)}` : decision.kind === "revision" ? `<span class="muted">Change:</span> ${wordDiffHtml(esc2(decision.originalText), esc2(decision.newText))}${why}` : esc2(decision.recommended ?? "the plan's option");
       const seen = decision.seen ? `<br><span class="small"><span class="muted">Saw:</span> ${esc2(decision.seen)}</span>` : "";
       parts.push(
-        `<tr><td class="mono">${esc2(decision.displayId)}</td><td>${esc2(kindLabel)}</td><td>${esc2(decision.question)}${decision.stepExcerpt ? `<br><span class="small muted">Plan step: ${esc2(decision.stepExcerpt)}</span>` : ""}</td><td>${taken}${seen}${shotsHtml(decision.shots, decision.question)}</td></tr>`
+        `<tr><td class="mono" data-label="Card">${esc2(decision.displayId)}</td><td data-label="Kind">${esc2(kindLabel)}</td><td data-label="Question or item">${esc2(decision.question)}${decision.stepExcerpt ? `<br><span class="small muted">Plan step: ${esc2(decision.stepExcerpt)}</span>` : ""}</td><td data-label="What it took">${taken}${seen}${shotsHtml(decision.shots, decision.question)}</td></tr>`
       );
     }
     parts.push(`</tbody></table></div>`);
@@ -36258,7 +36809,7 @@ function renderRunReport(data, embed, summary = { state: "none" }) {
     if (video.state === "left-out") return `<p class="small muted">Video not in this file, still on the card.</p>`;
     const src = embed(video);
     if (!src) return `<p class="small muted">Video could not be read.</p>`;
-    const firstShot = run2.items.flatMap((item) => item.shots).find((shot) => shot.present);
+    const firstShot = run2.items.flatMap((item) => item.shots).find((shot) => shot.present && !shot.leftOut);
     const poster = firstShot ? embed(firstShot) : null;
     const size = `${(video.bytes / (1024 * 1024)).toFixed(1)} MB`;
     const caption = video.clips ? `Screen recording of this run \xB7 MP4 \xB7 idle parts cut \xB7 ${size}.` : `Screen recording of this run \xB7 WebM \xB7 ${size}. A phone that cannot play WebM still shows the screenshots.`;
@@ -36280,22 +36831,53 @@ function renderRunReport(data, embed, summary = { state: "none" }) {
     rows.push(`</tbody></table></div>`);
     return rows.join("");
   };
+  const revisionsOf = (card) => data.decisions.filter((decision) => decision.displayId === card.displayId && decision.kind === "revision" && decision.originalText && decision.newText);
   for (const card of data.cards) {
     parts.push(`<h3><span class="mono">${esc2(card.displayId)}</span> ${esc2(card.title)}</h3>`);
     parts.push(`<p class="small muted">${esc2(card.where)}${card.commit ? ` \xB7 <code>${esc2(card.commit.slice(0, 7))}</code>` : ""}</p>`);
-    parts.push(checklistHtml(card));
-    if (card.runs.length === 0) {
-      parts.push(`<p class="muted small">No Test Report runs on this card.</p>`);
+    if (card.selfFixes === null) {
+      parts.push(`<p class="small muted">What Ralph fixed on its own is not readable here: no git history for this card.</p>`);
+    } else if (card.selfFixes.length > 0) {
+      parts.push(`<h4>What Ralph fixed on its own (${card.selfFixes.length})</h4><ul>`);
+      for (const fix of card.selfFixes) {
+        parts.push(`<li>${esc2(fix.text)}${fix.commit ? ` <code>${esc2(fix.commit.slice(0, 7))}</code>` : ""}</li>`);
+      }
+      parts.push(`</ul>`);
+    }
+    const newest = card.runs[0];
+    const failed = newest ? newest.items.filter((item) => item.status === "failed") : [];
+    const manual = card.checklist.filter((item) => item.manual && !item.checked);
+    const reworded = revisionsOf(card);
+    if (failed.length > 0) {
+      parts.push(`<h4>Failed on the newest run (${failed.length})</h4>`);
+      for (const item of failed) parts.push(itemHtml(item, newest));
+    }
+    if (manual.length > 0) {
+      parts.push(`<h4>[manual], not ticked (${manual.length})</h4><ul>`);
+      for (const item of manual) parts.push(`<li>${esc2(item.text)}</li>`);
+      parts.push(`</ul>`);
+    }
+    if (reworded.length > 0) {
+      parts.push(`<h4>Reworded (${reworded.length})</h4><ul>`);
+      for (const decision of reworded) parts.push(`<li>${wordDiffHtml(esc2(decision.originalText), esc2(decision.newText))}</li>`);
+      parts.push(`</ul>`);
+    }
+    if (card.runs.length === 0 && card.checklist.length === 0) {
+      parts.push(`<p class="muted small">No checklist. No Test Report runs on this card.</p>`);
       continue;
     }
-    card.runs.forEach((run2, index) => {
+    const runCount = `${card.runs.length} run${card.runs.length === 1 ? "" : "s"}`;
+    parts.push(`<details><summary>Full checklist and ${runCount}</summary>`);
+    parts.push(checklistHtml(card));
+    if (card.runs.length === 0) parts.push(`<p class="muted small">No Test Report runs on this card.</p>`);
+    card.runs.forEach((run2) => {
       const counts = [
         run2.counts.passed ? `${run2.counts.passed} passed` : "",
         run2.counts.failed ? `${run2.counts.failed} failed` : "",
         run2.counts.manual ? `${run2.counts.manual} manual` : ""
       ].filter(Boolean).join(", ");
       parts.push(
-        `<details${index === 0 ? " open" : ""}><summary>Run #${run2.number} \xB7 ${atFull(run2.runAt)} \xB7 ${esc2(run2.label)} \xB7 ${esc2(run2.evidence)}${counts ? ` \xB7 ${counts}` : ""}</summary>`
+        `<details><summary>Run #${run2.number} \xB7 ${atFull(run2.runAt)} \xB7 ${esc2(run2.label)} \xB7 ${esc2(run2.evidence)}${counts ? ` \xB7 ${counts}` : ""}</summary>`
       );
       if (run2.failureLine) parts.push(`<p class="small">${esc2(run2.failureLine)}</p>`);
       if (!run2.checklistApplied) parts.push(`<p class="small muted">This run's ticks were not applied: its checklist was refused.</p>`);
@@ -36304,6 +36886,7 @@ function renderRunReport(data, embed, summary = { state: "none" }) {
       for (const item of run2.items) parts.push(itemHtml(item, run2));
       parts.push(`</details>`);
     });
+    parts.push(`</details>`);
   }
   parts.push(`<h2>Time and cost</h2>`);
   if (data.totals.runs === 0) {
@@ -36312,16 +36895,16 @@ function renderRunReport(data, embed, summary = { state: "none" }) {
     parts.push(`<div class="t"><table><thead><tr><th>Card</th><th>Runs</th><th>AI time</th><th>Cost, as reported</th></tr></thead><tbody>`);
     for (const card of data.cards) {
       parts.push(
-        `<tr><td class="mono">${esc2(card.displayId)}</td><td class="num">${card.runCount}</td><td class="num">${formatMs(card.aiMs)}</td><td class="num">${cost(card.cost)}</td></tr>`
+        `<tr><td class="mono">${esc2(card.displayId)}</td><td class="num">${card.runCount}</td><td class="num">${formatMs2(card.aiMs)}</td><td class="num">${cost(card.cost)}</td></tr>`
       );
     }
     parts.push(
-      `<tr><th>All</th><th class="num">${data.totals.runs}</th><th class="num">${formatMs(data.totals.ms)}</th><th class="num">${cost(data.totals.cost)}</th></tr></tbody></table></div>`
+      `<tr><th>All</th><th class="num">${data.totals.runs}</th><th class="num">${formatMs2(data.totals.ms)}</th><th class="num">${cost(data.totals.cost)}</th></tr></tbody></table></div>`
     );
     parts.push(`<div class="t"><table><thead><tr><th>Phase</th><th>Runs</th><th>AI time</th><th>Cost, as reported</th></tr></thead><tbody>`);
     for (const phase of data.totals.phases) {
       parts.push(
-        `<tr><td>${esc2(phase.phase)}</td><td class="num">${phase.runs}</td><td class="num">${formatMs(phase.ms)}</td><td class="num">${cost(phase.cost)}</td></tr>`
+        `<tr><td>${esc2(phase.phase)}</td><td class="num">${phase.runs}</td><td class="num">${formatMs2(phase.ms)}</td><td class="num">${cost(phase.cost)}</td></tr>`
       );
     }
     parts.push(`</tbody></table></div>`);
@@ -36329,12 +36912,17 @@ function renderRunReport(data, embed, summary = { state: "none" }) {
       `<p class="small muted">The cost is what the AI CLI reported. On a subscription it is not what you are billed. A provider that reports nothing shows only time.</p>`
     );
   }
+  const info = gapList("info");
+  if (info.length > 0) parts.push(`<h2>${GAP_GROUP_TITLE.info}</h2>`, ...info);
+  if (data.executive) parts.push(`</details>`);
   parts.push(`</main></body></html>`);
   return parts.join("\n");
 }
 
 // ../lib/run-report/write.ts
-var RUN_REPORT_VIDEO_CAP_BYTES = 150 * 1024 * 1024;
+var RUN_REPORT_VIDEO_CAP_BYTES = 60 * 1024 * 1024;
+var SHAREABLE_MAX_BYTES = 25 * 1024 * 1024;
+var SHAREABLE_SLACK_BYTES = 512 * 1024;
 var MIME2 = {
   ".png": "image/png",
   ".jpg": "image/jpeg",
@@ -36377,9 +36965,17 @@ function readClicks(ref, video, homeDir) {
   }
   return parseClickLog(text2, Date.parse(video.startedAt));
 }
-function runReportFilename(code, at) {
+function readStoredExecSummary(anchorCardId, homeDir) {
+  try {
+    const parsed = JSON.parse(readFileSync5(path10.join(cardArtifactDir(anchorCardId, homeDir), "run-report", SUMMARY_FILE_NAME), "utf8"));
+    return parsed && typeof parsed.basis === "string" ? parsed : null;
+  } catch {
+    return null;
+  }
+}
+function runReportFilename(code, at, version2 = "full") {
   const safe = code.replace(/[^A-Za-z0-9._-]+/g, "-").replace(/^-+|-+$/g, "") || "card";
-  return `ralph-report-${safe}-${at.slice(0, 10)}.html`;
+  return `ralph-report-${safe}-${at.slice(0, 10)}${version2 === "shareable" ? "-shareable" : ""}.html`;
 }
 function collectReportData(db2, cardId, opts = {}) {
   return collectRunReport(db2, cardId, {
@@ -36390,7 +36986,8 @@ function collectReportData(db2, cardId, opts = {}) {
     redactFolders: [[opts.homeDir ?? homedir4(), "~"]],
     fileSize: (ref) => fileBytes(runFile(ref, opts.homeDir)),
     readyClipBytes: (ref, video) => readyClipBytes(ref, video, opts.homeDir),
-    readClicks: (ref, video) => readClicks(ref, video, opts.homeDir)
+    readClicks: (ref, video) => readClicks(ref, video, opts.homeDir),
+    readSummary: (anchor) => readStoredExecSummary(anchor, opts.homeDir)
   });
 }
 function summaryLocation(data, homeDir) {
@@ -36447,7 +37044,137 @@ function cardSummaryState(db2, cardId, opts = {}) {
   if (current && (note?.failures ?? 0) >= RENDER_MAX_FAILURES) return { state: "none" };
   return cardSummaryWanted(row.status, parseTestReports(row.test_reports) ?? [], opts.now) ? { state: "pending" } : { state: "none" };
 }
+function dataUri(file2) {
+  const mime = MIME2[path10.extname(file2).toLowerCase()];
+  if (!mime) return null;
+  try {
+    return `data:${mime};base64,${readFileSync5(file2).toString("base64")}`;
+  } catch {
+    return null;
+  }
+}
+var LOCAL_PATH = /(?<![\w.:/-])(~|&lt;project&gt;|\/Users|\/home|\/private\/var|\/var\/folders|\/tmp)\/([^\s"'<>&`)\]]*)/g;
+function scrubLocalPaths(html) {
+  return html.replace(LOCAL_PATH, (_match, prefix, rest) => {
+    const segments = rest.split("/").filter(Boolean);
+    if (segments.length === 0 || segments.length === 1 && (prefix === "/Users" || prefix === "/home")) return "\u2026";
+    return segments[segments.length - 1];
+  });
+}
+function base64Bytes(bytes) {
+  return Math.ceil(bytes / 3) * 4;
+}
+function shareableMediaOrder(data, chainSummary, cardSummaries, shotBytes) {
+  const out = [];
+  if (chainSummary) out.push(chainSummary);
+  out.push(...cardSummaries);
+  const failed = [];
+  const rest = [];
+  for (const card of data.cards) {
+    const run2 = card.runs[0];
+    if (!run2) continue;
+    for (const item of run2.items) {
+      for (const shot of item.shots) {
+        if (!shot.present) continue;
+        const bytes = shotBytes(shot);
+        if (bytes === null) continue;
+        (item.status === "failed" ? failed : rest).push({ kind: "shot", file: shot.file, bytes, shot });
+      }
+    }
+  }
+  return [...out, ...failed, ...rest];
+}
+function budgetMedia(media, budgetBytes) {
+  const taken = /* @__PURE__ */ new Set();
+  let used = 0;
+  for (const entry of media) {
+    const cost = base64Bytes(entry.bytes);
+    if (used + cost > budgetBytes) continue;
+    used += cost;
+    taken.add(entry);
+  }
+  return taken;
+}
+function buildShareableRunReport(db2, cardId, opts) {
+  const data = collectReportData(db2, cardId, { ...opts, videoCapBytes: 0 });
+  if (!data) return null;
+  const spec = summarySpecOf(db2, data);
+  const ready = readySummary(data, spec, opts.homeDir);
+  const chainSummary = ready ? { kind: "summary", file: ready.file, bytes: ready.bytes } : null;
+  const summaryStates = /* @__PURE__ */ new Map();
+  const cardSummaries = [];
+  if (data.chain) {
+    for (const card of data.cards) {
+      const state = cardSummaryState(db2, card.id, { homeDir: opts.homeDir });
+      if (state.state === "ready") {
+        const bytes2 = fileBytes(state.file);
+        if (bytes2 !== null) cardSummaries.push({ kind: "card-summary", file: state.file, bytes: bytes2, displayId: card.displayId });
+      } else if (state.state === "pending") {
+        summaryStates.set(card.displayId, "not-ready");
+      }
+    }
+  }
+  const media = shareableMediaOrder(data, chainSummary, cardSummaries, (shot) => fileBytes(runFile(shot, opts.homeDir)));
+  const allShots = data.cards.flatMap((card) => card.runs.flatMap((run2) => run2.items.flatMap((item) => item.shots)));
+  const tokens = /* @__PURE__ */ new Map();
+  const tokenOf = (file2) => {
+    let token = tokens.get(file2);
+    if (!token) {
+      token = `ideafy-media:${tokens.size}`;
+      tokens.set(file2, token);
+    }
+    return token;
+  };
+  const render = (taken2, overCap2) => {
+    const shotsIn = new Set([...taken2].flatMap((entry) => entry.shot ? [entry.shot] : []));
+    for (const shot of allShots) shot.leftOut = shot.present && !shotsIn.has(shot);
+    const summaryIn = [...taken2].find((entry) => entry.kind === "summary");
+    const summary = summaryIn ? { state: "in-file", src: tokenOf(summaryIn.file), bytes: summaryIn.bytes, durationSec: summaryDuration(spec) } : ready ? { state: "left-out" } : { state: summaryHasClips(spec) ? "not-ready" : "none" };
+    const cardRows = [];
+    for (const card of data.cards) {
+      const entry = cardSummaries.find((candidate) => candidate.displayId === card.displayId);
+      if (entry) {
+        cardRows.push(taken2.has(entry) ? { displayId: card.displayId, state: "in-file", src: tokenOf(entry.file), bytes: entry.bytes } : { displayId: card.displayId, state: "left-out" });
+      } else if (summaryStates.get(card.displayId) === "not-ready") {
+        cardRows.push({ displayId: card.displayId, state: "not-ready" });
+      }
+    }
+    const versionNote = overCap2 ? "Shareable version \xB7 over 25 MB even without media, so none is in it \xB7 full recordings stay on the card" : "Shareable version \xB7 full recordings stay on the card";
+    const page = renderRunReport(data, (ref) => MIME2[path10.extname(ref.file).toLowerCase()] ? tokenOf(runFile(ref, opts.homeDir)) : null, summary, {
+      versionNote,
+      cardSummaries: cardRows
+    });
+    return scrubLocalPaths(page);
+  };
+  const bare = Buffer.byteLength(render(/* @__PURE__ */ new Set(), false));
+  const overCap = bare + SHAREABLE_SLACK_BYTES > SHAREABLE_MAX_BYTES;
+  const taken = overCap ? /* @__PURE__ */ new Set() : budgetMedia(media, SHAREABLE_MAX_BYTES - bare - SHAREABLE_SLACK_BYTES);
+  let html = "";
+  let bytes = 0;
+  for (; ; ) {
+    tokens.clear();
+    const page = render(taken, overCap);
+    html = page;
+    for (const [file2, token] of tokens) {
+      const uri = dataUri(file2);
+      html = html.split(token).join(uri ?? "");
+    }
+    bytes = Buffer.byteLength(html);
+    if (bytes <= SHAREABLE_MAX_BYTES || taken.size === 0) break;
+    const last = [...media].reverse().find((entry) => taken.has(entry));
+    if (last) taken.delete(last);
+  }
+  return {
+    html,
+    filename: runReportFilename(data.code, data.generatedAt, "shareable"),
+    bytes,
+    videosEmbedded: [...taken].filter((entry) => entry.kind !== "shot").length,
+    videosLeftOut: data.videos.leftOut + [...media].filter((entry) => entry.kind !== "shot" && !taken.has(entry)).length,
+    summaryVideo: [...taken].some((entry) => entry.kind === "summary") ? "in-file" : summaryHasClips(spec) && !ready ? "not-ready" : "none"
+  };
+}
 function buildRunReport(db2, cardId, opts = {}) {
+  if (opts.version === "shareable") return buildShareableRunReport(db2, cardId, opts);
   let data = collectReportData(db2, cardId, opts);
   if (!data) return null;
   const spec = summarySpecOf(db2, data);
@@ -36478,7 +37205,7 @@ function buildRunReport(db2, cardId, opts = {}) {
     bytes: Buffer.byteLength(html),
     videosEmbedded: data.videos.embedded,
     videosLeftOut: data.videos.leftOut,
-    summaryVideo: summary.state
+    summaryVideo: summary.state === "left-out" ? "none" : summary.state
   };
 }
 function writeRunReport(db2, cardId, opts = {}) {
@@ -38073,13 +38800,18 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
       },
       {
         name: "export_run_report",
-        description: "Write a Ralph run report as one HTML file with its screenshots and videos inside: the same file as the app's Download report. It opens on a double-click, on a phone too, with no server. A card in a chain reports its whole chain. Holds where each card stands and which commit it landed with, the timeline with each stop's reason, the decisions Ralph took, the test results, time and cost, and a rule-based Look at first list; no AI commentary. Built from the card as it is now, so write it again after a Continue. Screenshots and videos may contain sensitive data: say so when you hand the path over. Returns the file's path, its size, how many videos did not fit under the size limit and whether the summary video is in the file. Nothing on the card changes.",
+        description: "Write a Ralph run report as one HTML file with its screenshots and videos inside: the same file as the app's Download report. It opens on a double-click, on a phone too, with no server. A card in a chain reports its whole chain. Holds where each card stands and which commit it landed with, the timeline with each stop's reason, the decisions Ralph took, the test results, time and cost, and a rule-based Look at first list. On top sits an executive summary whose numbers are the code's; its two paragraphs labelled Written by AI are the ones the app last wrote and only while they still match the report (this tool makes no AI call, so they may be missing). Built from the card as it is now, so write it again after a Continue. Screenshots and videos may contain sensitive data: say so when you hand the path over. Pass version: shareable for the file the app's Shareable link gives (under 25 MB, summary videos and screenshots, no local paths). Returns the file's path, its size, how many videos did not fit under the size limit and whether the summary video is in the file. Nothing on the card changes.",
         inputSchema: {
           type: "object",
           properties: {
             id: {
               type: "string",
               description: "Card ID: UUID, display ID (e.g., KAN-54), or task number. Any member of a chain gives the chain's report."
+            },
+            version: {
+              type: "string",
+              enum: ["full", "shareable"],
+              description: "full (default): every recording up to the size limit, as Download report. shareable: as the app's Shareable link \u2014 under 25 MB, summary videos and screenshots only, local paths cut to file names; full recordings stay on the card."
             }
           },
           required: ["id"]
@@ -39238,13 +39970,14 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         return readTestReport(db, { id, displayId: queueDisplayId2(row) }, { run: run2, status, screenshots });
       }
       case "export_run_report": {
-        const { id: rawId } = args;
+        const { id: rawId, version: rawVersion } = args;
         const id = resolveCardRef2(db, rawId);
         if (!id) return { content: [{ type: "text", text: `Card not found: ${rawId}` }], isError: true };
         if (!hasCapability(db, "ralphEvents")) {
           return { content: [{ type: "text", text: missingCapabilityMessage("export_run_report", "ralphEvents") }], isError: true };
         }
-        const written = writeRunReport2(db, id);
+        const version2 = rawVersion === "shareable" ? "shareable" : "full";
+        const written = writeRunReport2(db, id, { version: version2 });
         if (!written) {
           return {
             content: [{ type: "text", text: `export_run_report: ${rawId} has no Ralph run to report. Nothing was written.` }],
@@ -39252,7 +39985,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           };
         }
         const megabytes = (written.bytes / (1024 * 1024)).toFixed(1);
-        const leftOut = written.videosLeftOut > 0 ? ` ${written.videosLeftOut} video(s) did not fit under the size limit: the file names them and they stay on the card.` : "";
+        const leftOut = written.videosLeftOut > 0 ? version2 === "shareable" ? " Full recordings are not in the shareable file; they stay on the card." : ` ${written.videosLeftOut} video(s) did not fit under the size limit: the file names them and they stay on the card.` : "";
         const summaryNote = written.summaryVideo === "in-file" ? " A summary video is on top." : written.summaryVideo === "not-ready" ? " No summary video yet: the app renders it while it is open; write the report again afterwards." : "";
         return {
           content: [{
