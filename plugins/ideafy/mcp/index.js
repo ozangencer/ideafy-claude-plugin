@@ -21033,6 +21033,7 @@ __export(test_progress_exports, {
   parseTestProgress: () => parseTestProgress,
   pickCurrentItems: () => pickCurrentItems,
   preVerifyVisualItems: () => preVerifyVisualItems,
+  recheckCandidateTexts: () => recheckCandidateTexts,
   runnableItemTexts: () => runnableItemTexts,
   runnableLeft: () => runnableLeft,
   stripItemTokens: () => stripItemTokens,
@@ -21229,6 +21230,12 @@ function untickedItemTexts(html, groups) {
 function tickedCoreItemTexts(html, progress) {
   const core = progress?.groups.find((g) => g.core);
   return core && core.checked > 0 ? itemTexts(html, [core], true) : [];
+}
+function recheckCandidateTexts(html, progress, tickedShotless) {
+  const wanted = /* @__PURE__ */ new Set([...tickedCoreItemTexts(html, progress), ...tickedShotless]);
+  if (wanted.size === 0) return [];
+  const all = progress ? itemTexts(html, progress.groups, true) : [];
+  return distinctItems([...all.filter((item) => wanted.has(item)), ...wanted]);
 }
 function distinctItems(items) {
   return Array.from(new Set((items ?? []).map((item) => item.trim()).filter(Boolean)));
@@ -23316,12 +23323,22 @@ function readyToMerge(input) {
   );
   const failed = runs[0]?.items.filter((item) => item.status === "failed" && !handed.has(normalize2(item.item))).length ?? 0;
   if (failed > 0) missing.push(`${failed} failed in the last report`);
-  const shot = new Set(
-    runs.flatMap((run2) => run2.items.filter((item) => item.artifacts.length > 0).map((item) => normalize2(item.item)))
-  );
-  const noShot = allUiItemTexts(html).filter((text2) => !shot.has(normalize2(text2))).length;
+  const noShot = shotlessUiItems(html, runs).length;
   if (noShot > 0) missing.push(`${noShot} [ui] item${noShot === 1 ? " has" : "s have"} no screenshot`);
   return { ok: missing.length === 0, missing, manualLeft };
+}
+function shotlessUiItems(testScenarios, testReports) {
+  const shot = new Set(
+    (testReports ?? []).flatMap(
+      (run2) => run2.items.filter((item) => item.artifacts.length > 0).map((item) => normalize2(item.item))
+    )
+  );
+  return allUiItemTexts(testScenarios ?? "").filter((text2) => !shot.has(normalize2(text2)));
+}
+function tickedShotlessUiItems(testScenarios, testReports) {
+  const html = testScenarios ?? "";
+  const ticked = new Set(checklistItems(html).filter((item) => item.checked).map((item) => normalize2(item.text)));
+  return shotlessUiItems(html, testReports).filter((text2) => ticked.has(normalize2(text2)));
 }
 function manualYoursText(n) {
   return `${n} [manual] item${n === 1 ? " is" : "s are"} yours`;
@@ -31291,6 +31308,7 @@ __export(card_phase_exports, {
   getPhaseLabels: () => getPhaseLabels,
   isAutonomousAction: () => isAutonomousAction,
   isPhaseActionShown: () => isPhaseActionShown,
+  missingScreenshots: () => missingScreenshots,
   nextStepFor: () => nextStepFor,
   terminalStartRefusal: () => terminalStartRefusal,
   verifyRunBlurb: () => verifyRunBlurb
@@ -31307,12 +31325,12 @@ function detectBoardPhase(card, solutionText, testText) {
   if (!hasTests) return "implementation";
   return "retest";
 }
-function getPhaseLabels(phase, mode = "development", verifyGroup = null) {
-  const labels = phaseLabels(phase, mode, verifyGroup);
+function getPhaseLabels(phase, mode = "development", verifyGroup = null, shotsMissing = false) {
+  const labels = phaseLabels(phase, mode, verifyGroup, shotsMissing);
   const playHint = phase === "verify" && mode !== "work" && verifyGroup ? `${labels.play} \xB7 text or visual` : labels.play;
   return { ...labels, playHint };
 }
-function phaseLabels(phase, mode, verifyGroup) {
+function phaseLabels(phase, mode, verifyGroup, shotsMissing = false) {
   if (mode === "work") {
     if (phase === "planning") {
       return { play: "Write plan", terminal: "Work on it" };
@@ -31337,7 +31355,9 @@ function phaseLabels(phase, mode, verifyGroup) {
       return {
         // No group left to tick: the press can only re-check the core flow
         // on screen, for the Test Report (IDE-468).
-        play: !verifyGroup ? "Re-check core flow on screen" : !verifyGroup.core || verifyGroup.flows ? `Pre-verify ${testGroupLabel(verifyGroup)}` : "Pre-verify core flow",
+        // With a screenshot missing it takes that one first (IDE-817), the
+        // name the next-step menu gives the same press.
+        play: !verifyGroup ? shotsMissing ? "Take missing screenshots" : "Re-check core flow on screen" : !verifyGroup.core || verifyGroup.flows ? `Pre-verify ${testGroupLabel(verifyGroup)}` : "Pre-verify core flow",
         // Human Test'te terminal, çeklisti yürüten değil çeklistin dışına çıkan
         // oturumdur: gündemi kullanıcı getirir, kartta yazmayan bir şeydir.
         terminal: "Open in terminal"
@@ -31348,7 +31368,12 @@ function canPreVerify(card, testProgress) {
   return card.status === "test" && !!nextVerifyGroup(testProgress);
 }
 function canRecheckOnScreen(card, testProgress, mode = "development") {
-  return mode !== "work" && card.status === "test" && (testProgress?.groups.find((g) => g.core)?.checked ?? 0) > 0;
+  return mode !== "work" && card.status === "test" && ((testProgress?.groups.find((g) => g.core)?.checked ?? 0) > 0 || missingScreenshots(card) > 0);
+}
+function missingScreenshots(card) {
+  if (card.status !== "test") return 0;
+  const runs = Array.isArray(card.testReports) ? card.testReports : typeof card.testReports === "string" ? parseTestReports(card.testReports) : null;
+  return tickedShotlessUiItems(card.testScenarios, runs).length;
 }
 function canStartCard(card) {
   return !!(card.description && (card.projectId || card.projectFolder) && card.status !== "completed" && card.status !== "ideation");
@@ -31395,7 +31420,12 @@ function getPhaseActionFlags(card, solutionText, testText, testProgress, mode = 
   const isWork = mode === "work";
   return {
     phase,
-    labels: getPhaseLabels(phase, mode, phase === "verify" ? nextVerifyGroup(testProgress) : null),
+    labels: getPhaseLabels(
+      phase,
+      mode,
+      phase === "verify" ? nextVerifyGroup(testProgress) : null,
+      phase === "verify" && !isWork && missingScreenshots(card) > 0
+    ),
     canStart: canStartCard(card),
     // Autonomous implement writes code on a branch; a Work card has neither.
     // Planning and pre-verify stay: both read and write the card, not a repo.
@@ -31437,7 +31467,7 @@ function terminalStartRefusal(card, solutionText, testText, testProgress, mode =
   if (mode === "work" && flags.phase === "implementation") {
     return "a Work card's implementation is done in a session, not an autonomous run \u2014 use open_card_session";
   }
-  if (card.status === "test" && !canPreVerify(full, testProgress)) {
+  if (card.status === "test" && !canPreVerify(full, testProgress) && missingScreenshots(full) === 0) {
     return "nothing is left to pre-verify: every group is ticked, or the checklist has no Core flow / Temel ak\u0131\u015F group";
   }
   return null;
@@ -31589,11 +31619,12 @@ function nextStepFor(card, flags, ctx) {
         disabledReason: autonomousBlock ?? (canVerifyAllGroups(ctx.testProgress) ? void 0 : "Only one group left")
       });
     }
+    const shotsMissing = missingScreenshots(card) > 0;
     row(ideafy, {
       id: "recheck",
-      title: "Re-check core flow on screen",
+      title: shotsMissing ? "Take missing screenshots" : "Re-check core flow on screen",
       kind: "ai",
-      disabledReason: autonomousBlock ?? (verifyGroup ? "Once every group is ticked" : canRecheckOnScreen(card, ctx.testProgress, ctx.mode) ? void 0 : "No ticked core flow step yet")
+      disabledReason: autonomousBlock ?? (shotsMissing ? void 0 : verifyGroup ? "Once every group is ticked" : canRecheckOnScreen(card, ctx.testProgress, ctx.mode) ? void 0 : "No ticked core flow step yet")
     });
   } else if (phase === "verify" && verifyGroup) {
     row(ideafy, {
@@ -36011,7 +36042,7 @@ var SUMMARY_PARAGRAPH_MAX = 1200;
 function joinSegments(segments) {
   return segments.map((segment) => segment.text).join("");
 }
-var SUMMARY_RULES_VERSION = "exec-2";
+var SUMMARY_RULES_VERSION = "exec-3";
 function plural6(count, one, many = `${one}s`) {
   return `${count} ${count === 1 ? one : many}`;
 }
@@ -36182,16 +36213,23 @@ function summaryInput(data) {
 function summaryBasis(input) {
   return djb2(`${SUMMARY_RULES_VERSION}${input}`);
 }
-function cleanParagraph(text2) {
-  if (!text2) return null;
-  let out = text2.replace(/\s+/g, " ").trim();
+function normalizeParagraph(text2) {
+  const out = text2.replace(/\s+/g, " ").trim();
   const quotes = /^["'“”«»„](.*)["'“”«»]$/s.exec(out);
-  if (quotes) out = quotes[1].trim();
-  if (/\d/.test(out)) return null;
-  if (/\[card\]/i.test(out)) return null;
-  if (/[*_`#>|]|\]\(|^\s*[-•]\s/.test(out)) return null;
-  if (out.length < SUMMARY_PARAGRAPH_MIN || out.length > SUMMARY_PARAGRAPH_MAX) return null;
-  return out;
+  return quotes ? quotes[1].trim() : out;
+}
+function paragraphProblem(text2) {
+  if (!text2 || !text2.trim()) return "it is empty";
+  const out = normalizeParagraph(text2);
+  if (/\d/.test(out)) return "it has a digit";
+  if (/\[card\]/i.test(out)) return "it writes [card]";
+  if (/[*`#>|]|\]\(|^\s*[-•]\s|(?<![\p{L}\p{N}])_|_(?![\p{L}\p{N}])/u.test(out)) return "it has markdown";
+  if (out.length < SUMMARY_PARAGRAPH_MIN) return "it is too short";
+  if (out.length > SUMMARY_PARAGRAPH_MAX) return "it is too long";
+  return null;
+}
+function cleanParagraph(text2) {
+  return paragraphProblem(text2) ? null : normalizeParagraph(text2);
 }
 function currentSummary(stored, basis) {
   if (!stored || stored.basis !== basis) return null;
@@ -38422,7 +38460,8 @@ function loadCard(db2, cardId) {
   const row = db2.prepare(
     `SELECT c.id, c.title, c.status, c.description, c.project_id AS projectId,
               c.project_folder AS projectFolder, c.solution_summary AS solutionSummary,
-              c.test_scenarios AS testScenarios, c.processing_type AS processingType,
+              c.test_scenarios AS testScenarios, c.test_reports AS testReports,
+              c.processing_type AS processingType,
               c.queue_position AS queuePosition,
               CASE WHEN p.id_prefix IS NOT NULL AND c.task_number IS NOT NULL
                    THEN p.id_prefix || '-' || c.task_number END AS displayId,
