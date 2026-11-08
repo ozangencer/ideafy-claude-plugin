@@ -23810,967 +23810,49 @@ function detectPhase(card) {
   return "retest";
 }
 
-// ../lib/workspace.ts
-var workspace_exports = {};
-__export(workspace_exports, {
-  OPEN_ADD_PROJECT_EVENT: () => OPEN_ADD_PROJECT_EVENT,
-  isCardInWorkspace: () => isCardInWorkspace,
-  normalizeProjectMode: () => normalizeProjectMode,
-  projectModeOf: () => projectModeOf,
-  projectsInWorkspace: () => projectsInWorkspace,
-  resolveEffectiveWorktree: () => resolveEffectiveWorktree,
-  shouldUseWorktree: () => shouldUseWorktree,
-  worktreeOverrideFor: () => worktreeOverrideFor
+// ../lib/test-report.ts
+var test_report_exports = {};
+__export(test_report_exports, {
+  ITEM_CLIP_LEAD_SEC: () => ITEM_CLIP_LEAD_SEC,
+  ITEM_CLIP_TAIL_SEC: () => ITEM_CLIP_TAIL_SEC,
+  MAX_ARTIFACTS_PER_ITEM: () => MAX_ARTIFACTS_PER_ITEM,
+  MAX_TEST_REPORT_RUNS: () => MAX_TEST_REPORT_RUNS,
+  MISSING_EVIDENCE_NOTE: () => MISSING_EVIDENCE_NOTE,
+  TEST_REPORT_DIR: () => TEST_REPORT_DIR,
+  TEST_REPORT_FENCE: () => TEST_REPORT_FENCE,
+  TEST_REPORT_IMPACTS: () => TEST_REPORT_IMPACTS,
+  TEST_REPORT_IMPACT_LABEL: () => TEST_REPORT_IMPACT_LABEL,
+  TEST_REPORT_VIDEO_NAME: () => TEST_REPORT_VIDEO_NAME,
+  buildTestReportRun: () => buildTestReportRun,
+  countByStatus: () => countByStatus,
+  extractTestReportFence: () => extractTestReportFence,
+  formatVideoTime: () => formatVideoTime,
+  hasPlayableVideo: () => hasPlayableVideo,
+  isTestReportImageName: () => isTestReportImageName,
+  isTestReportRunId: () => isTestReportRunId,
+  isTestReportVideoName: () => isTestReportVideoName,
+  latestItemResults: () => latestItemResults,
+  latestResultFor: () => latestResultFor,
+  newTestReportRunId: () => newTestReportRunId,
+  nextPlayableTime: () => nextPlayableTime,
+  normalizeCodeStamp: () => normalizeCodeStamp,
+  normalizeTestReportDecisions: () => normalizeTestReportDecisions,
+  normalizeTestReportItem: () => normalizeTestReportItem,
+  normalizeTestReportWarnings: () => normalizeTestReportWarnings,
+  parseTestReportItems: () => parseTestReportItems,
+  parseTestReports: () => parseTestReports,
+  prependTestReportRun: () => prependTestReportRun,
+  readTestReportSummary: () => readTestReportSummary,
+  summarizeTestReportRun: () => summarizeTestReportRun,
+  testReportConflicts: () => testReportConflicts,
+  testReportFailureLine: () => testReportFailureLine,
+  testReportItemAt: () => testReportItemAt,
+  testReportItemClips: () => testReportItemClips,
+  testReportItemResultAt: () => testReportItemResultAt,
+  testReportItemVideoAt: () => testReportItemVideoAt,
+  testReportMissingItems: () => testReportMissingItems,
+  testReportSupersededItems: () => testReportSupersededItems
 });
-
-// ../lib/git/branch-name.ts
-var branch_name_exports = {};
-__export(branch_name_exports, {
-  generateBranchName: () => generateBranchName,
-  slugify: () => slugify2
-});
-function slugify2(text2) {
-  return text2.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").substring(0, 50);
-}
-function generateBranchName(idPrefix, taskNumber, title) {
-  const slug = slugify2(title);
-  return `kanban/${idPrefix}-${taskNumber}-${slug}`;
-}
-
-// ../lib/workspace.ts
-var OPEN_ADD_PROJECT_EVENT = "ideafy:open-add-project";
-function normalizeProjectMode(v2, fallback = DEFAULT_PROJECT_MODE) {
-  return typeof v2 === "string" && PROJECT_MODES.includes(v2) ? v2 : fallback;
-}
-function projectModeOf(projectId, projects) {
-  if (!projectId) return DEFAULT_PROJECT_MODE;
-  return projects.find((project) => project.id === projectId)?.mode ?? DEFAULT_PROJECT_MODE;
-}
-function projectsInWorkspace(projects, workspace) {
-  return projects.filter((project) => (project.mode ?? DEFAULT_PROJECT_MODE) === workspace);
-}
-function isCardInWorkspace(card, projects, workspace) {
-  return projectModeOf(card.projectId, projects) === workspace;
-}
-function shouldUseWorktree(card, project) {
-  if (project?.mode === "work") return false;
-  return card.useWorktree ?? project?.useWorktrees ?? true;
-}
-function resolveEffectiveWorktree(card, project) {
-  const effective = shouldUseWorktree(card, project);
-  if (!effective) return { enforced: false, targetBranch: null };
-  if (card.gitBranchName) {
-    return { enforced: true, targetBranch: card.gitBranchName };
-  }
-  if (project && card.taskNumber != null) {
-    return {
-      enforced: true,
-      targetBranch: generateBranchName(project.idPrefix, card.taskNumber, card.title)
-    };
-  }
-  return { enforced: true, targetBranch: null };
-}
-function worktreeOverrideFor(choice, projectDefault) {
-  return choice === projectDefault ? null : choice;
-}
-
-// ../lib/card-ops/card-ref.ts
-var UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-var DISPLAY_ID2 = /^([A-Z][A-Z0-9]*)-(\d+)$/i;
-var TASK_NUMBER2 = /^(\d+)$/;
-function resolveCardRef(db2, ref, opts = {}) {
-  const value = ref.trim();
-  if (UUID.test(value)) return value;
-  const display = value.match(DISPLAY_ID2);
-  if (display) {
-    return pick2(
-      allRows(
-        db2,
-        `SELECT c.id, c.project_id AS projectId FROM cards c
-           JOIN projects p ON p.id = c.project_id
-          WHERE UPPER(p.id_prefix) = ? AND c.task_number = ?`,
-        display[1].toUpperCase(),
-        Number(display[2])
-      ),
-      opts.projectId
-    );
-  }
-  const number3 = value.match(TASK_NUMBER2);
-  if (number3) {
-    return pick2(
-      allRows(
-        db2,
-        `SELECT id, project_id AS projectId FROM cards WHERE task_number = ?`,
-        Number(number3[1])
-      ),
-      opts.projectId
-    );
-  }
-  return null;
-}
-function pick2(rows, projectId) {
-  if (projectId) {
-    const own = rows.find((row) => row.projectId === projectId);
-    if (own) return own.id;
-  }
-  return rows.length === 1 ? rows[0].id : null;
-}
-
-// ../lib/card-ops/dependencies.ts
-var CardDependencyError = class extends Error {
-  constructor(code, message) {
-    super(message);
-    this.code = code;
-    this.name = "CardDependencyError";
-  }
-  code;
-};
-var NOTE_MAX = 280;
-var presentTables = /* @__PURE__ */ new WeakMap();
-function hasTable(db2, table) {
-  let known = presentTables.get(db2);
-  if (known?.has(table)) return true;
-  const found = !!getRow(db2, "SELECT name FROM sqlite_master WHERE type = 'table' AND name = ?", table);
-  if (found) {
-    if (!known) presentTables.set(db2, known = /* @__PURE__ */ new Set());
-    known.add(table);
-  }
-  return found;
-}
-function hasDependencyTable(db2) {
-  return hasTable(db2, "card_dependencies");
-}
-function hasSuggestionTable(db2) {
-  return hasTable(db2, "card_dependency_suggestions");
-}
-function assertTable(db2) {
-  if (!hasDependencyTable(db2)) {
-    throw new CardDependencyError(
-      "unsupported",
-      "This Ideafy database cannot store card dependencies yet. Update the Ideafy app \u2014 it adds the table on its next start \u2014 then try again. Nothing was written."
-    );
-  }
-}
-function parseBlockedBy(value) {
-  if (value === void 0) return void 0;
-  if (value === null) return [];
-  const items = Array.isArray(value) ? value : [value];
-  const entries = [];
-  for (const item of items) {
-    if (typeof item === "string") {
-      if (item.trim()) entries.push({ card: item.trim() });
-    } else if (item && typeof item === "object") {
-      const { card, note } = item;
-      if (typeof card === "string" && card.trim()) {
-        entries.push({ card: card.trim(), note: typeof note === "string" ? note : null });
-      }
-    }
-  }
-  return entries;
-}
-function cleanNote(note) {
-  const text2 = (note ?? "").replace(/\s+/g, " ").trim();
-  return text2 ? text2.slice(0, NOTE_MAX) : null;
-}
-function cardRow(db2, id) {
-  return getRow(
-    db2,
-    `SELECT c.id, c.title, c.status, c.task_number AS taskNumber, p.id_prefix AS idPrefix,
-            c.git_branch_status AS gitBranchStatus
-     FROM cards c LEFT JOIN projects p ON p.id = c.project_id WHERE c.id = ?`,
-    id
-  );
-}
-var label = (row) => formatDisplayId(row.idPrefix, row.taskNumber) ?? `"${row.title}"`;
-function resolvePredecessor(db2, cardId, ref) {
-  const exact = cardRow(db2, ref.trim());
-  if (exact) return exact;
-  const own = getRow(db2, "SELECT project_id AS projectId FROM cards WHERE id = ?", cardId);
-  const id = resolveCardRef(db2, ref, { projectId: own?.projectId ?? null });
-  const row = id ? cardRow(db2, id) : void 0;
-  if (!row) throw new CardDependencyError("not-found", `Card not found: ${ref}`);
-  return row;
-}
-function waitPath(db2, from, to) {
-  const previous = /* @__PURE__ */ new Map([[from, null]]);
-  const queue = [from];
-  while (queue.length > 0) {
-    const current = queue.shift();
-    if (current === to) {
-      const path12 = [];
-      for (let step = current; step !== null; step = previous.get(step) ?? null) path12.unshift(step);
-      return path12;
-    }
-    for (const { next } of allRows(
-      db2,
-      "SELECT blocked_by_card_id AS next FROM card_dependencies WHERE card_id = ?",
-      current
-    )) {
-      if (!previous.has(next)) {
-        previous.set(next, current);
-        queue.push(next);
-      }
-    }
-  }
-  return null;
-}
-function linkOne(db2, cardId, entry, now) {
-  const card = cardRow(db2, cardId);
-  if (!card) throw new CardDependencyError("not-found", `Card not found: ${cardId}`);
-  const predecessor = resolvePredecessor(db2, cardId, entry.card);
-  if (predecessor.id === cardId) {
-    throw new CardDependencyError("self", `${label(card)} cannot wait on itself.`);
-  }
-  const path12 = waitPath(db2, predecessor.id, cardId);
-  if (path12) {
-    const names = path12.map((id) => {
-      const row = cardRow(db2, id);
-      return row ? label(row) : id;
-    });
-    throw new CardDependencyError(
-      "cycle",
-      `${label(predecessor)} already waits on ${label(card)} (${names.join(" \u2192 ")}); linking back would make a cycle. Nothing was written.`
-    );
-  }
-  if (hasSuggestionTable(db2)) {
-    runChanges(db2, "DELETE FROM card_dependency_suggestions WHERE card_id = ? AND blocked_by_card_id = ?", cardId, predecessor.id);
-  }
-  const note = cleanNote(entry.note);
-  const existing = getRow(db2, "SELECT 1 FROM card_dependencies WHERE card_id = ? AND blocked_by_card_id = ?", cardId, predecessor.id);
-  if (existing) {
-    if (entry.note !== void 0) {
-      runChanges(db2, "UPDATE card_dependencies SET note = ? WHERE card_id = ? AND blocked_by_card_id = ?", note, cardId, predecessor.id);
-    }
-    return { blockedById: predecessor.id, created: false };
-  }
-  runChanges(
-    db2,
-    "INSERT INTO card_dependencies (card_id, blocked_by_card_id, note, created_at) VALUES (?, ?, ?, ?)",
-    cardId,
-    predecessor.id,
-    note,
-    now
-  );
-  return { blockedById: predecessor.id, created: true };
-}
-function addDependency(db2, args) {
-  assertTable(db2);
-  return transaction(db2, () => linkOne(db2, args.cardId, { card: args.blockedBy, note: args.note }, args.now));
-}
-function removeDependency(db2, args) {
-  assertTable(db2);
-  const predecessor = resolvePredecessor(db2, args.cardId, args.blockedBy);
-  return transaction(db2, () => {
-    const { changes } = runChanges(
-      db2,
-      "DELETE FROM card_dependencies WHERE card_id = ? AND blocked_by_card_id = ?",
-      args.cardId,
-      predecessor.id
-    );
-    let dismissed = false;
-    if (hasSuggestionTable(db2)) {
-      dismissed = runChanges(
-        db2,
-        "UPDATE card_dependency_suggestions SET status = 'dismissed' WHERE card_id = ? AND blocked_by_card_id = ? AND status = 'pending'",
-        args.cardId,
-        predecessor.id
-      ).changes > 0;
-      if (changes > 0 && !dismissed) {
-        runChanges(
-          db2,
-          `INSERT INTO card_dependency_suggestions (card_id, blocked_by_card_id, note, status, created_at)
-           VALUES (?, ?, NULL, 'dismissed', ?) ON CONFLICT (card_id, blocked_by_card_id) DO UPDATE SET status = 'dismissed'`,
-          args.cardId,
-          predecessor.id,
-          args.now
-        );
-      }
-    }
-    return { blockedById: predecessor.id, removed: changes > 0, dismissed };
-  });
-}
-function groupOf(db2, id) {
-  return getRow(db2, "SELECT group_id AS groupId FROM cards WHERE id = ?", id)?.groupId ?? null;
-}
-function suggestionBlocker({ card, predecessor }, db2) {
-  if (predecessor.id === card.id) return "self";
-  if (card.groupId && card.groupId === predecessor.groupId) return "same-chain";
-  if (getRow(db2, "SELECT 1 FROM card_dependencies WHERE card_id = ? AND blocked_by_card_id = ?", card.id, predecessor.id)) {
-    return "linked";
-  }
-  const state = linkState(predecessor);
-  if (state !== "open") return state;
-  if (waitPath(db2, predecessor.id, card.id)) return "cycle";
-  return null;
-}
-function toSuggestion(row) {
-  return {
-    id: row.id,
-    displayId: formatDisplayId(row.idPrefix, row.taskNumber),
-    title: row.title,
-    status: row.status,
-    note: row.note ?? null
-  };
-}
-function suggestDependencies(db2, args) {
-  if (!hasSuggestionTable(db2) || !hasDependencyTable(db2)) {
-    throw new CardDependencyError(
-      "unsupported",
-      "This Ideafy database cannot store suggested links yet. Update the Ideafy app \u2014 it adds the table on its next start."
-    );
-  }
-  return transaction(db2, () => {
-    const outcome2 = { suggested: [], skipped: [] };
-    const cardGroup = groupOf(db2, args.cardId);
-    for (const entry of args.entries) {
-      let predecessor;
-      try {
-        predecessor = resolvePredecessor(db2, args.cardId, entry.card);
-      } catch {
-        outcome2.skipped.push({ card: entry.card, reason: "not-found" });
-        continue;
-      }
-      const name = label(predecessor);
-      const target2 = { card: { id: args.cardId, groupId: cardGroup }, predecessor: { ...predecessor, groupId: groupOf(db2, predecessor.id) } };
-      const blocker = suggestionBlocker(target2, db2);
-      if (blocker) {
-        outcome2.skipped.push({ card: name, reason: blocker });
-        continue;
-      }
-      const existing = getRow(
-        db2,
-        "SELECT status, note FROM card_dependency_suggestions WHERE card_id = ? AND blocked_by_card_id = ?",
-        args.cardId,
-        predecessor.id
-      );
-      if (existing?.status === "dismissed") {
-        outcome2.skipped.push({ card: name, reason: "dismissed" });
-        continue;
-      }
-      const note = entry.note !== void 0 ? cleanNote(entry.note) : existing?.note ?? null;
-      if (existing) {
-        runChanges(
-          db2,
-          "UPDATE card_dependency_suggestions SET note = ? WHERE card_id = ? AND blocked_by_card_id = ?",
-          note,
-          args.cardId,
-          predecessor.id
-        );
-      } else {
-        runChanges(
-          db2,
-          `INSERT INTO card_dependency_suggestions (card_id, blocked_by_card_id, note, status, created_at)
-           VALUES (?, ?, ?, 'pending', ?)`,
-          args.cardId,
-          predecessor.id,
-          note,
-          args.now
-        );
-      }
-      outcome2.suggested = outcome2.suggested.filter((s) => s.id !== predecessor.id);
-      outcome2.suggested.push(toSuggestion({ ...predecessor, note }));
-    }
-    return outcome2;
-  });
-}
-function listDependencySuggestions(db2, cardId) {
-  if (!hasSuggestionTable(db2) || !hasDependencyTable(db2)) return [];
-  const card = getRow(
-    db2,
-    "SELECT status, group_id AS groupId FROM cards WHERE id = ?",
-    cardId
-  );
-  if (!card || card.status === "completed" || card.status === "withdrawn") return [];
-  const rows = allRows(
-    db2,
-    `SELECT c.id, c.title, c.status, c.task_number AS taskNumber, p.id_prefix AS idPrefix,
-            c.git_branch_status AS gitBranchStatus, c.group_id AS groupId, s.note
-     FROM card_dependency_suggestions s
-     JOIN cards c ON c.id = s.blocked_by_card_id
-     LEFT JOIN projects p ON p.id = c.project_id
-     WHERE s.card_id = ? AND s.status = 'pending'
-     ORDER BY s.created_at, c.task_number`,
-    cardId
-  );
-  return rows.filter((predecessor) => !suggestionBlocker({ card: { id: cardId, groupId: card.groupId }, predecessor }, db2)).map(toSuggestion);
-}
-function pendingDependencySuggestionCounts(db2) {
-  const counts = /* @__PURE__ */ new Map();
-  if (!hasSuggestionTable(db2)) return counts;
-  for (const row of allRows(
-    db2,
-    `SELECT card_id AS cardId, COUNT(*) AS n FROM card_dependency_suggestions WHERE status = 'pending' GROUP BY card_id`
-  )) {
-    counts.set(row.cardId, Number(row.n) || 0);
-  }
-  return counts;
-}
-function setBlockedBy(db2, cardId, entries, now, mode) {
-  assertTable(db2);
-  return transaction(db2, () => {
-    const kept = entries.map((entry) => linkOne(db2, cardId, entry, now).blockedById);
-    if (mode === "replace") {
-      const keep = new Set(kept);
-      for (const { blockedById } of allRows(
-        db2,
-        "SELECT blocked_by_card_id AS blockedById FROM card_dependencies WHERE card_id = ?",
-        cardId
-      )) {
-        if (!keep.has(blockedById)) {
-          runChanges(db2, "DELETE FROM card_dependencies WHERE card_id = ? AND blocked_by_card_id = ?", cardId, blockedById);
-        }
-      }
-    }
-    return kept;
-  });
-}
-function toRef(row, waiterId) {
-  return {
-    id: row.id,
-    displayId: formatDisplayId(row.idPrefix, row.taskNumber),
-    title: row.title,
-    status: row.status,
-    gitBranchStatus: row.gitBranchStatus,
-    landed: linkState(row, waiterId) === "landed",
-    note: row.note ?? null
-  };
-}
-function hasSplitColumn(db2) {
-  return allRows(db2, "PRAGMA table_info(cards)").some((column) => column.name === "split_from_card_id");
-}
-function splitColumns(db2) {
-  if (!hasSplitColumn(db2)) {
-    return "NULL AS splitFromCardId, NULL AS testScenarios";
-  }
-  return `c.split_from_card_id AS splitFromCardId,
-         CASE WHEN c.split_from_card_id = d.card_id THEN c.test_scenarios END AS testScenarios`;
-}
-var LINKED_SELECT = `
-  SELECT c.id, c.title, c.status, c.task_number AS taskNumber, p.id_prefix AS idPrefix,
-         c.git_branch_status AS gitBranchStatus, c.group_id AS groupId, d.note, %SPLIT%
-  FROM card_dependencies d
-  JOIN cards c ON c.id = d.%JOIN%
-  LEFT JOIN projects p ON p.id = c.project_id
-  WHERE d.%WHERE% = ?
-  ORDER BY d.created_at, c.task_number`;
-function blockerRows(db2, cardId) {
-  if (!hasDependencyTable(db2)) return [];
-  return allRows(
-    db2,
-    LINKED_SELECT.replace("%JOIN%", "blocked_by_card_id").replace("%WHERE%", "card_id").replace("%SPLIT%", splitColumns(db2)),
-    cardId
-  );
-}
-function listDependencies(db2, cardId) {
-  if (!hasDependencyTable(db2)) return null;
-  const blocks = allRows(
-    db2,
-    LINKED_SELECT.replace("%JOIN%", "card_id").replace("%WHERE%", "blocked_by_card_id").replace("%SPLIT%", splitColumns(db2)),
-    cardId
-  );
-  return {
-    blockedBy: blockerRows(db2, cardId).map((row) => toRef(row, cardId)),
-    blocks: blocks.map((row) => toRef(row))
-  };
-}
-function listDependencyEdges(db2) {
-  if (!hasDependencyTable(db2)) return [];
-  return allRows(
-    db2,
-    `SELECT card_id AS cardId, blocked_by_card_id AS blockedByCardId, note, created_at AS createdAt
-     FROM card_dependencies ORDER BY created_at`
-  );
-}
-function waitingOnLine(db2, cardId) {
-  try {
-    const card = getRow(db2, "SELECT status FROM cards WHERE id = ?", cardId);
-    if (!card || card.status === "completed" || card.status === "withdrawn") return null;
-    const rows = blockerRows(db2, cardId);
-    const name = (row) => sanitizeForReminder(label(row), 80);
-    const groupId = groupOf(db2, cardId);
-    const open = rows.filter((row) => linkState(row, cardId, groupId) === "open");
-    const withdrawn = rows.filter((row) => linkState(row, cardId, groupId) === "withdrawn");
-    const lines2 = [];
-    if (open.length > 0) {
-      const parts = open.map((row) => {
-        const why = openLinkReason(row, cardId) ?? `in ${row.status}`;
-        return `${name(row)} (${why})`;
-      });
-      lines2.push(`This card waits on ${parts.join(", ")}. Starting it now builds without that work; say so before writing code.`);
-    }
-    if (withdrawn.length > 0) {
-      lines2.push(
-        `${withdrawn.map(name).join(", ")} ${withdrawn.length === 1 ? "was" : "were"} withdrawn; ask the user whether this card still needs ${withdrawn.length === 1 ? "it" : "them"} before writing code.`
-      );
-    }
-    return lines2.length > 0 ? lines2.join(" ") : null;
-  } catch (error2) {
-    console.warn("[dependencies] waiting line skipped:", error2);
-    return null;
-  }
-}
-function queueWaitReason(db2, cardId) {
-  try {
-    const groupId = groupOf(db2, cardId);
-    const rows = blockerRows(db2, cardId).filter((row) => linkState(row, cardId, groupId) !== "landed");
-    if (rows.length === 0) return null;
-    const first = rows[0];
-    const more = rows.length > 1 ? ` +${rows.length - 1}` : "";
-    if (linkState(first, cardId, groupId) === "withdrawn") return `waits on withdrawn ${label(first)}${more}`;
-    const why = openLinkReason(first, cardId) ?? `in ${first.status}`;
-    return `waits on ${label(first)} (${why})${more}`;
-  } catch (error2) {
-    console.warn("[dependencies] queue wait reason skipped:", error2);
-    return null;
-  }
-}
-function readyAfterLinks(db2) {
-  if (!hasDependencyTable(db2)) return [];
-  const rows = allRows(
-    db2,
-    `SELECT d.card_id AS waitingId, w.project_id AS waitingProjectId, d.created_at AS linkedAt,
-            c.id, c.title, c.status, c.task_number AS taskNumber, p.id_prefix AS idPrefix,
-            c.git_branch_status AS gitBranchStatus, c.updated_at AS updatedAt, c.completed_at AS completedAt,
-            ${splitColumns(db2)}
-     FROM card_dependencies d
-     JOIN cards w ON w.id = d.card_id
-     JOIN cards c ON c.id = d.blocked_by_card_id
-     LEFT JOIN projects p ON p.id = c.project_id
-     WHERE w.status NOT IN ('completed', 'withdrawn') AND w.processing_type IS NULL
-     ORDER BY d.card_id, c.id`
-  );
-  const byCard = /* @__PURE__ */ new Map();
-  for (const row of rows) {
-    const bucket = byCard.get(row.waitingId);
-    if (bucket) bucket.push(row);
-    else byCard.set(row.waitingId, [row]);
-  }
-  const ready = [];
-  for (const [cardId, links] of byCard) {
-    if (!links.every((link) => linkState(link, cardId) === "landed")) continue;
-    const landedAt = links.reduce((max, link) => {
-      const at = link.status === "completed" && link.completedAt || link.updatedAt;
-      return at > max ? at : max;
-    }, "");
-    const linkedAt = links.reduce((max, link) => link.linkedAt > max ? link.linkedAt : max, "");
-    if (landedAt <= linkedAt) continue;
-    ready.push({
-      cardId,
-      projectId: links[0].waitingProjectId,
-      blockerIds: links.map((link) => link.id),
-      blockerNames: links.map(label),
-      landedAt
-    });
-  }
-  return ready;
-}
-function restoreDependencies(db2, links, now) {
-  if (!hasDependencyTable(db2) || links.length === 0) return 0;
-  let restored = 0;
-  for (const link of links) {
-    try {
-      transaction(db2, () => {
-        const { created } = linkOne(db2, link.cardId, { card: link.blockedByCardId, note: link.note }, link.createdAt || now);
-        if (created) restored++;
-      });
-    } catch {
-    }
-  }
-  return restored;
-}
-
-// ../lib/card-ops/chain-overlap.ts
-function columns(db2, table) {
-  return new Set(db2.prepare(`PRAGMA table_info("${table}")`).all().map((c) => c.name));
-}
-function openChainOf(db2, cardId) {
-  if (!columns(db2, "card_groups").has("integration_branch")) return null;
-  const row = getRow(
-    db2,
-    `SELECT g.id, g.integration_branch AS branch, g.merged_commit AS merged
-     FROM cards c JOIN card_groups g ON g.id = c.group_id WHERE c.id = ?`,
-    cardId
-  );
-  return row?.branch && !row.merged ? row.id : null;
-}
-function isParentOf(db2, cardId, groupId) {
-  if (!columns(db2, "cards").has("split_from_card_id")) return false;
-  return !!getRow(db2, `SELECT id FROM cards WHERE group_id = ? AND split_from_card_id = ? LIMIT 1`, groupId, cardId);
-}
-function chainOverlapsFor(db2, cardId, solutionSummary) {
-  const groupId = openChainOf(db2, cardId);
-  if (!groupId) return [];
-  const mine = extractPlanFiles(solutionSummary);
-  if (mine.length === 0) return [];
-  const rows = allRows(
-    db2,
-    `SELECT c.id, c.task_number AS taskNumber, p.id_prefix AS idPrefix, c.title, c.solution_summary AS solutionSummary
-     FROM cards c LEFT JOIN projects p ON p.id = c.project_id
-     WHERE c.group_id = ? AND c.id != ? AND c.git_branch_status = 'active'
-       AND c.status IN ('progress', 'test')`,
-    groupId,
-    cardId
-  );
-  const out = [];
-  for (const row of rows) {
-    if (isParentOf(db2, row.id, groupId)) continue;
-    const files = sharedPlanFiles(mine, extractPlanFiles(row.solutionSummary));
-    if (files.length === 0) continue;
-    out.push({ cardId: row.id, displayId: formatDisplayId(row.idPrefix, row.taskNumber) ?? row.title, files });
-  }
-  return out;
-}
-function chainOverlapWaitReason(db2, cardId) {
-  try {
-    const row = getRow(db2, `SELECT solution_summary AS solutionSummary FROM cards WHERE id = ?`, cardId);
-    const overlaps = chainOverlapsFor(db2, cardId, row?.solutionSummary);
-    if (overlaps.length === 0) return null;
-    const first = overlaps[0];
-    const files = first.files.slice(0, 3).join(", ") + (first.files.length > 3 ? ` +${first.files.length - 3}` : "");
-    const more = overlaps.length > 1 ? ` (+${overlaps.length - 1} more)` : "";
-    return `waits for ${first.displayId} to land in the chain: both plans change ${files}${more}`;
-  } catch (error2) {
-    console.warn("[chain-overlap] wait reason skipped:", error2);
-    return null;
-  }
-}
-
-// ../lib/card-ops/queue.ts
-var ROW_SELECT = `
-  SELECT c.id, c.title, c.status, c.description,
-         c.solution_summary AS solutionSummary,
-         c.test_scenarios AS testScenarios,
-         c.processing_type AS processingType,
-         c.queue_position AS queuePosition,
-         c.queue_verify_scope AS queueVerifyScope,
-         c.task_number AS taskNumber,
-         c.use_worktree AS useWorktree,
-         c.git_branch_status AS gitBranchStatus,
-         c.git_worktree_path AS gitWorktreePath,
-         c.git_worktree_status AS gitWorktreeStatus,
-         c.project_id AS projectId,
-         p.id_prefix AS idPrefix,
-         p.mode AS projectMode,
-         p.use_worktrees AS projectUseWorktrees,
-         c.autopilot_stage AS autopilotStage
-  FROM cards c LEFT JOIN projects p ON p.id = c.project_id`;
-function toQueueRow(raw) {
-  return {
-    ...raw,
-    // Anything but "all" is the default; a stray value never widens a run.
-    queueVerifyScope: raw.queueVerifyScope === null ? null : raw.queueVerifyScope === "all" ? "all" : "next",
-    useWorktree: raw.useWorktree === null ? null : !!raw.useWorktree,
-    projectUseWorktrees: raw.projectUseWorktrees === null ? null : !!raw.projectUseWorktrees
-  };
-}
-function listQueueRows(db2) {
-  return allRows(db2, `${ROW_SELECT} WHERE c.queue_position IS NOT NULL`).map(toQueueRow).sort(compareByQueuePosition);
-}
-function getQueueRow(db2, cardId) {
-  const raw = getRow(db2, `${ROW_SELECT} WHERE c.id = ?`, cardId);
-  return raw ? toQueueRow(raw) : void 0;
-}
-function queueDisplayId(row) {
-  return formatDisplayId(row.idPrefix, row.taskNumber) ?? row.title;
-}
-function queueRowIneligibleReason(row) {
-  const progress = parseTestProgress(row.testScenarios ?? "");
-  const core = progress?.core;
-  const reason = queueIneligibleReason({
-    status: row.status,
-    hasDescription: stripHtml(row.description ?? "") !== "",
-    phase: detectPhase(row),
-    processingType: row.processingType,
-    projectMode: row.projectMode,
-    hasCoreFlow: !!core,
-    gitBranchStatus: row.gitBranchStatus,
-    hasOpenDecision: hasOpenPlanDecision(row),
-    autopilotPlanning: row.autopilotStage === "planning"
-  });
-  if (reason) return reason;
-  return row.status === "test" ? nothingToVerifyReason(progress) : null;
-}
-function queueKindOf(row) {
-  const phase = detectPhase(row);
-  return phase === "verify" ? "verify" : phase === "planning" ? "planning" : "implementation";
-}
-function queuedWaitReason(db2, row) {
-  const kind = queueKindOf(row);
-  if (kind === "verify") return null;
-  return queueWaitReason(db2, row.id) ?? (kind === "implementation" ? chainOverlapWaitReason(db2, row.id) : null);
-}
-function nextQueueStep(db2) {
-  const rows = listQueueRows(db2);
-  let waiting = 0;
-  for (const row of rows) {
-    const reason = queueRowIneligibleReason(row);
-    if (reason) return { kind: "drop", row, reason };
-    if (queuedWaitReason(db2, row)) {
-      waiting++;
-      continue;
-    }
-    return { kind: "start", row };
-  }
-  return { kind: "idle", waiting };
-}
-function finalTestOpensWorktree(row) {
-  if (row.gitBranchStatus || !flowsOnlyChecklist(row.testScenarios)) return false;
-  return row.projectMode !== "work" && !!row.projectId && row.taskNumber != null;
-}
-function queuedRunsInWorktree(row) {
-  const activeWorktree = !!row.gitWorktreePath && row.gitWorktreeStatus === "active";
-  const kind = queueKindOf(row);
-  if (kind === "verify") return activeWorktree || finalTestOpensWorktree(row);
-  if (kind === "planning") return false;
-  const useWorktree = shouldUseWorktree(
-    { useWorktree: row.useWorktree },
-    { useWorktrees: row.projectUseWorktrees, mode: row.projectMode }
-  );
-  return useWorktree && !!row.projectId && row.taskNumber != null || activeWorktree;
-}
-function writeQueueOrder(db2, ids, removed = []) {
-  const place = db2.prepare(`UPDATE cards SET queue_position = ? WHERE id = ?`);
-  ids.forEach((id, index) => place.run(index + 1, id));
-  const unqueue = db2.prepare(`UPDATE cards SET queue_position = NULL WHERE id = ?`);
-  for (const id of removed) unqueue.run(id);
-}
-function enqueueCard(db2, cardId, afterCardId, verifyScope) {
-  if (afterCardId === cardId) {
-    return { ok: false, reason: "after-self", message: "A card cannot be placed after itself" };
-  }
-  return transaction(db2, () => {
-    const row = getQueueRow(db2, cardId);
-    if (!row) return { ok: false, reason: "not-found", message: "Card not found" };
-    const ineligible = queueRowIneligibleReason(row);
-    if (ineligible) {
-      return { ok: false, reason: "ineligible", message: `Cannot queue ${queueDisplayId(row)}: ${ineligible}` };
-    }
-    const members = listQueueRows(db2);
-    const others = members.filter((m2) => m2.id !== cardId);
-    if (afterCardId && !others.some((m2) => m2.id === afterCardId)) {
-      return { ok: false, reason: "after-not-queued", message: "afterCardId is not in the queue" };
-    }
-    const after = afterCardId === void 0 ? others[others.length - 1]?.id ?? null : afterCardId;
-    const moved = members.length !== others.length;
-    const chainShaped = members.map((m2) => ({ id: m2.id, groupOrder: m2.queuePosition, taskNumber: m2.taskNumber }));
-    if (!moved) chainShaped.push({ id: cardId, groupOrder: null, taskNumber: row.taskNumber });
-    const order = placeAfter(chainShaped, cardId, after);
-    writeQueueOrder(db2, order);
-    if (!moved) clearParked(db2, cardId);
-    let queueVerifyScope = row.queueVerifyScope;
-    if (!moved || verifyScope !== void 0) {
-      queueVerifyScope = queueKindOf(row) === "verify" ? verifyScope ?? null : null;
-      db2.prepare(`UPDATE cards SET queue_verify_scope = ? WHERE id = ?`).run(queueVerifyScope, cardId);
-    }
-    return { ok: true, row: { ...row, queueVerifyScope }, rank: order.indexOf(cardId) + 1, moved };
-  });
-}
-function dequeueCard(db2, cardId) {
-  return transaction(db2, () => {
-    const members = listQueueRows(db2);
-    if (!members.some((m2) => m2.id === cardId)) return false;
-    writeQueueOrder(
-      db2,
-      members.filter((m2) => m2.id !== cardId).map((m2) => m2.id),
-      [cardId]
-    );
-    return true;
-  });
-}
-function restoreQueueCards(db2, cardIds) {
-  return transaction(db2, () => {
-    const members = listQueueRows(db2);
-    const queued = new Set(members.map((m2) => m2.id));
-    const restored = [];
-    const skipped = [];
-    for (const cardId of new Set(cardIds)) {
-      if (queued.has(cardId)) {
-        restored.push(cardId);
-        continue;
-      }
-      const row = getQueueRow(db2, cardId);
-      const reason = row ? queueRowIneligibleReason(row) : "it was deleted";
-      if (reason) skipped.push({ cardId, displayId: row ? queueDisplayId(row) : cardId, reason });
-      else restored.push(cardId);
-    }
-    const back = new Set(restored);
-    writeQueueOrder(db2, [...restored, ...members.filter((m2) => !back.has(m2.id)).map((m2) => m2.id)]);
-    return { restored, skipped };
-  });
-}
-function clearQueue(db2, keep = /* @__PURE__ */ new Set()) {
-  return transaction(db2, () => {
-    const rows = allRows(
-      db2,
-      `SELECT c.id, c.title, c.queue_position AS queuePosition, c.task_number AS taskNumber,
-              p.id_prefix AS idPrefix
-       FROM cards c LEFT JOIN projects p ON p.id = c.project_id
-       WHERE c.queue_position IS NOT NULL`
-    ).sort(compareByQueuePosition);
-    const cleared = rows.filter((row) => !keep.has(row.id));
-    const unqueue = db2.prepare(`UPDATE cards SET queue_position = NULL WHERE id = ?`);
-    for (const row of cleared) unqueue.run(row.id);
-    return cleared.map((row) => ({ cardId: row.id, displayId: queueDisplayId(row) }));
-  });
-}
-
-// ../lib/parked.ts
-var PARKABLE_STATUSES = ["ideation", "backlog", "bugs"];
-function isParkableStatus(status) {
-  return PARKABLE_STATUSES.includes(status);
-}
-
-// ../lib/card-ops/park.ts
-var present = /* @__PURE__ */ new WeakMap();
-function hasParkedColumn(db2) {
-  if (present.get(db2)) return true;
-  const columns2 = db2.prepare(`PRAGMA table_info("cards")`).all();
-  const found = columns2.some((column) => column.name === "parked_at");
-  if (found) present.set(db2, true);
-  return found;
-}
-function clearParked(db2, id) {
-  if (!hasParkedColumn(db2)) return;
-  runChanges(db2, `UPDATE cards SET parked_at = NULL WHERE id = ? AND parked_at IS NOT NULL`, id);
-}
-function displayIdOf(row) {
-  return row.id_prefix && row.task_number != null ? `${row.id_prefix}-${row.task_number}` : row.title;
-}
-function setParked(db2, ids, parked, now) {
-  return transaction(db2, () => {
-    const result = { changed: [], skipped: [], dequeued: [] };
-    if (ids.length === 0) return result;
-    const rows = allRows(
-      db2,
-      `SELECT c.id, c.status, c.parked_at, c.autopilot_stage, c.task_number, c.title, p.id_prefix
-       FROM cards c LEFT JOIN projects p ON p.id = c.project_id
-       WHERE c.id IN (${ids.map(() => "?").join(", ")})`,
-      ...ids
-    );
-    const byId = new Map(rows.map((row) => [row.id, row]));
-    for (const id of ids) {
-      const row = byId.get(id);
-      if (!row) {
-        result.skipped.push({ id, displayId: id, reason: "not found" });
-        continue;
-      }
-      if (parked) {
-        if (row.parked_at) continue;
-        if (!isParkableStatus(row.status)) {
-          result.skipped.push({
-            id,
-            displayId: displayIdOf(row),
-            reason: "only Ideation, Backlog and Bugs cards can be parked"
-          });
-          continue;
-        }
-        if (isActiveAutopilotStage(row.autopilot_stage)) {
-          result.skipped.push({ id, displayId: displayIdOf(row), reason: "it is on Autopilot" });
-          continue;
-        }
-        runChanges(db2, `UPDATE cards SET parked_at = ?, updated_at = ? WHERE id = ?`, now, now, id);
-        if (dequeueCard(db2, id)) result.dequeued.push(id);
-        result.changed.push({ id, prevParkedAt: null, parkedAt: now });
-      } else {
-        if (!row.parked_at) continue;
-        runChanges(db2, `UPDATE cards SET parked_at = NULL, updated_at = ? WHERE id = ?`, now, id);
-        result.changed.push({ id, prevParkedAt: row.parked_at, parkedAt: null });
-      }
-    }
-    return result;
-  });
-}
-function restoreParked(db2, entries, now) {
-  transaction(db2, () => {
-    for (const entry of entries) {
-      runChanges(db2, `UPDATE cards SET parked_at = ?, updated_at = ? WHERE id = ?`, entry.parkedAt, now, entry.id);
-      if (entry.parkedAt) dequeueCard(db2, entry.id);
-    }
-  });
-}
-
-// ../lib/card-ops/move-card.ts
-var STATUSES = COLUMNS.map((column) => column.id);
-function isStatus(value) {
-  return typeof value === "string" && STATUSES.includes(value);
-}
-function completedAtFor(oldStatus, newStatus, current, now) {
-  if (newStatus === "completed" && oldStatus !== "completed") return now;
-  if (newStatus !== "completed" && oldStatus === "completed") return null;
-  return current;
-}
-function completedAtOnCreate(status, now) {
-  return completedAtFor("", status, null, now);
-}
-function statusAfterPlan(current) {
-  return current === "ideation" || current === "backlog" || current === "bugs" ? "progress" : null;
-}
-function statusAfterTests(current) {
-  return current === "test" || current === "completed" || current === "withdrawn" ? null : "test";
-}
-function moveCard(db2, id, status, now) {
-  if (!isStatus(status)) return { ok: false, reason: "invalid-status" };
-  return transaction(db2, () => {
-    const row = getRow(
-      db2,
-      `SELECT status, completed_at FROM cards WHERE id = ?`,
-      id
-    );
-    if (!row) return { ok: false, reason: "not-found" };
-    const completedAt = completedAtFor(row.status, status, row.completed_at, now);
-    runChanges(
-      db2,
-      `UPDATE cards SET status = ?, updated_at = ?, completed_at = ? WHERE id = ?`,
-      status,
-      now,
-      completedAt,
-      id
-    );
-    if (row.status !== status) clearParked(db2, id);
-    return { ok: true, changed: row.status !== status, from: row.status, to: status, completedAt };
-  });
-}
-
-// ../lib/card-ops/card-fields.ts
-var CARD_RUNTIME_FIELDS = {
-  processingType: { column: "processing_type", why: "run lock: which AI process holds the card right now" },
-  gitBranchName: { column: "git_branch_name", why: "git state: the branch the card's work lives on" },
-  gitBranchStatus: { column: "git_branch_status", why: "git state: active, merged or rolled back" },
-  gitWorktreePath: { column: "git_worktree_path", why: "git state: where the card's worktree sits on disk" },
-  gitWorktreeStatus: { column: "git_worktree_status", why: "git state: whether that worktree still exists" },
-  devServerPort: { column: "dev_server_port", why: "dev server process: the port it listens on" },
-  devServerPid: { column: "dev_server_pid", why: "dev server process: the pid Stop kills" },
-  rebaseConflict: { column: "rebase_conflict", why: "rebase conflict: Merge stopped and needs a hand" },
-  conflictFiles: { column: "conflict_files", why: "rebase conflict: the files it stopped on" }
-};
-function serializeBooleanForDb(value) {
-  if (value === null) return null;
-  return value ? 1 : 0;
-}
-var serializeUseWorktreeForDb = serializeBooleanForDb;
-function runtimeAssignments(runtime) {
-  const sql = [];
-  const values = [];
-  if (!runtime) return { sql, values };
-  for (const key of Object.keys(CARD_RUNTIME_FIELDS)) {
-    const value = runtime[key];
-    if (value === void 0) continue;
-    sql.push(`${CARD_RUNTIME_FIELDS[key].column} = ?`);
-    if (key === "rebaseConflict") values.push(serializeBooleanForDb(value));
-    else if (key === "conflictFiles") values.push(value === null ? null : JSON.stringify(value));
-    else values.push(value);
-  }
-  return { sql, values };
-}
-function setCardRuntime(db2, id, runtime, now) {
-  const { sql, values } = runtimeAssignments(runtime);
-  if (now) {
-    sql.push("updated_at = ?");
-    values.push(now);
-  }
-  if (sql.length === 0) return true;
-  return runChanges(db2, `UPDATE cards SET ${sql.join(", ")} WHERE id = ?`, ...values, id).changes > 0;
-}
 
 // ../lib/markdown.ts
 var markdown_exports = {};
@@ -26618,6 +25700,1397 @@ function ensureTestScenariosHtml(content) {
     return normalizeTestsHtml(markdownToTiptapHtml(content));
   }
   return normalizeTestsHtml(convertCheckboxListHtmlToTaskList(content));
+}
+
+// ../lib/test-report.ts
+var TEST_REPORT_IMPACTS = ["broken", "flaw", "cosmetic", "test_wrong"];
+var TEST_REPORT_IMPACT_LABEL = {
+  broken: "Broken",
+  flaw: "Partly wrong",
+  cosmetic: "Cosmetic",
+  test_wrong: "Test out of date"
+};
+function isTestReportScope(value) {
+  return value === "run" || value === "reverify" || value === "single" || value === "retest" || value === "text";
+}
+var SHA = /^[0-9a-f]{40}$/;
+function normalizeCodeStamp(value) {
+  if (!value || typeof value !== "object") return void 0;
+  const record2 = value;
+  const commit = typeof record2.commit === "string" && SHA.test(record2.commit) ? record2.commit : null;
+  const dirty = (Array.isArray(record2.dirty) ? record2.dirty : []).map((entry) => {
+    if (!entry || typeof entry !== "object") return null;
+    const path12 = str(entry.path, 500);
+    if (!path12) return null;
+    const blob = entry.blob;
+    return { path: path12, blob: typeof blob === "string" && SHA.test(blob) ? blob : null };
+  }).filter((entry) => entry !== null).slice(0, 50);
+  const total = typeof record2.dirtyTotal === "number" && Number.isFinite(record2.dirtyTotal) ? Math.floor(record2.dirtyTotal) : 0;
+  if (!commit && dirty.length === 0) return void 0;
+  return { commit, dirty, dirtyTotal: Math.max(total, dirty.length) };
+}
+var TEST_REPORT_VIDEO_NAME = /^[\w.\- @]+\.webm$/;
+function isTestReportVideoName(value) {
+  return TEST_REPORT_VIDEO_NAME.test(value) && !value.includes("..");
+}
+function hasPlayableVideo(run2) {
+  return !!run2.video && run2.video.removedAt === null;
+}
+function testReportItemResultAt(item) {
+  const seconds = item.artifacts.map((artifact) => artifact.videoAt).filter((sec) => typeof sec === "number");
+  return seconds.length > 0 ? Math.max(...seconds) : null;
+}
+function testReportItemVideoAt(item) {
+  const seconds = item.artifacts.map((artifact) => artifact.videoAt).filter((sec) => typeof sec === "number");
+  return seconds.length > 0 ? Math.min(...seconds) : null;
+}
+function nextPlayableTime(time3, intervals, duration3) {
+  if (intervals.length === 0) return time3;
+  for (const [start, end] of intervals) {
+    if (time3 < start) return start;
+    if (time3 < end) return time3;
+  }
+  return duration3;
+}
+var ITEM_CLIP_LEAD_SEC = 30;
+var ITEM_CLIP_TAIL_SEC = 2;
+function testReportItemClips(run2) {
+  const intervals = run2.video?.intervals ?? [];
+  const shots = run2.items.flatMap((item) => item.artifacts.map((artifact) => artifact.videoAt)).filter((sec) => typeof sec === "number").sort((a, b2) => a - b2);
+  return run2.items.flatMap((item) => {
+    const at = testReportItemVideoAt(item);
+    if (at === null) return [];
+    const previous = shots.filter((sec) => sec < at).pop() ?? 0;
+    const from = Math.max(previous, at - ITEM_CLIP_LEAD_SEC, 0);
+    return [{ item: item.item, start: Math.min(at, nextPlayableTime(from, intervals, at)), at }];
+  });
+}
+function testReportItemAt(clips, sec) {
+  let found = null;
+  for (const clip of clips) {
+    if (sec >= clip.start && sec <= clip.at + ITEM_CLIP_TAIL_SEC && (!found || clip.start >= found.start)) {
+      found = clip;
+    }
+  }
+  return found?.item ?? null;
+}
+function formatVideoTime(sec) {
+  const whole = Math.max(0, Math.floor(sec));
+  return `${String(Math.floor(whole / 60)).padStart(2, "0")}:${String(whole % 60).padStart(2, "0")}`;
+}
+function finiteOrNull(value) {
+  return typeof value === "number" && Number.isFinite(value) && value >= 0 ? value : null;
+}
+function normalizeVideo(value) {
+  if (!value || typeof value !== "object") return void 0;
+  const record2 = value;
+  const file2 = typeof record2.file === "string" ? record2.file : "";
+  const startedAt = str(record2.startedAt, 40);
+  if (!isTestReportVideoName(file2) || !startedAt) return void 0;
+  const intervals = [];
+  if (Array.isArray(record2.intervals)) {
+    let last = -1;
+    for (const entry of record2.intervals) {
+      if (!Array.isArray(entry) || entry.length !== 2) continue;
+      const [start, end] = entry;
+      if (typeof start !== "number" || typeof end !== "number") continue;
+      if (!Number.isFinite(start) || !Number.isFinite(end) || start < last || end < start) continue;
+      intervals.push([start, end]);
+      last = end;
+    }
+  }
+  const extraTabs = typeof record2.extraTabs === "number" && Number.isInteger(record2.extraTabs) && record2.extraTabs > 0 ? record2.extraTabs : 0;
+  return {
+    file: file2,
+    startedAt,
+    durationSec: finiteOrNull(record2.durationSec),
+    intervals,
+    truncated: record2.truncated === true,
+    extraTabs,
+    tab: typeof record2.tab === "number" && Number.isInteger(record2.tab) && record2.tab > 0 ? record2.tab : 0,
+    removedAt: str(record2.removedAt, 40)
+  };
+}
+var MAX_TEST_REPORT_RUNS = 20;
+var MAX_ARTIFACTS_PER_ITEM = 3;
+var TEST_REPORT_DIR = "test-report";
+var TEST_REPORT_FENCE = "test-report";
+var MAX_TEXT = 2e3;
+var MAX_OUTPUT = 4e3;
+var MAX_PLAIN = 400;
+var MAX_STEPS = 20;
+var MAX_ITEMS = 50;
+var MAX_WARNINGS = 20;
+var MAX_WARNING_TEXT = 1e3;
+var MISSING_EVIDENCE_NOTE = "Marked failed without an observed result or an error, so it is shown as needing a manual check.";
+var IMAGE_FILE = /^[\w.\- ]+\.(png|jpe?g|webp|gif)$/i;
+function buildTestReportRun(input) {
+  return {
+    ...input.code ? { code: input.code } : {},
+    id: input.id ?? newTestReportRunId(new Date(input.now)),
+    runAt: input.now,
+    platform: input.platform,
+    source: input.source,
+    evidence: input.evidence,
+    scope: input.scope,
+    checklistApplied: input.checklistApplied,
+    items: input.items,
+    warnings: []
+  };
+}
+function newTestReportRunId(now = /* @__PURE__ */ new Date()) {
+  const stamp = now.toISOString().replace(/[-:]/g, "").replace(/\.\d+Z$/, "Z");
+  return `run-${stamp}-${Math.random().toString(36).slice(2, 6)}`;
+}
+function isTestReportRunId(value) {
+  return /^run-[0-9TZ]+-[a-z0-9]+$/.test(value);
+}
+function readTestReportSummary(value) {
+  if (!value || typeof value !== "object") return null;
+  const v2 = value;
+  const count = (n) => typeof n === "number" && Number.isFinite(n) && n >= 0 ? n : null;
+  const passed = count(v2.passed);
+  const failed = count(v2.failed);
+  const manual = count(v2.manual);
+  if (v2.evidence !== "text" && v2.evidence !== "visual") return null;
+  if (!isTestReportScope(v2.scope)) return null;
+  if (passed === null || failed === null || manual === null) return null;
+  return { evidence: v2.evidence, scope: v2.scope, passed, failed, manual };
+}
+function summarizeTestReportRun(run2) {
+  const count = (status) => run2.items.filter((item) => item.status === status).length;
+  return {
+    evidence: run2.evidence,
+    scope: run2.scope,
+    passed: count("passed"),
+    failed: count("failed"),
+    manual: count("manual")
+  };
+}
+function isTestReportImageName(value) {
+  return IMAGE_FILE.test(value) && !value.includes("..");
+}
+var FENCE = new RegExp("^[ \\t]*```+[ \\t]*" + TEST_REPORT_FENCE + "[^\\n]*\\n([\\s\\S]*?)^[ \\t]*```+[ \\t]*$", "gm");
+function extractTestReportFence(text2) {
+  let raw = null;
+  const stripped = text2.replace(FENCE, (_match, body) => {
+    raw = body;
+    return "";
+  });
+  if (raw === null) return { text: text2, raw: null };
+  return { text: stripped.replace(/\n{3,}/g, "\n\n").trimEnd(), raw };
+}
+function str(value, max = MAX_TEXT) {
+  if (typeof value === "number" || typeof value === "boolean") value = String(value);
+  if (typeof value !== "string") return null;
+  const trimmed = value.trim();
+  if (!trimmed) return null;
+  return trimmed.length > max ? `${trimmed.slice(0, max)}\u2026` : trimmed;
+}
+function normalizeStatus(value) {
+  const text2 = typeof value === "string" ? value.trim().toLowerCase() : "";
+  if (["passed", "pass", "ok", "success", "ge\xE7ti"].includes(text2)) return "passed";
+  if (["failed", "fail", "error", "kald\u0131"].includes(text2)) return "failed";
+  return "manual";
+}
+function normalizeImpact(value) {
+  return TEST_REPORT_IMPACTS.find((impact) => impact === value) ?? null;
+}
+function normalizeArtifacts(value) {
+  if (!Array.isArray(value)) return [];
+  const artifacts = [];
+  for (const entry of value) {
+    const raw = typeof entry === "string" ? { file: entry } : entry;
+    if (!raw || typeof raw !== "object") continue;
+    const record2 = raw;
+    const file2 = str(record2.file ?? record2.path ?? record2.name, 400);
+    if (!file2) continue;
+    const step = typeof record2.step === "number" && Number.isInteger(record2.step) && record2.step > 0 ? record2.step : null;
+    artifacts.push({ file: file2, step, caption: str(record2.caption, 300) });
+    if (artifacts.length === MAX_ARTIFACTS_PER_ITEM) break;
+  }
+  return artifacts;
+}
+function normalizeTestReportItem(value) {
+  if (!value || typeof value !== "object") return null;
+  const record2 = value;
+  const item = str(record2.item ?? record2.scenario ?? record2.title, 600);
+  if (!item) return null;
+  const steps = Array.isArray(record2.steps) ? record2.steps.map((step) => str(step)).filter((step) => Boolean(step)).slice(0, MAX_STEPS) : [];
+  const observed = str(record2.observed);
+  const error2 = str(record2.error, MAX_OUTPUT);
+  let status = normalizeStatus(record2.status);
+  let note = null;
+  if (status === "failed" && !observed && !error2) {
+    status = "manual";
+    note = MISSING_EVIDENCE_NOTE;
+  }
+  const plainItem = str(record2.plainItem, MAX_PLAIN);
+  const plainObserved = str(record2.plainObserved, MAX_PLAIN);
+  const impact = status === "failed" ? normalizeImpact(record2.impact) : null;
+  const caveat = status === "passed" ? str(record2.caveat, MAX_PLAIN) : null;
+  return {
+    item,
+    status,
+    approach: str(record2.approach ?? record2.logic),
+    steps,
+    expected: str(record2.expected),
+    observed,
+    ...plainItem ? { plainItem } : {},
+    ...plainObserved ? { plainObserved } : {},
+    ...impact ? { impact } : {},
+    ...caveat ? { caveat } : {},
+    error: error2,
+    command: str(record2.command, MAX_TEXT),
+    output: str(record2.output, MAX_OUTPUT),
+    artifacts: normalizeArtifacts(record2.artifacts ?? record2.screenshots),
+    note
+  };
+}
+var MAX_DECISIONS = 30;
+function normalizeTestReportDecisions(value) {
+  if (!Array.isArray(value)) return [];
+  const out = [];
+  for (const raw of value) {
+    if (!raw || typeof raw !== "object") continue;
+    const record2 = raw;
+    const entryId = Number(record2.entryId ?? record2.id);
+    if (!Number.isInteger(entryId) || entryId <= 0) continue;
+    out.push({
+      entryId,
+      question: str(record2.question, 400),
+      recommended: str(record2.recommended, 400),
+      observed: str(record2.observed),
+      artifacts: normalizeArtifacts(record2.artifacts ?? record2.screenshots)
+    });
+    if (out.length === MAX_DECISIONS) break;
+  }
+  return out;
+}
+function parseTestReportItems(value) {
+  let parsed = value;
+  if (typeof value === "string") {
+    try {
+      parsed = JSON.parse(value);
+    } catch (error2) {
+      return { ok: false, error: `not valid JSON (${error2 instanceof Error ? error2.message : String(error2)})` };
+    }
+  }
+  const list = Array.isArray(parsed) ? parsed : parsed && typeof parsed === "object" && Array.isArray(parsed.items) ? parsed.items : null;
+  if (!list) return { ok: false, error: "expected an `items` array" };
+  const items = list.map(normalizeTestReportItem).filter((item) => item !== null).slice(0, MAX_ITEMS);
+  if (items.length === 0) return { ok: false, error: "no item had an `item` text" };
+  const decisions = parsed && typeof parsed === "object" && !Array.isArray(parsed) ? normalizeTestReportDecisions(parsed.decisions) : [];
+  return decisions.length > 0 ? { ok: true, items, decisions } : { ok: true, items };
+}
+function normalizeTestReportWarnings(value) {
+  if (!Array.isArray(value)) return [];
+  return value.map((warning) => typeof warning === "string" ? str(warning, MAX_WARNING_TEXT) : null).filter((warning) => warning !== null).slice(0, MAX_WARNINGS);
+}
+function normalizeRun(value) {
+  if (!value || typeof value !== "object") return null;
+  const record2 = value;
+  const id = str(record2.id, 100);
+  const runAt = str(record2.runAt, 40);
+  if (!id || !runAt || !Array.isArray(record2.items)) return null;
+  const video = normalizeVideo(record2.video);
+  const brief = normalizeBrief(record2.brief);
+  const code = normalizeCodeStamp(record2.code);
+  const items = record2.items.map((item) => {
+    const normalized = normalizeTestReportItem(item);
+    if (normalized && item && typeof item === "object") {
+      normalized.note = str(item.note) ?? normalized.note;
+      const stored = item.artifacts;
+      if (Array.isArray(stored)) {
+        normalized.artifacts.forEach((artifact, index) => {
+          const raw = stored[index];
+          if (raw && typeof raw === "object" && "videoAt" in raw) artifact.videoAt = finiteOrNull(raw.videoAt);
+        });
+      }
+    }
+    return normalized;
+  }).filter((item) => item !== null);
+  return {
+    id,
+    runAt,
+    platform: str(record2.platform, 40),
+    source: record2.source === "terminal" ? "terminal" : "autonomous",
+    evidence: record2.evidence === "visual" ? "visual" : "text",
+    scope: isTestReportScope(record2.scope) ? record2.scope : "run",
+    checklistApplied: record2.checklistApplied !== false,
+    items,
+    warnings: normalizeTestReportWarnings(record2.warnings),
+    ...video ? { video } : {},
+    ...Array.isArray(record2.decisions) && record2.decisions.length > 0 ? { decisions: normalizeTestReportDecisions(record2.decisions) } : {},
+    ...brief ? { brief } : {},
+    ...code ? { code } : {}
+  };
+}
+function normalizeBrief(value) {
+  if (!value || typeof value !== "object") return null;
+  const record2 = value;
+  const text2 = str(record2.text, 1e3);
+  const basis = str(record2.basis, 40);
+  const at = str(record2.at, 40);
+  if (!text2 || !basis || !at) return null;
+  return { text: text2, basis, platform: str(record2.platform, 40), at };
+}
+function parseTestReports(value) {
+  if (!value) return null;
+  try {
+    const parsed = JSON.parse(value);
+    if (!Array.isArray(parsed)) return null;
+    const runs = parsed.map(normalizeRun).filter((run2) => run2 !== null);
+    return runs.length ? runs : null;
+  } catch {
+    return null;
+  }
+}
+function prependTestReportRun(existing, run2, max = MAX_TEST_REPORT_RUNS) {
+  const all = [run2, ...existing.filter((r) => r.id !== run2.id)];
+  return { runs: all.slice(0, max), dropped: all.slice(max) };
+}
+function testReportConflicts(run2, checklistHtml) {
+  const conflicts = [];
+  for (const item of run2.items) {
+    const match = matchTaskItem(item.item, checklistHtml);
+    if (!match) continue;
+    if (item.status === "passed" && !match.checked) conflicts.push({ item: item.item, kind: "passed-but-unticked" });
+    if (item.status === "failed" && match.checked) conflicts.push({ item: item.item, kind: "failed-but-ticked" });
+  }
+  return conflicts;
+}
+function testReportMissingItems(run2, checklistHtml) {
+  return new Set(run2.items.filter((item) => !matchTaskItem(item.item, checklistHtml)).map((item) => item.item));
+}
+function checklistKey(item, checklistHtml) {
+  return matchTaskItem(item, checklistHtml)?.normalized ?? null;
+}
+function latestItemResults(runs, checklistHtml) {
+  const results = /* @__PURE__ */ new Map();
+  runs.forEach((run2, runIndex) => {
+    for (const item of run2.items) {
+      const key = checklistKey(item.item, checklistHtml);
+      if (key !== null && !results.has(key)) results.set(key, { item, run: run2, runIndex });
+    }
+  });
+  return results;
+}
+function latestResultFor(results, text2) {
+  const keys = [...results.keys()];
+  const index = closestTaskText(text2, keys);
+  return index >= 0 ? results.get(keys[index]) : void 0;
+}
+function testReportSupersededItems(runs, run2, checklistHtml) {
+  const latest = latestItemResults(runs, checklistHtml);
+  return new Set(
+    run2.items.filter((item) => {
+      const k2 = checklistKey(item.item, checklistHtml);
+      const newest = k2 === null ? void 0 : latest.get(k2);
+      return newest !== void 0 && newest.run.id !== run2.id;
+    }).map((item) => item.item)
+  );
+}
+function countByStatus(run2) {
+  const counts = { passed: 0, failed: 0, manual: 0 };
+  for (const item of run2.items) counts[item.status]++;
+  return counts;
+}
+var IMPACT_COUNT_LABEL = {
+  broken: (count) => `${count} broken`,
+  flaw: (count) => `${count} partly wrong`,
+  cosmetic: (count) => `${count} cosmetic`,
+  test_wrong: (count) => `${count} outdated test${count === 1 ? "" : "s"}`
+};
+function testReportFailureLine(items) {
+  const failed = items.filter((item) => item.status === "failed");
+  const labelled = failed.filter((item) => item.impact);
+  if (labelled.length === 0) return null;
+  const count = (impact) => labelled.filter((item) => item.impact === impact).length;
+  const parts = TEST_REPORT_IMPACTS.filter((impact) => count(impact) > 0).map(
+    (impact) => IMPACT_COUNT_LABEL[impact](count(impact))
+  );
+  const unlabelled = failed.length - labelled.length;
+  if (unlabelled > 0) parts.push(`${unlabelled} not labelled`);
+  const nothingBroken = unlabelled === 0 && count("broken") === 0 && count("flaw") === 0;
+  return `${failed.length} failed${nothingBroken ? ": nothing is broken" : ""} \xB7 ${parts.join(" \xB7 ")}`;
+}
+
+// ../lib/workspace.ts
+var workspace_exports = {};
+__export(workspace_exports, {
+  OPEN_ADD_PROJECT_EVENT: () => OPEN_ADD_PROJECT_EVENT,
+  isCardInWorkspace: () => isCardInWorkspace,
+  normalizeProjectMode: () => normalizeProjectMode,
+  projectModeOf: () => projectModeOf,
+  projectsInWorkspace: () => projectsInWorkspace,
+  resolveEffectiveWorktree: () => resolveEffectiveWorktree,
+  shouldUseWorktree: () => shouldUseWorktree,
+  worktreeOverrideFor: () => worktreeOverrideFor
+});
+
+// ../lib/git/branch-name.ts
+var branch_name_exports = {};
+__export(branch_name_exports, {
+  generateBranchName: () => generateBranchName,
+  slugify: () => slugify2
+});
+function slugify2(text2) {
+  return text2.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").substring(0, 50);
+}
+function generateBranchName(idPrefix, taskNumber, title) {
+  const slug = slugify2(title);
+  return `kanban/${idPrefix}-${taskNumber}-${slug}`;
+}
+
+// ../lib/workspace.ts
+var OPEN_ADD_PROJECT_EVENT = "ideafy:open-add-project";
+function normalizeProjectMode(v2, fallback = DEFAULT_PROJECT_MODE) {
+  return typeof v2 === "string" && PROJECT_MODES.includes(v2) ? v2 : fallback;
+}
+function projectModeOf(projectId, projects) {
+  if (!projectId) return DEFAULT_PROJECT_MODE;
+  return projects.find((project) => project.id === projectId)?.mode ?? DEFAULT_PROJECT_MODE;
+}
+function projectsInWorkspace(projects, workspace) {
+  return projects.filter((project) => (project.mode ?? DEFAULT_PROJECT_MODE) === workspace);
+}
+function isCardInWorkspace(card, projects, workspace) {
+  return projectModeOf(card.projectId, projects) === workspace;
+}
+function shouldUseWorktree(card, project) {
+  if (project?.mode === "work") return false;
+  return card.useWorktree ?? project?.useWorktrees ?? true;
+}
+function resolveEffectiveWorktree(card, project) {
+  const effective = shouldUseWorktree(card, project);
+  if (!effective) return { enforced: false, targetBranch: null };
+  if (card.gitBranchName) {
+    return { enforced: true, targetBranch: card.gitBranchName };
+  }
+  if (project && card.taskNumber != null) {
+    return {
+      enforced: true,
+      targetBranch: generateBranchName(project.idPrefix, card.taskNumber, card.title)
+    };
+  }
+  return { enforced: true, targetBranch: null };
+}
+function worktreeOverrideFor(choice, projectDefault) {
+  return choice === projectDefault ? null : choice;
+}
+
+// ../lib/card-ops/card-ref.ts
+var UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+var DISPLAY_ID2 = /^([A-Z][A-Z0-9]*)-(\d+)$/i;
+var TASK_NUMBER2 = /^(\d+)$/;
+function resolveCardRef(db2, ref, opts = {}) {
+  const value = ref.trim();
+  if (UUID.test(value)) return value;
+  const display = value.match(DISPLAY_ID2);
+  if (display) {
+    return pick2(
+      allRows(
+        db2,
+        `SELECT c.id, c.project_id AS projectId FROM cards c
+           JOIN projects p ON p.id = c.project_id
+          WHERE UPPER(p.id_prefix) = ? AND c.task_number = ?`,
+        display[1].toUpperCase(),
+        Number(display[2])
+      ),
+      opts.projectId
+    );
+  }
+  const number3 = value.match(TASK_NUMBER2);
+  if (number3) {
+    return pick2(
+      allRows(
+        db2,
+        `SELECT id, project_id AS projectId FROM cards WHERE task_number = ?`,
+        Number(number3[1])
+      ),
+      opts.projectId
+    );
+  }
+  return null;
+}
+function pick2(rows, projectId) {
+  if (projectId) {
+    const own = rows.find((row) => row.projectId === projectId);
+    if (own) return own.id;
+  }
+  return rows.length === 1 ? rows[0].id : null;
+}
+
+// ../lib/card-ops/dependencies.ts
+var CardDependencyError = class extends Error {
+  constructor(code, message) {
+    super(message);
+    this.code = code;
+    this.name = "CardDependencyError";
+  }
+  code;
+};
+var NOTE_MAX = 280;
+var presentTables = /* @__PURE__ */ new WeakMap();
+function hasTable(db2, table) {
+  let known = presentTables.get(db2);
+  if (known?.has(table)) return true;
+  const found = !!getRow(db2, "SELECT name FROM sqlite_master WHERE type = 'table' AND name = ?", table);
+  if (found) {
+    if (!known) presentTables.set(db2, known = /* @__PURE__ */ new Set());
+    known.add(table);
+  }
+  return found;
+}
+function hasDependencyTable(db2) {
+  return hasTable(db2, "card_dependencies");
+}
+function hasSuggestionTable(db2) {
+  return hasTable(db2, "card_dependency_suggestions");
+}
+function assertTable(db2) {
+  if (!hasDependencyTable(db2)) {
+    throw new CardDependencyError(
+      "unsupported",
+      "This Ideafy database cannot store card dependencies yet. Update the Ideafy app \u2014 it adds the table on its next start \u2014 then try again. Nothing was written."
+    );
+  }
+}
+function parseBlockedBy(value) {
+  if (value === void 0) return void 0;
+  if (value === null) return [];
+  const items = Array.isArray(value) ? value : [value];
+  const entries = [];
+  for (const item of items) {
+    if (typeof item === "string") {
+      if (item.trim()) entries.push({ card: item.trim() });
+    } else if (item && typeof item === "object") {
+      const { card, note } = item;
+      if (typeof card === "string" && card.trim()) {
+        entries.push({ card: card.trim(), note: typeof note === "string" ? note : null });
+      }
+    }
+  }
+  return entries;
+}
+function cleanNote(note) {
+  const text2 = (note ?? "").replace(/\s+/g, " ").trim();
+  return text2 ? text2.slice(0, NOTE_MAX) : null;
+}
+function cardRow(db2, id) {
+  return getRow(
+    db2,
+    `SELECT c.id, c.title, c.status, c.task_number AS taskNumber, p.id_prefix AS idPrefix,
+            c.git_branch_status AS gitBranchStatus
+     FROM cards c LEFT JOIN projects p ON p.id = c.project_id WHERE c.id = ?`,
+    id
+  );
+}
+var label = (row) => formatDisplayId(row.idPrefix, row.taskNumber) ?? `"${row.title}"`;
+function resolvePredecessor(db2, cardId, ref) {
+  const exact = cardRow(db2, ref.trim());
+  if (exact) return exact;
+  const own = getRow(db2, "SELECT project_id AS projectId FROM cards WHERE id = ?", cardId);
+  const id = resolveCardRef(db2, ref, { projectId: own?.projectId ?? null });
+  const row = id ? cardRow(db2, id) : void 0;
+  if (!row) throw new CardDependencyError("not-found", `Card not found: ${ref}`);
+  return row;
+}
+function waitPath(db2, from, to) {
+  const previous = /* @__PURE__ */ new Map([[from, null]]);
+  const queue = [from];
+  while (queue.length > 0) {
+    const current = queue.shift();
+    if (current === to) {
+      const path12 = [];
+      for (let step = current; step !== null; step = previous.get(step) ?? null) path12.unshift(step);
+      return path12;
+    }
+    for (const { next } of allRows(
+      db2,
+      "SELECT blocked_by_card_id AS next FROM card_dependencies WHERE card_id = ?",
+      current
+    )) {
+      if (!previous.has(next)) {
+        previous.set(next, current);
+        queue.push(next);
+      }
+    }
+  }
+  return null;
+}
+function linkOne(db2, cardId, entry, now) {
+  const card = cardRow(db2, cardId);
+  if (!card) throw new CardDependencyError("not-found", `Card not found: ${cardId}`);
+  const predecessor = resolvePredecessor(db2, cardId, entry.card);
+  if (predecessor.id === cardId) {
+    throw new CardDependencyError("self", `${label(card)} cannot wait on itself.`);
+  }
+  const path12 = waitPath(db2, predecessor.id, cardId);
+  if (path12) {
+    const names = path12.map((id) => {
+      const row = cardRow(db2, id);
+      return row ? label(row) : id;
+    });
+    throw new CardDependencyError(
+      "cycle",
+      `${label(predecessor)} already waits on ${label(card)} (${names.join(" \u2192 ")}); linking back would make a cycle. Nothing was written.`
+    );
+  }
+  if (hasSuggestionTable(db2)) {
+    runChanges(db2, "DELETE FROM card_dependency_suggestions WHERE card_id = ? AND blocked_by_card_id = ?", cardId, predecessor.id);
+  }
+  const note = cleanNote(entry.note);
+  const existing = getRow(db2, "SELECT 1 FROM card_dependencies WHERE card_id = ? AND blocked_by_card_id = ?", cardId, predecessor.id);
+  if (existing) {
+    if (entry.note !== void 0) {
+      runChanges(db2, "UPDATE card_dependencies SET note = ? WHERE card_id = ? AND blocked_by_card_id = ?", note, cardId, predecessor.id);
+    }
+    return { blockedById: predecessor.id, created: false };
+  }
+  runChanges(
+    db2,
+    "INSERT INTO card_dependencies (card_id, blocked_by_card_id, note, created_at) VALUES (?, ?, ?, ?)",
+    cardId,
+    predecessor.id,
+    note,
+    now
+  );
+  return { blockedById: predecessor.id, created: true };
+}
+function addDependency(db2, args) {
+  assertTable(db2);
+  return transaction(db2, () => linkOne(db2, args.cardId, { card: args.blockedBy, note: args.note }, args.now));
+}
+function removeDependency(db2, args) {
+  assertTable(db2);
+  const predecessor = resolvePredecessor(db2, args.cardId, args.blockedBy);
+  return transaction(db2, () => {
+    const { changes } = runChanges(
+      db2,
+      "DELETE FROM card_dependencies WHERE card_id = ? AND blocked_by_card_id = ?",
+      args.cardId,
+      predecessor.id
+    );
+    let dismissed = false;
+    if (hasSuggestionTable(db2)) {
+      dismissed = runChanges(
+        db2,
+        "UPDATE card_dependency_suggestions SET status = 'dismissed' WHERE card_id = ? AND blocked_by_card_id = ? AND status = 'pending'",
+        args.cardId,
+        predecessor.id
+      ).changes > 0;
+      if (changes > 0 && !dismissed) {
+        runChanges(
+          db2,
+          `INSERT INTO card_dependency_suggestions (card_id, blocked_by_card_id, note, status, created_at)
+           VALUES (?, ?, NULL, 'dismissed', ?) ON CONFLICT (card_id, blocked_by_card_id) DO UPDATE SET status = 'dismissed'`,
+          args.cardId,
+          predecessor.id,
+          args.now
+        );
+      }
+    }
+    return { blockedById: predecessor.id, removed: changes > 0, dismissed };
+  });
+}
+function groupOf(db2, id) {
+  return getRow(db2, "SELECT group_id AS groupId FROM cards WHERE id = ?", id)?.groupId ?? null;
+}
+function suggestionBlocker({ card, predecessor }, db2) {
+  if (predecessor.id === card.id) return "self";
+  if (card.groupId && card.groupId === predecessor.groupId) return "same-chain";
+  if (getRow(db2, "SELECT 1 FROM card_dependencies WHERE card_id = ? AND blocked_by_card_id = ?", card.id, predecessor.id)) {
+    return "linked";
+  }
+  const state = linkState(predecessor);
+  if (state !== "open") return state;
+  if (waitPath(db2, predecessor.id, card.id)) return "cycle";
+  return null;
+}
+function toSuggestion(row) {
+  return {
+    id: row.id,
+    displayId: formatDisplayId(row.idPrefix, row.taskNumber),
+    title: row.title,
+    status: row.status,
+    note: row.note ?? null
+  };
+}
+function suggestDependencies(db2, args) {
+  if (!hasSuggestionTable(db2) || !hasDependencyTable(db2)) {
+    throw new CardDependencyError(
+      "unsupported",
+      "This Ideafy database cannot store suggested links yet. Update the Ideafy app \u2014 it adds the table on its next start."
+    );
+  }
+  return transaction(db2, () => {
+    const outcome2 = { suggested: [], skipped: [] };
+    const cardGroup = groupOf(db2, args.cardId);
+    for (const entry of args.entries) {
+      let predecessor;
+      try {
+        predecessor = resolvePredecessor(db2, args.cardId, entry.card);
+      } catch {
+        outcome2.skipped.push({ card: entry.card, reason: "not-found" });
+        continue;
+      }
+      const name = label(predecessor);
+      const target2 = { card: { id: args.cardId, groupId: cardGroup }, predecessor: { ...predecessor, groupId: groupOf(db2, predecessor.id) } };
+      const blocker = suggestionBlocker(target2, db2);
+      if (blocker) {
+        outcome2.skipped.push({ card: name, reason: blocker });
+        continue;
+      }
+      const existing = getRow(
+        db2,
+        "SELECT status, note FROM card_dependency_suggestions WHERE card_id = ? AND blocked_by_card_id = ?",
+        args.cardId,
+        predecessor.id
+      );
+      if (existing?.status === "dismissed") {
+        outcome2.skipped.push({ card: name, reason: "dismissed" });
+        continue;
+      }
+      const note = entry.note !== void 0 ? cleanNote(entry.note) : existing?.note ?? null;
+      if (existing) {
+        runChanges(
+          db2,
+          "UPDATE card_dependency_suggestions SET note = ? WHERE card_id = ? AND blocked_by_card_id = ?",
+          note,
+          args.cardId,
+          predecessor.id
+        );
+      } else {
+        runChanges(
+          db2,
+          `INSERT INTO card_dependency_suggestions (card_id, blocked_by_card_id, note, status, created_at)
+           VALUES (?, ?, ?, 'pending', ?)`,
+          args.cardId,
+          predecessor.id,
+          note,
+          args.now
+        );
+      }
+      outcome2.suggested = outcome2.suggested.filter((s) => s.id !== predecessor.id);
+      outcome2.suggested.push(toSuggestion({ ...predecessor, note }));
+    }
+    return outcome2;
+  });
+}
+function listDependencySuggestions(db2, cardId) {
+  if (!hasSuggestionTable(db2) || !hasDependencyTable(db2)) return [];
+  const card = getRow(
+    db2,
+    "SELECT status, group_id AS groupId FROM cards WHERE id = ?",
+    cardId
+  );
+  if (!card || card.status === "completed" || card.status === "withdrawn") return [];
+  const rows = allRows(
+    db2,
+    `SELECT c.id, c.title, c.status, c.task_number AS taskNumber, p.id_prefix AS idPrefix,
+            c.git_branch_status AS gitBranchStatus, c.group_id AS groupId, s.note
+     FROM card_dependency_suggestions s
+     JOIN cards c ON c.id = s.blocked_by_card_id
+     LEFT JOIN projects p ON p.id = c.project_id
+     WHERE s.card_id = ? AND s.status = 'pending'
+     ORDER BY s.created_at, c.task_number`,
+    cardId
+  );
+  return rows.filter((predecessor) => !suggestionBlocker({ card: { id: cardId, groupId: card.groupId }, predecessor }, db2)).map(toSuggestion);
+}
+function pendingDependencySuggestionCounts(db2) {
+  const counts = /* @__PURE__ */ new Map();
+  if (!hasSuggestionTable(db2)) return counts;
+  for (const row of allRows(
+    db2,
+    `SELECT card_id AS cardId, COUNT(*) AS n FROM card_dependency_suggestions WHERE status = 'pending' GROUP BY card_id`
+  )) {
+    counts.set(row.cardId, Number(row.n) || 0);
+  }
+  return counts;
+}
+function setBlockedBy(db2, cardId, entries, now, mode) {
+  assertTable(db2);
+  return transaction(db2, () => {
+    const kept = entries.map((entry) => linkOne(db2, cardId, entry, now).blockedById);
+    if (mode === "replace") {
+      const keep = new Set(kept);
+      for (const { blockedById } of allRows(
+        db2,
+        "SELECT blocked_by_card_id AS blockedById FROM card_dependencies WHERE card_id = ?",
+        cardId
+      )) {
+        if (!keep.has(blockedById)) {
+          runChanges(db2, "DELETE FROM card_dependencies WHERE card_id = ? AND blocked_by_card_id = ?", cardId, blockedById);
+        }
+      }
+    }
+    return kept;
+  });
+}
+function toRef(row, waiterId) {
+  return {
+    id: row.id,
+    displayId: formatDisplayId(row.idPrefix, row.taskNumber),
+    title: row.title,
+    status: row.status,
+    gitBranchStatus: row.gitBranchStatus,
+    landed: linkState(row, waiterId) === "landed",
+    note: row.note ?? null
+  };
+}
+function hasSplitColumn(db2) {
+  return allRows(db2, "PRAGMA table_info(cards)").some((column) => column.name === "split_from_card_id");
+}
+function splitColumns(db2) {
+  if (!hasSplitColumn(db2)) {
+    return "NULL AS splitFromCardId, NULL AS testScenarios";
+  }
+  return `c.split_from_card_id AS splitFromCardId,
+         CASE WHEN c.split_from_card_id = d.card_id THEN c.test_scenarios END AS testScenarios`;
+}
+var LINKED_SELECT = `
+  SELECT c.id, c.title, c.status, c.task_number AS taskNumber, p.id_prefix AS idPrefix,
+         c.git_branch_status AS gitBranchStatus, c.group_id AS groupId, d.note, %SPLIT%
+  FROM card_dependencies d
+  JOIN cards c ON c.id = d.%JOIN%
+  LEFT JOIN projects p ON p.id = c.project_id
+  WHERE d.%WHERE% = ?
+  ORDER BY d.created_at, c.task_number`;
+function blockerRows(db2, cardId) {
+  if (!hasDependencyTable(db2)) return [];
+  return allRows(
+    db2,
+    LINKED_SELECT.replace("%JOIN%", "blocked_by_card_id").replace("%WHERE%", "card_id").replace("%SPLIT%", splitColumns(db2)),
+    cardId
+  );
+}
+function listDependencies(db2, cardId) {
+  if (!hasDependencyTable(db2)) return null;
+  const blocks = allRows(
+    db2,
+    LINKED_SELECT.replace("%JOIN%", "card_id").replace("%WHERE%", "blocked_by_card_id").replace("%SPLIT%", splitColumns(db2)),
+    cardId
+  );
+  return {
+    blockedBy: blockerRows(db2, cardId).map((row) => toRef(row, cardId)),
+    blocks: blocks.map((row) => toRef(row))
+  };
+}
+function listDependencyEdges(db2) {
+  if (!hasDependencyTable(db2)) return [];
+  return allRows(
+    db2,
+    `SELECT card_id AS cardId, blocked_by_card_id AS blockedByCardId, note, created_at AS createdAt
+     FROM card_dependencies ORDER BY created_at`
+  );
+}
+function waitingOnLine(db2, cardId) {
+  try {
+    const card = getRow(db2, "SELECT status FROM cards WHERE id = ?", cardId);
+    if (!card || card.status === "completed" || card.status === "withdrawn") return null;
+    const rows = blockerRows(db2, cardId);
+    const name = (row) => sanitizeForReminder(label(row), 80);
+    const groupId = groupOf(db2, cardId);
+    const open = rows.filter((row) => linkState(row, cardId, groupId) === "open");
+    const withdrawn = rows.filter((row) => linkState(row, cardId, groupId) === "withdrawn");
+    const lines2 = [];
+    if (open.length > 0) {
+      const parts = open.map((row) => {
+        const why = openLinkReason(row, cardId) ?? `in ${row.status}`;
+        return `${name(row)} (${why})`;
+      });
+      lines2.push(`This card waits on ${parts.join(", ")}. Starting it now builds without that work; say so before writing code.`);
+    }
+    if (withdrawn.length > 0) {
+      lines2.push(
+        `${withdrawn.map(name).join(", ")} ${withdrawn.length === 1 ? "was" : "were"} withdrawn; ask the user whether this card still needs ${withdrawn.length === 1 ? "it" : "them"} before writing code.`
+      );
+    }
+    return lines2.length > 0 ? lines2.join(" ") : null;
+  } catch (error2) {
+    console.warn("[dependencies] waiting line skipped:", error2);
+    return null;
+  }
+}
+function queueWaitReason(db2, cardId) {
+  try {
+    const groupId = groupOf(db2, cardId);
+    const rows = blockerRows(db2, cardId).filter((row) => linkState(row, cardId, groupId) !== "landed");
+    if (rows.length === 0) return null;
+    const first = rows[0];
+    const more = rows.length > 1 ? ` +${rows.length - 1}` : "";
+    if (linkState(first, cardId, groupId) === "withdrawn") return `waits on withdrawn ${label(first)}${more}`;
+    const why = openLinkReason(first, cardId) ?? `in ${first.status}`;
+    return `waits on ${label(first)} (${why})${more}`;
+  } catch (error2) {
+    console.warn("[dependencies] queue wait reason skipped:", error2);
+    return null;
+  }
+}
+function readyAfterLinks(db2) {
+  if (!hasDependencyTable(db2)) return [];
+  const rows = allRows(
+    db2,
+    `SELECT d.card_id AS waitingId, w.project_id AS waitingProjectId, d.created_at AS linkedAt,
+            c.id, c.title, c.status, c.task_number AS taskNumber, p.id_prefix AS idPrefix,
+            c.git_branch_status AS gitBranchStatus, c.updated_at AS updatedAt, c.completed_at AS completedAt,
+            ${splitColumns(db2)}
+     FROM card_dependencies d
+     JOIN cards w ON w.id = d.card_id
+     JOIN cards c ON c.id = d.blocked_by_card_id
+     LEFT JOIN projects p ON p.id = c.project_id
+     WHERE w.status NOT IN ('completed', 'withdrawn') AND w.processing_type IS NULL
+     ORDER BY d.card_id, c.id`
+  );
+  const byCard = /* @__PURE__ */ new Map();
+  for (const row of rows) {
+    const bucket = byCard.get(row.waitingId);
+    if (bucket) bucket.push(row);
+    else byCard.set(row.waitingId, [row]);
+  }
+  const ready = [];
+  for (const [cardId, links] of byCard) {
+    if (!links.every((link) => linkState(link, cardId) === "landed")) continue;
+    const landedAt = links.reduce((max, link) => {
+      const at = link.status === "completed" && link.completedAt || link.updatedAt;
+      return at > max ? at : max;
+    }, "");
+    const linkedAt = links.reduce((max, link) => link.linkedAt > max ? link.linkedAt : max, "");
+    if (landedAt <= linkedAt) continue;
+    ready.push({
+      cardId,
+      projectId: links[0].waitingProjectId,
+      blockerIds: links.map((link) => link.id),
+      blockerNames: links.map(label),
+      landedAt
+    });
+  }
+  return ready;
+}
+function restoreDependencies(db2, links, now) {
+  if (!hasDependencyTable(db2) || links.length === 0) return 0;
+  let restored = 0;
+  for (const link of links) {
+    try {
+      transaction(db2, () => {
+        const { created } = linkOne(db2, link.cardId, { card: link.blockedByCardId, note: link.note }, link.createdAt || now);
+        if (created) restored++;
+      });
+    } catch {
+    }
+  }
+  return restored;
+}
+
+// ../lib/card-ops/chain-overlap.ts
+function columns(db2, table) {
+  return new Set(db2.prepare(`PRAGMA table_info("${table}")`).all().map((c) => c.name));
+}
+function openChainOf(db2, cardId) {
+  if (!columns(db2, "card_groups").has("integration_branch")) return null;
+  const row = getRow(
+    db2,
+    `SELECT g.id, g.integration_branch AS branch, g.merged_commit AS merged
+     FROM cards c JOIN card_groups g ON g.id = c.group_id WHERE c.id = ?`,
+    cardId
+  );
+  return row?.branch && !row.merged ? row.id : null;
+}
+function isParentOf(db2, cardId, groupId) {
+  if (!columns(db2, "cards").has("split_from_card_id")) return false;
+  return !!getRow(db2, `SELECT id FROM cards WHERE group_id = ? AND split_from_card_id = ? LIMIT 1`, groupId, cardId);
+}
+function chainOverlapsFor(db2, cardId, solutionSummary) {
+  const groupId = openChainOf(db2, cardId);
+  if (!groupId) return [];
+  const mine = extractPlanFiles(solutionSummary);
+  if (mine.length === 0) return [];
+  const rows = allRows(
+    db2,
+    `SELECT c.id, c.task_number AS taskNumber, p.id_prefix AS idPrefix, c.title, c.solution_summary AS solutionSummary
+     FROM cards c LEFT JOIN projects p ON p.id = c.project_id
+     WHERE c.group_id = ? AND c.id != ? AND c.git_branch_status = 'active'
+       AND c.status IN ('progress', 'test')`,
+    groupId,
+    cardId
+  );
+  const out = [];
+  for (const row of rows) {
+    if (isParentOf(db2, row.id, groupId)) continue;
+    const files = sharedPlanFiles(mine, extractPlanFiles(row.solutionSummary));
+    if (files.length === 0) continue;
+    out.push({ cardId: row.id, displayId: formatDisplayId(row.idPrefix, row.taskNumber) ?? row.title, files });
+  }
+  return out;
+}
+function chainOverlapWaitReason(db2, cardId) {
+  try {
+    const row = getRow(db2, `SELECT solution_summary AS solutionSummary FROM cards WHERE id = ?`, cardId);
+    const overlaps = chainOverlapsFor(db2, cardId, row?.solutionSummary);
+    if (overlaps.length === 0) return null;
+    const first = overlaps[0];
+    const files = first.files.slice(0, 3).join(", ") + (first.files.length > 3 ? ` +${first.files.length - 3}` : "");
+    const more = overlaps.length > 1 ? ` (+${overlaps.length - 1} more)` : "";
+    return `waits for ${first.displayId} to land in the chain: both plans change ${files}${more}`;
+  } catch (error2) {
+    console.warn("[chain-overlap] wait reason skipped:", error2);
+    return null;
+  }
+}
+
+// ../lib/card-ops/queue.ts
+var ROW_SELECT = `
+  SELECT c.id, c.title, c.status, c.description,
+         c.solution_summary AS solutionSummary,
+         c.test_scenarios AS testScenarios,
+         c.processing_type AS processingType,
+         c.queue_position AS queuePosition,
+         c.queue_verify_scope AS queueVerifyScope,
+         c.task_number AS taskNumber,
+         c.use_worktree AS useWorktree,
+         c.git_branch_status AS gitBranchStatus,
+         c.git_worktree_path AS gitWorktreePath,
+         c.git_worktree_status AS gitWorktreeStatus,
+         c.project_id AS projectId,
+         p.id_prefix AS idPrefix,
+         p.mode AS projectMode,
+         p.use_worktrees AS projectUseWorktrees,
+         c.autopilot_stage AS autopilotStage,
+         %REPORTS% AS testReports
+  FROM cards c LEFT JOIN projects p ON p.id = c.project_id`;
+var reportsColumnCache = /* @__PURE__ */ new WeakMap();
+function rowSelect(db2) {
+  let has = reportsColumnCache.has(db2);
+  if (!has) {
+    has = db2.prepare(`PRAGMA table_info("cards")`).all().some((column) => column.name === "test_reports");
+    if (has) reportsColumnCache.set(db2, true);
+  }
+  return ROW_SELECT.replace("%REPORTS%", has ? "c.test_reports" : "NULL");
+}
+function toQueueRow(raw) {
+  return {
+    ...raw,
+    // Anything but "all" is the default; a stray value never widens a run.
+    queueVerifyScope: raw.queueVerifyScope === null ? null : raw.queueVerifyScope === "all" ? "all" : "next",
+    useWorktree: raw.useWorktree === null ? null : !!raw.useWorktree,
+    projectUseWorktrees: raw.projectUseWorktrees === null ? null : !!raw.projectUseWorktrees
+  };
+}
+function listQueueRows(db2) {
+  return allRows(db2, `${rowSelect(db2)} WHERE c.queue_position IS NOT NULL`).map(toQueueRow).sort(compareByQueuePosition);
+}
+function getQueueRow(db2, cardId) {
+  const raw = getRow(db2, `${rowSelect(db2)} WHERE c.id = ?`, cardId);
+  return raw ? toQueueRow(raw) : void 0;
+}
+function queueDisplayId(row) {
+  return formatDisplayId(row.idPrefix, row.taskNumber) ?? row.title;
+}
+function queueRowIneligibleReason(row) {
+  const progress = parseTestProgress(row.testScenarios ?? "");
+  const core = progress?.core;
+  const reason = queueIneligibleReason({
+    status: row.status,
+    hasDescription: stripHtml(row.description ?? "") !== "",
+    phase: detectPhase(row),
+    processingType: row.processingType,
+    projectMode: row.projectMode,
+    hasCoreFlow: !!core,
+    gitBranchStatus: row.gitBranchStatus,
+    hasOpenDecision: hasOpenPlanDecision(row),
+    autopilotPlanning: row.autopilotStage === "planning"
+  });
+  if (reason) return reason;
+  if (row.status !== "test") return null;
+  return autopilotRecheckDue(row) ? null : nothingToVerifyReason(progress);
+}
+function autopilotRecheckDue(row) {
+  if (!isAutopilotStage(row.autopilotStage) || !isActiveAutopilotStage(row.autopilotStage)) return false;
+  return tickedShotlessUiItems(row.testScenarios, parseTestReports(row.testReports)).length > 0;
+}
+function queueKindOf(row) {
+  const phase = detectPhase(row);
+  return phase === "verify" ? "verify" : phase === "planning" ? "planning" : "implementation";
+}
+function queuedWaitReason(db2, row) {
+  const kind = queueKindOf(row);
+  if (kind === "verify") return null;
+  return queueWaitReason(db2, row.id) ?? (kind === "implementation" ? chainOverlapWaitReason(db2, row.id) : null);
+}
+function nextQueueStep(db2) {
+  const rows = listQueueRows(db2);
+  let waiting = 0;
+  for (const row of rows) {
+    const reason = queueRowIneligibleReason(row);
+    if (reason) return { kind: "drop", row, reason };
+    if (queuedWaitReason(db2, row)) {
+      waiting++;
+      continue;
+    }
+    return { kind: "start", row };
+  }
+  return { kind: "idle", waiting };
+}
+function finalTestOpensWorktree(row) {
+  if (row.gitBranchStatus || !flowsOnlyChecklist(row.testScenarios)) return false;
+  return row.projectMode !== "work" && !!row.projectId && row.taskNumber != null;
+}
+function queuedRunsInWorktree(row) {
+  const activeWorktree = !!row.gitWorktreePath && row.gitWorktreeStatus === "active";
+  const kind = queueKindOf(row);
+  if (kind === "verify") return activeWorktree || finalTestOpensWorktree(row);
+  if (kind === "planning") return false;
+  const useWorktree = shouldUseWorktree(
+    { useWorktree: row.useWorktree },
+    { useWorktrees: row.projectUseWorktrees, mode: row.projectMode }
+  );
+  return useWorktree && !!row.projectId && row.taskNumber != null || activeWorktree;
+}
+function writeQueueOrder(db2, ids, removed = []) {
+  const place = db2.prepare(`UPDATE cards SET queue_position = ? WHERE id = ?`);
+  ids.forEach((id, index) => place.run(index + 1, id));
+  const unqueue = db2.prepare(`UPDATE cards SET queue_position = NULL WHERE id = ?`);
+  for (const id of removed) unqueue.run(id);
+}
+function enqueueCard(db2, cardId, afterCardId, verifyScope) {
+  if (afterCardId === cardId) {
+    return { ok: false, reason: "after-self", message: "A card cannot be placed after itself" };
+  }
+  return transaction(db2, () => {
+    const row = getQueueRow(db2, cardId);
+    if (!row) return { ok: false, reason: "not-found", message: "Card not found" };
+    const ineligible = queueRowIneligibleReason(row);
+    if (ineligible) {
+      return { ok: false, reason: "ineligible", message: `Cannot queue ${queueDisplayId(row)}: ${ineligible}` };
+    }
+    const members = listQueueRows(db2);
+    const others = members.filter((m2) => m2.id !== cardId);
+    if (afterCardId && !others.some((m2) => m2.id === afterCardId)) {
+      return { ok: false, reason: "after-not-queued", message: "afterCardId is not in the queue" };
+    }
+    const after = afterCardId === void 0 ? others[others.length - 1]?.id ?? null : afterCardId;
+    const moved = members.length !== others.length;
+    const chainShaped = members.map((m2) => ({ id: m2.id, groupOrder: m2.queuePosition, taskNumber: m2.taskNumber }));
+    if (!moved) chainShaped.push({ id: cardId, groupOrder: null, taskNumber: row.taskNumber });
+    const order = placeAfter(chainShaped, cardId, after);
+    writeQueueOrder(db2, order);
+    if (!moved) clearParked(db2, cardId);
+    let queueVerifyScope = row.queueVerifyScope;
+    if (!moved || verifyScope !== void 0) {
+      queueVerifyScope = queueKindOf(row) === "verify" ? verifyScope ?? null : null;
+      db2.prepare(`UPDATE cards SET queue_verify_scope = ? WHERE id = ?`).run(queueVerifyScope, cardId);
+    }
+    return { ok: true, row: { ...row, queueVerifyScope }, rank: order.indexOf(cardId) + 1, moved };
+  });
+}
+function dequeueCard(db2, cardId) {
+  return transaction(db2, () => {
+    const members = listQueueRows(db2);
+    if (!members.some((m2) => m2.id === cardId)) return false;
+    writeQueueOrder(
+      db2,
+      members.filter((m2) => m2.id !== cardId).map((m2) => m2.id),
+      [cardId]
+    );
+    return true;
+  });
+}
+function restoreQueueCards(db2, cardIds) {
+  return transaction(db2, () => {
+    const members = listQueueRows(db2);
+    const queued = new Set(members.map((m2) => m2.id));
+    const restored = [];
+    const skipped = [];
+    for (const cardId of new Set(cardIds)) {
+      if (queued.has(cardId)) {
+        restored.push(cardId);
+        continue;
+      }
+      const row = getQueueRow(db2, cardId);
+      const reason = row ? queueRowIneligibleReason(row) : "it was deleted";
+      if (reason) skipped.push({ cardId, displayId: row ? queueDisplayId(row) : cardId, reason });
+      else restored.push(cardId);
+    }
+    const back = new Set(restored);
+    writeQueueOrder(db2, [...restored, ...members.filter((m2) => !back.has(m2.id)).map((m2) => m2.id)]);
+    return { restored, skipped };
+  });
+}
+function clearQueue(db2, keep = /* @__PURE__ */ new Set()) {
+  return transaction(db2, () => {
+    const rows = allRows(
+      db2,
+      `SELECT c.id, c.title, c.queue_position AS queuePosition, c.task_number AS taskNumber,
+              p.id_prefix AS idPrefix
+       FROM cards c LEFT JOIN projects p ON p.id = c.project_id
+       WHERE c.queue_position IS NOT NULL`
+    ).sort(compareByQueuePosition);
+    const cleared = rows.filter((row) => !keep.has(row.id));
+    const unqueue = db2.prepare(`UPDATE cards SET queue_position = NULL WHERE id = ?`);
+    for (const row of cleared) unqueue.run(row.id);
+    return cleared.map((row) => ({ cardId: row.id, displayId: queueDisplayId(row) }));
+  });
+}
+
+// ../lib/parked.ts
+var PARKABLE_STATUSES = ["ideation", "backlog", "bugs"];
+function isParkableStatus(status) {
+  return PARKABLE_STATUSES.includes(status);
+}
+
+// ../lib/card-ops/park.ts
+var present = /* @__PURE__ */ new WeakMap();
+function hasParkedColumn(db2) {
+  if (present.get(db2)) return true;
+  const columns2 = db2.prepare(`PRAGMA table_info("cards")`).all();
+  const found = columns2.some((column) => column.name === "parked_at");
+  if (found) present.set(db2, true);
+  return found;
+}
+function clearParked(db2, id) {
+  if (!hasParkedColumn(db2)) return;
+  runChanges(db2, `UPDATE cards SET parked_at = NULL WHERE id = ? AND parked_at IS NOT NULL`, id);
+}
+function displayIdOf(row) {
+  return row.id_prefix && row.task_number != null ? `${row.id_prefix}-${row.task_number}` : row.title;
+}
+function setParked(db2, ids, parked, now) {
+  return transaction(db2, () => {
+    const result = { changed: [], skipped: [], dequeued: [] };
+    if (ids.length === 0) return result;
+    const rows = allRows(
+      db2,
+      `SELECT c.id, c.status, c.parked_at, c.autopilot_stage, c.task_number, c.title, p.id_prefix
+       FROM cards c LEFT JOIN projects p ON p.id = c.project_id
+       WHERE c.id IN (${ids.map(() => "?").join(", ")})`,
+      ...ids
+    );
+    const byId = new Map(rows.map((row) => [row.id, row]));
+    for (const id of ids) {
+      const row = byId.get(id);
+      if (!row) {
+        result.skipped.push({ id, displayId: id, reason: "not found" });
+        continue;
+      }
+      if (parked) {
+        if (row.parked_at) continue;
+        if (!isParkableStatus(row.status)) {
+          result.skipped.push({
+            id,
+            displayId: displayIdOf(row),
+            reason: "only Ideation, Backlog and Bugs cards can be parked"
+          });
+          continue;
+        }
+        if (isActiveAutopilotStage(row.autopilot_stage)) {
+          result.skipped.push({ id, displayId: displayIdOf(row), reason: "it is on Autopilot" });
+          continue;
+        }
+        runChanges(db2, `UPDATE cards SET parked_at = ?, updated_at = ? WHERE id = ?`, now, now, id);
+        if (dequeueCard(db2, id)) result.dequeued.push(id);
+        result.changed.push({ id, prevParkedAt: null, parkedAt: now });
+      } else {
+        if (!row.parked_at) continue;
+        runChanges(db2, `UPDATE cards SET parked_at = NULL, updated_at = ? WHERE id = ?`, now, id);
+        result.changed.push({ id, prevParkedAt: row.parked_at, parkedAt: null });
+      }
+    }
+    return result;
+  });
+}
+function restoreParked(db2, entries, now) {
+  transaction(db2, () => {
+    for (const entry of entries) {
+      runChanges(db2, `UPDATE cards SET parked_at = ?, updated_at = ? WHERE id = ?`, entry.parkedAt, now, entry.id);
+      if (entry.parkedAt) dequeueCard(db2, entry.id);
+    }
+  });
+}
+
+// ../lib/card-ops/move-card.ts
+var STATUSES = COLUMNS.map((column) => column.id);
+function isStatus(value) {
+  return typeof value === "string" && STATUSES.includes(value);
+}
+function completedAtFor(oldStatus, newStatus, current, now) {
+  if (newStatus === "completed" && oldStatus !== "completed") return now;
+  if (newStatus !== "completed" && oldStatus === "completed") return null;
+  return current;
+}
+function completedAtOnCreate(status, now) {
+  return completedAtFor("", status, null, now);
+}
+function statusAfterPlan(current) {
+  return current === "ideation" || current === "backlog" || current === "bugs" ? "progress" : null;
+}
+function statusAfterTests(current) {
+  return current === "test" || current === "completed" || current === "withdrawn" ? null : "test";
+}
+function moveCard(db2, id, status, now) {
+  if (!isStatus(status)) return { ok: false, reason: "invalid-status" };
+  return transaction(db2, () => {
+    const row = getRow(
+      db2,
+      `SELECT status, completed_at FROM cards WHERE id = ?`,
+      id
+    );
+    if (!row) return { ok: false, reason: "not-found" };
+    const completedAt = completedAtFor(row.status, status, row.completed_at, now);
+    runChanges(
+      db2,
+      `UPDATE cards SET status = ?, updated_at = ?, completed_at = ? WHERE id = ?`,
+      status,
+      now,
+      completedAt,
+      id
+    );
+    if (row.status !== status) clearParked(db2, id);
+    return { ok: true, changed: row.status !== status, from: row.status, to: status, completedAt };
+  });
+}
+
+// ../lib/card-ops/card-fields.ts
+var CARD_RUNTIME_FIELDS = {
+  processingType: { column: "processing_type", why: "run lock: which AI process holds the card right now" },
+  gitBranchName: { column: "git_branch_name", why: "git state: the branch the card's work lives on" },
+  gitBranchStatus: { column: "git_branch_status", why: "git state: active, merged or rolled back" },
+  gitWorktreePath: { column: "git_worktree_path", why: "git state: where the card's worktree sits on disk" },
+  gitWorktreeStatus: { column: "git_worktree_status", why: "git state: whether that worktree still exists" },
+  devServerPort: { column: "dev_server_port", why: "dev server process: the port it listens on" },
+  devServerPid: { column: "dev_server_pid", why: "dev server process: the pid Stop kills" },
+  rebaseConflict: { column: "rebase_conflict", why: "rebase conflict: Merge stopped and needs a hand" },
+  conflictFiles: { column: "conflict_files", why: "rebase conflict: the files it stopped on" }
+};
+function serializeBooleanForDb(value) {
+  if (value === null) return null;
+  return value ? 1 : 0;
+}
+var serializeUseWorktreeForDb = serializeBooleanForDb;
+function runtimeAssignments(runtime) {
+  const sql = [];
+  const values = [];
+  if (!runtime) return { sql, values };
+  for (const key of Object.keys(CARD_RUNTIME_FIELDS)) {
+    const value = runtime[key];
+    if (value === void 0) continue;
+    sql.push(`${CARD_RUNTIME_FIELDS[key].column} = ?`);
+    if (key === "rebaseConflict") values.push(serializeBooleanForDb(value));
+    else if (key === "conflictFiles") values.push(value === null ? null : JSON.stringify(value));
+    else values.push(value);
+  }
+  return { sql, values };
+}
+function setCardRuntime(db2, id, runtime, now) {
+  const { sql, values } = runtimeAssignments(runtime);
+  if (now) {
+    sql.push("updated_at = ?");
+    values.push(now);
+  }
+  if (sql.length === 0) return true;
+  return runChanges(db2, `UPDATE cards SET ${sql.join(", ")} WHERE id = ?`, ...values, id).changes > 0;
 }
 
 // ../lib/card-attachments.ts
@@ -28537,462 +29010,6 @@ function planRefreshSection(text2) {
   const after = text2.slice(heading.index + heading[0].length);
   const sha = SUBHEADING_SHA_RE.exec(after)?.[1] ?? null;
   return { found: true, start, sha };
-}
-
-// ../lib/test-report.ts
-var test_report_exports = {};
-__export(test_report_exports, {
-  ITEM_CLIP_LEAD_SEC: () => ITEM_CLIP_LEAD_SEC,
-  ITEM_CLIP_TAIL_SEC: () => ITEM_CLIP_TAIL_SEC,
-  MAX_ARTIFACTS_PER_ITEM: () => MAX_ARTIFACTS_PER_ITEM,
-  MAX_TEST_REPORT_RUNS: () => MAX_TEST_REPORT_RUNS,
-  MISSING_EVIDENCE_NOTE: () => MISSING_EVIDENCE_NOTE,
-  TEST_REPORT_DIR: () => TEST_REPORT_DIR,
-  TEST_REPORT_FENCE: () => TEST_REPORT_FENCE,
-  TEST_REPORT_IMPACTS: () => TEST_REPORT_IMPACTS,
-  TEST_REPORT_IMPACT_LABEL: () => TEST_REPORT_IMPACT_LABEL,
-  TEST_REPORT_VIDEO_NAME: () => TEST_REPORT_VIDEO_NAME,
-  buildTestReportRun: () => buildTestReportRun,
-  countByStatus: () => countByStatus,
-  extractTestReportFence: () => extractTestReportFence,
-  formatVideoTime: () => formatVideoTime,
-  hasPlayableVideo: () => hasPlayableVideo,
-  isTestReportImageName: () => isTestReportImageName,
-  isTestReportRunId: () => isTestReportRunId,
-  isTestReportVideoName: () => isTestReportVideoName,
-  latestItemResults: () => latestItemResults,
-  latestResultFor: () => latestResultFor,
-  newTestReportRunId: () => newTestReportRunId,
-  nextPlayableTime: () => nextPlayableTime,
-  normalizeCodeStamp: () => normalizeCodeStamp,
-  normalizeTestReportDecisions: () => normalizeTestReportDecisions,
-  normalizeTestReportItem: () => normalizeTestReportItem,
-  normalizeTestReportWarnings: () => normalizeTestReportWarnings,
-  parseTestReportItems: () => parseTestReportItems,
-  parseTestReports: () => parseTestReports,
-  prependTestReportRun: () => prependTestReportRun,
-  readTestReportSummary: () => readTestReportSummary,
-  summarizeTestReportRun: () => summarizeTestReportRun,
-  testReportConflicts: () => testReportConflicts,
-  testReportFailureLine: () => testReportFailureLine,
-  testReportItemAt: () => testReportItemAt,
-  testReportItemClips: () => testReportItemClips,
-  testReportItemResultAt: () => testReportItemResultAt,
-  testReportItemVideoAt: () => testReportItemVideoAt,
-  testReportMissingItems: () => testReportMissingItems,
-  testReportSupersededItems: () => testReportSupersededItems
-});
-var TEST_REPORT_IMPACTS = ["broken", "flaw", "cosmetic", "test_wrong"];
-var TEST_REPORT_IMPACT_LABEL = {
-  broken: "Broken",
-  flaw: "Partly wrong",
-  cosmetic: "Cosmetic",
-  test_wrong: "Test out of date"
-};
-function isTestReportScope(value) {
-  return value === "run" || value === "reverify" || value === "single" || value === "retest" || value === "text";
-}
-var SHA = /^[0-9a-f]{40}$/;
-function normalizeCodeStamp(value) {
-  if (!value || typeof value !== "object") return void 0;
-  const record2 = value;
-  const commit = typeof record2.commit === "string" && SHA.test(record2.commit) ? record2.commit : null;
-  const dirty = (Array.isArray(record2.dirty) ? record2.dirty : []).map((entry) => {
-    if (!entry || typeof entry !== "object") return null;
-    const path12 = str(entry.path, 500);
-    if (!path12) return null;
-    const blob = entry.blob;
-    return { path: path12, blob: typeof blob === "string" && SHA.test(blob) ? blob : null };
-  }).filter((entry) => entry !== null).slice(0, 50);
-  const total = typeof record2.dirtyTotal === "number" && Number.isFinite(record2.dirtyTotal) ? Math.floor(record2.dirtyTotal) : 0;
-  if (!commit && dirty.length === 0) return void 0;
-  return { commit, dirty, dirtyTotal: Math.max(total, dirty.length) };
-}
-var TEST_REPORT_VIDEO_NAME = /^[\w.\- @]+\.webm$/;
-function isTestReportVideoName(value) {
-  return TEST_REPORT_VIDEO_NAME.test(value) && !value.includes("..");
-}
-function hasPlayableVideo(run2) {
-  return !!run2.video && run2.video.removedAt === null;
-}
-function testReportItemResultAt(item) {
-  const seconds = item.artifacts.map((artifact) => artifact.videoAt).filter((sec) => typeof sec === "number");
-  return seconds.length > 0 ? Math.max(...seconds) : null;
-}
-function testReportItemVideoAt(item) {
-  const seconds = item.artifacts.map((artifact) => artifact.videoAt).filter((sec) => typeof sec === "number");
-  return seconds.length > 0 ? Math.min(...seconds) : null;
-}
-function nextPlayableTime(time3, intervals, duration3) {
-  if (intervals.length === 0) return time3;
-  for (const [start, end] of intervals) {
-    if (time3 < start) return start;
-    if (time3 < end) return time3;
-  }
-  return duration3;
-}
-var ITEM_CLIP_LEAD_SEC = 30;
-var ITEM_CLIP_TAIL_SEC = 2;
-function testReportItemClips(run2) {
-  const intervals = run2.video?.intervals ?? [];
-  const shots = run2.items.flatMap((item) => item.artifacts.map((artifact) => artifact.videoAt)).filter((sec) => typeof sec === "number").sort((a, b2) => a - b2);
-  return run2.items.flatMap((item) => {
-    const at = testReportItemVideoAt(item);
-    if (at === null) return [];
-    const previous = shots.filter((sec) => sec < at).pop() ?? 0;
-    const from = Math.max(previous, at - ITEM_CLIP_LEAD_SEC, 0);
-    return [{ item: item.item, start: Math.min(at, nextPlayableTime(from, intervals, at)), at }];
-  });
-}
-function testReportItemAt(clips, sec) {
-  let found = null;
-  for (const clip of clips) {
-    if (sec >= clip.start && sec <= clip.at + ITEM_CLIP_TAIL_SEC && (!found || clip.start >= found.start)) {
-      found = clip;
-    }
-  }
-  return found?.item ?? null;
-}
-function formatVideoTime(sec) {
-  const whole = Math.max(0, Math.floor(sec));
-  return `${String(Math.floor(whole / 60)).padStart(2, "0")}:${String(whole % 60).padStart(2, "0")}`;
-}
-function finiteOrNull(value) {
-  return typeof value === "number" && Number.isFinite(value) && value >= 0 ? value : null;
-}
-function normalizeVideo(value) {
-  if (!value || typeof value !== "object") return void 0;
-  const record2 = value;
-  const file2 = typeof record2.file === "string" ? record2.file : "";
-  const startedAt = str(record2.startedAt, 40);
-  if (!isTestReportVideoName(file2) || !startedAt) return void 0;
-  const intervals = [];
-  if (Array.isArray(record2.intervals)) {
-    let last = -1;
-    for (const entry of record2.intervals) {
-      if (!Array.isArray(entry) || entry.length !== 2) continue;
-      const [start, end] = entry;
-      if (typeof start !== "number" || typeof end !== "number") continue;
-      if (!Number.isFinite(start) || !Number.isFinite(end) || start < last || end < start) continue;
-      intervals.push([start, end]);
-      last = end;
-    }
-  }
-  const extraTabs = typeof record2.extraTabs === "number" && Number.isInteger(record2.extraTabs) && record2.extraTabs > 0 ? record2.extraTabs : 0;
-  return {
-    file: file2,
-    startedAt,
-    durationSec: finiteOrNull(record2.durationSec),
-    intervals,
-    truncated: record2.truncated === true,
-    extraTabs,
-    tab: typeof record2.tab === "number" && Number.isInteger(record2.tab) && record2.tab > 0 ? record2.tab : 0,
-    removedAt: str(record2.removedAt, 40)
-  };
-}
-var MAX_TEST_REPORT_RUNS = 20;
-var MAX_ARTIFACTS_PER_ITEM = 3;
-var TEST_REPORT_DIR = "test-report";
-var TEST_REPORT_FENCE = "test-report";
-var MAX_TEXT = 2e3;
-var MAX_OUTPUT = 4e3;
-var MAX_PLAIN = 400;
-var MAX_STEPS = 20;
-var MAX_ITEMS = 50;
-var MAX_WARNINGS = 20;
-var MAX_WARNING_TEXT = 1e3;
-var MISSING_EVIDENCE_NOTE = "Marked failed without an observed result or an error, so it is shown as needing a manual check.";
-var IMAGE_FILE = /^[\w.\- ]+\.(png|jpe?g|webp|gif)$/i;
-function buildTestReportRun(input) {
-  return {
-    ...input.code ? { code: input.code } : {},
-    id: input.id ?? newTestReportRunId(new Date(input.now)),
-    runAt: input.now,
-    platform: input.platform,
-    source: input.source,
-    evidence: input.evidence,
-    scope: input.scope,
-    checklistApplied: input.checklistApplied,
-    items: input.items,
-    warnings: []
-  };
-}
-function newTestReportRunId(now = /* @__PURE__ */ new Date()) {
-  const stamp = now.toISOString().replace(/[-:]/g, "").replace(/\.\d+Z$/, "Z");
-  return `run-${stamp}-${Math.random().toString(36).slice(2, 6)}`;
-}
-function isTestReportRunId(value) {
-  return /^run-[0-9TZ]+-[a-z0-9]+$/.test(value);
-}
-function readTestReportSummary(value) {
-  if (!value || typeof value !== "object") return null;
-  const v2 = value;
-  const count = (n) => typeof n === "number" && Number.isFinite(n) && n >= 0 ? n : null;
-  const passed = count(v2.passed);
-  const failed = count(v2.failed);
-  const manual = count(v2.manual);
-  if (v2.evidence !== "text" && v2.evidence !== "visual") return null;
-  if (!isTestReportScope(v2.scope)) return null;
-  if (passed === null || failed === null || manual === null) return null;
-  return { evidence: v2.evidence, scope: v2.scope, passed, failed, manual };
-}
-function summarizeTestReportRun(run2) {
-  const count = (status) => run2.items.filter((item) => item.status === status).length;
-  return {
-    evidence: run2.evidence,
-    scope: run2.scope,
-    passed: count("passed"),
-    failed: count("failed"),
-    manual: count("manual")
-  };
-}
-function isTestReportImageName(value) {
-  return IMAGE_FILE.test(value) && !value.includes("..");
-}
-var FENCE = new RegExp("^[ \\t]*```+[ \\t]*" + TEST_REPORT_FENCE + "[^\\n]*\\n([\\s\\S]*?)^[ \\t]*```+[ \\t]*$", "gm");
-function extractTestReportFence(text2) {
-  let raw = null;
-  const stripped = text2.replace(FENCE, (_match, body) => {
-    raw = body;
-    return "";
-  });
-  if (raw === null) return { text: text2, raw: null };
-  return { text: stripped.replace(/\n{3,}/g, "\n\n").trimEnd(), raw };
-}
-function str(value, max = MAX_TEXT) {
-  if (typeof value === "number" || typeof value === "boolean") value = String(value);
-  if (typeof value !== "string") return null;
-  const trimmed = value.trim();
-  if (!trimmed) return null;
-  return trimmed.length > max ? `${trimmed.slice(0, max)}\u2026` : trimmed;
-}
-function normalizeStatus(value) {
-  const text2 = typeof value === "string" ? value.trim().toLowerCase() : "";
-  if (["passed", "pass", "ok", "success", "ge\xE7ti"].includes(text2)) return "passed";
-  if (["failed", "fail", "error", "kald\u0131"].includes(text2)) return "failed";
-  return "manual";
-}
-function normalizeImpact(value) {
-  return TEST_REPORT_IMPACTS.find((impact) => impact === value) ?? null;
-}
-function normalizeArtifacts(value) {
-  if (!Array.isArray(value)) return [];
-  const artifacts = [];
-  for (const entry of value) {
-    const raw = typeof entry === "string" ? { file: entry } : entry;
-    if (!raw || typeof raw !== "object") continue;
-    const record2 = raw;
-    const file2 = str(record2.file ?? record2.path ?? record2.name, 400);
-    if (!file2) continue;
-    const step = typeof record2.step === "number" && Number.isInteger(record2.step) && record2.step > 0 ? record2.step : null;
-    artifacts.push({ file: file2, step, caption: str(record2.caption, 300) });
-    if (artifacts.length === MAX_ARTIFACTS_PER_ITEM) break;
-  }
-  return artifacts;
-}
-function normalizeTestReportItem(value) {
-  if (!value || typeof value !== "object") return null;
-  const record2 = value;
-  const item = str(record2.item ?? record2.scenario ?? record2.title, 600);
-  if (!item) return null;
-  const steps = Array.isArray(record2.steps) ? record2.steps.map((step) => str(step)).filter((step) => Boolean(step)).slice(0, MAX_STEPS) : [];
-  const observed = str(record2.observed);
-  const error2 = str(record2.error, MAX_OUTPUT);
-  let status = normalizeStatus(record2.status);
-  let note = null;
-  if (status === "failed" && !observed && !error2) {
-    status = "manual";
-    note = MISSING_EVIDENCE_NOTE;
-  }
-  const plainItem = str(record2.plainItem, MAX_PLAIN);
-  const plainObserved = str(record2.plainObserved, MAX_PLAIN);
-  const impact = status === "failed" ? normalizeImpact(record2.impact) : null;
-  const caveat = status === "passed" ? str(record2.caveat, MAX_PLAIN) : null;
-  return {
-    item,
-    status,
-    approach: str(record2.approach ?? record2.logic),
-    steps,
-    expected: str(record2.expected),
-    observed,
-    ...plainItem ? { plainItem } : {},
-    ...plainObserved ? { plainObserved } : {},
-    ...impact ? { impact } : {},
-    ...caveat ? { caveat } : {},
-    error: error2,
-    command: str(record2.command, MAX_TEXT),
-    output: str(record2.output, MAX_OUTPUT),
-    artifacts: normalizeArtifacts(record2.artifacts ?? record2.screenshots),
-    note
-  };
-}
-var MAX_DECISIONS = 30;
-function normalizeTestReportDecisions(value) {
-  if (!Array.isArray(value)) return [];
-  const out = [];
-  for (const raw of value) {
-    if (!raw || typeof raw !== "object") continue;
-    const record2 = raw;
-    const entryId = Number(record2.entryId ?? record2.id);
-    if (!Number.isInteger(entryId) || entryId <= 0) continue;
-    out.push({
-      entryId,
-      question: str(record2.question, 400),
-      recommended: str(record2.recommended, 400),
-      observed: str(record2.observed),
-      artifacts: normalizeArtifacts(record2.artifacts ?? record2.screenshots)
-    });
-    if (out.length === MAX_DECISIONS) break;
-  }
-  return out;
-}
-function parseTestReportItems(value) {
-  let parsed = value;
-  if (typeof value === "string") {
-    try {
-      parsed = JSON.parse(value);
-    } catch (error2) {
-      return { ok: false, error: `not valid JSON (${error2 instanceof Error ? error2.message : String(error2)})` };
-    }
-  }
-  const list = Array.isArray(parsed) ? parsed : parsed && typeof parsed === "object" && Array.isArray(parsed.items) ? parsed.items : null;
-  if (!list) return { ok: false, error: "expected an `items` array" };
-  const items = list.map(normalizeTestReportItem).filter((item) => item !== null).slice(0, MAX_ITEMS);
-  if (items.length === 0) return { ok: false, error: "no item had an `item` text" };
-  const decisions = parsed && typeof parsed === "object" && !Array.isArray(parsed) ? normalizeTestReportDecisions(parsed.decisions) : [];
-  return decisions.length > 0 ? { ok: true, items, decisions } : { ok: true, items };
-}
-function normalizeTestReportWarnings(value) {
-  if (!Array.isArray(value)) return [];
-  return value.map((warning) => typeof warning === "string" ? str(warning, MAX_WARNING_TEXT) : null).filter((warning) => warning !== null).slice(0, MAX_WARNINGS);
-}
-function normalizeRun(value) {
-  if (!value || typeof value !== "object") return null;
-  const record2 = value;
-  const id = str(record2.id, 100);
-  const runAt = str(record2.runAt, 40);
-  if (!id || !runAt || !Array.isArray(record2.items)) return null;
-  const video = normalizeVideo(record2.video);
-  const brief = normalizeBrief(record2.brief);
-  const code = normalizeCodeStamp(record2.code);
-  const items = record2.items.map((item) => {
-    const normalized = normalizeTestReportItem(item);
-    if (normalized && item && typeof item === "object") {
-      normalized.note = str(item.note) ?? normalized.note;
-      const stored = item.artifacts;
-      if (Array.isArray(stored)) {
-        normalized.artifacts.forEach((artifact, index) => {
-          const raw = stored[index];
-          if (raw && typeof raw === "object" && "videoAt" in raw) artifact.videoAt = finiteOrNull(raw.videoAt);
-        });
-      }
-    }
-    return normalized;
-  }).filter((item) => item !== null);
-  return {
-    id,
-    runAt,
-    platform: str(record2.platform, 40),
-    source: record2.source === "terminal" ? "terminal" : "autonomous",
-    evidence: record2.evidence === "visual" ? "visual" : "text",
-    scope: isTestReportScope(record2.scope) ? record2.scope : "run",
-    checklistApplied: record2.checklistApplied !== false,
-    items,
-    warnings: normalizeTestReportWarnings(record2.warnings),
-    ...video ? { video } : {},
-    ...Array.isArray(record2.decisions) && record2.decisions.length > 0 ? { decisions: normalizeTestReportDecisions(record2.decisions) } : {},
-    ...brief ? { brief } : {},
-    ...code ? { code } : {}
-  };
-}
-function normalizeBrief(value) {
-  if (!value || typeof value !== "object") return null;
-  const record2 = value;
-  const text2 = str(record2.text, 1e3);
-  const basis = str(record2.basis, 40);
-  const at = str(record2.at, 40);
-  if (!text2 || !basis || !at) return null;
-  return { text: text2, basis, platform: str(record2.platform, 40), at };
-}
-function parseTestReports(value) {
-  if (!value) return null;
-  try {
-    const parsed = JSON.parse(value);
-    if (!Array.isArray(parsed)) return null;
-    const runs = parsed.map(normalizeRun).filter((run2) => run2 !== null);
-    return runs.length ? runs : null;
-  } catch {
-    return null;
-  }
-}
-function prependTestReportRun(existing, run2, max = MAX_TEST_REPORT_RUNS) {
-  const all = [run2, ...existing.filter((r) => r.id !== run2.id)];
-  return { runs: all.slice(0, max), dropped: all.slice(max) };
-}
-function testReportConflicts(run2, checklistHtml) {
-  const conflicts = [];
-  for (const item of run2.items) {
-    const match = matchTaskItem(item.item, checklistHtml);
-    if (!match) continue;
-    if (item.status === "passed" && !match.checked) conflicts.push({ item: item.item, kind: "passed-but-unticked" });
-    if (item.status === "failed" && match.checked) conflicts.push({ item: item.item, kind: "failed-but-ticked" });
-  }
-  return conflicts;
-}
-function testReportMissingItems(run2, checklistHtml) {
-  return new Set(run2.items.filter((item) => !matchTaskItem(item.item, checklistHtml)).map((item) => item.item));
-}
-function checklistKey(item, checklistHtml) {
-  return matchTaskItem(item, checklistHtml)?.normalized ?? null;
-}
-function latestItemResults(runs, checklistHtml) {
-  const results = /* @__PURE__ */ new Map();
-  runs.forEach((run2, runIndex) => {
-    for (const item of run2.items) {
-      const key = checklistKey(item.item, checklistHtml);
-      if (key !== null && !results.has(key)) results.set(key, { item, run: run2, runIndex });
-    }
-  });
-  return results;
-}
-function latestResultFor(results, text2) {
-  const keys = [...results.keys()];
-  const index = closestTaskText(text2, keys);
-  return index >= 0 ? results.get(keys[index]) : void 0;
-}
-function testReportSupersededItems(runs, run2, checklistHtml) {
-  const latest = latestItemResults(runs, checklistHtml);
-  return new Set(
-    run2.items.filter((item) => {
-      const k2 = checklistKey(item.item, checklistHtml);
-      const newest = k2 === null ? void 0 : latest.get(k2);
-      return newest !== void 0 && newest.run.id !== run2.id;
-    }).map((item) => item.item)
-  );
-}
-function countByStatus(run2) {
-  const counts = { passed: 0, failed: 0, manual: 0 };
-  for (const item of run2.items) counts[item.status]++;
-  return counts;
-}
-var IMPACT_COUNT_LABEL = {
-  broken: (count) => `${count} broken`,
-  flaw: (count) => `${count} partly wrong`,
-  cosmetic: (count) => `${count} cosmetic`,
-  test_wrong: (count) => `${count} outdated test${count === 1 ? "" : "s"}`
-};
-function testReportFailureLine(items) {
-  const failed = items.filter((item) => item.status === "failed");
-  const labelled = failed.filter((item) => item.impact);
-  if (labelled.length === 0) return null;
-  const count = (impact) => labelled.filter((item) => item.impact === impact).length;
-  const parts = TEST_REPORT_IMPACTS.filter((impact) => count(impact) > 0).map(
-    (impact) => IMPACT_COUNT_LABEL[impact](count(impact))
-  );
-  const unlabelled = failed.length - labelled.length;
-  if (unlabelled > 0) parts.push(`${unlabelled} not labelled`);
-  const nothingBroken = unlabelled === 0 && count("broken") === 0 && count("flaw") === 0;
-  return `${failed.length} failed${nothingBroken ? ": nothing is broken" : ""} \xB7 ${parts.join(" \xB7 ")}`;
 }
 
 // ../lib/card-authorship.ts
