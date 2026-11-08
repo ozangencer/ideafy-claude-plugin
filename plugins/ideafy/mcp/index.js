@@ -32092,9 +32092,318 @@ function nextTurnFor(card, ctx = {}) {
   return { who, label: primary.title };
 }
 
+// ../lib/check-tally.ts
+var YOURS_TITLE = "Yours";
+var AFTER_MERGE_WAIT_NOTE = "Waits for the merge, then it is yours.";
+var NOT_HOLDING_NOTE = "Does not hold the merge.";
+function plural3(n, word) {
+  return `${n} ${word}${n === 1 ? "" : "s"}`;
+}
+function noted(item) {
+  return item.status === "passed" && Boolean(item.caveat || item.codeCaveat);
+}
+function checkTally(members, merged2, opts = {}) {
+  const tally = {
+    total: 0,
+    passed: 0,
+    onScreen: 0,
+    inTerminal: 0,
+    byYou: 0,
+    failed: 0,
+    yours: 0,
+    afterMerge: 0,
+    notRunYet: 0,
+    notedChecks: 0,
+    proven: 0,
+    merged: merged2,
+    yoursGroups: [],
+    afterMergeLines: []
+  };
+  const holds = [];
+  const afterMergeNow = [];
+  const outside = [];
+  for (const member of members) {
+    const { state } = member;
+    const line = (item) => ({ displayId: member.displayId, cardId: member.cardId, item });
+    tally.failed += state.problems.length;
+    for (const item of state.needsYou) (member.holdsMerge ? holds : outside).push(line(item));
+    for (const item of state.afterMerge) (merged2 ? afterMergeNow : tally.afterMergeLines).push(line(item));
+    for (const item of [...state.worked, ...state.passedBut]) {
+      tally.passed += 1;
+      if (item.status === "passed") {
+        if (item.textOnly) tally.inTerminal += 1;
+        else tally.onScreen += 1;
+      } else tally.byYou += 1;
+    }
+    tally.notRunYet += state.notTested.length;
+    for (const item of [...state.needsYou, ...state.afterMerge, ...state.worked, ...state.passedBut]) {
+      if (noted(item)) tally.notedChecks += 1;
+      if (item.status === "passed") tally.proven += 1;
+    }
+  }
+  tally.yours = holds.length + afterMergeNow.length + outside.length;
+  tally.afterMerge = tally.afterMergeLines.length;
+  tally.total = tally.passed + tally.failed + tally.yours + tally.afterMerge + tally.notRunYet;
+  if (holds.length > 0) {
+    tally.yoursGroups.push({
+      key: "holds",
+      title: merged2 ? "Still open" : opts.chain ? "Final test \xB7 holds the merge" : "Before merge",
+      note: null,
+      lines: holds
+    });
+  }
+  if (afterMergeNow.length > 0) {
+    tally.yoursGroups.push({ key: "afterMergeNow", title: "After merge \xB7 now on main", note: null, lines: afterMergeNow });
+  }
+  if (outside.length > 0) {
+    const byHand = outside.every((entry) => entry.item.status === "manual" || /\[manual\]/i.test(entry.item.checklistText));
+    tally.yoursGroups.push({
+      key: "outside",
+      title: byHand ? "By hand" : "In the chain's cards",
+      note: merged2 ? null : NOT_HOLDING_NOTE,
+      lines: outside
+    });
+  }
+  return tally;
+}
+function cardTally(state) {
+  return checkTally([{ state, displayId: null, cardId: null, holdsMerge: true }], state.merged);
+}
+function showYoursGroupTitles(tally) {
+  return tally.yoursGroups.length > 1 || tally.yoursGroups.some((group) => group.key !== "holds");
+}
+function tallyDetailParts(tally) {
+  const parts = [];
+  if (tally.yours > 0) parts.push(`${tally.yours} yours`);
+  if (tally.afterMerge > 0) parts.push(`${tally.afterMerge} after merge`);
+  return parts;
+}
+function tallyEvidence(tally) {
+  if (tally.passed === 0) return null;
+  const kinds = [
+    [tally.onScreen, "on screen"],
+    [tally.inTerminal, "in a terminal"],
+    [tally.byYou, "ticked by you"]
+  ];
+  const present5 = kinds.filter(([n]) => n > 0);
+  if (present5.length === 1) return `all ${present5[0][1]}`;
+  return present5.map(([n, where]) => `${n} ${where}`).join(", ");
+}
+function tallyCountParts(tally) {
+  return {
+    passed: `${tally.passed} of ${plural3(tally.total, "check")} passed`,
+    evidence: tallyEvidence(tally),
+    failed: tally.failed > 0 ? `${tally.failed} failing` : null,
+    notRunYet: tally.notRunYet > 0 ? `${tally.notRunYet} not run yet` : null
+  };
+}
+function tallyCountLine(tally) {
+  const parts = tallyCountParts(tally);
+  return [parts.passed, parts.evidence, parts.failed, parts.notRunYet].filter(Boolean).join(" \xB7 ");
+}
+function notesTitle(notedChecks) {
+  return notedChecks > 0 ? `Notes on ${plural3(notedChecks, "check")}` : "Notes";
+}
+function chainScopeLine(cards) {
+  return `Chain of ${plural3(cards, "card")} \xB7 newest result of each check`;
+}
+function memberCountLine(tally) {
+  if (tally.total === 0) return "no checklist";
+  const parts = [`${tally.passed} of ${tally.total} passed`];
+  if (tally.failed > 0) parts.push(`${tally.failed} failing`);
+  parts.push(...tallyDetailParts(tally));
+  return parts.join(" \xB7 ");
+}
+
+// ../lib/test-report-state.ts
+var NOT_SEEN_ON_SCREEN = "not seen on screen";
+var PASSED_WITH_NOTES = "Passed with notes";
+var PASSED_TITLE = "Passed";
+var AFTER_MERGE_TITLE = "After merge";
+function isMergedToMain(gitBranchStatus) {
+  return gitBranchStatus === "merged";
+}
+function plural4(n, word) {
+  return `${n} ${word}${n === 1 ? "" : "s"}`;
+}
+function formatRunAt(iso) {
+  const date4 = new Date(iso);
+  if (Number.isNaN(date4.getTime())) return iso;
+  return date4.toLocaleString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+}
+var SCOPE_VERB = {
+  run: "ran",
+  reverify: "re-checked after a fix",
+  single: "verified on screen",
+  retest: "re-tested",
+  text: "ran as text"
+};
+function outcome(items) {
+  const failed = items.filter((item) => item.status === "failed").length;
+  const manual = items.filter((item) => item.status === "manual").length;
+  if (items.length === 0) return "nothing ran";
+  if (failed === 0 && manual === 0) {
+    if (items.length === 1) return "passed";
+    return items.length === 2 ? "both passed" : "all passed";
+  }
+  const parts = [];
+  if (failed > 0) parts.push(`${failed} failed`);
+  if (manual > 0) parts.push(`${manual} manual`);
+  return parts.join(", ");
+}
+function lastRunLine(run2, number3) {
+  const parts = [`#${number3}`, formatRunAt(run2.runAt)];
+  if (run2.platform) parts.push(run2.platform);
+  parts.push(run2.evidence === "visual" ? "Visual" : "Text only, no recording");
+  parts.push(`${SCOPE_VERB[run2.scope]} ${run2.items.length}, ${outcome(run2.items)}`);
+  return parts.join(" \xB7 ");
+}
+function runCodeCaveat(change, runNumber) {
+  if (!change || change.state === "unknown") return null;
+  if (change.state === "changed") {
+    return `Passed before later changes \xB7 ${plural4(change.files.length, "file")} changed since #${runNumber}`;
+  }
+  if (change.uncommitted.length > 0) {
+    const names = change.uncommitted.map((path12) => path12.split("/").pop() ?? path12);
+    const shown = names.slice(0, 3).join(", ");
+    return `Passed with uncommitted code: ${shown}${names.length > 3 ? ` +${names.length - 3}` : ""}`;
+  }
+  return null;
+}
+function cardTestReportState(allRuns, checklistHtml, asOf = 0, codeChanges, opts) {
+  const merged2 = !!opts?.merged;
+  const html = checklistHtml ?? "";
+  const runsAll = allRuns ?? [];
+  const offset = Math.max(0, Math.min(asOf, runsAll.length));
+  const runs = runsAll.slice(offset);
+  const numberOf = (index) => runsAll.length - (index + offset);
+  const ready = readyToMerge({ testScenarios: html, testReports: runs });
+  const latest = latestItemResults(runs, html);
+  const progress = parseTestProgress(html);
+  const textOnly = runs.length > 0 && runs.every((run2) => run2.evidence !== "visual");
+  const problems = [];
+  const needsYou = [];
+  const afterMerge = [];
+  const passedBut = [];
+  const afterMergeKey = (text2) => stripItemTokens(text2).toLowerCase();
+  const afterMergeTexts = new Set(
+    checklistItems(html).filter((item) => !item.checked && !item.core && isAfterMergeItem(item.text)).map((item) => afterMergeKey(item.text))
+  );
+  const isAfterMerge = (text2) => afterMergeTexts.has(afterMergeKey(text2));
+  const notTested = [];
+  const worked = [];
+  const runKeys = runs.map(
+    (run2) => run2.items.map((item) => latestItemResults([{ ...run2, items: [item] }], html).keys().next().value ?? null)
+  );
+  const tasks = extractTaskItems(html);
+  const seen = /* @__PURE__ */ new Set();
+  for (const task of tasks) {
+    if (seen.has(task.normalized)) continue;
+    seen.add(task.normalized);
+    const text2 = plainTaskText(task.rawText);
+    const newest = latest.get(task.normalized);
+    if (!newest) {
+      const waits = !task.checked && isAfterMerge(text2);
+      const state2 = {
+        kind: task.checked ? "notTested" : waits ? "afterMerge" : "needsYou",
+        checklistText: text2,
+        sentence: stripItemTokens(text2),
+        observed: null,
+        status: null,
+        caveat: null,
+        codeCaveat: null,
+        runNumber: null,
+        runIndex: null,
+        videoAt: null,
+        textOnly: false,
+        history: []
+      };
+      (task.checked ? notTested : waits ? afterMerge : needsYou).push(state2);
+      continue;
+    }
+    const { item, run: run2, runIndex } = newest;
+    const history = [];
+    runs.forEach((r, index) => {
+      const hit = r.items.find((_2, itemIndex) => runKeys[index][itemIndex] === task.normalized);
+      if (hit) history.push({ run: numberOf(index), status: hit.status });
+    });
+    history.reverse();
+    const unseen = item.status === "passed" && run2.evidence !== "visual" && isUiItem(text2);
+    const caveat = item.status === "passed" ? item.caveat ?? (unseen ? NOT_SEEN_ON_SCREEN : null) : null;
+    const codeCaveat = item.status === "passed" && !merged2 ? runCodeCaveat(codeChanges?.[run2.id], numberOf(runIndex)) : null;
+    let kind;
+    if (item.status === "failed") kind = "problem";
+    else if (!task.checked) kind = isAfterMerge(text2) ? "afterMerge" : "needsYou";
+    else if (caveat || codeCaveat) kind = "passedBut";
+    else kind = "worked";
+    const state = {
+      kind,
+      checklistText: text2,
+      sentence: item.plainItem ?? stripItemTokens(item.item),
+      observed: item.plainObserved ?? item.observed,
+      status: item.status,
+      ...item.impact ? { impact: item.impact } : {},
+      caveat,
+      codeCaveat,
+      runNumber: numberOf(runIndex),
+      runIndex: runIndex + offset,
+      videoAt: run2.video ? testReportItemVideoAt(item) : null,
+      textOnly: run2.evidence !== "visual",
+      history,
+      result: item
+    };
+    ({ problem: problems, needsYou, afterMerge, passedBut, notTested, worked })[kind].push(state);
+  }
+  const passedStates = [...needsYou, ...afterMerge, ...passedBut, ...worked].filter((s) => s.status === "passed");
+  const passed = passedStates.length;
+  const unseenCount = passedStates.filter((s) => s.caveat === NOT_SEEN_ON_SCREEN).length;
+  const left = itemsLeft(progress, { merged: merged2 });
+  const tally = cardTally({ problems, needsYou, afterMerge, passedBut, notTested, worked, merged: merged2 });
+  const counts = tallyCountLine(tally);
+  const detail = tallyDetailParts(tally);
+  if (ready.failed > 0) detail.push(`${ready.failed} failed in the last report`);
+  if (ready.noShot > 0) detail.push(`${ready.noShot} [ui] item${ready.noShot === 1 ? " has" : "s have"} no screenshot`);
+  if (!progress) detail.push("no checklist");
+  const runNotes = [];
+  const newestRun = runs[0];
+  if (newestRun) {
+    for (const warning of newestRun.warnings ?? []) runNotes.push(warning);
+    if (!newestRun.checklistApplied && progress) {
+      runNotes.push(
+        `#${numberOf(0)}'s checklist was refused, so Tests still shows ${progress.checked}/${progress.total}`
+      );
+    }
+  }
+  const headlineNote = ready.ok && problems.length > 0 ? `${plural4(problems.length, "failing item")} ${problems.length === 1 ? "is" : "are"} ticked in Tests` : null;
+  return {
+    headline: merged2 ? "Merged" : ready.ok ? "Ready to merge" : "Not ready to merge",
+    merged: merged2,
+    ready,
+    left,
+    headlineDetail: detail.join(" \xB7 "),
+    tally,
+    passed,
+    unseen: unseenCount,
+    counts,
+    failureLine: testReportFailureLine(problems.map((s) => ({ status: "failed", impact: s.impact }))),
+    lastRun: newestRun ? lastRunLine(newestRun, numberOf(0)) : null,
+    textOnly,
+    asOfRun: offset > 0 && newestRun ? numberOf(0) : null,
+    problems,
+    needsYou,
+    afterMerge,
+    passedBut,
+    notTested,
+    worked,
+    runNotes,
+    passedButTitle: textOnly && runNotes.length === 0 && passedBut.length > 0 && passedBut.every((p) => p.caveat === NOT_SEEN_ON_SCREEN && !p.codeCaveat) ? "Not seen on screen" : notesTitle(passedBut.length),
+    headlineNote
+  };
+}
+
 // ../lib/card-story.ts
 var EMPTY_STORY_INPUTS = { opinionUserMessages: null, git: null };
-var plural3 = (n, word) => `${n} ${word}${n === 1 ? "" : "s"}`;
+var plural5 = (n, word) => `${n} ${word}${n === 1 ? "" : "s"}`;
 var hasText = (html) => !!stripHtml((html || "").replace(/&nbsp;/g, " ")).trim();
 function shortDate(iso) {
   const date4 = new Date(iso);
@@ -32109,7 +32418,7 @@ function verdictStep(card) {
     id: "verdict",
     who: "ai",
     label: "Verdict",
-    sub: happened ? concerns != null ? `${score} \xB7 ${plural3(concerns, "concern")}` : score : "",
+    sub: happened ? concerns != null ? `${score} \xB7 ${plural5(concerns, "concern")}` : score : "",
     happened,
     tab: "opinion"
   };
@@ -32120,7 +32429,7 @@ function arguedStep(inputs) {
     id: "argued",
     who: "you",
     label: "Argued",
-    sub: n == null ? "\u2026" : n > 0 ? plural3(n, "message") : "",
+    sub: n == null ? "\u2026" : n > 0 ? plural5(n, "message") : "",
     // Unknown until the fetch lands: shown as done with "…", not as skipped.
     happened: n == null || n > 0,
     tab: "opinion"
@@ -32133,7 +32442,7 @@ function planStep(card) {
     id: "plan",
     who: "ai",
     label: "Plan",
-    sub: happened ? steps != null ? plural3(steps, "step") : "plan written" : "",
+    sub: happened ? steps != null ? plural5(steps, "step") : "plan written" : "",
     happened,
     tab: "solution"
   };
@@ -32144,7 +32453,7 @@ function builtStep(card, inputs) {
   const git3 = inputs.git;
   const viaFinalTest = !!card.finalTestReady || isFinalTestNote(card.solutionSummary);
   let sub = "";
-  if (git3?.exists) sub = `${plural3(git3.ahead, "commit")} \xB7 ${plural3(git3.files, "file")}`;
+  if (git3?.exists) sub = `${plural5(git3.ahead, "commit")} \xB7 ${plural5(git3.files, "file")}`;
   else if (merged2) sub = "merged";
   else if (rolledBack) sub = "rolled back";
   else if (card.gitBranchName && !git3) sub = "\u2026";
@@ -32159,31 +32468,36 @@ function builtStep(card, inputs) {
     tab: "solution"
   };
 }
-function proofStep(card) {
-  const run2 = card.testReports?.[0];
-  let sub = "";
-  if (run2) {
-    const passed = run2.items.filter((item) => item.status === "passed").length;
-    const shots = run2.items.reduce((sum, item) => sum + item.artifacts.length, 0);
-    sub = `${passed}/${run2.items.length} passed${shots > 0 ? ` \xB7 ${plural3(shots, "shot")}` : ""}`;
-  }
-  return { id: "proof", who: "ai", label: "Proof", sub, happened: !!run2, tab: "report" };
+function storyTally(card, chainTally) {
+  if (chainTally) return chainTally;
+  if (!card.testScenarios) return null;
+  const state = cardTestReportState(card.testReports, card.testScenarios, 0, null, { merged: isMergedToMain(card.gitBranchStatus) });
+  return cardTally(state);
 }
-function yourTestStep(card, id, label2) {
+function proofStep(card, tally) {
+  const run2 = card.testReports?.[0];
+  const ran = !!run2 || !!tally && tally.passed + tally.failed > 0;
+  let sub = "";
+  if (ran && tally && tally.total > 0) sub = `${tally.proven}/${tally.total} passed`;
+  else if (run2) sub = `${run2.items.filter((item) => item.status === "passed").length}/${run2.items.length} passed`;
+  return { id: "proof", who: "ai", label: "Proof", sub, happened: ran, tab: "report" };
+}
+function yourTestStep(card, id, label2, tally) {
   const progress = parseTestProgress(card.testScenarios);
   const merged2 = card.gitBranchStatus === "merged";
-  const left = itemsLeft(progress, { merged: merged2 });
-  const waiting = merged2 ? 0 : afterMergeLeftIn(progress);
+  const left = tally ? tally.yours : itemsLeft(progress, { merged: merged2 });
+  const waiting = tally ? tally.afterMerge : merged2 ? 0 : afterMergeLeftIn(progress);
   return {
     id,
     who: "you",
     label: label2,
-    sub: progress ? left > 0 ? `${left} left` : waiting > 0 ? `${waiting} after merge` : "all ticked" : "",
+    sub: progress || tally ? left > 0 ? `${left} ${tally ? "yours" : "left"}` : waiting > 0 ? `${waiting} after merge` : "all ticked" : "",
     happened: !!progress && progress.checked > 0 || card.status === "completed",
     tab: "tests"
   };
 }
-function developmentSteps(card, inputs) {
+function developmentSteps(card, inputs, chainTally) {
+  const tally = storyTally(card, chainTally);
   const merged2 = card.gitBranchStatus === "merged";
   const inChain = card.gitBranchStatus === "in_chain";
   return [
@@ -32192,8 +32506,8 @@ function developmentSteps(card, inputs) {
     arguedStep(inputs),
     planStep(card),
     builtStep(card, inputs),
-    proofStep(card),
-    yourTestStep(card, "your-test", "Your test"),
+    proofStep(card, tally),
+    yourTestStep(card, "your-test", "Your test", tally),
     {
       id: "merge",
       who: "you",
@@ -32215,11 +32529,11 @@ function workSteps(card, inputs) {
       id: "draft",
       who: "ai",
       label: "Draft",
-      sub: outputs > 0 ? plural3(outputs, "file") : "",
+      sub: outputs > 0 ? plural5(outputs, "file") : "",
       happened: outputs > 0,
       tab: "detail"
     },
-    yourTestStep(card, "review", "Review"),
+    yourTestStep(card, "review", "Review", null),
     {
       id: "done",
       who: "you",
@@ -32283,7 +32597,7 @@ function buildCardStory(card, inputs = EMPTY_STORY_INPUTS, ctx = {}) {
   const now = ctx.now ?? Date.now();
   const work = (ctx.mode ?? "development") === "work";
   const running = ctx.running ?? !!card.processingType;
-  const drafts = work ? workSteps(card, inputs) : developmentSteps(card, inputs);
+  const drafts = work ? workSteps(card, inputs) : developmentSteps(card, inputs, ctx.chainTally);
   const nowId = nowStepId(card, work, running, ctx.chainMerge);
   const testedWithChain = card.gitBranchStatus === "in_chain" || ctx.chainMerge === "into-chain";
   const nowIndex = nowId ? drafts.findIndex((d2) => d2.id === nowId) : drafts.length;
@@ -32304,6 +32618,180 @@ function buildCardStory(card, inputs = EMPTY_STORY_INPUTS, ctx = {}) {
     };
   });
   return { steps, now: nowId, banner: bannerFor(card, ctx, now) };
+}
+
+// ../lib/chain-test-report-state.ts
+var chain_test_report_state_exports = {};
+__export(chain_test_report_state_exports, {
+  STOP_CAUSE_LABEL: () => STOP_CAUSE_LABEL,
+  TEXT_ONLY_CAVEAT: () => TEXT_ONLY_CAVEAT,
+  chainCaveatText: () => chainCaveatText,
+  chainDecisionText: () => chainDecisionText,
+  chainTestReportState: () => chainTestReportState,
+  stopCause: () => stopCause,
+  stopNextStep: () => stopNextStep
+});
+function stopNextStep(reason) {
+  if (/items? blocked/.test(reason)) {
+    return "Read that item below. Check it yourself and tick it, or correct its text, then Continue. Continue with no change stops at the same place.";
+  }
+  if (/could not go into|conflict/.test(reason)) {
+    return "Two cards touched the same lines. Press Merge on the card to solve the conflict; the chain goes on by itself.";
+  }
+  if (reason.startsWith(DECISION_STOP_PREFIX)) {
+    return "Answer the decision in the plan and delete its marker, then Continue.";
+  }
+  if (/same failure/.test(reason)) return "A real failure keeps coming back. Solve it in the card's chat, then Continue.";
+  if (reason.startsWith(RALPH_BROWSER_PREFIX) || reason === RALPH_BROWSER_UNUSED || reason.includes(RALPH_BROWSER_UNUSED)) {
+    return "No visual proof. Check the project's web preview and Chrome, then Continue.";
+  }
+  if (/time cap/.test(reason)) return "Time ran out. Continue gives a fresh budget.";
+  if (/timed out|idle timeout|run failed/.test(reason)) return "Open the card's Test Report and the run's log, then Continue.";
+  return null;
+}
+var STOP_CAUSE_LABEL = {
+  you: "Waited for you",
+  conflict: "Chain conflict",
+  ralph: "Ralph's own failure",
+  environment: "Environment or network"
+};
+function stopCause(reason, byPerson = false) {
+  if (byPerson || /items? blocked/.test(reason) || reason.startsWith(DECISION_STOP_PREFIX)) return "you";
+  if (/could not go into|conflict/.test(reason)) return "conflict";
+  if (/same failure|run failed/.test(reason)) return "ralph";
+  if (/timed out|idle timeout|time cap/.test(reason) || reason.startsWith(RALPH_BROWSER_PREFIX) || reason.includes(RALPH_BROWSER_UNUSED) || /browser|preview/i.test(reason)) {
+    return "environment";
+  }
+  return "ralph";
+}
+var TEXT_ONLY_CAVEAT = "tested as text only, no recording";
+function plural6(n, word) {
+  return `${n} ${word}${n === 1 ? "" : "s"}`;
+}
+function chainTestReportState(members, opts = {}) {
+  const live = members.filter((member) => member.status !== "withdrawn");
+  const parent = live.find((member) => member.isParent) ?? null;
+  const children = live.filter((member) => member !== parent);
+  const problems = [];
+  const tallyMembers = [];
+  const caveats = /* @__PURE__ */ new Map();
+  const codeCaveats = /* @__PURE__ */ new Set();
+  const addCaveat = (text2, displayId, code = false) => {
+    if (code) codeCaveats.add(text2);
+    const list = caveats.get(text2) ?? [];
+    if (!list.includes(displayId)) list.push(displayId);
+    caveats.set(text2, list);
+  };
+  let waiting = 0;
+  const ran = [];
+  const textRuns = [];
+  const merged2 = isMergedToMain(parent?.gitBranchStatus);
+  const parentProgress = parent && parent.testScenarios !== void 0 ? parseTestProgress(parent.testScenarios ?? "") : null;
+  const parentLeft = itemsLeft(parentProgress, { merged: merged2 });
+  const cards = [...children, ...parent ? [parent] : []].map((member) => {
+    const isParent = member === parent;
+    if (member.testScenarios === void 0) {
+      waiting += 1;
+      return {
+        id: member.id,
+        displayId: member.displayId,
+        title: member.title,
+        isParent,
+        evidence: null,
+        passed: 0,
+        failing: 0,
+        ticked: 0,
+        total: 0,
+        ready: false,
+        statusLine: "loading",
+        counts: "loading",
+        state: null
+      };
+    }
+    const state = cardTestReportState(member.testReports, member.testScenarios, 0, member.codeChanges, { merged: merged2 });
+    tallyMembers.push({ state, displayId: member.displayId, cardId: member.id, holdsMerge: isParent });
+    const progress = parseTestProgress(member.testScenarios ?? "");
+    const ticked = progress?.checked ?? 0;
+    const total = progress?.total ?? 0;
+    const newest = member.testReports?.[0] ?? null;
+    const evidence = newest ? newest.evidence === "visual" ? "visual" : "text" : null;
+    const memberPassed = state.passed;
+    if (newest) {
+      ran.push(true);
+      textRuns.push(state.textOnly);
+    }
+    for (const item of state.problems) problems.push({ displayId: member.displayId, cardId: member.id, sentence: item.sentence, item });
+    if (state.textOnly) addCaveat(TEXT_ONLY_CAVEAT, member.displayId);
+    for (const note of state.runNotes) addCaveat(note, member.displayId);
+    for (const item of [...state.needsYou, ...state.passedBut].filter((s) => s.status === "passed")) {
+      if (item.codeCaveat) addCaveat(item.codeCaveat, member.displayId, true);
+      if (!item.caveat || state.textOnly && item.caveat === NOT_SEEN_ON_SCREEN) continue;
+      addCaveat(item.caveat, member.displayId);
+    }
+    const ready2 = isParent ? state.ready.ok && total > 0 && parentLeft === 0 : isReadyForParent(member);
+    const parts = [evidence ?? "no run", `${memberPassed} passed`];
+    if (state.problems.length > 0) parts.push(`${state.problems.length} failing`);
+    parts.push(total > 0 ? `${ticked}/${total}` : "no checklist");
+    return {
+      id: member.id,
+      displayId: member.displayId,
+      title: member.title,
+      isParent,
+      evidence,
+      passed: memberPassed,
+      failing: state.problems.length,
+      ticked,
+      total,
+      ready: ready2,
+      statusLine: parts.join(" \xB7 "),
+      counts: memberCountLine(checkTally([{ state, displayId: member.displayId, cardId: member.id, holdsMerge: isParent }], merged2, { chain: true })),
+      state
+    };
+  });
+  const textOnly = ran.length > 0 && textRuns.every(Boolean);
+  const tally = checkTally(tallyMembers, merged2, { chain: true });
+  const counts = tallyCountLine(tally);
+  const childrenReady = children.length > 0 && cards.filter((row) => !row.isParent).every((row) => row.ready);
+  const parentRow = cards.find((row) => row.isParent);
+  const ready = waiting === 0 && childrenReady && (parentRow ? parentRow.ready : true);
+  const stoppedMember = live.find((member) => member.autopilotStage === "stopped" && member.autopilotStopReason);
+  const decisions = live.filter((member) => (member.acceptedDecisions ?? 0) > 0).map((member) => ({ displayId: member.displayId, count: member.acceptedDecisions ?? 0 }));
+  const ralph = opts.ralph || stoppedMember || decisions.length > 0 ? {
+    stopped: stoppedMember ? {
+      displayId: stoppedMember.displayId,
+      reason: stoppedMember.autopilotStopReason ?? "",
+      next: stopNextStep(stoppedMember.autopilotStopReason ?? "")
+    } : null,
+    decisions
+  } : null;
+  return {
+    headline: merged2 ? "Merged" : ready ? "Ready to merge" : "Not ready to merge",
+    merged: merged2,
+    left: tally.yours,
+    headlineDetail: tallyDetailParts(tally).join(" \xB7 "),
+    needsYouTitle: YOURS_TITLE,
+    counts,
+    textOnly,
+    problems,
+    tally,
+    afterMerge: tally.afterMergeLines.map((line) => ({
+      displayId: line.displayId ?? "",
+      cardId: line.cardId ?? "",
+      sentence: line.item.sentence,
+      item: line.item
+    })),
+    notesTitle: notesTitle(tally.notedChecks),
+    passedBut: [...caveats.entries()].map(([text2, list]) => ({ text: text2, cards: list, ...codeCaveats.has(text2) ? { code: true } : {} })),
+    cards,
+    waiting,
+    ralph
+  };
+}
+function chainCaveatText(line) {
+  return `${line.cards.join(", ")}: ${line.text}`;
+}
+function chainDecisionText(entry) {
+  return `${entry.displayId} \xB7 ${plural6(entry.count, "decision")} Ralph took`;
 }
 
 // ../lib/card-ops/story.ts
@@ -32377,8 +32865,44 @@ function loadCardStory(db2, cardId) {
   };
   return buildCardStory(card, loadStoryInputs(db2, cardId), {
     mode: row.mode === "work" ? "work" : "development",
-    chainMerge: chainMergeForCard(db2, cardId)
+    chainMerge: chainMergeForCard(db2, cardId),
+    chainTally: chainTallyForCard(db2, card)
   });
+}
+function chainTallyForCard(db2, parent) {
+  let children;
+  try {
+    children = allRows(
+      db2,
+      `SELECT id, title, status, test_reports AS testReports, test_scenarios AS testScenarios
+       FROM cards WHERE split_from_card_id = ? ORDER BY group_order, task_number`,
+      parent.id
+    );
+  } catch {
+    return null;
+  }
+  if (children.filter((child) => child.status !== "withdrawn").length === 0) return null;
+  const state = chainTestReportState([
+    ...children.map((child) => ({
+      id: child.id,
+      displayId: child.title,
+      title: child.title,
+      status: child.status,
+      testReports: parseTestReports(child.testReports),
+      testScenarios: child.testScenarios
+    })),
+    {
+      id: parent.id,
+      displayId: parent.title,
+      title: parent.title,
+      status: parent.status,
+      gitBranchStatus: parent.gitBranchStatus,
+      testReports: parent.testReports,
+      testScenarios: parent.testScenarios,
+      isParent: true
+    }
+  ]);
+  return state.tally;
 }
 
 // ../lib/output-paths.ts
@@ -34987,201 +35511,6 @@ var FENCE2 = new RegExp(
 );
 var PLAN_DRIFT_IMPLEMENTATION_RULE = `Plan drift: when get_card returns a \`planDrift\` field, the plan was written before those commits. The code wins \u2014 read them with \`git show <sha> -- <file>\` before you follow the plan, and do not edit the plan. After the checklist, add one fenced \`\`\`${PLAN_DEVIATIONS_FENCE} block with one line per place you deviated from the plan (what the plan said, what you did instead, why). With no \`planDrift\` field, or no deviation, leave the block out.`;
 
-// ../lib/test-report-state.ts
-var NOT_SEEN_ON_SCREEN = "not seen on screen";
-var PASSED_WITH_NOTES = "Passed with notes";
-var PASSED_TITLE = "Passed";
-var BEFORE_MERGE_TITLE = "Before merge";
-var AFTER_MERGE_TITLE = "After merge";
-function isMergedToMain(gitBranchStatus) {
-  return gitBranchStatus === "merged";
-}
-function afterMergeText(n) {
-  return `${n} after merge`;
-}
-function needsYouTitle(state) {
-  return state.afterMerge.length > 0 && !state.merged ? BEFORE_MERGE_TITLE : "Needs you";
-}
-function plural4(n, word) {
-  return `${n} ${word}${n === 1 ? "" : "s"}`;
-}
-function formatRunAt(iso) {
-  const date4 = new Date(iso);
-  if (Number.isNaN(date4.getTime())) return iso;
-  return date4.toLocaleString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
-}
-var SCOPE_VERB = {
-  run: "ran",
-  reverify: "re-checked after a fix",
-  single: "verified on screen",
-  retest: "re-tested",
-  text: "ran as text"
-};
-function outcome(items) {
-  const failed = items.filter((item) => item.status === "failed").length;
-  const manual = items.filter((item) => item.status === "manual").length;
-  if (items.length === 0) return "nothing ran";
-  if (failed === 0 && manual === 0) {
-    if (items.length === 1) return "passed";
-    return items.length === 2 ? "both passed" : "all passed";
-  }
-  const parts = [];
-  if (failed > 0) parts.push(`${failed} failed`);
-  if (manual > 0) parts.push(`${manual} manual`);
-  return parts.join(", ");
-}
-function lastRunLine(run2, number3) {
-  const parts = [`#${number3}`, formatRunAt(run2.runAt)];
-  if (run2.platform) parts.push(run2.platform);
-  parts.push(run2.evidence === "visual" ? "Visual" : "Text only, no recording");
-  parts.push(`${SCOPE_VERB[run2.scope]} ${run2.items.length}, ${outcome(run2.items)}`);
-  return parts.join(" \xB7 ");
-}
-function runCodeCaveat(change, runNumber) {
-  if (!change || change.state === "unknown") return null;
-  if (change.state === "changed") {
-    return `Passed before later changes \xB7 ${plural4(change.files.length, "file")} changed since #${runNumber}`;
-  }
-  if (change.uncommitted.length > 0) {
-    const names = change.uncommitted.map((path12) => path12.split("/").pop() ?? path12);
-    const shown = names.slice(0, 3).join(", ");
-    return `Passed with uncommitted code: ${shown}${names.length > 3 ? ` +${names.length - 3}` : ""}`;
-  }
-  return null;
-}
-function cardTestReportState(allRuns, checklistHtml, asOf = 0, codeChanges, opts) {
-  const merged2 = !!opts?.merged;
-  const html = checklistHtml ?? "";
-  const runsAll = allRuns ?? [];
-  const offset = Math.max(0, Math.min(asOf, runsAll.length));
-  const runs = runsAll.slice(offset);
-  const numberOf = (index) => runsAll.length - (index + offset);
-  const ready = readyToMerge({ testScenarios: html, testReports: runs });
-  const latest = latestItemResults(runs, html);
-  const progress = parseTestProgress(html);
-  const textOnly = runs.length > 0 && runs.every((run2) => run2.evidence !== "visual");
-  const problems = [];
-  const needsYou = [];
-  const afterMerge = [];
-  const passedBut = [];
-  const afterMergeKey = (text2) => stripItemTokens(text2).toLowerCase();
-  const afterMergeTexts = new Set(
-    checklistItems(html).filter((item) => !item.checked && !item.core && isAfterMergeItem(item.text)).map((item) => afterMergeKey(item.text))
-  );
-  const isAfterMerge = (text2) => afterMergeTexts.has(afterMergeKey(text2));
-  const notTested = [];
-  const worked = [];
-  const runKeys = runs.map(
-    (run2) => run2.items.map((item) => latestItemResults([{ ...run2, items: [item] }], html).keys().next().value ?? null)
-  );
-  const tasks = extractTaskItems(html);
-  const seen = /* @__PURE__ */ new Set();
-  for (const task of tasks) {
-    if (seen.has(task.normalized)) continue;
-    seen.add(task.normalized);
-    const text2 = plainTaskText(task.rawText);
-    const newest = latest.get(task.normalized);
-    if (!newest) {
-      const waits = !task.checked && isAfterMerge(text2);
-      const state2 = {
-        kind: task.checked ? "notTested" : waits ? "afterMerge" : "needsYou",
-        checklistText: text2,
-        sentence: stripItemTokens(text2),
-        observed: null,
-        status: null,
-        caveat: null,
-        codeCaveat: null,
-        runNumber: null,
-        runIndex: null,
-        videoAt: null,
-        textOnly: false,
-        history: []
-      };
-      (task.checked ? notTested : waits ? afterMerge : needsYou).push(state2);
-      continue;
-    }
-    const { item, run: run2, runIndex } = newest;
-    const history = [];
-    runs.forEach((r, index) => {
-      const hit = r.items.find((_2, itemIndex) => runKeys[index][itemIndex] === task.normalized);
-      if (hit) history.push({ run: numberOf(index), status: hit.status });
-    });
-    history.reverse();
-    const unseen = item.status === "passed" && run2.evidence !== "visual" && isUiItem(text2);
-    const caveat = item.status === "passed" ? item.caveat ?? (unseen ? NOT_SEEN_ON_SCREEN : null) : null;
-    const codeCaveat = item.status === "passed" ? runCodeCaveat(codeChanges?.[run2.id], numberOf(runIndex)) : null;
-    let kind;
-    if (item.status === "failed") kind = "problem";
-    else if (!task.checked) kind = isAfterMerge(text2) ? "afterMerge" : "needsYou";
-    else if (caveat || codeCaveat) kind = "passedBut";
-    else kind = "worked";
-    const state = {
-      kind,
-      checklistText: text2,
-      sentence: item.plainItem ?? stripItemTokens(item.item),
-      observed: item.plainObserved ?? item.observed,
-      status: item.status,
-      ...item.impact ? { impact: item.impact } : {},
-      caveat,
-      codeCaveat,
-      runNumber: numberOf(runIndex),
-      runIndex: runIndex + offset,
-      videoAt: run2.video ? testReportItemVideoAt(item) : null,
-      textOnly: run2.evidence !== "visual",
-      history,
-      result: item
-    };
-    ({ problem: problems, needsYou, afterMerge, passedBut, notTested, worked })[kind].push(state);
-  }
-  const passedStates = [...needsYou, ...afterMerge, ...passedBut, ...worked].filter((s) => s.status === "passed");
-  const passed = passedStates.length;
-  const unseenCount = passedStates.filter((s) => s.caveat === NOT_SEEN_ON_SCREEN).length;
-  const failurePart = `${problems.length} failing`;
-  const counts = textOnly ? `${passed - unseenCount} passed \xB7 ${failurePart} \xB7 ${unseenCount} ${NOT_SEEN_ON_SCREEN}` : `${passed} passed \xB7 ${failurePart}`;
-  const left = itemsLeft(progress, { merged: merged2 });
-  const detail = [];
-  if (left > 0) detail.push(leftForYouText(left));
-  const afterMergeLeft = merged2 ? 0 : afterMergeLeftIn(progress);
-  if (afterMergeLeft > 0) detail.push(afterMergeText(afterMergeLeft));
-  if (ready.failed > 0) detail.push(`${ready.failed} failed in the last report`);
-  if (ready.noShot > 0) detail.push(`${ready.noShot} [ui] item${ready.noShot === 1 ? " has" : "s have"} no screenshot`);
-  if (!progress) detail.push("no checklist");
-  const runNotes = [];
-  const newestRun = runs[0];
-  if (newestRun) {
-    for (const warning of newestRun.warnings ?? []) runNotes.push(warning);
-    if (!newestRun.checklistApplied && progress) {
-      runNotes.push(
-        `#${numberOf(0)}'s checklist was refused, so Tests still shows ${progress.checked}/${progress.total}`
-      );
-    }
-  }
-  const headlineNote = ready.ok && problems.length > 0 ? `${plural4(problems.length, "failing item")} ${problems.length === 1 ? "is" : "are"} ticked in Tests` : null;
-  return {
-    headline: merged2 ? "Merged" : ready.ok ? "Ready to merge" : "Not ready to merge",
-    merged: merged2,
-    ready,
-    left,
-    headlineDetail: detail.join(" \xB7 "),
-    passed,
-    unseen: unseenCount,
-    counts,
-    failureLine: testReportFailureLine(problems.map((s) => ({ status: "failed", impact: s.impact }))),
-    lastRun: newestRun ? lastRunLine(newestRun, numberOf(0)) : null,
-    textOnly,
-    asOfRun: offset > 0 && newestRun ? numberOf(0) : null,
-    problems,
-    needsYou,
-    afterMerge,
-    passedBut,
-    notTested,
-    worked,
-    runNotes,
-    passedButTitle: textOnly && runNotes.length === 0 && passedBut.length > 0 && passedBut.every((p) => p.caveat === NOT_SEEN_ON_SCREEN && !p.codeCaveat) ? "Not seen on screen" : PASSED_WITH_NOTES,
-    headlineNote
-  };
-}
-
 // ../lib/test-report-brief.ts
 function withoutNumbers(text2) {
   return text2.replace(/\b[A-Z][A-Z0-9]*-\d+\b/g, "[card]").replace(/#\d+'s\b/g, "the newest run's").replace(/#?\d+(?:[.,:/]\d+)*%?/g, "").replace(/\(\s*\)/g, "").replace(/\s+([,.;:])/g, "$1").replace(/\s+/g, " ").trim();
@@ -35209,206 +35538,6 @@ function briefBasis(state) {
 function currentBrief(brief, state) {
   if (!brief) return null;
   return brief.basis === briefBasis(state) ? brief.text : null;
-}
-
-// ../lib/chain-test-report-state.ts
-var chain_test_report_state_exports = {};
-__export(chain_test_report_state_exports, {
-  CHAIN_ACROSS_LINE: () => CHAIN_ACROSS_LINE,
-  LEFT_IN_CARDS_TITLE: () => LEFT_IN_CARDS_TITLE,
-  STOP_CAUSE_LABEL: () => STOP_CAUSE_LABEL,
-  TEXT_ONLY_CAVEAT: () => TEXT_ONLY_CAVEAT,
-  chainCaveatText: () => chainCaveatText,
-  chainDecisionText: () => chainDecisionText,
-  chainTestReportState: () => chainTestReportState,
-  stopCause: () => stopCause,
-  stopNextStep: () => stopNextStep
-});
-function stopNextStep(reason) {
-  if (/items? blocked/.test(reason)) {
-    return "Read that item below. Check it yourself and tick it, or correct its text, then Continue. Continue with no change stops at the same place.";
-  }
-  if (/could not go into|conflict/.test(reason)) {
-    return "Two cards touched the same lines. Press Merge on the card to solve the conflict; the chain goes on by itself.";
-  }
-  if (reason.startsWith(DECISION_STOP_PREFIX)) {
-    return "Answer the decision in the plan and delete its marker, then Continue.";
-  }
-  if (/same failure/.test(reason)) return "A real failure keeps coming back. Solve it in the card's chat, then Continue.";
-  if (reason.startsWith(RALPH_BROWSER_PREFIX) || reason === RALPH_BROWSER_UNUSED || reason.includes(RALPH_BROWSER_UNUSED)) {
-    return "No visual proof. Check the project's web preview and Chrome, then Continue.";
-  }
-  if (/time cap/.test(reason)) return "Time ran out. Continue gives a fresh budget.";
-  if (/timed out|idle timeout|run failed/.test(reason)) return "Open the card's Test Report and the run's log, then Continue.";
-  return null;
-}
-var STOP_CAUSE_LABEL = {
-  you: "Waited for you",
-  conflict: "Chain conflict",
-  ralph: "Ralph's own failure",
-  environment: "Environment or network"
-};
-function stopCause(reason, byPerson = false) {
-  if (byPerson || /items? blocked/.test(reason) || reason.startsWith(DECISION_STOP_PREFIX)) return "you";
-  if (/could not go into|conflict/.test(reason)) return "conflict";
-  if (/same failure|run failed/.test(reason)) return "ralph";
-  if (/timed out|idle timeout|time cap/.test(reason) || reason.startsWith(RALPH_BROWSER_PREFIX) || reason.includes(RALPH_BROWSER_UNUSED) || /browser|preview/i.test(reason)) {
-    return "environment";
-  }
-  return "ralph";
-}
-var LEFT_IN_CARDS_TITLE = "Left in the chain's cards";
-var CHAIN_ACROSS_LINE = "Newest result of each item, across every run of each card";
-var TEXT_ONLY_CAVEAT = "tested as text only, no recording";
-function plural5(n, word) {
-  return `${n} ${word}${n === 1 ? "" : "s"}`;
-}
-function chainTestReportState(members, opts = {}) {
-  const live = members.filter((member) => member.status !== "withdrawn");
-  const parent = live.find((member) => member.isParent) ?? null;
-  const children = live.filter((member) => member !== parent);
-  const problems = [];
-  const needsYou = [];
-  const leftInCards = [];
-  const afterMerge = [];
-  const caveats = /* @__PURE__ */ new Map();
-  const codeCaveats = /* @__PURE__ */ new Set();
-  const addCaveat = (text2, displayId, code = false) => {
-    if (code) codeCaveats.add(text2);
-    const list = caveats.get(text2) ?? [];
-    if (!list.includes(displayId)) list.push(displayId);
-    caveats.set(text2, list);
-  };
-  let passed = 0;
-  let failing = 0;
-  let unseen = 0;
-  let waiting = 0;
-  const ran = [];
-  const textRuns = [];
-  const merged2 = isMergedToMain(parent?.gitBranchStatus);
-  const parentProgress = parent && parent.testScenarios !== void 0 ? parseTestProgress(parent.testScenarios ?? "") : null;
-  const left = itemsLeft(parentProgress, { merged: merged2 });
-  const parentAfterMerge = merged2 ? 0 : afterMergeLeftIn(parentProgress);
-  if (parent && parent.testScenarios !== void 0) {
-    const progress = parentProgress;
-    const runs = parent.testReports ?? [];
-    const ratio = progress && progress.total > 0 ? progressRatio(progress, { merged: merged2 }) : null;
-    const count = ratio && ratio.total > 0 ? ` (${ratio.checked}/${ratio.total})` : "";
-    const finished = !!progress && progress.total > 0 && left === 0;
-    if (runs.length === 0 && !finished) {
-      needsYou.push({ displayId: parent.displayId, cardId: parent.id, sentence: `${parent.displayId}'s final test has not run${count}`, item: null });
-    } else if (runs.length > 0 && !finished) {
-      needsYou.push({ displayId: parent.displayId, cardId: parent.id, sentence: `${parent.displayId}'s final test is not finished${count}`, item: null });
-    }
-  }
-  const cards = [...children, ...parent ? [parent] : []].map((member) => {
-    const isParent = member === parent;
-    if (member.testScenarios === void 0) {
-      waiting += 1;
-      return {
-        id: member.id,
-        displayId: member.displayId,
-        title: member.title,
-        isParent,
-        evidence: null,
-        passed: 0,
-        failing: 0,
-        ticked: 0,
-        total: 0,
-        ready: false,
-        statusLine: "loading",
-        state: null
-      };
-    }
-    const state = cardTestReportState(member.testReports, member.testScenarios, 0, member.codeChanges, {
-      merged: isParent && merged2
-    });
-    const progress = parseTestProgress(member.testScenarios ?? "");
-    const ticked = progress?.checked ?? 0;
-    const total = progress?.total ?? 0;
-    const newest = member.testReports?.[0] ?? null;
-    const evidence = newest ? newest.evidence === "visual" ? "visual" : "text" : null;
-    const memberPassed = state.passed;
-    const memberUnseen = state.unseen;
-    passed += memberPassed;
-    failing += state.problems.length;
-    unseen += memberUnseen;
-    if (newest) {
-      ran.push(true);
-      textRuns.push(state.textOnly);
-    }
-    for (const item of state.problems) problems.push({ displayId: member.displayId, cardId: member.id, sentence: item.sentence, item });
-    if (!isParent) {
-      for (const item of state.needsYou) leftInCards.push({ displayId: member.displayId, cardId: member.id, sentence: item.sentence, item });
-    }
-    for (const item of state.afterMerge) afterMerge.push({ displayId: member.displayId, cardId: member.id, sentence: item.sentence, item });
-    if (state.textOnly) addCaveat(TEXT_ONLY_CAVEAT, member.displayId);
-    for (const note of state.runNotes) addCaveat(note, member.displayId);
-    for (const item of [...state.needsYou, ...state.passedBut].filter((s) => s.status === "passed")) {
-      if (item.codeCaveat) addCaveat(item.codeCaveat, member.displayId, true);
-      if (!item.caveat || state.textOnly && item.caveat === NOT_SEEN_ON_SCREEN) continue;
-      addCaveat(item.caveat, member.displayId);
-    }
-    const ready2 = isParent ? state.ready.ok && total > 0 && left === 0 : isReadyForParent(member);
-    const parts = [evidence ?? "no run", `${memberPassed} passed`];
-    if (state.problems.length > 0) parts.push(`${state.problems.length} failing`);
-    parts.push(total > 0 ? `${ticked}/${total}` : "no checklist");
-    return {
-      id: member.id,
-      displayId: member.displayId,
-      title: member.title,
-      isParent,
-      evidence,
-      passed: memberPassed,
-      failing: state.problems.length,
-      ticked,
-      total,
-      ready: ready2,
-      statusLine: parts.join(" \xB7 "),
-      state
-    };
-  });
-  const textOnly = ran.length > 0 && textRuns.every(Boolean);
-  const counts = textOnly ? `${passed - unseen} passed \xB7 ${failing} failing \xB7 ${unseen} ${NOT_SEEN_ON_SCREEN}` : `${passed} passed \xB7 ${failing} failing`;
-  const childrenReady = children.length > 0 && cards.filter((row) => !row.isParent).every((row) => row.ready);
-  const parentRow = cards.find((row) => row.isParent);
-  const ready = waiting === 0 && childrenReady && (parentRow ? parentRow.ready : true);
-  const stoppedMember = live.find((member) => member.autopilotStage === "stopped" && member.autopilotStopReason);
-  const decisions = live.filter((member) => (member.acceptedDecisions ?? 0) > 0).map((member) => ({ displayId: member.displayId, count: member.acceptedDecisions ?? 0 }));
-  const ralph = opts.ralph || stoppedMember || decisions.length > 0 ? {
-    stopped: stoppedMember ? {
-      displayId: stoppedMember.displayId,
-      reason: stoppedMember.autopilotStopReason ?? "",
-      next: stopNextStep(stoppedMember.autopilotStopReason ?? "")
-    } : null,
-    decisions
-  } : null;
-  const detail = [];
-  if (left > 0) detail.push(leftForYouText(left));
-  if (parentAfterMerge > 0) detail.push(afterMergeText(parentAfterMerge));
-  return {
-    headline: merged2 ? "Merged" : ready ? "Ready to merge" : "Not ready to merge",
-    merged: merged2,
-    left,
-    headlineDetail: detail.join(" \xB7 "),
-    needsYouTitle: afterMerge.length > 0 && !merged2 ? BEFORE_MERGE_TITLE : "Needs you",
-    counts,
-    textOnly,
-    problems,
-    needsYou,
-    leftInCards,
-    afterMerge,
-    passedBut: [...caveats.entries()].map(([text2, list]) => ({ text: text2, cards: list, ...codeCaveats.has(text2) ? { code: true } : {} })),
-    cards,
-    waiting,
-    ralph
-  };
-}
-function chainCaveatText(line) {
-  return `${line.cards.join(", ")}: ${line.text}`;
-}
-function chainDecisionText(entry) {
-  return `${entry.displayId} \xB7 ${plural5(entry.count, "decision")} Ralph took`;
 }
 
 // ../lib/test-report-text.ts
@@ -35575,6 +35704,22 @@ function stateItemLine(state) {
   );
   return `- ${state.sentence}${at}${extra ? ` \u2014 ${extra}` : ""}`;
 }
+function yoursAndAfterMerge(tally, line) {
+  const out = [];
+  if (tally.yours > 0) {
+    out.push("", `${YOURS_TITLE} \xB7 ${tally.yours}`);
+    const titled = showYoursGroupTitles(tally);
+    for (const group of tally.yoursGroups) {
+      if (titled) out.push(`${group.title} \xB7 ${group.lines.length}${group.note ? ` \u2014 ${group.note}` : ""}`);
+      for (const entry of group.lines) out.push(line(entry));
+    }
+  }
+  if (tally.afterMergeLines.length > 0) {
+    out.push("", `${AFTER_MERGE_TITLE} \xB7 ${tally.afterMergeLines.length} \u2014 ${AFTER_MERGE_WAIT_NOTE}`);
+    for (const entry of tally.afterMergeLines) out.push(line(entry));
+  }
+  return out;
+}
 function cardStateLines(state, brief, briefState = state) {
   const out = [
     "Card state (newest result of each checklist item):",
@@ -35593,11 +35738,10 @@ function cardStateLines(state, brief, briefState = state) {
     for (const note of notes) out.push(`- ${note}`);
   };
   section2("Problems", state.problems);
-  section2(needsYouTitle(state), state.needsYou);
-  section2(AFTER_MERGE_TITLE, state.afterMerge);
+  out.push(...yoursAndAfterMerge(state.tally, (entry) => stateItemLine(entry.item)));
   section2(state.passedButTitle, state.passedBut, state.runNotes);
   if (state.notTested.length) {
-    out.push("", `Not tested yet \xB7 ${state.notTested.length}`, state.notTested.map((s) => s.sentence).join(" \xB7 "));
+    out.push("", `Not run yet \xB7 ${state.notTested.length}`, state.notTested.map((s) => s.sentence).join(" \xB7 "));
   }
   section2(PASSED_TITLE, state.worked);
   return out;
@@ -35623,7 +35767,7 @@ function testReportCardSummary(runs, checklistHtml, gitBranchStatus) {
 }
 function formatChainState(state) {
   const out = [
-    "Chain state (newest result of each item, across every card):",
+    "Chain state (newest result of each check, across every card):",
     state.headlineDetail ? `${state.headline} \xB7 ${state.headlineDetail}` : state.headline,
     state.counts
   ];
@@ -35634,10 +35778,8 @@ function formatChainState(state) {
     for (const line of lines2) out.push(`- ${line}`);
   };
   section2("Problems", state.problems.map((line) => line.item ? `${line.displayId} \xB7 ${line.sentence}` : line.sentence));
-  section2(state.needsYouTitle, state.needsYou.map((line) => line.item ? `${line.displayId} \xB7 ${line.sentence}` : line.sentence));
-  section2(AFTER_MERGE_TITLE, state.afterMerge.map((line) => `${line.displayId} \xB7 ${line.sentence}`));
-  section2(LEFT_IN_CARDS_TITLE, state.leftInCards.map((line) => `${line.displayId} \xB7 ${line.sentence}`));
-  section2(PASSED_WITH_NOTES, state.passedBut.map(chainCaveatText));
+  out.push(...yoursAndAfterMerge(state.tally, (entry) => `- ${entry.displayId} \xB7 ${entry.item.sentence}`));
+  section2(state.notesTitle, state.passedBut.map(chainCaveatText));
   if (state.ralph) {
     const lines2 = [];
     if (state.ralph.stopped) {
@@ -35647,7 +35789,7 @@ function formatChainState(state) {
     for (const entry of state.ralph.decisions) lines2.push(chainDecisionText(entry));
     section2("Ralph", lines2);
   }
-  section2("Cards", state.cards.map((row) => `${row.displayId}${row.isParent ? " (parent)" : ""} \xB7 ${row.title} \u2014 ${row.statusLine}`));
+  section2("Cards", state.cards.map((row) => `${row.displayId}${row.isParent ? " (final test)" : ""} \xB7 ${row.title} \u2014 ${row.counts}`));
   return out;
 }
 
@@ -35721,7 +35863,7 @@ var MOMENT_EXTRA = SUMMARY_SLOW_SECONDS + SUMMARY_HOLD_READING_SECONDS;
 function summaryHoldSeconds(moment) {
   return moment.observed ? SUMMARY_HOLD_READING_SECONDS : SUMMARY_HOLD_SECONDS;
 }
-var ITEM_TEXT_MAX = 170;
+var ITEM_TEXT_MAX = 320;
 var OBSERVED_TEXT_MAX = 180;
 var TECHNICAL = /\b[a-z]+_[a-z_]+\b|\blucide-|\b\w+=\S|\b(?:DB|DOM|SQL|API|HTTP|JSON|PID|SSIM|localhost)\b|\b(?:curl|ffprobe|sqlite3?|npm|npx|verify-server|querySelector|currentTime)\b|\/api\/|127\.0\.0\.1|:\d{4}\b|\w+\.(?:tsx?|json|sql|mjs)\b|=>|[{}]|\b\w+\(\)/i;
 var CAMEL_CASE = /\b[a-z]+[A-Z][a-zA-Z]+\b/;
@@ -35830,10 +35972,10 @@ function upperFirst(text2, locale) {
 }
 function fitSentence(sentence, max) {
   if (sentence.length <= max) return sentence;
-  const head = sentence.slice(0, max);
+  const head = sentence.slice(0, max - 1);
   const pause = Math.max(head.lastIndexOf(", "), head.lastIndexOf("; "), head.lastIndexOf(": "));
-  if (pause > max * 0.4) return head.slice(0, pause);
-  return head.slice(0, head.lastIndexOf(" ")).trimEnd();
+  const kept = pause > max * 0.4 ? head.slice(0, pause) : head.slice(0, head.lastIndexOf(" ")).trimEnd();
+  return /[.!?…]$/.test(kept) ? kept : `${kept}\u2026`;
 }
 function readableText(text2, max, redact, sentences = Infinity) {
   let clean = text2.replace(/\s*\[(?:ui|manual)\]/gi, "").replace(/\*\*|`/g, "").replace(/\s*\([^()]{30,}\)/g, "").replace(/\s*\(([^()]*)\)/g, (aside, inner) => isTechnical(inner) ? "" : aside).replace(/\s+/g, " ").trim();
@@ -36019,7 +36161,7 @@ function buildSummarySpec(data, stories = /* @__PURE__ */ new Map()) {
   const day = date4 ? new Intl.DateTimeFormat("en-GB", { timeZone: data.timeZone, day: "numeric", month: "short", year: "numeric" }).format(new Date(date4)) : null;
   const ticked = data.cards.reduce((sum, card) => sum + card.ticked, 0);
   const total = data.cards.reduce((sum, card) => sum + card.total, 0);
-  const plural7 = (count, word) => `${count} ${word}${count === 1 ? "" : "s"}`;
+  const plural8 = (count, word) => `${count} ${word}${count === 1 ? "" : "s"}`;
   const storyOf = (card) => stories.get(card.id) ?? void 0;
   const banners = data.cards.map((card) => bannerOf(storyOf(card)));
   return {
@@ -36031,8 +36173,8 @@ function buildSummarySpec(data, stories = /* @__PURE__ */ new Map()) {
     // Runs and stops count Ralph's events: a zero there says nothing about the card.
     outcome: [
       `${ticked}/${total} checked`,
-      ...data.totals.runs > 0 ? [plural7(data.totals.runs, "run")] : [],
-      ...data.totals.stops > 0 ? [plural7(data.totals.stops, "stop")] : []
+      ...data.totals.runs > 0 ? [plural8(data.totals.runs, "run")] : [],
+      ...data.totals.stops > 0 ? [plural8(data.totals.stops, "stop")] : []
     ].join(" \xB7 "),
     titled,
     cards: shown.map((card) => ({
@@ -36244,8 +36386,8 @@ var SUMMARY_PARAGRAPH_MAX = 1200;
 function joinSegments(segments) {
   return segments.map((segment) => segment.text).join("");
 }
-var SUMMARY_RULES_VERSION = "exec-3";
-function plural6(count, one, many = `${one}s`) {
+var SUMMARY_RULES_VERSION = "exec-4";
+function plural7(count, one, many = `${one}s`) {
   return `${count} ${count === 1 ? one : many}`;
 }
 function formatMs(ms) {
@@ -36255,10 +36397,11 @@ function formatMs(ms) {
   if (minutes < 60) return `${minutes}m ${seconds % 60}s`;
   return `${Math.floor(minutes / 60)}h ${minutes % 60}m`;
 }
-function sureLine(cards, decisions) {
-  return joinSegments(sureSegments(cards, decisions));
+function sureLine(cards, decisions, tally) {
+  return joinSegments(sureSegments(cards, decisions, tally));
 }
-function sureSegments(cards, decisions) {
+function sureSegments(cards, decisions, tally) {
+  if (tally) return [...tallySureSegments(tally), ...decisionSegments(decisions)];
   const items = cards.flatMap((card) => card.checklist);
   const passed = items.filter((item) => item.lastStatus === "passed");
   const onScreen = passed.filter((item) => item.lastEvidence === "visual").length;
@@ -36271,7 +36414,7 @@ function sureSegments(cards, decisions) {
   if (items.length === 0) add("No checklist to check against");
   else {
     const how = passed.length === 0 ? "" : onScreen === 0 ? ", all in a terminal" : inTerminal === 0 ? ", all on screen" : `, ${onScreen} on screen and ${inTerminal} in a terminal`;
-    add(`${passed.length} of ${plural6(items.length, "check")} passed`, passed.length > 0 ? "ai" : null);
+    add(`${passed.length} of ${plural7(items.length, "check")} passed`, passed.length > 0 ? "ai" : null);
     add(how);
   }
   const rest = [];
@@ -36283,11 +36426,47 @@ function sureSegments(cards, decisions) {
     out.push(segment);
   });
   add(".");
+  out.push(...decisionSegments(decisions));
+  return out;
+}
+function tallySureSegments(tally) {
+  const out = [];
+  const add = (text2, tone = null) => out.push({ text: text2, tone });
+  if (tally.total === 0) add("No checklist to check against");
+  else {
+    add(`${tally.passed} of ${plural7(tally.total, "check")} passed`, tally.passed > 0 ? "ai" : null);
+    const kinds = [
+      [tally.onScreen, "on screen"],
+      [tally.inTerminal, "in a terminal"],
+      [tally.byYou, "ticked by you"]
+    ];
+    const present5 = kinds.filter(([n]) => n > 0);
+    if (present5.length === 1) add(`, all ${present5[0][1]}`);
+    else if (present5.length > 1) {
+      const words = present5.map(([n, where]) => `${n} ${where}`);
+      add(`, ${words.slice(0, -1).join(", ")} and ${words[words.length - 1]}`);
+    }
+  }
+  const rest = [];
+  if (tally.failed > 0) rest.push({ text: `${tally.failed} failed`, tone: "bad" });
+  if (tally.yours > 0) rest.push({ text: `${tally.yours} yours`, tone: "you" });
+  if (tally.afterMerge > 0) rest.push({ text: `${tally.afterMerge} after merge`, tone: null });
+  if (tally.notRunYet > 0) rest.push({ text: `${tally.notRunYet} not run yet`, tone: null });
+  rest.forEach((segment, index) => {
+    add(index === 0 ? "; " : ", ");
+    out.push(segment);
+  });
+  add(".");
+  return out;
+}
+function decisionSegments(decisions) {
+  const out = [];
+  const add = (text2) => out.push({ text: text2, tone: null });
   const accepted = decisions.filter((decision) => decision.kind === "acceptance").length;
   const reworded = decisions.filter((decision) => decision.kind === "revision").length;
   const took = [];
-  if (accepted > 0) took.push(`took ${plural6(accepted, "decision")} on its own`);
-  if (reworded > 0) took.push(`reworded ${plural6(reworded, "item")}`);
+  if (accepted > 0) took.push(`took ${plural7(accepted, "decision")} on its own`);
+  if (reworded > 0) took.push(`reworded ${plural7(reworded, "item")}`);
   if (took.length > 0) add(` Ralph ${took.join(" and ")}.`);
   return out;
 }
@@ -36309,8 +36488,8 @@ function touchedSegments(cards) {
   const removed = prints.reduce((sum, print) => sum + print.removed, 0);
   const out = [
     { text: "Changed ", tone: null },
-    { text: plural6(paths.size, "file"), tone: "ai" },
-    { text: `${tests > 0 ? ` (${tests} of them tests)` : ""}, +${added.toLocaleString("en-US")} \u2212${removed.toLocaleString("en-US")} over ${plural6(commits, "commit")}.`, tone: null }
+    { text: plural7(paths.size, "file"), tone: "ai" },
+    { text: `${tests > 0 ? ` (${tests} of them tests)` : ""}, +${added.toLocaleString("en-US")} \u2212${removed.toLocaleString("en-US")} over ${plural7(commits, "commit")}.`, tone: null }
   ];
   const flags = Object.keys(FLAG_PHRASE).filter((flag) => prints.some((print) => print.flags.includes(flag)));
   if (flags.length > 0) {
@@ -36319,7 +36498,7 @@ function touchedSegments(cards) {
     out.push({ text: ` Includes ${list}.`, tone: null });
   }
   const unread = cards.length - read.length;
-  if (unread > 0) out.push({ text: ` Not readable here for ${plural6(unread, "card")}.`, tone: null });
+  if (unread > 0) out.push({ text: ` Not readable here for ${plural7(unread, "card")}.`, tone: null });
   return out;
 }
 function selfFixLine(cards) {
@@ -36337,12 +36516,12 @@ function selfFixSegments(cards) {
   const add = (text2, tone = null) => out.push({ text: text2, tone });
   if (commits.length > 0) {
     add("Fixed ");
-    add(plural6(commits.length, "problem"), "ai");
+    add(plural7(commits.length, "problem"), "ai");
     add(` its checks found${cards.length > 1 ? ` (${perCard.join(", ")})` : ""}`);
   }
   if (conflicts > 0) {
     add(commits.length > 0 ? " and solved " : "solved ");
-    add(plural6(conflicts, "chain conflict"), "ai");
+    add(plural7(conflicts, "chain conflict"), "ai");
   }
   if (out.length > 0) add(".");
   else if (unreadable.length !== cards.length) add("Nothing it had to fix on its own.");
@@ -36355,7 +36534,7 @@ function selfFixSegments(cards) {
 function costLine(data) {
   const cost = data.totals.cost === null ? "cost not reported" : `$${data.totals.cost.toFixed(2)}`;
   const span = data.firstAt && data.lastAt ? `; ${formatMs(Date.parse(data.lastAt) - Date.parse(data.firstAt))} from first send to last event` : "";
-  return `${plural6(data.totals.runs, "AI run")}, ${formatMs(data.totals.ms)} of AI time, ${cost}${span}.`;
+  return `${plural7(data.totals.runs, "AI run")}, ${formatMs(data.totals.ms)} of AI time, ${cost}${span}.`;
 }
 function interventionLine(list) {
   const summary = summarizeInterventions(list);
@@ -36439,10 +36618,14 @@ function currentSummary(stored, basis) {
   const watch = cleanParagraph(stored.watch);
   return delivered || watch ? { delivered, watch } : null;
 }
+function tallyOfState(state) {
+  if (!state) return void 0;
+  return state.kind === "chain" ? state.chain.tally : state.card.tally;
+}
 function executiveOf(data, interventions, stored) {
   return {
-    sure: sureLine(data.cards, data.decisions),
-    sureParts: sureSegments(data.cards, data.decisions),
+    sure: sureLine(data.cards, data.decisions, tallyOfState(data.state)),
+    sureParts: sureSegments(data.cards, data.decisions, tallyOfState(data.state)),
     selfFixes: selfFixLine(data.cards),
     selfFixParts: selfFixSegments(data.cards),
     touched: joinSegments(touchedSegments(data.cards)),
@@ -36935,14 +37118,14 @@ function authorshipOf(db2, cardIds) {
 }
 function reportNextStep(data) {
   const cards = data.cards;
-  const mine = data.gaps.filter((gap) => gap.group === "yours");
-  const mineOn = listOf([...new Set(mine.map((gap) => gap.displayId))]);
-  const walk = `walk ${mine.length} [manual] item${mine.length === 1 ? "" : "s"} on ${mineOn}`;
+  const tally = data.state.kind === "chain" ? data.state.chain.tally : data.state.card.tally;
+  const holds = tally.yoursGroups.find((group) => group.key === "holds")?.lines.length ?? 0;
+  const checks = (n) => `${n} check${n === 1 ? "" : "s"}`;
   const landed = data.chain?.mergedCommit ?? (!data.chain && cards[0]?.status === "completed" ? cards[0].commit : null);
   if (landed || cards.length > 0 && cards.every((card) => card.status === "completed")) {
     const where = data.chain?.landedOn ?? "main";
     const head = `Landed on ${where}${landed ? ` as ${landed.slice(0, 7)}` : ""}.`;
-    if (mine.length > 0) return { text: `${head} Your turn: ${walk}.`, yourTurn: true };
+    if (tally.yours > 0) return { text: `${head} Your turn: ${checks(tally.yours)} on ${where}.`, yourTurn: true };
     return { text: `${head} Nothing left for you.`, yourTurn: false };
   }
   const stopped = cards.find((card) => card.stopReason);
@@ -36951,19 +37134,15 @@ function reportNextStep(data) {
     return { text: `Stopped on ${stopped.displayId}. Your turn: ${step ?? `${stopped.stopReason}. Read it below, then Continue.`}`, yourTurn: true };
   }
   const mergeCard3 = cards.find((card) => card.isParent) ?? cards[cards.length - 1];
-  if (mine.length > 0) {
-    return { text: `Your turn: ${walk}, then Merge & Complete on ${mergeCard3?.displayId ?? mineOn}.`, yourTurn: true };
-  }
   const headline = data.state.kind === "chain" ? data.state.chain.headline : data.state.card.headline;
   if (headline === "Ready to merge") {
     return { text: `Ready to merge. Your turn: Merge & Complete on ${mergeCard3?.displayId ?? "the card"}.`, yourTurn: true };
   }
+  if (holds > 0) {
+    return { text: `Your turn: ${checks(holds)} before the merge, then Merge & Complete on ${mergeCard3?.displayId ?? "the card"}.`, yourTurn: true };
+  }
   const onRalph = cards.find((card) => card.where.startsWith("On Ralph")) ?? cards.find((card) => card.status !== "completed" && !card.isParent);
   return { text: onRalph ? `Ralph is still on ${onRalph.displayId}.` : headline, yourTurn: false };
-}
-function listOf(items) {
-  if (items.length <= 1) return items[0] ?? "";
-  return `${items.slice(0, -1).join(", ")} and ${items[items.length - 1]}`;
 }
 var SELF_FIX_PHASES = /* @__PURE__ */ new Set(["verify-fix", "chain-resolve"]);
 function selfFixesOf(row, displayId, events) {
@@ -37064,7 +37243,8 @@ main{max-width:760px;margin:0 auto;padding:32px 16px 96px;overflow-wrap:break-wo
 h1{font-size:20px;font-weight:600;line-height:1.3;letter-spacing:-.01em;margin:0 0 6px}
 h2{font-size:15px;font-weight:600;line-height:1.35;margin:36px 0 10px}
 h3{font-size:13px;font-weight:500;letter-spacing:-.01em;margin:24px 0 4px}
-h4{font:500 11px/1.4 "Geist Mono",ui-monospace,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:18px 0 6px}
+h4{font-size:13.5px;font-weight:600;line-height:1.35;color:var(--fg);margin:18px 0 4px}
+.grp{font:500 10.5px/1.4 "Geist Mono",ui-monospace,Menlo,monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--fg);opacity:.72;margin:12px 0 2px}
 p{margin:6px 0}
 ul{list-style:none;margin:4px 0;padding:0}
 ul>li{padding:7px 0;border-top:1px solid var(--line)}
@@ -37238,17 +37418,40 @@ function pillCodes(html) {
 function segmentsHtml(esc2, segments) {
   return segments.map((segment) => segment.tone ? `<span class="${segment.tone}">${pillCodes(esc2(segment.text))}</span>` : pillCodes(esc2(segment.text))).join("");
 }
+function tallyOf(data) {
+  return data.state.kind === "chain" ? data.state.chain.tally : data.state.card.tally;
+}
+function yoursSectionHtml(tally, esc2, single, why) {
+  const out = [];
+  const row = (line, note) => {
+    const reason = why(line);
+    const raw = line.item.checklistText;
+    const tokens = raw ? raw.slice(itemTokensStart(raw)).trim() : "";
+    const body = `${withChips(esc2, tokens ? `${line.item.sentence} ${tokens}` : line.item.sentence)}${reason ? ` <span class="small muted">\u2014 why: ${esc2(reason)}</span>` : ""}${note ? `<br><span class="small muted">${esc2(note)}</span>` : ""}`;
+    return pillRow(esc2, line.displayId ?? single ?? "", body);
+  };
+  const titled = showYoursGroupTitles(tally);
+  for (const group of tally.yoursGroups) {
+    if (titled) out.push(`<p class="grp">${esc2(group.title)} \xB7 ${group.lines.length}</p>`);
+    out.push(`<ul>`, ...group.lines.map((line) => row(line, group.note)), `</ul>`);
+  }
+  if (tally.afterMergeLines.length > 0) {
+    out.push(
+      `<p class="grp">${esc2(AFTER_MERGE_TITLE)} \xB7 ${tally.afterMergeLines.length}</p>`,
+      `<p class="small muted">${esc2(AFTER_MERGE_WAIT_NOTE)}</p>`,
+      `<ul>`,
+      ...tally.afterMergeLines.map((line) => row(line, null)),
+      `</ul>`
+    );
+  }
+  return out;
+}
 function cardStateHtml(data, esc2) {
   const out = [`<h2>Card state</h2>`];
   const card = data.state?.kind === "card" ? data.state.card : null;
+  const tally = tallyOf(data);
   const list = (title, lines2, cls = "") => {
     if (lines2.length === 0) return;
-    if (title === PASSED_WITH_NOTES || title === card?.passedButTitle || title === LEFT_IN_CARDS_TITLE) {
-      out.push(`<details class="caveats"><summary>${esc2(title)} \xB7 ${lines2.length}</summary><ul>`);
-      for (const line of lines2) out.push(line.startsWith("<li") ? line : `<li>${line}</li>`);
-      out.push(`</ul></details>`);
-      return;
-    }
     out.push(`<h4>${esc2(title)} \xB7 ${lines2.length}</h4><ul${cls ? ` class="${cls}"` : ""}>`);
     for (const line of lines2.slice(0, 8)) out.push(line.startsWith("<li") ? line : `<li>${line}</li>`);
     out.push(`</ul>`);
@@ -37258,34 +37461,41 @@ function cardStateHtml(data, esc2) {
       out.push(`</ul></details>`);
     }
   };
+  const notes = (title, lines2) => {
+    if (lines2.length === 0) return;
+    out.push(`<details class="caveats"><summary>${esc2(title)}</summary><ul>`);
+    for (const line of lines2) out.push(line.startsWith("<li") ? line : `<li>${line}</li>`);
+    out.push(`</ul></details>`);
+  };
+  const pointer = () => {
+    const parts = [];
+    if (tally.yours > 0) parts.push(`${YOURS_TITLE} \xB7 ${tally.yours}`);
+    if (tally.afterMerge > 0) parts.push(`${AFTER_MERGE_TITLE} \xB7 ${tally.afterMerge}`);
+    if (parts.length > 0) out.push(`<p class="small muted">${esc2(parts.join(", "))}: in Your turn above.</p>`);
+  };
+  const headline = (text2, detail) => `<p><strong class="${text2 === "Ready to merge" ? "ok" : "bad"}">${esc2(text2)}</strong>${detail ? ` \xB7 ${esc2(detail)}` : ""}</p>`;
   const aiLine = (text2) => `<p class="small muted"><span class="who ai">AI SUMMARY</span> ${esc2(text2)}</p>`;
   let hasAi = false;
   if (data.state.kind === "chain") {
     const chain = data.state.chain;
-    out.push(
-      `<p><strong class="${chain.headline === "Ready to merge" ? "ok" : "bad"}">${esc2(chain.headline)}</strong>${chain.headlineDetail ? ` \xB7 ${esc2(chain.headlineDetail)}` : ""}</p>`
-    );
+    out.push(headline(chain.headline, chain.headlineDetail));
     out.push(`<p class="num">${esc2(chain.counts)}</p>`);
-    out.push(`<p class="small muted">${esc2(CHAIN_ACROSS_LINE)}</p>`);
+    out.push(`<p class="small muted">${esc2(chainScopeLine(chain.cards.length))}</p>`);
     const itemLine = (line) => line.item ? pillRow(esc2, line.displayId, esc2(line.sentence)) : esc2(line.sentence);
     list("Problems", chain.problems.map(itemLine), "bad");
-    list(chain.needsYouTitle, chain.needsYou.map(itemLine));
-    list(AFTER_MERGE_TITLE, chain.afterMerge.map(itemLine));
-    list(LEFT_IN_CARDS_TITLE, chain.leftInCards.map(itemLine));
-    list(PASSED_WITH_NOTES, chain.passedBut.map((line) => `<li class="r"><span>${idPills(esc2, line.cards)}</span><span class="body">${esc2(line.text)}</span></li>`));
-    out.push(`<div class="t"><table><thead><tr><th>Card</th><th>State</th></tr></thead><tbody>`);
+    pointer();
+    notes(chain.notesTitle, chain.passedBut.map((line) => `<li class="r"><span>${idPills(esc2, line.cards)}</span><span class="body">${esc2(line.text)}</span></li>`));
+    out.push(`<div class="t"><table><thead><tr><th>Card</th><th>Checks</th></tr></thead><tbody>`);
     for (const row of chain.cards) {
       const ai = data.state.aiSummary[row.id];
       if (ai) hasAi = true;
       out.push(
-        `<tr><td>${idPill(esc2, row.displayId)}${row.isParent ? ' <span class="muted small">parent</span>' : ""} ${esc2(row.title)}${ai ? aiLine(ai) : ""}</td><td class="num mono">${esc2(row.statusLine)}</td></tr>`
+        `<tr><td>${idPill(esc2, row.displayId)}${row.isParent ? ' <span class="muted small">final test</span>' : ""} ${esc2(row.title)}${ai ? aiLine(ai) : ""}</td><td class="num mono">${esc2(row.counts)}</td></tr>`
       );
     }
     out.push(`</tbody></table></div>`);
   } else if (card) {
-    out.push(
-      `<p><strong class="${card.headline === "Ready to merge" ? "ok" : "bad"}">${esc2(card.headline)}</strong>${card.headlineDetail ? ` \xB7 ${esc2(card.headlineDetail)}` : ""}</p>`
-    );
+    out.push(headline(card.headline, card.headlineDetail));
     if (card.headlineNote) out.push(`<p class="small muted">${esc2(card.headlineNote)}</p>`);
     out.push(`<p class="num">${esc2(card.counts)}</p>`);
     if (card.lastRun) out.push(`<p class="small muted">Last run: ${esc2(card.lastRun)}</p>`);
@@ -37294,9 +37504,8 @@ function cardStateHtml(data, esc2) {
       out.push(aiLine(data.state.aiSummary));
     }
     list("Problems", card.problems.map((item) => esc2(item.sentence)), "bad");
-    list(needsYouTitle(card), card.needsYou.map((item) => esc2(item.sentence)));
-    list(AFTER_MERGE_TITLE, card.afterMerge.map((item) => esc2(item.sentence)));
-    list(card.passedButTitle, [
+    pointer();
+    notes(card.passedButTitle, [
       // The code check (IDE-788) beside the agent's own caveat, as get_test_report joins them (IDE-771).
       ...card.passedBut.map((item) => {
         const note = [item.caveat, item.codeCaveat].filter(Boolean).join(". ");
@@ -37362,6 +37571,7 @@ function renderRunReport(data, embed, summary = { state: "none" }, extras = {}) 
   const gapList = (group) => {
     const out = [];
     for (const kind of GAP_ORDER) {
+      if (kind === "unticked") continue;
       const list = data.gaps.filter((gap) => gap.kind === kind && (gap.group ?? "before-merge") === group);
       if (list.length === 0) continue;
       const heading = group === "yours" ? "[manual] items left to you" : GAP_HEADINGS[kind];
@@ -37375,8 +37585,19 @@ function renderRunReport(data, embed, summary = { state: "none" }, extras = {}) 
     }
     return out;
   };
-  const yours = gapList("yours");
-  const yoursHtml = yours.length > 0 ? [`<div class="turn"><h2>${GAP_GROUP_TITLE.yours}</h2>`, ...yours, `</div>`] : [];
+  const tally = tallyOf(data);
+  const reasonOf = (line) => {
+    const key = stripItemTokens(line.item.checklistText).toLowerCase();
+    const gap = data.gaps.find(
+      (candidate) => candidate.why && candidate.group === "yours" && stripItemTokens(candidate.text).toLowerCase() === key
+    );
+    return gap?.why ?? null;
+  };
+  const single = data.cards.length === 1 ? data.cards[0].displayId : null;
+  const turnBody = yoursSectionHtml(tally, esc2, single, reasonOf);
+  const readyNoChecks = tally.yours === 0 && data.next?.yourTurn && !data.chain?.mergedCommit;
+  const turnTitle = tally.yours > 0 ? `${GAP_GROUP_TITLE.yours} \xB7 ${tally.yours}` : readyNoChecks ? `${GAP_GROUP_TITLE.yours} \xB7 Merge` : AFTER_MERGE_TITLE;
+  const yoursHtml = turnBody.length > 0 ? [`<div class="${tally.yours > 0 || readyNoChecks ? "turn" : "exec"}"><h2>${esc2(turnTitle)}</h2>`, ...turnBody, `</div>`] : [];
   const summaryVideoHtml = [];
   if (summary.state === "in-file") {
     const seconds = Math.round(summary.durationSec);
@@ -37419,7 +37640,7 @@ function renderRunReport(data, embed, summary = { state: "none" }, extras = {}) 
   const rowOf = (id) => data.state?.kind === "chain" ? data.state.chain.cards.find((row) => row.id === id) : null;
   const testsCell = (card) => {
     const row = rowOf(card.id);
-    if (row) return esc2(row.statusLine);
+    if (row) return esc2(row.counts);
     return card.total > 0 ? `${card.ticked}/${card.total}` : '<span class="muted">none</span>';
   };
   summaryHtml.push(`<div class="t"><table><thead><tr><th>Card</th><th>Where</th><th>Commit</th><th>Tests</th></tr></thead><tbody>`);
@@ -37439,14 +37660,6 @@ function renderRunReport(data, embed, summary = { state: "none" }, extras = {}) 
   beforeMergeHtml.push(
     `<p class="small muted">A browser item without the <code>[ui]</code> tag never went through the visual gate, and this version cannot tell which those are.</p>`
   );
-  const afterMergeGaps = gapList("after-merge");
-  if (afterMergeGaps.length > 0) {
-    beforeMergeHtml.push(
-      `<h2>${GAP_GROUP_TITLE["after-merge"]}</h2>`,
-      `<p class="small muted">Checks for once this is on main. Merge does not wait on them.</p>`,
-      ...afterMergeGaps
-    );
-  }
   const changesHtml = [];
   if (data.cards.some((card) => card.footprint)) {
     changesHtml.push(
