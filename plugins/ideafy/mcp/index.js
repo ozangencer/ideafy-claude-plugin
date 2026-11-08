@@ -20994,11 +20994,18 @@ var VERIFY_HARD_LIMIT_MINUTES = OTHER_PHASE_HARD_LIMIT_MINUTES;
 // ../lib/test-progress.ts
 var test_progress_exports = {};
 __export(test_progress_exports, {
+  AFTER_MERGE_ITEM_LIMIT: () => AFTER_MERGE_ITEM_LIMIT,
+  AFTER_MERGE_ITEM_TOKEN: () => AFTER_MERGE_ITEM_TOKEN,
   MANUAL_ITEM_LIMIT: () => MANUAL_ITEM_LIMIT,
   MANUAL_ITEM_TOKEN: () => MANUAL_ITEM_TOKEN,
   NEEDS_PRE_VERIFY_REASON: () => NEEDS_PRE_VERIFY_REASON,
   SPLIT_FLOWS_HEADING: () => SPLIT_FLOWS_HEADING,
   UI_ITEM_TOKEN: () => UI_ITEM_TOKEN,
+  afterMergeDroppedWarning: () => afterMergeDroppedWarning,
+  afterMergeItemsOutsideCore: () => afterMergeItemsOutsideCore,
+  afterMergeLeftIn: () => afterMergeLeftIn,
+  afterMergeLimitMessage: () => afterMergeLimitMessage,
+  afterMergeOverLimit: () => afterMergeOverLimit,
   allUiItemTexts: () => allUiItemTexts,
   appendFinalTestPlanNote: () => appendFinalTestPlanNote,
   canVerifyAllGroups: () => canVerifyAllGroups,
@@ -21008,19 +21015,24 @@ __export(test_progress_exports, {
   defaultVisualItems: () => defaultVisualItems,
   describeTestGroup: () => describeTestGroup,
   distinctItems: () => distinctItems,
+  dropAfterMergeTokens: () => dropAfterMergeTokens,
   dropManualTokens: () => dropManualTokens,
   finalTestNote: () => finalTestNote,
   flowsOnlyChecklist: () => flowsOnlyChecklist,
   groupSectionsHtml: () => groupSectionsHtml,
   hasOwnChecklist: () => hasOwnChecklist,
   hasRealPlan: () => hasRealPlan,
+  isAfterMergeItem: () => isAfterMergeItem,
   isCopySetupItem: () => isCopySetupItem,
   isCoreHeading: () => isCoreHeading,
   isFinalTestNote: () => isFinalTestNote,
   isManualItem: () => isManualItem,
+  isPersonsItem: () => isPersonsItem,
   isUiItem: () => isUiItem,
   isVerifyScope: () => isVerifyScope,
   itemTokensStart: () => itemTokensStart,
+  itemsLeft: () => itemsLeft,
+  leftForYouText: () => leftForYouText,
   manualDroppedWarning: () => manualDroppedWarning,
   manualItemTexts: () => manualItemTexts,
   manualItemsOutsideCore: () => manualItemsOutsideCore,
@@ -21033,6 +21045,7 @@ __export(test_progress_exports, {
   parseTestProgress: () => parseTestProgress,
   pickCurrentItems: () => pickCurrentItems,
   preVerifyVisualItems: () => preVerifyVisualItems,
+  progressRatio: () => progressRatio,
   recheckCandidateTexts: () => recheckCandidateTexts,
   runnableItemTexts: () => runnableItemTexts,
   runnableLeft: () => runnableLeft,
@@ -21193,8 +21206,10 @@ function parseTestProgress(html) {
     if (counts.total === 0) return;
     const flows = index === flowsIndex;
     const core2 = index === coreIndex || flows;
-    const manual = index === coreIndex ? 0 : sectionItems(section2.body, false).filter(isManualItem).length;
-    groups.push({ heading: section2.heading, occurrence, core: core2, ...flows ? { flows } : {}, ...counts, manual });
+    const open = index === coreIndex ? [] : sectionItems(section2.body, false);
+    const afterMerge = open.filter(isAfterMergeItem).length;
+    const manual = open.filter((text2) => isManualItem(text2) && !isAfterMergeItem(text2)).length;
+    groups.push({ heading: section2.heading, occurrence, core: core2, ...flows ? { flows } : {}, ...counts, manual, afterMerge });
   });
   const core = groups.find((g) => g.core);
   if (!core) return { ...overall, groups };
@@ -21246,14 +21261,14 @@ function pickCurrentItems(picked, current) {
   return { items, dropped: asked.length - items.length };
 }
 function runnableLeft(group) {
-  return group.total - group.checked - group.manual - (group.parked ?? 0);
+  return group.total - group.checked - group.manual - (group.afterMerge ?? 0) - (group.parked ?? 0);
 }
 function withParkedItems(progress, html, parked) {
   if (!progress || parked.length === 0) return progress;
   const wanted = new Set(parked.map((item) => item.trim()));
   const groups = progress.groups.map((group) => {
     const manualCounts = !group.core || !!group.flows;
-    const open = itemTexts(html, [group], false).filter((text2) => !(manualCounts && isManualItem(text2)));
+    const open = itemTexts(html, [group], false).filter((text2) => !(manualCounts && isPersonsItem(text2)));
     const count = open.filter((text2) => wanted.has(text2.trim())).length;
     return count > 0 ? { ...group, parked: count } : group;
   });
@@ -21270,7 +21285,8 @@ function nextVerifyGroup(progress) {
 }
 function nothingToVerifyReason(progress) {
   if (nextVerifyGroup(progress)) return null;
-  return manualLeftIn(progress) > 0 ? "only [manual] items are left \u2014 they are yours" : "its checklist is fully ticked";
+  if (manualLeftIn(progress) > 0) return "only [manual] items are left \u2014 they are yours";
+  return afterMergeLeftIn(progress) > 0 ? "only [after-merge] items are left \u2014 they wait for the merge" : "its checklist is fully ticked";
 }
 function canVerifyAllGroups(progress) {
   return verifyTargets(progress, "all").length > 1;
@@ -21280,6 +21296,21 @@ function verifyAllLabel(progress) {
 }
 function untickedIn(groups) {
   return groups.reduce((sum, g) => sum + runnableLeft(g), 0);
+}
+function itemsLeft(progress, opts) {
+  if (!progress) return 0;
+  const deferred = opts?.merged ? 0 : afterMergeLeftIn(progress);
+  return Math.max(0, progress.total - progress.checked - deferred);
+}
+function afterMergeLeftIn(progress) {
+  return progress?.groups.reduce((sum, g) => sum + (g.afterMerge ?? 0), 0) ?? 0;
+}
+function progressRatio(progress, opts) {
+  const deferred = opts?.merged ? 0 : afterMergeLeftIn(progress);
+  return { checked: progress.checked, total: progress.total - deferred };
+}
+function leftForYouText(n) {
+  return `${n} left for you`;
 }
 function manualLeftIn(progress) {
   return progress?.groups.reduce((sum, g) => sum + g.manual, 0) ?? 0;
@@ -21305,7 +21336,8 @@ function ordinal(n) {
 }
 var UI_ITEM_TOKEN = "[ui]";
 var MANUAL_ITEM_TOKEN = "[manual]";
-var ITEM_TOKEN_PATTERN = /(?:\s*\[(?:ui|manual)\])+\s*$/i;
+var AFTER_MERGE_ITEM_TOKEN = "[after-merge]";
+var ITEM_TOKEN_PATTERN = /(?:\s*\[(?:ui|manual|after-merge)\])+\s*$/i;
 function itemTokensStart(text2) {
   return ITEM_TOKEN_PATTERN.exec(text2)?.index ?? text2.length;
 }
@@ -21318,6 +21350,12 @@ function isUiItem(text2) {
 function isManualItem(text2) {
   return itemTokens(text2).includes(MANUAL_ITEM_TOKEN);
 }
+function isAfterMergeItem(text2) {
+  return itemTokens(text2).includes(AFTER_MERGE_ITEM_TOKEN);
+}
+function isPersonsItem(text2) {
+  return isManualItem(text2) || isAfterMergeItem(text2);
+}
 function isCopySetupItem(text2) {
   return /verify-server`?\s+start\b/i.test(text2);
 }
@@ -21326,17 +21364,33 @@ function stripItemTokens(text2) {
   return text2.replace(ITEM_TOKEN_PATTERN, "").replace(/\s+/g, " ").trim();
 }
 function manualItemTexts(html, groups) {
-  return untickedItemTexts(html, groups.filter((g) => !g.core || g.flows)).filter(isManualItem);
+  return untickedItemTexts(html, groups.filter((g) => !g.core || g.flows)).filter(isPersonsItem);
 }
 function runnableItemTexts(html, groups) {
   const manual = new Set(manualItemTexts(html, groups));
   return untickedItemTexts(html, groups).filter((text2) => !manual.has(text2));
 }
 var MANUAL_ITEM_LIMIT = 2;
+var AFTER_MERGE_ITEM_LIMIT = 2;
+function afterMergeItemsOutsideCore(html) {
+  const sections = splitSections(html);
+  const coreIndex = sections.findIndex((s) => CORE_HEADING.test(s.label));
+  return sections.filter((_2, index) => index !== coreIndex).flatMap((s) => [...sectionItems(s.body, false), ...sectionItems(s.body, true)]).filter(isAfterMergeItem);
+}
+function afterMergeOverLimit(previous, next) {
+  const before = new Set(afterMergeItemsOutsideCore(previous).map(stripItemTokens));
+  const items = afterMergeItemsOutsideCore(next);
+  const added = items.filter((text2) => !before.has(stripItemTokens(text2)));
+  return added.slice(Math.max(0, AFTER_MERGE_ITEM_LIMIT - (items.length - added.length)));
+}
+function afterMergeLimitMessage(tool, items) {
+  const list = items.map((item) => `"${item}"`).join(", ");
+  return `${tool} refused, nothing written: at most ${AFTER_MERGE_ITEM_LIMIT} [after-merge] items outside the core flow, and this write adds ${items.length} past that \u2014 ${list}. [after-merge] is only for a check that needs the change truly on main: a release cut from main, another card or session taking it from main, a backfill on the live DB. A merge itself still runs on a verify-server copy. Drop the token from those items and write again.`;
+}
 function manualItemsOutsideCore(html) {
   const sections = splitSections(html);
   const coreIndex = sections.findIndex((s) => CORE_HEADING.test(s.label));
-  return sections.filter((_2, index) => index !== coreIndex).flatMap((s) => [...sectionItems(s.body, false), ...sectionItems(s.body, true)]).filter(isManualItem);
+  return sections.filter((_2, index) => index !== coreIndex).flatMap((s) => [...sectionItems(s.body, false), ...sectionItems(s.body, true)]).filter((text2) => isManualItem(text2) && !isAfterMergeItem(text2));
 }
 function manualOverLimit(previous, next) {
   const before = new Set(manualItemsOutsideCore(previous).map(stripItemTokens));
@@ -21351,7 +21405,7 @@ function manualLimitMessage(tool, items) {
 function manualDroppedWarning(items) {
   return `[manual] dropped from ${items.length} item${items.length === 1 ? "" : "s"} past the limit of ${MANUAL_ITEM_LIMIT} \u2014 pre-verify runs ${items.length === 1 ? "it" : "them"}: ${items.map((item) => `"${item}"`).join(", ")}`;
 }
-var TRAILING_MANUAL = /\s*(?:<code>\s*)?\[manual\](?:\s*<\/code>)?(?=(?:\s|<\/?(?:p|div|code|strong|em)>|\[ui\])*$)/i;
+var TRAILING_MANUAL = /\s*(?:<code>\s*)?\[manual\](?:\s*<\/code>)?(?=(?:\s|<\/?(?:p|div|code|strong|em)>|\[(?:ui|after-merge)\])*$)/i;
 function dropManualTokens(html, items) {
   if (items.length === 0) return html;
   const left = [...items];
@@ -21361,6 +21415,20 @@ function dropManualTokens(html, items) {
     left.splice(index, 1);
     return li.replace(inner, inner.replace(TRAILING_MANUAL, ""));
   });
+}
+var TRAILING_AFTER_MERGE = /\s*(?:<code>\s*)?\[after-merge\](?:\s*<\/code>)?(?=(?:\s|<\/?(?:p|div|code|strong|em)>|\[(?:ui|manual)\])*$)/i;
+function dropAfterMergeTokens(html, items) {
+  if (items.length === 0) return html;
+  const left = [...items];
+  return html.replace(new RegExp(ITEM.source, ITEM.flags), (li, _checked, inner) => {
+    const index = left.indexOf(headingText(inner));
+    if (index === -1) return li;
+    left.splice(index, 1);
+    return li.replace(inner, inner.replace(TRAILING_AFTER_MERGE, ""));
+  });
+}
+function afterMergeDroppedWarning(items) {
+  return `[after-merge] dropped from ${items.length} item${items.length === 1 ? "" : "s"} past the limit of ${AFTER_MERGE_ITEM_LIMIT} \u2014 pre-verify runs ${items.length === 1 ? "it" : "them"}: ${items.map((item) => `"${item}"`).join(", ")}`;
 }
 function markManualItems(html, items) {
   if (items.length === 0) return html;
@@ -21392,7 +21460,7 @@ function allUiItemTexts(html) {
   if (!progress) return [];
   const later = progress.groups.filter((g) => !g.core || g.flows);
   const manual = new Set(
-    [...itemTexts(html, later, true), ...itemTexts(html, later, false)].filter(isManualItem)
+    [...itemTexts(html, later, true), ...itemTexts(html, later, false)].filter(isPersonsItem)
   );
   return [...itemTexts(html, progress.groups, true), ...itemTexts(html, progress.groups, false)].filter(
     (text2) => isUiItem(text2) && !manual.has(text2)
@@ -21453,6 +21521,15 @@ paths, session IDs, URLs, column names.
   (\`127.0.0.1:30xx\`) or a card opened only on the copy never goes into an item:
   the copy lives a few hours. When a step needs a copy, write "open the copy with
   \`verify-server start --card <ID>\`" instead.
+- Identifiers stay concrete: card ID, file path, session ID, column name, button
+  label. A value derived from data never goes into an item as a fixed number:
+  a duration, count, total, percentage, timestamp, anything read off live data.
+  It changes when a recipe, seed or copy changes. Write its shape (\`m:ss\`, "a
+  number", "today's date") or its relation ("as many as the core-flow items",
+  "above 0") instead: "Summary video \xB7 m:ss" beats "Summary video \xB7 2:17",
+  "Passed, but \xB7 <a number>" beats "Passed, but \xB7 45". The data that shows the
+  behavior is still named; what it computes is not pinned. Pre-verify cannot
+  rewrite the core flow, so a pinned value that stops holding locks the item.
 - A group may close with one \`If it breaks:\` line naming the first place to
   look. Keep it to a sentence.
 
@@ -21483,6 +21560,16 @@ paths, session IDs, URLs, column names.
   save_tests refuses more. Pre-verify and Autopilot skip \`[manual]\` items
   and leave them to the person; a ticked one needs no screenshot. Never in the
   core flow \u2014 there it is ignored. \`[ui] [manual]\` together is fine.
+- End an item with \`[after-merge]\` only for a check that can be seen once the
+  change has truly landed on main: a plugin or app release cut from main,
+  another card or session that takes the change from main, a backfill on the
+  live DB. The merge itself still runs on a \`verify-server\` copy \u2014 the token
+  is not for that, and not for an item that is merely hard. A \`[manual]\`
+  item that has to wait for the merge is written \`[after-merge]\` instead.
+  At most ${AFTER_MERGE_ITEM_LIMIT} per checklist outside the core flow;
+  save_tests refuses more. No run takes them and Ready to merge does not wait
+  on them; the Test Report lists them under After merge. Never in the core
+  flow \u2014 there it is ignored.
 - Native browser UI (a \`<datalist>\` popup, an open \`<select>\`, a date picker,
   a file or print dialog) may not be drawn in a headless run. Write the step
   against what the page holds (\`#x option\`). When seeing the popup is the point
@@ -21519,7 +21606,8 @@ stored \`cwd\` against where the terminal actually opened.
 - [ ] Dropdown shows None + all teams.                             // spec, not a test step
 - [ ] value === 'none' when card has no team                        // implementation assertion
 - [ ] Works correctly.                                              // unobservable
-- [ ] Open a card that has a session.                               // placeholder \u2014 name the card`;
+- [ ] Open a card that has a session.                               // placeholder \u2014 name the card
+- [ ] The strip reads "Summary video \xB7 2:17".                       // derived value pinned \u2014 write m:ss`;
 var STYLE_CONTRACT_TR = `## Test senaryosu stil kurallar\u0131 (zorunlu)
 
 Senaryolar\u0131, kullan\u0131c\u0131y\u0131 feature'\u0131 ad\u0131m ad\u0131m gezdiren bir manuel test\xE7i gibi
@@ -21560,6 +21648,15 @@ session ID, URL, kolon ad\u0131.
   (\`127.0.0.1:30xx\`) ya da yaln\u0131zca kopyada a\xE7\u0131lan bir kart maddeye yaz\u0131lmaz:
   kopya birka\xE7 saat ya\u015Far. Ad\u0131m bir kopya gerektiriyorsa "\`verify-server start
   --card <ID>\` ile kopyay\u0131 a\xE7" diye yaz.
+- Kimlikler somut kal\u0131r: kart ID'si, dosya yolu, session ID, kolon ad\u0131, buton
+  etiketi. Veriden t\xFCreyen de\u011Fer ise maddeye sabit say\u0131 olarak yaz\u0131lmaz: s\xFCre,
+  saya\xE7, toplam, y\xFCzde, zaman damgas\u0131, canl\u0131 veriden okunan her \u015Fey. Tarif, seed
+  ya da kopya de\u011Fi\u015Fince o da de\u011Fi\u015Fir. Yerine bi\xE7imini (\`m:ss\`, "bir say\u0131",
+  "bug\xFCn\xFCn tarihi") ya da ili\u015Fkisini ("Temel ak\u0131\u015Ftaki madde say\u0131s\u0131 kadar", "0'dan
+  b\xFCy\xFCk") yaz: "Summary video \xB7 m:ss" > "Summary video \xB7 2:17", "Passed, but \xB7
+  <bir say\u0131>" > "Passed, but \xB7 45". Davran\u0131\u015F\u0131 g\xF6steren veri yine ad\u0131yla yaz\u0131l\u0131r;
+  o veriden hesaplanan sonu\xE7 sabitlenmez. Pre-verify Temel ak\u0131\u015F\u0131 yeniden
+  yazamaz, tutmayan sabit bir de\u011Fer maddeyi orada kilitler.
 - Bir grup, tek sat\u0131rl\u0131k \`Patlarsa:\` notuyla kapanabilir \u2014 ilk bak\u0131lacak yer.
   Bir c\xFCmleyi ge\xE7mesin.
 
@@ -21589,6 +21686,16 @@ session ID, URL, kolon ad\u0131.
   Autopilot \`[manual]\` maddeleri atlar, insana b\u0131rak\u0131r; tiklenmi\u015F olan\u0131
   ekran g\xF6r\xFCnt\xFCs\xFC istemez. Temel ak\u0131\u015Fta asla \u2014 orada yok say\u0131l\u0131r.
   \`[ui] [manual]\` birlikte yaz\u0131labilir.
+- Bir maddenin sonuna \`[after-merge]\` yaln\u0131zca de\u011Fi\u015Fiklik ger\xE7ekten main'e
+  indikten sonra g\xF6r\xFClebilen bir kontrol i\xE7in yaz: main'den kesilen bir plugin
+  ya da app release'i, de\u011Fi\u015Fikli\u011Fi main'den alan ba\u015Fka bir kart ya da oturum,
+  canl\u0131 DB'deki bir backfill. Merge'\xFCn kendisi yine bir \`verify-server\`
+  kopyas\u0131nda ko\u015Fulur \u2014 token onun i\xE7in de\u011Fil, sadece zor olan bir madde i\xE7in
+  de de\u011Fil. Merge'\xFC beklemesi gereken bir \`[manual]\` madde \`[after-merge]\`
+  yaz\u0131l\u0131r. Temel ak\u0131\u015F d\u0131\u015F\u0131nda bir \xE7eklistte en fazla ${AFTER_MERGE_ITEM_LIMIT}
+  \`[after-merge]\` madde olur; save_tests fazlas\u0131n\u0131 reddeder. Hi\xE7bir ko\u015Fu bu
+  maddeleri almaz, Ready to merge onlar\u0131 beklemez; Test Report onlar\u0131 After
+  merge alt\u0131nda listeler. Temel ak\u0131\u015Fta asla \u2014 orada yok say\u0131l\u0131r.
 - Taray\u0131c\u0131n\u0131n kendi aray\xFCz\xFC (\`<datalist>\` listesi, a\xE7\u0131k \`<select>\`, tarih
   se\xE7ici, dosya ya da yazd\u0131rma diyalo\u011Fu) headless ko\u015Fuda g\xF6r\xFCnmeyebilir. Maddeyi
   sayfan\u0131n tuttu\u011Fu \u015Feye g\xF6re yaz (\`#x option\`). A\xE7\u0131l\u0131r listeyi g\xF6rmek \u015Fartsa ve
@@ -21625,7 +21732,8 @@ Patlarsa: bo\u015F oturum geliyorsa sebep neredeyse kesin cwd \u2014 session'\u0
 - [ ] Dropdown'da None + t\xFCm team'ler listeleniyor.   // spec, test ad\u0131m\u0131 de\u011Fil
 - [ ] Kart\u0131n teamId'si yoksa value === 'none'          // implementation iddias\u0131
 - [ ] Do\u011Fru \xE7al\u0131\u015F\u0131yor.                                  // g\xF6zlemlenebilir de\u011Fil
-- [ ] Session'\u0131 olan bir kart a\xE7.                       // placeholder \u2014 kart\u0131n ad\u0131n\u0131 yaz`;
+- [ ] Session'\u0131 olan bir kart a\xE7.                       // placeholder \u2014 kart\u0131n ad\u0131n\u0131 yaz
+- [ ] \u015Eeritte "Summary video \xB7 2:17" yazmal\u0131.            // veriden t\xFCreyen de\u011Fer sabit \u2014 m:ss yaz`;
 function buildTestStyleContract(opts = {}) {
   const lang = opts.language;
   const body = lang === "tr" ? STYLE_CONTRACT_TR : STYLE_CONTRACT_EN;
@@ -23311,21 +23419,23 @@ function normalize2(text2) {
 function readyToMerge(input) {
   const html = input.testScenarios ?? "";
   const progress = parseTestProgress(html);
-  if (!progress) return { ok: false, missing: ["no checklist"], manualLeft: 0 };
+  if (!progress) return { ok: false, missing: ["no checklist"], manualLeft: 0, unticked: 0, left: 0, afterMerge: 0, failed: 0, noShot: 0 };
   const missing = [];
   const manualLeft = manualLeftIn(progress);
-  const unticked = progress.total - progress.checked - manualLeft;
+  const left = itemsLeft(progress);
+  const afterMerge = afterMergeLeftIn(progress);
+  const unticked = left - manualLeft;
   if (unticked > 0) missing.push(`${unticked} item${unticked === 1 ? "" : "s"} unticked`);
   if (manualLeft > 0) missing.push(manualYoursText(manualLeft));
   const runs = input.testReports ?? [];
   const handed = new Set(
-    checklistItems(html).filter((item) => !item.checked && !item.core && isManualItem(item.text)).map((item) => normalize2(item.text))
+    checklistItems(html).filter((item) => !item.checked && !item.core && isPersonsItem(item.text)).map((item) => normalize2(item.text))
   );
   const failed = runs[0]?.items.filter((item) => item.status === "failed" && !handed.has(normalize2(item.item))).length ?? 0;
   if (failed > 0) missing.push(`${failed} failed in the last report`);
   const noShot = shotlessUiItems(html, runs).length;
   if (noShot > 0) missing.push(`${noShot} [ui] item${noShot === 1 ? " has" : "s have"} no screenshot`);
-  return { ok: missing.length === 0, missing, manualLeft };
+  return { ok: missing.length === 0, missing, manualLeft, unticked, left, afterMerge, failed, noShot };
 }
 function shotlessUiItems(testScenarios, testReports) {
   const shot = new Set(
@@ -23414,11 +23524,11 @@ function chainRalphDeadline(nowMs, members) {
 function chainCapText(members) {
   return `${RALPH_TIME_CAP_MS * Math.max(1, members) / 36e5}h`;
 }
-var RALPH_REVISE_REFUSAL = "Ralph rewords a core-flow item only on a checklist it wrote itself on this card and once per item, keeps [ui], never adds [manual], and never touches End-to-end or [manual] items";
+var RALPH_REVISE_REFUSAL = "Autopilot rewords a core-flow item only on a checklist it wrote itself on this card and once per item, keeps [ui], never adds [manual], and never touches End-to-end or [manual] items";
 function ralphMayRevise(item) {
   if (!item) return true;
   const flows = (item.heading ?? "").trim().toLowerCase() === SPLIT_FLOWS_HEADING.toLowerCase();
-  return !item.core && !flows && !isManualItem(item.text);
+  return !item.core && !flows && !isPersonsItem(item.text);
 }
 
 // ../lib/autopilot.ts
@@ -30162,14 +30272,15 @@ function stateOf(row) {
     retried: !!row.retried,
     fixUsed: !!row.fixUsed,
     mode,
-    ...mode === "ralph" ? {
-      ralph: {
-        maxRounds: resolveRalphMaxRounds(row.maxRounds, row.projectMaxRounds),
-        failCount: row.failCount ?? 0,
-        signature: row.failSignature,
-        startedAt: row.startedAt
-      }
-    } : {}
+    // Every Autopilot card runs the verify loop (IDE-815), Ralph or not. A
+    // card that was mid-run before that has empty columns: 3 rounds, count 0,
+    // and its clock starts at its next run.
+    loop: {
+      maxRounds: resolveRalphMaxRounds(row.maxRounds, row.projectMaxRounds),
+      failCount: row.failCount ?? 0,
+      signature: row.failSignature,
+      startedAt: row.startedAt
+    }
   };
 }
 function getAutopilotState(db2, cardId) {
@@ -30337,7 +30448,7 @@ function startAutopilot(db2, cardId, opts = {}) {
         db2.prepare(`UPDATE cards SET autopilot_mode = ? WHERE id = ?`).run(mode === "ralph" ? "ralph" : null, cardId);
       }
       let maxRounds;
-      if (mode === "ralph" && hasRalphLoopColumns(db2)) {
+      if (hasRalphLoopColumns(db2)) {
         maxRounds = isRalphMaxRounds(opts.maxRounds) ? opts.maxRounds : resolveRalphMaxRounds(row.maxRounds, row.projectMaxRounds);
         db2.prepare(
           `UPDATE cards SET autopilot_max_rounds = ?, autopilot_fail_signature = NULL, autopilot_fail_count = 0,
@@ -30591,6 +30702,9 @@ function saveTests(db2, args) {
     const overLimit = args.manualLimit ? manualOverLimit(previous, html) : [];
     if (overLimit.length > 0 && args.manualLimit === "refuse") return { ok: false, reason: "manual-limit", items: overLimit };
     html = dropManualTokens(html, overLimit);
+    const afterMergeOver = args.manualLimit ? afterMergeOverLimit(previous, html) : [];
+    if (afterMergeOver.length > 0 && args.manualLimit === "refuse") return { ok: false, reason: "after-merge-limit", items: afterMergeOver };
+    html = dropAfterMergeTokens(html, afterMergeOver);
     const runtime = runtimeAssignments({ ...args.runtime, ...extra });
     runChanges(
       db2,
@@ -30618,7 +30732,8 @@ function saveTests(db2, args) {
       previous,
       from: row.status,
       status: to ?? row.status,
-      ...overLimit.length > 0 ? { droppedManual: overLimit } : {}
+      ...overLimit.length > 0 ? { droppedManual: overLimit } : {},
+      ...afterMergeOver.length > 0 ? { droppedAfterMerge: afterMergeOver } : {}
     };
   });
 }
@@ -30677,17 +30792,12 @@ function ralphCoreRewordOpen(db2, cardId) {
   return checklistItems(row?.tests).some((item) => item.core && ralphMayReviseItem(db2, cardId, item));
 }
 function ralphRewordKeepsTokens(item, to) {
-  if (isManualItem(to)) return false;
+  if (isPersonsItem(to)) return false;
   return !(item?.core && isUiItem(item.text) && !isUiItem(to));
 }
-function onRalph(db2, cardId) {
-  if (!hasAutopilotModeColumn(db2)) return false;
-  const row = getRow(
-    db2,
-    `SELECT autopilot_mode AS mode, autopilot_stage AS stage FROM cards WHERE id = ?`,
-    cardId
-  );
-  return row?.mode === "ralph" && isActiveAutopilotStage(isAutopilotStage(row.stage) ? row.stage : null);
+function onAutopilotLoop(db2, cardId) {
+  const row = getRow(db2, `SELECT autopilot_stage AS stage FROM cards WHERE id = ?`, cardId);
+  return isActiveAutopilotStage(isAutopilotStage(row?.stage) ? row.stage : null);
 }
 function reviseTests(db2, args) {
   const head = cardHead(db2, args.id);
@@ -30705,7 +30815,7 @@ function reviseTests(db2, args) {
       return { ok: true, html: html2, previous: html2, revised: 0 };
     }
     const previous = row.test_scenarios ?? "";
-    const ralph = args.author.actor === "ideafy" && !args.author.via && onRalph(db2, args.id);
+    const ralph = args.author.actor === "ideafy" && !args.author.via && onAutopilotLoop(db2, args.id);
     const targets = ralph ? ralphRevisionTargets(previous, args.revisions) : [];
     if (ralph) {
       const refused = targets.filter((t) => !ralphMayReviseItem(db2, args.id, t.item) || !ralphRewordKeepsTokens(t.item, t.revision.to)).map((t) => t.item?.text ?? t.revision.from);
@@ -30715,6 +30825,8 @@ function reviseTests(db2, args) {
     if (missing.length > 0) return { ok: false, reason: "missing", missing };
     const overLimit = args.refuseManualOverLimit ? manualOverLimit(previous, html) : [];
     if (overLimit.length > 0) return { ok: false, reason: "manual-limit", items: overLimit };
+    const afterMergeOver = args.refuseManualOverLimit ? afterMergeOverLimit(previous, html) : [];
+    if (afterMergeOver.length > 0) return { ok: false, reason: "after-merge-limit", items: afterMergeOver };
     runChanges(db2, `UPDATE cards SET test_scenarios = ?, updated_at = ? WHERE id = ?`, html, args.now, args.id);
     stampBaseCommit(db2, args.id, "tests", head);
     recordAuthorship(db2, {
@@ -31879,16 +31991,14 @@ function failedOnScreenLabel(failed) {
 function yourTestLine(card, now) {
   const progress = parseTestProgress(card.testScenarios);
   if (!progress) return `no checklist yet \xB7 ${formatSince(cardLastActivityAt(card), now)}`;
+  const merged2 = card.gitBranchStatus === "merged";
+  const left = itemsLeft(progress, { merged: merged2 });
   if (progress.core) {
-    const left2 = progress.core.total - progress.core.checked;
-    if (left2 > 0) {
-      return `${progress.core.checked}/${progress.core.total} core \u2713 \xB7 ${left2} left for you`;
-    }
-    const optionalLeft = progress.total - progress.core.total - (progress.checked - progress.core.checked);
-    return optionalLeft > 0 ? `core flow done \xB7 ${optionalLeft} optional left` : "core flow done";
+    const core = progress.core.checked === progress.core.total ? "core flow done" : "core flow open";
+    return left > 0 ? `${leftForYouText(left)} \xB7 ${core}` : core;
   }
-  const left = progress.total - progress.checked;
-  return left > 0 ? `${progress.checked}/${progress.total} checked \xB7 ${left} left for you` : `${progress.checked}/${progress.total} checked`;
+  const ratio = progressRatio(progress, { merged: merged2 });
+  return left > 0 ? `${ratio.checked}/${ratio.total} checked \xB7 ${leftForYouText(left)}` : `${ratio.checked}/${ratio.total} checked`;
 }
 function focusDetail(card, now = Date.now(), state = getFocusState(card), reply, runStartedAt) {
   switch (state) {
@@ -32044,12 +32154,14 @@ function proofStep(card) {
 }
 function yourTestStep(card, id, label2) {
   const progress = parseTestProgress(card.testScenarios);
-  const left = progress ? progress.total - progress.checked : 0;
+  const merged2 = card.gitBranchStatus === "merged";
+  const left = itemsLeft(progress, { merged: merged2 });
+  const waiting = merged2 ? 0 : afterMergeLeftIn(progress);
   return {
     id,
     who: "you",
     label: label2,
-    sub: progress ? left > 0 ? `${left} unticked` : "all ticked" : "",
+    sub: progress ? left > 0 ? `${left} left` : waiting > 0 ? `${waiting} after merge` : "all ticked" : "",
     happened: !!progress && progress.checked > 0 || card.status === "completed",
     tab: "tests"
   };
@@ -33877,7 +33989,9 @@ async function mergeCard(db2, cardId, opts = {}) {
       (out) => out.stdout.trim() || null,
       () => null
     ) : null;
-    const complete = opts.complete !== false;
+    const testsRow = getRow(db2, `SELECT test_scenarios AS html FROM cards WHERE id = ?`, cardId);
+    const afterMergeLeft = afterMergeLeftIn(parseTestProgress(testsRow?.html ?? ""));
+    const complete = opts.complete ?? afterMergeLeft === 0;
     transaction(db2, () => {
       if (cardHasRalphEvents(db2, cardId)) {
         recordRalphEvent(db2, { cardId, kind: "merged", at: now(), detail: { commit: squashCommit, target: targetBranch } });
@@ -33913,6 +34027,7 @@ async function mergeCard(db2, cardId, opts = {}) {
       targetBranch,
       displayId,
       message: complete ? `Branch ${branchName} merged, worktree removed, branch deleted` : `Branch ${branchName} merged, worktree removed, branch deleted; card stays in Human Test`,
+      ...!complete && afterMergeLeft > 0 ? { afterMergeLeft } : {},
       stashRestoreWarning
     };
   } catch (error2) {
@@ -34857,6 +34972,19 @@ var PLAN_DRIFT_IMPLEMENTATION_RULE = `Plan drift: when get_card returns a \`plan
 
 // ../lib/test-report-state.ts
 var NOT_SEEN_ON_SCREEN = "not seen on screen";
+var PASSED_WITH_NOTES = "Passed with notes";
+var PASSED_TITLE = "Passed";
+var BEFORE_MERGE_TITLE = "Before merge";
+var AFTER_MERGE_TITLE = "After merge";
+function isMergedToMain(gitBranchStatus) {
+  return gitBranchStatus === "merged";
+}
+function afterMergeText(n) {
+  return `${n} after merge`;
+}
+function needsYouTitle(state) {
+  return state.afterMerge.length > 0 && !state.merged ? BEFORE_MERGE_TITLE : "Needs you";
+}
 function plural4(n, word) {
   return `${n} ${word}${n === 1 ? "" : "s"}`;
 }
@@ -34904,7 +35032,8 @@ function runCodeCaveat(change, runNumber) {
   }
   return null;
 }
-function cardTestReportState(allRuns, checklistHtml, asOf = 0, codeChanges) {
+function cardTestReportState(allRuns, checklistHtml, asOf = 0, codeChanges, opts) {
+  const merged2 = !!opts?.merged;
   const html = checklistHtml ?? "";
   const runsAll = allRuns ?? [];
   const offset = Math.max(0, Math.min(asOf, runsAll.length));
@@ -34913,11 +35042,16 @@ function cardTestReportState(allRuns, checklistHtml, asOf = 0, codeChanges) {
   const ready = readyToMerge({ testScenarios: html, testReports: runs });
   const latest = latestItemResults(runs, html);
   const progress = parseTestProgress(html);
-  const manualUnticked = new Set(progress ? manualItemTexts(html, progress.groups) : []);
   const textOnly = runs.length > 0 && runs.every((run2) => run2.evidence !== "visual");
   const problems = [];
   const needsYou = [];
+  const afterMerge = [];
   const passedBut = [];
+  const afterMergeKey = (text2) => stripItemTokens(text2).toLowerCase();
+  const afterMergeTexts = new Set(
+    checklistItems(html).filter((item) => !item.checked && !item.core && isAfterMergeItem(item.text)).map((item) => afterMergeKey(item.text))
+  );
+  const isAfterMerge = (text2) => afterMergeTexts.has(afterMergeKey(text2));
   const notTested = [];
   const worked = [];
   const runKeys = runs.map(
@@ -34930,10 +35064,10 @@ function cardTestReportState(allRuns, checklistHtml, asOf = 0, codeChanges) {
     seen.add(task.normalized);
     const text2 = plainTaskText(task.rawText);
     const newest = latest.get(task.normalized);
-    const manualOpen = !task.checked && manualUnticked.has(text2);
     if (!newest) {
+      const waits = !task.checked && isAfterMerge(text2);
       const state2 = {
-        kind: manualOpen ? "needsYou" : "notTested",
+        kind: task.checked ? "notTested" : waits ? "afterMerge" : "needsYou",
         checklistText: text2,
         sentence: stripItemTokens(text2),
         observed: null,
@@ -34946,7 +35080,7 @@ function cardTestReportState(allRuns, checklistHtml, asOf = 0, codeChanges) {
         textOnly: false,
         history: []
       };
-      (manualOpen ? needsYou : notTested).push(state2);
+      (task.checked ? notTested : waits ? afterMerge : needsYou).push(state2);
       continue;
     }
     const { item, run: run2, runIndex } = newest;
@@ -34961,7 +35095,7 @@ function cardTestReportState(allRuns, checklistHtml, asOf = 0, codeChanges) {
     const codeCaveat = item.status === "passed" ? runCodeCaveat(codeChanges?.[run2.id], numberOf(runIndex)) : null;
     let kind;
     if (item.status === "failed") kind = "problem";
-    else if (item.status === "manual" && !task.checked || manualOpen) kind = "needsYou";
+    else if (!task.checked) kind = isAfterMerge(text2) ? "afterMerge" : "needsYou";
     else if (caveat || codeCaveat) kind = "passedBut";
     else kind = "worked";
     const state = {
@@ -34980,12 +35114,21 @@ function cardTestReportState(allRuns, checklistHtml, asOf = 0, codeChanges) {
       history,
       result: item
     };
-    ({ problem: problems, needsYou, passedBut, notTested, worked })[kind].push(state);
+    ({ problem: problems, needsYou, afterMerge, passedBut, notTested, worked })[kind].push(state);
   }
-  const passed = worked.length + passedBut.length;
-  const unseenCount = passedBut.filter((s) => s.caveat === NOT_SEEN_ON_SCREEN).length;
+  const passedStates = [...needsYou, ...afterMerge, ...passedBut, ...worked].filter((s) => s.status === "passed");
+  const passed = passedStates.length;
+  const unseenCount = passedStates.filter((s) => s.caveat === NOT_SEEN_ON_SCREEN).length;
   const failurePart = `${problems.length} failing`;
-  const counts = textOnly ? `${passed - unseenCount} passed \xB7 ${failurePart} \xB7 ${unseenCount} ${NOT_SEEN_ON_SCREEN}` : `${passed} passed \xB7 ${failurePart} \xB7 ${needsYou.length} manual left`;
+  const counts = textOnly ? `${passed - unseenCount} passed \xB7 ${failurePart} \xB7 ${unseenCount} ${NOT_SEEN_ON_SCREEN}` : `${passed} passed \xB7 ${failurePart}`;
+  const left = itemsLeft(progress, { merged: merged2 });
+  const detail = [];
+  if (left > 0) detail.push(leftForYouText(left));
+  const afterMergeLeft = merged2 ? 0 : afterMergeLeftIn(progress);
+  if (afterMergeLeft > 0) detail.push(afterMergeText(afterMergeLeft));
+  if (ready.failed > 0) detail.push(`${ready.failed} failed in the last report`);
+  if (ready.noShot > 0) detail.push(`${ready.noShot} [ui] item${ready.noShot === 1 ? " has" : "s have"} no screenshot`);
+  if (!progress) detail.push("no checklist");
   const runNotes = [];
   const newestRun = runs[0];
   if (newestRun) {
@@ -34998,8 +35141,13 @@ function cardTestReportState(allRuns, checklistHtml, asOf = 0, codeChanges) {
   }
   const headlineNote = ready.ok && problems.length > 0 ? `${plural4(problems.length, "failing item")} ${problems.length === 1 ? "is" : "are"} ticked in Tests` : null;
   return {
-    headline: ready.ok ? "Ready to merge" : "Not ready to merge",
+    headline: merged2 ? "Merged" : ready.ok ? "Ready to merge" : "Not ready to merge",
+    merged: merged2,
     ready,
+    left,
+    headlineDetail: detail.join(" \xB7 "),
+    passed,
+    unseen: unseenCount,
     counts,
     failureLine: testReportFailureLine(problems.map((s) => ({ status: "failed", impact: s.impact }))),
     lastRun: newestRun ? lastRunLine(newestRun, numberOf(0)) : null,
@@ -35007,11 +35155,12 @@ function cardTestReportState(allRuns, checklistHtml, asOf = 0, codeChanges) {
     asOfRun: offset > 0 && newestRun ? numberOf(0) : null,
     problems,
     needsYou,
+    afterMerge,
     passedBut,
     notTested,
     worked,
     runNotes,
-    passedButTitle: textOnly && runNotes.length === 0 && passedBut.length > 0 && passedBut.every((p) => p.caveat === NOT_SEEN_ON_SCREEN && !p.codeCaveat) ? "Not seen on screen" : "Passed, but",
+    passedButTitle: textOnly && runNotes.length === 0 && passedBut.length > 0 && passedBut.every((p) => p.caveat === NOT_SEEN_ON_SCREEN && !p.codeCaveat) ? "Not seen on screen" : PASSED_WITH_NOTES,
     headlineNote
   };
 }
@@ -35022,12 +35171,12 @@ function withoutNumbers(text2) {
 }
 var SECTION_TITLES = [
   ["problems", "Problems (failed)"],
-  ["needsYou", "Needs you (manual, left to the person)"],
-  ["passedBut", "Passed, but (passed with a caveat)"],
+  ["needsYou", "Needs you (unticked, left to the person)"],
+  ["passedBut", "Passed with notes (passed with a caveat)"],
   ["notTested", "Not tested yet"],
-  ["worked", "Worked"]
+  ["worked", "Passed"]
 ];
-var BRIEF_RULES_VERSION = "text-only";
+var BRIEF_RULES_VERSION = "short-v3";
 function djb2(text2) {
   let hash2 = 5381;
   for (let i = 0; i < text2.length; i++) hash2 = (hash2 << 5) + hash2 + text2.charCodeAt(i) | 0;
@@ -35049,6 +35198,7 @@ function currentBrief(brief, state) {
 var chain_test_report_state_exports = {};
 __export(chain_test_report_state_exports, {
   CHAIN_ACROSS_LINE: () => CHAIN_ACROSS_LINE,
+  LEFT_IN_CARDS_TITLE: () => LEFT_IN_CARDS_TITLE,
   STOP_CAUSE_LABEL: () => STOP_CAUSE_LABEL,
   TEXT_ONLY_CAVEAT: () => TEXT_ONLY_CAVEAT,
   chainCaveatText: () => chainCaveatText,
@@ -35090,6 +35240,7 @@ function stopCause(reason, byPerson = false) {
   }
   return "ralph";
 }
+var LEFT_IN_CARDS_TITLE = "Left in the chain's cards";
 var CHAIN_ACROSS_LINE = "Newest result of each item, across every run of each card";
 var TEXT_ONLY_CAVEAT = "tested as text only, no recording";
 function plural5(n, word) {
@@ -35101,24 +35252,32 @@ function chainTestReportState(members, opts = {}) {
   const children = live.filter((member) => member !== parent);
   const problems = [];
   const needsYou = [];
+  const leftInCards = [];
+  const afterMerge = [];
   const caveats = /* @__PURE__ */ new Map();
-  const addCaveat = (text2, displayId) => {
+  const codeCaveats = /* @__PURE__ */ new Set();
+  const addCaveat = (text2, displayId, code = false) => {
+    if (code) codeCaveats.add(text2);
     const list = caveats.get(text2) ?? [];
     if (!list.includes(displayId)) list.push(displayId);
     caveats.set(text2, list);
   };
   let passed = 0;
   let failing = 0;
-  let notTicked = 0;
   let unseen = 0;
   let waiting = 0;
   const ran = [];
   const textRuns = [];
+  const merged2 = isMergedToMain(parent?.gitBranchStatus);
+  const parentProgress = parent && parent.testScenarios !== void 0 ? parseTestProgress(parent.testScenarios ?? "") : null;
+  const left = itemsLeft(parentProgress, { merged: merged2 });
+  const parentAfterMerge = merged2 ? 0 : afterMergeLeftIn(parentProgress);
   if (parent && parent.testScenarios !== void 0) {
-    const progress = parseTestProgress(parent.testScenarios ?? "");
+    const progress = parentProgress;
     const runs = parent.testReports ?? [];
-    const count = progress && progress.total > 0 ? ` (${progress.checked}/${progress.total})` : "";
-    const finished = !!progress && progress.total > 0 && progress.checked === progress.total;
+    const ratio = progress && progress.total > 0 ? progressRatio(progress, { merged: merged2 }) : null;
+    const count = ratio && ratio.total > 0 ? ` (${ratio.checked}/${ratio.total})` : "";
+    const finished = !!progress && progress.total > 0 && left === 0;
     if (runs.length === 0 && !finished) {
       needsYou.push({ displayId: parent.displayId, cardId: parent.id, sentence: `${parent.displayId}'s final test has not run${count}`, item: null });
     } else if (runs.length > 0 && !finished) {
@@ -35144,32 +35303,36 @@ function chainTestReportState(members, opts = {}) {
         state: null
       };
     }
-    const state = cardTestReportState(member.testReports, member.testScenarios, 0, member.codeChanges);
+    const state = cardTestReportState(member.testReports, member.testScenarios, 0, member.codeChanges, {
+      merged: isParent && merged2
+    });
     const progress = parseTestProgress(member.testScenarios ?? "");
     const ticked = progress?.checked ?? 0;
     const total = progress?.total ?? 0;
     const newest = member.testReports?.[0] ?? null;
     const evidence = newest ? newest.evidence === "visual" ? "visual" : "text" : null;
-    const memberPassed = state.worked.length + state.passedBut.length;
-    const memberUnseen = state.passedBut.filter((item) => item.caveat === NOT_SEEN_ON_SCREEN).length;
+    const memberPassed = state.passed;
+    const memberUnseen = state.unseen;
     passed += memberPassed;
     failing += state.problems.length;
-    notTicked += total - ticked;
     unseen += memberUnseen;
     if (newest) {
       ran.push(true);
       textRuns.push(state.textOnly);
     }
     for (const item of state.problems) problems.push({ displayId: member.displayId, cardId: member.id, sentence: item.sentence, item });
-    for (const item of state.needsYou) needsYou.push({ displayId: member.displayId, cardId: member.id, sentence: item.sentence, item });
+    if (!isParent) {
+      for (const item of state.needsYou) leftInCards.push({ displayId: member.displayId, cardId: member.id, sentence: item.sentence, item });
+    }
+    for (const item of state.afterMerge) afterMerge.push({ displayId: member.displayId, cardId: member.id, sentence: item.sentence, item });
     if (state.textOnly) addCaveat(TEXT_ONLY_CAVEAT, member.displayId);
     for (const note of state.runNotes) addCaveat(note, member.displayId);
-    for (const item of state.passedBut) {
-      if (item.codeCaveat) addCaveat(item.codeCaveat, member.displayId);
+    for (const item of [...state.needsYou, ...state.passedBut].filter((s) => s.status === "passed")) {
+      if (item.codeCaveat) addCaveat(item.codeCaveat, member.displayId, true);
       if (!item.caveat || state.textOnly && item.caveat === NOT_SEEN_ON_SCREEN) continue;
       addCaveat(item.caveat, member.displayId);
     }
-    const ready2 = isParent ? state.ready.ok && total > 0 && ticked === total : isReadyForParent(member);
+    const ready2 = isParent ? state.ready.ok && total > 0 && left === 0 : isReadyForParent(member);
     const parts = [evidence ?? "no run", `${memberPassed} passed`];
     if (state.problems.length > 0) parts.push(`${state.problems.length} failing`);
     parts.push(total > 0 ? `${ticked}/${total}` : "no checklist");
@@ -35189,7 +35352,7 @@ function chainTestReportState(members, opts = {}) {
     };
   });
   const textOnly = ran.length > 0 && textRuns.every(Boolean);
-  const counts = textOnly ? `${passed - unseen} passed \xB7 ${failing} failing \xB7 ${unseen} ${NOT_SEEN_ON_SCREEN} \xB7 ${notTicked} not ticked yet` : `${passed} passed \xB7 ${failing} failing \xB7 ${notTicked} not ticked yet`;
+  const counts = textOnly ? `${passed - unseen} passed \xB7 ${failing} failing \xB7 ${unseen} ${NOT_SEEN_ON_SCREEN}` : `${passed} passed \xB7 ${failing} failing`;
   const childrenReady = children.length > 0 && cards.filter((row) => !row.isParent).every((row) => row.ready);
   const parentRow = cards.find((row) => row.isParent);
   const ready = waiting === 0 && childrenReady && (parentRow ? parentRow.ready : true);
@@ -35203,13 +35366,22 @@ function chainTestReportState(members, opts = {}) {
     } : null,
     decisions
   } : null;
+  const detail = [];
+  if (left > 0) detail.push(leftForYouText(left));
+  if (parentAfterMerge > 0) detail.push(afterMergeText(parentAfterMerge));
   return {
-    headline: ready ? "Ready to merge" : "Not ready to merge",
+    headline: merged2 ? "Merged" : ready ? "Ready to merge" : "Not ready to merge",
+    merged: merged2,
+    left,
+    headlineDetail: detail.join(" \xB7 "),
+    needsYouTitle: afterMerge.length > 0 && !merged2 ? BEFORE_MERGE_TITLE : "Needs you",
     counts,
     textOnly,
     problems,
     needsYou,
-    passedBut: [...caveats.entries()].map(([text2, list]) => ({ text: text2, cards: list })),
+    leftInCards,
+    afterMerge,
+    passedBut: [...caveats.entries()].map(([text2, list]) => ({ text: text2, cards: list, ...codeCaveats.has(text2) ? { code: true } : {} })),
     cards,
     waiting,
     ralph
@@ -35292,7 +35464,7 @@ function itemText(item, number3, full, clip) {
   field("Observed", item.observed);
   field("In plain words", [item.plainItem, item.plainObserved].filter(Boolean).join(" ") || null);
   field("Impact (the run's own reading)", item.impact ?? null);
-  field("Passed, but", item.caveat ?? null);
+  field(PASSED_WITH_NOTES, item.caveat ?? null);
   field("Error", item.error);
   field("Command", item.command);
   if (item.output) lines2.push("   Output:", indent(item.output, "     "));
@@ -35320,14 +35492,14 @@ function videoLines(video, videoPath) {
   return lines2;
 }
 function formatTestReport(input) {
-  const { displayId, runs, index, status, checklistHtml, screenshotsAttached, videoPath, summaryLine, codeChanges } = input;
+  const { displayId, runs, index, status, checklistHtml, screenshotsAttached, videoPath, summaryLine, codeChanges, merged: merged2 } = input;
   const run2 = runs[index];
   const total = runs.length;
   const out = [];
   out.push(`Test Report \xB7 ${displayId} \xB7 ${total} run${total === 1 ? "" : "s"}, newest first`);
   if (checklistHtml) {
-    const state = cardTestReportState(runs, checklistHtml, 0, codeChanges);
-    const briefState = codeChanges ? cardTestReportState(runs, checklistHtml) : state;
+    const state = cardTestReportState(runs, checklistHtml, 0, codeChanges, { merged: merged2 });
+    const briefState = codeChanges ? cardTestReportState(runs, checklistHtml, 0, null, { merged: merged2 }) : state;
     out.push("", ...cardStateLines(state, runs[0]?.brief, briefState), "");
   }
   runs.forEach((r, i) => out.push(`${i === index ? "\u2192" : " "} ${runLine(r, i, total)}`));
@@ -35380,11 +35552,17 @@ function formatTestReport(input) {
 }
 function stateItemLine(state) {
   const at = state.runNumber !== null ? ` (#${state.runNumber})` : "";
-  const extra = state.kind === "problem" ? [state.impact, state.observed].filter(Boolean).join(": ") : state.kind === "passedBut" ? [state.caveat, state.codeCaveat].filter(Boolean).join(". ") : "";
+  const extra = state.kind === "problem" ? [state.impact, state.observed].filter(Boolean).join(": ") : (
+    // An unticked pass sits in Needs you now (IDE-809) and keeps its notes.
+    state.kind === "passedBut" || state.kind === "needsYou" || state.kind === "afterMerge" ? [state.caveat, state.codeCaveat].filter(Boolean).join(". ") : ""
+  );
   return `- ${state.sentence}${at}${extra ? ` \u2014 ${extra}` : ""}`;
 }
 function cardStateLines(state, brief, briefState = state) {
-  const out = ["Card state (newest result of each checklist item):", state.headline];
+  const out = [
+    "Card state (newest result of each checklist item):",
+    state.headlineDetail ? `${state.headline} \xB7 ${state.headlineDetail}` : state.headline
+  ];
   if (state.headlineNote) out.push(state.headlineNote);
   out.push(state.counts);
   if (state.failureLine) out.push(state.failureLine);
@@ -35398,18 +35576,19 @@ function cardStateLines(state, brief, briefState = state) {
     for (const note of notes) out.push(`- ${note}`);
   };
   section2("Problems", state.problems);
-  section2("Needs you", state.needsYou);
+  section2(needsYouTitle(state), state.needsYou);
+  section2(AFTER_MERGE_TITLE, state.afterMerge);
   section2(state.passedButTitle, state.passedBut, state.runNotes);
   if (state.notTested.length) {
     out.push("", `Not tested yet \xB7 ${state.notTested.length}`, state.notTested.map((s) => s.sentence).join(" \xB7 "));
   }
-  section2("Worked", state.worked);
+  section2(PASSED_TITLE, state.worked);
   return out;
 }
-function testReportCardSummary(runs, checklistHtml) {
+function testReportCardSummary(runs, checklistHtml, gitBranchStatus) {
   if (!runs?.length) return null;
   const latest = runs[0];
-  const state = checklistHtml ? cardTestReportState(runs, checklistHtml) : null;
+  const state = checklistHtml ? cardTestReportState(runs, checklistHtml, 0, null, { merged: isMergedToMain(gitBranchStatus) }) : null;
   const failures = testReportFailureLine(latest.items);
   return {
     runs: runs.length,
@@ -35421,12 +35600,16 @@ function testReportCardSummary(runs, checklistHtml) {
       ...countByStatus(latest),
       ...failures ? { failures } : {}
     },
-    ...state ? { state: { headline: state.headline, counts: state.counts } } : {},
+    ...state ? { state: { headline: state.headline, detail: state.headlineDetail, counts: state.counts } } : {},
     read: "get_test_report for the items, what each run observed and where the Tests tab disagrees"
   };
 }
 function formatChainState(state) {
-  const out = ["Chain state (newest result of each item, across every card):", state.headline, state.counts];
+  const out = [
+    "Chain state (newest result of each item, across every card):",
+    state.headlineDetail ? `${state.headline} \xB7 ${state.headlineDetail}` : state.headline,
+    state.counts
+  ];
   if (state.waiting > 0) out.push(`${state.waiting} card${state.waiting === 1 ? "" : "s"} not read yet`);
   const section2 = (title, lines2) => {
     if (!lines2.length) return;
@@ -35434,8 +35617,10 @@ function formatChainState(state) {
     for (const line of lines2) out.push(`- ${line}`);
   };
   section2("Problems", state.problems.map((line) => line.item ? `${line.displayId} \xB7 ${line.sentence}` : line.sentence));
-  section2("Needs you", state.needsYou.map((line) => line.item ? `${line.displayId} \xB7 ${line.sentence}` : line.sentence));
-  section2("Passed, but", state.passedBut.map(chainCaveatText));
+  section2(state.needsYouTitle, state.needsYou.map((line) => line.item ? `${line.displayId} \xB7 ${line.sentence}` : line.sentence));
+  section2(AFTER_MERGE_TITLE, state.afterMerge.map((line) => `${line.displayId} \xB7 ${line.sentence}`));
+  section2(LEFT_IN_CARDS_TITLE, state.leftInCards.map((line) => `${line.displayId} \xB7 ${line.sentence}`));
+  section2(PASSED_WITH_NOTES, state.passedBut.map(chainCaveatText));
   if (state.ralph) {
     const lines2 = [];
     if (state.ralph.stopped) {
@@ -36062,7 +36247,7 @@ function sureSegments(cards, decisions) {
   const onScreen = passed.filter((item) => item.lastEvidence === "visual").length;
   const inTerminal = passed.length - onScreen;
   const failed = items.filter((item) => item.lastStatus === "failed").length;
-  const yours = items.filter((item) => item.manual && !item.checked).length;
+  const yours = items.filter((item) => item.manual && !item.afterMerge && !item.checked).length;
   const untested = items.filter((item) => item.lastStatus === null && !item.manual).length;
   const out = [];
   const add = (text2, tone = null) => out.push({ text: text2, tone });
@@ -36516,12 +36701,13 @@ function collectRunReport(db2, cardId, opts) {
         tickedBy: item.checked ? tickerOf(item.text) : null,
         ui: isUiItem(item.text),
         manual: isManualItem(item.text),
+        afterMerge: !item.core && isAfterMergeItem(item.text),
         lastStatus: result?.status ?? null,
         lastEvidence: result?.evidence ?? null
       };
     });
     for (const item of checklist) {
-      if (!item.checked) gaps.push({ kind: "unticked", group: item.manual ? "yours" : "before-merge", displayId, text: item.text });
+      if (!item.checked) gaps.push({ kind: "unticked", group: item.afterMerge ? "after-merge" : item.manual ? "yours" : "before-merge", displayId, text: item.text });
       else if (item.tickedBy === "you") gaps.push({ kind: "ticked-by-you", group: "before-merge", displayId, text: item.text });
       if (item.ui && item.lastStatus !== null && !results.seenOnScreen(item.text)) {
         gaps.push({ kind: "ui-text-only", group: "before-merge", displayId, text: item.text });
@@ -36637,7 +36823,7 @@ function collectRunReport(db2, cardId, opts) {
   const codeChangesOf = (row) => opts.cardOnly ? null : runCodeChangesFor(db2, row.id, parsedRuns.get(row.id) ?? []);
   const briefOf = (row) => {
     const runs = parsedRuns.get(row.id) ?? [];
-    return currentBrief(runs[0]?.brief, cardTestReportState(runs, row.test_scenarios));
+    return currentBrief(runs[0]?.brief, cardTestReportState(runs, row.test_scenarios, 0, null, { merged: isMergedToMain(row.git_branch_status) }));
   };
   let state;
   if (groupId) {
@@ -36666,7 +36852,9 @@ function collectRunReport(db2, cardId, opts) {
     }
     state = { kind: "chain", chain, aiSummary };
   } else {
-    const card = cardTestReportState(parsedRuns.get(own.id) ?? [], own.test_scenarios, 0, codeChangesOf(own));
+    const card = cardTestReportState(parsedRuns.get(own.id) ?? [], own.test_scenarios, 0, codeChangesOf(own), {
+      merged: isMergedToMain(own.git_branch_status)
+    });
     state = { kind: "card", displayId: displayIdOf2(own), card, aiSummary: briefOf(own) };
   }
   const data = {
@@ -36753,8 +36941,8 @@ function reportNextStep(data) {
   if (headline === "Ready to merge") {
     return { text: `Ready to merge. Your turn: Merge & Complete on ${mergeCard3?.displayId ?? "the card"}.`, yourTurn: true };
   }
-  const onRalph2 = cards.find((card) => card.where.startsWith("On Ralph")) ?? cards.find((card) => card.status !== "completed" && !card.isParent);
-  return { text: onRalph2 ? `Ralph is still on ${onRalph2.displayId}.` : headline, yourTurn: false };
+  const onRalph = cards.find((card) => card.where.startsWith("On Ralph")) ?? cards.find((card) => card.status !== "completed" && !card.isParent);
+  return { text: onRalph ? `Ralph is still on ${onRalph.displayId}.` : headline, yourTurn: false };
 }
 function listOf(items) {
   if (items.length <= 1) return items[0] ?? "";
@@ -36808,9 +36996,11 @@ function footprintOfCard(row, displayId) {
 var SVG_OPEN = '<svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">';
 var MONITOR_SVG = `${SVG_OPEN}<rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg>`;
 var HAND_SVG = `${SVG_OPEN}<path d="M18 11V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2"/><path d="M14 10V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2"/><path d="M10 10.5V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></svg>`;
+var GIT_MERGE_SVG = `${SVG_OPEN}<circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9"/></svg>`;
 var ITEM_CHIPS = {
   ui: { title: "Checked on screen: Autopilot takes a screenshot of this item", svg: MONITOR_SVG },
-  manual: { title: "Yours to run: pre-verify and Autopilot leave this item to you", svg: HAND_SVG }
+  manual: { title: "Yours to run: pre-verify and Autopilot leave this item to you", svg: HAND_SVG },
+  "after-merge": { title: "After merge: check once this lands on main; Ready to merge does not wait on it", svg: GIT_MERGE_SVG }
 };
 
 // ../lib/run-report/fonts.ts
@@ -36888,7 +37078,7 @@ p>.who:first-child{margin-right:8px}
 .chip{display:inline-flex;align-items:center;height:16px;padding:0 4px;border-radius:4px;vertical-align:-3px;margin:0 1px}
 .chip svg{display:block}
 .chip.ui{background:var(--ai-soft);color:var(--ai)}
-.chip.manual{background:rgba(var(--ink),.08);color:var(--muted)}
+.chip.manual,.chip.after-merge{background:rgba(var(--ink),.08);color:var(--muted)}
 .tok{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .meta{font-size:12px;color:var(--muted);margin:0 0 20px}
 .top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:0 0 6px}
@@ -36978,6 +37168,7 @@ function wordDiffHtml(before, after) {
 var GAP_GROUP_TITLE = {
   yours: "Your turn",
   "before-merge": "Read before Merge",
+  "after-merge": "After merge",
   info: "Not in this file"
 };
 var STOP_CAUSE_ORDER = ["you", "conflict", "ralph", "environment"];
@@ -37015,7 +37206,7 @@ function pillRow(esc2, displayId, body) {
 function withChips(esc2, text2) {
   const at = itemTokensStart(text2);
   if (at >= text2.length) return esc2(text2);
-  const tokens = text2.slice(at).match(/\[(ui|manual)\]/gi) ?? [];
+  const tokens = text2.slice(at).match(/\[(ui|manual|after-merge)\]/gi) ?? [];
   const chips = tokens.map((token) => {
     const kind = token.slice(1, -1).toLowerCase();
     const { title, svg } = ITEM_CHIPS[kind];
@@ -37035,7 +37226,7 @@ function cardStateHtml(data, esc2) {
   const card = data.state?.kind === "card" ? data.state.card : null;
   const list = (title, lines2, cls = "") => {
     if (lines2.length === 0) return;
-    if (title === "Passed, but" || title === card?.passedButTitle) {
+    if (title === PASSED_WITH_NOTES || title === card?.passedButTitle || title === LEFT_IN_CARDS_TITLE) {
       out.push(`<details class="caveats"><summary>${esc2(title)} \xB7 ${lines2.length}</summary><ul>`);
       for (const line of lines2) out.push(line.startsWith("<li") ? line : `<li>${line}</li>`);
       out.push(`</ul></details>`);
@@ -37054,13 +37245,17 @@ function cardStateHtml(data, esc2) {
   let hasAi = false;
   if (data.state.kind === "chain") {
     const chain = data.state.chain;
-    out.push(`<p><strong class="${chain.headline === "Ready to merge" ? "ok" : "bad"}">${esc2(chain.headline)}</strong></p>`);
+    out.push(
+      `<p><strong class="${chain.headline === "Ready to merge" ? "ok" : "bad"}">${esc2(chain.headline)}</strong>${chain.headlineDetail ? ` \xB7 ${esc2(chain.headlineDetail)}` : ""}</p>`
+    );
     out.push(`<p class="num">${esc2(chain.counts)}</p>`);
     out.push(`<p class="small muted">${esc2(CHAIN_ACROSS_LINE)}</p>`);
     const itemLine = (line) => line.item ? pillRow(esc2, line.displayId, esc2(line.sentence)) : esc2(line.sentence);
     list("Problems", chain.problems.map(itemLine), "bad");
-    list("Needs you", chain.needsYou.map(itemLine));
-    list("Passed, but", chain.passedBut.map((line) => `<li class="r"><span>${idPills(esc2, line.cards)}</span><span class="body">${esc2(line.text)}</span></li>`));
+    list(chain.needsYouTitle, chain.needsYou.map(itemLine));
+    list(AFTER_MERGE_TITLE, chain.afterMerge.map(itemLine));
+    list(LEFT_IN_CARDS_TITLE, chain.leftInCards.map(itemLine));
+    list(PASSED_WITH_NOTES, chain.passedBut.map((line) => `<li class="r"><span>${idPills(esc2, line.cards)}</span><span class="body">${esc2(line.text)}</span></li>`));
     out.push(`<div class="t"><table><thead><tr><th>Card</th><th>State</th></tr></thead><tbody>`);
     for (const row of chain.cards) {
       const ai = data.state.aiSummary[row.id];
@@ -37071,7 +37266,9 @@ function cardStateHtml(data, esc2) {
     }
     out.push(`</tbody></table></div>`);
   } else if (card) {
-    out.push(`<p><strong class="${card.headline === "Ready to merge" ? "ok" : "bad"}">${esc2(card.headline)}</strong></p>`);
+    out.push(
+      `<p><strong class="${card.headline === "Ready to merge" ? "ok" : "bad"}">${esc2(card.headline)}</strong>${card.headlineDetail ? ` \xB7 ${esc2(card.headlineDetail)}` : ""}</p>`
+    );
     if (card.headlineNote) out.push(`<p class="small muted">${esc2(card.headlineNote)}</p>`);
     out.push(`<p class="num">${esc2(card.counts)}</p>`);
     if (card.lastRun) out.push(`<p class="small muted">Last run: ${esc2(card.lastRun)}</p>`);
@@ -37080,7 +37277,8 @@ function cardStateHtml(data, esc2) {
       out.push(aiLine(data.state.aiSummary));
     }
     list("Problems", card.problems.map((item) => esc2(item.sentence)), "bad");
-    list("Needs you", card.needsYou.map((item) => esc2(item.sentence)));
+    list(needsYouTitle(card), card.needsYou.map((item) => esc2(item.sentence)));
+    list(AFTER_MERGE_TITLE, card.afterMerge.map((item) => esc2(item.sentence)));
     list(card.passedButTitle, [
       // The code check (IDE-788) beside the agent's own caveat, as get_test_report joins them (IDE-771).
       ...card.passedBut.map((item) => {
@@ -37224,6 +37422,14 @@ function renderRunReport(data, embed, summary = { state: "none" }, extras = {}) 
   beforeMergeHtml.push(
     `<p class="small muted">A browser item without the <code>[ui]</code> tag never went through the visual gate, and this version cannot tell which those are.</p>`
   );
+  const afterMergeGaps = gapList("after-merge");
+  if (afterMergeGaps.length > 0) {
+    beforeMergeHtml.push(
+      `<h2>${GAP_GROUP_TITLE["after-merge"]}</h2>`,
+      `<p class="small muted">Checks for once this is on main. Merge does not wait on them.</p>`,
+      ...afterMergeGaps
+    );
+  }
   const changesHtml = [];
   if (data.cards.some((card) => card.footprint)) {
     changesHtml.push(
@@ -37776,6 +37982,97 @@ function writeRunReport(db2, cardId, opts = {}) {
   return { path: file2, bytes: built.bytes, videosEmbedded: built.videosEmbedded, videosLeftOut: built.videosLeftOut, summaryVideo: built.summaryVideo };
 }
 
+// ../lib/test-report-stuck.ts
+var test_report_stuck_exports = {};
+__export(test_report_stuck_exports, {
+  SEND_TO_AUTOPILOT_TO_PASS: () => SEND_TO_AUTOPILOT_TO_PASS,
+  STUCK_EXPLANATION: () => STUCK_EXPLANATION,
+  STUCK_HEADLINE: () => STUCK_HEADLINE,
+  STUCK_REVISE_LABEL: () => STUCK_REVISE_LABEL,
+  stuckBlocksPreVerify: () => stuckBlocksPreVerify,
+  stuckItems: () => stuckItems,
+  stuckQueueSummary: () => stuckQueueSummary,
+  stuckRefusalText: () => stuckRefusalText,
+  stuckReportText: () => stuckReportText,
+  stuckRunsLine: () => stuckRunsLine
+});
+var STUCK_HEADLINE = "Running this again will not change it";
+var SEND_TO_AUTOPILOT_TO_PASS = "Send to Autopilot to make this pass";
+var STUCK_REVISE_LABEL = "Revise";
+var STUCK_EXPLANATION = "This item stayed the same twice on the same code. Rewrite it, or let Autopilot fix the code and test it again.";
+function stuckKey(text2) {
+  return stripItemTokens(decodeHtmlEntities(text2.replace(/<[^>]*>/g, " "))).toLowerCase().replace(/[.,;:!?/\\|()[\]{}<>@#$%^&*"'`~=+\-_]/g, " ").replace(/\s+/g, " ").trim();
+}
+function sameStamp(a, b2) {
+  if (!a?.commit || !b2?.commit || a.commit !== b2.commit) return false;
+  if (a.dirtyTotal !== b2.dirtyTotal || a.dirty.length !== b2.dirty.length) return false;
+  const key = (stamp) => stamp.dirty.map((entry) => `${entry.path}:${entry.blob ?? "-"}`).sort().join(",");
+  return key(a) === key(b2);
+}
+function stuckItems(runs, checklistHtml, codeChanges) {
+  if (!runs || runs.length < 2 || !checklistHtml || !codeChanges) return [];
+  const out = [];
+  const seen = /* @__PURE__ */ new Set();
+  for (const entry of extractTaskItems(checklistHtml)) {
+    if (entry.checked) continue;
+    const key = stuckKey(entry.rawText);
+    if (!key || seen.has(key)) continue;
+    seen.add(key);
+    const hits = [];
+    for (let index = 0; index < runs.length && hits.length < 2; index++) {
+      const result = runs[index].items.find((candidate) => stuckKey(candidate.item) === key);
+      if (result) hits.push({ run: runs[index], index, result });
+    }
+    if (hits.length < 2) continue;
+    const [newest, previous] = hits;
+    const status = newest.result.status;
+    if (status !== "failed" && status !== "manual") continue;
+    if (previous.result.status !== status) continue;
+    if (!sameStamp(newest.run.code, previous.run.code)) continue;
+    const now = codeChanges[newest.run.id];
+    if (!now || now.state !== "same" || now.uncommitted.length > 0) continue;
+    out.push({
+      item: stripItemTokens(decodeHtmlEntities(entry.rawText.replace(/<[^>]*>/g, " "))),
+      runItem: newest.result.item,
+      status,
+      commit: newest.run.code.commit.slice(0, 7),
+      runNumbers: [runs.length - previous.index, runs.length - newest.index],
+      shown: newest.result.plainObserved ?? newest.result.error ?? newest.result.observed ?? null,
+      newestRunIndex: newest.index
+    });
+  }
+  return out;
+}
+function stuckBlocksPreVerify(stuck, checklistHtml, verifyScope) {
+  if (stuck.length === 0 || !checklistHtml) return false;
+  const groups = verifyTargets(parseTestProgress(checklistHtml), verifyScope ?? "next");
+  const runnable = runnableItemTexts(checklistHtml, groups);
+  if (runnable.length === 0) return false;
+  const keys = new Set(stuck.map((s) => stuckKey(s.item)));
+  return runnable.every((text2) => keys.has(stuckKey(text2)));
+}
+function stuckRunsLine(stuck) {
+  return `#${stuck.runNumbers[0]} and #${stuck.runNumbers[1]} \xB7 ${stuck.commit}`;
+}
+function stuckRefusalText(stuck) {
+  return stuck.length > 0 ? `${STUCK_HEADLINE}: ${stuck[0].item}` : STUCK_HEADLINE;
+}
+function stuckQueueSummary(error2) {
+  return `${error2.replace(/[.!?…]+\s*$/, "")}. Revise the item, or ${SEND_TO_AUTOPILOT_TO_PASS}.`;
+}
+function stuckReportText(stuck) {
+  if (stuck.length === 0) return null;
+  const lines2 = [`Stuck \u2014 ${STUCK_HEADLINE}`];
+  for (const s of stuck) {
+    lines2.push(`- ${s.item} \u2014 ${s.status}, twice on ${s.commit} (runs ${stuckRunsLine(s).split(" \xB7 ")[0]})`);
+    if (s.shown) lines2.push(`  Seen: ${s.shown}`);
+  }
+  lines2.push(
+    "Next: rewrite the item with revise_tests, or send the card to Autopilot with queue_card and autopilot: true. A plain Pre-verify is refused until one of them happens."
+  );
+  return lines2.join("\n");
+}
+
 // ../lib/process-group.ts
 var process_group_exports = {};
 __export(process_group_exports, {
@@ -38010,7 +38307,8 @@ var { importTerminalArtifacts: importTerminalArtifacts2, removeTestReportRunDirs
 var { cardSummaryState: cardSummaryState2, writeRunReport: writeRunReport2 } = unwrap(write_exports);
 var { attachmentRefs: attachmentRefs2, attachmentContentType: attachmentContentType2 } = unwrap(card_attachments_exports);
 var { canStartCard: canStartCard2, detectBoardPhase: detectBoardPhase2, terminalStartRefusal: terminalStartRefusal2 } = unwrap(card_phase_exports);
-var { parseTestProgress: parseTestProgress2, manualLimitMessage: manualLimitMessage2 } = unwrap(test_progress_exports);
+var { parseTestProgress: parseTestProgress2, manualLimitMessage: manualLimitMessage2, afterMergeLimitMessage: afterMergeLimitMessage2 } = unwrap(test_progress_exports);
+var { stuckItems: stuckItems2, stuckBlocksPreVerify: stuckBlocksPreVerify2, stuckReportText: stuckReportText2, STUCK_HEADLINE: STUCK_HEADLINE2, SEND_TO_AUTOPILOT_TO_PASS: SEND_TO_AUTOPILOT_TO_PASS2 } = unwrap(test_report_stuck_exports);
 var { stripHtml: stripHtml2 } = unwrap(utils_exports);
 var { git: git2 } = unwrap(core_exports3);
 var { codeStamp: codeStamp2 } = unwrap(head_exports);
@@ -38597,7 +38895,7 @@ function mergeCardText(result) {
         return {
           ok: true,
           text: withStashWarning(
-            `${result.displayId} merged into ${result.targetBranch} and left in Human Test. Branch ${result.branchName} and its worktree were deleted. Test it on main; if the test fails, the board's Didn't work sends it to Bugs and the squash stays on ${result.targetBranch}.`,
+            `${result.displayId} merged into ${result.targetBranch} and left in Human Test${result.afterMergeLeft ? ` \u2014 ${result.afterMergeLeft} after-merge check${result.afterMergeLeft === 1 ? "" : "s"} stay${result.afterMergeLeft === 1 ? "s" : ""} with you` : ""}. Branch ${result.branchName} and its worktree were deleted. Test it on main; if the test fails, the board's Didn't work sends it to Bugs and the squash stays on ${result.targetBranch}.`,
             result.stashRestoreWarning
           )
         };
@@ -38675,7 +38973,8 @@ async function mergeCardTool(db2, args) {
   const result = await mergeCard2(db2, args.cardId, {
     commitFirst: args.commitFirst === true,
     targetBranch: args.targetBranch?.trim() || void 0,
-    complete: args.complete !== false,
+    // Omitted, mergeCard decides: unticked `[after-merge]` items keep the card in Human Test (IDE-810).
+    complete: args.complete,
     cwd: args.cwd,
     stopProcess: (pid) => stopProcessGroup2(pid)
   });
@@ -38814,7 +39113,7 @@ function readTestReport(db2, card, opts = {}) {
   if (status && !STATUSES2.includes(status)) {
     return fail(`get_test_report: status must be one of ${STATUSES2.join(", ")}.`);
   }
-  const row = db2.prepare(`SELECT test_reports as testReports, test_scenarios as testScenarios FROM cards WHERE id = ?`).get(card.id);
+  const row = db2.prepare(`SELECT test_reports as testReports, test_scenarios as testScenarios, git_branch_status as gitBranchStatus FROM cards WHERE id = ?`).get(card.id);
   const runs = parseTestReports2(row?.testReports);
   const chainBlock = chainStateText(db2, card.id);
   if (!runs) {
@@ -38834,10 +39133,14 @@ function readTestReport(db2, card, opts = {}) {
   const run2 = runs[selected.index];
   const newestVideo = runs.find((candidate) => candidate.video && !candidate.video.removedAt);
   const summary = newestVideo?.id === run2.id ? cardSummaryState2(db2, card.id, { homeDir: opts.homeDir }) : null;
+  const codeChanges = runCodeChangesFor2(db2, card.id, runs);
+  const stuckBlock = stuckReportText2(stuckItems2(runs, row?.testScenarios ?? null, codeChanges));
   const content = [
     {
       type: "text",
       text: (chainBlock ? `${chainBlock}
+
+` : "") + (stuckBlock ? `${stuckBlock}
 
 ` : "") + formatTestReport2({
         displayId: card.displayId,
@@ -38849,8 +39152,9 @@ function readTestReport(db2, card, opts = {}) {
         // The recording's absolute path (IDE-699), for a terminal to open.
         videoPath: run2.video ? path11.join(testReportRunDir2(card.id, run2.id, opts.homeDir), run2.video.file) : null,
         summaryLine: summary?.state === "ready" ? `Summary video: ${summary.file}` : summary?.state === "pending" ? "Summary video: not ready yet; the app makes it while it is open and no run is going." : null,
-        // Which passes came before later changes (IDE-788).
-        codeChanges: runCodeChangesFor2(db2, card.id, runs)
+        codeChanges,
+        // IDE-810: after the merge the after-merge items count as left.
+        merged: row?.gitBranchStatus === "merged"
       })
     }
   ];
@@ -39734,7 +40038,7 @@ ${buildPlanFormatGuide2()}`
       },
       {
         name: "save_tests",
-        description: `Save test scenarios to a card and move it to Human Test (a Completed or Withdrawn card stays where it is). Use this when you've completed implementation.
+        description: `Save test scenarios to a card and move it to Human Test (a Completed or Withdrawn card stays where it is). Use this when you've completed implementation. End an item with \`[after-merge]\` only for a check that needs the change truly on main (a release cut from main, a live-DB backfill): no run takes it, Ready to merge does not wait on it, at most 2 outside the core flow; a merge itself still runs on a verify-server copy.
 
 ${TEST_STYLE_CONTRACT}
 
@@ -39821,7 +40125,7 @@ Test Report (report): when you have just verified checklist items yourself \u201
       },
       {
         name: "revise_tests",
-        description: `Rewrite checklist items that are already on a card, in place: each one keeps its group and position and comes back unticked with its new text. A note without a box \u2014 an \`If it breaks:\` / \`Patlarsa:\` line, a group's explanation \u2014 can be rewritten the same way and stays a note. Every other item, tick and note stays as it is, and the card does not move.
+        description: `Rewrite checklist items that are already on a card, in place: each one keeps its group and position and comes back unticked with its new text. A note without a box \u2014 an \`If it breaks:\` / \`Patlarsa:\` line, a group's explanation \u2014 can be rewritten the same way and stays a note. Every other item, tick and note stays as it is, and the card does not move. A rewording that adds \`[manual]\` or \`[after-merge]\` past their limit of 2 each is refused.
 
 Use it when the user asks you in this turn to change the wording of existing scenarios \u2014 an Ask why found a scenario wrong, an item went stale after a change. To add scenarios use save_tests; to remove them, save_tests with allowDeletion. Do not reword an item by sending save_tests with allowDeletion.
 
@@ -39995,16 +40299,16 @@ The server writes the card's verdict, score, priority and complexity from those 
             },
             autopilot: {
               type: "boolean",
-              description: "Send to Autopilot, the app's button of that name (IDE-608): only when the user explicitly asked for Autopilot on this card. The card goes to the FRONT of the queue and Ideafy carries it on its own, unattended \u2014 a plan run first for a Backlog/Bugs card with no plan (IDE-610; a plan that leaves a [NEEDS_DECISION: \u2026] question stops it there, in Backlog/Bugs, for the user to answer), implementation in its worktree, then a pre-verify of each checklist group in turn, at most one automatic fix round \u2014 and stops at Ready to merge, or where it is with the reason on the card. It never merges. Takes a Backlog/Bugs card (planned or not), an In Progress card with a plan and no checklist, or a Human Test card with a core flow and a worktree; Ideation, Work projects and In Progress cards with no plan are refused with the reason. afterCardId and scope are ignored with it."
+              description: "Send to Autopilot, the app's button of that name (IDE-608): only when the user explicitly asked for Autopilot on this card. The card goes to the FRONT of the queue and Ideafy carries it on its own, unattended \u2014 a plan run first for a Backlog/Bugs card with no plan (IDE-610; a plan that leaves a [NEEDS_DECISION: \u2026] question stops it there, in Backlog/Bugs, for the user to answer), implementation in its worktree, then a pre-verify of each checklist group in turn, with fix rounds, setup rounds and work rounds until the group passes (IDE-815: it stops once the same failure comes back maxRounds times, or after 3 hours) \u2014 and stops at Ready to merge, or where it is with the reason on the card. It never merges. Takes a Backlog/Bugs card (planned or not), an In Progress card with a plan and no checklist, or a Human Test card with a core flow and a worktree; Ideation, Work projects and In Progress cards with no plan are refused with the reason. afterCardId and scope are ignored with it."
             },
             mode: {
               type: "string",
               enum: ["default", "ralph"],
-              description: `Only with autopilot: true (a cardId or a groupId), and only when the user explicitly asked for Ralph (IDE-731): "ralph" sends the card to Ralph, the app's Send to Ralph \u2014 Autopilot in a stricter mode. Ralph does not start unless this machine has the Playwright browser (npx and Google Chrome); the refusal names what is missing and writes nothing. On a checklist group with [ui] items Ralph does not accept a text report: a run that never used the browser stops the card instead. Groups with no [ui] items run as on Autopilot. Omitted, the card keeps the mode it was last on (Continue on a stopped Ralph card stays Ralph); "default" puts it back on plain Autopilot. With groupId it is Chain Ralph (IDE-734), the app's Send chain to Ralph: every open member goes on Ralph with the same maxRounds, under a chain time cap of 3 hours per queued card. A chain with no integration branch gets one (chain/\u2026) when no member has started yet \u2014 sending to Ralph is the user's yes to it, and the reply names the branch; a chain with a started member is refused with the list of what started. Merge & Complete to main stays the user's.`
+              description: `Only with autopilot: true (a cardId or a groupId), and only when the user explicitly asked for Ralph (IDE-731): "ralph" sends the card to Ralph, the app's Send to Ralph \u2014 Autopilot's same verify loop plus a Playwright gate, visual proof for [ui] items and the chain extras. Ralph does not start unless this machine has the Playwright browser (npx and Google Chrome); the refusal names what is missing and writes nothing. On a checklist group with [ui] items Ralph does not accept a text report: a run that never used the browser stops the card instead. Groups with no [ui] items run as on Autopilot. Omitted, the card keeps the mode it was last on (Continue on a stopped Ralph card stays Ralph); "default" puts it back on plain Autopilot. With groupId it is Chain Ralph (IDE-734), the app's Send chain to Ralph: every open member goes on Ralph with the same maxRounds, under a chain time cap of 3 hours per queued card. A chain with no integration branch gets one (chain/\u2026) when no member has started yet \u2014 sending to Ralph is the user's yes to it, and the reply names the branch; a chain with a started member is refused with the list of what started. Merge & Complete to main stays the user's.`
             },
             maxRounds: {
               oneOf: [{ type: "integer", minimum: 1, maximum: 10 }, { type: "string", enum: ["unlimited"] }],
-              description: `Only with mode: "ralph" (IDE-733), the app's Send to Ralph stepper (with groupId, for every member of the chain): how many times the same failure may come back before Ralph stops the card \u2014 1 to 10, or "unlimited" (Ralph still stops after 3 hours). A failure is the same when the same checklist item in the same group fails again, even after Ralph reworded it. Omitted, the project's last value is used (3 when there is none). The value given becomes the project's last value.`
+              description: `Only with autopilot: true (IDE-733; every mode since IDE-815), the app's round stepper on Send to Autopilot and Send to Ralph (with groupId, only with mode: "ralph", for every member of the chain): how many times the same failure may come back before Autopilot stops the card \u2014 1 to 10, or "unlimited" (it still stops after 3 hours). A failure is the same when the same checklist item in the same group fails again, even after Autopilot reworded it. Omitted, the project's last value is used (3 when there is none). The value given becomes the project's last value.`
             }
           }
         }
@@ -40094,7 +40398,7 @@ The server writes the card's verdict, score, priority and complexity from those 
             },
             complete: {
               type: "boolean",
-              description: "Default true. false keeps the card in Human Test after the merge, so the user can test it on main. Only when the user asked for that."
+              description: "Default true, except for a card with unticked [after-merge] items: it stays in Human Test unless you pass true. false keeps the card in Human Test after the merge, so the user can test it on main. Only when the user asked for that."
             }
           },
           required: ["cardId"]
@@ -40404,7 +40708,9 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         const reportRuns = parseTestReports2(cardWithReports.testReports);
         const testReport = testReportCardSummary2(
           reportRuns,
-          card.testScenarios ?? null
+          card.testScenarios ?? null,
+          // Merged reads as the app's brief reads it (IDE-808); the card's own SELECT leaves the column out.
+          reportRuns?.length ? db.prepare(`SELECT git_branch_status AS s FROM cards WHERE id = ?`).get(card.id)?.s ?? null : null
         );
         delete cardWithReports.testReports;
         if (testReport) cardWithReports.testReport = testReport;
@@ -40420,8 +40726,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
               stopReason: autopilot.stopReason,
               // IDE-731: "ralph" or "default"; continue a Ralph card with mode: "ralph".
               mode: autopilot.mode ?? "default",
-              // IDE-733: Ralph's round limit (0 = none) and how many rounds in a row failed the same way.
-              ...autopilot.ralph ? { maxRounds: autopilot.ralph.maxRounds, failCount: autopilot.ralph.failCount } : {}
+              // IDE-733: the loop's round limit (0 = none) and how many rounds in a row failed the same way (every mode since IDE-815).
+              ...autopilot.loop ? { maxRounds: autopilot.loop.maxRounds, failCount: autopilot.loop.failCount } : {}
             };
           }
         }
@@ -41202,6 +41508,9 @@ ${formatWarning}` : ""}` }]
         if (!saved.ok && saved.reason === "manual-limit") {
           return { content: [{ type: "text", text: manualLimitMessage2("save_tests", saved.items) }], isError: true };
         }
+        if (!saved.ok && saved.reason === "after-merge-limit") {
+          return { content: [{ type: "text", text: afterMergeLimitMessage2("save_tests", saved.items) }], isError: true };
+        }
         if (!saved.ok && saved.reason === "unsafe") {
           return {
             content: [{
@@ -41258,6 +41567,9 @@ ${formatWarning}` : ""}` }]
         });
         if (!saved.ok && saved.reason === "manual-limit") {
           return { content: [{ type: "text", text: manualLimitMessage2("revise_tests", saved.items) }], isError: true };
+        }
+        if (!saved.ok && saved.reason === "after-merge-limit") {
+          return { content: [{ type: "text", text: afterMergeLimitMessage2("revise_tests", saved.items) }], isError: true };
         }
         if (!saved.ok && saved.reason === "missing") {
           return {
@@ -41800,8 +42112,11 @@ ${waiting}` : ""}` : choice === "silent" ? `${bound} This session is outside eve
         const rawMaxRounds = args.maxRounds;
         let maxRounds;
         if (rawMaxRounds !== void 0) {
-          if (rawMode !== "ralph") {
-            return { content: [{ type: "text", text: 'queue_card: maxRounds goes with mode: "ralph". Nothing was written.' }], isError: true };
+          if (autopilot !== true) {
+            return { content: [{ type: "text", text: "queue_card: maxRounds goes with autopilot: true. Nothing was written." }], isError: true };
+          }
+          if (rawGroupId !== void 0 && rawMode !== "ralph") {
+            return { content: [{ type: "text", text: 'queue_card: with groupId, maxRounds goes with mode: "ralph". Nothing was written.' }], isError: true };
           }
           maxRounds = rawMaxRounds === "unlimited" ? 0 : rawMaxRounds;
           if (!(typeof maxRounds === "number" && Number.isInteger(maxRounds) && maxRounds >= (rawMaxRounds === "unlimited" ? 0 : 1) && maxRounds <= 10)) {
@@ -41876,7 +42191,10 @@ ${waiting}` : ""}` : choice === "silent" ? `${bound} This session is outside eve
           const started = startAutopilot2(
             db,
             cardId,
-            rawMode === void 0 ? {} : { mode: rawMode, ...maxRounds !== void 0 ? { maxRounds } : {} }
+            {
+              ...rawMode === void 0 ? {} : { mode: rawMode },
+              ...maxRounds !== void 0 ? { maxRounds } : {}
+            }
           );
           if (!started.ok) {
             const conflict = started.chainConflict;
