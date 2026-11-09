@@ -21645,6 +21645,20 @@ paths, session IDs, URLs, column names.
   summary video, a card with only a text run, a pending job) says how to make
   it \u2014 the seed, script or action that produces it \u2014 or names a card that
   already has it.
+- A step that needs a nested AI run (a Pre-verify, planning or Autopilot run
+  started on a copy) is split by what it checks, because such a run rarely
+  fits inside the outer run's limit:
+  - What the server does as the run starts (the group it targets, the folder
+    it runs in, its prompt): start it, read that, stop it. Do not wait for it
+    to end.
+  - What the server does once it ends (counts, the Chain regression measure, a
+    report line, ticks, cost): open the copy with \`verify-server start --card
+    <ID> --finished-run "<group heading>"\`, which writes a finished run with
+    no AI. Never start the run for these.
+  - What the nested run's model itself does: a real run, alone in a group of
+    its own at the end. If it does not finish in time, the item goes to the
+    person as \`[manual]\` with "the nested run did not finish within the run
+    limit".
 
 ### Good examples (follow this style)
 
@@ -21771,6 +21785,18 @@ session ID, URL, kolon ad\u0131.
   text ko\u015Fusu olan kart, bekleyen i\u015F) o durumu nas\u0131l kuraca\u011F\u0131n\u0131 s\xF6yler \u2014 onu
   \xFCreten seed, script ya da eylem \u2014 ya da o duruma zaten sahip bir kart\u0131
   ad\u0131yla yazar.
+- \u0130\xE7 i\xE7e AI ko\u015Fusu isteyen bir ad\u0131m (kopyada ba\u015Flat\u0131lan bir Pre-verify,
+  planlama ya da Autopilot ko\u015Fusu) neyi kontrol etti\u011Fine g\xF6re b\xF6l\xFCn\xFCr, \xE7\xFCnk\xFC
+  b\xF6yle bir ko\u015Fu d\u0131\u015F ko\u015Funun s\xFCresine nadiren s\u0131\u011Far:
+  - Ko\u015Fu ba\u015Flarken sunucunun yapt\u0131\u011F\u0131 (hedefledi\u011Fi grup, \xE7al\u0131\u015Ft\u0131\u011F\u0131 klas\xF6r,
+    prompt'u): ko\u015Fuyu ba\u015Flat, bunlar\u0131 oku, durdur. Bitmesini bekleme.
+  - Ko\u015Fu bittikten sonra sunucunun yapt\u0131\u011F\u0131 (say\u0131lar, Chain regression \xF6l\xE7\xFCm\xFC,
+    rapor sat\u0131r\u0131, tikler, maliyet): kopyay\u0131 \`verify-server start --card <ID>
+    --finished-run "<grup ba\u015Fl\u0131\u011F\u0131>"\` ile a\xE7; bu, AI \xE7al\u0131\u015Ft\u0131rmadan bitmi\u015F bir
+    ko\u015Fu yazar. Bunlar i\xE7in ko\u015Fuyu ba\u015Flatma.
+  - \u0130\xE7 ko\u015Fudaki modelin kendi davran\u0131\u015F\u0131: ger\xE7ek ko\u015Fu, sonda kendi grubunda tek
+    ba\u015F\u0131na. S\xFCreye s\u0131\u011Fmazsa madde "i\xE7 ko\u015Fu s\xFCre i\xE7inde bitmedi" nedeniyle
+    \`[manual]\` olarak insana kal\u0131r.
 
 ### \u0130yi \xF6rnek (bu stile uy)
 
@@ -31830,6 +31856,9 @@ function writeChainRegression(db2, parentId, opts = {}) {
           now,
           author: IDEAFY_AUTHOR,
           guard: "merge",
+          // The merge would carry the parent's ticks onto look-alike child
+          // items; the groups go in unticked, the rest as it was.
+          finalize: (_merged, previous) => insertChainRegression(previous, groupsHtml),
           moveTo: null,
           manualLimit: "drop"
         });
