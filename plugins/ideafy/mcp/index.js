@@ -20996,6 +20996,8 @@ var test_progress_exports = {};
 __export(test_progress_exports, {
   AFTER_MERGE_ITEM_LIMIT: () => AFTER_MERGE_ITEM_LIMIT,
   AFTER_MERGE_ITEM_TOKEN: () => AFTER_MERGE_ITEM_TOKEN,
+  CHAIN_LEFTOVERS_HEADING: () => CHAIN_LEFTOVERS_HEADING,
+  CHAIN_REGRESSION_HEADING: () => CHAIN_REGRESSION_HEADING,
   MANUAL_ITEM_LIMIT: () => MANUAL_ITEM_LIMIT,
   MANUAL_ITEM_TOKEN: () => MANUAL_ITEM_TOKEN,
   NEEDS_PRE_VERIFY_REASON: () => NEEDS_PRE_VERIFY_REASON,
@@ -21010,8 +21012,11 @@ __export(test_progress_exports, {
   appendFinalTestPlanNote: () => appendFinalTestPlanNote,
   canVerifyAllGroups: () => canVerifyAllGroups,
   carrySplitFlows: () => carrySplitFlows,
+  chainLeftoversSectionsHtml: () => chainLeftoversSectionsHtml,
+  chainRegressionSectionsHtml: () => chainRegressionSectionsHtml,
   checklistItems: () => checklistItems,
   coreFlowFirst: () => coreFlowFirst,
+  coveredLeftovers: () => coveredLeftovers,
   defaultVisualItems: () => defaultVisualItems,
   describeTestGroup: () => describeTestGroup,
   distinctItems: () => distinctItems,
@@ -21022,7 +21027,11 @@ __export(test_progress_exports, {
   groupSectionsHtml: () => groupSectionsHtml,
   hasOwnChecklist: () => hasOwnChecklist,
   hasRealPlan: () => hasRealPlan,
+  insertChainLeftovers: () => insertChainLeftovers,
+  insertChainRegression: () => insertChainRegression,
   isAfterMergeItem: () => isAfterMergeItem,
+  isChainLeftoversHeading: () => isChainLeftoversHeading,
+  isChainRegressionHeading: () => isChainRegressionHeading,
   isCopySetupItem: () => isCopySetupItem,
   isCoreHeading: () => isCoreHeading,
   isFinalTestNote: () => isFinalTestNote,
@@ -21134,6 +21143,16 @@ function coreFlowFirst(html) {
 }
 var SPLIT_FLOWS_HEADING = "End-to-end";
 var SPLIT_FLOWS_LABEL = SPLIT_FLOWS_HEADING.toLowerCase();
+var CHAIN_REGRESSION_HEADING = "Chain regression";
+var CHAIN_REGRESSION_LABEL = CHAIN_REGRESSION_HEADING.toLowerCase();
+function isChainRegressionHeading(text2) {
+  return headingText(text2).toLowerCase().startsWith(CHAIN_REGRESSION_LABEL);
+}
+var CHAIN_LEFTOVERS_HEADING = "Chain leftovers";
+var CHAIN_LEFTOVERS_LABEL = CHAIN_LEFTOVERS_HEADING.toLowerCase();
+function isChainLeftoversHeading(text2) {
+  return headingText(text2).toLowerCase().startsWith(CHAIN_LEFTOVERS_LABEL);
+}
 function sectionBlocks(html) {
   const starts = [];
   H2.lastIndex = 0;
@@ -21157,9 +21176,46 @@ function groupSectionsHtml(html, groups) {
 function withoutSplitFlows(html) {
   let rest = html;
   for (const block of sectionBlocks(html).reverse()) {
-    if (block.label === SPLIT_FLOWS_LABEL) rest = rest.slice(0, block.start) + rest.slice(block.end);
+    if (block.label === SPLIT_FLOWS_LABEL || block.label.startsWith(CHAIN_REGRESSION_LABEL) || block.label.startsWith(CHAIN_LEFTOVERS_LABEL)) {
+      rest = rest.slice(0, block.start) + rest.slice(block.end);
+    }
   }
   return rest;
+}
+function chainRegressionSectionsHtml(html) {
+  if (!html) return "";
+  return sectionBlocks(html).filter((block) => block.label.startsWith(CHAIN_REGRESSION_LABEL)).map((block) => html.slice(block.start, block.end)).join("");
+}
+function chainLeftoversSectionsHtml(html) {
+  if (!html) return "";
+  return sectionBlocks(html).filter((block) => block.label.startsWith(CHAIN_LEFTOVERS_LABEL)).map((block) => html.slice(block.start, block.end)).join("");
+}
+function coveredLeftovers(parentTests) {
+  const out = /* @__PURE__ */ new Map();
+  for (const item of checklistItems(parentTests)) {
+    if (!isChainLeftoversHeading(item.heading)) continue;
+    const names = item.heading.replace(/^#+\s*/, "").split("\xB7").slice(1).map((name) => name.trim()).filter(Boolean);
+    for (const name of names) {
+      const set2 = out.get(name) ?? /* @__PURE__ */ new Set();
+      set2.add(stripItemTokens(item.text));
+      out.set(name, set2);
+    }
+  }
+  return out;
+}
+function insertChainLeftovers(html, groupsHtml) {
+  if (!groupsHtml) return html;
+  const regression = sectionBlocks(html).filter((block) => block.label.startsWith(CHAIN_REGRESSION_LABEL));
+  if (regression.length === 0) return insertChainRegression(html, groupsHtml);
+  const at = regression[regression.length - 1].end;
+  return html.slice(0, at) + groupsHtml + html.slice(at);
+}
+function insertChainRegression(html, groupsHtml) {
+  if (!groupsHtml) return html;
+  const flows = sectionBlocks(html).filter((block) => block.label === SPLIT_FLOWS_LABEL);
+  if (flows.length === 0) return html + groupsHtml;
+  const at = hasOwnChecklist(html) ? flows[0].start : flows[flows.length - 1].end;
+  return html.slice(0, at) + groupsHtml + html.slice(at);
 }
 function hasOwnChecklist(html) {
   if (!html) return false;
@@ -21185,6 +21241,11 @@ function hasRealPlan(html) {
   return plainTextLabel(html ?? "") !== "" && !isFinalTestNote(html);
 }
 function carrySplitFlows(newHtml, previousHtml) {
+  const regression = chainRegressionSectionsHtml(newHtml) ? "" : chainRegressionSectionsHtml(previousHtml);
+  const leftovers = chainLeftoversSectionsHtml(newHtml) ? "" : chainLeftoversSectionsHtml(previousHtml);
+  return insertChainLeftovers(insertChainRegression(carryFlows(newHtml, previousHtml), regression), leftovers);
+}
+function carryFlows(newHtml, previousHtml) {
   if (!previousHtml || hasOwnChecklist(previousHtml)) return newHtml;
   if (sectionBlocks(newHtml).some((b2) => b2.label === SPLIT_FLOWS_LABEL)) return newHtml;
   const flows = sectionBlocks(previousHtml).filter((b2) => b2.label === SPLIT_FLOWS_LABEL).map((b2) => previousHtml.slice(b2.start, b2.end)).join("");
@@ -21759,6 +21820,7 @@ function buildTestStyleContractForCard(card) {
 // ../lib/prompts/phase-policy.ts
 var phase_policy_exports = {};
 __export(phase_policy_exports, {
+  SPLIT_PARENT_PLANNING_RULE: () => SPLIT_PARENT_PLANNING_RULE,
   SPLIT_PARENT_RULE: () => SPLIT_PARENT_RULE,
   buildCreatedCardOpinionClause: () => buildCreatedCardOpinionClause,
   buildCreationOfferPolicy: () => buildCreationOfferPolicy,
@@ -21820,7 +21882,18 @@ function sanitizeForReminder(value, maxLength = 120) {
   const neutralized = collapsed.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, '\\"');
   return neutralized.length > maxLength ? `${neutralized.slice(0, maxLength)}\u2026` : neutralized;
 }
-var SPLIT_PARENT_RULE = "This card was split into the cards below. Your job is to join the pieces and show the idea works end to end. Do not redo what the child cards did: read their plans and changes first (get_card). Fix a joining gap in your own plan and commit; for a bigger gap, propose a new card. The `## End-to-end` group on its checklist was written before any child existed: when you write the checklist, write that group too, after your own groups and under the same heading, naming the children's real cards, screens and files. A flow that needs nested AI runs or a merge is still a run's to walk on a verify-server copy; give a long one its own group rather than `[manual]`, which stays for what no run on this machine can do. Once every child is ready and the card has neither a plan nor a checklist of its own, its next step is the final test, not a plan: it walks the `## End-to-end` flows as they stand, a failed flow gets one fix through the verify-fix round, and it stops at Ready to merge. Write a plan only if the person asks for one: a plan after the final test sends the card back to In Progress and clears the End-to-end ticks, so the flows are walked again on the new code. Starting that plan with start_card_run takes `planNote`: ask the person what the test showed. Nothing walks the items a child in the chain left unticked; Merge lists them.";
+var SPLIT_PARENT_RULE = "This card was split into the cards below. Your job is to join the pieces and show the idea works end to end. Do not redo what the child cards did: read their plans and changes first (get_card). Fix a joining gap in your own plan and commit; for a bigger gap, propose a new card. The `## End-to-end` group on its checklist was written before any child existed: when you write the checklist, write that group too, after your own groups and under the same heading, naming the children's real cards, screens and files. A flow that needs nested AI runs or a merge is still a run's to walk on a verify-server copy; give a long one its own group rather than `[manual]`, which stays for what no run on this machine can do. Once every child is ready and the card has neither a plan nor a checklist of its own, its next step is the final test, not a plan: it walks the `## End-to-end` flows as they stand, a failed flow gets one fix through the verify-fix round, and it stops at Ready to merge. Write a plan only if the person asks for one: a plan after the final test sends the card back to In Progress and clears the End-to-end ticks, so the flows are walked again on the new code. Starting that plan with start_card_run takes `planNote`: ask the person what the test showed. When the parent's verify starts, the server writes `## Chain regression \xB7 \u2026` groups itself: the core flows of the children whose files changed on the chain's code since their last pass. It also writes `## Chain leftovers \xB7 \u2026` groups: the items Ralph handed over on a child as `[manual]` or parked, tried once more on the combined code; one that still does not pass stays `[manual]` on the parent. The person's own `[manual]` and `[after-merge]` items on a child are not walked; Merge lists them. A run that writes the checklist never writes, deletes or renames these groups and never changes their items. When you write the checklist after a plan with a `## Joining Gaps` section, every checklist item that section names goes into your own group, word for word as the plan wrote it.";
+var SPLIT_PARENT_PLANNING_RULE = `Before you write this parent's plan, check where the children's code is joined:
+1. Work at the chain's tip. In an app run that is the folder the run works in: the chain's worktree, or the project folder when the card is in no chain. In a terminal session, check the chain's \`chain/...\` branch out in a worktree of its own. Run the project's typecheck and its test suite there \u2014 read the commands from package.json scripts or the project's CLAUDE.md. Give each command at most 5 minutes; when the suite does not finish in that time, run the tests nearest to the files the children changed instead, and say which ones you ran.
+2. A failure in a file the chain did not change is not a gap: when \`git log <default branch>..HEAD -- <file>\` prints nothing, it fails on the default branch already. Give it one sentence under Edge Cases. A dependency that still cannot be found is a setup problem, not a gap: say the code could not be checked, and carry on.
+3. Put a \`## Joining Gaps\` section before the plan's other headings. It lists the commands you ran, the commit (SHA) they ran on, and their result. Then each gap, as three things that belong together:
+   - proof: the failing test or typecheck line, or a concrete contradiction between two children's plans or code, with the files;
+   - fix: the Implementation Steps step that makes it;
+   - checklist item: the exact text of the item that tests the fix.
+   With nothing failing, the section says there is no gap and gives the clean results.
+4. Without proof it is not a gap: a hunch that two pieces "may not be joined" is at most one sentence under Edge Cases.
+5. A red typecheck or test never stops the plan and is never by itself a \`[NEEDS_DECISION]\`: it becomes a gap in the plan. No stop.
+6. Leave the worktree as you found it: delete what the tests wrote, so \`git status\` shows nothing they left behind.`;
 function splitChildRule(parentName) {
   return `Your scope is this card; ${parentName} joins the whole. Do not take on the parent card's work.`;
 }
@@ -23192,6 +23265,11 @@ __export(card_ops_exports, {
   chainConflictBlocksNow: () => chainConflictBlocksNow,
   chainConflictCard: () => chainConflictCard,
   chainConflictText: () => chainConflictText,
+  chainLeftoversFor: () => chainLeftoversFor,
+  chainLeftoversHtml: () => chainLeftoversHtml,
+  chainLeftoversRecordFor: () => chainLeftoversRecordFor,
+  chainLeftoversSummary: () => chainLeftoversSummary,
+  chainLeftoversView: () => chainLeftoversView,
   chainMainConflict: () => chainMainConflict,
   chainMainProbe: () => chainMainProbe,
   chainMergeForCard: () => chainMergeForCard,
@@ -23199,7 +23277,15 @@ __export(card_ops_exports, {
   chainOrderWarningFor: () => chainOrderWarningFor,
   chainParentMainConflict: () => chainParentMainConflict,
   chainRalphDeadlineFor: () => chainRalphDeadlineFor,
+  chainRegressionFor: () => chainRegressionFor,
+  chainRegressionHtml: () => chainRegressionHtml,
+  chainRegressionMeasure: () => chainRegressionMeasure,
+  chainRegressionMeasureLine: () => chainRegressionMeasureLine,
+  chainRegressionRecordFor: () => chainRegressionRecordFor,
+  chainRegressionSummary: () => chainRegressionSummary,
+  chainRegressionView: () => chainRegressionView,
   chainRunCodeChangesFor: () => chainRunCodeChangesFor,
+  chainTallyForCard: () => chainTallyForCard,
   chainUnwalkedItems: () => chainUnwalkedItems,
   chainWriteConflictFor: () => chainWriteConflictFor,
   chainsWithReadyMembers: () => chainsWithReadyMembers,
@@ -23282,6 +23368,7 @@ __export(card_ops_exports, {
   nextQueueStep: () => nextQueueStep,
   normalizeGroupCode: () => normalizeGroupCode,
   normalizeGroupId: () => normalizeGroupId,
+  onlyImportExportChange: () => onlyImportExportChange,
   opinionEditFields: () => opinionEditFields,
   parseBlockedBy: () => parseBlockedBy,
   parseUndoSnapshot: () => parseUndoSnapshot,
@@ -23376,6 +23463,8 @@ __export(card_ops_exports, {
   waitingOnLine: () => waitingOnLine,
   withdrawSplitProposal: () => withdrawSplitProposal,
   workTemplateIdError: () => workTemplateIdError,
+  writeChainLeftovers: () => writeChainLeftovers,
+  writeChainRegression: () => writeChainRegression,
   writeRuntime: () => writeRuntime
 });
 
@@ -23524,11 +23613,11 @@ function chainRalphDeadline(nowMs, members) {
 function chainCapText(members) {
   return `${RALPH_TIME_CAP_MS * Math.max(1, members) / 36e5}h`;
 }
-var RALPH_REVISE_REFUSAL = "Autopilot rewords a core-flow item only on a checklist it wrote itself on this card and once per item, keeps [ui], never adds [manual], and never touches End-to-end or [manual] items";
+var RALPH_REVISE_REFUSAL = "Autopilot rewords a core-flow item only on a checklist it wrote itself on this card and once per item, keeps [ui], never adds [manual], and never touches End-to-end, Chain regression, Chain leftovers or [manual] items";
 function ralphMayRevise(item) {
   if (!item) return true;
   const flows = (item.heading ?? "").trim().toLowerCase() === SPLIT_FLOWS_HEADING.toLowerCase();
-  return !item.core && !flows && !isPersonsItem(item.text);
+  return !item.core && !flows && !isChainRegressionHeading(item.heading ?? "") && !isChainLeftoversHeading(item.heading ?? "") && !isPersonsItem(item.text);
 }
 
 // ../lib/autopilot.ts
@@ -28494,6 +28583,9 @@ function moveCardInChain(db2, cardId, afterCardId, expectedGroupId) {
 }
 
 // ../lib/card-ops/ralph-events.ts
+var CHAIN_REGRESSION_PHASE = "chain-regression";
+var CHAIN_LEFTOVERS_PHASE = "chain-leftovers";
+var NOT_A_RECORD = `NOT (kind = 'run' AND COALESCE(json_extract(detail, '$.phase'), '') IN ('${CHAIN_REGRESSION_PHASE}', '${CHAIN_LEFTOVERS_PHASE}'))`;
 var tableCache = /* @__PURE__ */ new WeakMap();
 function hasRalphEvents(db2) {
   if (tableCache.get(db2)) return true;
@@ -28519,7 +28611,7 @@ function recordRalphEvent(db2, entry) {
 }
 function cardHasRalphEvents(db2, cardId) {
   if (!hasRalphEvents(db2)) return false;
-  return !!getRow(db2, `SELECT 1 AS ok FROM ralph_events WHERE card_id = ? LIMIT 1`, cardId);
+  return !!getRow(db2, `SELECT 1 AS ok FROM ralph_events WHERE card_id = ? AND ${NOT_A_RECORD} LIMIT 1`, cardId);
 }
 function firstRalphSendAt(db2, cardId) {
   if (!hasRalphEvents(db2)) return null;
@@ -28553,7 +28645,7 @@ function ralphEventsFor(db2, cardIds) {
   return allRows(
     db2,
     `SELECT id, card_id AS cardId, group_id AS groupId, at, kind, detail
-     FROM ralph_events WHERE card_id IN (${marks}) ORDER BY at, id`,
+     FROM ralph_events WHERE card_id IN (${marks}) AND ${NOT_A_RECORD} ORDER BY at, id`,
     ...cardIds
   ).map((row) => ({ ...row, id: Number(row.id), detail: parseDetail(row.detail) }));
 }
@@ -29859,11 +29951,11 @@ function blobsAt(repo, ref, paths) {
   }
   return blobs;
 }
-function codeChangeFor(repo, tip, watched, code) {
+function codeChangeFor(repo, tip, watched, code, opts = {}) {
   const { commit } = code;
   if (!commit) return { state: "unknown", reason: "no commit recorded" };
   if (!commitExists(repo, commit)) return { state: "unknown", reason: "commit no longer in the repo" };
-  if (gitRead(repo, ["merge-base", "--is-ancestor", commit, tip]) === null) {
+  if (opts.requireAncestor !== false && gitRead(repo, ["merge-base", "--is-ancestor", commit, tip]) === null) {
     return { state: "unknown", reason: "today's code does not descend from the tested commit" };
   }
   const watchedSet = new Set(watched);
@@ -29896,6 +29988,11 @@ function codeChangeFor(repo, tip, watched, code) {
   }
   return { state: "changed", files, commits, uncommitted };
 }
+function codeTipFor(db2, cardId, repo) {
+  const codeFolder = cardRepoFolder(db2, cardId);
+  if (!codeFolder) return null;
+  return codeFolder !== repo ? currentHead(codeFolder) ?? currentHead(repo) : chainTipFor(db2, cardId, repo)?.sha ?? currentHead(repo);
+}
 function runCodeChangesFor(db2, cardId, runs) {
   const result = {};
   try {
@@ -29915,12 +30012,11 @@ function runCodeChangesFor(db2, cardId, runs) {
     list.filter((run2) => !run2.code?.commit).forEach(unstamped);
     if (stamped.length === 0) return result;
     const repo = row.projectFolder || row.cardFolder;
-    const codeFolder = cardRepoFolder(db2, cardId);
-    if (!repo || !codeFolder) {
+    if (!repo || !cardRepoFolder(db2, cardId)) {
       stamped.forEach((run2) => result[run2.id] = { state: "unknown", reason: "no git repo" });
       return result;
     }
-    const tip = codeFolder !== repo ? currentHead(codeFolder) ?? currentHead(repo) : chainTipFor(db2, cardId, repo)?.sha ?? currentHead(repo);
+    const tip = codeTipFor(db2, cardId, repo);
     const watched = watchedFiles(repo, row.plan, formatDisplayId(row.idPrefix, row.taskNumber));
     const seen = /* @__PURE__ */ new Map();
     for (const run2 of stamped) {
@@ -30157,9 +30253,23 @@ function finalTestFixFiles(db2, cardId) {
   }
   return [...files];
 }
+var parentTestsOf = (db2, cardId) => getRow(db2, `SELECT test_scenarios AS tests FROM cards WHERE id = ?`, cardId)?.tests ?? null;
+function childUnwalked(child, covered) {
+  const taken = covered.get(formatDisplayId(child.idPrefix, child.taskNumber) ?? child.title);
+  const items = unwalkedItemsOf(child);
+  return taken ? items.filter((item) => !taken.has(stripItemTokens(item.text))) : items;
+}
+function openLeftovers(parentTests) {
+  return checklistItems(parentTests).filter((item) => !item.checked && isChainLeftoversHeading(item.heading)).map((item) => ({ text: item.text, heading: item.heading }));
+}
+function unwalkedCount(children, parentTests) {
+  const covered = coveredLeftovers(parentTests);
+  if (covered.size === 0) return unwalkedItems(children);
+  return children.reduce((sum, child) => sum + childUnwalked(child, covered).length, 0) + openLeftovers(parentTests).length;
+}
 function unwalkedChildItems(db2, cardId) {
   if (!hasSplitColumn2(db2)) return 0;
-  return unwalkedItems(childrenOf(db2, cardId));
+  return unwalkedCount(childrenOf(db2, cardId), parentTestsOf(db2, cardId));
 }
 function decisionSentence(entry) {
   if (entry.source === RALPH_SETUP_SOURCE) {
@@ -30183,21 +30293,28 @@ function mergeReviewFor(db2, cardId) {
     if (items.length > 0 || decisions.length > 0) review.push({ name, items, decisions });
   };
   const children = childrenOf(db2, cardId).filter((child) => child.status !== "withdrawn");
+  const covered = coveredLeftovers(parentTestsOf(db2, cardId));
   for (const child of children) {
     add(
       formatDisplayId(child.idPrefix, child.taskNumber) ?? child.title,
       child.id,
-      unwalkedItemsOf(child).map((item) => ({ text: stripItemTokens(item.text), heading: item.heading, manual: isManualItem(item.text) }))
+      childUnwalked(child, covered).map((item) => ({ text: stripItemTokens(item.text), heading: item.heading, manual: isManualItem(item.text) }))
     );
   }
   if (children.length === 0) return review;
   const parent = getRow(
     db2,
-    `SELECT c.title, c.task_number AS taskNumber, p.id_prefix AS idPrefix
+    `SELECT c.title, c.task_number AS taskNumber, p.id_prefix AS idPrefix, c.test_scenarios AS tests
      FROM cards c LEFT JOIN projects p ON p.id = c.project_id WHERE c.id = ?`,
     cardId
   );
-  if (parent) add(formatDisplayId(parent.idPrefix, parent.taskNumber) ?? parent.title, cardId, []);
+  if (!parent) return review;
+  const parentName = formatDisplayId(parent.idPrefix, parent.taskNumber) ?? parent.title;
+  const regression = checklistItems(parent.tests).filter((item) => !item.checked && isChainRegressionHeading(item.heading)).map((item) => ({ text: stripItemTokens(item.text), heading: item.heading, manual: isManualItem(item.text) }));
+  if (regression.length > 0) review.push({ name: `${parentName} \xB7 ${CHAIN_REGRESSION_HEADING}`, items: regression, decisions: [] });
+  const leftovers = openLeftovers(parent.tests).map((item) => ({ text: stripItemTokens(item.text), heading: item.heading, manual: true }));
+  if (leftovers.length > 0) review.push({ name: `${parentName} \xB7 ${CHAIN_LEFTOVERS_HEADING}`, items: leftovers, decisions: [] });
+  add(parentName, cardId, []);
   return review;
 }
 function chainMergeReview(db2, groupId) {
@@ -30217,14 +30334,17 @@ function mergeReviewText(review) {
 }
 function chainUnwalkedItems(db2, groupId) {
   if (!hasSplitColumn2(db2)) return 0;
-  return unwalkedItems(
-    allRows(
-      db2,
-      `SELECT status, git_branch_status AS gitBranchStatus, test_scenarios AS testScenarios
-       FROM cards WHERE group_id = ? AND split_from_card_id IS NOT NULL`,
-      groupId
-    )
+  const rows = allRows(
+    db2,
+    `SELECT c.id, c.title, c.status, c.git_branch_status AS gitBranchStatus, c.test_scenarios AS testScenarios,
+            c.task_number AS taskNumber, p.id_prefix AS idPrefix, c.split_from_card_id AS parentId
+     FROM cards c LEFT JOIN projects p ON p.id = c.project_id
+     WHERE c.group_id = ? AND c.split_from_card_id IS NOT NULL`,
+    groupId
   );
+  const byParent = /* @__PURE__ */ new Map();
+  for (const row of rows) byParent.set(row.parentId, [...byParent.get(row.parentId) ?? [], row]);
+  return [...byParent].reduce((sum, [parentId, children]) => sum + unwalkedCount(children, parentTestsOf(db2, parentId)), 0);
 }
 function unwalkedChildItemsText(count) {
   if (count <= 0) return null;
@@ -31412,11 +31532,466 @@ function parseSplitSnapshot(raw) {
   return parseSplitInto(json2).ok ? { payload, status } : void 0;
 }
 
+// ../lib/card-ops/chain-leftovers.ts
+var MAX_GROUP_ITEMS = 10;
+var MAX_GROUP_CARDS = 2;
+function hasSplitColumn3(db2) {
+  return allRows(db2, "PRAGMA table_info(cards)").some((column) => column.name === "split_from_card_id");
+}
+function chainLeftoversFor(db2, parentId) {
+  try {
+    if (!hasSplitColumn3(db2) || !hasDecisionLedger(db2)) return null;
+    const rows = allRows(
+      db2,
+      `SELECT c.id, c.title, c.test_scenarios AS testScenarios, c.task_number AS taskNumber, p.id_prefix AS idPrefix
+       FROM cards c LEFT JOIN projects p ON p.id = c.project_id
+       WHERE c.split_from_card_id = ? AND c.status = 'test'
+       ORDER BY c.task_number, c.created_at`,
+      parentId
+    );
+    return rows.map((row) => {
+      const entries = listCardDecisions(db2, row.id);
+      const handed = /* @__PURE__ */ new Map();
+      for (const entry of entries) {
+        if (entry.source !== RALPH_UNVERIFIABLE_SOURCE || !entry.originalText) continue;
+        handed.set(stripItemTokens(entry.originalText), { kind: "unverifiable", reason: entry.recommended ?? "" });
+      }
+      for (const entry of setupEntries(entries).values()) {
+        if (entry.state !== "parked") continue;
+        handed.set(stripItemTokens(entry.item), { kind: "parked", reason: entry.detail });
+      }
+      const items = checklistItems(row.testScenarios).filter((item) => !item.checked && !item.core && !isAfterMergeItem(item.text)).flatMap((item) => {
+        const found = handed.get(stripItemTokens(item.text));
+        return found ? [{ text: item.text, heading: item.heading, ...found }] : [];
+      });
+      return { cardId: row.id, displayId: formatDisplayId(row.idPrefix, row.taskNumber) ?? row.title, items };
+    });
+  } catch {
+    return null;
+  }
+}
+var escapeHtml3 = (text2) => text2.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+var withoutManual = (text2) => text2.replace(/\s*\[manual\](?=(?:\s|\[(?:ui|manual|after-merge)\])*$)/gi, "").trim();
+function chainLeftoversHtml(children) {
+  const packs = [];
+  for (const child of children) {
+    for (let start = 0; start < child.items.length; start += MAX_GROUP_ITEMS) {
+      const chunk = child.items.slice(start, start + MAX_GROUP_ITEMS).map((item) => item.text);
+      const last = packs[packs.length - 1];
+      if (last && last.names.length < MAX_GROUP_CARDS && !last.names.includes(child.displayId) && last.items.length + chunk.length <= MAX_GROUP_ITEMS) {
+        last.names.push(child.displayId);
+        last.items.push(...chunk);
+      } else {
+        packs.push({ names: [child.displayId], items: chunk });
+      }
+    }
+  }
+  return packs.map((pack) => {
+    const heading = [CHAIN_LEFTOVERS_HEADING, ...pack.names].join(" \xB7 ");
+    const items = pack.items.map(
+      (text2) => `<li data-type="taskItem" data-checked="false"><label><input type="checkbox"><span></span></label><div><p>${escapeHtml3(withoutManual(text2))}</p></div></li>`
+    ).join("");
+    return `<h2>${escapeHtml3(heading)}</h2><ul data-type="taskList">${items}</ul>`;
+  }).join("");
+}
+function chainLeftoversSummary(children) {
+  const withItems = children.filter((child) => child.items.length > 0);
+  const total = withItems.reduce((sum, child) => sum + child.items.length, 0);
+  return `Chain leftovers: ${total} item${total === 1 ? "" : "s"} from ${withItems.map((child) => child.displayId).join(", ")} tried again`;
+}
+function chainLeftoversRecordFor(db2, parentId) {
+  if (!hasRalphEvents(db2)) return null;
+  try {
+    const row = getRow(
+      db2,
+      `SELECT at, detail FROM ralph_events
+       WHERE card_id = ? AND kind = 'run' AND json_extract(detail, '$.phase') = ?
+       ORDER BY at DESC, id DESC LIMIT 1`,
+      parentId,
+      CHAIN_LEFTOVERS_PHASE
+    );
+    if (!row) return null;
+    const detail = row.detail ? JSON.parse(row.detail) : {};
+    return { at: row.at, children: detail.leftovers?.children ?? [] };
+  } catch {
+    return null;
+  }
+}
+function writeChainLeftovers(db2, parentId, opts = {}) {
+  try {
+    if (!hasSplitColumn3(db2)) return { written: false, reason: "not-a-parent" };
+    const hasChildren = !!getRow(db2, `SELECT 1 AS ok FROM cards WHERE split_from_card_id = ? AND status != 'withdrawn' LIMIT 1`, parentId);
+    if (!hasChildren) return { written: false, reason: "not-a-parent" };
+    const now = opts.now ?? (/* @__PURE__ */ new Date()).toISOString();
+    return transaction(db2, () => {
+      const tests = getRow(db2, `SELECT test_scenarios AS tests FROM cards WHERE id = ?`, parentId)?.tests ?? "";
+      if (chainLeftoversSectionsHtml(tests) || chainLeftoversRecordFor(db2, parentId)) return { written: false, reason: "already" };
+      const children = chainLeftoversFor(db2, parentId);
+      if (!children) return { written: false, reason: "unreadable" };
+      const groupsHtml = chainLeftoversHtml(children);
+      if (groupsHtml) {
+        const saved = saveTests(db2, {
+          id: parentId,
+          html: insertChainLeftovers(tests, groupsHtml),
+          now,
+          author: IDEAFY_AUTHOR,
+          guard: "merge",
+          moveTo: null,
+          manualLimit: "drop"
+        });
+        if (!saved.ok) return { written: false, reason: "unreadable" };
+      }
+      const record2 = children.filter((child) => child.items.length > 0).map((child) => ({ displayId: child.displayId, items: child.items.map((item) => ({ ...item, text: stripItemTokens(item.text) })) }));
+      recordRalphEvent(db2, {
+        cardId: parentId,
+        kind: "run",
+        at: now,
+        detail: { phase: CHAIN_LEFTOVERS_PHASE, leftovers: { children: record2 } }
+      });
+      const groups = (groupsHtml.match(/<h2>/g) ?? []).length;
+      return { written: true, groups, summary: groups > 0 ? chainLeftoversSummary(record2) : null };
+    });
+  } catch {
+    return { written: false, reason: "unreadable" };
+  }
+}
+function chainLeftoversView(db2, parentId) {
+  const record2 = chainLeftoversRecordFor(db2, parentId);
+  if (record2) return { written: true, ...record2 };
+  const children = chainLeftoversFor(db2, parentId)?.filter((child) => child.items.length > 0);
+  if (!children || children.length === 0) return null;
+  return {
+    written: false,
+    preview: children.map((child) => ({ displayId: child.displayId, items: child.items.map((item) => ({ ...item, text: stripItemTokens(item.text) })) }))
+  };
+}
+
+// ../lib/card-ops/chain-regression.ts
+var MAX_GROUP_ITEMS2 = 10;
+var MAX_GROUP_CARDS2 = 2;
+function hasSplitColumn4(db2) {
+  return allRows(db2, "PRAGMA table_info(cards)").some((column) => column.name === "split_from_card_id");
+}
+function conflictResolvedIds(db2, ids) {
+  if (ids.length === 0 || !hasRalphEvents(db2)) return /* @__PURE__ */ new Set();
+  try {
+    return new Set(
+      allRows(
+        db2,
+        `SELECT DISTINCT card_id AS id FROM ralph_events
+         WHERE kind = 'run' AND card_id IN (${ids.map(() => "?").join(", ")})
+           AND json_extract(detail, '$.phase') = 'chain-resolve'
+           AND json_extract(detail, '$.outcome') = 'completed'`,
+        ...ids
+      ).map((row) => row.id)
+    );
+  } catch {
+    return /* @__PURE__ */ new Set();
+  }
+}
+function lastStampedPass(runs) {
+  return runs.find((run2) => !!run2.code?.commit && run2.items.length > 0 && !run2.items.some((item) => item.status === "failed")) ?? null;
+}
+var IMPORT_EXPORT_LINE = /^(?:$|import\b|export\s*(?:type\s*)?(?:\*|\{)|export\s+\*|\}\s*(?:from\s+["'][^"']*["'])?\s*;?$|(?:type\s+)?[\w$]+(?:\s+as\s+[\w$]+)?\s*,?$|["'][^"']*["']\s*;?$)/;
+function onlyImportExportChange(repo, from, to, file2) {
+  const diff = gitRead(repo, ["diff", "-U0", from, to, "--", file2]);
+  if (diff === null) return false;
+  let lines2 = 0;
+  for (const line of diff.split("\n")) {
+    if (!/^[+-]/.test(line) || line.startsWith("+++") || line.startsWith("---")) continue;
+    lines2++;
+    if (!IMPORT_EXPORT_LINE.test(line.slice(1).trim())) return false;
+  }
+  return lines2 > 0;
+}
+function chainRegressionFor(db2, parentId, tip) {
+  try {
+    if (!hasSplitColumn4(db2)) return null;
+    const parent = getRow(
+      db2,
+      `SELECT p.folder_path AS projectFolder, c.project_folder AS cardFolder
+       FROM cards c LEFT JOIN projects p ON p.id = c.project_id WHERE c.id = ?`,
+      parentId
+    );
+    const repo = parent?.projectFolder || parent?.cardFolder;
+    if (!repo) return null;
+    const head = tip ?? codeTipFor(db2, parentId, repo);
+    if (!head) return null;
+    const rows = allRows(
+      db2,
+      `SELECT c.id, c.title, c.test_scenarios AS testScenarios, c.test_reports AS testReports,
+              c.solution_summary AS plan, c.task_number AS taskNumber, p.id_prefix AS idPrefix
+       FROM cards c LEFT JOIN projects p ON p.id = c.project_id
+       WHERE c.split_from_card_id = ? AND c.status != 'withdrawn'
+       ORDER BY c.task_number, c.created_at`,
+      parentId
+    );
+    const conflicts = conflictResolvedIds(db2, rows.map((row) => row.id));
+    const children = rows.map((row) => {
+      const displayId = formatDisplayId(row.idPrefix, row.taskNumber) ?? row.title;
+      const items = checklistItems(row.testScenarios).filter((item) => item.core).map((item) => item.text);
+      const pick3 = (selected, reason, files2 = []) => ({
+        cardId: row.id,
+        displayId,
+        selected,
+        reason,
+        files: files2,
+        items
+      });
+      if (items.length === 0) return pick3(false, "no-core");
+      if (conflicts.has(row.id)) return pick3(true, "conflict-resolved");
+      const pass = lastStampedPass(parseTestReports(row.testReports) ?? []);
+      if (!pass?.code) return pick3(true, "no-stamp");
+      const watched = watchedFiles(repo, row.plan, formatDisplayId(row.idPrefix, row.taskNumber));
+      if (watched.length === 0) return pick3(true, "no-stamp");
+      const change = codeChangeFor(repo, head, watched, pass.code, { requireAncestor: false });
+      if (change.state === "unknown") return pick3(true, "no-stamp");
+      const touched = change.state === "changed" ? [...change.files, ...change.uncommitted] : change.uncommitted;
+      const files = [...new Set(touched)].filter((file2) => !onlyImportExportChange(repo, pass.code.commit, head, file2)).sort();
+      return files.length > 0 ? pick3(true, "changed", files) : pick3(false, "unchanged");
+    });
+    return { tip: head, children };
+  } catch {
+    return null;
+  }
+}
+var escapeHtml4 = (text2) => text2.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+var withoutPersonsTokens = (text2) => text2.replace(/\s*\[(?:manual|after-merge)\](?=(?:\s|\[(?:ui|manual|after-merge)\])*$)/gi, "").trim();
+function chainRegressionHtml(children) {
+  const packs = [];
+  for (const child of children.filter((entry) => entry.selected && entry.items.length > 0)) {
+    const last = packs[packs.length - 1];
+    const size = last ? last.reduce((sum, entry) => sum + entry.items.length, 0) : 0;
+    if (last && last.length < MAX_GROUP_CARDS2 && size + child.items.length <= MAX_GROUP_ITEMS2) last.push(child);
+    else packs.push([child]);
+  }
+  return packs.map((pack) => {
+    const heading = [CHAIN_REGRESSION_HEADING, ...pack.map((entry) => entry.displayId)].join(" \xB7 ");
+    const items = pack.flatMap((entry) => entry.items).map(
+      (text2) => `<li data-type="taskItem" data-checked="false"><label><input type="checkbox"><span></span></label><div><p>${escapeHtml4(withoutPersonsTokens(text2))}</p></div></li>`
+    ).join("");
+    return `<h2>${escapeHtml4(heading)}</h2><ul data-type="taskList">${items}</ul>`;
+  }).join("");
+}
+var REASON_TEXT2 = {
+  changed: (child) => `${child.files.length} file${child.files.length === 1 ? "" : "s"} changed`,
+  "conflict-resolved": () => "conflict resolved",
+  "no-stamp": () => "no stamped pass to compare",
+  unchanged: () => "unchanged",
+  "no-core": () => "no core flow"
+};
+function chainRegressionSummary(children) {
+  const selected = children.filter((child) => child.selected);
+  const skipped = children.filter((child) => !child.selected);
+  const describe3 = (child) => `${child.displayId} (${REASON_TEXT2[child.reason](child)})`;
+  const parts = [selected.map(describe3).join(", "), skipped.map(describe3).join(", ")].filter(Boolean);
+  return `Chain regression: ${selected.length} of ${children.length} child card${children.length === 1 ? "" : "s"} re-walked${parts.length > 0 ? ` \u2014 ${parts.join("; ")}` : ""}`;
+}
+function chainRegressionRecordFor(db2, parentId) {
+  if (!hasRalphEvents(db2)) return null;
+  try {
+    const row = getRow(
+      db2,
+      `SELECT at, detail FROM ralph_events
+       WHERE card_id = ? AND kind = 'run' AND json_extract(detail, '$.phase') = ?
+       ORDER BY at DESC, id DESC LIMIT 1`,
+      parentId,
+      CHAIN_REGRESSION_PHASE
+    );
+    if (!row) return null;
+    const detail = row.detail ? JSON.parse(row.detail) : {};
+    return { at: row.at, tip: detail.regression?.tip ?? "", children: detail.regression?.children ?? [] };
+  } catch {
+    return null;
+  }
+}
+function writeChainRegression(db2, parentId, opts = {}) {
+  try {
+    if (!hasSplitColumn4(db2)) return { written: false, reason: "not-a-parent" };
+    const hasChildren = !!getRow(db2, `SELECT 1 AS ok FROM cards WHERE split_from_card_id = ? AND status != 'withdrawn' LIMIT 1`, parentId);
+    if (!hasChildren) return { written: false, reason: "not-a-parent" };
+    const already = () => {
+      const tests = getRow(db2, `SELECT test_scenarios AS tests FROM cards WHERE id = ?`, parentId)?.tests;
+      return !!chainRegressionSectionsHtml(tests) || !!chainRegressionRecordFor(db2, parentId);
+    };
+    if (already()) return { written: false, reason: "already" };
+    const selection = chainRegressionFor(db2, parentId, opts.tip);
+    if (!selection) return { written: false, reason: "unreadable" };
+    const now = opts.now ?? (/* @__PURE__ */ new Date()).toISOString();
+    const groupsHtml = chainRegressionHtml(selection.children);
+    const record2 = selection.children.map(({ displayId, selected, reason, files }) => ({ displayId, selected, reason, files }));
+    return transaction(db2, () => {
+      if (already()) return { written: false, reason: "already" };
+      if (groupsHtml) {
+        const tests = getRow(db2, `SELECT test_scenarios AS tests FROM cards WHERE id = ?`, parentId)?.tests ?? "";
+        const saved = saveTests(db2, {
+          id: parentId,
+          html: insertChainRegression(tests, groupsHtml),
+          now,
+          author: IDEAFY_AUTHOR,
+          guard: "merge",
+          moveTo: null,
+          manualLimit: "drop"
+        });
+        if (!saved.ok) return { written: false, reason: "unreadable" };
+      }
+      recordRalphEvent(db2, {
+        cardId: parentId,
+        kind: "run",
+        at: now,
+        detail: { phase: CHAIN_REGRESSION_PHASE, regression: { tip: selection.tip, children: record2 } }
+      });
+      const groups = (groupsHtml.match(/<h2>/g) ?? []).length;
+      return { written: true, groups, summary: chainRegressionSummary(record2) };
+    });
+  } catch {
+    return { written: false, reason: "unreadable" };
+  }
+}
+function chainRegressionView(db2, parentId) {
+  const record2 = chainRegressionRecordFor(db2, parentId);
+  if (record2) {
+    const measured = chainRegressionMeasure(db2, parentId);
+    return { written: true, ...record2, ...measured ? { measured } : {} };
+  }
+  const selection = chainRegressionFor(db2, parentId);
+  if (!selection || selection.children.length === 0) return null;
+  return {
+    written: false,
+    tip: selection.tip,
+    preview: selection.children.map(({ displayId, selected, reason, files }) => ({ displayId, selected, reason, files }))
+  };
+}
+var MEASURE_COST_NOTE = "approximate: each run's cost is split by the share of its items in the Chain regression / Chain leftovers groups";
+function headingNames(heading) {
+  return heading.split("\xB7").slice(1).map((part) => part.trim()).filter(Boolean);
+}
+function chainRegressionMeasure(db2, parentId) {
+  try {
+    if (!hasSplitColumn4(db2)) return null;
+    const parent = getRow(
+      db2,
+      `SELECT test_scenarios AS tests, test_reports AS reports FROM cards WHERE id = ?`,
+      parentId
+    );
+    if (!parent) return null;
+    const allItems = checklistItems(parent.tests);
+    const groupItems = allItems.filter(
+      (item) => isChainRegressionHeading(item.heading) || isChainLeftoversHeading(item.heading)
+    );
+    if (groupItems.length === 0) return null;
+    const runs = [...parseTestReports(parent.reports) ?? []].sort((a, b2) => a.runAt.localeCompare(b2.runAt));
+    if (runs.length === 0) return null;
+    const childRows = allRows(
+      db2,
+      `SELECT c.test_scenarios AS testScenarios, c.task_number AS taskNumber, p.id_prefix AS idPrefix, c.title
+       FROM cards c LEFT JOIN projects p ON p.id = c.project_id WHERE c.split_from_card_id = ?`,
+      parentId
+    );
+    const coreOf = new Map(
+      childRows.map((row) => [
+        formatDisplayId(row.idPrefix, row.taskNumber) ?? row.title,
+        checklistItems(row.testScenarios).filter((item) => item.core).map((item) => stripItemTokens(item.text))
+      ])
+    );
+    const leftoversOf = new Map(
+      (chainLeftoversRecordFor(db2, parentId)?.children ?? []).map((child) => [
+        child.displayId,
+        child.items.map((item) => stripItemTokens(item.text))
+      ])
+    );
+    const items = groupItems.map((item) => {
+      const group = isChainRegressionHeading(item.heading) ? "regression" : "leftovers";
+      const text2 = stripItemTokens(item.text);
+      const names = headingNames(item.heading);
+      const source = group === "regression" ? coreOf : leftoversOf;
+      const same = (a, b2) => a.toLowerCase() === b2.toLowerCase();
+      const owner = names.length > 1 ? names.find((name) => (source.get(name) ?? []).some((entry) => same(entry, text2))) ?? names.find((name) => closestTaskText(text2, source.get(name) ?? []) >= 0) : void 0;
+      return { displayId: owner ?? names[0] ?? "?", group, text: text2, statuses: [] };
+    });
+    const texts = allItems.map((item) => stripItemTokens(item.text));
+    const measureIndex = new Map(groupItems.map((item, index) => [allItems.indexOf(item), index]));
+    const shareOf = /* @__PURE__ */ new Map();
+    for (const run2 of runs) {
+      let named = 0;
+      for (const result of run2.items) {
+        const index = measureIndex.get(closestTaskText(stripItemTokens(result.item), texts));
+        if (index === void 0) continue;
+        items[index].statuses.push(result.status);
+        named++;
+      }
+      if (named > 0 && run2.items.length > 0) shareOf.set(run2.id, named / run2.items.length);
+    }
+    const walked = items.filter((item) => item.statuses.length > 0);
+    if (walked.length === 0) return null;
+    const byChild = /* @__PURE__ */ new Map();
+    for (const item of walked) {
+      const key = `${item.group}:${item.displayId}`;
+      const entry = byChild.get(key) ?? { displayId: item.displayId, group: item.group, walked: 0, passedFirst: 0, fixed: 0, handedOver: { environment: 0, code: 0 } };
+      byChild.set(key, entry);
+      entry.walked++;
+      const last = item.statuses[item.statuses.length - 1];
+      if (item.statuses[0] === "passed") entry.passedFirst++;
+      else if (item.statuses.includes("passed")) entry.fixed++;
+      if (last !== "passed" && !item.statuses.includes("passed")) {
+        if (last === "failed") entry.handedOver.code++;
+        else entry.handedOver.environment++;
+      }
+    }
+    const children = [...byChild.values()];
+    const sum = (pick3) => children.reduce((total, child) => total + pick3(child), 0);
+    const environment = sum((child) => child.handedOver.environment);
+    const code = sum((child) => child.handedOver.code);
+    return {
+      children,
+      totals: {
+        cards: new Set(children.map((child) => child.displayId)).size,
+        walked: sum((child) => child.walked),
+        passedFirst: sum((child) => child.passedFirst),
+        fixed: sum((child) => child.fixed),
+        handedOver: environment + code,
+        environment,
+        code
+      },
+      cost: measureCost(db2, parentId, shareOf),
+      costNote: MEASURE_COST_NOTE
+    };
+  } catch {
+    return null;
+  }
+}
+var VERIFY_PHASES = /* @__PURE__ */ new Set(["verify", "reverify"]);
+function measureCost(db2, parentId, shareOf) {
+  const runs = ralphEventsFor(db2, [parentId]).filter(
+    (event) => event.kind === "run" && (VERIFY_PHASES.has(event.detail.phase ?? "") || event.detail.phase === "verify-fix")
+  );
+  let total = 0;
+  let counted = 0;
+  let share = 0;
+  for (const event of runs) {
+    if (VERIFY_PHASES.has(event.detail.phase ?? "")) {
+      share = event.detail.reportRunId ? shareOf.get(event.detail.reportRunId) ?? 0 : 0;
+    }
+    if (share === 0) continue;
+    if (typeof event.detail.cost !== "number") return null;
+    total += event.detail.cost * share;
+    counted++;
+  }
+  return counted > 0 ? Math.round(total * 100) / 100 : null;
+}
+function chainRegressionMeasureLine(measure) {
+  const { totals } = measure;
+  const handed = totals.handedOver > 0 ? `${totals.handedOver} handed over (${totals.environment} environment, ${totals.code} code)` : "0 handed over";
+  const cost = measure.cost === null ? "cost unknown" : `~$${measure.cost.toFixed(2)}`;
+  return `Chain regression: ${totals.cards} card${totals.cards === 1 ? "" : "s"} re-walked, ${totals.walked} item${totals.walked === 1 ? "" : "s"}, ${totals.passedFirst} passed, ${totals.fixed} fixed, ${handed} \xB7 ${cost}`;
+}
+
 // ../lib/card-story.ts
 var card_story_exports = {};
 __export(card_story_exports, {
   EMPTY_STORY_INPUTS: () => EMPTY_STORY_INPUTS,
-  buildCardStory: () => buildCardStory
+  buildCardStory: () => buildCardStory,
+  chainTurnLine: () => chainTurnLine
 });
 
 // ../lib/card-phase.ts
@@ -31942,6 +32517,344 @@ function cardLastActivityAt(card) {
   return card.updatedAt || card.createdAt;
 }
 
+// ../lib/test-report-state.ts
+var test_report_state_exports = {};
+__export(test_report_state_exports, {
+  AFTER_MERGE_TITLE: () => AFTER_MERGE_TITLE,
+  BEFORE_MERGE_TITLE: () => BEFORE_MERGE_TITLE,
+  NOT_SEEN_ON_SCREEN: () => NOT_SEEN_ON_SCREEN,
+  PASSED_TITLE: () => PASSED_TITLE,
+  PASSED_WITH_NOTES: () => PASSED_WITH_NOTES,
+  afterMergeText: () => afterMergeText,
+  cardTestReportState: () => cardTestReportState,
+  isLanded: () => isLanded,
+  lastRunLine: () => lastRunLine,
+  needsYouTitle: () => needsYouTitle,
+  notesTitle: () => notesTitle,
+  runCodeCaveat: () => runCodeCaveat,
+  runCodeStampLine: () => runCodeStampLine
+});
+
+// ../lib/check-tally.ts
+var YOURS_TITLE = "Yours";
+var AFTER_MERGE_WAIT_NOTE = "Waits for the merge, then it is yours.";
+var NOT_HOLDING_NOTE = "Does not hold the merge.";
+var TICKED_BY_YOU = "ticked by you";
+function plural3(n, word) {
+  return `${n} ${word}${n === 1 ? "" : "s"}`;
+}
+function noted(item) {
+  return item.status === "passed" && Boolean(item.caveat || item.codeCaveat);
+}
+function checkTally(members, merged2, opts = {}) {
+  const tally = {
+    total: 0,
+    passed: 0,
+    onScreen: 0,
+    inTerminal: 0,
+    byYou: 0,
+    failed: 0,
+    yours: 0,
+    afterMerge: 0,
+    notedChecks: 0,
+    proven: 0,
+    merged: merged2,
+    yoursGroups: [],
+    afterMergeLines: []
+  };
+  const holds = [];
+  const afterMergeNow = [];
+  const outside = [];
+  for (const member of members) {
+    const { state } = member;
+    const line = (item) => ({ displayId: member.displayId, cardId: member.cardId, item });
+    tally.failed += state.problems.length;
+    for (const item of state.needsYou) (member.holdsMerge ? holds : outside).push(line(item));
+    for (const item of state.afterMerge) (merged2 ? afterMergeNow : tally.afterMergeLines).push(line(item));
+    for (const item of [...state.worked, ...state.passedBut]) {
+      tally.passed += 1;
+      if (item.status === "passed") {
+        if (item.textOnly) tally.inTerminal += 1;
+        else tally.onScreen += 1;
+      } else tally.byYou += 1;
+    }
+    for (const item of [...state.needsYou, ...state.afterMerge, ...state.worked, ...state.passedBut]) {
+      if (noted(item)) tally.notedChecks += 1;
+      if (item.status === "passed") tally.proven += 1;
+    }
+  }
+  tally.yours = holds.length + afterMergeNow.length + outside.length;
+  tally.afterMerge = tally.afterMergeLines.length;
+  tally.total = tally.passed + tally.failed + tally.yours + tally.afterMerge;
+  if (holds.length > 0) {
+    tally.yoursGroups.push({
+      key: "holds",
+      title: merged2 ? "Still open" : opts.chain ? "Final test \xB7 holds the merge" : "Before merge",
+      note: null,
+      lines: holds
+    });
+  }
+  if (afterMergeNow.length > 0) {
+    tally.yoursGroups.push({ key: "afterMergeNow", title: "After merge \xB7 now on main", note: null, lines: afterMergeNow });
+  }
+  if (outside.length > 0) {
+    const byHand = outside.every((entry) => entry.item.status === "manual" || /\[manual\]/i.test(entry.item.checklistText));
+    tally.yoursGroups.push({
+      key: "outside",
+      title: byHand ? "By hand" : "In the chain's cards",
+      note: merged2 ? null : NOT_HOLDING_NOTE,
+      lines: outside
+    });
+  }
+  return tally;
+}
+function cardTally(state) {
+  return checkTally([{ state, displayId: null, cardId: null, holdsMerge: true }], state.merged);
+}
+function showYoursGroupTitles(tally) {
+  return tally.yoursGroups.length > 1 || tally.yoursGroups.some((group) => group.key !== "holds");
+}
+function tallyDetailParts(tally) {
+  const parts = [];
+  if (tally.yours > 0) parts.push(`${tally.yours} yours`);
+  if (tally.afterMerge > 0) parts.push(`${tally.afterMerge} after merge`);
+  return parts;
+}
+function tallyEvidence(tally) {
+  if (tally.passed === 0) return null;
+  const kinds = [
+    [tally.onScreen, "on screen"],
+    [tally.inTerminal, "in a terminal"],
+    [tally.byYou, TICKED_BY_YOU]
+  ];
+  const present5 = kinds.filter(([n]) => n > 0);
+  if (present5.length === 1) return `all ${present5[0][1]}`;
+  return present5.map(([n, where]) => `${n} ${where}`).join(", ");
+}
+function tallyCountParts(tally) {
+  return {
+    passed: `${tally.passed} of ${plural3(tally.total, "check")} passed`,
+    evidence: tallyEvidence(tally),
+    failed: tally.failed > 0 ? `${tally.failed} failing` : null
+  };
+}
+function tallyCountLine(tally) {
+  const parts = tallyCountParts(tally);
+  return [parts.passed, parts.evidence, parts.failed].filter(Boolean).join(" \xB7 ");
+}
+function notesTitle(notedChecks) {
+  return notedChecks > 0 ? `Notes on ${plural3(notedChecks, "check")}` : "Notes";
+}
+function chainScopeLine(cards) {
+  return `Chain of ${plural3(cards, "card")} \xB7 newest result of each check`;
+}
+function memberCountLine(tally) {
+  if (tally.total === 0) return "no checklist";
+  const parts = [`${tally.passed} of ${tally.total} passed`];
+  if (tally.failed > 0) parts.push(`${tally.failed} failing`);
+  parts.push(...tallyDetailParts(tally));
+  return parts.join(" \xB7 ");
+}
+
+// ../lib/test-report-state.ts
+var NOT_SEEN_ON_SCREEN = "not seen on screen";
+var PASSED_WITH_NOTES = "Passed with notes";
+var PASSED_TITLE = "Passed";
+var BEFORE_MERGE_TITLE = "Before merge";
+var AFTER_MERGE_TITLE = "After merge";
+function isLanded(card) {
+  if (!card) return false;
+  if (card.gitBranchStatus === "merged") return true;
+  return card.status === "completed" && !card.gitBranchName;
+}
+function afterMergeText(n) {
+  return `${n} after merge`;
+}
+function needsYouTitle(_state) {
+  return YOURS_TITLE;
+}
+function plural4(n, word) {
+  return `${n} ${word}${n === 1 ? "" : "s"}`;
+}
+function formatRunAt(iso) {
+  const date4 = new Date(iso);
+  if (Number.isNaN(date4.getTime())) return iso;
+  return date4.toLocaleString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+}
+var SCOPE_VERB = {
+  run: "ran",
+  reverify: "re-checked after a fix",
+  single: "verified on screen",
+  retest: "re-tested",
+  text: "ran as text"
+};
+function outcome(items) {
+  const failed = items.filter((item) => item.status === "failed").length;
+  const manual = items.filter((item) => item.status === "manual").length;
+  if (items.length === 0) return "nothing ran";
+  if (failed === 0 && manual === 0) {
+    if (items.length === 1) return "passed";
+    return items.length === 2 ? "both passed" : "all passed";
+  }
+  const parts = [];
+  if (failed > 0) parts.push(`${failed} failed`);
+  if (manual > 0) parts.push(`${manual} manual`);
+  return parts.join(", ");
+}
+function lastRunLine(run2, number3) {
+  const parts = [`#${number3}`, formatRunAt(run2.runAt)];
+  if (run2.platform) parts.push(run2.platform);
+  parts.push(run2.evidence === "visual" ? "Visual" : "Text only, no recording");
+  parts.push(`${SCOPE_VERB[run2.scope]} ${run2.items.length}, ${outcome(run2.items)}`);
+  return parts.join(" \xB7 ");
+}
+function runCodeCaveat(change, runNumber) {
+  if (!change || change.state === "unknown") return null;
+  if (change.state === "changed") {
+    return `Passed before later changes \xB7 ${plural4(change.files.length, "file")} changed since #${runNumber}`;
+  }
+  if (change.uncommitted.length > 0) {
+    const names = change.uncommitted.map((path12) => path12.split("/").pop() ?? path12);
+    const shown = names.slice(0, 3).join(", ");
+    return `Passed with uncommitted code: ${shown}${names.length > 3 ? ` +${names.length - 3}` : ""}`;
+  }
+  return null;
+}
+function runCodeStampLine(run2) {
+  const commit = run2.code?.commit;
+  if (!commit) return "no commit stamp";
+  const dirty = run2.code?.dirtyTotal ?? 0;
+  return dirty > 0 ? `${commit.slice(0, 7)} + ${dirty} uncommitted` : commit.slice(0, 7);
+}
+function cardTestReportState(allRuns, checklistHtml, asOf = 0, codeChanges, opts) {
+  const merged2 = !!opts?.merged;
+  const html = checklistHtml ?? "";
+  const runsAll = allRuns ?? [];
+  const offset = Math.max(0, Math.min(asOf, runsAll.length));
+  const runs = runsAll.slice(offset);
+  const numberOf = (index) => runsAll.length - (index + offset);
+  const ready = readyToMerge({ testScenarios: html, testReports: runs });
+  const latest = latestItemResults(runs, html);
+  const progress = parseTestProgress(html);
+  const textOnly = runs.length > 0 && runs.every((run2) => run2.evidence !== "visual");
+  const problems = [];
+  const needsYou = [];
+  const afterMerge = [];
+  const passedBut = [];
+  const afterMergeKey = (text2) => stripItemTokens(text2).toLowerCase();
+  const afterMergeTexts = new Set(
+    checklistItems(html).filter((item) => !item.checked && !item.core && isAfterMergeItem(item.text)).map((item) => afterMergeKey(item.text))
+  );
+  const isAfterMerge = (text2) => afterMergeTexts.has(afterMergeKey(text2));
+  const worked = [];
+  const runKeys = runs.map(
+    (run2) => run2.items.map((item) => latestItemResults([{ ...run2, items: [item] }], html).keys().next().value ?? null)
+  );
+  const tasks = extractTaskItems(html);
+  const seen = /* @__PURE__ */ new Set();
+  for (const task of tasks) {
+    if (seen.has(task.normalized)) continue;
+    seen.add(task.normalized);
+    const text2 = plainTaskText(task.rawText);
+    const newest = latest.get(task.normalized);
+    if (!newest) {
+      const waits = !task.checked && isAfterMerge(text2);
+      const state2 = {
+        kind: task.checked ? "worked" : waits ? "afterMerge" : "needsYou",
+        checklistText: text2,
+        sentence: stripItemTokens(text2),
+        observed: null,
+        status: null,
+        caveat: null,
+        codeCaveat: null,
+        runNumber: null,
+        runIndex: null,
+        videoAt: null,
+        textOnly: false,
+        history: []
+      };
+      (task.checked ? worked : waits ? afterMerge : needsYou).push(state2);
+      continue;
+    }
+    const { item, run: run2, runIndex } = newest;
+    const history = [];
+    runs.forEach((r, index) => {
+      const hit = r.items.find((_2, itemIndex) => runKeys[index][itemIndex] === task.normalized);
+      if (hit) history.push({ run: numberOf(index), status: hit.status });
+    });
+    history.reverse();
+    const unseen = item.status === "passed" && run2.evidence !== "visual" && isUiItem(text2);
+    const caveat = item.status === "passed" ? item.caveat ?? (unseen ? NOT_SEEN_ON_SCREEN : null) : null;
+    const codeCaveat = item.status === "passed" && !merged2 ? runCodeCaveat(codeChanges?.[run2.id], numberOf(runIndex)) : null;
+    let kind;
+    if (item.status === "failed") kind = "problem";
+    else if (!task.checked) kind = isAfterMerge(text2) ? "afterMerge" : "needsYou";
+    else if (caveat || codeCaveat) kind = "passedBut";
+    else kind = "worked";
+    const state = {
+      kind,
+      checklistText: text2,
+      sentence: item.plainItem ?? stripItemTokens(item.item),
+      observed: item.plainObserved ?? item.observed,
+      status: item.status,
+      ...item.impact ? { impact: item.impact } : {},
+      caveat,
+      codeCaveat,
+      runNumber: numberOf(runIndex),
+      runIndex: runIndex + offset,
+      videoAt: run2.video ? testReportItemVideoAt(item) : null,
+      textOnly: run2.evidence !== "visual",
+      history,
+      result: item
+    };
+    ({ problem: problems, needsYou, afterMerge, passedBut, worked })[kind].push(state);
+  }
+  const passedStates = [...needsYou, ...afterMerge, ...passedBut, ...worked].filter((s) => s.status === "passed");
+  const passed = passedStates.length;
+  const unseenCount = passedStates.filter((s) => s.caveat === NOT_SEEN_ON_SCREEN).length;
+  const left = itemsLeft(progress, { merged: merged2 });
+  const tally = cardTally({ problems, needsYou, afterMerge, passedBut, worked, merged: merged2 });
+  const counts = tallyCountLine(tally);
+  const detail = tallyDetailParts(tally);
+  if (!merged2 && ready.failed > 0) detail.push(`${ready.failed} failed in the last report`);
+  if (!merged2 && ready.noShot > 0) detail.push(`${ready.noShot} [ui] item${ready.noShot === 1 ? " has" : "s have"} no screenshot`);
+  if (!progress) detail.push("no checklist");
+  const runNotes = [];
+  const newestRun = runs[0];
+  if (newestRun) {
+    for (const warning of newestRun.warnings ?? []) runNotes.push(warning);
+    if (!newestRun.checklistApplied && progress) {
+      runNotes.push(
+        `#${numberOf(0)}'s checklist was refused, so Tests still shows ${progress.checked}/${progress.total}`
+      );
+    }
+  }
+  const headlineNote = ready.ok && problems.length > 0 ? `${plural4(problems.length, "failing item")} ${problems.length === 1 ? "is" : "are"} ticked in Tests` : null;
+  return {
+    headline: merged2 ? "Merged" : ready.ok ? "Ready to merge" : "Not ready to merge",
+    merged: merged2,
+    ready,
+    left,
+    headlineDetail: detail.join(" \xB7 "),
+    tally,
+    passed,
+    unseen: unseenCount,
+    counts,
+    failureLine: testReportFailureLine(problems.map((s) => ({ status: "failed", impact: s.impact }))),
+    lastRun: newestRun ? lastRunLine(newestRun, numberOf(0)) : null,
+    textOnly,
+    asOfRun: offset > 0 && newestRun ? numberOf(0) : null,
+    problems,
+    needsYou,
+    afterMerge,
+    passedBut,
+    worked,
+    runNotes,
+    passedButTitle: textOnly && runNotes.length === 0 && passedBut.length > 0 && passedBut.every((p) => p.caveat === NOT_SEEN_ON_SCREEN && !p.codeCaveat) ? "Not seen on screen" : notesTitle(passedBut.length),
+    headlineNote
+  };
+}
+
 // ../lib/card-turn.ts
 function hasOpenBranch(card) {
   return !!card.gitBranchName && card.gitBranchStatus === "active";
@@ -32092,315 +33005,6 @@ function nextTurnFor(card, ctx = {}) {
   return { who, label: primary.title };
 }
 
-// ../lib/check-tally.ts
-var YOURS_TITLE = "Yours";
-var AFTER_MERGE_WAIT_NOTE = "Waits for the merge, then it is yours.";
-var NOT_HOLDING_NOTE = "Does not hold the merge.";
-function plural3(n, word) {
-  return `${n} ${word}${n === 1 ? "" : "s"}`;
-}
-function noted(item) {
-  return item.status === "passed" && Boolean(item.caveat || item.codeCaveat);
-}
-function checkTally(members, merged2, opts = {}) {
-  const tally = {
-    total: 0,
-    passed: 0,
-    onScreen: 0,
-    inTerminal: 0,
-    byYou: 0,
-    failed: 0,
-    yours: 0,
-    afterMerge: 0,
-    notRunYet: 0,
-    notedChecks: 0,
-    proven: 0,
-    merged: merged2,
-    yoursGroups: [],
-    afterMergeLines: []
-  };
-  const holds = [];
-  const afterMergeNow = [];
-  const outside = [];
-  for (const member of members) {
-    const { state } = member;
-    const line = (item) => ({ displayId: member.displayId, cardId: member.cardId, item });
-    tally.failed += state.problems.length;
-    for (const item of state.needsYou) (member.holdsMerge ? holds : outside).push(line(item));
-    for (const item of state.afterMerge) (merged2 ? afterMergeNow : tally.afterMergeLines).push(line(item));
-    for (const item of [...state.worked, ...state.passedBut]) {
-      tally.passed += 1;
-      if (item.status === "passed") {
-        if (item.textOnly) tally.inTerminal += 1;
-        else tally.onScreen += 1;
-      } else tally.byYou += 1;
-    }
-    tally.notRunYet += state.notTested.length;
-    for (const item of [...state.needsYou, ...state.afterMerge, ...state.worked, ...state.passedBut]) {
-      if (noted(item)) tally.notedChecks += 1;
-      if (item.status === "passed") tally.proven += 1;
-    }
-  }
-  tally.yours = holds.length + afterMergeNow.length + outside.length;
-  tally.afterMerge = tally.afterMergeLines.length;
-  tally.total = tally.passed + tally.failed + tally.yours + tally.afterMerge + tally.notRunYet;
-  if (holds.length > 0) {
-    tally.yoursGroups.push({
-      key: "holds",
-      title: merged2 ? "Still open" : opts.chain ? "Final test \xB7 holds the merge" : "Before merge",
-      note: null,
-      lines: holds
-    });
-  }
-  if (afterMergeNow.length > 0) {
-    tally.yoursGroups.push({ key: "afterMergeNow", title: "After merge \xB7 now on main", note: null, lines: afterMergeNow });
-  }
-  if (outside.length > 0) {
-    const byHand = outside.every((entry) => entry.item.status === "manual" || /\[manual\]/i.test(entry.item.checklistText));
-    tally.yoursGroups.push({
-      key: "outside",
-      title: byHand ? "By hand" : "In the chain's cards",
-      note: merged2 ? null : NOT_HOLDING_NOTE,
-      lines: outside
-    });
-  }
-  return tally;
-}
-function cardTally(state) {
-  return checkTally([{ state, displayId: null, cardId: null, holdsMerge: true }], state.merged);
-}
-function showYoursGroupTitles(tally) {
-  return tally.yoursGroups.length > 1 || tally.yoursGroups.some((group) => group.key !== "holds");
-}
-function tallyDetailParts(tally) {
-  const parts = [];
-  if (tally.yours > 0) parts.push(`${tally.yours} yours`);
-  if (tally.afterMerge > 0) parts.push(`${tally.afterMerge} after merge`);
-  return parts;
-}
-function tallyEvidence(tally) {
-  if (tally.passed === 0) return null;
-  const kinds = [
-    [tally.onScreen, "on screen"],
-    [tally.inTerminal, "in a terminal"],
-    [tally.byYou, "ticked by you"]
-  ];
-  const present5 = kinds.filter(([n]) => n > 0);
-  if (present5.length === 1) return `all ${present5[0][1]}`;
-  return present5.map(([n, where]) => `${n} ${where}`).join(", ");
-}
-function tallyCountParts(tally) {
-  return {
-    passed: `${tally.passed} of ${plural3(tally.total, "check")} passed`,
-    evidence: tallyEvidence(tally),
-    failed: tally.failed > 0 ? `${tally.failed} failing` : null,
-    notRunYet: tally.notRunYet > 0 ? `${tally.notRunYet} not run yet` : null
-  };
-}
-function tallyCountLine(tally) {
-  const parts = tallyCountParts(tally);
-  return [parts.passed, parts.evidence, parts.failed, parts.notRunYet].filter(Boolean).join(" \xB7 ");
-}
-function notesTitle(notedChecks) {
-  return notedChecks > 0 ? `Notes on ${plural3(notedChecks, "check")}` : "Notes";
-}
-function chainScopeLine(cards) {
-  return `Chain of ${plural3(cards, "card")} \xB7 newest result of each check`;
-}
-function memberCountLine(tally) {
-  if (tally.total === 0) return "no checklist";
-  const parts = [`${tally.passed} of ${tally.total} passed`];
-  if (tally.failed > 0) parts.push(`${tally.failed} failing`);
-  parts.push(...tallyDetailParts(tally));
-  return parts.join(" \xB7 ");
-}
-
-// ../lib/test-report-state.ts
-var NOT_SEEN_ON_SCREEN = "not seen on screen";
-var PASSED_WITH_NOTES = "Passed with notes";
-var PASSED_TITLE = "Passed";
-var AFTER_MERGE_TITLE = "After merge";
-function isMergedToMain(gitBranchStatus) {
-  return gitBranchStatus === "merged";
-}
-function plural4(n, word) {
-  return `${n} ${word}${n === 1 ? "" : "s"}`;
-}
-function formatRunAt(iso) {
-  const date4 = new Date(iso);
-  if (Number.isNaN(date4.getTime())) return iso;
-  return date4.toLocaleString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
-}
-var SCOPE_VERB = {
-  run: "ran",
-  reverify: "re-checked after a fix",
-  single: "verified on screen",
-  retest: "re-tested",
-  text: "ran as text"
-};
-function outcome(items) {
-  const failed = items.filter((item) => item.status === "failed").length;
-  const manual = items.filter((item) => item.status === "manual").length;
-  if (items.length === 0) return "nothing ran";
-  if (failed === 0 && manual === 0) {
-    if (items.length === 1) return "passed";
-    return items.length === 2 ? "both passed" : "all passed";
-  }
-  const parts = [];
-  if (failed > 0) parts.push(`${failed} failed`);
-  if (manual > 0) parts.push(`${manual} manual`);
-  return parts.join(", ");
-}
-function lastRunLine(run2, number3) {
-  const parts = [`#${number3}`, formatRunAt(run2.runAt)];
-  if (run2.platform) parts.push(run2.platform);
-  parts.push(run2.evidence === "visual" ? "Visual" : "Text only, no recording");
-  parts.push(`${SCOPE_VERB[run2.scope]} ${run2.items.length}, ${outcome(run2.items)}`);
-  return parts.join(" \xB7 ");
-}
-function runCodeCaveat(change, runNumber) {
-  if (!change || change.state === "unknown") return null;
-  if (change.state === "changed") {
-    return `Passed before later changes \xB7 ${plural4(change.files.length, "file")} changed since #${runNumber}`;
-  }
-  if (change.uncommitted.length > 0) {
-    const names = change.uncommitted.map((path12) => path12.split("/").pop() ?? path12);
-    const shown = names.slice(0, 3).join(", ");
-    return `Passed with uncommitted code: ${shown}${names.length > 3 ? ` +${names.length - 3}` : ""}`;
-  }
-  return null;
-}
-function cardTestReportState(allRuns, checklistHtml, asOf = 0, codeChanges, opts) {
-  const merged2 = !!opts?.merged;
-  const html = checklistHtml ?? "";
-  const runsAll = allRuns ?? [];
-  const offset = Math.max(0, Math.min(asOf, runsAll.length));
-  const runs = runsAll.slice(offset);
-  const numberOf = (index) => runsAll.length - (index + offset);
-  const ready = readyToMerge({ testScenarios: html, testReports: runs });
-  const latest = latestItemResults(runs, html);
-  const progress = parseTestProgress(html);
-  const textOnly = runs.length > 0 && runs.every((run2) => run2.evidence !== "visual");
-  const problems = [];
-  const needsYou = [];
-  const afterMerge = [];
-  const passedBut = [];
-  const afterMergeKey = (text2) => stripItemTokens(text2).toLowerCase();
-  const afterMergeTexts = new Set(
-    checklistItems(html).filter((item) => !item.checked && !item.core && isAfterMergeItem(item.text)).map((item) => afterMergeKey(item.text))
-  );
-  const isAfterMerge = (text2) => afterMergeTexts.has(afterMergeKey(text2));
-  const notTested = [];
-  const worked = [];
-  const runKeys = runs.map(
-    (run2) => run2.items.map((item) => latestItemResults([{ ...run2, items: [item] }], html).keys().next().value ?? null)
-  );
-  const tasks = extractTaskItems(html);
-  const seen = /* @__PURE__ */ new Set();
-  for (const task of tasks) {
-    if (seen.has(task.normalized)) continue;
-    seen.add(task.normalized);
-    const text2 = plainTaskText(task.rawText);
-    const newest = latest.get(task.normalized);
-    if (!newest) {
-      const waits = !task.checked && isAfterMerge(text2);
-      const state2 = {
-        kind: task.checked ? "notTested" : waits ? "afterMerge" : "needsYou",
-        checklistText: text2,
-        sentence: stripItemTokens(text2),
-        observed: null,
-        status: null,
-        caveat: null,
-        codeCaveat: null,
-        runNumber: null,
-        runIndex: null,
-        videoAt: null,
-        textOnly: false,
-        history: []
-      };
-      (task.checked ? notTested : waits ? afterMerge : needsYou).push(state2);
-      continue;
-    }
-    const { item, run: run2, runIndex } = newest;
-    const history = [];
-    runs.forEach((r, index) => {
-      const hit = r.items.find((_2, itemIndex) => runKeys[index][itemIndex] === task.normalized);
-      if (hit) history.push({ run: numberOf(index), status: hit.status });
-    });
-    history.reverse();
-    const unseen = item.status === "passed" && run2.evidence !== "visual" && isUiItem(text2);
-    const caveat = item.status === "passed" ? item.caveat ?? (unseen ? NOT_SEEN_ON_SCREEN : null) : null;
-    const codeCaveat = item.status === "passed" && !merged2 ? runCodeCaveat(codeChanges?.[run2.id], numberOf(runIndex)) : null;
-    let kind;
-    if (item.status === "failed") kind = "problem";
-    else if (!task.checked) kind = isAfterMerge(text2) ? "afterMerge" : "needsYou";
-    else if (caveat || codeCaveat) kind = "passedBut";
-    else kind = "worked";
-    const state = {
-      kind,
-      checklistText: text2,
-      sentence: item.plainItem ?? stripItemTokens(item.item),
-      observed: item.plainObserved ?? item.observed,
-      status: item.status,
-      ...item.impact ? { impact: item.impact } : {},
-      caveat,
-      codeCaveat,
-      runNumber: numberOf(runIndex),
-      runIndex: runIndex + offset,
-      videoAt: run2.video ? testReportItemVideoAt(item) : null,
-      textOnly: run2.evidence !== "visual",
-      history,
-      result: item
-    };
-    ({ problem: problems, needsYou, afterMerge, passedBut, notTested, worked })[kind].push(state);
-  }
-  const passedStates = [...needsYou, ...afterMerge, ...passedBut, ...worked].filter((s) => s.status === "passed");
-  const passed = passedStates.length;
-  const unseenCount = passedStates.filter((s) => s.caveat === NOT_SEEN_ON_SCREEN).length;
-  const left = itemsLeft(progress, { merged: merged2 });
-  const tally = cardTally({ problems, needsYou, afterMerge, passedBut, notTested, worked, merged: merged2 });
-  const counts = tallyCountLine(tally);
-  const detail = tallyDetailParts(tally);
-  if (ready.failed > 0) detail.push(`${ready.failed} failed in the last report`);
-  if (ready.noShot > 0) detail.push(`${ready.noShot} [ui] item${ready.noShot === 1 ? " has" : "s have"} no screenshot`);
-  if (!progress) detail.push("no checklist");
-  const runNotes = [];
-  const newestRun = runs[0];
-  if (newestRun) {
-    for (const warning of newestRun.warnings ?? []) runNotes.push(warning);
-    if (!newestRun.checklistApplied && progress) {
-      runNotes.push(
-        `#${numberOf(0)}'s checklist was refused, so Tests still shows ${progress.checked}/${progress.total}`
-      );
-    }
-  }
-  const headlineNote = ready.ok && problems.length > 0 ? `${plural4(problems.length, "failing item")} ${problems.length === 1 ? "is" : "are"} ticked in Tests` : null;
-  return {
-    headline: merged2 ? "Merged" : ready.ok ? "Ready to merge" : "Not ready to merge",
-    merged: merged2,
-    ready,
-    left,
-    headlineDetail: detail.join(" \xB7 "),
-    tally,
-    passed,
-    unseen: unseenCount,
-    counts,
-    failureLine: testReportFailureLine(problems.map((s) => ({ status: "failed", impact: s.impact }))),
-    lastRun: newestRun ? lastRunLine(newestRun, numberOf(0)) : null,
-    textOnly,
-    asOfRun: offset > 0 && newestRun ? numberOf(0) : null,
-    problems,
-    needsYou,
-    afterMerge,
-    passedBut,
-    notTested,
-    worked,
-    runNotes,
-    passedButTitle: textOnly && runNotes.length === 0 && passedBut.length > 0 && passedBut.every((p) => p.caveat === NOT_SEEN_ON_SCREEN && !p.codeCaveat) ? "Not seen on screen" : notesTitle(passedBut.length),
-    headlineNote
-  };
-}
-
 // ../lib/card-story.ts
 var EMPTY_STORY_INPUTS = { opinionUserMessages: null, git: null };
 var plural5 = (n, word) => `${n} ${word}${n === 1 ? "" : "s"}`;
@@ -32449,12 +33053,14 @@ function planStep(card) {
 }
 function builtStep(card, inputs) {
   const merged2 = card.gitBranchStatus === "merged";
+  const onMain = !merged2 && isLanded(card);
   const rolledBack = card.gitBranchStatus === "rolled_back";
   const git3 = inputs.git;
   const viaFinalTest = !!card.finalTestReady || isFinalTestNote(card.solutionSummary);
   let sub = "";
   if (git3?.exists) sub = `${plural5(git3.ahead, "commit")} \xB7 ${plural5(git3.files, "file")}`;
   else if (merged2) sub = "merged";
+  else if (onMain) sub = "on main";
   else if (rolledBack) sub = "rolled back";
   else if (card.gitBranchName && !git3) sub = "\u2026";
   return {
@@ -32464,14 +33070,14 @@ function builtStep(card, inputs) {
     sub,
     // On the final test's road a worktree alone built nothing: the step
     // happened only if a fix round left a commit (IDE-765).
-    happened: merged2 || rolledBack || (viaFinalTest ? !!git3?.exists && git3.ahead > 0 : (git3?.exists ?? false) || !!card.gitBranchName || card.gitWorktreeStatus != null),
+    happened: merged2 || onMain || rolledBack || (viaFinalTest ? !!git3?.exists && git3.ahead > 0 : (git3?.exists ?? false) || !!card.gitBranchName || card.gitWorktreeStatus != null),
     tab: "solution"
   };
 }
 function storyTally(card, chainTally) {
   if (chainTally) return chainTally;
   if (!card.testScenarios) return null;
-  const state = cardTestReportState(card.testReports, card.testScenarios, 0, null, { merged: isMergedToMain(card.gitBranchStatus) });
+  const state = cardTestReportState(card.testReports, card.testScenarios, 0, null, { merged: isLanded(card) });
   return cardTally(state);
 }
 function proofStep(card, tally) {
@@ -32484,7 +33090,7 @@ function proofStep(card, tally) {
 }
 function yourTestStep(card, id, label2, tally) {
   const progress = parseTestProgress(card.testScenarios);
-  const merged2 = card.gitBranchStatus === "merged";
+  const merged2 = isLanded(card);
   const left = tally ? tally.yours : itemsLeft(progress, { merged: merged2 });
   const waiting = tally ? tally.afterMerge : merged2 ? 0 : afterMergeLeftIn(progress);
   return {
@@ -32562,6 +33168,11 @@ function nowStepId(card, work, running, chainMerge) {
       return null;
   }
 }
+function chainTurnLine(tally) {
+  if (tally.yours > 0) return `${tally.yours} yours${tally.merged ? " on main" : ""}`;
+  if (tally.afterMerge > 0) return `${tally.afterMerge} after merge`;
+  return null;
+}
 function bannerFor(card, ctx, now) {
   if (card.status === "completed" || card.status === "withdrawn") return null;
   const running = ctx.running ?? !!card.processingType;
@@ -32587,6 +33198,8 @@ function bannerFor(card, ctx, now) {
       failed = failedOnScreenLabel(count);
       detail = detail.startsWith(`${failed} \xB7 `) ? detail.slice(failed.length + 3) : detail;
     }
+    const chainLine2 = ctx.chainTally ? chainTurnLine(ctx.chainTally) : null;
+    if (chainLine2) detail = chainLine2;
     if (ctx.chainMerge === "into-chain" && !failed) {
       detail = chainMergeBlocker(card.testScenarios) ? "tick the Core flow, then Merge into chain" : "ready for Merge into chain";
     }
@@ -32685,7 +33298,7 @@ function chainTestReportState(members, opts = {}) {
   let waiting = 0;
   const ran = [];
   const textRuns = [];
-  const merged2 = isMergedToMain(parent?.gitBranchStatus);
+  const merged2 = isLanded(parent);
   const parentProgress = parent && parent.testScenarios !== void 0 ? parseTestProgress(parent.testScenarios ?? "") : null;
   const parentLeft = itemsLeft(parentProgress, { merged: merged2 });
   const cards = [...children, ...parent ? [parent] : []].map((member) => {
@@ -32897,6 +33510,7 @@ function chainTallyForCard(db2, parent) {
       title: parent.title,
       status: parent.status,
       gitBranchStatus: parent.gitBranchStatus,
+      gitBranchName: parent.gitBranchName,
       testReports: parent.testReports,
       testScenarios: parent.testScenarios,
       isParent: true
@@ -33886,22 +34500,22 @@ var SplitCardError = class extends Error {
   }
   kind;
 };
-function escapeHtml3(text2) {
+function escapeHtml5(text2) {
   return text2.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 function childDescription(card, parentLabel) {
   const parts = [];
-  if (card.scope) parts.push(`<p>${escapeHtml3(card.scope)}</p>`);
-  if (card.reason) parts.push(`<p><em>${escapeHtml3(card.reason)}</em></p>`);
+  if (card.scope) parts.push(`<p>${escapeHtml5(card.scope)}</p>`);
+  if (card.reason) parts.push(`<p><em>${escapeHtml5(card.reason)}</em></p>`);
   if (card.carries) {
-    parts.push(`<h3>Carried from ${escapeHtml3(parentLabel)}</h3>`, `<p>${escapeHtml3(card.carries)}</p>`);
+    parts.push(`<h3>Carried from ${escapeHtml5(parentLabel)}</h3>`, `<p>${escapeHtml5(card.carries)}</p>`);
   }
   return parts.join("");
 }
 var CHIP_RE = /<span\b[^>]*data-type="artifactMention"[^>]*>[\s\S]*?<\/span>/gi;
 function fileLink(absPath, name) {
   const label2 = name?.trim() || absPath.split("/").pop() || absPath;
-  return `<a href="${escapeHtml3(pathToFileUrl(absPath))}">${escapeHtml3(label2)}</a>`;
+  return `<a href="${escapeHtml5(pathToFileUrl(absPath))}">${escapeHtml5(label2)}</a>`;
 }
 function parentMockupHtml(parent, parentLabel) {
   const paths = cardMockups(parent).filter(isFile);
@@ -33921,11 +34535,11 @@ function parentMockupHtml(parent, parentLabel) {
   }
   const inProse = new Set(listMockupArtifacts(prose));
   const rest = paths.filter((p) => !inProse.has(p)).map((p) => `<p>${fileLink(p)}</p>`);
-  return `<h3>Mockup (from ${escapeHtml3(parentLabel)})</h3>${prose}${rest.join("")}`;
+  return `<h3>Mockup (from ${escapeHtml5(parentLabel)})</h3>${prose}${rest.join("")}`;
 }
 function flowsHtml(flows) {
   const items = flows.map((flow) => flow.trim()).map(
-    (flow) => `<li data-type="taskItem" data-checked="false"><label><input type="checkbox"><span></span></label><div><p>${escapeHtml3(flow)}</p></div></li>`
+    (flow) => `<li data-type="taskItem" data-checked="false"><label><input type="checkbox"><span></span></label><div><p>${escapeHtml5(flow)}</p></div></li>`
   ).join("");
   return `<h2>${SPLIT_FLOWS_HEADING}</h2><ul data-type="taskList">${items}</ul>`;
 }
@@ -35084,6 +35698,7 @@ __export(evaluation_exports, {
   buildChainSection: () => buildChainSection,
   buildEvaluationGuide: () => buildEvaluationGuide,
   buildPriorDecisionsSection: () => buildPriorDecisionsSection,
+  buildSplitParentPlanningSection: () => buildSplitParentPlanningSection,
   buildSplitSection: () => buildSplitSection
 });
 var EVALUATION_OUTPUT_SCHEMA = `## Summary Verdict
@@ -35178,6 +35793,13 @@ If this card changes UI, open and read these HTML files before you plan or write
 This card was broken out of ${splitName(split.parent)}.
 ${split.role ?? ""}
 ${mockupLines}`;
+}
+function buildSplitParentPlanningSection(split) {
+  if (!split || split.children.length === 0) return "";
+  return `
+## Joining gaps
+${SPLIT_PARENT_PLANNING_RULE}
+`;
 }
 function buildChainCheckSection(check2) {
   if (check2.length === 0) return "";
@@ -35519,7 +36141,6 @@ var SECTION_TITLES = [
   ["problems", "Problems (failed)"],
   ["needsYou", "Needs you (unticked, left to the person)"],
   ["passedBut", "Passed with notes (passed with a caveat)"],
-  ["notTested", "Not tested yet"],
   ["worked", "Passed"]
 ];
 var BRIEF_RULES_VERSION = "short-v3";
@@ -35700,7 +36321,10 @@ function stateItemLine(state) {
   const at = state.runNumber !== null ? ` (#${state.runNumber})` : "";
   const extra = state.kind === "problem" ? [state.impact, state.observed].filter(Boolean).join(": ") : (
     // An unticked pass sits in Needs you now (IDE-809) and keeps its notes.
-    state.kind === "passedBut" || state.kind === "needsYou" || state.kind === "afterMerge" ? [state.caveat, state.codeCaveat].filter(Boolean).join(". ") : ""
+    state.kind === "passedBut" || state.kind === "needsYou" || state.kind === "afterMerge" ? [state.caveat, state.codeCaveat].filter(Boolean).join(". ") : (
+      // A pass with no run behind it is the person's tick (IDE-823).
+      state.kind === "worked" && state.status === null ? TICKED_BY_YOU : ""
+    )
   );
   return `- ${state.sentence}${at}${extra ? ` \u2014 ${extra}` : ""}`;
 }
@@ -35740,16 +36364,13 @@ function cardStateLines(state, brief, briefState = state) {
   section2("Problems", state.problems);
   out.push(...yoursAndAfterMerge(state.tally, (entry) => stateItemLine(entry.item)));
   section2(state.passedButTitle, state.passedBut, state.runNotes);
-  if (state.notTested.length) {
-    out.push("", `Not run yet \xB7 ${state.notTested.length}`, state.notTested.map((s) => s.sentence).join(" \xB7 "));
-  }
   section2(PASSED_TITLE, state.worked);
   return out;
 }
-function testReportCardSummary(runs, checklistHtml, gitBranchStatus) {
+function testReportCardSummary(runs, checklistHtml, merged2 = false) {
   if (!runs?.length) return null;
   const latest = runs[0];
-  const state = checklistHtml ? cardTestReportState(runs, checklistHtml, 0, null, { merged: isMergedToMain(gitBranchStatus) }) : null;
+  const state = checklistHtml ? cardTestReportState(runs, checklistHtml, 0, null, { merged: merged2 }) : null;
   const failures = testReportFailureLine(latest.items);
   return {
     runs: runs.length,
@@ -36438,7 +37059,7 @@ function tallySureSegments(tally) {
     const kinds = [
       [tally.onScreen, "on screen"],
       [tally.inTerminal, "in a terminal"],
-      [tally.byYou, "ticked by you"]
+      [tally.byYou, TICKED_BY_YOU]
     ];
     const present5 = kinds.filter(([n]) => n > 0);
     if (present5.length === 1) add(`, all ${present5[0][1]}`);
@@ -36451,7 +37072,6 @@ function tallySureSegments(tally) {
   if (tally.failed > 0) rest.push({ text: `${tally.failed} failed`, tone: "bad" });
   if (tally.yours > 0) rest.push({ text: `${tally.yours} yours`, tone: "you" });
   if (tally.afterMerge > 0) rest.push({ text: `${tally.afterMerge} after merge`, tone: null });
-  if (tally.notRunYet > 0) rest.push({ text: `${tally.notRunYet} not run yet`, tone: null });
   rest.forEach((segment, index) => {
     add(index === 0 ? "; " : ", ");
     out.push(segment);
@@ -36580,7 +37200,6 @@ function summaryInput(data) {
       state.passedBut.filter((item) => !item.codeCaveat).map((item) => `${clean(item.sentence)}${item.caveat ? ` \u2014 caveat: ${clean(item.caveat)}` : ""}`)
     );
     section2("Passed before the code changed again", stale.map((item) => clean(item.sentence)));
-    section2("Not tested yet", state.notTested.map((item) => clean(item.sentence)));
   }
   const accepted = data.decisions.filter((decision) => decision.kind === "acceptance");
   if (accepted.length > 0) {
@@ -36717,6 +37336,9 @@ function resultsOf(runs, checklistHtml) {
       return key !== null && visual.has(key);
     }
   };
+}
+function landedRow(row) {
+  return isLanded({ status: row.status, gitBranchStatus: row.git_branch_status, gitBranchName: row.git_branch_name ?? null });
 }
 function whereOf(row, landedOn, chainBranch) {
   if (row.status === "withdrawn") return "Withdrawn";
@@ -36875,6 +37497,11 @@ function collectRunReport(db2, cardId, opts) {
   const ordered = [...rows.filter((row) => !parents.includes(row)), ...parents];
   const parentIds = new Set(parents.map((row) => row.id));
   const chainBranch = group?.integrationBranch ?? null;
+  const chainRegressionLineOf = (cardId2) => {
+    if (opts.cardOnly || !parentIds.has(cardId2)) return null;
+    const measure = chainRegressionMeasure(db2, cardId2);
+    return measure ? chainRegressionMeasureLine(measure) : null;
+  };
   const events = ralphEventsFor(db2, ordered.map((row) => row.id));
   const nameOf3 = new Map(ordered.map((row) => [row.id, displayIdOf2(row)]));
   const reportRuns = /* @__PURE__ */ new Map();
@@ -36943,6 +37570,7 @@ function collectRunReport(db2, cardId, opts) {
       total: checklist.length,
       selfFixes: opts.cardOnly ? null : selfFixesOf(row, displayId, events),
       footprint: opts.cardOnly ? null : footprintOfCard(row, displayId),
+      chainRegression: chainRegressionLineOf(row.id),
       aiMs: own2.reduce((sum, event) => sum + (event.detail.durationMs ?? 0), 0),
       runCount: own2.length,
       cost: costs2.length > 0 ? costs2.reduce((sum, cost) => sum + cost, 0) : null
@@ -37023,7 +37651,7 @@ function collectRunReport(db2, cardId, opts) {
   const codeChangesOf = (row) => opts.cardOnly ? null : runCodeChangesFor(db2, row.id, parsedRuns.get(row.id) ?? []);
   const briefOf = (row) => {
     const runs = parsedRuns.get(row.id) ?? [];
-    return currentBrief(runs[0]?.brief, cardTestReportState(runs, row.test_scenarios, 0, null, { merged: isMergedToMain(row.git_branch_status) }));
+    return currentBrief(runs[0]?.brief, cardTestReportState(runs, row.test_scenarios, 0, null, { merged: landedRow(row) }));
   };
   let state;
   if (groupId) {
@@ -37034,6 +37662,7 @@ function collectRunReport(db2, cardId, opts) {
         title: row.title,
         status: row.status,
         gitBranchStatus: row.git_branch_status,
+        gitBranchName: row.git_branch_name ?? null,
         testReports: parsedRuns.get(row.id) ?? [],
         testScenarios: row.test_scenarios,
         isParent: parentIds.has(row.id),
@@ -37053,7 +37682,7 @@ function collectRunReport(db2, cardId, opts) {
     state = { kind: "chain", chain, aiSummary };
   } else {
     const card = cardTestReportState(parsedRuns.get(own.id) ?? [], own.test_scenarios, 0, codeChangesOf(own), {
-      merged: isMergedToMain(own.git_branch_status)
+      merged: landedRow(own)
     });
     state = { kind: "card", displayId: displayIdOf2(own), card, aiSummary: briefOf(own) };
   }
@@ -37811,6 +38440,7 @@ function renderRunReport(data, embed, summary = { state: "none" }, extras = {}) 
   for (const card of data.cards) {
     parts.push(`<h3>${idPill(esc2, card.displayId)} ${esc2(card.title)}</h3>`);
     parts.push(`<p class="small muted">${esc2(card.where)}${card.commit ? ` \xB7 <code>${esc2(card.commit.slice(0, 7))}</code>` : ""}</p>`);
+    if (card.chainRegression) parts.push(`<p class="small">${esc2(card.chainRegression)}</p>`);
     if (card.selfFixes === null) {
       parts.push(`<p class="small muted">What Ralph fixed on its own is not readable here: no git history for this card.</p>`);
     } else if (card.selfFixes.length > 0) {
@@ -38374,7 +39004,7 @@ function unwrap(ns) {
   return Reflect.get(ns, "default") ?? ns;
 }
 var { buildTestStyleContract: buildTestStyleContract2 } = unwrap(test_style_exports);
-var { buildPhaseHint: buildPhaseHint2, buildPhasePolicyBody: buildPhasePolicyBody2, buildCreatedCardOpinionClause: buildCreatedCardOpinionClause2 } = unwrap(phase_policy_exports);
+var { buildPhaseHint: buildPhaseHint2, buildPhasePolicyBody: buildPhasePolicyBody2, buildCreatedCardOpinionClause: buildCreatedCardOpinionClause2, SPLIT_PARENT_PLANNING_RULE: SPLIT_PARENT_PLANNING_RULE2 } = unwrap(phase_policy_exports);
 var { buildGlobalBoundPolicyBody: buildGlobalBoundPolicyBody2, buildMcpServerInstructions: buildMcpServerInstructions2 } = unwrap(global_mode_exports);
 var { AI_OPINION_PLANNING_RULE: AI_OPINION_PLANNING_RULE2 } = unwrap(opinion_exports);
 var { PRIOR_DECISIONS_RULE: PRIOR_DECISIONS_RULE2, CHAIN_IMPLEMENTATION_RULE: CHAIN_IMPLEMENTATION_RULE2 } = unwrap(prior_decisions_exports);
@@ -38472,11 +39102,17 @@ var {
   validateCardTitle: validateCardTitle2,
   cardAuthorship: cardAuthorship2,
   loadStoryInputs: loadStoryInputs2,
+  chainTallyForCard: chainTallyForCard2,
   chainMergeReview: chainMergeReview2,
   chainUnwalkedItems: chainUnwalkedItems2,
   finalTestReady: finalTestReady2,
   mergeReviewFor: mergeReviewFor2,
   mergeReviewText: mergeReviewText2,
+  chainRegressionView: chainRegressionView2,
+  chainRegressionMeasure: chainRegressionMeasure2,
+  writeChainRegression: writeChainRegression2,
+  chainLeftoversView: chainLeftoversView2,
+  writeChainLeftovers: writeChainLeftovers2,
   unwalkedChildItems: unwalkedChildItems2,
   unwalkedChildItemsText: unwalkedChildItemsText2,
   IDEAFY_AUTHOR: IDEAFY_AUTHOR2,
@@ -38533,6 +39169,7 @@ var {
 var { parseTestReportItems: parseTestReportItems2, parseTestReports: parseTestReports2, buildTestReportRun: buildTestReportRun2, normalizeTestReportWarnings: normalizeTestReportWarnings2, MAX_ARTIFACTS_PER_ITEM: MAX_ARTIFACTS_PER_ITEM2 } = unwrap(test_report_exports);
 var { formatTestReport: formatTestReport2, formatChainState: formatChainState2, selectTestReportRun: selectTestReportRun2, testReportCardSummary: testReportCardSummary2 } = unwrap(test_report_text_exports);
 var { chainTestReportState: chainTestReportState2 } = unwrap(chain_test_report_state_exports);
+var { isLanded: isLanded2 } = unwrap(test_report_state_exports);
 var { importTerminalArtifacts: importTerminalArtifacts2, removeTestReportRunDirs: removeTestReportRunDirs2, testReportRunDir: testReportRunDir2 } = unwrap(test_report_files_exports);
 var { cardSummaryState: cardSummaryState2, writeRunReport: writeRunReport2 } = unwrap(write_exports);
 var { attachmentRefs: attachmentRefs2, attachmentContentType: attachmentContentType2 } = unwrap(card_attachments_exports);
@@ -38690,15 +39327,18 @@ ${MOCKUP_OFFER_HINT2}
 
 ${LINKED_FILE_RULE2}`;
 }
-function buildPriorDecisionsNote(card, mode = "development", technicalDecisions = "") {
+function buildPriorDecisionsNote(card, mode = "development", technicalDecisions = "", splitParent = false) {
   if (!PLANNING_STATUSES.has(card.status)) return null;
   const decisions = technicalDecisions ? `${technicalDecisions}
+
+` : "";
+  const joiningGaps = splitParent ? `${SPLIT_PARENT_PLANNING_RULE2}
 
 ` : "";
   return `Before you write a plan for this card:
 ${PRIOR_DECISIONS_RULE2}
 
-${decisions}${PLAN_DECISION_RULE2}
+${decisions}${joiningGaps}${PLAN_DECISION_RULE2}
 
 ${buildPlanFormat2(mode)}`;
 }
@@ -39294,7 +39934,7 @@ var MAX_REPORT_SCREENSHOTS = 6;
 var STATUSES2 = ["passed", "failed", "manual"];
 function chainStateText(db2, cardId) {
   const select = `SELECT c.id, c.title, c.status, c.task_number AS taskNumber, p.id_prefix AS idPrefix,
-                         c.git_branch_status AS gitBranchStatus, c.test_reports AS testReports,
+                         c.git_branch_status AS gitBranchStatus, c.git_branch_name AS gitBranchName, c.test_reports AS testReports,
                          c.test_scenarios AS testScenarios, c.autopilot_stage AS autopilotStage,
                          c.autopilot_stop_reason AS autopilotStopReason
                   FROM cards c LEFT JOIN projects p ON p.id = c.project_id`;
@@ -39320,6 +39960,7 @@ function chainStateText(db2, cardId) {
     title: row.title,
     status: row.status,
     gitBranchStatus: row.gitBranchStatus,
+    gitBranchName: row.gitBranchName,
     testReports: parseTestReports2(row.testReports),
     testScenarios: row.testScenarios,
     isParent,
@@ -39343,7 +39984,10 @@ function readTestReport(db2, card, opts = {}) {
   if (status && !STATUSES2.includes(status)) {
     return fail(`get_test_report: status must be one of ${STATUSES2.join(", ")}.`);
   }
-  const row = db2.prepare(`SELECT test_reports as testReports, test_scenarios as testScenarios, git_branch_status as gitBranchStatus FROM cards WHERE id = ?`).get(card.id);
+  const row = db2.prepare(
+    `SELECT test_reports as testReports, test_scenarios as testScenarios, status, git_branch_status as gitBranchStatus,
+              git_branch_name as gitBranchName FROM cards WHERE id = ?`
+  ).get(card.id);
   const runs = parseTestReports2(row?.testReports);
   const chainBlock = chainStateText(db2, card.id);
   if (!runs) {
@@ -39383,8 +40027,8 @@ function readTestReport(db2, card, opts = {}) {
         videoPath: run2.video ? path11.join(testReportRunDir2(card.id, run2.id, opts.homeDir), run2.video.file) : null,
         summaryLine: summary?.state === "ready" ? `Summary video: ${summary.file}` : summary?.state === "pending" ? "Summary video: not ready yet; the app makes it while it is open and no run is going." : null,
         codeChanges,
-        // IDE-810: after the merge the after-merge items count as left.
-        merged: row?.gitBranchStatus === "merged"
+        // IDE-810: after the merge the after-merge items count as left (isLanded, IDE-823).
+        merged: isLanded2(row)
       })
     }
   ];
@@ -39853,7 +40497,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
     tools: [
       {
         name: "get_card",
-        description: "Get a kanban card by ID. When the card belongs to a chain, `chain` gives its place in that chain: position/total, predecessors and successors in chain order (displayId, title, status), and `next`, the chain's first member that is neither completed nor withdrawn. `chain.mainConflict: { files }` appears when bringing main into the chain's integration branch would conflict (a dry run; nothing is merged). When the card has blocked-by links, `blockedBy` lists the cards it waits on and `blocks` the cards waiting on it, each with displayId, title, status, `landed` (its code is already in what this card would start from) and the link's note. When an opinion or plan suggested a link the user has not answered yet, `suggestedBlockedBy` lists those cards with the reason: ask the user, then add_dependency on yes or remove_dependency on no. When an opinion proposed breaking the card into cards and the user has not answered, `splitProposal` holds the cards: ask the user, then split_card on yes or split_card with keepAsOne on no. `split` names the card this one was broken out of (`parent`) and the cards broken out of it (`children`), with `role`, the one sentence this relation gives the card: a parent joins its children and shows the whole works end to end, a child keeps to its own scope. Each child carries `status`, `tests` (ticked/total such as 4/6, null without a checklist), a short `plan` summary, the `files` its plan names, and `ready`: Completed, in Human Test with every item ticked and its branch merged, or in its chain's branch, whatever its ticks say. A parent waits on its children by this stricter rule, so a child's `landed` in `blockedBy` follows `ready`; every other link keeps the plain code-is-in rule. `split.unwalkedChildItems` counts the items a child in the chain left that nothing walks, and `split.mergeReview` lists them per card with what Ralph decided there, read only, as the Merge window does. `finalTestReady: true` means a split parent with every child ready and no plan or checklist of its own: its next step is the End-to-end test (start_card_run), not a plan. When the card has a Test Report, `testReport` gives how many runs it holds and how the newest came out; read the runs themselves with get_test_report. When commits have touched the card's files since its checklist was written, `testsDrift` lists them (base, files, commits, total): the checklist may have gone stale. `planDrift` does the same since its plan was written: the code wins over the plan. When the plan's Files list and what the card's work changed disagree, `planVsBranch` lists both sides: `touched`, `untouched` (planned, not changed yet) and `offPlan` (changed, not in the plan), read from its worktree, its branch, or (`source: commits`) its `Card:` trailer commits. When a Backlog or Bugs card's plan carries `[NEEDS_DECISION: \u2026]` questions, `planDecisions` lists them: the card does not start or queue until the user writes the decision into the plan and deletes the marker. `decisions` is the card's decision ledger, read only: each question Ralph took with the recommended option (kind `acceptance`, with `recommended` and the plan `step` it shaped); its plan shows them as `[NEEDS_DECISION accepted: \u2026]`. Kind `revision` is a checklist item Ralph reworded (`originalText`, `newText`, `reason`; source `ralph-verify-core` when it was a core-flow item on a checklist Ralph wrote itself). Source `ralph-unverifiable` is an item Ralph could not verify on this machine (`item`, `reason`), now `[manual]` and the person's. `authorship` says who wrote and who last edited each tab (`you` or `ideafy`, with the date) and who ticked each checked item, so you can see what the user changed by hand. `story` is the card's eight steps (Idea, Verdict, Argued, Plan, Built, Proof, Your test, Merge; seven on a Work card) with who moves at each and its state (done, now, todo, skipped), the step in play as `now`, and `banner`, whose move it is in the words of the app's turn banner (null when nobody's).",
+        description: "Get a kanban card by ID. When the card belongs to a chain, `chain` gives its place in that chain: position/total, predecessors and successors in chain order (displayId, title, status), and `next`, the chain's first member that is neither completed nor withdrawn. `chain.mainConflict: { files }` appears when bringing main into the chain's integration branch would conflict (a dry run; nothing is merged). When the card has blocked-by links, `blockedBy` lists the cards it waits on and `blocks` the cards waiting on it, each with displayId, title, status, `landed` (its code is already in what this card would start from) and the link's note. When an opinion or plan suggested a link the user has not answered yet, `suggestedBlockedBy` lists those cards with the reason: ask the user, then add_dependency on yes or remove_dependency on no. When an opinion proposed breaking the card into cards and the user has not answered, `splitProposal` holds the cards: ask the user, then split_card on yes or split_card with keepAsOne on no. `split` names the card this one was broken out of (`parent`) and the cards broken out of it (`children`), with `role`, the one sentence this relation gives the card: a parent joins its children and shows the whole works end to end, a child keeps to its own scope. Each child carries `status`, `tests` (ticked/total such as 4/6, null without a checklist), a short `plan` summary, the `files` its plan names, and `ready`: Completed, in Human Test with every item ticked and its branch merged, or in its chain's branch, whatever its ticks say. A parent waits on its children by this stricter rule, so a child's `landed` in `blockedBy` follows `ready`; every other link keeps the plain code-is-in rule. `split.chainRegression` on a split parent says which children its verify re-walks as `## Chain regression \xB7 \u2026` groups on the chain's combined code (`written: true` with `at`, `tip` and every child's `reason`: changed, conflict-resolved, no-stamp, unchanged, no-core), or before that verify a `preview` of what it would pick today; once a run walked those groups, `measured` adds per child the items walked, passed first time, fixed after a work round and handed over (environment or code), with the groups' approximate run cost (null when a run reported none, never 0). `split.chainLeftovers` does the same for the `## Chain leftovers \xB7 \u2026` groups, the items Ralph handed over on a child (`[manual]` as could not verify, or parked) tried once more on the combined code: `written: true` with `at` and each child's items with `kind` and Ralph's `reason`, or a `preview`. `split.unwalkedChildItems` counts the items a child in the chain left that nothing walks, those the parent took over as Chain leftovers counted on the parent's line while unticked there, and `split.mergeReview` lists them per card with what Ralph decided there, read only, as the Merge window does. `finalTestReady: true` means a split parent with every child ready and no plan or checklist of its own: its next step is the End-to-end test (start_card_run), not a plan. When the card has a Test Report, `testReport` gives how many runs it holds and how the newest came out; read the runs themselves with get_test_report. When commits have touched the card's files since its checklist was written, `testsDrift` lists them (base, files, commits, total): the checklist may have gone stale. `planDrift` does the same since its plan was written: the code wins over the plan. When the plan's Files list and what the card's work changed disagree, `planVsBranch` lists both sides: `touched`, `untouched` (planned, not changed yet) and `offPlan` (changed, not in the plan), read from its worktree, its branch, or (`source: commits`) its `Card:` trailer commits. When a Backlog or Bugs card's plan carries `[NEEDS_DECISION: \u2026]` questions, `planDecisions` lists them: the card does not start or queue until the user writes the decision into the plan and deletes the marker. `decisions` is the card's decision ledger, read only: each question Ralph took with the recommended option (kind `acceptance`, with `recommended` and the plan `step` it shaped); its plan shows them as `[NEEDS_DECISION accepted: \u2026]`. Kind `revision` is a checklist item Ralph reworded (`originalText`, `newText`, `reason`; source `ralph-verify-core` when it was a core-flow item on a checklist Ralph wrote itself). Source `ralph-unverifiable` is an item Ralph could not verify on this machine (`item`, `reason`), now `[manual]` and the person's. `authorship` says who wrote and who last edited each tab (`you` or `ideafy`, with the date) and who ticked each checked item, so you can see what the user changed by hand. `story` is the card's eight steps (Idea, Verdict, Argued, Plan, Built, Proof, Your test, Merge; seven on a Work card) with who moves at each and its state (done, now, todo, skipped), the step in play as `now`, and `banner`, whose move it is in the words of the app's turn banner (null when nobody's).",
         inputSchema: {
           type: "object",
           properties: {
@@ -40909,7 +41553,13 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           });
         }
         const split = splitRelations2(db, card.id);
-        if (split) Object.assign(card, { split });
+        if (split) {
+          const chainRegression = split.children.length > 0 ? chainRegressionView2(db, card.id) : null;
+          const chainLeftovers = split.children.length > 0 ? chainLeftoversView2(db, card.id) : null;
+          Object.assign(card, {
+            split: { ...split, ...chainRegression ? { chainRegression } : {}, ...chainLeftovers ? { chainLeftovers } : {} }
+          });
+        }
         if (finalTestReady2(db, card.id)) Object.assign(card, { finalTestReady: true });
         const testsDrift = testsDriftFor2(db, card.id);
         if (testsDrift && testsDrift.total > 0) {
@@ -40936,11 +41586,11 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         }
         const cardWithReports = card;
         const reportRuns = parseTestReports2(cardWithReports.testReports);
+        const branchRow = reportRuns?.length ? db.prepare(`SELECT git_branch_status AS gitBranchStatus, git_branch_name AS gitBranchName FROM cards WHERE id = ?`).get(card.id) : void 0;
         const testReport = testReportCardSummary2(
           reportRuns,
           card.testScenarios ?? null,
-          // Merged reads as the app's brief reads it (IDE-808); the card's own SELECT leaves the column out.
-          reportRuns?.length ? db.prepare(`SELECT git_branch_status AS s FROM cards WHERE id = ?`).get(card.id)?.s ?? null : null
+          isLanded2({ status: card.status, ...branchRow })
         );
         delete cardWithReports.testReports;
         if (testReport) cardWithReports.testReport = testReport;
@@ -40999,14 +41649,17 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         ).get(card.id);
         const queueIndex = listQueueRows2(db).findIndex((row) => row.id === card.id);
         const openLinks = dependencies?.blockedBy.filter((link) => !link.landed) ?? [];
+        const storyCard = { ...card, ...storyRow, rebaseConflict: !!storyRow?.rebaseConflict, testReports: reportRuns };
         card.story = buildCardStory2(
-          { ...card, ...storyRow, rebaseConflict: !!storyRow?.rebaseConflict, testReports: reportRuns },
+          storyCard,
           loadStoryInputs2(db, card.id),
           {
             mode: normalizeProjectMode2(projectRow?.mode),
             queueRank: queueIndex + 1,
             chainMerge: chainMergeForCard2(db, card.id),
-            heldByCard: openLinks.length > 0 && openLinks.every((link) => link.status !== "withdrawn")
+            heldByCard: openLinks.length > 0 && openLinks.every((link) => link.status !== "withdrawn"),
+            // A split parent's Proof and Your test read its chain's count, as in the app (IDE-823).
+            chainTally: chainTallyForCard2(db, storyCard)
           }
         );
         const { cleanedCard, images } = extractCardImages(card);
@@ -41020,7 +41673,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         const priorDecisionsNote = buildPriorDecisionsNote(
           card,
           normalizeProjectMode2(projectRow?.mode),
-          readTechnicalDecisionsPrompt2(projectRow?.folder_path, projectRow?.narrative_path)
+          readTechnicalDecisionsPrompt2(projectRow?.folder_path, projectRow?.narrative_path),
+          (split?.children.length ?? 0) > 0
         );
         if (priorDecisionsNote) {
           content.push({ type: "text", text: priorDecisionsNote });
