@@ -24268,6 +24268,1213 @@ More than one card: when writing the plan shows that this card really holds more
 var PLAN_DECISION_ONE_SHOT_LINE = "Decide when you can; when you can't, write the question as a `[NEEDS_DECISION: \u2026]` line under the step it affects, as the plan rule above says.";
 var RALPH_PLAN_DECISION_LINE = "Ralph mode: this card does not stop on a decision marker \u2014 Ralph takes the option you recommend and logs it for the person to review. End every `[NEEDS_DECISION: \u2026]` line with ` \u2014 recommended: <the option you chose>` and write the step with that option.";
 
+// ../lib/prompts/roadmap-generate.ts
+var roadmap_generate_exports = {};
+__export(roadmap_generate_exports, {
+  ROADMAP_DRAFT_MAX_VALIDATION_LINES: () => ROADMAP_DRAFT_MAX_VALIDATION_LINES,
+  ROADMAP_GENERATION_RULES: () => ROADMAP_GENERATION_RULES,
+  buildRoadmapGeneratePrompt: () => buildRoadmapGeneratePrompt,
+  roadmapGenerationGuide: () => roadmapGenerationGuide
+});
+
+// ../lib/test-report-state.ts
+var test_report_state_exports = {};
+__export(test_report_state_exports, {
+  AFTER_MERGE_TITLE: () => AFTER_MERGE_TITLE,
+  BEFORE_MERGE_TITLE: () => BEFORE_MERGE_TITLE,
+  NOT_SEEN_ON_SCREEN: () => NOT_SEEN_ON_SCREEN,
+  PASSED_TITLE: () => PASSED_TITLE,
+  PASSED_WITH_NOTES: () => PASSED_WITH_NOTES,
+  afterMergeText: () => afterMergeText,
+  cardTestReportState: () => cardTestReportState,
+  isLanded: () => isLanded,
+  lastRunLine: () => lastRunLine,
+  needsYouTitle: () => needsYouTitle,
+  notesTitle: () => notesTitle,
+  runCodeCaveat: () => runCodeCaveat,
+  runCodeStampLine: () => runCodeStampLine
+});
+
+// ../lib/ready-to-merge.ts
+function normalize2(text3) {
+  return stripItemTokens(text3).replace(/[`*_~]/g, "").toLowerCase().replace(/\s+/g, " ").trim();
+}
+function readyToMerge(input) {
+  const html = input.testScenarios ?? "";
+  const progress = parseTestProgress(html);
+  if (!progress) return { ok: false, missing: ["no checklist"], manualLeft: 0, unticked: 0, left: 0, afterMerge: 0, failed: 0, noShot: 0 };
+  const missing = [];
+  const manualLeft = manualLeftIn(progress);
+  const left = itemsLeft(progress);
+  const afterMerge = afterMergeLeftIn(progress);
+  const unticked = left - manualLeft;
+  if (unticked > 0) missing.push(`${unticked} item${unticked === 1 ? "" : "s"} unticked`);
+  if (manualLeft > 0) missing.push(manualYoursText(manualLeft));
+  const runs = input.testReports ?? [];
+  const handed = new Set(
+    checklistItems(html).filter((item) => !item.checked && !item.core && isPersonsItem(item.text)).map((item) => normalize2(item.text))
+  );
+  const failed = runs[0]?.items.filter((item) => item.status === "failed" && !handed.has(normalize2(item.item))).length ?? 0;
+  if (failed > 0) missing.push(`${failed} failed in the last report`);
+  const noShot = shotlessUiItems(html, runs).length;
+  if (noShot > 0) missing.push(`${noShot} [ui] item${noShot === 1 ? " has" : "s have"} no screenshot`);
+  return { ok: missing.length === 0, missing, manualLeft, unticked, left, afterMerge, failed, noShot };
+}
+function shotlessUiItems(testScenarios, testReports) {
+  const shot = new Set(
+    (testReports ?? []).flatMap(
+      (run2) => run2.items.filter((item) => item.artifacts.length > 0).map((item) => normalize2(item.item))
+    )
+  );
+  return allUiItemTexts(testScenarios ?? "").filter((text3) => !shot.has(normalize2(text3)));
+}
+function tickedShotlessUiItems(testScenarios, testReports) {
+  const html = testScenarios ?? "";
+  const ticked = new Set(checklistItems(html).filter((item) => item.checked).map((item) => normalize2(item.text)));
+  return shotlessUiItems(html, testReports).filter((text3) => ticked.has(normalize2(text3)));
+}
+function manualYoursText(n) {
+  return `${n} [manual] item${n === 1 ? " is" : "s are"} yours`;
+}
+
+// ../lib/test-report.ts
+var test_report_exports = {};
+__export(test_report_exports, {
+  ITEM_CLIP_LEAD_SEC: () => ITEM_CLIP_LEAD_SEC,
+  ITEM_CLIP_TAIL_SEC: () => ITEM_CLIP_TAIL_SEC,
+  MAX_ARTIFACTS_PER_ITEM: () => MAX_ARTIFACTS_PER_ITEM,
+  MAX_TEST_REPORT_RUNS: () => MAX_TEST_REPORT_RUNS,
+  MISSING_EVIDENCE_NOTE: () => MISSING_EVIDENCE_NOTE,
+  TEST_REPORT_DIR: () => TEST_REPORT_DIR,
+  TEST_REPORT_FENCE: () => TEST_REPORT_FENCE,
+  TEST_REPORT_IMPACTS: () => TEST_REPORT_IMPACTS,
+  TEST_REPORT_IMPACT_LABEL: () => TEST_REPORT_IMPACT_LABEL,
+  TEST_REPORT_VIDEO_NAME: () => TEST_REPORT_VIDEO_NAME,
+  buildTestReportRun: () => buildTestReportRun,
+  countByStatus: () => countByStatus,
+  extractTestReportFence: () => extractTestReportFence,
+  formatVideoTime: () => formatVideoTime,
+  hasPlayableVideo: () => hasPlayableVideo,
+  isTestReportImageName: () => isTestReportImageName,
+  isTestReportRunId: () => isTestReportRunId,
+  isTestReportVideoName: () => isTestReportVideoName,
+  latestItemResults: () => latestItemResults,
+  latestResultFor: () => latestResultFor,
+  newTestReportRunId: () => newTestReportRunId,
+  nextPlayableTime: () => nextPlayableTime,
+  normalizeCodeStamp: () => normalizeCodeStamp,
+  normalizeTestReportDecisions: () => normalizeTestReportDecisions,
+  normalizeTestReportItem: () => normalizeTestReportItem,
+  normalizeTestReportWarnings: () => normalizeTestReportWarnings,
+  parseTestReportItems: () => parseTestReportItems,
+  parseTestReports: () => parseTestReports,
+  prependTestReportRun: () => prependTestReportRun,
+  readTestReportSummary: () => readTestReportSummary,
+  summarizeTestReportRun: () => summarizeTestReportRun,
+  testReportConflicts: () => testReportConflicts,
+  testReportFailureLine: () => testReportFailureLine,
+  testReportItemAt: () => testReportItemAt,
+  testReportItemClips: () => testReportItemClips,
+  testReportItemResultAt: () => testReportItemResultAt,
+  testReportItemVideoAt: () => testReportItemVideoAt,
+  testReportMissingItems: () => testReportMissingItems,
+  testReportSupersededItems: () => testReportSupersededItems
+});
+var TEST_REPORT_IMPACTS = ["broken", "flaw", "cosmetic", "test_wrong"];
+var TEST_REPORT_IMPACT_LABEL = {
+  broken: "Broken",
+  flaw: "Partly wrong",
+  cosmetic: "Cosmetic",
+  test_wrong: "Test out of date"
+};
+function isTestReportScope(value) {
+  return value === "run" || value === "reverify" || value === "single" || value === "retest" || value === "text";
+}
+var SHA = /^[0-9a-f]{40}$/;
+function normalizeCodeStamp(value) {
+  if (!value || typeof value !== "object") return void 0;
+  const record2 = value;
+  const commit = typeof record2.commit === "string" && SHA.test(record2.commit) ? record2.commit : null;
+  const dirty = (Array.isArray(record2.dirty) ? record2.dirty : []).map((entry) => {
+    if (!entry || typeof entry !== "object") return null;
+    const path12 = str(entry.path, 500);
+    if (!path12) return null;
+    const blob = entry.blob;
+    return { path: path12, blob: typeof blob === "string" && SHA.test(blob) ? blob : null };
+  }).filter((entry) => entry !== null).slice(0, 50);
+  const total = typeof record2.dirtyTotal === "number" && Number.isFinite(record2.dirtyTotal) ? Math.floor(record2.dirtyTotal) : 0;
+  if (!commit && dirty.length === 0) return void 0;
+  return { commit, dirty, dirtyTotal: Math.max(total, dirty.length) };
+}
+var TEST_REPORT_VIDEO_NAME = /^[\w.\- @]+\.webm$/;
+function isTestReportVideoName(value) {
+  return TEST_REPORT_VIDEO_NAME.test(value) && !value.includes("..");
+}
+function hasPlayableVideo(run2) {
+  return !!run2.video && run2.video.removedAt === null;
+}
+function testReportItemResultAt(item) {
+  const seconds = item.artifacts.map((artifact) => artifact.videoAt).filter((sec) => typeof sec === "number");
+  return seconds.length > 0 ? Math.max(...seconds) : null;
+}
+function testReportItemVideoAt(item) {
+  const seconds = item.artifacts.map((artifact) => artifact.videoAt).filter((sec) => typeof sec === "number");
+  return seconds.length > 0 ? Math.min(...seconds) : null;
+}
+function nextPlayableTime(time3, intervals, duration3) {
+  if (intervals.length === 0) return time3;
+  for (const [start, end] of intervals) {
+    if (time3 < start) return start;
+    if (time3 < end) return time3;
+  }
+  return duration3;
+}
+var ITEM_CLIP_LEAD_SEC = 30;
+var ITEM_CLIP_TAIL_SEC = 2;
+function testReportItemClips(run2) {
+  const intervals = run2.video?.intervals ?? [];
+  const shots = run2.items.flatMap((item) => item.artifacts.map((artifact) => artifact.videoAt)).filter((sec) => typeof sec === "number").sort((a, b2) => a - b2);
+  return run2.items.flatMap((item) => {
+    const at = testReportItemVideoAt(item);
+    if (at === null) return [];
+    const previous = shots.filter((sec) => sec < at).pop() ?? 0;
+    const from = Math.max(previous, at - ITEM_CLIP_LEAD_SEC, 0);
+    return [{ item: item.item, start: Math.min(at, nextPlayableTime(from, intervals, at)), at }];
+  });
+}
+function testReportItemAt(clips, sec) {
+  let found = null;
+  for (const clip of clips) {
+    if (sec >= clip.start && sec <= clip.at + ITEM_CLIP_TAIL_SEC && (!found || clip.start >= found.start)) {
+      found = clip;
+    }
+  }
+  return found?.item ?? null;
+}
+function formatVideoTime(sec) {
+  const whole = Math.max(0, Math.floor(sec));
+  return `${String(Math.floor(whole / 60)).padStart(2, "0")}:${String(whole % 60).padStart(2, "0")}`;
+}
+function finiteOrNull(value) {
+  return typeof value === "number" && Number.isFinite(value) && value >= 0 ? value : null;
+}
+function normalizeVideo(value) {
+  if (!value || typeof value !== "object") return void 0;
+  const record2 = value;
+  const file2 = typeof record2.file === "string" ? record2.file : "";
+  const startedAt = str(record2.startedAt, 40);
+  if (!isTestReportVideoName(file2) || !startedAt) return void 0;
+  const intervals = [];
+  if (Array.isArray(record2.intervals)) {
+    let last = -1;
+    for (const entry of record2.intervals) {
+      if (!Array.isArray(entry) || entry.length !== 2) continue;
+      const [start, end] = entry;
+      if (typeof start !== "number" || typeof end !== "number") continue;
+      if (!Number.isFinite(start) || !Number.isFinite(end) || start < last || end < start) continue;
+      intervals.push([start, end]);
+      last = end;
+    }
+  }
+  const extraTabs = typeof record2.extraTabs === "number" && Number.isInteger(record2.extraTabs) && record2.extraTabs > 0 ? record2.extraTabs : 0;
+  return {
+    file: file2,
+    startedAt,
+    durationSec: finiteOrNull(record2.durationSec),
+    intervals,
+    truncated: record2.truncated === true,
+    extraTabs,
+    tab: typeof record2.tab === "number" && Number.isInteger(record2.tab) && record2.tab > 0 ? record2.tab : 0,
+    removedAt: str(record2.removedAt, 40)
+  };
+}
+var MAX_TEST_REPORT_RUNS = 20;
+var MAX_ARTIFACTS_PER_ITEM = 3;
+var TEST_REPORT_DIR = "test-report";
+var TEST_REPORT_FENCE = "test-report";
+var MAX_TEXT = 2e3;
+var MAX_OUTPUT = 4e3;
+var MAX_PLAIN = 400;
+var MAX_STEPS = 20;
+var MAX_ITEMS = 50;
+var MAX_WARNINGS = 20;
+var MAX_WARNING_TEXT = 1e3;
+var MISSING_EVIDENCE_NOTE = "Marked failed without an observed result or an error, so it is shown as needing a manual check.";
+var IMAGE_FILE = /^[\w.\- ]+\.(png|jpe?g|webp|gif)$/i;
+function buildTestReportRun(input) {
+  return {
+    ...input.code ? { code: input.code } : {},
+    id: input.id ?? newTestReportRunId(new Date(input.now)),
+    runAt: input.now,
+    platform: input.platform,
+    source: input.source,
+    evidence: input.evidence,
+    scope: input.scope,
+    checklistApplied: input.checklistApplied,
+    items: input.items,
+    warnings: []
+  };
+}
+function newTestReportRunId(now = /* @__PURE__ */ new Date()) {
+  const stamp = now.toISOString().replace(/[-:]/g, "").replace(/\.\d+Z$/, "Z");
+  return `run-${stamp}-${Math.random().toString(36).slice(2, 6)}`;
+}
+function isTestReportRunId(value) {
+  return /^run-[0-9TZ]+-[a-z0-9]+$/.test(value);
+}
+function readTestReportSummary(value) {
+  if (!value || typeof value !== "object") return null;
+  const v2 = value;
+  const count = (n) => typeof n === "number" && Number.isFinite(n) && n >= 0 ? n : null;
+  const passed = count(v2.passed);
+  const failed = count(v2.failed);
+  const manual = count(v2.manual);
+  if (v2.evidence !== "text" && v2.evidence !== "visual") return null;
+  if (!isTestReportScope(v2.scope)) return null;
+  if (passed === null || failed === null || manual === null) return null;
+  return { evidence: v2.evidence, scope: v2.scope, passed, failed, manual };
+}
+function summarizeTestReportRun(run2) {
+  const count = (status) => run2.items.filter((item) => item.status === status).length;
+  return {
+    evidence: run2.evidence,
+    scope: run2.scope,
+    passed: count("passed"),
+    failed: count("failed"),
+    manual: count("manual")
+  };
+}
+function isTestReportImageName(value) {
+  return IMAGE_FILE.test(value) && !value.includes("..");
+}
+var FENCE = new RegExp("^[ \\t]*```+[ \\t]*" + TEST_REPORT_FENCE + "[^\\n]*\\n([\\s\\S]*?)^[ \\t]*```+[ \\t]*$", "gm");
+function extractTestReportFence(text3) {
+  let raw = null;
+  const stripped = text3.replace(FENCE, (_match, body) => {
+    raw = body;
+    return "";
+  });
+  if (raw === null) return { text: text3, raw: null };
+  return { text: stripped.replace(/\n{3,}/g, "\n\n").trimEnd(), raw };
+}
+function str(value, max = MAX_TEXT) {
+  if (typeof value === "number" || typeof value === "boolean") value = String(value);
+  if (typeof value !== "string") return null;
+  const trimmed = value.trim();
+  if (!trimmed) return null;
+  return trimmed.length > max ? `${trimmed.slice(0, max)}\u2026` : trimmed;
+}
+function normalizeStatus(value) {
+  const text3 = typeof value === "string" ? value.trim().toLowerCase() : "";
+  if (["passed", "pass", "ok", "success", "ge\xE7ti"].includes(text3)) return "passed";
+  if (["failed", "fail", "error", "kald\u0131"].includes(text3)) return "failed";
+  return "manual";
+}
+function normalizeImpact(value) {
+  return TEST_REPORT_IMPACTS.find((impact) => impact === value) ?? null;
+}
+function normalizeArtifacts(value) {
+  if (!Array.isArray(value)) return [];
+  const artifacts = [];
+  for (const entry of value) {
+    const raw = typeof entry === "string" ? { file: entry } : entry;
+    if (!raw || typeof raw !== "object") continue;
+    const record2 = raw;
+    const file2 = str(record2.file ?? record2.path ?? record2.name, 400);
+    if (!file2) continue;
+    const step = typeof record2.step === "number" && Number.isInteger(record2.step) && record2.step > 0 ? record2.step : null;
+    artifacts.push({ file: file2, step, caption: str(record2.caption, 300) });
+    if (artifacts.length === MAX_ARTIFACTS_PER_ITEM) break;
+  }
+  return artifacts;
+}
+function normalizeTestReportItem(value) {
+  if (!value || typeof value !== "object") return null;
+  const record2 = value;
+  const item = str(record2.item ?? record2.scenario ?? record2.title, 600);
+  if (!item) return null;
+  const steps = Array.isArray(record2.steps) ? record2.steps.map((step) => str(step)).filter((step) => Boolean(step)).slice(0, MAX_STEPS) : [];
+  const observed = str(record2.observed);
+  const error2 = str(record2.error, MAX_OUTPUT);
+  let status = normalizeStatus(record2.status);
+  let note = null;
+  if (status === "failed" && !observed && !error2) {
+    status = "manual";
+    note = MISSING_EVIDENCE_NOTE;
+  }
+  const plainItem = str(record2.plainItem, MAX_PLAIN);
+  const plainObserved = str(record2.plainObserved, MAX_PLAIN);
+  const impact = status === "failed" ? normalizeImpact(record2.impact) : null;
+  const caveat = status === "passed" ? str(record2.caveat, MAX_PLAIN) : null;
+  return {
+    item,
+    status,
+    approach: str(record2.approach ?? record2.logic),
+    steps,
+    expected: str(record2.expected),
+    observed,
+    ...plainItem ? { plainItem } : {},
+    ...plainObserved ? { plainObserved } : {},
+    ...impact ? { impact } : {},
+    ...caveat ? { caveat } : {},
+    error: error2,
+    command: str(record2.command, MAX_TEXT),
+    output: str(record2.output, MAX_OUTPUT),
+    artifacts: normalizeArtifacts(record2.artifacts ?? record2.screenshots),
+    note
+  };
+}
+var MAX_DECISIONS = 30;
+function normalizeTestReportDecisions(value) {
+  if (!Array.isArray(value)) return [];
+  const out = [];
+  for (const raw of value) {
+    if (!raw || typeof raw !== "object") continue;
+    const record2 = raw;
+    const entryId = Number(record2.entryId ?? record2.id);
+    if (!Number.isInteger(entryId) || entryId <= 0) continue;
+    out.push({
+      entryId,
+      question: str(record2.question, 400),
+      recommended: str(record2.recommended, 400),
+      observed: str(record2.observed),
+      artifacts: normalizeArtifacts(record2.artifacts ?? record2.screenshots)
+    });
+    if (out.length === MAX_DECISIONS) break;
+  }
+  return out;
+}
+function parseTestReportItems(value) {
+  let parsed = value;
+  if (typeof value === "string") {
+    try {
+      parsed = JSON.parse(value);
+    } catch (error2) {
+      return { ok: false, error: `not valid JSON (${error2 instanceof Error ? error2.message : String(error2)})` };
+    }
+  }
+  const list = Array.isArray(parsed) ? parsed : parsed && typeof parsed === "object" && Array.isArray(parsed.items) ? parsed.items : null;
+  if (!list) return { ok: false, error: "expected an `items` array" };
+  const items = list.map(normalizeTestReportItem).filter((item) => item !== null).slice(0, MAX_ITEMS);
+  if (items.length === 0) return { ok: false, error: "no item had an `item` text" };
+  const decisions = parsed && typeof parsed === "object" && !Array.isArray(parsed) ? normalizeTestReportDecisions(parsed.decisions) : [];
+  return decisions.length > 0 ? { ok: true, items, decisions } : { ok: true, items };
+}
+function normalizeTestReportWarnings(value) {
+  if (!Array.isArray(value)) return [];
+  return value.map((warning) => typeof warning === "string" ? str(warning, MAX_WARNING_TEXT) : null).filter((warning) => warning !== null).slice(0, MAX_WARNINGS);
+}
+function normalizeRun(value) {
+  if (!value || typeof value !== "object") return null;
+  const record2 = value;
+  const id = str(record2.id, 100);
+  const runAt = str(record2.runAt, 40);
+  if (!id || !runAt || !Array.isArray(record2.items)) return null;
+  const video = normalizeVideo(record2.video);
+  const brief = normalizeBrief(record2.brief);
+  const code = normalizeCodeStamp(record2.code);
+  const items = record2.items.map((item) => {
+    const normalized = normalizeTestReportItem(item);
+    if (normalized && item && typeof item === "object") {
+      normalized.note = str(item.note) ?? normalized.note;
+      const stored = item.artifacts;
+      if (Array.isArray(stored)) {
+        normalized.artifacts.forEach((artifact, index) => {
+          const raw = stored[index];
+          if (raw && typeof raw === "object" && "videoAt" in raw) artifact.videoAt = finiteOrNull(raw.videoAt);
+        });
+      }
+    }
+    return normalized;
+  }).filter((item) => item !== null);
+  return {
+    id,
+    runAt,
+    platform: str(record2.platform, 40),
+    source: record2.source === "terminal" ? "terminal" : "autonomous",
+    evidence: record2.evidence === "visual" ? "visual" : "text",
+    scope: isTestReportScope(record2.scope) ? record2.scope : "run",
+    checklistApplied: record2.checklistApplied !== false,
+    items,
+    warnings: normalizeTestReportWarnings(record2.warnings),
+    ...video ? { video } : {},
+    ...Array.isArray(record2.decisions) && record2.decisions.length > 0 ? { decisions: normalizeTestReportDecisions(record2.decisions) } : {},
+    ...brief ? { brief } : {},
+    ...code ? { code } : {}
+  };
+}
+function normalizeBrief(value) {
+  if (!value || typeof value !== "object") return null;
+  const record2 = value;
+  const text3 = str(record2.text, 1e3);
+  const basis = str(record2.basis, 40);
+  const at = str(record2.at, 40);
+  if (!text3 || !basis || !at) return null;
+  return { text: text3, basis, platform: str(record2.platform, 40), at };
+}
+function parseTestReports(value) {
+  if (!value) return null;
+  try {
+    const parsed = JSON.parse(value);
+    if (!Array.isArray(parsed)) return null;
+    const runs = parsed.map(normalizeRun).filter((run2) => run2 !== null);
+    return runs.length ? runs : null;
+  } catch {
+    return null;
+  }
+}
+function prependTestReportRun(existing, run2, max = MAX_TEST_REPORT_RUNS) {
+  const all = [run2, ...existing.filter((r) => r.id !== run2.id)];
+  return { runs: all.slice(0, max), dropped: all.slice(max) };
+}
+function testReportConflicts(run2, checklistHtml) {
+  const conflicts = [];
+  for (const item of run2.items) {
+    const match = matchTaskItem(item.item, checklistHtml);
+    if (!match) continue;
+    if (item.status === "passed" && !match.checked) conflicts.push({ item: item.item, kind: "passed-but-unticked" });
+    if (item.status === "failed" && match.checked) conflicts.push({ item: item.item, kind: "failed-but-ticked" });
+  }
+  return conflicts;
+}
+function testReportMissingItems(run2, checklistHtml) {
+  return new Set(run2.items.filter((item) => !matchTaskItem(item.item, checklistHtml)).map((item) => item.item));
+}
+function checklistKey(item, checklistHtml) {
+  return matchTaskItem(item, checklistHtml)?.normalized ?? null;
+}
+function latestItemResults(runs, checklistHtml) {
+  const results = /* @__PURE__ */ new Map();
+  runs.forEach((run2, runIndex) => {
+    for (const item of run2.items) {
+      const key = checklistKey(item.item, checklistHtml);
+      if (key !== null && !results.has(key)) results.set(key, { item, run: run2, runIndex });
+    }
+  });
+  return results;
+}
+function latestResultFor(results, text3) {
+  const keys = [...results.keys()];
+  const index = closestTaskText(text3, keys);
+  return index >= 0 ? results.get(keys[index]) : void 0;
+}
+function testReportSupersededItems(runs, run2, checklistHtml) {
+  const latest = latestItemResults(runs, checklistHtml);
+  return new Set(
+    run2.items.filter((item) => {
+      const k2 = checklistKey(item.item, checklistHtml);
+      const newest = k2 === null ? void 0 : latest.get(k2);
+      return newest !== void 0 && newest.run.id !== run2.id;
+    }).map((item) => item.item)
+  );
+}
+function countByStatus(run2) {
+  const counts = { passed: 0, failed: 0, manual: 0 };
+  for (const item of run2.items) counts[item.status]++;
+  return counts;
+}
+var IMPACT_COUNT_LABEL = {
+  broken: (count) => `${count} broken`,
+  flaw: (count) => `${count} partly wrong`,
+  cosmetic: (count) => `${count} cosmetic`,
+  test_wrong: (count) => `${count} outdated test${count === 1 ? "" : "s"}`
+};
+function testReportFailureLine(items) {
+  const failed = items.filter((item) => item.status === "failed");
+  const labelled = failed.filter((item) => item.impact);
+  if (labelled.length === 0) return null;
+  const count = (impact) => labelled.filter((item) => item.impact === impact).length;
+  const parts = TEST_REPORT_IMPACTS.filter((impact) => count(impact) > 0).map(
+    (impact) => IMPACT_COUNT_LABEL[impact](count(impact))
+  );
+  const unlabelled = failed.length - labelled.length;
+  if (unlabelled > 0) parts.push(`${unlabelled} not labelled`);
+  const nothingBroken = unlabelled === 0 && count("broken") === 0 && count("flaw") === 0;
+  return `${failed.length} failed${nothingBroken ? ": nothing is broken" : ""} \xB7 ${parts.join(" \xB7 ")}`;
+}
+
+// ../lib/check-tally.ts
+var YOURS_TITLE = "Yours";
+var AFTER_MERGE_WAIT_NOTE = "Waits for the merge, then it is yours.";
+var NOT_HOLDING_NOTE = "Does not hold the merge.";
+var TICKED_BY_YOU = "ticked by you";
+function plural(n, word) {
+  return `${n} ${word}${n === 1 ? "" : "s"}`;
+}
+function noted(item) {
+  return item.status === "passed" && Boolean(item.caveat || item.codeCaveat);
+}
+function checkTally(members, merged2, opts = {}) {
+  const tally = {
+    total: 0,
+    passed: 0,
+    onScreen: 0,
+    inTerminal: 0,
+    byYou: 0,
+    failed: 0,
+    yours: 0,
+    afterMerge: 0,
+    notedChecks: 0,
+    proven: 0,
+    merged: merged2,
+    yoursGroups: [],
+    afterMergeLines: []
+  };
+  const holds = [];
+  const afterMergeNow = [];
+  const outside = [];
+  for (const member of members) {
+    const { state } = member;
+    const line = (item) => ({ displayId: member.displayId, cardId: member.cardId, item });
+    tally.failed += state.problems.length;
+    for (const item of state.needsYou) (member.holdsMerge ? holds : outside).push(line(item));
+    for (const item of state.afterMerge) (merged2 ? afterMergeNow : tally.afterMergeLines).push(line(item));
+    for (const item of [...state.worked, ...state.passedBut]) {
+      tally.passed += 1;
+      if (item.status === "passed") {
+        if (item.textOnly) tally.inTerminal += 1;
+        else tally.onScreen += 1;
+      } else tally.byYou += 1;
+    }
+    for (const item of [...state.needsYou, ...state.afterMerge, ...state.worked, ...state.passedBut]) {
+      if (noted(item)) tally.notedChecks += 1;
+      if (item.status === "passed") tally.proven += 1;
+    }
+  }
+  tally.yours = holds.length + afterMergeNow.length + outside.length;
+  tally.afterMerge = tally.afterMergeLines.length;
+  tally.total = tally.passed + tally.failed + tally.yours + tally.afterMerge;
+  if (holds.length > 0) {
+    tally.yoursGroups.push({
+      key: "holds",
+      title: merged2 ? "Still open" : opts.chain ? "Final test \xB7 holds the merge" : "Before merge",
+      note: null,
+      lines: holds
+    });
+  }
+  if (afterMergeNow.length > 0) {
+    tally.yoursGroups.push({ key: "afterMergeNow", title: "After merge \xB7 now on main", note: null, lines: afterMergeNow });
+  }
+  if (outside.length > 0) {
+    const byHand = outside.every((entry) => entry.item.status === "manual" || /\[manual\]/i.test(entry.item.checklistText));
+    tally.yoursGroups.push({
+      key: "outside",
+      title: byHand ? "By hand" : "In the chain's cards",
+      note: merged2 ? null : NOT_HOLDING_NOTE,
+      lines: outside
+    });
+  }
+  return tally;
+}
+function cardTally(state) {
+  return checkTally([{ state, displayId: null, cardId: null, holdsMerge: true }], state.merged);
+}
+function showYoursGroupTitles(tally) {
+  return tally.yoursGroups.length > 1 || tally.yoursGroups.some((group) => group.key !== "holds");
+}
+function tallyDetailParts(tally) {
+  const parts = [];
+  if (tally.yours > 0) parts.push(`${tally.yours} yours`);
+  if (tally.afterMerge > 0) parts.push(`${tally.afterMerge} after merge`);
+  return parts;
+}
+function tallyEvidence(tally) {
+  if (tally.passed === 0) return null;
+  const kinds = [
+    [tally.onScreen, "on screen"],
+    [tally.inTerminal, "in a terminal"],
+    [tally.byYou, TICKED_BY_YOU]
+  ];
+  const present5 = kinds.filter(([n]) => n > 0);
+  if (present5.length === 1) return `all ${present5[0][1]}`;
+  return present5.map(([n, where]) => `${n} ${where}`).join(", ");
+}
+function tallyCountParts(tally) {
+  return {
+    passed: `${tally.passed} of ${plural(tally.total, "check")} passed`,
+    evidence: tallyEvidence(tally),
+    failed: tally.failed > 0 ? `${tally.failed} failing` : null
+  };
+}
+function tallyCountLine(tally) {
+  const parts = tallyCountParts(tally);
+  return [parts.passed, parts.evidence, parts.failed].filter(Boolean).join(" \xB7 ");
+}
+function notesTitle(notedChecks) {
+  return notedChecks > 0 ? `Notes on ${plural(notedChecks, "check")}` : "Notes";
+}
+function chainScopeLine(cards) {
+  return `Chain of ${plural(cards, "card")} \xB7 newest result of each check`;
+}
+function memberCountLine(tally) {
+  if (tally.total === 0) return "no checklist";
+  const parts = [`${tally.passed} of ${tally.total} passed`];
+  if (tally.failed > 0) parts.push(`${tally.failed} failing`);
+  parts.push(...tallyDetailParts(tally));
+  return parts.join(" \xB7 ");
+}
+
+// ../lib/test-report-state.ts
+var NOT_SEEN_ON_SCREEN = "not seen on screen";
+var PASSED_WITH_NOTES = "Passed with notes";
+var PASSED_TITLE = "Passed";
+var BEFORE_MERGE_TITLE = "Before merge";
+var AFTER_MERGE_TITLE = "After merge";
+function isLanded(card) {
+  if (!card) return false;
+  if (card.gitBranchStatus === "merged") return true;
+  return card.status === "completed" && !card.gitBranchName;
+}
+function afterMergeText(n) {
+  return `${n} after merge`;
+}
+function needsYouTitle(_state) {
+  return YOURS_TITLE;
+}
+function plural2(n, word) {
+  return `${n} ${word}${n === 1 ? "" : "s"}`;
+}
+function formatRunAt(iso) {
+  const date4 = new Date(iso);
+  if (Number.isNaN(date4.getTime())) return iso;
+  return date4.toLocaleString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+}
+var SCOPE_VERB = {
+  run: "ran",
+  reverify: "re-checked after a fix",
+  single: "verified on screen",
+  retest: "re-tested",
+  text: "ran as text"
+};
+function outcome(items) {
+  const failed = items.filter((item) => item.status === "failed").length;
+  const manual = items.filter((item) => item.status === "manual").length;
+  if (items.length === 0) return "nothing ran";
+  if (failed === 0 && manual === 0) {
+    if (items.length === 1) return "passed";
+    return items.length === 2 ? "both passed" : "all passed";
+  }
+  const parts = [];
+  if (failed > 0) parts.push(`${failed} failed`);
+  if (manual > 0) parts.push(`${manual} manual`);
+  return parts.join(", ");
+}
+function lastRunLine(run2, number3) {
+  const parts = [`#${number3}`, formatRunAt(run2.runAt)];
+  if (run2.platform) parts.push(run2.platform);
+  parts.push(run2.evidence === "visual" ? "Visual" : "Text only, no recording");
+  parts.push(`${SCOPE_VERB[run2.scope]} ${run2.items.length}, ${outcome(run2.items)}`);
+  return parts.join(" \xB7 ");
+}
+function runCodeCaveat(change, runNumber) {
+  if (!change || change.state === "unknown") return null;
+  if (change.state === "changed") {
+    return `Passed before later changes \xB7 ${plural2(change.files.length, "file")} changed since #${runNumber}`;
+  }
+  if (change.uncommitted.length > 0) {
+    const names = change.uncommitted.map((path12) => path12.split("/").pop() ?? path12);
+    const shown = names.slice(0, 3).join(", ");
+    return `Passed with uncommitted code: ${shown}${names.length > 3 ? ` +${names.length - 3}` : ""}`;
+  }
+  return null;
+}
+function runCodeStampLine(run2) {
+  const commit = run2.code?.commit;
+  if (!commit) return "no commit stamp";
+  const dirty = run2.code?.dirtyTotal ?? 0;
+  return dirty > 0 ? `${commit.slice(0, 7)} + ${dirty} uncommitted` : commit.slice(0, 7);
+}
+function cardTestReportState(allRuns, checklistHtml, asOf = 0, codeChanges, opts) {
+  const merged2 = !!opts?.merged;
+  const html = checklistHtml ?? "";
+  const runsAll = allRuns ?? [];
+  const offset = Math.max(0, Math.min(asOf, runsAll.length));
+  const runs = runsAll.slice(offset);
+  const numberOf = (index) => runsAll.length - (index + offset);
+  const ready = readyToMerge({ testScenarios: html, testReports: runs });
+  const latest = latestItemResults(runs, html);
+  const progress = parseTestProgress(html);
+  const textOnly = runs.length > 0 && runs.every((run2) => run2.evidence !== "visual");
+  const problems = [];
+  const needsYou = [];
+  const afterMerge = [];
+  const passedBut = [];
+  const afterMergeKey = (text3) => stripItemTokens(text3).toLowerCase();
+  const afterMergeTexts = new Set(
+    checklistItems(html).filter((item) => !item.checked && !item.core && isAfterMergeItem(item.text)).map((item) => afterMergeKey(item.text))
+  );
+  const isAfterMerge = (text3) => afterMergeTexts.has(afterMergeKey(text3));
+  const worked = [];
+  const runKeys = runs.map(
+    (run2) => run2.items.map((item) => latestItemResults([{ ...run2, items: [item] }], html).keys().next().value ?? null)
+  );
+  const tasks = extractTaskItems(html);
+  const seen = /* @__PURE__ */ new Set();
+  for (const task of tasks) {
+    if (seen.has(task.normalized)) continue;
+    seen.add(task.normalized);
+    const text3 = plainTaskText(task.rawText);
+    const newest = latest.get(task.normalized);
+    if (!newest) {
+      const waits = !task.checked && isAfterMerge(text3);
+      const state2 = {
+        kind: task.checked ? "worked" : waits ? "afterMerge" : "needsYou",
+        checklistText: text3,
+        sentence: stripItemTokens(text3),
+        observed: null,
+        status: null,
+        caveat: null,
+        codeCaveat: null,
+        runNumber: null,
+        runIndex: null,
+        videoAt: null,
+        textOnly: false,
+        history: []
+      };
+      (task.checked ? worked : waits ? afterMerge : needsYou).push(state2);
+      continue;
+    }
+    const { item, run: run2, runIndex } = newest;
+    const history = [];
+    runs.forEach((r, index) => {
+      const hit = r.items.find((_2, itemIndex) => runKeys[index][itemIndex] === task.normalized);
+      if (hit) history.push({ run: numberOf(index), status: hit.status });
+    });
+    history.reverse();
+    const unseen = item.status === "passed" && run2.evidence !== "visual" && isUiItem(text3);
+    const caveat = item.status === "passed" ? item.caveat ?? (unseen ? NOT_SEEN_ON_SCREEN : null) : null;
+    const codeCaveat = item.status === "passed" && !merged2 ? runCodeCaveat(codeChanges?.[run2.id], numberOf(runIndex)) : null;
+    let kind;
+    if (item.status === "failed") kind = "problem";
+    else if (!task.checked) kind = isAfterMerge(text3) ? "afterMerge" : "needsYou";
+    else if (caveat || codeCaveat) kind = "passedBut";
+    else kind = "worked";
+    const state = {
+      kind,
+      checklistText: text3,
+      sentence: item.plainItem ?? stripItemTokens(item.item),
+      observed: item.plainObserved ?? item.observed,
+      status: item.status,
+      ...item.impact ? { impact: item.impact } : {},
+      caveat,
+      codeCaveat,
+      runNumber: numberOf(runIndex),
+      runIndex: runIndex + offset,
+      videoAt: run2.video ? testReportItemVideoAt(item) : null,
+      textOnly: run2.evidence !== "visual",
+      history,
+      result: item
+    };
+    ({ problem: problems, needsYou, afterMerge, passedBut, worked })[kind].push(state);
+  }
+  const passedStates = [...needsYou, ...afterMerge, ...passedBut, ...worked].filter((s) => s.status === "passed");
+  const passed = passedStates.length;
+  const unseenCount = passedStates.filter((s) => s.caveat === NOT_SEEN_ON_SCREEN).length;
+  const left = itemsLeft(progress, { merged: merged2 });
+  const tally = cardTally({ problems, needsYou, afterMerge, passedBut, worked, merged: merged2 });
+  const counts = tallyCountLine(tally);
+  const detail = tallyDetailParts(tally);
+  if (!merged2 && ready.failed > 0) detail.push(`${ready.failed} failed in the last report`);
+  if (!merged2 && ready.noShot > 0) detail.push(`${ready.noShot} [ui] item${ready.noShot === 1 ? " has" : "s have"} no screenshot`);
+  if (!progress) detail.push("no checklist");
+  const runNotes = [];
+  const newestRun = runs[0];
+  if (newestRun) {
+    for (const warning of newestRun.warnings ?? []) runNotes.push(warning);
+    if (!newestRun.checklistApplied && progress) {
+      runNotes.push(
+        `#${numberOf(0)}'s checklist was refused, so Tests still shows ${progress.checked}/${progress.total}`
+      );
+    }
+  }
+  const headlineNote = ready.ok && problems.length > 0 ? `${plural2(problems.length, "failing item")} ${problems.length === 1 ? "is" : "are"} ticked in Tests` : null;
+  return {
+    headline: merged2 ? "Merged" : ready.ok ? "Ready to merge" : "Not ready to merge",
+    merged: merged2,
+    ready,
+    left,
+    headlineDetail: detail.join(" \xB7 "),
+    tally,
+    passed,
+    unseen: unseenCount,
+    counts,
+    failureLine: testReportFailureLine(problems.map((s) => ({ status: "failed", impact: s.impact }))),
+    lastRun: newestRun ? lastRunLine(newestRun, numberOf(0)) : null,
+    textOnly,
+    asOfRun: offset > 0 && newestRun ? numberOf(0) : null,
+    problems,
+    needsYou,
+    afterMerge,
+    passedBut,
+    worked,
+    runNotes,
+    passedButTitle: textOnly && runNotes.length === 0 && passedBut.length > 0 && passedBut.every((p) => p.caveat === NOT_SEEN_ON_SCREEN && !p.codeCaveat) ? "Not seen on screen" : notesTitle(passedBut.length),
+    headlineNote
+  };
+}
+
+// ../lib/card-turn.ts
+function hasOpenBranch(card) {
+  return !!card.gitBranchName && card.gitBranchStatus === "active";
+}
+function runMinutes(startedAt, now) {
+  if (!startedAt) return null;
+  const started = Date.parse(startedAt);
+  if (Number.isNaN(started)) return null;
+  return Math.max(0, Math.floor((now - started) / 6e4));
+}
+function cardTurn(card, ctx) {
+  if (ctx.running) {
+    const minutes = runMinutes(ctx.runStartedAt, ctx.now ?? Date.now());
+    return {
+      who: "ai",
+      label: minutes === null ? "AGENT RUNNING" : `AGENT RUNNING \xB7 ${minutes} MIN`
+    };
+  }
+  if (ctx.session?.phase === "running") return { who: "ai", label: ctx.session.label };
+  if (ctx.session?.phase === "waiting") return { who: "you", label: ctx.session.label };
+  if (ctx.session?.phase === "quiet") return null;
+  if (ctx.chatting && card.status !== "completed" && card.status !== "withdrawn") {
+    return { who: "ai", label: "IDEAFY IS REPLYING" };
+  }
+  if (ctx.heldByCard) return null;
+  if (card.status === "ideation" && card.aiVerdict) {
+    return { who: "you", label: "YOUR DECISION" };
+  }
+  if (card.status === "test" && ctx.testProgress) {
+    if (ctx.testProgress.total === 0) return null;
+    const left = itemsLeft(ctx.testProgress, { merged: isLanded(card) });
+    const onlyManualLeft = !!ctx.ready && ctx.ready.manualLeft > 0 && left === ctx.ready.manualLeft;
+    if (left > 0 && !onlyManualLeft) return { who: "you", label: `YOUR TEST \xB7 ${left} LEFT` };
+    if (ctx.ready && !ctx.ready.ok) return { who: "you", label: `YOUR TEST \xB7 ${ctx.ready.missing[0].toUpperCase()}` };
+    return { who: "you", label: hasOpenBranch(card) ? "READY TO MERGE" : "READY TO COMPLETE" };
+  }
+  return null;
+}
+
+// ../lib/roadmap.ts
+var ROADMAP_MAX_FEATURES = 8;
+var ROADMAP_DRAFT_MAX_FEATURES = 6;
+var ROADMAP_MAX_CHAIN_CARDS = 8;
+var ROADMAP_PROMPT_LATER = 5;
+var PROMPT_MAX_LINES = 25;
+var byPosition = (a, b2) => a.position - b2.position;
+var isValidationPhase = (phase) => phase.kind === "validation";
+function deriveFeature(feature, phase, cards, groups) {
+  const base = {
+    id: feature.id,
+    phaseId: feature.phaseId,
+    position: feature.position,
+    name: feature.name,
+    scope: feature.scope,
+    prerequisite: !!feature.prerequisite,
+    state: "not_opened",
+    cardId: feature.cardId,
+    groupId: feature.groupId,
+    missing: null,
+    cards: { total: 0, done: 0, running: 0, yourTurn: 0 },
+    waitsFor: [],
+    checkedAt: feature.checkedAt,
+    checkedBy: feature.checkedBy
+  };
+  if (phase && isValidationPhase(phase)) {
+    return { ...base, state: feature.checkedAt ? "done" : "open" };
+  }
+  if (!feature.cardId && !feature.groupId) return base;
+  let linked;
+  if (feature.cardId) {
+    linked = cards.filter((card) => card.id === feature.cardId);
+    if (linked.length === 0) return { ...base, missing: "card" };
+  } else {
+    const group = groups?.get(feature.groupId);
+    const gone = groups ? !group || !!group.archivedAt : false;
+    linked = gone ? [] : cards.filter((card) => card.groupId === feature.groupId);
+    if (linked.length === 0) return { ...base, missing: "chain" };
+  }
+  const live = linked.filter((card) => card.status !== "withdrawn");
+  if (live.length === 0) return { ...base, state: "dropped" };
+  const done = live.filter((card) => card.status === "completed").length;
+  const running = live.filter((card) => card.status === "progress").length;
+  const yourTurn = live.filter((card) => cardTurn(card, { running: false })?.who === "you").length;
+  return {
+    ...base,
+    state: done === live.length ? "done" : "open",
+    cards: { total: live.length, done, running, yourTurn }
+  };
+}
+var finished = (state) => state === "done" || state === "dropped";
+function deriveRoadmap(roadmap, phases, features, waits, cards, groups) {
+  const groupMap = groups ? new Map(groups.map((group) => [group.id, group])) : null;
+  const phaseById = new Map(phases.map((phase) => [phase.id, phase]));
+  const derived = /* @__PURE__ */ new Map();
+  for (const feature of features) {
+    derived.set(feature.id, deriveFeature(feature, feature.phaseId ? phaseById.get(feature.phaseId) : void 0, cards, groupMap));
+  }
+  for (const wait of waits) {
+    const feature = derived.get(wait.featureId);
+    const target2 = derived.get(wait.waitsForFeatureId);
+    if (!feature || !target2 || finished(target2.state)) continue;
+    feature.waitsFor.push({ id: target2.id, name: target2.name });
+  }
+  const ordered = [...phases].sort((a, b2) => Number(!!a.deferredAt) - Number(!!b2.deferredAt) || byPosition(a, b2));
+  const approved = roadmap.status === "approved";
+  let earlierAllDone = true;
+  let nextTaken = false;
+  const outPhases = ordered.map((phase) => {
+    const own = features.filter((feature) => feature.phaseId === phase.id).sort(byPosition).map((feature) => derived.get(feature.id));
+    const allFinished = own.every((feature) => finished(feature.state));
+    const validation = isValidationPhase(phase);
+    const opened = validation ? approved && !phase.deferredAt && (earlierAllDone || !!phase.openedAt) : !!phase.openedAt;
+    let state;
+    let waitsToOpen = false;
+    if (opened && allFinished && (!validation || own.length > 0)) state = "done";
+    else if (opened) state = "open";
+    else if (phase.deferredAt) state = "later";
+    else if (!nextTaken) {
+      state = "next";
+      nextTaken = true;
+      waitsToOpen = approved && earlierAllDone;
+    } else state = "later";
+    if (state !== "done") earlierAllDone = false;
+    return {
+      id: phase.id,
+      position: phase.position,
+      name: phase.name,
+      goal: phase.goal,
+      kind: phase.kind,
+      state,
+      openedAt: phase.openedAt,
+      deferredAt: phase.deferredAt,
+      waitsToOpen,
+      features: own,
+      done: own.filter((feature) => finished(feature.state)).length,
+      total: own.length
+    };
+  });
+  const open = outPhases.find((phase) => phase.state === "open") ?? null;
+  const next = outPhases.find((phase) => phase.state === "next") ?? null;
+  return {
+    id: roadmap.id,
+    projectId: roadmap.projectId,
+    status: roadmap.status,
+    approvedAt: roadmap.approvedAt,
+    updatedAt: roadmap.updatedAt,
+    phases: outPhases,
+    later: features.filter((feature) => !feature.phaseId).sort(byPosition).map((feature) => derived.get(feature.id)),
+    openPhaseId: open?.id ?? null,
+    nextPhaseId: next?.id ?? null,
+    strip: (open?.features ?? []).slice(0, ROADMAP_MAX_FEATURES).map((feature) => ({
+      featureId: feature.id,
+      name: feature.name,
+      state: feature.state,
+      done: isValidationPhase(open) ? Number(feature.state === "done") : feature.cards.done,
+      running: feature.cards.running,
+      total: isValidationPhase(open) ? 1 : feature.cards.total
+    }))
+  };
+}
+function validateRoadmap(phases, features, waits, opts = {}) {
+  const max = opts.maxFeatures ?? ROADMAP_MAX_FEATURES;
+  const phaseById = new Map(phases.map((phase) => [phase.id, phase]));
+  const featureById = new Map(features.map((feature) => [feature.id, feature]));
+  for (const phase of phases) {
+    if (!phase.name.trim()) return "A phase needs a name.";
+    const count = features.filter((feature) => feature.phaseId === phase.id).length;
+    if (count > max) {
+      return `Phase "${phase.name}" would hold ${count} features; a phase holds at most ${max}. Put it in the next phase or in Later.`;
+    }
+  }
+  for (const feature of features) {
+    if (!feature.name.trim()) return "A feature needs a name.";
+    if (feature.phaseId && !phaseById.has(feature.phaseId)) return `Feature "${feature.name}" names a phase that is not on this roadmap.`;
+    if (feature.cardId && feature.groupId) {
+      return `Feature "${feature.name}" is linked to a card and a chain; a feature is one card or one chain, never both.`;
+    }
+    const phase = feature.phaseId ? phaseById.get(feature.phaseId) : void 0;
+    if ((feature.cardId || feature.groupId) && (!phase || isValidationPhase(phase))) {
+      return phase ? `"${feature.name}" is a validation line; validation lines are ticked, they open no card.` : `"${feature.name}" is a Later line; a Later line opens no card until it is in a phase.`;
+    }
+  }
+  const edges = /* @__PURE__ */ new Map();
+  for (const wait of waits) {
+    const from = featureById.get(wait.featureId);
+    const to = featureById.get(wait.waitsForFeatureId);
+    if (!from || !to) return "A feature waits for a feature that is not on this roadmap.";
+    if (from.id === to.id) return `Feature "${from.name}" cannot wait for itself.`;
+    if (!from.phaseId || from.phaseId !== to.phaseId) {
+      return `"${from.name}" cannot wait for "${to.name}": a feature waits only for a feature of its own phase.`;
+    }
+    edges.set(from.id, [...edges.get(from.id) ?? [], to.id]);
+  }
+  const seen = /* @__PURE__ */ new Map();
+  const loops = (id) => {
+    if (seen.get(id) === 1) return true;
+    if (seen.get(id) === 2) return false;
+    seen.set(id, 1);
+    for (const to of edges.get(id) ?? []) if (loops(to)) return true;
+    seen.set(id, 2);
+    return false;
+  };
+  for (const id of edges.keys()) {
+    if (loops(id)) return `"${featureById.get(id)?.name}" is in a waiting loop: features must not wait for each other in a circle.`;
+  }
+  return null;
+}
+var ROADMAP_PLACEMENT_KINDS = ["in_open_phase", "next_phase", "later", "conflicts", "new_item"];
+function parseStoredPlacement(raw) {
+  if (!raw) return null;
+  try {
+    const value = JSON.parse(raw);
+    if (!value || !ROADMAP_PLACEMENT_KINDS.includes(value.kind)) return null;
+    return {
+      kind: value.kind,
+      phaseId: value.phaseId ?? null,
+      featureId: value.featureId ?? null,
+      note: typeof value.note === "string" ? value.note : "",
+      at: typeof value.at === "string" ? value.at : ""
+    };
+  } catch {
+    return null;
+  }
+}
+function placementOf(roadmap, card) {
+  const all = [...roadmap.phases.flatMap((phase) => phase.features), ...roadmap.later];
+  const phaseName = (id) => roadmap.phases.find((phase) => phase.id === id)?.name ?? null;
+  const linked = all.find(
+    (feature2) => feature2.cardId === card.id || !!card.groupId && feature2.groupId === card.groupId
+  );
+  if (linked) {
+    return {
+      kind: "feature",
+      phaseId: linked.phaseId,
+      phaseName: phaseName(linked.phaseId),
+      featureId: linked.id,
+      featureName: linked.name,
+      note: null,
+      at: null
+    };
+  }
+  const stored = parseStoredPlacement(card.roadmapPlacement);
+  if (!stored) {
+    return { kind: "not_checked", phaseId: null, phaseName: null, featureId: null, featureName: null, note: null, at: null };
+  }
+  const feature = stored.featureId ? all.find((item) => item.id === stored.featureId) : void 0;
+  const phaseId = feature?.phaseId ?? stored.phaseId ?? null;
+  return {
+    kind: stored.kind,
+    phaseId: phaseName(phaseId) ? phaseId : null,
+    phaseName: phaseName(phaseId),
+    featureId: feature?.id ?? null,
+    featureName: feature?.name ?? null,
+    note: stored.note || null,
+    at: stored.at || null
+  };
+}
+var PLACEMENT_WORDS = {
+  feature: "opened as the feature",
+  not_checked: "not placed on the roadmap yet",
+  in_open_phase: "covered by the open phase",
+  next_phase: "belongs to a coming phase",
+  later: "a Later line",
+  conflicts: "conflicts with the roadmap",
+  new_item: "a new item, not on the roadmap"
+};
+function featureLine(feature, validation) {
+  const state = validation ? feature.state === "done" ? "ticked" : "not ticked" : feature.state === "open" ? `open, ${feature.cards.done}/${feature.cards.total} cards done` : feature.state.replace("_", " ");
+  const waits = feature.waitsFor.length ? `, waits for ${feature.waitsFor.map((item) => item.name).join(", ")}` : "";
+  return `- ${feature.name} (${state}${waits})`;
+}
+function roadmapPromptSection(roadmap, placement) {
+  if (!roadmap || roadmap.status !== "approved") return "";
+  const lines2 = [];
+  const open = roadmap.phases.find((phase) => phase.id === roadmap.openPhaseId);
+  const next = roadmap.phases.find((phase) => phase.id === roadmap.nextPhaseId);
+  if (open) {
+    lines2.push(`Open phase: ${open.name} (${open.done}/${open.total} done)${open.goal ? `: ${open.goal}` : ""}`);
+    for (const feature of open.features) lines2.push(featureLine(feature, isValidationPhase(open)));
+  } else {
+    lines2.push("Open phase: none.");
+  }
+  if (next) {
+    const names = next.features.map((feature) => feature.name).join(", ");
+    lines2.push(`Next phase${next.waitsToOpen ? " (waits to open)" : ""}: ${next.name}${names ? `: ${names}` : ""}`);
+  }
+  const laterPhases = roadmap.phases.filter((phase) => phase.state === "later");
+  if (laterPhases.length) lines2.push(`Later phases: ${laterPhases.map((phase) => phase.name).join(", ")}`);
+  if (roadmap.later.length) {
+    const shown = roadmap.later.slice(0, ROADMAP_PROMPT_LATER).map((feature) => feature.name);
+    const more = roadmap.later.length - shown.length;
+    lines2.push(`Later: ${shown.join(", ")}${more > 0 ? `, +${more} more` : ""}`);
+  }
+  if (placement) {
+    const where = [placement.phaseName, placement.featureName].filter(Boolean).join(" \xB7 ");
+    lines2.push(
+      `This card: ${PLACEMENT_WORDS[placement.kind]}${where ? ` (${where})` : ""}${placement.note ? `. ${placement.note}` : ""}`
+    );
+  }
+  const body = lines2.length > PROMPT_MAX_LINES ? [...lines2.slice(0, PROMPT_MAX_LINES - 1), "\u2026"] : lines2;
+  return `## Roadmap
+${body.join("\n")}`;
+}
+
+// ../lib/prompts/roadmap-generate.ts
+var ROADMAP_DRAFT_MAX_VALIDATION_LINES = 6;
+var ROADMAP_GENERATION_RULES = [
+  "Settle v1 first: what the narrative says the first usable version is. Every MVP phase builds toward that list and nothing else.",
+  "Phases in build order: a `validation` phase only when the narrative leaves a real question open that people, not code, answer; one `foundation` phase; then one or more `mvp` phases.",
+  `At most ${ROADMAP_DRAFT_MAX_FEATURES} features a phase. A phase that needs more is split in two.`,
+  "A feature is one capability the user can see working on its own: a name and one or two sentences of scope. Do not write card counts, chains, estimates or dependencies.",
+  "Features of one phase are independent of each other. What several of them share (auth, data model, deploy) goes to the foundation phase.",
+  `A validation phase's features are lines the user ticks by hand ("Interview 10 home cooks"), never code. At most ${ROADMAP_DRAFT_MAX_VALIDATION_LINES} lines.`,
+  "Everything the narrative mentions that is not v1 goes to `later`, one line each. Nothing is dropped silently.",
+  "Each phase has a `goal`: one sentence saying what is true once it is done."
+].map((rule) => `- ${rule}`).join("\n");
+var OUTPUT_SHAPE = `{
+  "phases": [
+    {
+      "name": "Foundation",
+      "kind": "validation" | "foundation" | "mvp",
+      "goal": "One sentence.",
+      "features": [{ "name": "Short name", "scope": "One or two sentences." }]
+    }
+  ],
+  "later": [{ "name": "Short name", "scope": "One sentence." }]
+}`;
+function buildRoadmapGeneratePrompt(projectName, narrative, retryError) {
+  const retry = retryError ? `
+## Your previous answer was rejected
+
+${retryError}
+
+Write the roadmap again so that it passes.
+` : "";
+  return `You are drafting the phased roadmap of a new project, "${projectName}", from its product narrative. The user reviews the draft before anything is built, so decide and write; do not ask questions.
+
+## Rules
+
+${ROADMAP_GENERATION_RULES}
+${retry}
+## Output
+
+Answer with one JSON object and nothing else: no prose before or after, no tool calls, do not write any file.
+
+${OUTPUT_SHAPE}
+
+## Product narrative
+
+${narrative.trim()}
+`;
+}
+function roadmapGenerationGuide() {
+  return `This project has no roadmap yet.
+
+To draft one: read the project's product narrative, then write the draft with save_roadmap. Rules:
+
+${ROADMAP_GENERATION_RULES}
+
+save_roadmap writes a draft only. Approving it is the user's decision: tell them the draft is ready to review in Ideafy, and call update_roadmap with op "approve" only when they explicitly ask you to.`;
+}
+
 // ../lib/narrative-sections.ts
 var narrative_sections_exports = {};
 __export(narrative_sections_exports, {
@@ -25422,48 +26629,6 @@ function transaction(db2, fn) {
   }
 }
 
-// ../lib/ready-to-merge.ts
-function normalize2(text3) {
-  return stripItemTokens(text3).replace(/[`*_~]/g, "").toLowerCase().replace(/\s+/g, " ").trim();
-}
-function readyToMerge(input) {
-  const html = input.testScenarios ?? "";
-  const progress = parseTestProgress(html);
-  if (!progress) return { ok: false, missing: ["no checklist"], manualLeft: 0, unticked: 0, left: 0, afterMerge: 0, failed: 0, noShot: 0 };
-  const missing = [];
-  const manualLeft = manualLeftIn(progress);
-  const left = itemsLeft(progress);
-  const afterMerge = afterMergeLeftIn(progress);
-  const unticked = left - manualLeft;
-  if (unticked > 0) missing.push(`${unticked} item${unticked === 1 ? "" : "s"} unticked`);
-  if (manualLeft > 0) missing.push(manualYoursText(manualLeft));
-  const runs = input.testReports ?? [];
-  const handed = new Set(
-    checklistItems(html).filter((item) => !item.checked && !item.core && isPersonsItem(item.text)).map((item) => normalize2(item.text))
-  );
-  const failed = runs[0]?.items.filter((item) => item.status === "failed" && !handed.has(normalize2(item.item))).length ?? 0;
-  if (failed > 0) missing.push(`${failed} failed in the last report`);
-  const noShot = shotlessUiItems(html, runs).length;
-  if (noShot > 0) missing.push(`${noShot} [ui] item${noShot === 1 ? " has" : "s have"} no screenshot`);
-  return { ok: missing.length === 0, missing, manualLeft, unticked, left, afterMerge, failed, noShot };
-}
-function shotlessUiItems(testScenarios, testReports) {
-  const shot = new Set(
-    (testReports ?? []).flatMap(
-      (run2) => run2.items.filter((item) => item.artifacts.length > 0).map((item) => normalize2(item.item))
-    )
-  );
-  return allUiItemTexts(testScenarios ?? "").filter((text3) => !shot.has(normalize2(text3)));
-}
-function tickedShotlessUiItems(testScenarios, testReports) {
-  const html = testScenarios ?? "";
-  const ticked = new Set(checklistItems(html).filter((item) => item.checked).map((item) => normalize2(item.text)));
-  return shotlessUiItems(html, testReports).filter((text3) => ticked.has(normalize2(text3)));
-}
-function manualYoursText(n) {
-  return `${n} [manual] item${n === 1 ? " is" : "s are"} yours`;
-}
-
 // ../lib/prompts/utils.ts
 var utils_exports = {};
 __export(utils_exports, {
@@ -25572,7 +26737,7 @@ function autopilotResume(card) {
   if ((card.autopilotStopReason ?? "").startsWith(DECISION_STOP_PREFIX)) return "decision-answered";
   return "stopped";
 }
-function plural(n, word) {
+function plural3(n, word) {
   return `${n} ${word}${n === 1 ? "" : "s"}`;
 }
 var CHECKLIST_STOP = /^(\d+ items? (blocked|still unticked|left unticked)\b|not ready to merge:|Ralph finished · \d+ (core )?items? needs? you\b)/;
@@ -25623,7 +26788,7 @@ function autopilotIneligibleReason(card) {
 }
 var nameList2 = (members) => {
   const names = members.map((m2) => m2.displayId || "a card");
-  return names.length <= 2 ? names.join(" and ") : plural(names.length, "card");
+  return names.length <= 2 ? names.join(" and ") : plural3(names.length, "card");
 };
 function chainAutopilotStatus(members) {
   const status = chainAutopilotStatusOf(members);
@@ -25818,462 +26983,6 @@ function detectPhase(card) {
   if (!hasSolution) return "planning";
   if (!hasTests) return "implementation";
   return "retest";
-}
-
-// ../lib/test-report.ts
-var test_report_exports = {};
-__export(test_report_exports, {
-  ITEM_CLIP_LEAD_SEC: () => ITEM_CLIP_LEAD_SEC,
-  ITEM_CLIP_TAIL_SEC: () => ITEM_CLIP_TAIL_SEC,
-  MAX_ARTIFACTS_PER_ITEM: () => MAX_ARTIFACTS_PER_ITEM,
-  MAX_TEST_REPORT_RUNS: () => MAX_TEST_REPORT_RUNS,
-  MISSING_EVIDENCE_NOTE: () => MISSING_EVIDENCE_NOTE,
-  TEST_REPORT_DIR: () => TEST_REPORT_DIR,
-  TEST_REPORT_FENCE: () => TEST_REPORT_FENCE,
-  TEST_REPORT_IMPACTS: () => TEST_REPORT_IMPACTS,
-  TEST_REPORT_IMPACT_LABEL: () => TEST_REPORT_IMPACT_LABEL,
-  TEST_REPORT_VIDEO_NAME: () => TEST_REPORT_VIDEO_NAME,
-  buildTestReportRun: () => buildTestReportRun,
-  countByStatus: () => countByStatus,
-  extractTestReportFence: () => extractTestReportFence,
-  formatVideoTime: () => formatVideoTime,
-  hasPlayableVideo: () => hasPlayableVideo,
-  isTestReportImageName: () => isTestReportImageName,
-  isTestReportRunId: () => isTestReportRunId,
-  isTestReportVideoName: () => isTestReportVideoName,
-  latestItemResults: () => latestItemResults,
-  latestResultFor: () => latestResultFor,
-  newTestReportRunId: () => newTestReportRunId,
-  nextPlayableTime: () => nextPlayableTime,
-  normalizeCodeStamp: () => normalizeCodeStamp,
-  normalizeTestReportDecisions: () => normalizeTestReportDecisions,
-  normalizeTestReportItem: () => normalizeTestReportItem,
-  normalizeTestReportWarnings: () => normalizeTestReportWarnings,
-  parseTestReportItems: () => parseTestReportItems,
-  parseTestReports: () => parseTestReports,
-  prependTestReportRun: () => prependTestReportRun,
-  readTestReportSummary: () => readTestReportSummary,
-  summarizeTestReportRun: () => summarizeTestReportRun,
-  testReportConflicts: () => testReportConflicts,
-  testReportFailureLine: () => testReportFailureLine,
-  testReportItemAt: () => testReportItemAt,
-  testReportItemClips: () => testReportItemClips,
-  testReportItemResultAt: () => testReportItemResultAt,
-  testReportItemVideoAt: () => testReportItemVideoAt,
-  testReportMissingItems: () => testReportMissingItems,
-  testReportSupersededItems: () => testReportSupersededItems
-});
-var TEST_REPORT_IMPACTS = ["broken", "flaw", "cosmetic", "test_wrong"];
-var TEST_REPORT_IMPACT_LABEL = {
-  broken: "Broken",
-  flaw: "Partly wrong",
-  cosmetic: "Cosmetic",
-  test_wrong: "Test out of date"
-};
-function isTestReportScope(value) {
-  return value === "run" || value === "reverify" || value === "single" || value === "retest" || value === "text";
-}
-var SHA = /^[0-9a-f]{40}$/;
-function normalizeCodeStamp(value) {
-  if (!value || typeof value !== "object") return void 0;
-  const record2 = value;
-  const commit = typeof record2.commit === "string" && SHA.test(record2.commit) ? record2.commit : null;
-  const dirty = (Array.isArray(record2.dirty) ? record2.dirty : []).map((entry) => {
-    if (!entry || typeof entry !== "object") return null;
-    const path12 = str(entry.path, 500);
-    if (!path12) return null;
-    const blob = entry.blob;
-    return { path: path12, blob: typeof blob === "string" && SHA.test(blob) ? blob : null };
-  }).filter((entry) => entry !== null).slice(0, 50);
-  const total = typeof record2.dirtyTotal === "number" && Number.isFinite(record2.dirtyTotal) ? Math.floor(record2.dirtyTotal) : 0;
-  if (!commit && dirty.length === 0) return void 0;
-  return { commit, dirty, dirtyTotal: Math.max(total, dirty.length) };
-}
-var TEST_REPORT_VIDEO_NAME = /^[\w.\- @]+\.webm$/;
-function isTestReportVideoName(value) {
-  return TEST_REPORT_VIDEO_NAME.test(value) && !value.includes("..");
-}
-function hasPlayableVideo(run2) {
-  return !!run2.video && run2.video.removedAt === null;
-}
-function testReportItemResultAt(item) {
-  const seconds = item.artifacts.map((artifact) => artifact.videoAt).filter((sec) => typeof sec === "number");
-  return seconds.length > 0 ? Math.max(...seconds) : null;
-}
-function testReportItemVideoAt(item) {
-  const seconds = item.artifacts.map((artifact) => artifact.videoAt).filter((sec) => typeof sec === "number");
-  return seconds.length > 0 ? Math.min(...seconds) : null;
-}
-function nextPlayableTime(time3, intervals, duration3) {
-  if (intervals.length === 0) return time3;
-  for (const [start, end] of intervals) {
-    if (time3 < start) return start;
-    if (time3 < end) return time3;
-  }
-  return duration3;
-}
-var ITEM_CLIP_LEAD_SEC = 30;
-var ITEM_CLIP_TAIL_SEC = 2;
-function testReportItemClips(run2) {
-  const intervals = run2.video?.intervals ?? [];
-  const shots = run2.items.flatMap((item) => item.artifacts.map((artifact) => artifact.videoAt)).filter((sec) => typeof sec === "number").sort((a, b2) => a - b2);
-  return run2.items.flatMap((item) => {
-    const at = testReportItemVideoAt(item);
-    if (at === null) return [];
-    const previous = shots.filter((sec) => sec < at).pop() ?? 0;
-    const from = Math.max(previous, at - ITEM_CLIP_LEAD_SEC, 0);
-    return [{ item: item.item, start: Math.min(at, nextPlayableTime(from, intervals, at)), at }];
-  });
-}
-function testReportItemAt(clips, sec) {
-  let found = null;
-  for (const clip of clips) {
-    if (sec >= clip.start && sec <= clip.at + ITEM_CLIP_TAIL_SEC && (!found || clip.start >= found.start)) {
-      found = clip;
-    }
-  }
-  return found?.item ?? null;
-}
-function formatVideoTime(sec) {
-  const whole = Math.max(0, Math.floor(sec));
-  return `${String(Math.floor(whole / 60)).padStart(2, "0")}:${String(whole % 60).padStart(2, "0")}`;
-}
-function finiteOrNull(value) {
-  return typeof value === "number" && Number.isFinite(value) && value >= 0 ? value : null;
-}
-function normalizeVideo(value) {
-  if (!value || typeof value !== "object") return void 0;
-  const record2 = value;
-  const file2 = typeof record2.file === "string" ? record2.file : "";
-  const startedAt = str(record2.startedAt, 40);
-  if (!isTestReportVideoName(file2) || !startedAt) return void 0;
-  const intervals = [];
-  if (Array.isArray(record2.intervals)) {
-    let last = -1;
-    for (const entry of record2.intervals) {
-      if (!Array.isArray(entry) || entry.length !== 2) continue;
-      const [start, end] = entry;
-      if (typeof start !== "number" || typeof end !== "number") continue;
-      if (!Number.isFinite(start) || !Number.isFinite(end) || start < last || end < start) continue;
-      intervals.push([start, end]);
-      last = end;
-    }
-  }
-  const extraTabs = typeof record2.extraTabs === "number" && Number.isInteger(record2.extraTabs) && record2.extraTabs > 0 ? record2.extraTabs : 0;
-  return {
-    file: file2,
-    startedAt,
-    durationSec: finiteOrNull(record2.durationSec),
-    intervals,
-    truncated: record2.truncated === true,
-    extraTabs,
-    tab: typeof record2.tab === "number" && Number.isInteger(record2.tab) && record2.tab > 0 ? record2.tab : 0,
-    removedAt: str(record2.removedAt, 40)
-  };
-}
-var MAX_TEST_REPORT_RUNS = 20;
-var MAX_ARTIFACTS_PER_ITEM = 3;
-var TEST_REPORT_DIR = "test-report";
-var TEST_REPORT_FENCE = "test-report";
-var MAX_TEXT = 2e3;
-var MAX_OUTPUT = 4e3;
-var MAX_PLAIN = 400;
-var MAX_STEPS = 20;
-var MAX_ITEMS = 50;
-var MAX_WARNINGS = 20;
-var MAX_WARNING_TEXT = 1e3;
-var MISSING_EVIDENCE_NOTE = "Marked failed without an observed result or an error, so it is shown as needing a manual check.";
-var IMAGE_FILE = /^[\w.\- ]+\.(png|jpe?g|webp|gif)$/i;
-function buildTestReportRun(input) {
-  return {
-    ...input.code ? { code: input.code } : {},
-    id: input.id ?? newTestReportRunId(new Date(input.now)),
-    runAt: input.now,
-    platform: input.platform,
-    source: input.source,
-    evidence: input.evidence,
-    scope: input.scope,
-    checklistApplied: input.checklistApplied,
-    items: input.items,
-    warnings: []
-  };
-}
-function newTestReportRunId(now = /* @__PURE__ */ new Date()) {
-  const stamp = now.toISOString().replace(/[-:]/g, "").replace(/\.\d+Z$/, "Z");
-  return `run-${stamp}-${Math.random().toString(36).slice(2, 6)}`;
-}
-function isTestReportRunId(value) {
-  return /^run-[0-9TZ]+-[a-z0-9]+$/.test(value);
-}
-function readTestReportSummary(value) {
-  if (!value || typeof value !== "object") return null;
-  const v2 = value;
-  const count = (n) => typeof n === "number" && Number.isFinite(n) && n >= 0 ? n : null;
-  const passed = count(v2.passed);
-  const failed = count(v2.failed);
-  const manual = count(v2.manual);
-  if (v2.evidence !== "text" && v2.evidence !== "visual") return null;
-  if (!isTestReportScope(v2.scope)) return null;
-  if (passed === null || failed === null || manual === null) return null;
-  return { evidence: v2.evidence, scope: v2.scope, passed, failed, manual };
-}
-function summarizeTestReportRun(run2) {
-  const count = (status) => run2.items.filter((item) => item.status === status).length;
-  return {
-    evidence: run2.evidence,
-    scope: run2.scope,
-    passed: count("passed"),
-    failed: count("failed"),
-    manual: count("manual")
-  };
-}
-function isTestReportImageName(value) {
-  return IMAGE_FILE.test(value) && !value.includes("..");
-}
-var FENCE = new RegExp("^[ \\t]*```+[ \\t]*" + TEST_REPORT_FENCE + "[^\\n]*\\n([\\s\\S]*?)^[ \\t]*```+[ \\t]*$", "gm");
-function extractTestReportFence(text3) {
-  let raw = null;
-  const stripped = text3.replace(FENCE, (_match, body) => {
-    raw = body;
-    return "";
-  });
-  if (raw === null) return { text: text3, raw: null };
-  return { text: stripped.replace(/\n{3,}/g, "\n\n").trimEnd(), raw };
-}
-function str(value, max = MAX_TEXT) {
-  if (typeof value === "number" || typeof value === "boolean") value = String(value);
-  if (typeof value !== "string") return null;
-  const trimmed = value.trim();
-  if (!trimmed) return null;
-  return trimmed.length > max ? `${trimmed.slice(0, max)}\u2026` : trimmed;
-}
-function normalizeStatus(value) {
-  const text3 = typeof value === "string" ? value.trim().toLowerCase() : "";
-  if (["passed", "pass", "ok", "success", "ge\xE7ti"].includes(text3)) return "passed";
-  if (["failed", "fail", "error", "kald\u0131"].includes(text3)) return "failed";
-  return "manual";
-}
-function normalizeImpact(value) {
-  return TEST_REPORT_IMPACTS.find((impact) => impact === value) ?? null;
-}
-function normalizeArtifacts(value) {
-  if (!Array.isArray(value)) return [];
-  const artifacts = [];
-  for (const entry of value) {
-    const raw = typeof entry === "string" ? { file: entry } : entry;
-    if (!raw || typeof raw !== "object") continue;
-    const record2 = raw;
-    const file2 = str(record2.file ?? record2.path ?? record2.name, 400);
-    if (!file2) continue;
-    const step = typeof record2.step === "number" && Number.isInteger(record2.step) && record2.step > 0 ? record2.step : null;
-    artifacts.push({ file: file2, step, caption: str(record2.caption, 300) });
-    if (artifacts.length === MAX_ARTIFACTS_PER_ITEM) break;
-  }
-  return artifacts;
-}
-function normalizeTestReportItem(value) {
-  if (!value || typeof value !== "object") return null;
-  const record2 = value;
-  const item = str(record2.item ?? record2.scenario ?? record2.title, 600);
-  if (!item) return null;
-  const steps = Array.isArray(record2.steps) ? record2.steps.map((step) => str(step)).filter((step) => Boolean(step)).slice(0, MAX_STEPS) : [];
-  const observed = str(record2.observed);
-  const error2 = str(record2.error, MAX_OUTPUT);
-  let status = normalizeStatus(record2.status);
-  let note = null;
-  if (status === "failed" && !observed && !error2) {
-    status = "manual";
-    note = MISSING_EVIDENCE_NOTE;
-  }
-  const plainItem = str(record2.plainItem, MAX_PLAIN);
-  const plainObserved = str(record2.plainObserved, MAX_PLAIN);
-  const impact = status === "failed" ? normalizeImpact(record2.impact) : null;
-  const caveat = status === "passed" ? str(record2.caveat, MAX_PLAIN) : null;
-  return {
-    item,
-    status,
-    approach: str(record2.approach ?? record2.logic),
-    steps,
-    expected: str(record2.expected),
-    observed,
-    ...plainItem ? { plainItem } : {},
-    ...plainObserved ? { plainObserved } : {},
-    ...impact ? { impact } : {},
-    ...caveat ? { caveat } : {},
-    error: error2,
-    command: str(record2.command, MAX_TEXT),
-    output: str(record2.output, MAX_OUTPUT),
-    artifacts: normalizeArtifacts(record2.artifacts ?? record2.screenshots),
-    note
-  };
-}
-var MAX_DECISIONS = 30;
-function normalizeTestReportDecisions(value) {
-  if (!Array.isArray(value)) return [];
-  const out = [];
-  for (const raw of value) {
-    if (!raw || typeof raw !== "object") continue;
-    const record2 = raw;
-    const entryId = Number(record2.entryId ?? record2.id);
-    if (!Number.isInteger(entryId) || entryId <= 0) continue;
-    out.push({
-      entryId,
-      question: str(record2.question, 400),
-      recommended: str(record2.recommended, 400),
-      observed: str(record2.observed),
-      artifacts: normalizeArtifacts(record2.artifacts ?? record2.screenshots)
-    });
-    if (out.length === MAX_DECISIONS) break;
-  }
-  return out;
-}
-function parseTestReportItems(value) {
-  let parsed = value;
-  if (typeof value === "string") {
-    try {
-      parsed = JSON.parse(value);
-    } catch (error2) {
-      return { ok: false, error: `not valid JSON (${error2 instanceof Error ? error2.message : String(error2)})` };
-    }
-  }
-  const list = Array.isArray(parsed) ? parsed : parsed && typeof parsed === "object" && Array.isArray(parsed.items) ? parsed.items : null;
-  if (!list) return { ok: false, error: "expected an `items` array" };
-  const items = list.map(normalizeTestReportItem).filter((item) => item !== null).slice(0, MAX_ITEMS);
-  if (items.length === 0) return { ok: false, error: "no item had an `item` text" };
-  const decisions = parsed && typeof parsed === "object" && !Array.isArray(parsed) ? normalizeTestReportDecisions(parsed.decisions) : [];
-  return decisions.length > 0 ? { ok: true, items, decisions } : { ok: true, items };
-}
-function normalizeTestReportWarnings(value) {
-  if (!Array.isArray(value)) return [];
-  return value.map((warning) => typeof warning === "string" ? str(warning, MAX_WARNING_TEXT) : null).filter((warning) => warning !== null).slice(0, MAX_WARNINGS);
-}
-function normalizeRun(value) {
-  if (!value || typeof value !== "object") return null;
-  const record2 = value;
-  const id = str(record2.id, 100);
-  const runAt = str(record2.runAt, 40);
-  if (!id || !runAt || !Array.isArray(record2.items)) return null;
-  const video = normalizeVideo(record2.video);
-  const brief = normalizeBrief(record2.brief);
-  const code = normalizeCodeStamp(record2.code);
-  const items = record2.items.map((item) => {
-    const normalized = normalizeTestReportItem(item);
-    if (normalized && item && typeof item === "object") {
-      normalized.note = str(item.note) ?? normalized.note;
-      const stored = item.artifacts;
-      if (Array.isArray(stored)) {
-        normalized.artifacts.forEach((artifact, index) => {
-          const raw = stored[index];
-          if (raw && typeof raw === "object" && "videoAt" in raw) artifact.videoAt = finiteOrNull(raw.videoAt);
-        });
-      }
-    }
-    return normalized;
-  }).filter((item) => item !== null);
-  return {
-    id,
-    runAt,
-    platform: str(record2.platform, 40),
-    source: record2.source === "terminal" ? "terminal" : "autonomous",
-    evidence: record2.evidence === "visual" ? "visual" : "text",
-    scope: isTestReportScope(record2.scope) ? record2.scope : "run",
-    checklistApplied: record2.checklistApplied !== false,
-    items,
-    warnings: normalizeTestReportWarnings(record2.warnings),
-    ...video ? { video } : {},
-    ...Array.isArray(record2.decisions) && record2.decisions.length > 0 ? { decisions: normalizeTestReportDecisions(record2.decisions) } : {},
-    ...brief ? { brief } : {},
-    ...code ? { code } : {}
-  };
-}
-function normalizeBrief(value) {
-  if (!value || typeof value !== "object") return null;
-  const record2 = value;
-  const text3 = str(record2.text, 1e3);
-  const basis = str(record2.basis, 40);
-  const at = str(record2.at, 40);
-  if (!text3 || !basis || !at) return null;
-  return { text: text3, basis, platform: str(record2.platform, 40), at };
-}
-function parseTestReports(value) {
-  if (!value) return null;
-  try {
-    const parsed = JSON.parse(value);
-    if (!Array.isArray(parsed)) return null;
-    const runs = parsed.map(normalizeRun).filter((run2) => run2 !== null);
-    return runs.length ? runs : null;
-  } catch {
-    return null;
-  }
-}
-function prependTestReportRun(existing, run2, max = MAX_TEST_REPORT_RUNS) {
-  const all = [run2, ...existing.filter((r) => r.id !== run2.id)];
-  return { runs: all.slice(0, max), dropped: all.slice(max) };
-}
-function testReportConflicts(run2, checklistHtml) {
-  const conflicts = [];
-  for (const item of run2.items) {
-    const match = matchTaskItem(item.item, checklistHtml);
-    if (!match) continue;
-    if (item.status === "passed" && !match.checked) conflicts.push({ item: item.item, kind: "passed-but-unticked" });
-    if (item.status === "failed" && match.checked) conflicts.push({ item: item.item, kind: "failed-but-ticked" });
-  }
-  return conflicts;
-}
-function testReportMissingItems(run2, checklistHtml) {
-  return new Set(run2.items.filter((item) => !matchTaskItem(item.item, checklistHtml)).map((item) => item.item));
-}
-function checklistKey(item, checklistHtml) {
-  return matchTaskItem(item, checklistHtml)?.normalized ?? null;
-}
-function latestItemResults(runs, checklistHtml) {
-  const results = /* @__PURE__ */ new Map();
-  runs.forEach((run2, runIndex) => {
-    for (const item of run2.items) {
-      const key = checklistKey(item.item, checklistHtml);
-      if (key !== null && !results.has(key)) results.set(key, { item, run: run2, runIndex });
-    }
-  });
-  return results;
-}
-function latestResultFor(results, text3) {
-  const keys = [...results.keys()];
-  const index = closestTaskText(text3, keys);
-  return index >= 0 ? results.get(keys[index]) : void 0;
-}
-function testReportSupersededItems(runs, run2, checklistHtml) {
-  const latest = latestItemResults(runs, checklistHtml);
-  return new Set(
-    run2.items.filter((item) => {
-      const k2 = checklistKey(item.item, checklistHtml);
-      const newest = k2 === null ? void 0 : latest.get(k2);
-      return newest !== void 0 && newest.run.id !== run2.id;
-    }).map((item) => item.item)
-  );
-}
-function countByStatus(run2) {
-  const counts = { passed: 0, failed: 0, manual: 0 };
-  for (const item of run2.items) counts[item.status]++;
-  return counts;
-}
-var IMPACT_COUNT_LABEL = {
-  broken: (count) => `${count} broken`,
-  flaw: (count) => `${count} partly wrong`,
-  cosmetic: (count) => `${count} cosmetic`,
-  test_wrong: (count) => `${count} outdated test${count === 1 ? "" : "s"}`
-};
-function testReportFailureLine(items) {
-  const failed = items.filter((item) => item.status === "failed");
-  const labelled = failed.filter((item) => item.impact);
-  if (labelled.length === 0) return null;
-  const count = (impact) => labelled.filter((item) => item.impact === impact).length;
-  const parts = TEST_REPORT_IMPACTS.filter((impact) => count(impact) > 0).map(
-    (impact) => IMPACT_COUNT_LABEL[impact](count(impact))
-  );
-  const unlabelled = failed.length - labelled.length;
-  if (unlabelled > 0) parts.push(`${unlabelled} not labelled`);
-  const nothingBroken = unlabelled === 0 && count("broken") === 0 && count("flaw") === 0;
-  return `${failed.length} failed${nothingBroken ? ": nothing is broken" : ""} \xB7 ${parts.join(" \xB7 ")}`;
 }
 
 // ../lib/workspace.ts
@@ -30299,15 +31008,15 @@ function fileList(files) {
   const shown = files.slice(0, LISTED_FILES).join(", ");
   return files.length > LISTED_FILES ? `${shown} +${files.length - LISTED_FILES}` : shown;
 }
-var plural2 = (n, word) => `${n} ${word}${n === 1 ? "" : "s"}`;
+var plural4 = (n, word) => `${n} ${word}${n === 1 ? "" : "s"}`;
 function chainCheckWarnings(check2) {
   return check2.map((child) => {
     const parts = [];
     if (child.untouched.length) parts.push(`plan named but not touched: ${fileList(child.untouched)}`);
     if (child.offPlan.length) parts.push(`changed outside its plan: ${fileList(child.offPlan)}`);
-    if (child.driftCommits) parts.push(`${plural2(child.driftCommits, "commit")} on its files since its checklist`);
-    if (child.unticked) parts.push(`${plural2(child.unticked, "item")} not walked`);
-    if (child.decisions.length) parts.push(`${plural2(child.decisions.length, "decision")} taken by Ralph`);
+    if (child.driftCommits) parts.push(`${plural4(child.driftCommits, "commit")} on its files since its checklist`);
+    if (child.unticked) parts.push(`${plural4(child.unticked, "item")} not walked`);
+    if (child.decisions.length) parts.push(`${plural4(child.decisions.length, "decision")} taken by Ralph`);
     return `Chain check \xB7 ${child.name}: ${parts.join("; ")}`;
   });
 }
@@ -32591,383 +33300,6 @@ function cardLastActivityAt(card) {
   return card.updatedAt || card.createdAt;
 }
 
-// ../lib/test-report-state.ts
-var test_report_state_exports = {};
-__export(test_report_state_exports, {
-  AFTER_MERGE_TITLE: () => AFTER_MERGE_TITLE,
-  BEFORE_MERGE_TITLE: () => BEFORE_MERGE_TITLE,
-  NOT_SEEN_ON_SCREEN: () => NOT_SEEN_ON_SCREEN,
-  PASSED_TITLE: () => PASSED_TITLE,
-  PASSED_WITH_NOTES: () => PASSED_WITH_NOTES,
-  afterMergeText: () => afterMergeText,
-  cardTestReportState: () => cardTestReportState,
-  isLanded: () => isLanded,
-  lastRunLine: () => lastRunLine,
-  needsYouTitle: () => needsYouTitle,
-  notesTitle: () => notesTitle,
-  runCodeCaveat: () => runCodeCaveat,
-  runCodeStampLine: () => runCodeStampLine
-});
-
-// ../lib/check-tally.ts
-var YOURS_TITLE = "Yours";
-var AFTER_MERGE_WAIT_NOTE = "Waits for the merge, then it is yours.";
-var NOT_HOLDING_NOTE = "Does not hold the merge.";
-var TICKED_BY_YOU = "ticked by you";
-function plural3(n, word) {
-  return `${n} ${word}${n === 1 ? "" : "s"}`;
-}
-function noted(item) {
-  return item.status === "passed" && Boolean(item.caveat || item.codeCaveat);
-}
-function checkTally(members, merged2, opts = {}) {
-  const tally = {
-    total: 0,
-    passed: 0,
-    onScreen: 0,
-    inTerminal: 0,
-    byYou: 0,
-    failed: 0,
-    yours: 0,
-    afterMerge: 0,
-    notedChecks: 0,
-    proven: 0,
-    merged: merged2,
-    yoursGroups: [],
-    afterMergeLines: []
-  };
-  const holds = [];
-  const afterMergeNow = [];
-  const outside = [];
-  for (const member of members) {
-    const { state } = member;
-    const line = (item) => ({ displayId: member.displayId, cardId: member.cardId, item });
-    tally.failed += state.problems.length;
-    for (const item of state.needsYou) (member.holdsMerge ? holds : outside).push(line(item));
-    for (const item of state.afterMerge) (merged2 ? afterMergeNow : tally.afterMergeLines).push(line(item));
-    for (const item of [...state.worked, ...state.passedBut]) {
-      tally.passed += 1;
-      if (item.status === "passed") {
-        if (item.textOnly) tally.inTerminal += 1;
-        else tally.onScreen += 1;
-      } else tally.byYou += 1;
-    }
-    for (const item of [...state.needsYou, ...state.afterMerge, ...state.worked, ...state.passedBut]) {
-      if (noted(item)) tally.notedChecks += 1;
-      if (item.status === "passed") tally.proven += 1;
-    }
-  }
-  tally.yours = holds.length + afterMergeNow.length + outside.length;
-  tally.afterMerge = tally.afterMergeLines.length;
-  tally.total = tally.passed + tally.failed + tally.yours + tally.afterMerge;
-  if (holds.length > 0) {
-    tally.yoursGroups.push({
-      key: "holds",
-      title: merged2 ? "Still open" : opts.chain ? "Final test \xB7 holds the merge" : "Before merge",
-      note: null,
-      lines: holds
-    });
-  }
-  if (afterMergeNow.length > 0) {
-    tally.yoursGroups.push({ key: "afterMergeNow", title: "After merge \xB7 now on main", note: null, lines: afterMergeNow });
-  }
-  if (outside.length > 0) {
-    const byHand = outside.every((entry) => entry.item.status === "manual" || /\[manual\]/i.test(entry.item.checklistText));
-    tally.yoursGroups.push({
-      key: "outside",
-      title: byHand ? "By hand" : "In the chain's cards",
-      note: merged2 ? null : NOT_HOLDING_NOTE,
-      lines: outside
-    });
-  }
-  return tally;
-}
-function cardTally(state) {
-  return checkTally([{ state, displayId: null, cardId: null, holdsMerge: true }], state.merged);
-}
-function showYoursGroupTitles(tally) {
-  return tally.yoursGroups.length > 1 || tally.yoursGroups.some((group) => group.key !== "holds");
-}
-function tallyDetailParts(tally) {
-  const parts = [];
-  if (tally.yours > 0) parts.push(`${tally.yours} yours`);
-  if (tally.afterMerge > 0) parts.push(`${tally.afterMerge} after merge`);
-  return parts;
-}
-function tallyEvidence(tally) {
-  if (tally.passed === 0) return null;
-  const kinds = [
-    [tally.onScreen, "on screen"],
-    [tally.inTerminal, "in a terminal"],
-    [tally.byYou, TICKED_BY_YOU]
-  ];
-  const present5 = kinds.filter(([n]) => n > 0);
-  if (present5.length === 1) return `all ${present5[0][1]}`;
-  return present5.map(([n, where]) => `${n} ${where}`).join(", ");
-}
-function tallyCountParts(tally) {
-  return {
-    passed: `${tally.passed} of ${plural3(tally.total, "check")} passed`,
-    evidence: tallyEvidence(tally),
-    failed: tally.failed > 0 ? `${tally.failed} failing` : null
-  };
-}
-function tallyCountLine(tally) {
-  const parts = tallyCountParts(tally);
-  return [parts.passed, parts.evidence, parts.failed].filter(Boolean).join(" \xB7 ");
-}
-function notesTitle(notedChecks) {
-  return notedChecks > 0 ? `Notes on ${plural3(notedChecks, "check")}` : "Notes";
-}
-function chainScopeLine(cards) {
-  return `Chain of ${plural3(cards, "card")} \xB7 newest result of each check`;
-}
-function memberCountLine(tally) {
-  if (tally.total === 0) return "no checklist";
-  const parts = [`${tally.passed} of ${tally.total} passed`];
-  if (tally.failed > 0) parts.push(`${tally.failed} failing`);
-  parts.push(...tallyDetailParts(tally));
-  return parts.join(" \xB7 ");
-}
-
-// ../lib/test-report-state.ts
-var NOT_SEEN_ON_SCREEN = "not seen on screen";
-var PASSED_WITH_NOTES = "Passed with notes";
-var PASSED_TITLE = "Passed";
-var BEFORE_MERGE_TITLE = "Before merge";
-var AFTER_MERGE_TITLE = "After merge";
-function isLanded(card) {
-  if (!card) return false;
-  if (card.gitBranchStatus === "merged") return true;
-  return card.status === "completed" && !card.gitBranchName;
-}
-function afterMergeText(n) {
-  return `${n} after merge`;
-}
-function needsYouTitle(_state) {
-  return YOURS_TITLE;
-}
-function plural4(n, word) {
-  return `${n} ${word}${n === 1 ? "" : "s"}`;
-}
-function formatRunAt(iso) {
-  const date4 = new Date(iso);
-  if (Number.isNaN(date4.getTime())) return iso;
-  return date4.toLocaleString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
-}
-var SCOPE_VERB = {
-  run: "ran",
-  reverify: "re-checked after a fix",
-  single: "verified on screen",
-  retest: "re-tested",
-  text: "ran as text"
-};
-function outcome(items) {
-  const failed = items.filter((item) => item.status === "failed").length;
-  const manual = items.filter((item) => item.status === "manual").length;
-  if (items.length === 0) return "nothing ran";
-  if (failed === 0 && manual === 0) {
-    if (items.length === 1) return "passed";
-    return items.length === 2 ? "both passed" : "all passed";
-  }
-  const parts = [];
-  if (failed > 0) parts.push(`${failed} failed`);
-  if (manual > 0) parts.push(`${manual} manual`);
-  return parts.join(", ");
-}
-function lastRunLine(run2, number3) {
-  const parts = [`#${number3}`, formatRunAt(run2.runAt)];
-  if (run2.platform) parts.push(run2.platform);
-  parts.push(run2.evidence === "visual" ? "Visual" : "Text only, no recording");
-  parts.push(`${SCOPE_VERB[run2.scope]} ${run2.items.length}, ${outcome(run2.items)}`);
-  return parts.join(" \xB7 ");
-}
-function runCodeCaveat(change, runNumber) {
-  if (!change || change.state === "unknown") return null;
-  if (change.state === "changed") {
-    return `Passed before later changes \xB7 ${plural4(change.files.length, "file")} changed since #${runNumber}`;
-  }
-  if (change.uncommitted.length > 0) {
-    const names = change.uncommitted.map((path12) => path12.split("/").pop() ?? path12);
-    const shown = names.slice(0, 3).join(", ");
-    return `Passed with uncommitted code: ${shown}${names.length > 3 ? ` +${names.length - 3}` : ""}`;
-  }
-  return null;
-}
-function runCodeStampLine(run2) {
-  const commit = run2.code?.commit;
-  if (!commit) return "no commit stamp";
-  const dirty = run2.code?.dirtyTotal ?? 0;
-  return dirty > 0 ? `${commit.slice(0, 7)} + ${dirty} uncommitted` : commit.slice(0, 7);
-}
-function cardTestReportState(allRuns, checklistHtml, asOf = 0, codeChanges, opts) {
-  const merged2 = !!opts?.merged;
-  const html = checklistHtml ?? "";
-  const runsAll = allRuns ?? [];
-  const offset = Math.max(0, Math.min(asOf, runsAll.length));
-  const runs = runsAll.slice(offset);
-  const numberOf = (index) => runsAll.length - (index + offset);
-  const ready = readyToMerge({ testScenarios: html, testReports: runs });
-  const latest = latestItemResults(runs, html);
-  const progress = parseTestProgress(html);
-  const textOnly = runs.length > 0 && runs.every((run2) => run2.evidence !== "visual");
-  const problems = [];
-  const needsYou = [];
-  const afterMerge = [];
-  const passedBut = [];
-  const afterMergeKey = (text3) => stripItemTokens(text3).toLowerCase();
-  const afterMergeTexts = new Set(
-    checklistItems(html).filter((item) => !item.checked && !item.core && isAfterMergeItem(item.text)).map((item) => afterMergeKey(item.text))
-  );
-  const isAfterMerge = (text3) => afterMergeTexts.has(afterMergeKey(text3));
-  const worked = [];
-  const runKeys = runs.map(
-    (run2) => run2.items.map((item) => latestItemResults([{ ...run2, items: [item] }], html).keys().next().value ?? null)
-  );
-  const tasks = extractTaskItems(html);
-  const seen = /* @__PURE__ */ new Set();
-  for (const task of tasks) {
-    if (seen.has(task.normalized)) continue;
-    seen.add(task.normalized);
-    const text3 = plainTaskText(task.rawText);
-    const newest = latest.get(task.normalized);
-    if (!newest) {
-      const waits = !task.checked && isAfterMerge(text3);
-      const state2 = {
-        kind: task.checked ? "worked" : waits ? "afterMerge" : "needsYou",
-        checklistText: text3,
-        sentence: stripItemTokens(text3),
-        observed: null,
-        status: null,
-        caveat: null,
-        codeCaveat: null,
-        runNumber: null,
-        runIndex: null,
-        videoAt: null,
-        textOnly: false,
-        history: []
-      };
-      (task.checked ? worked : waits ? afterMerge : needsYou).push(state2);
-      continue;
-    }
-    const { item, run: run2, runIndex } = newest;
-    const history = [];
-    runs.forEach((r, index) => {
-      const hit = r.items.find((_2, itemIndex) => runKeys[index][itemIndex] === task.normalized);
-      if (hit) history.push({ run: numberOf(index), status: hit.status });
-    });
-    history.reverse();
-    const unseen = item.status === "passed" && run2.evidence !== "visual" && isUiItem(text3);
-    const caveat = item.status === "passed" ? item.caveat ?? (unseen ? NOT_SEEN_ON_SCREEN : null) : null;
-    const codeCaveat = item.status === "passed" && !merged2 ? runCodeCaveat(codeChanges?.[run2.id], numberOf(runIndex)) : null;
-    let kind;
-    if (item.status === "failed") kind = "problem";
-    else if (!task.checked) kind = isAfterMerge(text3) ? "afterMerge" : "needsYou";
-    else if (caveat || codeCaveat) kind = "passedBut";
-    else kind = "worked";
-    const state = {
-      kind,
-      checklistText: text3,
-      sentence: item.plainItem ?? stripItemTokens(item.item),
-      observed: item.plainObserved ?? item.observed,
-      status: item.status,
-      ...item.impact ? { impact: item.impact } : {},
-      caveat,
-      codeCaveat,
-      runNumber: numberOf(runIndex),
-      runIndex: runIndex + offset,
-      videoAt: run2.video ? testReportItemVideoAt(item) : null,
-      textOnly: run2.evidence !== "visual",
-      history,
-      result: item
-    };
-    ({ problem: problems, needsYou, afterMerge, passedBut, worked })[kind].push(state);
-  }
-  const passedStates = [...needsYou, ...afterMerge, ...passedBut, ...worked].filter((s) => s.status === "passed");
-  const passed = passedStates.length;
-  const unseenCount = passedStates.filter((s) => s.caveat === NOT_SEEN_ON_SCREEN).length;
-  const left = itemsLeft(progress, { merged: merged2 });
-  const tally = cardTally({ problems, needsYou, afterMerge, passedBut, worked, merged: merged2 });
-  const counts = tallyCountLine(tally);
-  const detail = tallyDetailParts(tally);
-  if (!merged2 && ready.failed > 0) detail.push(`${ready.failed} failed in the last report`);
-  if (!merged2 && ready.noShot > 0) detail.push(`${ready.noShot} [ui] item${ready.noShot === 1 ? " has" : "s have"} no screenshot`);
-  if (!progress) detail.push("no checklist");
-  const runNotes = [];
-  const newestRun = runs[0];
-  if (newestRun) {
-    for (const warning of newestRun.warnings ?? []) runNotes.push(warning);
-    if (!newestRun.checklistApplied && progress) {
-      runNotes.push(
-        `#${numberOf(0)}'s checklist was refused, so Tests still shows ${progress.checked}/${progress.total}`
-      );
-    }
-  }
-  const headlineNote = ready.ok && problems.length > 0 ? `${plural4(problems.length, "failing item")} ${problems.length === 1 ? "is" : "are"} ticked in Tests` : null;
-  return {
-    headline: merged2 ? "Merged" : ready.ok ? "Ready to merge" : "Not ready to merge",
-    merged: merged2,
-    ready,
-    left,
-    headlineDetail: detail.join(" \xB7 "),
-    tally,
-    passed,
-    unseen: unseenCount,
-    counts,
-    failureLine: testReportFailureLine(problems.map((s) => ({ status: "failed", impact: s.impact }))),
-    lastRun: newestRun ? lastRunLine(newestRun, numberOf(0)) : null,
-    textOnly,
-    asOfRun: offset > 0 && newestRun ? numberOf(0) : null,
-    problems,
-    needsYou,
-    afterMerge,
-    passedBut,
-    worked,
-    runNotes,
-    passedButTitle: textOnly && runNotes.length === 0 && passedBut.length > 0 && passedBut.every((p) => p.caveat === NOT_SEEN_ON_SCREEN && !p.codeCaveat) ? "Not seen on screen" : notesTitle(passedBut.length),
-    headlineNote
-  };
-}
-
-// ../lib/card-turn.ts
-function hasOpenBranch(card) {
-  return !!card.gitBranchName && card.gitBranchStatus === "active";
-}
-function runMinutes(startedAt, now) {
-  if (!startedAt) return null;
-  const started = Date.parse(startedAt);
-  if (Number.isNaN(started)) return null;
-  return Math.max(0, Math.floor((now - started) / 6e4));
-}
-function cardTurn(card, ctx) {
-  if (ctx.running) {
-    const minutes = runMinutes(ctx.runStartedAt, ctx.now ?? Date.now());
-    return {
-      who: "ai",
-      label: minutes === null ? "AGENT RUNNING" : `AGENT RUNNING \xB7 ${minutes} MIN`
-    };
-  }
-  if (ctx.session?.phase === "running") return { who: "ai", label: ctx.session.label };
-  if (ctx.session?.phase === "waiting") return { who: "you", label: ctx.session.label };
-  if (ctx.session?.phase === "quiet") return null;
-  if (ctx.chatting && card.status !== "completed" && card.status !== "withdrawn") {
-    return { who: "ai", label: "IDEAFY IS REPLYING" };
-  }
-  if (ctx.heldByCard) return null;
-  if (card.status === "ideation" && card.aiVerdict) {
-    return { who: "you", label: "YOUR DECISION" };
-  }
-  if (card.status === "test" && ctx.testProgress) {
-    if (ctx.testProgress.total === 0) return null;
-    const left = itemsLeft(ctx.testProgress, { merged: isLanded(card) });
-    const onlyManualLeft = !!ctx.ready && ctx.ready.manualLeft > 0 && left === ctx.ready.manualLeft;
-    if (left > 0 && !onlyManualLeft) return { who: "you", label: `YOUR TEST \xB7 ${left} LEFT` };
-    if (ctx.ready && !ctx.ready.ok) return { who: "you", label: `YOUR TEST \xB7 ${ctx.ready.missing[0].toUpperCase()}` };
-    return { who: "you", label: hasOpenBranch(card) ? "READY TO MERGE" : "READY TO COMPLETE" };
-  }
-  return null;
-}
-
 // ../lib/terminal-session-state.ts
 var SESSION_TURN_SILENCE_MS = 5 * 6e4;
 var SESSION_TOOL_SILENCE_MS = 30 * 6e4;
@@ -34232,271 +34564,6 @@ function updateCard(db2, args) {
       placed
     };
   });
-}
-
-// ../lib/roadmap.ts
-var ROADMAP_MAX_FEATURES = 8;
-var ROADMAP_DRAFT_MAX_FEATURES = 6;
-var ROADMAP_MAX_CHAIN_CARDS = 8;
-var ROADMAP_PROMPT_LATER = 5;
-var PROMPT_MAX_LINES = 25;
-var byPosition = (a, b2) => a.position - b2.position;
-var isValidationPhase = (phase) => phase.kind === "validation";
-function deriveFeature(feature, phase, cards, groups) {
-  const base = {
-    id: feature.id,
-    phaseId: feature.phaseId,
-    position: feature.position,
-    name: feature.name,
-    scope: feature.scope,
-    prerequisite: !!feature.prerequisite,
-    state: "not_opened",
-    cardId: feature.cardId,
-    groupId: feature.groupId,
-    missing: null,
-    cards: { total: 0, done: 0, running: 0, yourTurn: 0 },
-    waitsFor: [],
-    checkedAt: feature.checkedAt,
-    checkedBy: feature.checkedBy
-  };
-  if (phase && isValidationPhase(phase)) {
-    return { ...base, state: feature.checkedAt ? "done" : "open" };
-  }
-  if (!feature.cardId && !feature.groupId) return base;
-  let linked;
-  if (feature.cardId) {
-    linked = cards.filter((card) => card.id === feature.cardId);
-    if (linked.length === 0) return { ...base, missing: "card" };
-  } else {
-    const group = groups?.get(feature.groupId);
-    const gone = groups ? !group || !!group.archivedAt : false;
-    linked = gone ? [] : cards.filter((card) => card.groupId === feature.groupId);
-    if (linked.length === 0) return { ...base, missing: "chain" };
-  }
-  const live = linked.filter((card) => card.status !== "withdrawn");
-  if (live.length === 0) return { ...base, state: "dropped" };
-  const done = live.filter((card) => card.status === "completed").length;
-  const running = live.filter((card) => card.status === "progress").length;
-  const yourTurn = live.filter((card) => cardTurn(card, { running: false })?.who === "you").length;
-  return {
-    ...base,
-    state: done === live.length ? "done" : "open",
-    cards: { total: live.length, done, running, yourTurn }
-  };
-}
-var finished = (state) => state === "done" || state === "dropped";
-function deriveRoadmap(roadmap, phases, features, waits, cards, groups) {
-  const groupMap = groups ? new Map(groups.map((group) => [group.id, group])) : null;
-  const phaseById = new Map(phases.map((phase) => [phase.id, phase]));
-  const derived = /* @__PURE__ */ new Map();
-  for (const feature of features) {
-    derived.set(feature.id, deriveFeature(feature, feature.phaseId ? phaseById.get(feature.phaseId) : void 0, cards, groupMap));
-  }
-  for (const wait of waits) {
-    const feature = derived.get(wait.featureId);
-    const target2 = derived.get(wait.waitsForFeatureId);
-    if (!feature || !target2 || finished(target2.state)) continue;
-    feature.waitsFor.push({ id: target2.id, name: target2.name });
-  }
-  const ordered = [...phases].sort((a, b2) => Number(!!a.deferredAt) - Number(!!b2.deferredAt) || byPosition(a, b2));
-  const approved = roadmap.status === "approved";
-  let earlierAllDone = true;
-  let nextTaken = false;
-  const outPhases = ordered.map((phase) => {
-    const own = features.filter((feature) => feature.phaseId === phase.id).sort(byPosition).map((feature) => derived.get(feature.id));
-    const allFinished = own.every((feature) => finished(feature.state));
-    const validation = isValidationPhase(phase);
-    const opened = validation ? approved && !phase.deferredAt && (earlierAllDone || !!phase.openedAt) : !!phase.openedAt;
-    let state;
-    let waitsToOpen = false;
-    if (opened && allFinished && (!validation || own.length > 0)) state = "done";
-    else if (opened) state = "open";
-    else if (phase.deferredAt) state = "later";
-    else if (!nextTaken) {
-      state = "next";
-      nextTaken = true;
-      waitsToOpen = approved && earlierAllDone;
-    } else state = "later";
-    if (state !== "done") earlierAllDone = false;
-    return {
-      id: phase.id,
-      position: phase.position,
-      name: phase.name,
-      goal: phase.goal,
-      kind: phase.kind,
-      state,
-      openedAt: phase.openedAt,
-      deferredAt: phase.deferredAt,
-      waitsToOpen,
-      features: own,
-      done: own.filter((feature) => finished(feature.state)).length,
-      total: own.length
-    };
-  });
-  const open = outPhases.find((phase) => phase.state === "open") ?? null;
-  const next = outPhases.find((phase) => phase.state === "next") ?? null;
-  return {
-    id: roadmap.id,
-    projectId: roadmap.projectId,
-    status: roadmap.status,
-    approvedAt: roadmap.approvedAt,
-    updatedAt: roadmap.updatedAt,
-    phases: outPhases,
-    later: features.filter((feature) => !feature.phaseId).sort(byPosition).map((feature) => derived.get(feature.id)),
-    openPhaseId: open?.id ?? null,
-    nextPhaseId: next?.id ?? null,
-    strip: (open?.features ?? []).slice(0, ROADMAP_MAX_FEATURES).map((feature) => ({
-      featureId: feature.id,
-      name: feature.name,
-      state: feature.state,
-      done: isValidationPhase(open) ? Number(feature.state === "done") : feature.cards.done,
-      running: feature.cards.running,
-      total: isValidationPhase(open) ? 1 : feature.cards.total
-    }))
-  };
-}
-function validateRoadmap(phases, features, waits, opts = {}) {
-  const max = opts.maxFeatures ?? ROADMAP_MAX_FEATURES;
-  const phaseById = new Map(phases.map((phase) => [phase.id, phase]));
-  const featureById = new Map(features.map((feature) => [feature.id, feature]));
-  for (const phase of phases) {
-    if (!phase.name.trim()) return "A phase needs a name.";
-    const count = features.filter((feature) => feature.phaseId === phase.id).length;
-    if (count > max) {
-      return `Phase "${phase.name}" would hold ${count} features; a phase holds at most ${max}. Put it in the next phase or in Later.`;
-    }
-  }
-  for (const feature of features) {
-    if (!feature.name.trim()) return "A feature needs a name.";
-    if (feature.phaseId && !phaseById.has(feature.phaseId)) return `Feature "${feature.name}" names a phase that is not on this roadmap.`;
-    if (feature.cardId && feature.groupId) {
-      return `Feature "${feature.name}" is linked to a card and a chain; a feature is one card or one chain, never both.`;
-    }
-    const phase = feature.phaseId ? phaseById.get(feature.phaseId) : void 0;
-    if ((feature.cardId || feature.groupId) && (!phase || isValidationPhase(phase))) {
-      return phase ? `"${feature.name}" is a validation line; validation lines are ticked, they open no card.` : `"${feature.name}" is a Later line; a Later line opens no card until it is in a phase.`;
-    }
-  }
-  const edges = /* @__PURE__ */ new Map();
-  for (const wait of waits) {
-    const from = featureById.get(wait.featureId);
-    const to = featureById.get(wait.waitsForFeatureId);
-    if (!from || !to) return "A feature waits for a feature that is not on this roadmap.";
-    if (from.id === to.id) return `Feature "${from.name}" cannot wait for itself.`;
-    if (!from.phaseId || from.phaseId !== to.phaseId) {
-      return `"${from.name}" cannot wait for "${to.name}": a feature waits only for a feature of its own phase.`;
-    }
-    edges.set(from.id, [...edges.get(from.id) ?? [], to.id]);
-  }
-  const seen = /* @__PURE__ */ new Map();
-  const loops = (id) => {
-    if (seen.get(id) === 1) return true;
-    if (seen.get(id) === 2) return false;
-    seen.set(id, 1);
-    for (const to of edges.get(id) ?? []) if (loops(to)) return true;
-    seen.set(id, 2);
-    return false;
-  };
-  for (const id of edges.keys()) {
-    if (loops(id)) return `"${featureById.get(id)?.name}" is in a waiting loop: features must not wait for each other in a circle.`;
-  }
-  return null;
-}
-var ROADMAP_PLACEMENT_KINDS = ["in_open_phase", "next_phase", "later", "conflicts", "new_item"];
-function parseStoredPlacement(raw) {
-  if (!raw) return null;
-  try {
-    const value = JSON.parse(raw);
-    if (!value || !ROADMAP_PLACEMENT_KINDS.includes(value.kind)) return null;
-    return {
-      kind: value.kind,
-      phaseId: value.phaseId ?? null,
-      featureId: value.featureId ?? null,
-      note: typeof value.note === "string" ? value.note : "",
-      at: typeof value.at === "string" ? value.at : ""
-    };
-  } catch {
-    return null;
-  }
-}
-function placementOf(roadmap, card) {
-  const all = [...roadmap.phases.flatMap((phase) => phase.features), ...roadmap.later];
-  const phaseName = (id) => roadmap.phases.find((phase) => phase.id === id)?.name ?? null;
-  const linked = all.find(
-    (feature2) => feature2.cardId === card.id || !!card.groupId && feature2.groupId === card.groupId
-  );
-  if (linked) {
-    return {
-      kind: "feature",
-      phaseId: linked.phaseId,
-      phaseName: phaseName(linked.phaseId),
-      featureId: linked.id,
-      featureName: linked.name,
-      note: null,
-      at: null
-    };
-  }
-  const stored = parseStoredPlacement(card.roadmapPlacement);
-  if (!stored) {
-    return { kind: "not_checked", phaseId: null, phaseName: null, featureId: null, featureName: null, note: null, at: null };
-  }
-  const feature = stored.featureId ? all.find((item) => item.id === stored.featureId) : void 0;
-  const phaseId = feature?.phaseId ?? stored.phaseId ?? null;
-  return {
-    kind: stored.kind,
-    phaseId: phaseName(phaseId) ? phaseId : null,
-    phaseName: phaseName(phaseId),
-    featureId: feature?.id ?? null,
-    featureName: feature?.name ?? null,
-    note: stored.note || null,
-    at: stored.at || null
-  };
-}
-var PLACEMENT_WORDS = {
-  feature: "opened as the feature",
-  not_checked: "not placed on the roadmap yet",
-  in_open_phase: "covered by the open phase",
-  next_phase: "belongs to a coming phase",
-  later: "a Later line",
-  conflicts: "conflicts with the roadmap",
-  new_item: "a new item, not on the roadmap"
-};
-function featureLine(feature, validation) {
-  const state = validation ? feature.state === "done" ? "ticked" : "not ticked" : feature.state === "open" ? `open, ${feature.cards.done}/${feature.cards.total} cards done` : feature.state.replace("_", " ");
-  const waits = feature.waitsFor.length ? `, waits for ${feature.waitsFor.map((item) => item.name).join(", ")}` : "";
-  return `- ${feature.name} (${state}${waits})`;
-}
-function roadmapPromptSection(roadmap, placement) {
-  if (!roadmap || roadmap.status !== "approved") return "";
-  const lines2 = [];
-  const open = roadmap.phases.find((phase) => phase.id === roadmap.openPhaseId);
-  const next = roadmap.phases.find((phase) => phase.id === roadmap.nextPhaseId);
-  if (open) {
-    lines2.push(`Open phase: ${open.name} (${open.done}/${open.total} done)${open.goal ? `: ${open.goal}` : ""}`);
-    for (const feature of open.features) lines2.push(featureLine(feature, isValidationPhase(open)));
-  } else {
-    lines2.push("Open phase: none.");
-  }
-  if (next) {
-    const names = next.features.map((feature) => feature.name).join(", ");
-    lines2.push(`Next phase${next.waitsToOpen ? " (waits to open)" : ""}: ${next.name}${names ? `: ${names}` : ""}`);
-  }
-  const laterPhases = roadmap.phases.filter((phase) => phase.state === "later");
-  if (laterPhases.length) lines2.push(`Later phases: ${laterPhases.map((phase) => phase.name).join(", ")}`);
-  if (roadmap.later.length) {
-    const shown = roadmap.later.slice(0, ROADMAP_PROMPT_LATER).map((feature) => feature.name);
-    const more = roadmap.later.length - shown.length;
-    lines2.push(`Later: ${shown.join(", ")}${more > 0 ? `, +${more} more` : ""}`);
-  }
-  if (placement) {
-    const where = [placement.phaseName, placement.featureName].filter(Boolean).join(" \xB7 ");
-    lines2.push(
-      `This card: ${PLACEMENT_WORDS[placement.kind]}${where ? ` (${where})` : ""}${placement.note ? `. ${placement.note}` : ""}`
-    );
-  }
-  const body = lines2.length > PROMPT_MAX_LINES ? [...lines2.slice(0, PROMPT_MAX_LINES - 1), "\u2026"] : lines2;
-  return `## Roadmap
-${body.join("\n")}`;
 }
 
 // ../lib/card-ops/roadmap.ts
@@ -39915,6 +39982,7 @@ var { shouldUseWorktree: shouldUseWorktree2, resolveEffectiveWorktree: resolveEf
 var { COLUMNS: COLUMNS2, formatDisplayId: formatDisplayId2 } = unwrap(types_exports);
 var { stopProcessGroup: stopProcessGroup2 } = unwrap(process_group_exports);
 var { integrationSuggestion: integrationSuggestion2, splitProposalAsk: splitProposalAsk2, canStillBreakUp: canStillBreakUp2 } = unwrap(split_proposal_exports);
+var { roadmapGenerationGuide: roadmapGenerationGuide2 } = unwrap(roadmap_generate_exports);
 
 // db.ts
 var MIN_NODE = [22, 5];
@@ -40341,7 +40409,7 @@ function roadmapTool(db2, name, args) {
   try {
     if (name === "get_roadmap") {
       const roadmap2 = getRoadmap2(db2, projectId2);
-      return roadmap2 ? text2(JSON.stringify(roadmap2, null, 2)) : text2("This project has no roadmap yet.");
+      return roadmap2 ? text2(JSON.stringify(roadmap2, null, 2)) : text2(roadmapGenerationGuide2());
     }
     if (name === "save_roadmap") {
       const roadmap2 = saveRoadmapDraft2(db2, {
