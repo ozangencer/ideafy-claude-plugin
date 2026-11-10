@@ -15,9 +15,9 @@ var __export = (target2, all) => {
 };
 var __copyProps = (to, from, except, desc) => {
   if (from && typeof from === "object" || typeof from === "function") {
-    for (let key of __getOwnPropNames(from))
-      if (!__hasOwnProp.call(to, key) && key !== except)
-        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+    for (let key2 of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key2) && key2 !== except)
+        __defProp(to, key2, { get: () => from[key2], enumerable: !(desc = __getOwnPropDesc(from, key2)) || desc.enumerable });
   }
   return to;
 };
@@ -166,15 +166,15 @@ var require_code = __commonJS({
       return JSON.stringify(x2).replace(/\u2028/g, "\\u2028").replace(/\u2029/g, "\\u2029");
     }
     exports.safeStringify = safeStringify;
-    function getProperty(key) {
-      return typeof key == "string" && exports.IDENTIFIER.test(key) ? new _Code(`.${key}`) : _2`[${key}]`;
+    function getProperty(key2) {
+      return typeof key2 == "string" && exports.IDENTIFIER.test(key2) ? new _Code(`.${key2}`) : _2`[${key2}]`;
     }
     exports.getProperty = getProperty;
-    function getEsmExportName(key) {
-      if (typeof key == "string" && exports.IDENTIFIER.test(key)) {
-        return new _Code(`${key}`);
+    function getEsmExportName(key2) {
+      if (typeof key2 == "string" && exports.IDENTIFIER.test(key2)) {
+        return new _Code(`${key2}`);
       }
-      throw new Error(`CodeGen: invalid export name: ${key}, use explicit $id name mapping`);
+      throw new Error(`CodeGen: invalid export name: ${key2}, use explicit $id name mapping`);
     }
     exports.getEsmExportName = getEsmExportName;
     function regexpCode(rx) {
@@ -801,11 +801,11 @@ var require_codegen = __commonJS({
       // returns code for object literal for the passed argument list of key-value pairs
       object(...keyValues) {
         const code = ["{"];
-        for (const [key, value] of keyValues) {
+        for (const [key2, value] of keyValues) {
           if (code.length > 1)
             code.push(",");
-          code.push(key);
-          if (key !== value || this.opts.es5) {
+          code.push(key2);
+          if (key2 !== value || this.opts.es5) {
             code.push(":");
             (0, code_1.addCodeArg)(code, value);
           }
@@ -1080,17 +1080,17 @@ var require_util = __commonJS({
       if (typeof schema === "boolean")
         return;
       const rules = self.RULES.keywords;
-      for (const key in schema) {
-        if (!rules[key])
-          checkStrictMode(it, `unknown keyword: "${key}"`);
+      for (const key2 in schema) {
+        if (!rules[key2])
+          checkStrictMode(it, `unknown keyword: "${key2}"`);
       }
     }
     exports.checkUnknownRules = checkUnknownRules;
     function schemaHasRules(schema, rules) {
       if (typeof schema == "boolean")
         return !schema;
-      for (const key in schema)
-        if (rules[key])
+      for (const key2 in schema)
+        if (rules[key2])
           return true;
       return false;
     }
@@ -1098,8 +1098,8 @@ var require_util = __commonJS({
     function schemaHasRulesButRef(schema, RULES) {
       if (typeof schema == "boolean")
         return !schema;
-      for (const key in schema)
-        if (key !== "$ref" && RULES.all[key])
+      for (const key2 in schema)
+        if (key2 !== "$ref" && RULES.all[key2])
           return true;
       return false;
     }
@@ -1677,8 +1677,8 @@ var require_defaults = __commonJS({
     function assignDefaults(it, ty) {
       const { properties, items } = it.schema;
       if (ty === "object" && properties) {
-        for (const key in properties) {
-          assignDefault(it, key, properties[key].default);
+        for (const key2 in properties) {
+          assignDefault(it, key2, properties[key2].default);
         }
       } else if (ty === "array" && Array.isArray(items)) {
         items.forEach((sch, i) => assignDefault(it, i, sch.default));
@@ -2062,8 +2062,8 @@ var require_fast_deep_equal = __commonJS({
         for (i = length; i-- !== 0; )
           if (!Object.prototype.hasOwnProperty.call(b2, keys[i])) return false;
         for (i = length; i-- !== 0; ) {
-          var key = keys[i];
-          if (!equal(a[key], b2[key])) return false;
+          var key2 = keys[i];
+          if (!equal(a[key2], b2[key2])) return false;
         }
         return true;
       }
@@ -2135,20 +2135,20 @@ var require_json_schema_traverse = __commonJS({
     function _traverse(opts, pre, post, schema, jsonPtr, rootSchema, parentJsonPtr, parentKeyword, parentSchema, keyIndex) {
       if (schema && typeof schema == "object" && !Array.isArray(schema)) {
         pre(schema, jsonPtr, rootSchema, parentJsonPtr, parentKeyword, parentSchema, keyIndex);
-        for (var key in schema) {
-          var sch = schema[key];
+        for (var key2 in schema) {
+          var sch = schema[key2];
           if (Array.isArray(sch)) {
-            if (key in traverse.arrayKeywords) {
+            if (key2 in traverse.arrayKeywords) {
               for (var i = 0; i < sch.length; i++)
-                _traverse(opts, pre, post, sch[i], jsonPtr + "/" + key + "/" + i, rootSchema, jsonPtr, key, schema, i);
+                _traverse(opts, pre, post, sch[i], jsonPtr + "/" + key2 + "/" + i, rootSchema, jsonPtr, key2, schema, i);
             }
-          } else if (key in traverse.propsKeywords) {
+          } else if (key2 in traverse.propsKeywords) {
             if (sch && typeof sch == "object") {
               for (var prop in sch)
-                _traverse(opts, pre, post, sch[prop], jsonPtr + "/" + key + "/" + escapeJsonPtr(prop), rootSchema, jsonPtr, key, schema, prop);
+                _traverse(opts, pre, post, sch[prop], jsonPtr + "/" + key2 + "/" + escapeJsonPtr(prop), rootSchema, jsonPtr, key2, schema, prop);
             }
-          } else if (key in traverse.keywords || opts.allKeys && !(key in traverse.skipKeywords)) {
-            _traverse(opts, pre, post, sch, jsonPtr + "/" + key, rootSchema, jsonPtr, key, schema);
+          } else if (key2 in traverse.keywords || opts.allKeys && !(key2 in traverse.skipKeywords)) {
+            _traverse(opts, pre, post, sch, jsonPtr + "/" + key2, rootSchema, jsonPtr, key2, schema);
           }
         }
         post(schema, jsonPtr, rootSchema, parentJsonPtr, parentKeyword, parentSchema, keyIndex);
@@ -2205,10 +2205,10 @@ var require_resolve = __commonJS({
       "$dynamicAnchor"
     ]);
     function hasRef(schema) {
-      for (const key in schema) {
-        if (REF_KEYWORDS.has(key))
+      for (const key2 in schema) {
+        if (REF_KEYWORDS.has(key2))
           return true;
-        const sch = schema[key];
+        const sch = schema[key2];
         if (Array.isArray(sch) && sch.some(hasRef))
           return true;
         if (typeof sch == "object" && hasRef(sch))
@@ -2218,14 +2218,14 @@ var require_resolve = __commonJS({
     }
     function countKeys(schema) {
       let count = 0;
-      for (const key in schema) {
-        if (key === "$ref")
+      for (const key2 in schema) {
+        if (key2 === "$ref")
           return Infinity;
         count++;
-        if (SIMPLE_INLINED.has(key))
+        if (SIMPLE_INLINED.has(key2))
           continue;
-        if (typeof schema[key] == "object") {
-          (0, util_1.eachItem)(schema[key], (sch) => count += countKeys(sch));
+        if (typeof schema[key2] == "object") {
+          (0, util_1.eachItem)(schema[key2], (sch) => count += countKeys(sch));
         }
         if (count === Infinity)
           return Infinity;
@@ -2414,8 +2414,8 @@ var require_validate = __commonJS({
     function schemaCxtHasRules({ schema, self }) {
       if (typeof schema == "boolean")
         return !schema;
-      for (const key in schema)
-        if (self.RULES.all[key])
+      for (const key2 in schema)
+        if (self.RULES.all[key2])
           return true;
       return false;
     }
@@ -4057,7 +4057,7 @@ var require_core = __commonJS({
         }
       }
       // Adds schema to the instance
-      addSchema(schema, key, _meta, _validateSchema = this.opts.validateSchema) {
+      addSchema(schema, key2, _meta, _validateSchema = this.opts.validateSchema) {
         if (Array.isArray(schema)) {
           for (const sch of schema)
             this.addSchema(sch, void 0, _meta, _validateSchema);
@@ -4071,15 +4071,15 @@ var require_core = __commonJS({
             throw new Error(`schema ${schemaId} must be string`);
           }
         }
-        key = (0, resolve_1.normalizeId)(key || id);
-        this._checkUnique(key);
-        this.schemas[key] = this._addSchema(schema, _meta, key, _validateSchema, true);
+        key2 = (0, resolve_1.normalizeId)(key2 || id);
+        this._checkUnique(key2);
+        this.schemas[key2] = this._addSchema(schema, _meta, key2, _validateSchema, true);
         return this;
       }
       // Add schema that will be used to validate other schemas
       // options in META_IGNORE_OPTIONS are alway set to false
-      addMetaSchema(schema, key, _validateSchema = this.opts.validateSchema) {
-        this.addSchema(schema, key, true, _validateSchema);
+      addMetaSchema(schema, key2, _validateSchema = this.opts.validateSchema) {
+        this.addSchema(schema, key2, true, _validateSchema);
         return this;
       }
       //  Validate schema against its meta-schema
@@ -4225,7 +4225,7 @@ var require_core = __commonJS({
       errorsText(errors = this.errors, { separator = ", ", dataVar = "data" } = {}) {
         if (!errors || errors.length === 0)
           return "No errors";
-        return errors.map((e) => `${dataVar}${e.instancePath} ${e.message}`).reduce((text3, msg) => text3 + separator + msg);
+        return errors.map((e) => `${dataVar}${e.instancePath} ${e.message}`).reduce((text4, msg) => text4 + separator + msg);
       }
       $dataMetaSchema(metaSchema, keywordsJsonPointers) {
         const rules = this.RULES.all;
@@ -4235,14 +4235,14 @@ var require_core = __commonJS({
           let keywords = metaSchema;
           for (const seg of segments)
             keywords = keywords[seg];
-          for (const key in rules) {
-            const rule = rules[key];
+          for (const key2 in rules) {
+            const rule = rules[key2];
             if (typeof rule != "object")
               continue;
             const { $data } = rule.definition;
-            const schema = keywords[key];
+            const schema = keywords[key2];
             if ($data && schema)
-              keywords[key] = schemaOrData(schema);
+              keywords[key2] = schemaOrData(schema);
           }
         }
         return metaSchema;
@@ -4315,10 +4315,10 @@ var require_core = __commonJS({
     Ajv2.MissingRefError = ref_error_1.default;
     exports.default = Ajv2;
     function checkOptions(checkOpts, options, msg, log = "error") {
-      for (const key in checkOpts) {
-        const opt = key;
+      for (const key2 in checkOpts) {
+        const opt = key2;
         if (opt in options)
-          this.logger[log](`${msg}: option ${key}. ${checkOpts[opt]}`);
+          this.logger[log](`${msg}: option ${key2}. ${checkOpts[opt]}`);
       }
     }
     function getSchEnv(keyRef) {
@@ -4332,8 +4332,8 @@ var require_core = __commonJS({
       if (Array.isArray(optsSchemas))
         this.addSchema(optsSchemas);
       else
-        for (const key in optsSchemas)
-          this.addSchema(optsSchemas[key], key);
+        for (const key2 in optsSchemas)
+          this.addSchema(optsSchemas[key2], key2);
     }
     function addInitialFormats() {
       for (const name in this.opts.formats) {
@@ -5381,11 +5381,11 @@ var require_dependencies = __commonJS({
     function splitDependencies({ schema }) {
       const propertyDeps = {};
       const schemaDeps = {};
-      for (const key in schema) {
-        if (key === "__proto__")
+      for (const key2 in schema) {
+        if (key2 === "__proto__")
           continue;
-        const deps = Array.isArray(schema[key]) ? propertyDeps : schemaDeps;
-        deps[key] = schema[key];
+        const deps = Array.isArray(schema[key2]) ? propertyDeps : schemaDeps;
+        deps[key2] = schema[key2];
       }
       return [propertyDeps, schemaDeps];
     }
@@ -5462,13 +5462,13 @@ var require_propertyNames = __commonJS({
         if ((0, util_1.alwaysValidSchema)(it, schema))
           return;
         const valid = gen.name("valid");
-        gen.forIn("key", data, (key) => {
-          cxt.setParams({ propertyName: key });
+        gen.forIn("key", data, (key2) => {
+          cxt.setParams({ propertyName: key2 });
           cxt.subschema({
             keyword: "propertyNames",
-            data: key,
+            data: key2,
             dataTypes: ["string"],
-            propertyName: key,
+            propertyName: key2,
             compositeRule: true
           }, valid);
           gen.if((0, codegen_1.not)(valid), () => {
@@ -5517,38 +5517,38 @@ var require_additionalProperties = __commonJS({
         checkAdditionalProperties();
         cxt.ok((0, codegen_1._)`${errsCount} === ${names_1.default.errors}`);
         function checkAdditionalProperties() {
-          gen.forIn("key", data, (key) => {
+          gen.forIn("key", data, (key2) => {
             if (!props.length && !patProps.length)
-              additionalPropertyCode(key);
+              additionalPropertyCode(key2);
             else
-              gen.if(isAdditional(key), () => additionalPropertyCode(key));
+              gen.if(isAdditional(key2), () => additionalPropertyCode(key2));
           });
         }
-        function isAdditional(key) {
+        function isAdditional(key2) {
           let definedProp;
           if (props.length > 8) {
             const propsSchema = (0, util_1.schemaRefOrVal)(it, parentSchema.properties, "properties");
-            definedProp = (0, code_1.isOwnProperty)(gen, propsSchema, key);
+            definedProp = (0, code_1.isOwnProperty)(gen, propsSchema, key2);
           } else if (props.length) {
-            definedProp = (0, codegen_1.or)(...props.map((p) => (0, codegen_1._)`${key} === ${p}`));
+            definedProp = (0, codegen_1.or)(...props.map((p) => (0, codegen_1._)`${key2} === ${p}`));
           } else {
             definedProp = codegen_1.nil;
           }
           if (patProps.length) {
-            definedProp = (0, codegen_1.or)(definedProp, ...patProps.map((p) => (0, codegen_1._)`${(0, code_1.usePattern)(cxt, p)}.test(${key})`));
+            definedProp = (0, codegen_1.or)(definedProp, ...patProps.map((p) => (0, codegen_1._)`${(0, code_1.usePattern)(cxt, p)}.test(${key2})`));
           }
           return (0, codegen_1.not)(definedProp);
         }
-        function deleteAdditional(key) {
-          gen.code((0, codegen_1._)`delete ${data}[${key}]`);
+        function deleteAdditional(key2) {
+          gen.code((0, codegen_1._)`delete ${data}[${key2}]`);
         }
-        function additionalPropertyCode(key) {
+        function additionalPropertyCode(key2) {
           if (opts.removeAdditional === "all" || opts.removeAdditional && schema === false) {
-            deleteAdditional(key);
+            deleteAdditional(key2);
             return;
           }
           if (schema === false) {
-            cxt.setParams({ additionalProperty: key });
+            cxt.setParams({ additionalProperty: key2 });
             cxt.error();
             if (!allErrors)
               gen.break();
@@ -5557,22 +5557,22 @@ var require_additionalProperties = __commonJS({
           if (typeof schema == "object" && !(0, util_1.alwaysValidSchema)(it, schema)) {
             const valid = gen.name("valid");
             if (opts.removeAdditional === "failing") {
-              applyAdditionalSchema(key, valid, false);
+              applyAdditionalSchema(key2, valid, false);
               gen.if((0, codegen_1.not)(valid), () => {
                 cxt.reset();
-                deleteAdditional(key);
+                deleteAdditional(key2);
               });
             } else {
-              applyAdditionalSchema(key, valid);
+              applyAdditionalSchema(key2, valid);
               if (!allErrors)
                 gen.if((0, codegen_1.not)(valid), () => gen.break());
             }
           }
         }
-        function applyAdditionalSchema(key, valid, errors) {
+        function applyAdditionalSchema(key2, valid, errors) {
           const subschema = {
             keyword: "additionalProperties",
-            dataProp: key,
+            dataProp: key2,
             dataPropType: util_1.Type.Str
           };
           if (errors === false) {
@@ -5697,19 +5697,19 @@ var require_patternProperties = __commonJS({
           }
         }
         function validateProperties(pat) {
-          gen.forIn("key", data, (key) => {
-            gen.if((0, codegen_1._)`${(0, code_1.usePattern)(cxt, pat)}.test(${key})`, () => {
+          gen.forIn("key", data, (key2) => {
+            gen.if((0, codegen_1._)`${(0, code_1.usePattern)(cxt, pat)}.test(${key2})`, () => {
               const alwaysValid = alwaysValidPatterns.includes(pat);
               if (!alwaysValid) {
                 cxt.subschema({
                   keyword: "patternProperties",
                   schemaProp: pat,
-                  dataProp: key,
+                  dataProp: key2,
                   dataPropType: util_2.Type.Str
                 }, valid);
               }
               if (it.opts.unevaluated && props !== true) {
-                gen.assign((0, codegen_1._)`${props}[${key}]`, true);
+                gen.assign((0, codegen_1._)`${props}[${key2}]`, true);
               } else if (!alwaysValid && !it.allErrors) {
                 gen.if((0, codegen_1.not)(valid), () => gen.break());
               }
@@ -6773,8 +6773,8 @@ var require_dist = __commonJS({
         return ajv;
       }
       const [formats, exportName] = opts.mode === "fast" ? [formats_1.fastFormats, fastName] : [formats_1.fullFormats, fullName];
-      const list = opts.formats || formats_1.formatNames;
-      addFormats(ajv, list, formats, exportName);
+      const list2 = opts.formats || formats_1.formatNames;
+      addFormats(ajv, list2, formats, exportName);
       if (opts.keywords)
         (0, limit_1.default)(ajv);
       return ajv;
@@ -6786,11 +6786,11 @@ var require_dist = __commonJS({
         throw new Error(`Unknown format "${name}"`);
       return f;
     };
-    function addFormats(ajv, list, fs, exportName) {
+    function addFormats(ajv, list2, fs, exportName) {
       var _a2;
       var _b;
       (_a2 = (_b = ajv.opts.code).formats) !== null && _a2 !== void 0 ? _a2 : _b.formats = (0, codegen_1._)`require("ajv-formats/dist/formats").${exportName}`;
-      for (const f of list)
+      for (const f of list2)
         ajv.addFormat(f, fs[f]);
     }
     module.exports = exports = formatsPlugin;
@@ -6833,9 +6833,9 @@ var util;
   };
   util2.objectKeys = typeof Object.keys === "function" ? (obj) => Object.keys(obj) : (object3) => {
     const keys = [];
-    for (const key in object3) {
-      if (Object.prototype.hasOwnProperty.call(object3, key)) {
-        keys.push(key);
+    for (const key2 in object3) {
+      if (Object.prototype.hasOwnProperty.call(object3, key2)) {
+        keys.push(key2);
       }
     }
     return keys;
@@ -7227,10 +7227,10 @@ var ParseStatus = class _ParseStatus {
   static async mergeObjectAsync(status, pairs) {
     const syncPairs = [];
     for (const pair of pairs) {
-      const key = await pair.key;
+      const key2 = await pair.key;
       const value = await pair.value;
       syncPairs.push({
-        key,
+        key: key2,
         value
       });
     }
@@ -7239,17 +7239,17 @@ var ParseStatus = class _ParseStatus {
   static mergeObjectSync(status, pairs) {
     const finalObject = {};
     for (const pair of pairs) {
-      const { key, value } = pair;
-      if (key.status === "aborted")
+      const { key: key2, value } = pair;
+      if (key2.status === "aborted")
         return INVALID;
       if (value.status === "aborted")
         return INVALID;
-      if (key.status === "dirty")
+      if (key2.status === "dirty")
         status.dirty();
       if (value.status === "dirty")
         status.dirty();
-      if (key.value !== "__proto__" && (typeof value.value !== "undefined" || pair.alwaysSet)) {
-        finalObject[key.value] = value.value;
+      if (key2.value !== "__proto__" && (typeof value.value !== "undefined" || pair.alwaysSet)) {
+        finalObject[key2.value] = value.value;
       }
     }
     return { status: status.value, value: finalObject };
@@ -7274,12 +7274,12 @@ var errorUtil;
 
 // node_modules/zod/v3/types.js
 var ParseInputLazyPath = class {
-  constructor(parent, value, path12, key) {
+  constructor(parent, value, path12, key2) {
     this._cachedPath = [];
     this.parent = parent;
     this.data = value;
     this._path = path12;
-    this._key = key;
+    this._key = key2;
   }
   get path() {
     if (!this._cachedPath.length) {
@@ -9024,9 +9024,9 @@ ZodArray.create = (schema, params) => {
 function deepPartialify(schema) {
   if (schema instanceof ZodObject) {
     const newShape = {};
-    for (const key in schema.shape) {
-      const fieldSchema = schema.shape[key];
-      newShape[key] = ZodOptional.create(deepPartialify(fieldSchema));
+    for (const key2 in schema.shape) {
+      const fieldSchema = schema.shape[key2];
+      newShape[key2] = ZodOptional.create(deepPartialify(fieldSchema));
     }
     return new ZodObject({
       ...schema._def,
@@ -9077,29 +9077,29 @@ var ZodObject = class _ZodObject extends ZodType {
     const { shape, keys: shapeKeys } = this._getCached();
     const extraKeys = [];
     if (!(this._def.catchall instanceof ZodNever && this._def.unknownKeys === "strip")) {
-      for (const key in ctx.data) {
-        if (!shapeKeys.includes(key)) {
-          extraKeys.push(key);
+      for (const key2 in ctx.data) {
+        if (!shapeKeys.includes(key2)) {
+          extraKeys.push(key2);
         }
       }
     }
     const pairs = [];
-    for (const key of shapeKeys) {
-      const keyValidator = shape[key];
-      const value = ctx.data[key];
+    for (const key2 of shapeKeys) {
+      const keyValidator = shape[key2];
+      const value = ctx.data[key2];
       pairs.push({
-        key: { status: "valid", value: key },
-        value: keyValidator._parse(new ParseInputLazyPath(ctx, value, ctx.path, key)),
-        alwaysSet: key in ctx.data
+        key: { status: "valid", value: key2 },
+        value: keyValidator._parse(new ParseInputLazyPath(ctx, value, ctx.path, key2)),
+        alwaysSet: key2 in ctx.data
       });
     }
     if (this._def.catchall instanceof ZodNever) {
       const unknownKeys = this._def.unknownKeys;
       if (unknownKeys === "passthrough") {
-        for (const key of extraKeys) {
+        for (const key2 of extraKeys) {
           pairs.push({
-            key: { status: "valid", value: key },
-            value: { status: "valid", value: ctx.data[key] }
+            key: { status: "valid", value: key2 },
+            value: { status: "valid", value: ctx.data[key2] }
           });
         }
       } else if (unknownKeys === "strict") {
@@ -9116,15 +9116,15 @@ var ZodObject = class _ZodObject extends ZodType {
       }
     } else {
       const catchall = this._def.catchall;
-      for (const key of extraKeys) {
-        const value = ctx.data[key];
+      for (const key2 of extraKeys) {
+        const value = ctx.data[key2];
         pairs.push({
-          key: { status: "valid", value: key },
+          key: { status: "valid", value: key2 },
           value: catchall._parse(
-            new ParseInputLazyPath(ctx, value, ctx.path, key)
+            new ParseInputLazyPath(ctx, value, ctx.path, key2)
             //, ctx.child(key), value, getParsedType(value)
           ),
-          alwaysSet: key in ctx.data
+          alwaysSet: key2 in ctx.data
         });
       }
     }
@@ -9132,10 +9132,10 @@ var ZodObject = class _ZodObject extends ZodType {
       return Promise.resolve().then(async () => {
         const syncPairs = [];
         for (const pair of pairs) {
-          const key = await pair.key;
+          const key2 = await pair.key;
           const value = await pair.value;
           syncPairs.push({
-            key,
+            key: key2,
             value,
             alwaysSet: pair.alwaysSet
           });
@@ -9260,8 +9260,8 @@ var ZodObject = class _ZodObject extends ZodType {
   //   }) as any;
   //   return merged;
   // }
-  setKey(key, schema) {
-    return this.augment({ [key]: schema });
+  setKey(key2, schema) {
+    return this.augment({ [key2]: schema });
   }
   // merge<Incoming extends AnyZodObject>(
   //   merging: Incoming
@@ -9292,9 +9292,9 @@ var ZodObject = class _ZodObject extends ZodType {
   }
   pick(mask) {
     const shape = {};
-    for (const key of util.objectKeys(mask)) {
-      if (mask[key] && this.shape[key]) {
-        shape[key] = this.shape[key];
+    for (const key2 of util.objectKeys(mask)) {
+      if (mask[key2] && this.shape[key2]) {
+        shape[key2] = this.shape[key2];
       }
     }
     return new _ZodObject({
@@ -9304,9 +9304,9 @@ var ZodObject = class _ZodObject extends ZodType {
   }
   omit(mask) {
     const shape = {};
-    for (const key of util.objectKeys(this.shape)) {
-      if (!mask[key]) {
-        shape[key] = this.shape[key];
+    for (const key2 of util.objectKeys(this.shape)) {
+      if (!mask[key2]) {
+        shape[key2] = this.shape[key2];
       }
     }
     return new _ZodObject({
@@ -9322,12 +9322,12 @@ var ZodObject = class _ZodObject extends ZodType {
   }
   partial(mask) {
     const newShape = {};
-    for (const key of util.objectKeys(this.shape)) {
-      const fieldSchema = this.shape[key];
-      if (mask && !mask[key]) {
-        newShape[key] = fieldSchema;
+    for (const key2 of util.objectKeys(this.shape)) {
+      const fieldSchema = this.shape[key2];
+      if (mask && !mask[key2]) {
+        newShape[key2] = fieldSchema;
       } else {
-        newShape[key] = fieldSchema.optional();
+        newShape[key2] = fieldSchema.optional();
       }
     }
     return new _ZodObject({
@@ -9337,16 +9337,16 @@ var ZodObject = class _ZodObject extends ZodType {
   }
   required(mask) {
     const newShape = {};
-    for (const key of util.objectKeys(this.shape)) {
-      if (mask && !mask[key]) {
-        newShape[key] = this.shape[key];
+    for (const key2 of util.objectKeys(this.shape)) {
+      if (mask && !mask[key2]) {
+        newShape[key2] = this.shape[key2];
       } else {
-        const fieldSchema = this.shape[key];
+        const fieldSchema = this.shape[key2];
         let newField = fieldSchema;
         while (newField instanceof ZodOptional) {
           newField = newField._def.innerType;
         }
-        newShape[key] = newField;
+        newShape[key2] = newField;
       }
     }
     return new _ZodObject({
@@ -9590,14 +9590,14 @@ function mergeValues(a, b2) {
     return { valid: true, data: a };
   } else if (aType === ZodParsedType.object && bType === ZodParsedType.object) {
     const bKeys = util.objectKeys(b2);
-    const sharedKeys = util.objectKeys(a).filter((key) => bKeys.indexOf(key) !== -1);
+    const sharedKeys = util.objectKeys(a).filter((key2) => bKeys.indexOf(key2) !== -1);
     const newObj = { ...a, ...b2 };
-    for (const key of sharedKeys) {
-      const sharedValue = mergeValues(a[key], b2[key]);
+    for (const key2 of sharedKeys) {
+      const sharedValue = mergeValues(a[key2], b2[key2]);
       if (!sharedValue.valid) {
         return { valid: false };
       }
-      newObj[key] = sharedValue.data;
+      newObj[key2] = sharedValue.data;
     }
     return { valid: true, data: newObj };
   } else if (aType === ZodParsedType.array && bType === ZodParsedType.array) {
@@ -9761,11 +9761,11 @@ var ZodRecord = class _ZodRecord extends ZodType {
     const pairs = [];
     const keyType = this._def.keyType;
     const valueType = this._def.valueType;
-    for (const key in ctx.data) {
+    for (const key2 in ctx.data) {
       pairs.push({
-        key: keyType._parse(new ParseInputLazyPath(ctx, key, ctx.path, key)),
-        value: valueType._parse(new ParseInputLazyPath(ctx, ctx.data[key], ctx.path, key)),
-        alwaysSet: key in ctx.data
+        key: keyType._parse(new ParseInputLazyPath(ctx, key2, ctx.path, key2)),
+        value: valueType._parse(new ParseInputLazyPath(ctx, ctx.data[key2], ctx.path, key2)),
+        alwaysSet: key2 in ctx.data
       });
     }
     if (ctx.common.async) {
@@ -9813,9 +9813,9 @@ var ZodMap = class extends ZodType {
     }
     const keyType = this._def.keyType;
     const valueType = this._def.valueType;
-    const pairs = [...ctx.data.entries()].map(([key, value], index) => {
+    const pairs = [...ctx.data.entries()].map(([key2, value], index) => {
       return {
-        key: keyType._parse(new ParseInputLazyPath(ctx, key, ctx.path, [index, "key"])),
+        key: keyType._parse(new ParseInputLazyPath(ctx, key2, ctx.path, [index, "key"])),
         value: valueType._parse(new ParseInputLazyPath(ctx, value, ctx.path, [index, "value"]))
       };
     });
@@ -9823,30 +9823,30 @@ var ZodMap = class extends ZodType {
       const finalMap = /* @__PURE__ */ new Map();
       return Promise.resolve().then(async () => {
         for (const pair of pairs) {
-          const key = await pair.key;
+          const key2 = await pair.key;
           const value = await pair.value;
-          if (key.status === "aborted" || value.status === "aborted") {
+          if (key2.status === "aborted" || value.status === "aborted") {
             return INVALID;
           }
-          if (key.status === "dirty" || value.status === "dirty") {
+          if (key2.status === "dirty" || value.status === "dirty") {
             status.dirty();
           }
-          finalMap.set(key.value, value.value);
+          finalMap.set(key2.value, value.value);
         }
         return { status: status.value, value: finalMap };
       });
     } else {
       const finalMap = /* @__PURE__ */ new Map();
       for (const pair of pairs) {
-        const key = pair.key;
+        const key2 = pair.key;
         const value = pair.value;
-        if (key.status === "aborted" || value.status === "aborted") {
+        if (key2.status === "aborted" || value.status === "aborted") {
           return INVALID;
         }
-        if (key.status === "dirty" || value.status === "dirty") {
+        if (key2.status === "dirty" || value.status === "dirty") {
           status.dirty();
         }
-        finalMap.set(key.value, value.value);
+        finalMap.set(key2.value, value.value);
       }
       return { status: status.value, value: finalMap };
     }
@@ -10878,9 +10878,9 @@ function floatSafeRemainder2(val, step) {
   return valInt % stepInt / 10 ** decCount;
 }
 var EVALUATING = /* @__PURE__ */ Symbol("evaluating");
-function defineLazy(object3, key, getter) {
+function defineLazy(object3, key2, getter) {
   let value = void 0;
-  Object.defineProperty(object3, key, {
+  Object.defineProperty(object3, key2, {
     get() {
       if (value === EVALUATING) {
         return void 0;
@@ -10892,7 +10892,7 @@ function defineLazy(object3, key, getter) {
       return value;
     },
     set(v2) {
-      Object.defineProperty(object3, key, {
+      Object.defineProperty(object3, key2, {
         value: v2
         // configurable: true,
       });
@@ -10925,11 +10925,11 @@ function cloneDef(schema) {
 function getElementAtPath(obj, path12) {
   if (!path12)
     return obj;
-  return path12.reduce((acc, key) => acc?.[key], obj);
+  return path12.reduce((acc, key2) => acc?.[key2], obj);
 }
 function promiseAllObject(promisesObj) {
   const keys = Object.keys(promisesObj);
-  const promises = keys.map((key) => promisesObj[key]);
+  const promises = keys.map((key2) => promisesObj[key2]);
   return Promise.all(promises).then((results) => {
     const resolvedObj = {};
     for (let i = 0; i < keys.length; i++) {
@@ -10994,8 +10994,8 @@ function shallowClone(o) {
 }
 function numKeys(data) {
   let keyCount = 0;
-  for (const key in data) {
-    if (Object.prototype.hasOwnProperty.call(data, key)) {
+  for (const key2 in data) {
+    if (Object.prototype.hasOwnProperty.call(data, key2)) {
       keyCount++;
     }
   }
@@ -11138,13 +11138,13 @@ function pick(schema, mask) {
   const def = mergeDefs(schema._zod.def, {
     get shape() {
       const newShape = {};
-      for (const key in mask) {
-        if (!(key in currDef.shape)) {
-          throw new Error(`Unrecognized key: "${key}"`);
+      for (const key2 in mask) {
+        if (!(key2 in currDef.shape)) {
+          throw new Error(`Unrecognized key: "${key2}"`);
         }
-        if (!mask[key])
+        if (!mask[key2])
           continue;
-        newShape[key] = currDef.shape[key];
+        newShape[key2] = currDef.shape[key2];
       }
       assignProp(this, "shape", newShape);
       return newShape;
@@ -11163,13 +11163,13 @@ function omit(schema, mask) {
   const def = mergeDefs(schema._zod.def, {
     get shape() {
       const newShape = { ...schema._zod.def.shape };
-      for (const key in mask) {
-        if (!(key in currDef.shape)) {
-          throw new Error(`Unrecognized key: "${key}"`);
+      for (const key2 in mask) {
+        if (!(key2 in currDef.shape)) {
+          throw new Error(`Unrecognized key: "${key2}"`);
         }
-        if (!mask[key])
+        if (!mask[key2])
           continue;
-        delete newShape[key];
+        delete newShape[key2];
       }
       assignProp(this, "shape", newShape);
       return newShape;
@@ -11186,8 +11186,8 @@ function extend(schema, shape) {
   const hasChecks = checks && checks.length > 0;
   if (hasChecks) {
     const existingShape = schema._zod.def.shape;
-    for (const key in shape) {
-      if (Object.getOwnPropertyDescriptor(existingShape, key) !== void 0) {
+    for (const key2 in shape) {
+      if (Object.getOwnPropertyDescriptor(existingShape, key2) !== void 0) {
         throw new Error("Cannot overwrite keys on object schemas containing refinements. Use `.safeExtend()` instead.");
       }
     }
@@ -11241,23 +11241,23 @@ function partial(Class2, schema, mask) {
       const oldShape = schema._zod.def.shape;
       const shape = { ...oldShape };
       if (mask) {
-        for (const key in mask) {
-          if (!(key in oldShape)) {
-            throw new Error(`Unrecognized key: "${key}"`);
+        for (const key2 in mask) {
+          if (!(key2 in oldShape)) {
+            throw new Error(`Unrecognized key: "${key2}"`);
           }
-          if (!mask[key])
+          if (!mask[key2])
             continue;
-          shape[key] = Class2 ? new Class2({
+          shape[key2] = Class2 ? new Class2({
             type: "optional",
-            innerType: oldShape[key]
-          }) : oldShape[key];
+            innerType: oldShape[key2]
+          }) : oldShape[key2];
         }
       } else {
-        for (const key in oldShape) {
-          shape[key] = Class2 ? new Class2({
+        for (const key2 in oldShape) {
+          shape[key2] = Class2 ? new Class2({
             type: "optional",
-            innerType: oldShape[key]
-          }) : oldShape[key];
+            innerType: oldShape[key2]
+          }) : oldShape[key2];
         }
       }
       assignProp(this, "shape", shape);
@@ -11273,22 +11273,22 @@ function required(Class2, schema, mask) {
       const oldShape = schema._zod.def.shape;
       const shape = { ...oldShape };
       if (mask) {
-        for (const key in mask) {
-          if (!(key in shape)) {
-            throw new Error(`Unrecognized key: "${key}"`);
+        for (const key2 in mask) {
+          if (!(key2 in shape)) {
+            throw new Error(`Unrecognized key: "${key2}"`);
           }
-          if (!mask[key])
+          if (!mask[key2])
             continue;
-          shape[key] = new Class2({
+          shape[key2] = new Class2({
             type: "nonoptional",
-            innerType: oldShape[key]
+            innerType: oldShape[key2]
           });
         }
       } else {
-        for (const key in oldShape) {
-          shape[key] = new Class2({
+        for (const key2 in oldShape) {
+          shape[key2] = new Class2({
             type: "nonoptional",
-            innerType: oldShape[key]
+            innerType: oldShape[key2]
           });
         }
       }
@@ -12964,19 +12964,19 @@ var $ZodArray = /* @__PURE__ */ $constructor("$ZodArray", (inst, def) => {
     return payload;
   };
 });
-function handlePropertyResult(result, final, key, input, isOptionalOut) {
+function handlePropertyResult(result, final, key2, input, isOptionalOut) {
   if (result.issues.length) {
-    if (isOptionalOut && !(key in input)) {
+    if (isOptionalOut && !(key2 in input)) {
       return;
     }
-    final.issues.push(...prefixIssues(key, result.issues));
+    final.issues.push(...prefixIssues(key2, result.issues));
   }
   if (result.value === void 0) {
-    if (key in input) {
-      final.value[key] = void 0;
+    if (key2 in input) {
+      final.value[key2] = void 0;
     }
   } else {
-    final.value[key] = result.value;
+    final.value[key2] = result.value;
   }
 }
 function normalizeDef(def) {
@@ -13001,18 +13001,18 @@ function handleCatchall(proms, input, payload, ctx, def, inst) {
   const _catchall = def.catchall._zod;
   const t = _catchall.def.type;
   const isOptionalOut = _catchall.optout === "optional";
-  for (const key in input) {
-    if (keySet.has(key))
+  for (const key2 in input) {
+    if (keySet.has(key2))
       continue;
     if (t === "never") {
-      unrecognized.push(key);
+      unrecognized.push(key2);
       continue;
     }
-    const r = _catchall.run({ value: input[key], issues: [] }, ctx);
+    const r = _catchall.run({ value: input[key2], issues: [] }, ctx);
     if (r instanceof Promise) {
-      proms.push(r.then((r2) => handlePropertyResult(r2, payload, key, input, isOptionalOut)));
+      proms.push(r.then((r2) => handlePropertyResult(r2, payload, key2, input, isOptionalOut)));
     } else {
-      handlePropertyResult(r, payload, key, input, isOptionalOut);
+      handlePropertyResult(r, payload, key2, input, isOptionalOut);
     }
   }
   if (unrecognized.length) {
@@ -13048,12 +13048,12 @@ var $ZodObject = /* @__PURE__ */ $constructor("$ZodObject", (inst, def) => {
   defineLazy(inst._zod, "propValues", () => {
     const shape = def.shape;
     const propValues = {};
-    for (const key in shape) {
-      const field = shape[key]._zod;
+    for (const key2 in shape) {
+      const field = shape[key2]._zod;
       if (field.values) {
-        propValues[key] ?? (propValues[key] = /* @__PURE__ */ new Set());
+        propValues[key2] ?? (propValues[key2] = /* @__PURE__ */ new Set());
         for (const v2 of field.values)
-          propValues[key].add(v2);
+          propValues[key2].add(v2);
       }
     }
     return propValues;
@@ -13076,14 +13076,14 @@ var $ZodObject = /* @__PURE__ */ $constructor("$ZodObject", (inst, def) => {
     payload.value = {};
     const proms = [];
     const shape = value.shape;
-    for (const key of value.keys) {
-      const el = shape[key];
+    for (const key2 of value.keys) {
+      const el = shape[key2];
       const isOptionalOut = el._zod.optout === "optional";
-      const r = el._zod.run({ value: input[key], issues: [] }, ctx);
+      const r = el._zod.run({ value: input[key2], issues: [] }, ctx);
       if (r instanceof Promise) {
-        proms.push(r.then((r2) => handlePropertyResult(r2, payload, key, input, isOptionalOut)));
+        proms.push(r.then((r2) => handlePropertyResult(r2, payload, key2, input, isOptionalOut)));
       } else {
-        handlePropertyResult(r, payload, key, input, isOptionalOut);
+        handlePropertyResult(r, payload, key2, input, isOptionalOut);
       }
     }
     if (!catchall) {
@@ -13099,23 +13099,23 @@ var $ZodObjectJIT = /* @__PURE__ */ $constructor("$ZodObjectJIT", (inst, def) =>
   const generateFastpass = (shape) => {
     const doc = new Doc(["shape", "payload", "ctx"]);
     const normalized = _normalized.value;
-    const parseStr = (key) => {
-      const k2 = esc(key);
+    const parseStr = (key2) => {
+      const k2 = esc(key2);
       return `shape[${k2}]._zod.run({ value: input[${k2}], issues: [] }, ctx)`;
     };
     doc.write(`const input = payload.value;`);
     const ids = /* @__PURE__ */ Object.create(null);
     let counter = 0;
-    for (const key of normalized.keys) {
-      ids[key] = `key_${counter++}`;
+    for (const key2 of normalized.keys) {
+      ids[key2] = `key_${counter++}`;
     }
     doc.write(`const newResult = {};`);
-    for (const key of normalized.keys) {
-      const id = ids[key];
-      const k2 = esc(key);
-      const schema = shape[key];
+    for (const key2 of normalized.keys) {
+      const id = ids[key2];
+      const k2 = esc(key2);
+      const schema = shape[key2];
       const isOptionalOut = schema?._zod?.optout === "optional";
-      doc.write(`const ${id} = ${parseStr(key)};`);
+      doc.write(`const ${id} = ${parseStr(key2)};`);
       if (isOptionalOut) {
         doc.write(`
         if (${id}.issues.length) {
@@ -13401,17 +13401,17 @@ function mergeValues2(a, b2) {
   }
   if (isPlainObject(a) && isPlainObject(b2)) {
     const bKeys = Object.keys(b2);
-    const sharedKeys = Object.keys(a).filter((key) => bKeys.indexOf(key) !== -1);
+    const sharedKeys = Object.keys(a).filter((key2) => bKeys.indexOf(key2) !== -1);
     const newObj = { ...a, ...b2 };
-    for (const key of sharedKeys) {
-      const sharedValue = mergeValues2(a[key], b2[key]);
+    for (const key2 of sharedKeys) {
+      const sharedValue = mergeValues2(a[key2], b2[key2]);
       if (!sharedValue.valid) {
         return {
           valid: false,
-          mergeErrorPath: [key, ...sharedValue.mergeErrorPath]
+          mergeErrorPath: [key2, ...sharedValue.mergeErrorPath]
         };
       }
-      newObj[key] = sharedValue.data;
+      newObj[key2] = sharedValue.data;
     }
     return { valid: true, data: newObj };
   }
@@ -13567,30 +13567,30 @@ var $ZodRecord = /* @__PURE__ */ $constructor("$ZodRecord", (inst, def) => {
     if (values) {
       payload.value = {};
       const recordKeys = /* @__PURE__ */ new Set();
-      for (const key of values) {
-        if (typeof key === "string" || typeof key === "number" || typeof key === "symbol") {
-          recordKeys.add(typeof key === "number" ? key.toString() : key);
-          const result = def.valueType._zod.run({ value: input[key], issues: [] }, ctx);
+      for (const key2 of values) {
+        if (typeof key2 === "string" || typeof key2 === "number" || typeof key2 === "symbol") {
+          recordKeys.add(typeof key2 === "number" ? key2.toString() : key2);
+          const result = def.valueType._zod.run({ value: input[key2], issues: [] }, ctx);
           if (result instanceof Promise) {
             proms.push(result.then((result2) => {
               if (result2.issues.length) {
-                payload.issues.push(...prefixIssues(key, result2.issues));
+                payload.issues.push(...prefixIssues(key2, result2.issues));
               }
-              payload.value[key] = result2.value;
+              payload.value[key2] = result2.value;
             }));
           } else {
             if (result.issues.length) {
-              payload.issues.push(...prefixIssues(key, result.issues));
+              payload.issues.push(...prefixIssues(key2, result.issues));
             }
-            payload.value[key] = result.value;
+            payload.value[key2] = result.value;
           }
         }
       }
       let unrecognized;
-      for (const key in input) {
-        if (!recordKeys.has(key)) {
+      for (const key2 in input) {
+        if (!recordKeys.has(key2)) {
           unrecognized = unrecognized ?? [];
-          unrecognized.push(key);
+          unrecognized.push(key2);
         }
       }
       if (unrecognized && unrecognized.length > 0) {
@@ -13603,16 +13603,16 @@ var $ZodRecord = /* @__PURE__ */ $constructor("$ZodRecord", (inst, def) => {
       }
     } else {
       payload.value = {};
-      for (const key of Reflect.ownKeys(input)) {
-        if (key === "__proto__")
+      for (const key2 of Reflect.ownKeys(input)) {
+        if (key2 === "__proto__")
           continue;
-        let keyResult = def.keyType._zod.run({ value: key, issues: [] }, ctx);
+        let keyResult = def.keyType._zod.run({ value: key2, issues: [] }, ctx);
         if (keyResult instanceof Promise) {
           throw new Error("Async schemas not supported in object keys currently");
         }
-        const checkNumericKey = typeof key === "string" && number.test(key) && keyResult.issues.length;
+        const checkNumericKey = typeof key2 === "string" && number.test(key2) && keyResult.issues.length;
         if (checkNumericKey) {
-          const retryResult = def.keyType._zod.run({ value: Number(key), issues: [] }, ctx);
+          const retryResult = def.keyType._zod.run({ value: Number(key2), issues: [] }, ctx);
           if (retryResult instanceof Promise) {
             throw new Error("Async schemas not supported in object keys currently");
           }
@@ -13622,30 +13622,30 @@ var $ZodRecord = /* @__PURE__ */ $constructor("$ZodRecord", (inst, def) => {
         }
         if (keyResult.issues.length) {
           if (def.mode === "loose") {
-            payload.value[key] = input[key];
+            payload.value[key2] = input[key2];
           } else {
             payload.issues.push({
               code: "invalid_key",
               origin: "record",
               issues: keyResult.issues.map((iss) => finalizeIssue(iss, ctx, config())),
-              input: key,
-              path: [key],
+              input: key2,
+              path: [key2],
               inst
             });
           }
           continue;
         }
-        const result = def.valueType._zod.run({ value: input[key], issues: [] }, ctx);
+        const result = def.valueType._zod.run({ value: input[key2], issues: [] }, ctx);
         if (result instanceof Promise) {
           proms.push(result.then((result2) => {
             if (result2.issues.length) {
-              payload.issues.push(...prefixIssues(key, result2.issues));
+              payload.issues.push(...prefixIssues(key2, result2.issues));
             }
             payload.value[keyResult.value] = result2.value;
           }));
         } else {
           if (result.issues.length) {
-            payload.issues.push(...prefixIssues(key, result.issues));
+            payload.issues.push(...prefixIssues(key2, result.issues));
           }
           payload.value[keyResult.value] = result.value;
         }
@@ -13672,15 +13672,15 @@ var $ZodMap = /* @__PURE__ */ $constructor("$ZodMap", (inst, def) => {
     }
     const proms = [];
     payload.value = /* @__PURE__ */ new Map();
-    for (const [key, value] of input) {
-      const keyResult = def.keyType._zod.run({ value: key, issues: [] }, ctx);
+    for (const [key2, value] of input) {
+      const keyResult = def.keyType._zod.run({ value: key2, issues: [] }, ctx);
       const valueResult = def.valueType._zod.run({ value, issues: [] }, ctx);
       if (keyResult instanceof Promise || valueResult instanceof Promise) {
         proms.push(Promise.all([keyResult, valueResult]).then(([keyResult2, valueResult2]) => {
-          handleMapResult(keyResult2, valueResult2, payload, key, input, inst, ctx);
+          handleMapResult(keyResult2, valueResult2, payload, key2, input, inst, ctx);
         }));
       } else {
-        handleMapResult(keyResult, valueResult, payload, key, input, inst, ctx);
+        handleMapResult(keyResult, valueResult, payload, key2, input, inst, ctx);
       }
     }
     if (proms.length)
@@ -13688,10 +13688,10 @@ var $ZodMap = /* @__PURE__ */ $constructor("$ZodMap", (inst, def) => {
     return payload;
   };
 });
-function handleMapResult(keyResult, valueResult, final, key, input, inst, ctx) {
+function handleMapResult(keyResult, valueResult, final, key2, input, inst, ctx) {
   if (keyResult.issues.length) {
-    if (propertyKeyTypes.has(typeof key)) {
-      final.issues.push(...prefixIssues(key, keyResult.issues));
+    if (propertyKeyTypes.has(typeof key2)) {
+      final.issues.push(...prefixIssues(key2, keyResult.issues));
     } else {
       final.issues.push({
         code: "invalid_key",
@@ -13703,15 +13703,15 @@ function handleMapResult(keyResult, valueResult, final, key, input, inst, ctx) {
     }
   }
   if (valueResult.issues.length) {
-    if (propertyKeyTypes.has(typeof key)) {
-      final.issues.push(...prefixIssues(key, valueResult.issues));
+    if (propertyKeyTypes.has(typeof key2)) {
+      final.issues.push(...prefixIssues(key2, valueResult.issues));
     } else {
       final.issues.push({
         origin: "map",
         code: "invalid_element",
         input,
         inst,
-        key,
+        key: key2,
         issues: valueResult.issues.map((iss) => finalizeIssue(iss, ctx, config()))
       });
     }
@@ -15375,8 +15375,8 @@ function extractDefs(ctx, schema) {
     if (defId)
       seen.defId = defId;
     const schema2 = seen.schema;
-    for (const key in schema2) {
-      delete schema2[key];
+    for (const key2 in schema2) {
+      delete schema2[key2];
     }
     schema2.$ref = ref;
   };
@@ -15445,20 +15445,20 @@ function finalize(ctx, schema) {
       Object.assign(schema2, _cached);
       const isParentRef = zodSchema._zod.parent === ref;
       if (isParentRef) {
-        for (const key in schema2) {
-          if (key === "$ref" || key === "allOf")
+        for (const key2 in schema2) {
+          if (key2 === "$ref" || key2 === "allOf")
             continue;
-          if (!(key in _cached)) {
-            delete schema2[key];
+          if (!(key2 in _cached)) {
+            delete schema2[key2];
           }
         }
       }
       if (refSchema.$ref && refSeen.def) {
-        for (const key in schema2) {
-          if (key === "$ref" || key === "allOf")
+        for (const key2 in schema2) {
+          if (key2 === "$ref" || key2 === "allOf")
             continue;
-          if (key in refSeen.def && JSON.stringify(schema2[key]) === JSON.stringify(refSeen.def[key])) {
-            delete schema2[key];
+          if (key2 in refSeen.def && JSON.stringify(schema2[key2]) === JSON.stringify(refSeen.def[key2])) {
+            delete schema2[key2];
           }
         }
       }
@@ -15470,11 +15470,11 @@ function finalize(ctx, schema) {
       if (parentSeen?.schema.$ref) {
         schema2.$ref = parentSeen.schema.$ref;
         if (parentSeen.def) {
-          for (const key in schema2) {
-            if (key === "$ref" || key === "allOf")
+          for (const key2 in schema2) {
+            if (key2 === "$ref" || key2 === "allOf")
               continue;
-            if (key in parentSeen.def && JSON.stringify(schema2[key]) === JSON.stringify(parentSeen.def[key])) {
-              delete schema2[key];
+            if (key2 in parentSeen.def && JSON.stringify(schema2[key2]) === JSON.stringify(parentSeen.def[key2])) {
+              delete schema2[key2];
             }
           }
         }
@@ -15568,8 +15568,8 @@ function isTransforming(_schema, _ctx) {
     return isTransforming(def.in, ctx) || isTransforming(def.out, ctx);
   }
   if (def.type === "object") {
-    for (const key in def.shape) {
-      if (isTransforming(def.shape[key], ctx))
+    for (const key2 in def.shape) {
+      if (isTransforming(def.shape[key2], ctx))
         return true;
     }
     return false;
@@ -15866,15 +15866,15 @@ var objectProcessor = (schema, ctx, _json, params) => {
   json2.type = "object";
   json2.properties = {};
   const shape = def.shape;
-  for (const key in shape) {
-    json2.properties[key] = process2(shape[key], ctx, {
+  for (const key2 in shape) {
+    json2.properties[key2] = process2(shape[key2], ctx, {
       ...params,
-      path: [...params.path, "properties", key]
+      path: [...params.path, "properties", key2]
     });
   }
   const allKeys = new Set(Object.keys(shape));
-  const requiredKeys = new Set([...allKeys].filter((key) => {
-    const v2 = def.shape[key]._zod;
+  const requiredKeys = new Set([...allKeys].filter((key2) => {
+    const v2 = def.shape[key2]._zod;
     if (ctx.io === "input") {
       return v2.optin === void 0;
     } else {
@@ -20024,8 +20024,8 @@ function isPlainObject2(value) {
 }
 function mergeCapabilities(base, additional) {
   const result = { ...base };
-  for (const key in additional) {
-    const k2 = key;
+  for (const key2 in additional) {
+    const k2 = key2;
     const addValue = additional[k2];
     if (addValue === void 0)
       continue;
@@ -20866,6 +20866,7 @@ var VERDICT_TAG = /\[VERDICT:\s*(strong[\s_-]?yes|yes|maybe|no|strong[\s_-]?no)\
 var SCORE_TAG = /\[SCORE:\s*(\d{1,2}(?:\.\d+)?)\s*(?:\/\s*10)?\s*\]/i;
 var PRIORITY_TAG = /\[PRIORITY:\s*(low|medium|high)\s*\]/i;
 var COMPLEXITY_TAG = /\[COMPLEXITY:\s*(trivial|simple|low|medium|high|complex|very_high)\s*\]/i;
+var ROADMAP_TAG = /\[ROADMAP:\s*(in_open_phase|next_phase|later|conflicts|new_item|product_idea)\s*(?:\|([^\]\n]*))?\]([^\n]*)/i;
 var VERDICT_HEADING = new RegExp("^#{1,6}\\s*(?:summary\\s+verdict|\xF6zet\\s+karar\u0131)(?!\\p{L})(.*)$", "imu");
 var SCORE_HEADING = new RegExp("^#{1,6}\\s*(?:final\\s+score|final\\s+(?:skor|puan)\\p{L}*|son\\s+puan\\p{L}*)(?!\\p{L})(.*)$", "imu");
 var NEXT_HEADING = /^#{1,6}\s/m;
@@ -20880,18 +20881,18 @@ function withoutCode(markdown) {
 function prepare(markdownOrHtml) {
   return withoutCode(normalize(markdownOrHtml));
 }
-function section(text3, heading) {
-  const match = heading.exec(text3);
+function section(text4, heading) {
+  const match = heading.exec(text4);
   if (!match) return null;
-  const after = text3.slice(match.index + match[0].length);
+  const after = text4.slice(match.index + match[0].length);
   const next = NEXT_HEADING.exec(after);
   return `${match[1]}
 ${next ? after.slice(0, next.index) : after}`;
 }
-function verdictWordIn(text3) {
-  const tag = VERDICT_TAG.exec(text3);
+function verdictWordIn(text4) {
+  const tag = VERDICT_TAG.exec(text4);
   if (tag) return WORD_ALIASES[tag[1].toLowerCase().replace(/[\s_-]+/g, " ")] ?? null;
-  const body = section(text3, VERDICT_HEADING);
+  const body = section(text4, VERDICT_HEADING);
   if (body === null) return null;
   const match = WORD.exec(body);
   if (!match) return null;
@@ -20901,13 +20902,24 @@ function toScore(raw) {
   const value = Math.round(Number(raw));
   return Number.isFinite(value) && value >= 0 && value <= 10 ? value : null;
 }
-function scoreIn(text3) {
-  const tag = SCORE_TAG.exec(text3);
+function scoreIn(text4) {
+  const tag = SCORE_TAG.exec(text4);
   if (tag) return toScore(tag[1]);
-  const body = section(text3, SCORE_HEADING);
+  const body = section(text4, SCORE_HEADING);
   if (body === null) return null;
   const match = OUT_OF_TEN.exec(body);
   return match ? toScore(match[1]) : null;
+}
+function roadmapIn(text4) {
+  const tag = ROADMAP_TAG.exec(text4);
+  if (!tag) return null;
+  const target2 = (tag[2] ?? "").replace(/\s+/g, " ").trim();
+  if (tag[2] !== void 0 && (!target2 || /^<.*>$/.test(target2))) return null;
+  return {
+    kind: tag[1].toLowerCase(),
+    target: target2,
+    note: tag[3].replace(/^[\s—–:·-]+/, "").replace(/\s+/g, " ").trim()
+  };
 }
 function parseVerdictWord(markdownOrHtml) {
   return verdictWordIn(prepare(markdownOrHtml));
@@ -20938,16 +20950,17 @@ function normalizeComplexity(value) {
   }
 }
 function parseOpinionMarkers(markdownOrHtml) {
-  const text3 = prepare(markdownOrHtml);
-  const verdictWord = verdictWordIn(text3);
-  const priority = PRIORITY_TAG.exec(text3);
-  const complexity = COMPLEXITY_TAG.exec(text3);
+  const text4 = prepare(markdownOrHtml);
+  const verdictWord = verdictWordIn(text4);
+  const priority = PRIORITY_TAG.exec(text4);
+  const complexity = COMPLEXITY_TAG.exec(text4);
   return {
     verdictWord,
     verdict: verdictWordToAiVerdict(verdictWord),
-    score: scoreIn(text3),
+    score: scoreIn(text4),
     priority: priority ? priority[1].toLowerCase() : null,
-    complexity: complexity ? normalizeComplexity(complexity[1]) : null
+    complexity: complexity ? normalizeComplexity(complexity[1]) : null,
+    roadmap: roadmapIn(text4)
   };
 }
 function describeOpinionMarkers(markers) {
@@ -21080,8 +21093,8 @@ var NAMED = {
   nbsp: " "
 };
 var ENTITY = /&(#\d+|#x[0-9a-f]+|amp|lt|gt|quot|apos|nbsp);/gi;
-function decodeHtmlEntities(text3) {
-  return text3.replace(ENTITY, (match, body) => {
+function decodeHtmlEntities(text4) {
+  return text4.replace(ENTITY, (match, body) => {
     if (body[0] !== "#") return NAMED[body.toLowerCase()] ?? match;
     const hex3 = body[1] === "x" || body[1] === "X";
     const code = parseInt(body.slice(hex3 ? 2 : 1), hex3 ? 16 : 10);
@@ -21089,10 +21102,10 @@ function decodeHtmlEntities(text3) {
   });
 }
 function plainTextLabel(html, maxChars) {
-  const text3 = decodeHtmlEntities(html.replace(/<[^>]*>/g, "")).replace(/\s+/g, " ").trim();
-  if (maxChars === void 0) return text3;
-  const chars = Array.from(text3);
-  return chars.length > maxChars ? `${chars.slice(0, maxChars).join("").trimEnd()}\u2026` : text3;
+  const text4 = decodeHtmlEntities(html.replace(/<[^>]*>/g, "")).replace(/\s+/g, " ").trim();
+  if (maxChars === void 0) return text4;
+  const chars = Array.from(text4);
+  return chars.length > maxChars ? `${chars.slice(0, maxChars).join("").trimEnd()}\u2026` : text4;
 }
 
 // ../lib/markdown.ts
@@ -22316,12 +22329,12 @@ function convertCheckboxListHtmlToTaskList(html) {
       }
       const taskItems = items.replace(
         /<li\b([^>]*)>\s*<input([^>]*)type="checkbox"([^>]*)>\s*([\s\S]*?)<\/li>/gi,
-        (_itemMatch, liAttrs, before, after, text3) => {
+        (_itemMatch, liAttrs, before, after, text4) => {
           if (/data-type\s*=\s*"taskItem"/i.test(liAttrs)) {
-            return `<li${liAttrs}><input${before}type="checkbox"${after}>${text3}</li>`;
+            return `<li${liAttrs}><input${before}type="checkbox"${after}>${text4}</li>`;
           }
           const isChecked = /\bchecked\b/i.test(before) || /\bchecked\b/i.test(after);
-          const trimmed = text3.trim();
+          const trimmed = text4.trim();
           const paragraph = /<p\b/i.test(trimmed) ? trimmed : `<p>${trimmed}</p>`;
           return `<li data-type="taskItem" data-checked="${isChecked}"><label><input type="checkbox"${isChecked ? ' checked="checked"' : ""}><span></span></label><div>${paragraph}</div></li>`;
         }
@@ -22367,8 +22380,8 @@ function normalizeTestsHtml(html) {
     }
   );
 }
-function normalizeTaskText(text3) {
-  return decodeHtmlEntities(text3.replace(/<[^>]*>/g, " ")).toLowerCase().replace(/[.,;:!?/\\|()[\]{}<>@#$%^&*"'`~=+\-_]/g, " ").replace(/\s+/g, " ").trim();
+function normalizeTaskText(text4) {
+  return decodeHtmlEntities(text4.replace(/<[^>]*>/g, " ")).toLowerCase().replace(/[.,;:!?/\\|()[\]{}<>@#$%^&*"'`~=+\-_]/g, " ").replace(/\s+/g, " ").trim();
 }
 function levenshtein(a, b2, cap) {
   if (a === b2) return 0;
@@ -22445,19 +22458,19 @@ function extractTaskItems(html) {
   }
   return items;
 }
-function matchTaskItem(text3, html) {
-  const target2 = normalizeTaskText(text3);
+function matchTaskItem(text4, html) {
+  const target2 = normalizeTaskText(text4);
   if (!target2) return null;
   const items = extractTaskItems(html);
-  const key = findFuzzyMatch(target2, items.map((i) => i.normalized));
-  return key ? items.find((i) => i.normalized === key) ?? null : null;
+  const key2 = findFuzzyMatch(target2, items.map((i) => i.normalized));
+  return key2 ? items.find((i) => i.normalized === key2) ?? null : null;
 }
-function closestTaskText(text3, candidates) {
-  const target2 = normalizeTaskText(text3);
+function closestTaskText(text4, candidates) {
+  const target2 = normalizeTaskText(text4);
   if (!target2) return -1;
   const keys = candidates.map(normalizeTaskText);
-  const key = findFuzzyMatch(target2, keys.filter(Boolean));
-  return key ? keys.indexOf(key) : -1;
+  const key2 = findFuzzyMatch(target2, keys.filter(Boolean));
+  return key2 ? keys.indexOf(key2) : -1;
 }
 function untickTaskItems(html, itemTexts2) {
   return setTaskItemsChecked(html, itemTexts2, false);
@@ -22468,14 +22481,14 @@ function tickTaskItems(html, itemTexts2) {
 function setTaskItemsChecked(html, itemTexts2, checked) {
   const keys = extractTaskItems(html).map((i) => i.normalized);
   const hits = new Set(
-    itemTexts2.map((text3) => normalizeTaskText(text3)).filter(Boolean).map((target2) => findFuzzyMatch(target2, keys)).filter((key) => key !== null)
+    itemTexts2.map((text4) => normalizeTaskText(text4)).filter(Boolean).map((target2) => findFuzzyMatch(target2, keys)).filter((key2) => key2 !== null)
   );
   if (hits.size === 0) return html;
   return normalizeTestsHtml(html).replace(
     taskItemCheckRegex(),
-    (fullMatch, prefix, middle, text3, suffix) => {
-      if (!hits.has(normalizeTaskText(text3))) return fullMatch;
-      return `<li${prefix}${checked}${middle}${text3}${suffix}`.replace(
+    (fullMatch, prefix, middle, text4, suffix) => {
+      if (!hits.has(normalizeTaskText(text4))) return fullMatch;
+      return `<li${prefix}${checked}${middle}${text4}${suffix}`.replace(
         /<input type="checkbox"(?:\s+checked="checked")?>/,
         checked ? '<input type="checkbox" checked="checked">' : '<input type="checkbox">'
       );
@@ -22516,15 +22529,15 @@ function noteSpans(html) {
 function matchRevisions(normalizedHtml, revisions) {
   const keyOf = (html) => normalizeTaskText(plainTaskText(html.replace(/<br\s*\/?>/gi, " ")));
   const items = taskItemSpans(normalizedHtml).map((span) => {
-    const text3 = normalizedHtml.slice(span.start, span.end).match(/<p[^>]*>([\s\S]*?)<\/p>/i)?.[1] ?? "";
-    return { ...span, kind: "item", key: keyOf(text3) };
+    const text4 = normalizedHtml.slice(span.start, span.end).match(/<p[^>]*>([\s\S]*?)<\/p>/i)?.[1] ?? "";
+    return { ...span, kind: "item", key: keyOf(text4) };
   });
   const notes = noteSpans(normalizedHtml).map((span) => ({ start: span.start, end: span.end, kind: "note", key: keyOf(span.text) }));
   const taken = /* @__PURE__ */ new Set();
   return revisions.map((revision) => {
-    const key = keyOf(revision.from);
-    const free = (s) => s.key === key && !taken.has(s.start);
-    const span = key ? items.find(free) ?? notes.find(free) : void 0;
+    const key2 = keyOf(revision.from);
+    const free = (s) => s.key === key2 && !taken.has(s.start);
+    const span = key2 ? items.find(free) ?? notes.find(free) : void 0;
     if (!span) return null;
     taken.add(span.start);
     return { start: span.start, end: span.end, kind: span.kind };
@@ -22554,15 +22567,15 @@ function reviseTaskItems(html, revisions) {
   }
   return { html: out + normalized.slice(cursor), missing };
 }
-function taskItemHtml(text3) {
-  const line = text3.replace(/^\s*(?:[-*+]\s+)?(?:\[[ xX]\]\s*)?/, "").replace(/\s+/g, " ").trim();
+function taskItemHtml(text4) {
+  const line = text4.replace(/^\s*(?:[-*+]\s+)?(?:\[[ xX]\]\s*)?/, "").replace(/\s+/g, " ").trim();
   if (!line) return null;
   const html = markdownToTiptapHtml(`- [ ] ${line}`);
   const span = taskItemSpans(html)[0];
   return span ? html.slice(span.start, span.end) : null;
 }
-function noteHtml(text3) {
-  const line = text3.replace(/^\s*(?:[-*+]\s+)?(?:\[[ xX]\]\s*)?/, "").replace(/\s+/g, " ").trim();
+function noteHtml(text4) {
+  const line = text4.replace(/^\s*(?:[-*+]\s+)?(?:\[[ xX]\]\s*)?/, "").replace(/\s+/g, " ").trim();
   if (!line) return null;
   const html = markdownToTiptapHtml(line).trim();
   return /^<p>[\s\S]*<\/p>$/i.test(html) && !/<\/p>[\s\S]*<p>/i.test(html) ? html : null;
@@ -22637,13 +22650,13 @@ function mergeTestCheckState(existingHtml, newHtml) {
   for (const item of existingItems) checkedMap.set(item.normalized, item.checked);
   return normalizeTestsHtml(newHtml).replace(
     taskItemCheckRegex(),
-    (fullMatch, prefix, middle, text3, suffix) => {
-      const normalized = normalizeTaskText(text3);
+    (fullMatch, prefix, middle, text4, suffix) => {
+      const normalized = normalizeTaskText(text4);
       if (!normalized) return fullMatch;
       const matchedKey = findFuzzyMatch(normalized, existingKeys);
       const wasChecked = matchedKey ? checkedMap.get(matchedKey) : false;
       if (wasChecked) {
-        const result = `<li${prefix}true${middle}${text3}${suffix}`;
+        const result = `<li${prefix}true${middle}${text4}${suffix}`;
         return result.replace(
           /<input type="checkbox"(?:\s+checked="checked")?>/,
           '<input type="checkbox" checked="checked">'
@@ -22663,14 +22676,14 @@ function mergeStaleTestWrite(existingHtml, formHtml) {
   const existingNormalized = normalizeTestsHtml(existingHtml);
   const updatedExisting = existingNormalized.replace(
     taskItemCheckRegex(),
-    (fullMatch, prefix, middle, text3, suffix) => {
-      const normalized = normalizeTaskText(text3);
+    (fullMatch, prefix, middle, text4, suffix) => {
+      const normalized = normalizeTaskText(text4);
       if (!normalized) return fullMatch;
       const matchedKey = findFuzzyMatch(normalized, formKeys);
       if (!matchedKey) return fullMatch;
       const formState = formByKey.get(matchedKey);
       if (!formState) return fullMatch;
-      const result = `<li${prefix}${formState.checked}${middle}${text3}${suffix}`;
+      const result = `<li${prefix}${formState.checked}${middle}${text4}${suffix}`;
       return result.replace(
         /<input type="checkbox"(?:\s+checked="checked")?>/,
         formState.checked ? '<input type="checkbox" checked="checked">' : '<input type="checkbox">'
@@ -22697,18 +22710,18 @@ function testScenariosToMarkdown(html) {
     const [, hLevel, hText, liAttrs, liBody, pText] = match;
     if (hLevel) {
       const level = Math.min(parseInt(hLevel, 10), 6);
-      const text3 = hText.replace(/<[^>]*>/g, "").trim();
-      if (text3) parts.push(`${"#".repeat(level)} ${text3}`);
+      const text4 = hText.replace(/<[^>]*>/g, "").trim();
+      if (text4) parts.push(`${"#".repeat(level)} ${text4}`);
     } else if (liAttrs !== void 0) {
       const checkedMatch = liAttrs.match(/data-checked="(true|false)"/i);
       const checked = checkedMatch ? checkedMatch[1] === "true" : false;
       const inner = liBody.match(/<p[^>]*>([\s\S]*?)<\/p>/i);
-      const text3 = (inner ? inner[1] : liBody).replace(/<[^>]*>/g, "").trim();
-      if (text3) parts.push(`- [${checked ? "x" : " "}] ${text3}`);
+      const text4 = (inner ? inner[1] : liBody).replace(/<[^>]*>/g, "").trim();
+      if (text4) parts.push(`- [${checked ? "x" : " "}] ${text4}`);
     } else if (pText) {
-      const text3 = pText.replace(/<[^>]*>/g, "").trim();
-      if (text3 && !text3.includes("[ ]") && !text3.includes("[x]")) {
-        parts.push(text3);
+      const text4 = pText.replace(/<[^>]*>/g, "").trim();
+      if (text4 && !text4.includes("[ ]") && !text4.includes("[x]")) {
+        parts.push(text4);
       }
     }
   }
@@ -22717,11 +22730,11 @@ function testScenariosToMarkdown(html) {
 function plainTaskText(rawText) {
   return decodeHtmlEntities(rawText.replace(/<[^>]*>/g, "")).replace(/\s+/g, " ").trim();
 }
-function normalizeHeading(text3) {
-  return decodeHtmlEntities(text3.replace(/<[^>]*>/g, "")).replace(/[*_`]/g, "").replace(/\s+/g, " ").trim().replace(/\s*:$/, "").toLocaleLowerCase("tr");
+function normalizeHeading(text4) {
+  return decodeHtmlEntities(text4.replace(/<[^>]*>/g, "")).replace(/[*_`]/g, "").replace(/\s+/g, " ").trim().replace(/\s*:$/, "").toLocaleLowerCase("tr");
 }
-function dedupeKey(text3) {
-  return normalizeTaskText(decodeHtmlEntities(text3.replace(/<[^>]*>/g, " "))) || null;
+function dedupeKey(text4) {
+  return normalizeTaskText(decodeHtmlEntities(text4.replace(/<[^>]*>/g, " "))) || null;
 }
 function sectionEnd(blocks, headingIdx) {
   const level = blocks[headingIdx].level;
@@ -22730,9 +22743,9 @@ function sectionEnd(blocks, headingIdx) {
   }
   return blocks.length;
 }
-function lastHeadingIndex(blocks, key) {
+function lastHeadingIndex(blocks, key2) {
   for (let i = blocks.length - 1; i >= 0; i--) {
-    if (blocks[i].key !== null && (key === void 0 || blocks[i].key === key)) return i;
+    if (blocks[i].key !== null && (key2 === void 0 || blocks[i].key === key2)) return i;
   }
   return -1;
 }
@@ -22806,8 +22819,8 @@ function tokenizeMarkdownSections(markdown) {
   const flush = () => {
     if (!current.length) return;
     const raw = current.join("\n");
-    const text3 = currentIsList ? raw.replace(MD_TASK_PREFIX, "") : raw;
-    blocks.push({ key: null, level: 0, raw, dedupe: dedupeKey(text3), list: currentIsList });
+    const text4 = currentIsList ? raw.replace(MD_TASK_PREFIX, "") : raw;
+    blocks.push({ key: null, level: 0, raw, dedupe: dedupeKey(text4), list: currentIsList });
     current = [];
     currentIsList = false;
   };
@@ -22828,9 +22841,9 @@ function tokenizeMarkdownSections(markdown) {
     const heading = line.match(MD_HEADING);
     if (heading) {
       flush();
-      const key = normalizeHeading(heading[2]);
-      if (key) {
-        blocks.push({ key, level: heading[1].length, raw: line.trim(), dedupe: null });
+      const key2 = normalizeHeading(heading[2]);
+      if (key2) {
+        blocks.push({ key: key2, level: heading[1].length, raw: line.trim(), dedupe: null });
       }
       continue;
     }
@@ -22877,8 +22890,8 @@ function splitTopLevelHtml(html) {
   while ((match = tagRe.exec(html)) !== null) {
     if (!match[2]) continue;
     if (depth2 === 0) {
-      const text3 = html.slice(lastEnd, match.index).trim();
-      if (text3) parts.push(`<p>${text3}</p>`);
+      const text4 = html.slice(lastEnd, match.index).trim();
+      if (text4) parts.push(`<p>${text4}</p>`);
       start = match.index;
     }
     const closing = match[1] === "/";
@@ -22902,8 +22915,8 @@ function tokenizeHtmlSections(html) {
   return parts.map((raw) => {
     const heading = raw.match(/^<h([1-6])\b[^>]*>([\s\S]*?)<\/h\1>$/i);
     if (heading) {
-      const key = normalizeHeading(heading[2]);
-      if (key) return { key, level: parseInt(heading[1], 10), raw, dedupe: null };
+      const key2 = normalizeHeading(heading[2]);
+      if (key2) return { key: key2, level: parseInt(heading[1], 10), raw, dedupe: null };
     }
     return { key: null, level: 0, raw, dedupe: dedupeKey(raw) };
   });
@@ -22949,8 +22962,8 @@ function isVerifyScope(value) {
   return value === "next" || value === "all";
 }
 var CORE_HEADING = /^(core\s*flow|temel\s*ak[ıi][şs])$/;
-function isCoreHeading(text3) {
-  return CORE_HEADING.test(headingText(text3).toLowerCase());
+function isCoreHeading(text4) {
+  return CORE_HEADING.test(headingText(text4).toLowerCase());
 }
 var H2 = /<h2\b[^>]*>([\s\S]*?)<\/h2>/gi;
 function countChecks(html) {
@@ -22995,13 +23008,13 @@ var SPLIT_FLOWS_HEADING = "End-to-end";
 var SPLIT_FLOWS_LABEL = SPLIT_FLOWS_HEADING.toLowerCase();
 var CHAIN_REGRESSION_HEADING = "Chain regression";
 var CHAIN_REGRESSION_LABEL = CHAIN_REGRESSION_HEADING.toLowerCase();
-function isChainRegressionHeading(text3) {
-  return headingText(text3).toLowerCase().startsWith(CHAIN_REGRESSION_LABEL);
+function isChainRegressionHeading(text4) {
+  return headingText(text4).toLowerCase().startsWith(CHAIN_REGRESSION_LABEL);
 }
 var CHAIN_LEFTOVERS_HEADING = "Chain leftovers";
 var CHAIN_LEFTOVERS_LABEL = CHAIN_LEFTOVERS_HEADING.toLowerCase();
-function isChainLeftoversHeading(text3) {
-  return headingText(text3).toLowerCase().startsWith(CHAIN_LEFTOVERS_LABEL);
+function isChainLeftoversHeading(text4) {
+  return headingText(text4).toLowerCase().startsWith(CHAIN_LEFTOVERS_LABEL);
 }
 function sectionBlocks(html) {
   const starts = [];
@@ -23084,8 +23097,8 @@ function isFinalTestNote(html) {
   return FINAL_TEST_NOTE.test(plainTextLabel(html ?? ""));
 }
 function appendFinalTestPlanNote(description, note) {
-  const text3 = note.trim().replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\r?\n/g, "<br>");
-  return `${description ?? ""}<p><strong>The final test showed (plan only this):</strong> ${text3}</p>`;
+  const text4 = note.trim().replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\r?\n/g, "<br>");
+  return `${description ?? ""}<p><strong>The final test showed (plan only this):</strong> ${text4}</p>`;
 }
 function hasRealPlan(html) {
   return plainTextLabel(html ?? "") !== "" && !isFinalTestNote(html);
@@ -23119,7 +23132,7 @@ function parseTestProgress(html) {
     const core2 = index === coreIndex || flows;
     const open = index === coreIndex ? [] : sectionItems(section2.body, false);
     const afterMerge = open.filter(isAfterMergeItem).length;
-    const manual = open.filter((text3) => isManualItem(text3) && !isAfterMergeItem(text3)).length;
+    const manual = open.filter((text4) => isManualItem(text4) && !isAfterMergeItem(text4)).length;
     groups.push({ heading: section2.heading, occurrence, core: core2, ...flows ? { flows } : {}, ...counts, manual, afterMerge });
   });
   const core = groups.find((g) => g.core);
@@ -23133,8 +23146,8 @@ function sectionItems(body, checked) {
   let match;
   while ((match = pattern.exec(body)) !== null) {
     if (match[1] === "true" !== checked) continue;
-    const text3 = headingText(match[2]);
-    if (text3) texts.push(text3);
+    const text4 = headingText(match[2]);
+    if (text4) texts.push(text4);
   }
   return texts;
 }
@@ -23179,8 +23192,8 @@ function withParkedItems(progress, html, parked) {
   const wanted = new Set(parked.map((item) => item.trim()));
   const groups = progress.groups.map((group) => {
     const manualCounts = !group.core || !!group.flows;
-    const open = itemTexts(html, [group], false).filter((text3) => !(manualCounts && isPersonsItem(text3)));
-    const count = open.filter((text3) => wanted.has(text3.trim())).length;
+    const open = itemTexts(html, [group], false).filter((text4) => !(manualCounts && isPersonsItem(text4)));
+    const count = open.filter((text4) => wanted.has(text4.trim())).length;
     return count > 0 ? { ...group, parked: count } : group;
   });
   return { ...progress, groups };
@@ -23249,37 +23262,37 @@ var UI_ITEM_TOKEN = "[ui]";
 var MANUAL_ITEM_TOKEN = "[manual]";
 var AFTER_MERGE_ITEM_TOKEN = "[after-merge]";
 var ITEM_TOKEN_PATTERN = /(?:\s*\[(?:ui|manual|after-merge)\])+\s*$/i;
-function itemTokensStart(text3) {
-  return ITEM_TOKEN_PATTERN.exec(text3)?.index ?? text3.length;
+function itemTokensStart(text4) {
+  return ITEM_TOKEN_PATTERN.exec(text4)?.index ?? text4.length;
 }
-function itemTokens(text3) {
-  return ITEM_TOKEN_PATTERN.exec(text3)?.[0].toLowerCase() ?? "";
+function itemTokens(text4) {
+  return ITEM_TOKEN_PATTERN.exec(text4)?.[0].toLowerCase() ?? "";
 }
-function isUiItem(text3) {
-  return itemTokens(text3).includes(UI_ITEM_TOKEN);
+function isUiItem(text4) {
+  return itemTokens(text4).includes(UI_ITEM_TOKEN);
 }
-function isManualItem(text3) {
-  return itemTokens(text3).includes(MANUAL_ITEM_TOKEN);
+function isManualItem(text4) {
+  return itemTokens(text4).includes(MANUAL_ITEM_TOKEN);
 }
-function isAfterMergeItem(text3) {
-  return itemTokens(text3).includes(AFTER_MERGE_ITEM_TOKEN);
+function isAfterMergeItem(text4) {
+  return itemTokens(text4).includes(AFTER_MERGE_ITEM_TOKEN);
 }
-function isPersonsItem(text3) {
-  return isManualItem(text3) || isAfterMergeItem(text3);
+function isPersonsItem(text4) {
+  return isManualItem(text4) || isAfterMergeItem(text4);
 }
-function isCopySetupItem(text3) {
-  return /verify-server`?\s+start\b/i.test(text3);
+function isCopySetupItem(text4) {
+  return /verify-server`?\s+start\b/i.test(text4);
 }
 var NEEDS_PRE_VERIFY_REASON = "This item needs Pre-verify \u2014 run Pre-verify from the card";
-function stripItemTokens(text3) {
-  return text3.replace(ITEM_TOKEN_PATTERN, "").replace(/\s+/g, " ").trim();
+function stripItemTokens(text4) {
+  return text4.replace(ITEM_TOKEN_PATTERN, "").replace(/\s+/g, " ").trim();
 }
 function manualItemTexts(html, groups) {
   return untickedItemTexts(html, groups.filter((g) => !g.core || g.flows)).filter(isPersonsItem);
 }
 function runnableItemTexts(html, groups) {
   const manual = new Set(manualItemTexts(html, groups));
-  return untickedItemTexts(html, groups).filter((text3) => !manual.has(text3));
+  return untickedItemTexts(html, groups).filter((text4) => !manual.has(text4));
 }
 var MANUAL_ITEM_LIMIT = 2;
 var AFTER_MERGE_ITEM_LIMIT = 2;
@@ -23291,27 +23304,27 @@ function afterMergeItemsOutsideCore(html) {
 function afterMergeOverLimit(previous, next) {
   const before = new Set(afterMergeItemsOutsideCore(previous).map(stripItemTokens));
   const items = afterMergeItemsOutsideCore(next);
-  const added = items.filter((text3) => !before.has(stripItemTokens(text3)));
+  const added = items.filter((text4) => !before.has(stripItemTokens(text4)));
   return added.slice(Math.max(0, AFTER_MERGE_ITEM_LIMIT - (items.length - added.length)));
 }
 function afterMergeLimitMessage(tool, items) {
-  const list = items.map((item) => `"${item}"`).join(", ");
-  return `${tool} refused, nothing written: at most ${AFTER_MERGE_ITEM_LIMIT} [after-merge] items outside the core flow, and this write adds ${items.length} past that \u2014 ${list}. [after-merge] is only for a check that needs the change truly on main: a release cut from main, another card or session taking it from main, a backfill on the live DB. A merge itself still runs on a verify-server copy. Drop the token from those items and write again.`;
+  const list2 = items.map((item) => `"${item}"`).join(", ");
+  return `${tool} refused, nothing written: at most ${AFTER_MERGE_ITEM_LIMIT} [after-merge] items outside the core flow, and this write adds ${items.length} past that \u2014 ${list2}. [after-merge] is only for a check that needs the change truly on main: a release cut from main, another card or session taking it from main, a backfill on the live DB. A merge itself still runs on a verify-server copy. Drop the token from those items and write again.`;
 }
 function manualItemsOutsideCore(html) {
   const sections = splitSections(html);
   const coreIndex = sections.findIndex((s) => CORE_HEADING.test(s.label));
-  return sections.filter((_2, index) => index !== coreIndex).flatMap((s) => [...sectionItems(s.body, false), ...sectionItems(s.body, true)]).filter((text3) => isManualItem(text3) && !isAfterMergeItem(text3));
+  return sections.filter((_2, index) => index !== coreIndex).flatMap((s) => [...sectionItems(s.body, false), ...sectionItems(s.body, true)]).filter((text4) => isManualItem(text4) && !isAfterMergeItem(text4));
 }
 function manualOverLimit(previous, next) {
   const before = new Set(manualItemsOutsideCore(previous).map(stripItemTokens));
   const items = manualItemsOutsideCore(next);
-  const added = items.filter((text3) => !before.has(stripItemTokens(text3)));
+  const added = items.filter((text4) => !before.has(stripItemTokens(text4)));
   return added.slice(Math.max(0, MANUAL_ITEM_LIMIT - (items.length - added.length)));
 }
 function manualLimitMessage(tool, items) {
-  const list = items.map((item) => `"${item}"`).join(", ");
-  return `${tool} refused, nothing written: at most ${MANUAL_ITEM_LIMIT} [manual] items outside the core flow, and this write adds ${items.length} past that \u2014 ${list}. [manual] is only for what no run on this machine can do: a packaged or signed app, a published release, a physical device or another machine, the person's own account, a judgement of taste. A nested AI run, a merge, a restart, an MCP call or a terminal step runs on a verify-server copy (\`verify-server start --card <ID> --ai-run\`), and a long one goes in its own group. Drop the token from those items and write again.`;
+  const list2 = items.map((item) => `"${item}"`).join(", ");
+  return `${tool} refused, nothing written: at most ${MANUAL_ITEM_LIMIT} [manual] items outside the core flow, and this write adds ${items.length} past that \u2014 ${list2}. [manual] is only for what no run on this machine can do: a packaged or signed app, a published release, a physical device or another machine, the person's own account, a judgement of taste. A nested AI run, a merge, a restart, an MCP call or a terminal step runs on a verify-server copy (\`verify-server start --card <ID> --ai-run\`), and a long one goes in its own group. Drop the token from those items and write again.`;
 }
 function manualDroppedWarning(items) {
   return `[manual] dropped from ${items.length} item${items.length === 1 ? "" : "s"} past the limit of ${MANUAL_ITEM_LIMIT} \u2014 pre-verify runs ${items.length === 1 ? "it" : "them"}: ${items.map((item) => `"${item}"`).join(", ")}`;
@@ -23345,12 +23358,12 @@ function markManualItems(html, items) {
   if (items.length === 0) return html;
   const left = [...items];
   return html.replace(new RegExp(ITEM.source, ITEM.flags), (li, _checked, inner) => {
-    const text3 = headingText(inner);
-    const index = left.indexOf(text3);
+    const text4 = headingText(inner);
+    const index = left.indexOf(text4);
     if (index === -1) return li;
     left.splice(index, 1);
     const closing = inner.lastIndexOf("</p>");
-    const tokened = isManualItem(text3) ? inner : closing === -1 ? `${inner} ${MANUAL_ITEM_TOKEN}` : `${inner.slice(0, closing)} ${MANUAL_ITEM_TOKEN}${inner.slice(closing)}`;
+    const tokened = isManualItem(text4) ? inner : closing === -1 ? `${inner} ${MANUAL_ITEM_TOKEN}` : `${inner.slice(0, closing)} ${MANUAL_ITEM_TOKEN}${inner.slice(closing)}`;
     return li.replace(inner, () => tokened).replace('data-checked="true"', 'data-checked="false"').replace(/\s+checked="checked"/, "");
   });
 }
@@ -23374,7 +23387,7 @@ function allUiItemTexts(html) {
     [...itemTexts(html, later, true), ...itemTexts(html, later, false)].filter(isPersonsItem)
   );
   return [...itemTexts(html, progress.groups, true), ...itemTexts(html, progress.groups, false)].filter(
-    (text3) => isUiItem(text3) && !manual.has(text3)
+    (text4) => isUiItem(text4) && !manual.has(text4)
   );
 }
 function checklistItems(html) {
@@ -23386,8 +23399,8 @@ function checklistItems(html) {
     const pattern = new RegExp(ITEM.source, ITEM.flags);
     let match;
     while ((match = pattern.exec(section2.body)) !== null) {
-      const text3 = headingText(match[2]);
-      if (text3) items.push({ heading: section2.heading, core: index === coreIndex, checked: match[1] === "true", text: text3 });
+      const text4 = headingText(match[2]);
+      if (text4) items.push({ heading: section2.heading, core: index === coreIndex, checked: match[1] === "true", text: text4 });
     }
   });
   return items;
@@ -23410,10 +23423,10 @@ function ticksByExactItemText(outputHtml, baselineHtml, aliases = []) {
   const seen = /* @__PURE__ */ new Set();
   const ticked = [];
   for (const item of output) {
-    const key = byKey.has(item.normalized) ? item.normalized : renamed.get(item.normalized);
-    if (!key || seen.has(key)) return null;
-    seen.add(key);
-    if (item.checked) ticked.push(byKey.get(key));
+    const key2 = byKey.has(item.normalized) ? item.normalized : renamed.get(item.normalized);
+    if (!key2 || seen.has(key2)) return null;
+    seen.add(key2);
+    if (item.checked) ticked.push(byKey.get(key2));
   }
   return { html: ticked.length > 0 ? tickTaskItems(baselineHtml, ticked) : baselineHtml, ticked: ticked.length };
 }
@@ -23707,10 +23720,10 @@ function buildTestStyleContract(opts = {}) {
   return body + languageRule;
 }
 function detectCardLanguage(card) {
-  const text3 = `${card.title ?? ""} ${card.description ?? ""}`.slice(0, 300);
-  if (!text3.trim()) return "en";
-  if (/[çğıöşü]/i.test(text3)) return "tr";
-  const stopwordCount = (text3.toLowerCase().match(/\b(ve|bu|bir|için|ile|daha|ama|veya|ancak|nasıl|neden|olmalı|gerekir|göre)\b/g) || []).length;
+  const text4 = `${card.title ?? ""} ${card.description ?? ""}`.slice(0, 300);
+  if (!text4.trim()) return "en";
+  if (/[çğıöşü]/i.test(text4)) return "tr";
+  const stopwordCount = (text4.toLowerCase().match(/\b(ve|bu|bir|için|ile|daha|ama|veya|ancak|nasıl|neden|olmalı|gerekir|göre)\b/g) || []).length;
   if (stopwordCount >= 2) return "tr";
   return "en";
 }
@@ -23859,15 +23872,15 @@ function buildPhasePolicyBody(card, branchPolicy, mode = "development") {
   if (!phaseInstruction) return null;
   const title = sanitizeForReminder(card.title);
   const displayId = safeDisplayId(card.displayId);
-  const phaseLines = card.status === "test" ? buildTestPhaseLines(mode) : buildStandardPhaseLines(card.status, phaseInstruction);
+  const phaseLines2 = card.status === "test" ? buildTestPhaseLines(mode) : buildStandardPhaseLines(card.status, phaseInstruction);
   const lines2 = [
     `Ideafy card: ${card.id} \u2014 "${title}"`,
     `Current column: ${card.status}`,
     "",
     "Policy for this session:",
-    ...phaseLines
+    ...phaseLines2
   ];
-  let clause = phaseLines.filter((line) => /^\d+\./.test(line)).length;
+  let clause = phaseLines2.filter((line) => /^\d+\./.test(line)).length;
   const next = () => ++clause;
   const gitClauses = mode !== "work";
   if (gitClauses && branchPolicy?.enforced && branchPolicy.targetBranch) {
@@ -24296,8 +24309,8 @@ __export(test_report_state_exports, {
 });
 
 // ../lib/ready-to-merge.ts
-function normalize2(text3) {
-  return stripItemTokens(text3).replace(/[`*_~]/g, "").toLowerCase().replace(/\s+/g, " ").trim();
+function normalize2(text4) {
+  return stripItemTokens(text4).replace(/[`*_~]/g, "").toLowerCase().replace(/\s+/g, " ").trim();
 }
 function readyToMerge(input) {
   const html = input.testScenarios ?? "";
@@ -24320,18 +24333,28 @@ function readyToMerge(input) {
   if (noShot > 0) missing.push(`${noShot} [ui] item${noShot === 1 ? " has" : "s have"} no screenshot`);
   return { ok: missing.length === 0, missing, manualLeft, unticked, left, afterMerge, failed, noShot };
 }
+var CLIP_MARK = "\u2026";
+var MIN_CLIPPED_LENGTH = 400;
 function shotlessUiItems(testScenarios, testReports) {
-  const shot = new Set(
-    (testReports ?? []).flatMap(
-      (run2) => run2.items.filter((item) => item.artifacts.length > 0).map((item) => normalize2(item.item))
-    )
-  );
-  return allUiItemTexts(testScenarios ?? "").filter((text3) => !shot.has(normalize2(text3)));
+  const shot = /* @__PURE__ */ new Set();
+  const clipped = [];
+  for (const run2 of testReports ?? []) {
+    for (const item of run2.items) {
+      if (item.artifacts.length === 0) continue;
+      const text4 = normalize2(item.item);
+      if (text4.endsWith(CLIP_MARK) && text4.length >= MIN_CLIPPED_LENGTH) clipped.push(text4.slice(0, -CLIP_MARK.length).trimEnd());
+      else shot.add(text4);
+    }
+  }
+  return allUiItemTexts(testScenarios ?? "").filter((raw) => {
+    const text4 = normalize2(raw);
+    return !shot.has(text4) && !clipped.some((start) => text4.startsWith(start));
+  });
 }
 function tickedShotlessUiItems(testScenarios, testReports) {
   const html = testScenarios ?? "";
   const ticked = new Set(checklistItems(html).filter((item) => item.checked).map((item) => normalize2(item.text)));
-  return shotlessUiItems(html, testReports).filter((text3) => ticked.has(normalize2(text3)));
+  return shotlessUiItems(html, testReports).filter((text4) => ticked.has(normalize2(text4)));
 }
 function manualYoursText(n) {
   return `${n} [manual] item${n === 1 ? " is" : "s are"} yours`;
@@ -24493,6 +24516,7 @@ var MAX_ARTIFACTS_PER_ITEM = 3;
 var TEST_REPORT_DIR = "test-report";
 var TEST_REPORT_FENCE = "test-report";
 var MAX_TEXT = 2e3;
+var MAX_ITEM_TEXT = 4e3;
 var MAX_OUTPUT = 4e3;
 var MAX_PLAIN = 400;
 var MAX_STEPS = 20;
@@ -24548,13 +24572,13 @@ function isTestReportImageName(value) {
   return IMAGE_FILE.test(value) && !value.includes("..");
 }
 var FENCE = new RegExp("^[ \\t]*```+[ \\t]*" + TEST_REPORT_FENCE + "[^\\n]*\\n([\\s\\S]*?)^[ \\t]*```+[ \\t]*$", "gm");
-function extractTestReportFence(text3) {
+function extractTestReportFence(text4) {
   let raw = null;
-  const stripped = text3.replace(FENCE, (_match, body) => {
+  const stripped = text4.replace(FENCE, (_match, body) => {
     raw = body;
     return "";
   });
-  if (raw === null) return { text: text3, raw: null };
+  if (raw === null) return { text: text4, raw: null };
   return { text: stripped.replace(/\n{3,}/g, "\n\n").trimEnd(), raw };
 }
 function str(value, max = MAX_TEXT) {
@@ -24565,9 +24589,9 @@ function str(value, max = MAX_TEXT) {
   return trimmed.length > max ? `${trimmed.slice(0, max)}\u2026` : trimmed;
 }
 function normalizeStatus(value) {
-  const text3 = typeof value === "string" ? value.trim().toLowerCase() : "";
-  if (["passed", "pass", "ok", "success", "ge\xE7ti"].includes(text3)) return "passed";
-  if (["failed", "fail", "error", "kald\u0131"].includes(text3)) return "failed";
+  const text4 = typeof value === "string" ? value.trim().toLowerCase() : "";
+  if (["passed", "pass", "ok", "success", "ge\xE7ti"].includes(text4)) return "passed";
+  if (["failed", "fail", "error", "kald\u0131"].includes(text4)) return "failed";
   return "manual";
 }
 function normalizeImpact(value) {
@@ -24591,7 +24615,7 @@ function normalizeArtifacts(value) {
 function normalizeTestReportItem(value) {
   if (!value || typeof value !== "object") return null;
   const record2 = value;
-  const item = str(record2.item ?? record2.scenario ?? record2.title, 600);
+  const item = str(record2.item ?? record2.scenario ?? record2.title, MAX_ITEM_TEXT);
   if (!item) return null;
   const steps = Array.isArray(record2.steps) ? record2.steps.map((step) => str(step)).filter((step) => Boolean(step)).slice(0, MAX_STEPS) : [];
   const observed = str(record2.observed);
@@ -24653,9 +24677,9 @@ function parseTestReportItems(value) {
       return { ok: false, error: `not valid JSON (${error2 instanceof Error ? error2.message : String(error2)})` };
     }
   }
-  const list = Array.isArray(parsed) ? parsed : parsed && typeof parsed === "object" && Array.isArray(parsed.items) ? parsed.items : null;
-  if (!list) return { ok: false, error: "expected an `items` array" };
-  const items = list.map(normalizeTestReportItem).filter((item) => item !== null).slice(0, MAX_ITEMS);
+  const list2 = Array.isArray(parsed) ? parsed : parsed && typeof parsed === "object" && Array.isArray(parsed.items) ? parsed.items : null;
+  if (!list2) return { ok: false, error: "expected an `items` array" };
+  const items = list2.map(normalizeTestReportItem).filter((item) => item !== null).slice(0, MAX_ITEMS);
   if (items.length === 0) return { ok: false, error: "no item had an `item` text" };
   const decisions = parsed && typeof parsed === "object" && !Array.isArray(parsed) ? normalizeTestReportDecisions(parsed.decisions) : [];
   return decisions.length > 0 ? { ok: true, items, decisions } : { ok: true, items };
@@ -24706,11 +24730,11 @@ function normalizeRun(value) {
 function normalizeBrief(value) {
   if (!value || typeof value !== "object") return null;
   const record2 = value;
-  const text3 = str(record2.text, 1e3);
+  const text4 = str(record2.text, 1e3);
   const basis = str(record2.basis, 40);
   const at = str(record2.at, 40);
-  if (!text3 || !basis || !at) return null;
-  return { text: text3, basis, platform: str(record2.platform, 40), at };
+  if (!text4 || !basis || !at) return null;
+  return { text: text4, basis, platform: str(record2.platform, 40), at };
 }
 function parseTestReports(value) {
   if (!value) return null;
@@ -24747,15 +24771,15 @@ function latestItemResults(runs, checklistHtml) {
   const results = /* @__PURE__ */ new Map();
   runs.forEach((run2, runIndex) => {
     for (const item of run2.items) {
-      const key = checklistKey(item.item, checklistHtml);
-      if (key !== null && !results.has(key)) results.set(key, { item, run: run2, runIndex });
+      const key2 = checklistKey(item.item, checklistHtml);
+      if (key2 !== null && !results.has(key2)) results.set(key2, { item, run: run2, runIndex });
     }
   });
   return results;
 }
-function latestResultFor(results, text3) {
+function latestResultFor(results, text4) {
   const keys = [...results.keys()];
-  const index = closestTaskText(text3, keys);
+  const index = closestTaskText(text4, keys);
   return index >= 0 ? results.get(keys[index]) : void 0;
 }
 function testReportSupersededItems(runs, run2, checklistHtml) {
@@ -24999,11 +25023,11 @@ function cardTestReportState(allRuns, checklistHtml, asOf = 0, codeChanges, opts
   const needsYou = [];
   const afterMerge = [];
   const passedBut = [];
-  const afterMergeKey = (text3) => stripItemTokens(text3).toLowerCase();
+  const afterMergeKey = (text4) => stripItemTokens(text4).toLowerCase();
   const afterMergeTexts = new Set(
     checklistItems(html).filter((item) => !item.checked && !item.core && isAfterMergeItem(item.text)).map((item) => afterMergeKey(item.text))
   );
-  const isAfterMerge = (text3) => afterMergeTexts.has(afterMergeKey(text3));
+  const isAfterMerge = (text4) => afterMergeTexts.has(afterMergeKey(text4));
   const worked = [];
   const runKeys = runs.map(
     (run2) => run2.items.map((item) => latestItemResults([{ ...run2, items: [item] }], html).keys().next().value ?? null)
@@ -25013,14 +25037,14 @@ function cardTestReportState(allRuns, checklistHtml, asOf = 0, codeChanges, opts
   for (const task of tasks) {
     if (seen.has(task.normalized)) continue;
     seen.add(task.normalized);
-    const text3 = plainTaskText(task.rawText);
+    const text4 = plainTaskText(task.rawText);
     const newest = latest.get(task.normalized);
     if (!newest) {
-      const waits = !task.checked && isAfterMerge(text3);
+      const waits = !task.checked && isAfterMerge(text4);
       const state2 = {
         kind: task.checked ? "worked" : waits ? "afterMerge" : "needsYou",
-        checklistText: text3,
-        sentence: stripItemTokens(text3),
+        checklistText: text4,
+        sentence: stripItemTokens(text4),
         observed: null,
         status: null,
         caveat: null,
@@ -25041,17 +25065,17 @@ function cardTestReportState(allRuns, checklistHtml, asOf = 0, codeChanges, opts
       if (hit) history.push({ run: numberOf(index), status: hit.status });
     });
     history.reverse();
-    const unseen = item.status === "passed" && run2.evidence !== "visual" && isUiItem(text3);
+    const unseen = item.status === "passed" && run2.evidence !== "visual" && isUiItem(text4);
     const caveat = item.status === "passed" ? item.caveat ?? (unseen ? NOT_SEEN_ON_SCREEN : null) : null;
     const codeCaveat = item.status === "passed" && !merged2 ? runCodeCaveat(codeChanges?.[run2.id], numberOf(runIndex)) : null;
     let kind;
     if (item.status === "failed") kind = "problem";
-    else if (!task.checked) kind = isAfterMerge(text3) ? "afterMerge" : "needsYou";
+    else if (!task.checked) kind = isAfterMerge(text4) ? "afterMerge" : "needsYou";
     else if (caveat || codeCaveat) kind = "passedBut";
     else kind = "worked";
     const state = {
       kind,
-      checklistText: text3,
+      checklistText: text4,
       sentence: item.plainItem ?? stripItemTokens(item.item),
       observed: item.plainObserved ?? item.observed,
       status: item.status,
@@ -25195,7 +25219,9 @@ function deriveFeature(feature, phase, cards, groups) {
   if (live.length === 0) return { ...base, state: "dropped" };
   const done = live.filter((card) => card.status === "completed").length;
   const running = live.filter((card) => card.status === "progress").length;
-  const yourTurn = live.filter((card) => cardTurn(card, { running: false })?.who === "you").length;
+  const yourTurn = live.filter(
+    (card) => card.status === "test" || cardTurn(card, { running: false })?.who === "you"
+  ).length;
   return {
     ...base,
     state: done === live.length ? "done" : "open",
@@ -25320,7 +25346,7 @@ function validateRoadmap(phases, features, waits, opts = {}) {
   }
   return null;
 }
-var ROADMAP_PLACEMENT_KINDS = ["in_open_phase", "next_phase", "later", "conflicts", "new_item"];
+var ROADMAP_PLACEMENT_KINDS = ["in_open_phase", "next_phase", "later", "conflicts", "new_item", "product_idea"];
 function parseStoredPlacement(raw) {
   if (!raw) return null;
   try {
@@ -25330,6 +25356,9 @@ function parseStoredPlacement(raw) {
       kind: value.kind,
       phaseId: value.phaseId ?? null,
       featureId: value.featureId ?? null,
+      suggestedPhaseId: value.suggestedPhaseId ?? null,
+      target: typeof value.target === "string" ? value.target : "",
+      dismissed: value.dismissed === true,
       note: typeof value.note === "string" ? value.note : "",
       at: typeof value.at === "string" ? value.at : ""
     };
@@ -25355,11 +25384,13 @@ function placementOf(roadmap, card) {
     };
   }
   const stored = parseStoredPlacement(card.roadmapPlacement);
-  if (!stored) {
+  if (!stored || stored.kind === "product_idea") {
     return { kind: "not_checked", phaseId: null, phaseName: null, featureId: null, featureName: null, note: null, at: null };
   }
   const feature = stored.featureId ? all.find((item) => item.id === stored.featureId) : void 0;
   const phaseId = feature?.phaseId ?? stored.phaseId ?? null;
+  const suggested = phaseName(stored.suggestedPhaseId) ? stored.suggestedPhaseId : null;
+  const stale = !!stored.featureId && !feature || !!stored.phaseId && !phaseName(stored.phaseId) || !!stored.suggestedPhaseId && !suggested;
   return {
     kind: stored.kind,
     phaseId: phaseName(phaseId) ? phaseId : null,
@@ -25367,8 +25398,30 @@ function placementOf(roadmap, card) {
     featureId: feature?.id ?? null,
     featureName: feature?.name ?? null,
     note: stored.note || null,
-    at: stored.at || null
+    at: stored.at || null,
+    suggestedPhaseId: suggested,
+    suggestedPhaseName: phaseName(suggested),
+    target: stored.target || null,
+    stale,
+    dismissed: stored.dismissed === true
   };
+}
+var sameName = (value) => value.toLocaleLowerCase("en").replace(/\s+/g, " ").trim();
+function resolveRoadmapTarget(roadmap, name) {
+  const wanted = sameName(name);
+  if (!wanted) return null;
+  const open = roadmap.phases.find((phase2) => phase2.id === roadmap.openPhaseId);
+  const ordered = [...open ? [open] : [], ...roadmap.phases.filter((phase2) => phase2.id !== open?.id)];
+  for (const phase2 of ordered) {
+    const feature = phase2.features.find((item) => sameName(item.name) === wanted);
+    if (feature) return { featureId: feature.id, phaseId: phase2.id, later: false };
+  }
+  const line = roadmap.later.find((item) => sameName(item.name) === wanted);
+  if (line) return { featureId: line.id, phaseId: null, later: true };
+  const phase = roadmap.phases.find((item) => sameName(item.name) === wanted);
+  if (phase) return { featureId: null, phaseId: phase.id, later: false };
+  if (wanted === "later") return { featureId: null, phaseId: null, later: true };
+  return null;
 }
 var PLACEMENT_WORDS = {
   feature: "opened as the feature",
@@ -25475,6 +25528,344 @@ ${ROADMAP_GENERATION_RULES}
 save_roadmap writes a draft only. Approving it is the user's decision: tell them the draft is ready to review in Ideafy, and call update_roadmap with op "approve" only when they explicitly ask you to.`;
 }
 
+// ../lib/prompts/roadmap-open-phase.ts
+var roadmap_open_phase_exports = {};
+__export(roadmap_open_phase_exports, {
+  OPEN_PHASE_RULES: () => OPEN_PHASE_RULES,
+  buildOpenPhasePrompt: () => buildOpenPhasePrompt,
+  openPhaseGuide: () => openPhaseGuide,
+  roadmapForOpenPhase: () => roadmapForOpenPhase
+});
+var OPEN_PHASE_RULES = [
+  "Read the roadmap and the code together. Where they differ, the code wins: do not make a card for what already exists, name the file that already does it, and build on what is there.",
+  `Decide for every feature whether it is ONE CARD or a CHAIN. A card is one piece of work an AI can plan, build and test in one run: one layer or one flow, roughly up to ten files. A bigger feature is a chain of 2 to ${ROADMAP_MAX_CHAIN_CARDS} cards, in the order they are built; each card stands on the ones before it in the same chain.`,
+  "Do not pad and do not squeeze: a feature that fits one card stays one card, a feature that needs five stays five.",
+  "Chains are independent of each other. There are NO card-level links between different features: never say that a card of one feature waits for a card of another.",
+  "Waiting is at feature level: write A's name in B's `waitsFor` only when B calls code that A writes. It means B starts when ALL of A has landed on main, and merging is the user's, so B sits idle until then. Sharing a topic or a file is not a reason to wait. No cycles.",
+  'When two or more features need the same piece (a table, a shared component, a service), pull it out as its own small feature of 1 or 2 cards that goes first, marked `"prerequisite": true`, and let the others wait for it. If that piece is already in the code, open no feature for it.',
+  `After opening the phase holds at most ${ROADMAP_MAX_FEATURES} features, the shared pieces you added included. If it does not fit, fold the shared piece into the feature that needs it, or list a feature in \`moveToNext\` so it goes to the next phase.`,
+  `Two small features so tightly bound that neither works without the other may be merged into one, when together they fit ${ROADMAP_MAX_CHAIN_CARDS} cards: keep one of them and name the other in its \`mergedFrom\`.`,
+  "Keep the phase's features and their names. Every roadmap feature of the phase that is not a card yet appears exactly once: as a feature, in another feature's `mergedFrom`, or in `moveToNext`. Do not add features the roadmap does not ask for, other than a shared piece. Every change to the feature list goes in `notes` with its reason.",
+  'A feature marked "already a card" (over MCP: it carries a `cardId` or a `groupId`) was put on the phase as an existing card or chain. Leave it out of the proposal: no card for it, not in `mergedFrom`, not in `moveToNext`. Name it only in another feature\'s `waitsFor`, when that feature calls code it writes.',
+  'A card\'s `scope` is one or two sentences and names the files it touches. A file that does not exist yet is marked "(new)" only on the first card of the chain that creates it.',
+  "Do not read `.worktrees/`, `node_modules` or build folders (`.next`, `dist`, `build`, `out`).",
+  "Say in `notes` how many features start at once and how deep the waiting goes."
+].map((rule) => `- ${rule}`).join("\n");
+var OUTPUT_SHAPE2 = `{
+  "features": [
+    {
+      "name": "The roadmap feature's name, or a short name for a shared piece",
+      "kind": "card" | "chain",
+      "chainCode": "chain only: up to 6 letters or digits, e.g. MENU",
+      "cards": [{ "title": "Short title", "scope": "One or two sentences, with the files." }],
+      "waitsFor": ["names of features of this phase"],
+      "prerequisite": false,
+      "mergedFrom": ["names of roadmap features folded into this one"]
+    }
+  ],
+  "moveToNext": ["names of roadmap features that go to the next phase"],
+  "notes": ["each change to the feature list with its reason; how many start now and the wait depth"]
+}`;
+function phaseLines(phase, linkedLabels = {}) {
+  const state = phase.state === "done" ? "done" : phase.state === "open" ? `open, ${phase.done}/${phase.total} done` : "not opened";
+  const linked = (feature) => feature.cardId || feature.groupId ? ` (already a card${linkedLabels[feature.id] ? `: ${linkedLabels[feature.id]}` : ""})` : "";
+  const features = phase.features.map((feature) => `  - ${feature.name}${linked(feature)}${feature.scope ? `: ${feature.scope}` : ""}`).join("\n");
+  return `- ${phase.name} (${phase.kind}, ${state})${phase.goal ? `: ${phase.goal}` : ""}${features ? `
+${features}` : ""}`;
+}
+function roadmapForOpenPhase(roadmap, linkedLabels = {}) {
+  const later = roadmap.later.length ? `
+- Later: ${roadmap.later.map((line) => line.name).join(", ")}` : "";
+  return `${roadmap.phases.map((phase) => phaseLines(phase, linkedLabels)).join("\n")}${later}`;
+}
+function buildOpenPhasePrompt(projectName, roadmap, phase, retryError, linkedLabels = {}) {
+  const retry = retryError ? `
+## Your previous answer was rejected
+
+${retryError}
+
+Write the proposal again so that it passes.
+` : "";
+  return `You are opening a roadmap phase of the project "${projectName}" in Ideafy, a kanban board where AI agents plan, build and test the work card by card. The user pressed "Open phase" on the phase named below. Propose how this phase's features become cards. Nothing is created yet: the user reads your proposal and then approves it.
+
+You are in the project's folder. Read the code as it stands today before you decide. Do not write, create or edit any file and do not run commands that change anything. Do not ask questions: this is a one-shot run. Write names, card titles and scopes in the language the roadmap is written in; keep JSON keys in English.
+
+## The roadmap
+
+${roadmapForOpenPhase(roadmap, linkedLabels)}
+
+## The phase to open
+
+${phaseLines(phase, linkedLabels)}
+
+## Rules
+
+${OPEN_PHASE_RULES}
+${retry}
+## Output
+
+Answer with one JSON object and nothing else: no prose before or after.
+
+${OUTPUT_SHAPE2}
+
+A feature of kind "card" has exactly one entry in \`cards\`.
+`;
+}
+function openPhaseGuide(phaseName) {
+  return `"${phaseName}" can be opened and has no proposal yet. To write one: read the roadmap and the project's code, then call propose_phase with the proposal. Rules:
+
+${OPEN_PHASE_RULES}
+
+propose_phase stores the proposal only; no card exists yet. Opening it is the user's decision: tell them the proposal is ready to read in Ideafy's Roadmap view, and call update_roadmap with op "open_phase" only when they explicitly ask you to.`;
+}
+
+// ../lib/roadmap-open.ts
+var roadmap_open_exports = {};
+__export(roadmap_open_exports, {
+  linkedFeatureRefs: () => linkedFeatureRefs,
+  makeSingleCard: () => makeSingleCard,
+  normalizePhaseProposal: () => normalizePhaseProposal,
+  parsePhaseProposal: () => parsePhaseProposal,
+  phaseFeatureRefs: () => phaseFeatureRefs,
+  phaseProposalCounts: () => phaseProposalCounts,
+  phaseProposalSummary: () => phaseProposalSummary,
+  proposalBuildOrder: () => proposalBuildOrder,
+  validatePhaseProposal: () => validatePhaseProposal
+});
+
+// ../lib/group-code.ts
+var GROUP_CODE_MAX = 6;
+function normalizeGroupCode(raw) {
+  return raw.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, GROUP_CODE_MAX);
+}
+
+// ../lib/roadmap-open.ts
+function phaseFeatureRefs(features, labels = {}) {
+  return features.map((feature) => ({
+    id: feature.id,
+    name: feature.name,
+    ...feature.cardId || feature.groupId ? { linked: { cardId: feature.cardId ?? null, groupId: feature.groupId ?? null, label: labels[feature.id] ?? null } } : {}
+  }));
+}
+var linkedFeatureRefs = (phaseFeatures) => phaseFeatures.filter((feature) => !!feature.linked);
+var text = (value) => typeof value === "string" ? value.trim() : "";
+var key = (value) => value.trim().toLowerCase();
+var list = (value) => Array.isArray(value) ? value : [];
+function extractProposalObject(source) {
+  for (let start = source.indexOf("{"); start !== -1; start = source.indexOf("{", start + 1)) {
+    let depth2 = 0;
+    let inString = false;
+    let escaped = false;
+    for (let i = start; i < source.length; i++) {
+      const ch = source[i];
+      if (inString) {
+        if (escaped) escaped = false;
+        else if (ch === "\\") escaped = true;
+        else if (ch === '"') inString = false;
+        continue;
+      }
+      if (ch === '"') inString = true;
+      else if (ch === "{") depth2++;
+      else if (ch === "}") {
+        depth2--;
+        if (depth2 === 0) {
+          try {
+            const value = JSON.parse(source.slice(start, i + 1));
+            if (value && typeof value === "object" && "features" in value) return value;
+          } catch {
+          }
+          break;
+        }
+      }
+    }
+  }
+  return void 0;
+}
+function waitDepths(features) {
+  const byName = new Map(features.map((feature) => [key(feature.name), feature]));
+  const depth2 = /* @__PURE__ */ new Map();
+  const walking = /* @__PURE__ */ new Set();
+  const visit = (name) => {
+    const known = depth2.get(name);
+    if (known !== void 0) return known;
+    if (walking.has(name)) return null;
+    walking.add(name);
+    let own = 0;
+    for (const waited of byName.get(name)?.waitsFor ?? []) {
+      const below = visit(key(waited));
+      if (below === null) return null;
+      own = Math.max(own, below + 1);
+    }
+    walking.delete(name);
+    depth2.set(name, own);
+    return own;
+  };
+  for (const name of byName.keys()) if (visit(name) === null) return null;
+  return depth2;
+}
+function normalizePhaseProposal(raw, phaseId, phaseFeatures) {
+  const root = raw && typeof raw === "object" ? raw : {};
+  const byId = new Map(phaseFeatures.map((feature) => [feature.id, feature]));
+  const byName = new Map(phaseFeatures.map((feature) => [key(feature.name), feature]));
+  const resolve5 = (value) => {
+    const ref = text(value);
+    return byId.get(ref)?.id ?? byName.get(key(ref))?.id ?? ref;
+  };
+  const features = list(root.features).map((item) => {
+    const feature = item && typeof item === "object" ? item : {};
+    const name = text(feature.name);
+    const givenId = text(feature.featureId);
+    const prerequisite = feature.prerequisite === true;
+    const featureId = prerequisite ? null : byId.get(givenId)?.id ?? byName.get(key(name))?.id ?? (givenId || null);
+    const cards = list(feature.cards).map((card) => {
+      const value = card && typeof card === "object" ? card : {};
+      return { title: text(value.title), scope: text(value.scope) };
+    });
+    const kind = feature.kind === "chain" || feature.kind !== "card" && cards.length > 1 ? "chain" : "card";
+    const mergedFrom = [...new Set(list(feature.mergedFrom).map(resolve5).filter(Boolean))].filter((id) => id !== featureId);
+    const chainCode = normalizeGroupCode(text(feature.chainCode));
+    return {
+      featureId,
+      name,
+      scope: text(feature.scope),
+      kind,
+      ...kind === "chain" && chainCode ? { chainCode } : {},
+      cards,
+      waitsFor: [...new Set(list(feature.waitsFor).map(text).filter(Boolean))],
+      prerequisite,
+      ...mergedFrom.length ? { mergedFrom } : {}
+    };
+  });
+  const depths = waitDepths(features);
+  const early = root.earlyOpen && typeof root.earlyOpen === "object" ? root.earlyOpen : null;
+  return {
+    phaseId,
+    features,
+    moveToNext: [...new Set(list(root.moveToNext).map(resolve5).filter(Boolean))],
+    notes: list(root.notes).map(text).filter(Boolean),
+    startNow: features.filter((feature) => feature.waitsFor.length === 0).length,
+    waitDepth: depths ? Math.max(0, ...depths.values()) : 0,
+    earlyOpen: early ? { phaseName: text(early.phaseName), openFeatures: Number(early.openFeatures) || 0 } : null,
+    roadmapUpdatedAt: text(root.roadmapUpdatedAt) || null
+  };
+}
+function parsePhaseProposal(response, phaseId, phaseFeatures) {
+  const value = extractProposalObject(response ?? "");
+  if (!value) return { ok: false, error: "The answer holds no JSON object with a `features` array." };
+  const proposal = normalizePhaseProposal(value, phaseId, phaseFeatures);
+  const broken = validatePhaseProposal(proposal, phaseFeatures);
+  return broken ? { ok: false, error: broken } : { ok: true, proposal };
+}
+function validatePhaseProposal(proposal, phaseFeatures) {
+  const { features } = proposal;
+  const linked = linkedFeatureRefs(phaseFeatures);
+  const linkedIds = new Set(linked.map((feature) => feature.id));
+  const linkedNames = new Set(linked.map((feature) => key(feature.name)));
+  if (features.length === 0 && linked.length === 0) return "The proposal opens no feature: `features` is empty.";
+  if (features.length + linked.length > ROADMAP_MAX_FEATURES) {
+    return `The phase would hold ${features.length + linked.length} features after opening; a phase holds at most ${ROADMAP_MAX_FEATURES}. Fold a shared piece into the feature that needs it, or list a feature in \`moveToNext\`.`;
+  }
+  const roadmapIds = new Set(phaseFeatures.map((feature) => feature.id));
+  const nameOf3 = (id) => phaseFeatures.find((feature) => feature.id === id)?.name ?? id;
+  const names = /* @__PURE__ */ new Set();
+  const covered = /* @__PURE__ */ new Map();
+  const cover = (id, how) => {
+    if (!roadmapIds.has(id)) return `"${id}" is not a feature of this phase.`;
+    if (linkedIds.has(id)) {
+      return `Feature "${nameOf3(id)}" is already a card, leave it out: it is listed ${how}. Propose no card for it; another feature may name it in \`waitsFor\`.`;
+    }
+    if (covered.has(id)) return `Feature "${nameOf3(id)}" appears twice: ${covered.get(id)} and ${how}.`;
+    covered.set(id, how);
+    return null;
+  };
+  for (const feature of features) {
+    if (!feature.name) return "A feature needs a name.";
+    if (names.has(key(feature.name))) return `Two features are named "${feature.name}"; names must differ.`;
+    names.add(key(feature.name));
+    if (feature.cards.length === 0) return `Feature "${feature.name}" has no cards.`;
+    if (feature.cards.some((card) => !card.title)) return `A card of feature "${feature.name}" has no title.`;
+    if (feature.kind === "card" && feature.cards.length !== 1) {
+      return `Feature "${feature.name}" is a single card but lists ${feature.cards.length} cards; make it a chain or one card.`;
+    }
+    if (feature.kind === "chain" && feature.cards.length < 2) {
+      return `Feature "${feature.name}" is a chain of one card; a feature that fits one card is kind "card".`;
+    }
+    if (feature.cards.length > ROADMAP_MAX_CHAIN_CARDS) {
+      return `Feature "${feature.name}" has ${feature.cards.length} cards; a chain holds at most ${ROADMAP_MAX_CHAIN_CARDS}. Split the feature in two.`;
+    }
+    if (feature.featureId) {
+      if (feature.prerequisite) return `Feature "${feature.name}" is marked prerequisite but names a roadmap feature.`;
+      const broken = cover(feature.featureId, "as a feature");
+      if (broken) return broken;
+    } else if (!feature.prerequisite) {
+      return `Feature "${feature.name}" is not on the roadmap. Use the roadmap's feature name, or mark a shared piece you pulled out with "prerequisite": true.`;
+    }
+    for (const merged2 of feature.mergedFrom ?? []) {
+      const broken = cover(merged2, `merged into "${feature.name}"`);
+      if (broken) return broken;
+    }
+  }
+  for (const moved of proposal.moveToNext) {
+    const broken = cover(moved, "in `moveToNext`");
+    if (broken) return broken;
+  }
+  for (const feature of phaseFeatures) {
+    if (!covered.has(feature.id) && !linkedIds.has(feature.id)) {
+      return `Roadmap feature "${feature.name}" is missing: open it as a feature, name it in another feature's \`mergedFrom\`, or list it in \`moveToNext\`.`;
+    }
+  }
+  for (const feature of features) {
+    for (const waited of feature.waitsFor) {
+      if (key(waited) === key(feature.name)) return `Feature "${feature.name}" cannot wait for itself.`;
+      if (!names.has(key(waited)) && !linkedNames.has(key(waited))) {
+        return `"${feature.name}" waits for "${waited}", which is not a feature of this proposal; a feature waits only for a feature of its own phase.`;
+      }
+    }
+  }
+  if (!waitDepths(features)) return "Features wait for each other in a circle; waits must not loop.";
+  return null;
+}
+function makeSingleCard(feature) {
+  if (feature.kind !== "chain") return feature;
+  const parts = feature.cards.map((card) => card.scope ? `${card.title}: ${card.scope}` : card.title);
+  const { chainCode: _chainCode, ...rest } = feature;
+  void _chainCode;
+  return {
+    ...rest,
+    kind: "card",
+    cards: [{ title: feature.name, scope: [feature.scope, ...parts].filter(Boolean).join("\n") }]
+  };
+}
+function phaseProposalCounts(proposal) {
+  const { features } = proposal;
+  const depths = waitDepths(features);
+  const waits = features.filter((feature) => feature.waitsFor.length > 0).length;
+  return {
+    cards: features.reduce((sum, feature) => sum + feature.cards.length, 0),
+    chains: features.filter((feature) => feature.kind === "chain").length,
+    singles: features.filter((feature) => feature.kind === "card").length,
+    startNow: features.length - waits,
+    waits,
+    waitDepth: depths ? Math.max(0, ...depths.values()) : 0
+  };
+}
+var plural3 = (count, word) => `${count} ${word}${count === 1 ? "" : "s"}`;
+function phaseProposalSummary(proposal) {
+  const counts = phaseProposalCounts(proposal);
+  const parts = [plural3(counts.cards, "card")];
+  if (counts.chains) parts.push(plural3(counts.chains, "chain"));
+  if (counts.singles) parts.push(`${counts.singles} single ${counts.singles === 1 ? "card" : "cards"}`);
+  parts.push(`${counts.startNow} ${counts.startNow === 1 ? "starts" : "start"} now`);
+  if (counts.waits) parts.push(`${counts.waits} ${counts.waits === 1 ? "waits" : "wait"}`);
+  if (counts.waitDepth > 1) parts.push(`wait depth ${counts.waitDepth}`);
+  return parts.join(" \xB7 ");
+}
+function proposalBuildOrder(features) {
+  const depths = waitDepths(features);
+  if (!depths) return features;
+  return features.map((feature, index) => ({ feature, index, depth: depths.get(key(feature.name)) ?? 0 })).sort((a, b2) => a.depth - b2.depth || a.index - b2.index).map((item) => item.feature);
+}
+
 // ../lib/narrative-sections.ts
 var narrative_sections_exports = {};
 __export(narrative_sections_exports, {
@@ -25529,11 +25920,11 @@ function narrativeDecisionSections(markdown) {
 `] : [], ...kept].join("\n").trim();
 }
 function narrativeForChat(markdown, filePath) {
-  const text3 = markdown.trim();
-  if (text3.length <= CHAT_FALLBACK_CHARS) return text3;
-  const sections = narrativeDecisionSections(text3);
+  const text4 = markdown.trim();
+  if (text4.length <= CHAT_FALLBACK_CHARS) return text4;
+  const sections = narrativeDecisionSections(text4);
   const part = sections ? sections.length > MAX_CHAT_CHARS ? `${sections.slice(0, MAX_CHAT_CHARS).trimEnd()}
-[...]` : sections : text3.slice(0, CHAT_FALLBACK_CHARS);
+[...]` : sections : text4.slice(0, CHAT_FALLBACK_CHARS);
   return `${part}
 
 [This is ${sections ? "the part of the product narrative an idea is judged against" : "the start of the product narrative"}. The whole document is at ${filePath}: read it when the question depends on how the product works today.]`;
@@ -25572,8 +25963,8 @@ var ENTITIES = {
   nbsp: " ",
   hellip: "\u2026"
 };
-function decodeEntities(text3) {
-  return text3.replace(/&(#x[0-9a-f]+|#\d+|[a-z]+);/gi, (whole, ref) => {
+function decodeEntities(text4) {
+  return text4.replace(/&(#x[0-9a-f]+|#\d+|[a-z]+);/gi, (whole, ref) => {
     if (ref[0] === "#") {
       const code = ref[1] === "x" || ref[1] === "X" ? parseInt(ref.slice(2), 16) : parseInt(ref.slice(1), 10);
       return Number.isFinite(code) ? String.fromCodePoint(code) : whole;
@@ -25594,12 +25985,12 @@ function findAcceptedDecisions(planHtmlOrMarkdown) {
   return markerQuestions(planText(planHtmlOrMarkdown), ACCEPTED_DECISION_RE);
 }
 function planText(planHtmlOrMarkdown, opts = {}) {
-  const text3 = planHtmlOrMarkdown.replace(/<pre[\s>][\s\S]*?<\/pre>/gi, " ").replace(/<code(?:\s[^>]*)?>([\s\S]*?)<\/code>/gi, (_whole, inner) => opts.keepInlineCode ? inner : " ").replace(/<br\s*\/?>/gi, "\n").replace(/<\/(?:p|li|h[1-6]|div|blockquote)>/gi, "\n").replace(/<[^>]*>/g, "");
-  return decodeEntities(text3).replace(/```[\s\S]*?```/g, " ").replace(/`([^`\n]*)`/g, (_whole, inner) => opts.keepInlineCode ? inner : " ");
+  const text4 = planHtmlOrMarkdown.replace(/<pre[\s>][\s\S]*?<\/pre>/gi, " ").replace(/<code(?:\s[^>]*)?>([\s\S]*?)<\/code>/gi, (_whole, inner) => opts.keepInlineCode ? inner : " ").replace(/<br\s*\/?>/gi, "\n").replace(/<\/(?:p|li|h[1-6]|div|blockquote)>/gi, "\n").replace(/<[^>]*>/g, "");
+  return decodeEntities(text4).replace(/```[\s\S]*?```/g, " ").replace(/`([^`\n]*)`/g, (_whole, inner) => opts.keepInlineCode ? inner : " ");
 }
-function markerQuestions(text3, re2) {
+function markerQuestions(text4, re2) {
   const questions = [];
-  for (const m2 of text3.matchAll(re2)) {
+  for (const m2 of text4.matchAll(re2)) {
     const question = m2[1].replace(/\s+/g, " ").trim();
     if (!isDecisionPlaceholder(question)) questions.push(question);
   }
@@ -25722,13 +26113,13 @@ function buildChainContext(members, cardId, toRef5) {
   const ordered = [...members].sort(compareByChainOrder);
   const index = ordered.findIndex((member) => member.id === cardId);
   if (index === -1) return null;
-  const refs = ordered.map(toRef5);
+  const refs2 = ordered.map(toRef5);
   return {
     position: index + 1,
-    total: refs.length,
-    next: refs.find((ref) => !isFinished(ref)) ?? null,
-    predecessors: refs.slice(0, index),
-    successors: refs.slice(index + 1)
+    total: refs2.length,
+    next: refs2.find((ref) => !isFinished(ref)) ?? null,
+    predecessors: refs2.slice(0, index),
+    successors: refs2.slice(index + 1)
   };
 }
 var isInChain = (member) => member.status === "test" && member.gitBranchStatus === "in_chain";
@@ -25898,9 +26289,9 @@ function htmlToText(html) {
 }
 var PATH_TOKEN = /^[\w@.\-[\]/*]+$/;
 var PATH_TAIL = /(\.[a-z0-9]{1,6}|\/\*+)$/i;
-function pathTokens(text3) {
+function pathTokens(text4) {
   const found = [];
-  for (const raw of text3.replace(/\([^)]*\)/g, " ").split(/[\s,;|]+/)) {
+  for (const raw of text4.replace(/\([^)]*\)/g, " ").split(/[\s,;|]+/)) {
     const token = raw.replace(/^[`'"“”:.]+|[`'"“”:.]+$/g, "");
     if (token && PATH_TOKEN.test(token) && PATH_TAIL.test(token)) found.push(token);
   }
@@ -25908,14 +26299,14 @@ function pathTokens(text3) {
 }
 var BOLD_DUNDER = /(^|[/\s>])<(strong|b)>([\w.@-]+)<\/\2>(?=\/)/gim;
 function extractPlanFiles(solutionHtml) {
-  const text3 = htmlToText(solutionHtml?.replace(BOLD_DUNDER, "$1__$3__"));
-  if (!text3) return [];
-  const filesLines = text3.match(/^\s*(?:Files|Dosyalar)\s*:(.*)$/gim);
+  const text4 = htmlToText(solutionHtml?.replace(BOLD_DUNDER, "$1__$3__"));
+  if (!text4) return [];
+  const filesLines = text4.match(/^\s*(?:Files|Dosyalar)\s*:(.*)$/gim);
   if (filesLines?.length) {
     const last = filesLines[filesLines.length - 1];
     return pathTokens(last.slice(last.indexOf(":") + 1));
   }
-  const section2 = text3.match(/Files to Modify\s*\n([\s\S]*?)(?:\n(?:Implementation Steps|Edge Cases|Dependencies)\b|$)/i);
+  const section2 = text4.match(/Files to Modify\s*\n([\s\S]*?)(?:\n(?:Implementation Steps|Edge Cases|Dependencies)\b|$)/i);
   return section2 ? pathTokens(section2[1]) : [];
 }
 function normalizePath(path12) {
@@ -25957,8 +26348,8 @@ function countPlanSteps(solutionHtml) {
   }
   const h3 = body.match(/<h3\b/gi)?.length ?? 0;
   if (h3 > 0) return h3;
-  const paragraphs = [...body.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/gi)].map((m2) => htmlToText(m2[1])).filter((text3) => text3 && !/^(files|dosyalar)\s*:/i.test(text3));
-  const numbered = paragraphs.filter((text3) => /^\d+[.)]\s/.test(text3)).length;
+  const paragraphs = [...body.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/gi)].map((m2) => htmlToText(m2[1])).filter((text4) => text4 && !/^(files|dosyalar)\s*:/i.test(text4));
+  const numbered = paragraphs.filter((text4) => /^\d+[.)]\s/.test(text4)).length;
   return numbered > 0 ? numbered : paragraphs.length || null;
 }
 var GENERATED = [/^drizzle\/meta\//, /(^|\/)(package-lock\.json|pnpm-lock\.yaml|yarn\.lock|bun\.lockb)$/];
@@ -25971,8 +26362,8 @@ function comparePlanFiles(planned, touched) {
   const done = [];
   const waiting = [];
   for (const file2 of plan) {
-    const key = dunderless(file2);
-    const hits = branch.filter((path12) => pathsOverlap(key, dunderless(path12)));
+    const key2 = dunderless(file2);
+    const hits = branch.filter((path12) => pathsOverlap(key2, dunderless(path12)));
     if (hits.length === 0) {
       waiting.push({ path: file2, state: "planned" });
       continue;
@@ -26134,6 +26525,7 @@ var BOARD_VIEW_PREFERENCE_OPTIONS = [
   { value: "focus", label: "Focus" },
   { value: "all", label: "All columns" },
   { value: "chains", label: "Chains" },
+  { value: "roadmap", label: "Roadmap" },
   { value: "last", label: "Last used" }
 ];
 var COLUMN_WIP_LIMITS = {
@@ -26343,12 +26735,14 @@ __export(card_ops_exports, {
   acceptPlanDecisions: () => acceptPlanDecisions,
   acceptedDecisionCounts: () => acceptedDecisionCounts,
   acknowledgeWrite: () => acknowledgeWrite,
+  addCardAsFeature: () => addCardAsFeature,
   addDependency: () => addDependency,
   addFeature: () => addFeature,
   addOutputPath: () => addOutputPath,
   addTestReportWarnings: () => addTestReportWarnings,
   allRows: () => allRows,
   appendPlanRefresh: () => appendPlanRefresh,
+  applyPhaseProposal: () => applyPhaseProposal,
   applyRoadmapOp: () => applyRoadmapOp,
   approveRoadmap: () => approveRoadmap,
   assertGroupAssignable: () => assertGroupAssignable,
@@ -26371,6 +26765,7 @@ __export(card_ops_exports, {
   cardHead: () => cardHead,
   cardIntegrationGroup: () => cardIntegrationGroup,
   cardRepoFolder: () => cardRepoFolder,
+  cardRoadmapNote: () => cardRoadmapNote,
   cardWorkTemplate: () => cardWorkTemplate,
   chainAckId: () => chainAckId,
   chainAutopilotLine: () => chainAutopilotLine,
@@ -26403,6 +26798,7 @@ __export(card_ops_exports, {
   chainUnwalkedItems: () => chainUnwalkedItems,
   chainWriteConflictFor: () => chainWriteConflictFor,
   chainsWithReadyMembers: () => chainsWithReadyMembers,
+  checkPhaseCanOpen: () => checkPhaseCanOpen,
   checkWorkTemplateId: () => checkWorkTemplateId,
   chooseBoundPolicy: () => chooseBoundPolicy,
   clearAutopilot: () => clearAutopilot,
@@ -26421,6 +26817,8 @@ __export(card_ops_exports, {
   deleteGroup: () => deleteGroup,
   deleteRoadmap: () => deleteRoadmap,
   dequeueCard: () => dequeueCard,
+  dismissCardPlacement: () => dismissCardPlacement,
+  dismissPhaseProposal: () => dismissPhaseProposal,
   dismissSplitProposal: () => dismissSplitProposal,
   driftSince: () => driftSince,
   enqueueCard: () => enqueueCard,
@@ -26434,6 +26832,7 @@ __export(card_ops_exports, {
   getAutopilotState: () => getAutopilotState,
   getGroup: () => getGroup,
   getIntegrationGroup: () => getIntegrationGroup,
+  getPhaseProposal: () => getPhaseProposal,
   getQueueRow: () => getQueueRow,
   getRoadmap: () => getRoadmap,
   getRow: () => getRow,
@@ -26448,6 +26847,7 @@ __export(card_ops_exports, {
   hasDependencyTable: () => hasDependencyTable,
   hasIntegrationColumns: () => hasIntegrationColumns,
   hasParkedColumn: () => hasParkedColumn,
+  hasPhaseProposalTable: () => hasPhaseProposalTable,
   hasRalphEvents: () => hasRalphEvents,
   hasRalphLoopColumns: () => hasRalphLoopColumns,
   hasSplitTables: () => hasSplitTables,
@@ -26463,6 +26863,7 @@ __export(card_ops_exports, {
   landReadyChainMembers: () => landReadyChainMembers,
   linkCardsInHtml: () => linkCardsInHtml,
   linkFeature: () => linkFeature,
+  linkedFeatureLabels: () => linkedFeatureLabels,
   listCardDecisions: () => listCardDecisions,
   listChainDecisions: () => listChainDecisions,
   listChangedFiles: () => listChangedFiles,
@@ -26494,8 +26895,10 @@ __export(card_ops_exports, {
   parseUndoSnapshot: () => parseUndoSnapshot,
   parseWriteAck: () => parseWriteAck,
   pendingDependencySuggestionCounts: () => pendingDependencySuggestionCounts,
+  pendingPhaseProposals: () => pendingPhaseProposals,
   pendingSplitCounts: () => pendingSplitCounts,
   persistCardFieldArtifacts: () => persistCardFieldArtifacts,
+  placeCardFromMarker: () => placeCardFromMarker,
   planBranchFilesFor: () => planBranchFilesFor,
   planDriftFor: () => planDriftFor,
   planDriftLine: () => planDriftLine,
@@ -26545,6 +26948,7 @@ __export(card_ops_exports, {
   runReportCardIds: () => runReportCardIds,
   runtimeAssignments: () => runtimeAssignments,
   saveOpinion: () => saveOpinion,
+  savePhaseProposal: () => savePhaseProposal,
   savePlan: () => savePlan,
   savePlanAndTests: () => savePlanAndTests,
   saveRoadmapDraft: () => saveRoadmapDraft,
@@ -26664,15 +27068,15 @@ function resolveRalphMaxRounds(cardValue, projectValue) {
 function ralphRoundsText(maxRounds) {
   return maxRounds === 0 ? "\u221E" : String(maxRounds);
 }
-function norm(text3) {
-  return stripItemTokens(stripHtml(text3 ?? "")).replace(/[*_`]/g, "").toLowerCase().replace(/\s+/g, " ").trim();
+function norm(text4) {
+  return stripItemTokens(stripHtml(text4 ?? "")).replace(/[*_`]/g, "").toLowerCase().replace(/\s+/g, " ").trim();
 }
 function originalItemText(itemText2, revisions) {
   let current = itemText2;
   const seen = /* @__PURE__ */ new Set([norm(current)]);
   for (; ; ) {
-    const key = norm(current);
-    const row = [...revisions].reverse().find((r) => r.newText && r.originalText && norm(r.newText) === key);
+    const key2 = norm(current);
+    const row = [...revisions].reverse().find((r) => r.newText && r.originalText && norm(r.newText) === key2);
     if (!row?.originalText) return current;
     const back = norm(row.originalText);
     if (seen.has(back)) return row.originalText;
@@ -26683,8 +27087,8 @@ function originalItemText(itemText2, revisions) {
 function failureSignature(failures, revisions = []) {
   const keys = /* @__PURE__ */ new Set();
   for (const failure of failures) {
-    const text3 = norm(originalItemText(failure.text, revisions));
-    if (text3) keys.add(`${norm(failure.heading)} :: ${text3}`);
+    const text4 = norm(originalItemText(failure.text, revisions));
+    if (text4) keys.add(`${norm(failure.heading)} :: ${text4}`);
   }
   return [...keys].sort().join(" | ");
 }
@@ -26737,7 +27141,7 @@ function autopilotResume(card) {
   if ((card.autopilotStopReason ?? "").startsWith(DECISION_STOP_PREFIX)) return "decision-answered";
   return "stopped";
 }
-function plural3(n, word) {
+function plural4(n, word) {
   return `${n} ${word}${n === 1 ? "" : "s"}`;
 }
 var CHECKLIST_STOP = /^(\d+ items? (blocked|still unticked|left unticked)\b|not ready to merge:|Ralph finished · \d+ (core )?items? needs? you\b)/;
@@ -26788,7 +27192,7 @@ function autopilotIneligibleReason(card) {
 }
 var nameList2 = (members) => {
   const names = members.map((m2) => m2.displayId || "a card");
-  return names.length <= 2 ? names.join(" and ") : plural3(names.length, "card");
+  return names.length <= 2 ? names.join(" and ") : plural4(names.length, "card");
 };
 function chainAutopilotStatus(members) {
   const status = chainAutopilotStatusOf(members);
@@ -27004,8 +27408,8 @@ __export(branch_name_exports, {
   generateBranchName: () => generateBranchName,
   slugify: () => slugify2
 });
-function slugify2(text3) {
-  return text3.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").substring(0, 50);
+function slugify2(text4) {
+  return text4.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").substring(0, 50);
 }
 function generateBranchName(idPrefix, taskNumber, title) {
   const slug = slugify2(title);
@@ -27144,8 +27548,8 @@ function parseBlockedBy(value) {
   return entries;
 }
 function cleanNote(note) {
-  const text3 = (note ?? "").replace(/\s+/g, " ").trim();
-  return text3 ? text3.slice(0, NOTE_MAX) : null;
+  const text4 = (note ?? "").replace(/\s+/g, " ").trim();
+  return text4 ? text4.slice(0, NOTE_MAX) : null;
 }
 function cardRow(db2, id) {
   return getRow(
@@ -27942,12 +28346,12 @@ function runtimeAssignments(runtime) {
   const sql = [];
   const values = [];
   if (!runtime) return { sql, values };
-  for (const key of Object.keys(CARD_RUNTIME_FIELDS)) {
-    const value = runtime[key];
+  for (const key2 of Object.keys(CARD_RUNTIME_FIELDS)) {
+    const value = runtime[key2];
     if (value === void 0) continue;
-    sql.push(`${CARD_RUNTIME_FIELDS[key].column} = ?`);
-    if (key === "rebaseConflict") values.push(serializeBooleanForDb(value));
-    else if (key === "conflictFiles") values.push(value === null ? null : JSON.stringify(value));
+    sql.push(`${CARD_RUNTIME_FIELDS[key2].column} = ?`);
+    if (key2 === "rebaseConflict") values.push(serializeBooleanForDb(value));
+    else if (key2 === "conflictFiles") values.push(value === null ? null : JSON.stringify(value));
     else values.push(value);
   }
   return { sql, values };
@@ -28020,15 +28424,15 @@ function sanitizeArtifactFilename(raw, lang = "") {
   stem = stem.replace(/\.+$/, "").slice(0, MAX_NAME_LENGTH - ext.length - 1) || "mockup";
   return `${stem}.${ext}`;
 }
-function extractArtifactFences(text3) {
+function extractArtifactFences(text4) {
   const fences = [];
-  if (!text3 || !text3.includes("artifact")) return fences;
+  if (!text4 || !text4.includes("artifact")) return fences;
   let open = null;
   let offset = 0;
-  while (offset <= text3.length) {
-    const newline = text3.indexOf("\n", offset);
-    const lineEnd = newline === -1 ? text3.length : newline;
-    const line = text3.slice(offset, lineEnd);
+  while (offset <= text4.length) {
+    const newline = text4.indexOf("\n", offset);
+    const lineEnd = newline === -1 ? text4.length : newline;
+    const line = text4.slice(offset, lineEnd);
     if (!open) {
       const match = line.match(FENCE_OPEN_RE);
       if (match && !(match[1][0] === "`" && match[2].includes("`"))) {
@@ -28038,7 +28442,7 @@ function extractArtifactFences(text3) {
         open = {
           marker: match[1],
           start: offset,
-          bodyStart: newline === -1 ? text3.length : newline + 1,
+          bodyStart: newline === -1 ? text4.length : newline + 1,
           filename: attr ? sanitizeArtifactFilename(attr[1] ?? attr[2] ?? "", lang) : null,
           artifact: !!attr
         };
@@ -28051,7 +28455,7 @@ function extractArtifactFences(text3) {
             start: open.start,
             end: lineEnd,
             filename: open.filename,
-            body: text3.slice(open.bodyStart, Math.max(open.bodyStart, offset - 1)),
+            body: text4.slice(open.bodyStart, Math.max(open.bodyStart, offset - 1)),
             closed: true
           });
         }
@@ -28064,9 +28468,9 @@ function extractArtifactFences(text3) {
   if (open?.artifact) {
     fences.push({
       start: open.start,
-      end: text3.length,
+      end: text4.length,
       filename: open.filename,
-      body: text3.slice(open.bodyStart),
+      body: text4.slice(open.bodyStart),
       closed: false
     });
   }
@@ -28120,11 +28524,11 @@ function artifactKind(absolutePath) {
   if (DOC_EXT.has(ext)) return "doc";
   return "file";
 }
-function decodeEntities2(text3) {
-  return text3.replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
+function decodeEntities2(text4) {
+  return text4.replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
 }
-function escapeHtml(text3) {
-  return text3.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+function escapeHtml(text4) {
+  return text4.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 function artifactChipHtml(absolutePath, name) {
   const label2 = name?.trim() || artifactBasename(absolutePath);
@@ -28138,8 +28542,8 @@ function fileLinksToArtifactChips(html) {
     (tag, href, inner) => {
       const absolute = fileUrlToPath(decodeEntities2(href));
       if (!absolute) return tag;
-      const text3 = decodeEntities2(inner.replace(/<[^>]*>/g, "").trim());
-      const name = !text3 || text3.startsWith("/") || text3.startsWith("file://") ? void 0 : text3;
+      const text4 = decodeEntities2(inner.replace(/<[^>]*>/g, "").trim());
+      const name = !text4 || text4.startsWith("/") || text4.startsWith("file://") ? void 0 : text4;
       return artifactChipHtml(absolute, name);
     }
   );
@@ -28180,20 +28584,20 @@ function destinationFor(base, dir, isSame) {
 function sameBytes(candidate, contents) {
   return statSync(candidate).size === contents.length && readFileSync2(candidate).equals(contents);
 }
-function materializeArtifactFences(text3, cardDir) {
-  return saveArtifactFences(text3, cardDir).text;
+function materializeArtifactFences(text4, cardDir) {
+  return saveArtifactFences(text4, cardDir).text;
 }
-function saveArtifactFences(text3, cardDir) {
+function saveArtifactFences(text4, cardDir) {
   const links = [];
-  const fences = extractArtifactFences(text3).filter((fence) => fence.closed);
-  if (fences.length === 0) return { text: text3, links };
+  const fences = extractArtifactFences(text4).filter((fence) => fence.closed);
+  if (fences.length === 0) return { text: text4, links };
   const scratchDir = path.join(cardDir, SCRATCH_DIR);
   let out = "";
   let cursor = 0;
   for (const fence of fences) {
-    out += text3.slice(cursor, fence.start);
+    out += text4.slice(cursor, fence.start);
     cursor = fence.end;
-    const original = text3.slice(fence.start, fence.end);
+    const original = text4.slice(fence.start, fence.end);
     const contents = Buffer.from(fence.body.endsWith("\n") ? fence.body : `${fence.body}
 `, "utf8");
     if (!fence.filename || contents.length > ARTIFACT_FENCE_MAX_BYTES) {
@@ -28213,24 +28617,24 @@ function saveArtifactFences(text3, cardDir) {
       out += original;
     }
   }
-  return { text: out + text3.slice(cursor), links };
+  return { text: out + text4.slice(cursor), links };
 }
 var APPLY_OPEN_RE = /<!--\s*ideafy:apply\s*-->/gi;
 var APPLY_CLOSE_RE = /<!--\s*\/ideafy:apply\s*-->/i;
-function applyBlockSpan(text3) {
+function applyBlockSpan(text4) {
   let openEnd = -1;
-  for (const m2 of Array.from(text3.matchAll(APPLY_OPEN_RE))) openEnd = m2.index + m2[0].length;
+  for (const m2 of Array.from(text4.matchAll(APPLY_OPEN_RE))) openEnd = m2.index + m2[0].length;
   if (openEnd === -1) return null;
-  const close = text3.slice(openEnd).match(APPLY_CLOSE_RE);
-  return { openEnd, closeStart: close ? openEnd + close.index : text3.length };
+  const close = text4.slice(openEnd).match(APPLY_CLOSE_RE);
+  return { openEnd, closeStart: close ? openEnd + close.index : text4.length };
 }
-function moveLinksIntoApplyBlock(text3, links) {
-  const block = applyBlockSpan(text3);
-  if (!block) return text3;
+function moveLinksIntoApplyBlock(text4, links) {
+  const block = applyBlockSpan(text4);
+  if (!block) return text4;
   const outside = links.filter((l) => l.end <= block.openEnd || l.start >= block.closeStart);
-  if (outside.length === 0) return text3;
-  const moved = outside.map((l) => text3.slice(l.start, l.end));
-  let out = text3;
+  if (outside.length === 0) return text4;
+  const moved = outside.map((l) => text4.slice(l.start, l.end));
+  let out = text4;
   for (const { start, end } of [...outside].sort((a, b2) => b2.start - a.start)) {
     const lineStart = out.lastIndexOf("\n", start - 1) + 1;
     const newline = out.indexOf("\n", end);
@@ -28248,8 +28652,8 @@ function moveLinksIntoApplyBlock(text3, links) {
 ${moved.join("\n\n")}
 ${out.slice(openEnd)}`;
 }
-function materializeReplyArtifacts(text3, cardDir) {
-  const saved = saveArtifactFences(text3, cardDir);
+function materializeReplyArtifacts(text4, cardDir) {
+  const saved = saveArtifactFences(text4, cardDir);
   return moveLinksIntoApplyBlock(saved.text, saved.links);
 }
 function escapeAttr2(value) {
@@ -28458,17 +28862,17 @@ function externalizeFields(cardId, fields, names, homeDir) {
 }
 function attachmentRefs(html, homeDir) {
   if (!html || !html.includes("/attachments/")) return [];
-  const refs = [];
+  const refs2 = [];
   const seen = /* @__PURE__ */ new Set();
   for (const match of html.matchAll(ATTACHMENT_URL)) {
     const [, cardId, file2] = match;
-    const key = `${cardId}/${file2}`;
-    if (seen.has(key)) continue;
-    seen.add(key);
+    const key2 = `${cardId}/${file2}`;
+    if (seen.has(key2)) continue;
+    seen.add(key2);
     const p = attachmentPath(cardId, file2, homeDir);
-    if (p && existsSync3(p)) refs.push({ cardId, file: file2, path: p });
+    if (p && existsSync3(p)) refs2.push({ cardId, file: file2, path: p });
   }
-  return refs;
+  return refs2;
 }
 function inlineAttachments(html, homeDir) {
   if (!html || !html.includes("/attachments/")) return html ?? "";
@@ -29048,12 +29452,6 @@ async function findCardBranch(projectPath, idPrefix, taskNumber) {
     (w2) => w2.branch === branchName && !w2.isPrunable && existsSync6(w2.path)
   );
   return { branchName, worktreePath: worktree?.path ?? null };
-}
-
-// ../lib/group-code.ts
-var GROUP_CODE_MAX = 6;
-function normalizeGroupCode(raw) {
-  return raw.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, GROUP_CODE_MAX);
 }
 
 // ../lib/card-ops/groups.ts
@@ -29869,17 +30267,17 @@ function confirmPlanCurrent(db2, cardId) {
 // ../lib/prompts/plan-refresh.ts
 var PLAN_REFRESH_HEADING = { tr: "Koda g\xF6re g\xFCncellemeler", en: "Updates against code" };
 var HEADINGS = Object.values(PLAN_REFRESH_HEADING).map((h) => h.toLowerCase());
-var escapeRegExp = (text3) => text3.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+var escapeRegExp = (text4) => text4.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 var HEADING_RE = new RegExp(
   `(?:^[ \\t]*#{1,6}[ \\t]+|<h[1-6]\\b[^>]*>\\s*)(${HEADINGS.map(escapeRegExp).join("|")})\\s*(?:#*[ \\t]*$|</h[1-6]>)`,
   "imu"
 );
 var SUBHEADING_SHA_RE = /(?:^[ \t]*#{2,6}[ \t]+[^\n]*?|<h[2-6]\b[^>]*>[^<]*?)(?:<code>)?`?\b([0-9a-f]{7,40})\b/imu;
-function planRefreshSection(text3) {
-  const heading = HEADING_RE.exec(text3 ?? "");
+function planRefreshSection(text4) {
+  const heading = HEADING_RE.exec(text4 ?? "");
   if (!heading) return { found: false };
   const start = heading.index + (heading[0].length - heading[0].trimStart().length);
-  const after = text3.slice(heading.index + heading[0].length);
+  const after = text4.slice(heading.index + heading[0].length);
   const sha = SUBHEADING_SHA_RE.exec(after)?.[1] ?? null;
   return { found: true, start, sha };
 }
@@ -29972,8 +30370,8 @@ function keyedItems(html) {
 function tickChanges(before, after) {
   const old = keyedItems(before);
   const changes = [];
-  for (const [key, item] of keyedItems(after)) {
-    const was = old.get(key)?.checked ?? false;
+  for (const [key2, item] of keyedItems(after)) {
+    const was = old.get(key2)?.checked ?? false;
     if (item.checked !== was) changes.push({ item: plainTextLabel(item.rawText), checked: item.checked });
   }
   return changes;
@@ -30311,9 +30709,9 @@ function parseLine(line) {
   if (note.w <= 0 || note.h <= 0) return null;
   return { at: note.at, tab: note.tab ?? 0, x: note.x, y: note.y, rect: note.rect ?? null, w: note.w, h: note.h };
 }
-function clickCountsByTab(text3) {
+function clickCountsByTab(text4) {
   const counts = /* @__PURE__ */ new Map();
-  for (const line of text3.split("\n")) {
+  for (const line of text4.split("\n")) {
     if (!line.trim()) continue;
     const note = parseLine(line);
     if (!note || !Number.isInteger(note.tab) || note.tab < 0) continue;
@@ -30321,10 +30719,10 @@ function clickCountsByTab(text3) {
   }
   return counts;
 }
-function parseClickLog(text3, startedAtMs, tab = 0) {
+function parseClickLog(text4, startedAtMs, tab = 0) {
   if (!Number.isFinite(startedAtMs)) return [];
   const clicks = [];
-  for (const line of text3.split("\n")) {
+  for (const line of text4.split("\n")) {
     if (!line.trim()) continue;
     const note = parseLine(line);
     if (!note || note.tab !== tab) continue;
@@ -30413,9 +30811,9 @@ var RALPH_CORE_REVISION_SOURCE = "ralph-verify-core";
 var RALPH_UNVERIFIABLE_SOURCE = "ralph-unverifiable";
 var RALPH_SETUP_SOURCE = "ralph-setup";
 function setupStateOf(newText) {
-  const text3 = newText ?? "granted";
-  if (text3.startsWith("parked: ")) return { state: "parked", detail: text3.slice("parked: ".length) };
-  if (text3.startsWith("done: ")) return { state: "done", detail: text3.slice("done: ".length) };
+  const text4 = newText ?? "granted";
+  if (text4.startsWith("parked: ")) return { state: "parked", detail: text4.slice("parked: ".length) };
+  if (text4.startsWith("done: ")) return { state: "done", detail: text4.slice("done: ".length) };
   return { state: "granted", detail: "" };
 }
 function setupEntries(entries) {
@@ -30447,8 +30845,8 @@ function foldDecisions(entries) {
       const newest = [...entries].reverse().find((other) => other.source === RALPH_SETUP_SOURCE && other.originalText === row.originalText) ?? row;
       shown = { ...newest, recommended: entry.setup || null };
     }
-    const key = [shown.kind, shown.source, shown.question, shown.recommended, shown.originalText, shown.newText].join("\0");
-    const itemKey = shown.source === RALPH_SETUP_SOURCE && shown.originalText ? `setup\0${shown.originalText}` : key;
+    const key2 = [shown.kind, shown.source, shown.question, shown.recommended, shown.originalText, shown.newText].join("\0");
+    const itemKey = shown.source === RALPH_SETUP_SOURCE && shown.originalText ? `setup\0${shown.originalText}` : key2;
     if (seen.has(itemKey)) continue;
     seen.add(itemKey);
     out.push(shown);
@@ -30460,16 +30858,16 @@ var OPEN_MARKER_RE = /\[NEEDS_DECISION:([^\]\n]*)\]/gi;
 var CODE_RE = /(<pre[\s>][\s\S]*?<\/pre>|<code[\s>][\s\S]*?<\/code>|```[\s\S]*?```|`[^`\n]*`)/gi;
 var EXCERPT_MAX = 240;
 var INLINE_RECOMMENDED_MAX = 120;
-function splitRecommended(text3) {
-  const clean = text3.replace(/\s+/g, " ").trim();
+function splitRecommended(text4) {
+  const clean = text4.replace(/\s+/g, " ").trim();
   const m2 = RECOMMENDED_RE.exec(clean);
   if (!m2) return { question: clean, recommended: null };
   const question = clean.slice(0, m2.index).trim();
   const recommended = clean.slice(m2.index + m2[0].length).trim();
   return { question: question || clean, recommended: recommended || null };
 }
-function shorten(text3, max) {
-  const flat = text3.replace(/\s+/g, " ").trim();
+function shorten(text4, max) {
+  const flat = text4.replace(/\s+/g, " ").trim();
   return flat.length > max ? `${flat.slice(0, max - 1).trimEnd()}\u2026` : flat;
 }
 function stepExcerptBefore(planBefore) {
@@ -30482,8 +30880,8 @@ function stepExcerptBefore(planBefore) {
   }
   return null;
 }
-function escapeHtml2(text3) {
-  return text3.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+function escapeHtml2(text4) {
+  return text4.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 function acceptPlanMarkers(planHtml) {
   const accepted = [];
@@ -30495,9 +30893,9 @@ function acceptPlanMarkers(planHtml) {
     offset += part.length;
     if (index % 2 === 1) return part;
     return part.replace(OPEN_MARKER_RE, (whole, raw, at) => {
-      const text3 = decodeEntities(raw.replace(/<[^>]*>/g, "")).replace(/\s+/g, " ").trim();
-      if (isDecisionPlaceholder(text3)) return whole;
-      const { question, recommended } = splitRecommended(text3);
+      const text4 = decodeEntities(raw.replace(/<[^>]*>/g, "")).replace(/\s+/g, " ").trim();
+      if (isDecisionPlaceholder(text4)) return whole;
+      const { question, recommended } = splitRecommended(text4);
       const stepExcerpt = stepExcerptBefore(planHtml.slice(0, start + at));
       accepted.push({ question, recommended: recommended ?? stepExcerpt, stepExcerpt });
       if (recommended) return `[NEEDS_DECISION accepted:${raw}]`;
@@ -30534,12 +30932,12 @@ function listChangedFiles(repoPath, opts) {
 }
 var TTL_MS = 3e4;
 var touchedCache = /* @__PURE__ */ new Map();
-var escapeRegExp2 = (text3) => text3.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-function cached3(key, read) {
-  const hit = touchedCache.get(key);
+var escapeRegExp2 = (text4) => text4.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+function cached3(key2, read) {
+  const hit = touchedCache.get(key2);
   if (hit && Date.now() - hit.at < TTL_MS) return hit.value;
   const value = read();
-  touchedCache.set(key, { at: Date.now(), value });
+  touchedCache.set(key2, { at: Date.now(), value });
   return value;
 }
 function touchedFiles(db2, cardId, row, repo) {
@@ -30711,7 +31109,7 @@ function acceptedDecisionCounts(db2) {
 // ../lib/card-ops/drift.ts
 var MAX_LISTED = 20;
 var MAX_FILES = 200;
-var escapeRegExp3 = (text3) => text3.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+var escapeRegExp3 = (text4) => text4.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 function watchedFiles(repo, plan, displayId) {
   const files = new Set(extractPlanFiles(plan ?? ""));
   if (displayId) {
@@ -30784,12 +31182,12 @@ function runCodeChangesFor(db2, cardId, runs) {
       cardId
     );
     if (!row) return result;
-    const list = runs ?? parseTestReports(row.reports) ?? [];
+    const list2 = runs ?? parseTestReports(row.reports) ?? [];
     const unstamped = (run2) => {
       result[run2.id] = { state: "unknown", reason: "no commit stamp" };
     };
-    const stamped = list.filter((run2) => run2.code?.commit);
-    list.filter((run2) => !run2.code?.commit).forEach(unstamped);
+    const stamped = list2.filter((run2) => run2.code?.commit);
+    list2.filter((run2) => !run2.code?.commit).forEach(unstamped);
     if (stamped.length === 0) return result;
     const repo = row.projectFolder || row.cardFolder;
     if (!repo || !cardRepoFolder(db2, cardId)) {
@@ -30805,11 +31203,11 @@ function runCodeChangesFor(db2, cardId, runs) {
         result[run2.id] = { state: "unknown", reason: tip ? "the card has no files to watch" : "no git repo" };
         continue;
       }
-      const key = `${code.commit}|${code.dirty.map((entry) => `${entry.path}:${entry.blob}`).join(",")}`;
-      let change = seen.get(key);
+      const key2 = `${code.commit}|${code.dirty.map((entry) => `${entry.path}:${entry.blob}`).join(",")}`;
+      let change = seen.get(key2);
       if (!change) {
         change = codeChangeFor(repo, tip, watched, code);
-        seen.set(key, change);
+        seen.set(key2, change);
       }
       result[run2.id] = change;
     }
@@ -31008,15 +31406,15 @@ function fileList(files) {
   const shown = files.slice(0, LISTED_FILES).join(", ");
   return files.length > LISTED_FILES ? `${shown} +${files.length - LISTED_FILES}` : shown;
 }
-var plural4 = (n, word) => `${n} ${word}${n === 1 ? "" : "s"}`;
+var plural5 = (n, word) => `${n} ${word}${n === 1 ? "" : "s"}`;
 function chainCheckWarnings(check2) {
   return check2.map((child) => {
     const parts = [];
     if (child.untouched.length) parts.push(`plan named but not touched: ${fileList(child.untouched)}`);
     if (child.offPlan.length) parts.push(`changed outside its plan: ${fileList(child.offPlan)}`);
-    if (child.driftCommits) parts.push(`${plural4(child.driftCommits, "commit")} on its files since its checklist`);
-    if (child.unticked) parts.push(`${plural4(child.unticked, "item")} not walked`);
-    if (child.decisions.length) parts.push(`${plural4(child.decisions.length, "decision")} taken by Ralph`);
+    if (child.driftCommits) parts.push(`${plural5(child.driftCommits, "commit")} on its files since its checklist`);
+    if (child.unticked) parts.push(`${plural5(child.unticked, "item")} not walked`);
+    if (child.decisions.length) parts.push(`${plural5(child.decisions.length, "decision")} taken by Ralph`);
     return `Chain check \xB7 ${child.name}: ${parts.join("; ")}`;
   });
 }
@@ -31819,8 +32217,8 @@ function listMockupArtifacts(html) {
   }
   return paths;
 }
-function decodeEntities3(text3) {
-  return text3.replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&#39;/g, "'");
+function decodeEntities3(text4) {
+  return text4.replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&#39;/g, "'");
 }
 function hasMockupArtifact(html) {
   return listMockupArtifacts(html).length > 0;
@@ -31872,7 +32270,7 @@ function defaultSplitChain(title) {
 }
 var SPLIT_MIN_CARDS = 2;
 var SPLIT_MAX_CARDS = 8;
-function text(value, max) {
+function text2(value, max) {
   return typeof value === "string" ? value.replace(/\s+/g, " ").trim().slice(0, max) : "";
 }
 function parseSplitInto(value) {
@@ -31883,16 +32281,16 @@ function parseSplitInto(value) {
   raw.cards.forEach((item, index) => {
     if (!item || typeof item !== "object") return;
     const card = item;
-    const title = text(card.title, 200);
+    const title = text2(card.title, 200);
     if (!title) return;
-    const refs = Array.isArray(card.blockedBy) ? card.blockedBy : card.blockedBy === void 0 ? [] : [card.blockedBy];
-    const blockedBy = [...new Set(refs.map(Number).filter((n) => Number.isInteger(n) && n >= 1 && n <= index))];
+    const refs2 = Array.isArray(card.blockedBy) ? card.blockedBy : card.blockedBy === void 0 ? [] : [card.blockedBy];
+    const blockedBy = [...new Set(refs2.map(Number).filter((n) => Number.isInteger(n) && n >= 1 && n <= index))];
     cards.push({
       title,
-      scope: text(card.scope, 1e3),
-      carries: text(card.carries, 2e3),
+      scope: text2(card.scope, 1e3),
+      carries: text2(card.carries, 2e3),
       blockedBy,
-      reason: text(card.reason, 500)
+      reason: text2(card.reason, 500)
     });
   });
   if (cards.length < SPLIT_MIN_CARDS) {
@@ -31901,8 +32299,8 @@ function parseSplitInto(value) {
   if (cards.length > SPLIT_MAX_CARDS) {
     return { ok: false, error: `splitInto takes at most ${SPLIT_MAX_CARDS} cards; a bigger split is a chain of its own.` };
   }
-  const flows = (Array.isArray(raw.flows) ? raw.flows : []).map((flow) => text(flow, 500)).filter(Boolean);
-  return { ok: true, proposal: { reason: text(raw.reason, 1e3), cards, flows } };
+  const flows = (Array.isArray(raw.flows) ? raw.flows : []).map((flow) => text2(flow, 500)).filter(Boolean);
+  return { ok: true, proposal: { reason: text2(raw.reason, 1e3), cards, flows } };
 }
 function isSplitWithdrawal(value) {
   if (!value || typeof value !== "object") return false;
@@ -31923,9 +32321,9 @@ function splitDepths(proposal) {
 function integrationSuggestion(cards) {
   const linked = /* @__PURE__ */ new Set();
   cards.forEach((card, index) => {
-    const refs = (card.blockedBy ?? []).filter((ref) => ref >= 1 && ref <= cards.length && ref !== index + 1);
-    if (refs.length > 0) linked.add(index + 1);
-    refs.forEach((ref) => linked.add(ref));
+    const refs2 = (card.blockedBy ?? []).filter((ref) => ref >= 1 && ref <= cards.length && ref !== index + 1);
+    if (refs2.length > 0) linked.add(index + 1);
+    refs2.forEach((ref) => linked.add(ref));
   });
   if (linked.size === 0) return { suggested: false, standalone: [] };
   const standalone = cards.map((_2, index) => index + 1).filter((place) => !linked.has(place));
@@ -31939,13 +32337,13 @@ function integrationReason(cards) {
       byTarget.set(ref, [...byTarget.get(ref) ?? [], index + 1]);
     }
   });
-  const list = (places) => {
+  const list2 = (places) => {
     const sorted = [...new Set(places)].sort((a, b2) => a - b2);
     const contiguous = sorted.length > 2 && sorted.every((p, i) => i === 0 || p === sorted[i - 1] + 1);
     if (contiguous) return `${sorted[0]}\u2013${sorted[sorted.length - 1]}`;
     return sorted.length > 1 ? `${sorted.slice(0, -1).join(", ")} and ${sorted[sorted.length - 1]}` : String(sorted[0]);
   };
-  return [...byTarget.entries()].sort((a, b2) => a[0] - b2[0]).map(([target2, waiting]) => `card${waiting.length > 1 ? "s" : ""} ${list(waiting)} wait${waiting.length > 1 ? "" : "s"} on card ${target2}`).join("; ");
+  return [...byTarget.entries()].sort((a, b2) => a[0] - b2[0]).map(([target2, waiting]) => `card${waiting.length > 1 ? "s" : ""} ${list2(waiting)} wait${waiting.length > 1 ? "" : "s"} on card ${target2}`).join("; ");
 }
 function splitProposalAsk(suggestion) {
   if (!suggestion.suggested) {
@@ -32056,8 +32454,8 @@ function toRef2(row) {
   };
 }
 function planSummary(html) {
-  const text3 = plainTextLabel((html ?? "").replace(/^\s*<h1[^>]*>[\s\S]*?<\/h1>/i, ""), PLAN_SUMMARY_MAX);
-  return text3 || null;
+  const text4 = plainTextLabel((html ?? "").replace(/^\s*<h1[^>]*>[\s\S]*?<\/h1>/i, ""), PLAN_SUMMARY_MAX);
+  return text4 || null;
 }
 function cappedFiles(html) {
   const files = extractPlanFiles(html ?? "");
@@ -32212,7 +32610,7 @@ function restoreField(db2, args) {
     const row = readRow2(db2, id, field);
     if (!row) return { ok: false, reason: "not-found" };
     if ((row.html ?? "") !== expected.html) return { ok: false, reason: "changed" };
-    if (field === "aiOpinion" && OPINION_KEYS.some((key) => (row[key] ?? null) !== (expected[key] ?? null))) {
+    if (field === "aiOpinion" && OPINION_KEYS.some((key2) => (row[key2] ?? null) !== (expected[key2] ?? null))) {
       return { ok: false, reason: "changed" };
     }
     const splitTracked = field === "aiOpinion" && expected.split !== void 0 && previous.split !== void 0;
@@ -32277,15 +32675,15 @@ function parseUndoSnapshot(raw) {
   const value = raw;
   if (typeof value.html !== "string") return null;
   const snapshot = { html: value.html };
-  const text3 = (v2) => v2 === null || typeof v2 === "string";
+  const text4 = (v2) => v2 === null || typeof v2 === "string";
   if (value.status !== void 0) {
     if (!isStatus(value.status)) return null;
     snapshot.status = value.status;
   }
-  for (const key of ["baseCommit", "verdict", "priority", "complexity"]) {
-    if (value[key] === void 0) continue;
-    if (!text3(value[key])) return null;
-    snapshot[key] = value[key];
+  for (const key2 of ["baseCommit", "verdict", "priority", "complexity"]) {
+    if (value[key2] === void 0) continue;
+    if (!text4(value[key2])) return null;
+    snapshot[key2] = value[key2];
   }
   if (value.score !== void 0) {
     if (value.score !== null && typeof value.score !== "number") return null;
@@ -32350,8 +32748,8 @@ function chainLeftoversFor(db2, parentId) {
     return null;
   }
 }
-var escapeHtml3 = (text3) => text3.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-var withoutManual = (text3) => text3.replace(/\s*\[manual\](?=(?:\s|\[(?:ui|manual|after-merge)\])*$)/gi, "").trim();
+var escapeHtml3 = (text4) => text4.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+var withoutManual = (text4) => text4.replace(/\s*\[manual\](?=(?:\s|\[(?:ui|manual|after-merge)\])*$)/gi, "").trim();
 function chainLeftoversHtml(children) {
   const packs = [];
   for (const child of children) {
@@ -32369,7 +32767,7 @@ function chainLeftoversHtml(children) {
   return packs.map((pack) => {
     const heading = [CHAIN_LEFTOVERS_HEADING, ...pack.names].join(" \xB7 ");
     const items = pack.items.map(
-      (text3) => `<li data-type="taskItem" data-checked="false"><label><input type="checkbox"><span></span></label><div><p>${escapeHtml3(withoutManual(text3))}</p></div></li>`
+      (text4) => `<li data-type="taskItem" data-checked="false"><label><input type="checkbox"><span></span></label><div><p>${escapeHtml3(withoutManual(text4))}</p></div></li>`
     ).join("");
     return `<h2>${escapeHtml3(heading)}</h2><ul data-type="taskList">${items}</ul>`;
   }).join("");
@@ -32535,8 +32933,8 @@ function chainRegressionFor(db2, parentId, tip) {
     return null;
   }
 }
-var escapeHtml4 = (text3) => text3.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-var withoutPersonsTokens = (text3) => text3.replace(/\s*\[(?:manual|after-merge)\](?=(?:\s|\[(?:ui|manual|after-merge)\])*$)/gi, "").trim();
+var escapeHtml4 = (text4) => text4.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+var withoutPersonsTokens = (text4) => text4.replace(/\s*\[(?:manual|after-merge)\](?=(?:\s|\[(?:ui|manual|after-merge)\])*$)/gi, "").trim();
 function chainRegressionHtml(children) {
   const packs = [];
   for (const child of children.filter((entry) => entry.selected && entry.items.length > 0)) {
@@ -32548,7 +32946,7 @@ function chainRegressionHtml(children) {
   return packs.map((pack) => {
     const heading = [CHAIN_REGRESSION_HEADING, ...pack.map((entry) => entry.displayId)].join(" \xB7 ");
     const items = pack.flatMap((entry) => entry.items).map(
-      (text3) => `<li data-type="taskItem" data-checked="false"><label><input type="checkbox"><span></span></label><div><p>${escapeHtml4(withoutPersonsTokens(text3))}</p></div></li>`
+      (text4) => `<li data-type="taskItem" data-checked="false"><label><input type="checkbox"><span></span></label><div><p>${escapeHtml4(withoutPersonsTokens(text4))}</p></div></li>`
     ).join("");
     return `<h2>${escapeHtml4(heading)}</h2><ul data-type="taskList">${items}</ul>`;
   }).join("");
@@ -32685,12 +33083,12 @@ function chainRegressionMeasure(db2, parentId) {
     );
     const items = groupItems.map((item) => {
       const group = isChainRegressionHeading(item.heading) ? "regression" : "leftovers";
-      const text3 = stripItemTokens(item.text);
+      const text4 = stripItemTokens(item.text);
       const names = headingNames(item.heading);
       const source = group === "regression" ? coreOf : leftoversOf;
       const same = (a, b2) => a.toLowerCase() === b2.toLowerCase();
-      const owner = names.length > 1 ? names.find((name) => (source.get(name) ?? []).some((entry) => same(entry, text3))) ?? names.find((name) => closestTaskText(text3, source.get(name) ?? []) >= 0) : void 0;
-      return { displayId: owner ?? names[0] ?? "?", group, text: text3, statuses: [] };
+      const owner = names.length > 1 ? names.find((name) => (source.get(name) ?? []).some((entry) => same(entry, text4))) ?? names.find((name) => closestTaskText(text4, source.get(name) ?? []) >= 0) : void 0;
+      return { displayId: owner ?? names[0] ?? "?", group, text: text4, statuses: [] };
     });
     const texts = allItems.map((item) => stripItemTokens(item.text));
     const measureIndex = new Map(groupItems.map((item, index) => [allItems.indexOf(item), index]));
@@ -32709,9 +33107,9 @@ function chainRegressionMeasure(db2, parentId) {
     if (walked.length === 0) return null;
     const byChild = /* @__PURE__ */ new Map();
     for (const item of walked) {
-      const key = `${item.group}:${item.displayId}`;
-      const entry = byChild.get(key) ?? { displayId: item.displayId, group: item.group, walked: 0, passedFirst: 0, fixed: 0, handedOver: { environment: 0, code: 0 } };
-      byChild.set(key, entry);
+      const key2 = `${item.group}:${item.displayId}`;
+      const entry = byChild.get(key2) ?? { displayId: item.displayId, group: item.group, walked: 0, passedFirst: 0, fixed: 0, handedOver: { environment: 0, code: 0 } };
+      byChild.set(key2, entry);
       entry.walked++;
       const last = item.statuses[item.statuses.length - 1];
       if (item.statuses[0] === "passed") entry.passedFirst++;
@@ -33054,11 +33452,11 @@ function nextStepFor(card, flags, ctx) {
   const mobileMeta = ctx.surface === "mobile" ? "at Mac" : void 0;
   const ideafy = [];
   const together = [];
-  const row = (list, r) => {
+  const row = (list2, r) => {
     const full = { ...r, desc: r.desc ?? STEP_DESC[r.id] };
     if (!full.disabledReason) delete full.disabledReason;
     if (!full.meta) delete full.meta;
-    list.push(full);
+    list2.push(full);
   };
   if (flags.canEvaluate) {
     row(ideafy, {
@@ -33273,9 +33671,9 @@ function nextStepFor(card, flags, ctx) {
     }
   }
   if (primary && rows.has(primary.id) && !ctx.blocker) {
-    const mark = (list) => {
-      const i = list.findIndex((r) => r.id === primary.id);
-      if (i >= 0) list[i] = { ...list[i], meta: "default" };
+    const mark = (list2) => {
+      const i = list2.findIndex((r) => r.id === primary.id);
+      if (i >= 0) list2[i] = { ...list2[i], meta: "default" };
     };
     mark(ideafy);
     mark(together);
@@ -33441,7 +33839,7 @@ function nextTurnFor(card, ctx = {}) {
 
 // ../lib/card-story.ts
 var EMPTY_STORY_INPUTS = { opinionUserMessages: null, git: null };
-var plural5 = (n, word) => `${n} ${word}${n === 1 ? "" : "s"}`;
+var plural6 = (n, word) => `${n} ${word}${n === 1 ? "" : "s"}`;
 var hasText = (html) => !!stripHtml((html || "").replace(/&nbsp;/g, " ")).trim();
 function shortDate(iso) {
   const date4 = new Date(iso);
@@ -33456,7 +33854,7 @@ function verdictStep(card) {
     id: "verdict",
     who: "ai",
     label: "Verdict",
-    sub: happened ? concerns != null ? `${score} \xB7 ${plural5(concerns, "concern")}` : score : "",
+    sub: happened ? concerns != null ? `${score} \xB7 ${plural6(concerns, "concern")}` : score : "",
     happened,
     tab: "opinion"
   };
@@ -33467,7 +33865,7 @@ function arguedStep(inputs) {
     id: "argued",
     who: "you",
     label: "Argued",
-    sub: n == null ? "\u2026" : n > 0 ? plural5(n, "message") : "",
+    sub: n == null ? "\u2026" : n > 0 ? plural6(n, "message") : "",
     // Unknown until the fetch lands: shown as done with "…", not as skipped.
     happened: n == null || n > 0,
     tab: "opinion"
@@ -33480,7 +33878,7 @@ function planStep(card) {
     id: "plan",
     who: "ai",
     label: "Plan",
-    sub: happened ? steps != null ? plural5(steps, "step") : "plan written" : "",
+    sub: happened ? steps != null ? plural6(steps, "step") : "plan written" : "",
     happened,
     tab: "solution"
   };
@@ -33492,7 +33890,7 @@ function builtStep(card, inputs) {
   const git3 = inputs.git;
   const viaFinalTest = !!card.finalTestReady || isFinalTestNote(card.solutionSummary);
   let sub = "";
-  if (git3?.exists) sub = `${plural5(git3.ahead, "commit")} \xB7 ${plural5(git3.files, "file")}`;
+  if (git3?.exists) sub = `${plural6(git3.ahead, "commit")} \xB7 ${plural6(git3.files, "file")}`;
   else if (merged2) sub = "merged";
   else if (onMain) sub = "on main";
   else if (rolledBack) sub = "rolled back";
@@ -33569,7 +33967,7 @@ function workSteps(card, inputs) {
       id: "draft",
       who: "ai",
       label: "Draft",
-      sub: outputs > 0 ? plural5(outputs, "file") : "",
+      sub: outputs > 0 ? plural6(outputs, "file") : "",
       happened: outputs > 0,
       tab: "detail"
     },
@@ -33712,7 +34110,7 @@ function stopCause(reason, byPerson = false) {
   return "ralph";
 }
 var TEXT_ONLY_CAVEAT = "tested as text only, no recording";
-function plural6(n, word) {
+function plural7(n, word) {
   return `${n} ${word}${n === 1 ? "" : "s"}`;
 }
 function chainTestReportState(members, opts = {}) {
@@ -33723,11 +34121,11 @@ function chainTestReportState(members, opts = {}) {
   const tallyMembers = [];
   const caveats = /* @__PURE__ */ new Map();
   const codeCaveats = /* @__PURE__ */ new Set();
-  const addCaveat = (text3, displayId, code = false) => {
-    if (code) codeCaveats.add(text3);
-    const list = caveats.get(text3) ?? [];
-    if (!list.includes(displayId)) list.push(displayId);
-    caveats.set(text3, list);
+  const addCaveat = (text4, displayId, code = false) => {
+    if (code) codeCaveats.add(text4);
+    const list2 = caveats.get(text4) ?? [];
+    if (!list2.includes(displayId)) list2.push(displayId);
+    caveats.set(text4, list2);
   };
   let waiting = 0;
   const ran = [];
@@ -33828,7 +34226,7 @@ function chainTestReportState(members, opts = {}) {
       item: line.item
     })),
     notesTitle: notesTitle(tally.notedChecks),
-    passedBut: [...caveats.entries()].map(([text3, list]) => ({ text: text3, cards: list, ...codeCaveats.has(text3) ? { code: true } : {} })),
+    passedBut: [...caveats.entries()].map(([text4, list2]) => ({ text: text4, cards: list2, ...codeCaveats.has(text4) ? { code: true } : {} })),
     cards,
     waiting,
     ralph
@@ -33838,7 +34236,7 @@ function chainCaveatText(line) {
   return `${line.cards.join(", ")}: ${line.text}`;
 }
 function chainDecisionText(entry) {
-  return `${entry.displayId} \xB7 ${plural6(entry.count, "decision")} Ralph took`;
+  return `${entry.displayId} \xB7 ${plural7(entry.count, "decision")} Ralph took`;
 }
 
 // ../lib/card-ops/story.ts
@@ -33855,8 +34253,8 @@ function defaultBranch(repo) {
 function branchStoryCounts(repo, branch, against) {
   const head = gitRead(repo, ["rev-parse", "--verify", "--quiet", `refs/heads/${branch}`]);
   if (!head) return { exists: false, ahead: 0, files: 0 };
-  const key = `${repo}\0${branch}\0${head}\0${against ?? ""}`;
-  const cached4 = gitCache.get(key);
+  const key2 = `${repo}\0${branch}\0${head}\0${against ?? ""}`;
+  const cached4 = gitCache.get(key2);
   if (cached4 && Date.now() - cached4.at < GIT_TTL_MS) return cached4.value;
   const base = against || defaultBranch(repo);
   if (!base) return null;
@@ -33864,7 +34262,7 @@ function branchStoryCounts(repo, branch, against) {
   const names = gitRead(repo, ["diff", "--name-only", `${base}...${branch}`]);
   if (!Number.isFinite(ahead) || names === null) return null;
   const value = { exists: true, ahead, files: names.split("\n").filter((line) => line.trim()).length };
-  gitCache.set(key, { at: Date.now(), value });
+  gitCache.set(key2, { at: Date.now(), value });
   return value;
 }
 function loadStoryInputs(db2, cardId) {
@@ -34117,8 +34515,8 @@ function initialWorkTemplateId(templates, lastId) {
   return resolveWorkTemplate(templates, lastId).id;
 }
 function resolveWorkTemplate(templates, templateId) {
-  const list = templates.length ? templates : DEFAULT_WORK_TEMPLATES;
-  return list.find((t) => t.id === templateId) ?? list[0];
+  const list2 = templates.length ? templates : DEFAULT_WORK_TEMPLATES;
+  return list2.find((t) => t.id === templateId) ?? list2[0];
 }
 function slugify3(name) {
   return name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "template";
@@ -34322,17 +34720,17 @@ function createCard(db2, given, now, author) {
 // ../lib/split-fence.ts
 var SPLIT_FENCE_LANG = "ideafy-split";
 var FENCE_RE = /^ {0,3}(`{3,}|~{3,})[ \t]*ideafy-split[ \t]*\n([\s\S]*?)\n {0,3}\1[ \t]*(?:\n|$)/m;
-function extractSplitFence(text3) {
-  if (!text3 || !text3.includes(SPLIT_FENCE_LANG)) return { found: false, text: text3 };
+function extractSplitFence(text4) {
+  if (!text4 || !text4.includes(SPLIT_FENCE_LANG)) return { found: false, text: text4 };
   let body = null;
-  let rest = text3;
+  let rest = text4;
   for (; ; ) {
     const match = FENCE_RE.exec(rest);
     if (!match) break;
     body = match[2];
     rest = rest.slice(0, match.index) + rest.slice(match.index + match[0].length);
   }
-  if (body === null) return { found: false, text: text3 };
+  if (body === null) return { found: false, text: text4 };
   const cleaned = rest.replace(/\n{3,}/g, "\n\n").trim();
   let json2;
   try {
@@ -34345,6 +34743,471 @@ function extractSplitFence(text3) {
   return parsed.ok ? { found: true, text: cleaned, proposal: parsed.proposal } : { found: true, text: cleaned, error: parsed.error };
 }
 
+// ../lib/card-ops/roadmap.ts
+var RoadmapError = class extends Error {
+  constructor(message) {
+    super(message);
+    this.name = "RoadmapError";
+  }
+};
+var newId = () => globalThis.crypto.randomUUID();
+var nowIso = () => (/* @__PURE__ */ new Date()).toISOString();
+var ROADMAP_COLS = `id, project_id AS projectId, status, approved_at AS approvedAt, created_at AS createdAt, updated_at AS updatedAt`;
+var PHASE_COLS = `id, roadmap_id AS roadmapId, position, name, goal, kind, opened_at AS openedAt, deferred_at AS deferredAt`;
+var FEATURE_COLS = `id, roadmap_id AS roadmapId, phase_id AS phaseId, position, name, scope, card_id AS cardId, group_id AS groupId, prerequisite, checked_at AS checkedAt, checked_by AS checkedBy`;
+function roadmapRow(db2, projectId2) {
+  return getRow(db2, `SELECT ${ROADMAP_COLS} FROM roadmaps WHERE project_id = ?`, projectId2);
+}
+function readRows(db2, roadmap) {
+  const phases = allRows(db2, `SELECT ${PHASE_COLS} FROM roadmap_phases WHERE roadmap_id = ? ORDER BY position`, roadmap.id);
+  const features = allRows(
+    db2,
+    `SELECT ${FEATURE_COLS} FROM roadmap_features WHERE roadmap_id = ? ORDER BY position`,
+    roadmap.id
+  ).map((feature) => ({ ...feature, prerequisite: !!feature.prerequisite }));
+  const waits = allRows(
+    db2,
+    `SELECT w.feature_id AS featureId, w.waits_for_feature_id AS waitsForFeatureId
+       FROM roadmap_feature_waits w JOIN roadmap_features f ON f.id = w.feature_id
+      WHERE f.roadmap_id = ?`,
+    roadmap.id
+  );
+  return { roadmap, phases, features, waits };
+}
+function derive(db2, rows) {
+  const cards = allRows(
+    db2,
+    `SELECT id, status, group_id AS groupId, ai_verdict AS aiVerdict,
+            git_branch_name AS gitBranchName, git_branch_status AS gitBranchStatus, title
+       FROM cards WHERE project_id = ?`,
+    rows.roadmap.projectId
+  );
+  const groups = allRows(db2, `SELECT id, archived_at AS archivedAt FROM card_groups`);
+  return deriveRoadmap(rows.roadmap, rows.phases, rows.features, rows.waits, cards, groups);
+}
+function getRoadmap(db2, projectId2) {
+  const roadmap = roadmapRow(db2, projectId2);
+  return roadmap ? derive(db2, readRows(db2, roadmap)) : null;
+}
+function roadmapPlacementForCard(db2, cardId) {
+  return roadmapContextForCard(db2, cardId)?.placement ?? null;
+}
+function roadmapContextForCard(db2, cardId) {
+  const card = getRow(
+    db2,
+    `SELECT id, project_id AS projectId, group_id AS groupId, roadmap_placement AS roadmapPlacement FROM cards WHERE id = ?`,
+    cardId
+  );
+  if (!card?.projectId) return null;
+  const roadmap = getRoadmap(db2, card.projectId);
+  if (!roadmap || roadmap.status !== "approved") return null;
+  const placement = placementOf(roadmap, card);
+  return { placement, section: roadmapPromptSection(roadmap, placement) };
+}
+function cardRoadmapNote(db2, cardId) {
+  const card = getRow(
+    db2,
+    `SELECT id, project_id AS projectId, group_id AS groupId, roadmap_placement AS roadmapPlacement FROM cards WHERE id = ?`,
+    cardId
+  );
+  if (!card?.projectId) return null;
+  const roadmap = getRoadmap(db2, card.projectId);
+  if (!roadmap || roadmap.status !== "approved") {
+    const stored = parseStoredPlacement(card.roadmapPlacement);
+    if (roadmap || stored?.kind !== "product_idea") return { placement: null, productIdea: null, phases: [], maxFeatures: ROADMAP_MAX_FEATURES };
+    return {
+      placement: null,
+      productIdea: {
+        capabilities: (stored.target ?? "").split(",").map((item) => item.trim()).filter(Boolean),
+        note: stored.note,
+        dismissed: stored.dismissed === true
+      },
+      phases: [],
+      maxFeatures: ROADMAP_MAX_FEATURES
+    };
+  }
+  return {
+    placement: placementOf(roadmap, card),
+    productIdea: null,
+    phases: roadmap.phases.filter((phase) => phase.state !== "done" && !isValidationPhase(phase)).map((phase) => ({ id: phase.id, name: phase.name, features: phase.total, full: phase.total >= ROADMAP_MAX_FEATURES })),
+    maxFeatures: ROADMAP_MAX_FEATURES
+  };
+}
+function roadmapSectionForProject(db2, projectId2) {
+  return roadmapPromptSection(getRoadmap(db2, projectId2));
+}
+function mustRoadmap(db2, projectId2, opts) {
+  const roadmap = roadmapRow(db2, projectId2);
+  if (!roadmap) throw new RoadmapError("This project has no roadmap.");
+  if (opts.expectedUpdatedAt && opts.expectedUpdatedAt !== roadmap.updatedAt) {
+    throw new RoadmapError("The roadmap changed, read it again.");
+  }
+  return roadmap;
+}
+function edit(db2, projectId2, opts, fn) {
+  return transaction(db2, () => {
+    const roadmap = mustRoadmap(db2, projectId2, opts);
+    let now = opts.now ?? nowIso();
+    if (now <= roadmap.updatedAt) now = new Date(Date.parse(roadmap.updatedAt) + 1).toISOString();
+    fn(readRows(db2, roadmap), now);
+    db2.prepare(`UPDATE roadmaps SET updated_at = ? WHERE id = ?`).run(now, roadmap.id);
+    const after = readRows(db2, { ...roadmap, ...roadmapRow(db2, projectId2) });
+    const broken = validateRoadmap(after.phases, after.features, after.waits);
+    if (broken) throw new RoadmapError(broken);
+    return derive(db2, after);
+  });
+}
+function mustPhase(rows, phaseId) {
+  const phase = rows.phases.find((item) => item.id === phaseId);
+  if (!phase) throw new RoadmapError(`Phase not found on this roadmap: ${phaseId}`);
+  return phase;
+}
+function mustFeature(rows, featureId) {
+  const feature = rows.features.find((item) => item.id === featureId);
+  if (!feature) throw new RoadmapError(`Feature not found on this roadmap: ${featureId}`);
+  return feature;
+}
+var nextPosition = (rows, phaseId) => Math.max(0, ...rows.features.filter((feature) => feature.phaseId === phaseId).map((feature) => feature.position)) + 1;
+function saveRoadmapDraft(db2, input) {
+  return transaction(db2, () => {
+    if (!getRow(db2, `SELECT id FROM projects WHERE id = ?`, input.projectId)) {
+      throw new RoadmapError(`Project not found: ${input.projectId}`);
+    }
+    if (!Array.isArray(input.phases) || input.phases.length === 0) throw new RoadmapError("A roadmap needs at least one phase.");
+    const existing = roadmapRow(db2, input.projectId);
+    if (existing?.status === "approved") {
+      throw new RoadmapError("This project's roadmap is approved; a draft cannot replace it. Edit it with the roadmap's own operations.");
+    }
+    if (existing) db2.prepare(`DELETE FROM roadmaps WHERE id = ?`).run(existing.id);
+    const now = input.now ?? nowIso();
+    const roadmapId = newId();
+    db2.prepare(
+      `INSERT INTO roadmaps (id, project_id, status, approved_at, created_at, updated_at) VALUES (?, ?, 'draft', NULL, ?, ?)`
+    ).run(roadmapId, input.projectId, existing?.createdAt ?? now, now);
+    const insertFeature = db2.prepare(
+      `INSERT INTO roadmap_features (id, roadmap_id, phase_id, position, name, scope, prerequisite) VALUES (?, ?, ?, ?, ?, ?, 0)`
+    );
+    input.phases.forEach((phase, phaseIndex) => {
+      const phaseId = newId();
+      db2.prepare(
+        `INSERT INTO roadmap_phases (id, roadmap_id, position, name, goal, kind) VALUES (?, ?, ?, ?, ?, ?)`
+      ).run(phaseId, roadmapId, phaseIndex + 1, String(phase.name ?? "").trim(), String(phase.goal ?? "").trim(), String(phase.kind ?? "mvp").trim() || "mvp");
+      const ids = /* @__PURE__ */ new Map();
+      const features = Array.isArray(phase.features) ? phase.features : [];
+      features.forEach((feature, index) => {
+        const id = newId();
+        const name = String(feature.name ?? "").trim();
+        ids.set(name.toLowerCase(), id);
+        insertFeature.run(id, roadmapId, phaseId, index + 1, name, String(feature.scope ?? "").trim());
+      });
+      for (const feature of features) {
+        for (const waited of feature.waitsFor ?? []) {
+          const target2 = ids.get(String(waited).trim().toLowerCase());
+          if (!target2) {
+            throw new RoadmapError(
+              `"${feature.name}" cannot wait for "${waited}": a feature waits only for a feature of its own phase.`
+            );
+          }
+          db2.prepare(`INSERT OR IGNORE INTO roadmap_feature_waits (feature_id, waits_for_feature_id) VALUES (?, ?)`).run(
+            ids.get(String(feature.name ?? "").trim().toLowerCase()),
+            target2
+          );
+        }
+      }
+    });
+    (input.later ?? []).forEach((line, index) => {
+      insertFeature.run(newId(), roadmapId, null, index + 1, String(line.name ?? "").trim(), String(line.scope ?? "").trim());
+    });
+    const rows = readRows(db2, roadmapRow(db2, input.projectId));
+    const broken = validateRoadmap(rows.phases, rows.features, rows.waits, { maxFeatures: ROADMAP_DRAFT_MAX_FEATURES });
+    if (broken) throw new RoadmapError(broken);
+    return derive(db2, rows);
+  });
+}
+function approveRoadmap(db2, projectId2, opts = {}) {
+  return edit(db2, projectId2, opts, (rows, now) => {
+    if (rows.roadmap.status === "approved") return;
+    db2.prepare(`UPDATE roadmaps SET status = 'approved', approved_at = ? WHERE id = ?`).run(now, rows.roadmap.id);
+  });
+}
+function movePhaseToLater(db2, projectId2, phaseId, opts = {}) {
+  return edit(db2, projectId2, opts, (rows, now) => {
+    const phase = mustPhase(rows, phaseId);
+    if (phase.openedAt) throw new RoadmapError(`Phase "${phase.name}" is opened and has cards; an opened phase cannot move to Later.`);
+    db2.prepare(`UPDATE roadmap_phases SET deferred_at = COALESCE(deferred_at, ?) WHERE id = ?`).run(now, phase.id);
+  });
+}
+function bringForward(db2, projectId2, phaseId, opts = {}) {
+  return edit(db2, projectId2, opts, (rows) => {
+    const phase = mustPhase(rows, phaseId);
+    if (phase.openedAt) throw new RoadmapError(`Phase "${phase.name}" is already opened.`);
+    if (phase.deferredAt) {
+      db2.prepare(`UPDATE roadmap_phases SET deferred_at = NULL WHERE id = ?`).run(phase.id);
+      return;
+    }
+    const before = rows.phases.filter((item) => !item.deferredAt && item.position < phase.position).pop();
+    if (!before) throw new RoadmapError(`Phase "${phase.name}" is already first.`);
+    if (before.openedAt) throw new RoadmapError(`Phase "${phase.name}" cannot move ahead of "${before.name}", which is opened.`);
+    db2.prepare(`UPDATE roadmap_phases SET position = ? WHERE id = ?`).run(before.position, phase.id);
+    db2.prepare(`UPDATE roadmap_phases SET position = ? WHERE id = ?`).run(phase.position, before.id);
+  });
+}
+function addFeature(db2, projectId2, input, opts = {}) {
+  return edit(db2, projectId2, opts, (rows) => {
+    const phaseId = input.phaseId ?? null;
+    if (phaseId) mustPhase(rows, phaseId);
+    const id = newId();
+    db2.prepare(
+      `INSERT INTO roadmap_features (id, roadmap_id, phase_id, position, name, scope, prerequisite) VALUES (?, ?, ?, ?, ?, ?, ?)`
+    ).run(id, rows.roadmap.id, phaseId, nextPosition(rows, phaseId), String(input.name ?? "").trim(), String(input.scope ?? "").trim(), input.prerequisite ? 1 : 0);
+    for (const waited of input.waitsFor ?? []) {
+      if (!rows.features.some((feature) => feature.id === waited)) {
+        throw new RoadmapError("A feature waits for a feature that is not on this roadmap.");
+      }
+      db2.prepare(`INSERT OR IGNORE INTO roadmap_feature_waits (feature_id, waits_for_feature_id) VALUES (?, ?)`).run(id, waited);
+    }
+  });
+}
+function renameFeature(db2, projectId2, featureId, change, opts = {}) {
+  return edit(db2, projectId2, opts, (rows) => {
+    const feature = mustFeature(rows, featureId);
+    db2.prepare(`UPDATE roadmap_features SET name = ?, scope = ? WHERE id = ?`).run(
+      change.name !== void 0 ? String(change.name).trim() : feature.name,
+      change.scope !== void 0 ? String(change.scope).trim() : feature.scope,
+      feature.id
+    );
+  });
+}
+var linkedRefusal = (feature, verb) => new RoadmapError(
+  `Feature "${feature.name}" is opened as a ${feature.cardId ? "card" : "chain"}; an opened feature cannot be ${verb}.`
+);
+function removeFeature(db2, projectId2, featureId, opts = {}) {
+  return edit(db2, projectId2, opts, (rows) => {
+    const feature = mustFeature(rows, featureId);
+    if (feature.cardId || feature.groupId) throw linkedRefusal(feature, "removed");
+    db2.prepare(`DELETE FROM roadmap_feature_waits WHERE feature_id = ? OR waits_for_feature_id = ?`).run(feature.id, feature.id);
+    db2.prepare(`DELETE FROM roadmap_features WHERE id = ?`).run(feature.id);
+  });
+}
+function moveFeature(db2, projectId2, featureId, phaseId, opts = {}) {
+  return edit(db2, projectId2, opts, (rows) => {
+    const feature = mustFeature(rows, featureId);
+    if (feature.cardId || feature.groupId) throw linkedRefusal(feature, "moved");
+    if (phaseId) mustPhase(rows, phaseId);
+    if ((feature.phaseId ?? null) === (phaseId ?? null)) return;
+    db2.prepare(`DELETE FROM roadmap_feature_waits WHERE feature_id = ? OR waits_for_feature_id = ?`).run(feature.id, feature.id);
+    db2.prepare(`UPDATE roadmap_features SET phase_id = ?, position = ?, checked_at = NULL, checked_by = NULL WHERE id = ?`).run(
+      phaseId ?? null,
+      nextPosition(rows, phaseId ?? null),
+      feature.id
+    );
+  });
+}
+function linkFeature(db2, projectId2, featureId, link, opts = {}) {
+  return edit(db2, projectId2, opts, (rows) => {
+    const feature = mustFeature(rows, featureId);
+    const cardId = link.cardId ?? null;
+    const groupId = link.groupId ?? null;
+    if (cardId && groupId) {
+      throw new RoadmapError(`Feature "${feature.name}" is one card or one chain, never both.`);
+    }
+    if (cardId && !getRow(db2, `SELECT id FROM cards WHERE id = ? AND project_id = ?`, cardId, projectId2)) {
+      throw new RoadmapError(`Card not found in this project: ${cardId}`);
+    }
+    if (groupId) {
+      if (!getRow(db2, `SELECT id FROM card_groups WHERE id = ?`, groupId)) throw new RoadmapError(`Chain not found: ${groupId}`);
+      const count = getRow(
+        db2,
+        `SELECT COUNT(*) AS n FROM cards WHERE group_id = ? AND status != 'withdrawn'`,
+        groupId
+      );
+      if (Number(count?.n ?? 0) > ROADMAP_MAX_CHAIN_CARDS) {
+        throw new RoadmapError(`A feature's chain holds at most ${ROADMAP_MAX_CHAIN_CARDS} cards; this chain has ${count?.n}.`);
+      }
+    }
+    const taken = rows.features.find(
+      (other) => other.id !== feature.id && (cardId && other.cardId === cardId || groupId && other.groupId === groupId)
+    );
+    if (taken) throw new RoadmapError(`That ${cardId ? "card" : "chain"} is already feature "${taken.name}".`);
+    db2.prepare(`UPDATE roadmap_features SET card_id = ?, group_id = ? WHERE id = ?`).run(cardId, groupId, feature.id);
+  });
+}
+function markPhaseOpened(db2, projectId2, phaseId, opts = {}) {
+  return edit(db2, projectId2, opts, (rows, now) => {
+    const phase = mustPhase(rows, phaseId);
+    if (rows.roadmap.status !== "approved") throw new RoadmapError("Approve the roadmap before opening a phase.");
+    if (phase.deferredAt) throw new RoadmapError(`Phase "${phase.name}" is in Later; bring it forward first.`);
+    db2.prepare(`UPDATE roadmap_phases SET opened_at = COALESCE(opened_at, ?) WHERE id = ?`).run(now, phase.id);
+  });
+}
+function replacePhaseWaits(db2, projectId2, phaseId, pairs, opts = {}) {
+  return edit(db2, projectId2, opts, (rows) => {
+    mustPhase(rows, phaseId);
+    (opts.order ?? []).forEach((id, index) => {
+      db2.prepare(`UPDATE roadmap_features SET position = ? WHERE id = ? AND phase_id = ?`).run(index + 1, id, phaseId);
+    });
+    const drop = db2.prepare(`DELETE FROM roadmap_feature_waits WHERE feature_id = ? OR waits_for_feature_id = ?`);
+    for (const feature of rows.features.filter((item) => item.phaseId === phaseId)) drop.run(feature.id, feature.id);
+    const add = db2.prepare(`INSERT OR IGNORE INTO roadmap_feature_waits (feature_id, waits_for_feature_id) VALUES (?, ?)`);
+    for (const pair of pairs) add.run(pair.featureId, pair.waitsForFeatureId);
+  });
+}
+function tickValidationLine(db2, projectId2, featureId, checked, by, opts = {}) {
+  return edit(db2, projectId2, opts, (rows, now) => {
+    const feature = mustFeature(rows, featureId);
+    const phase = rows.phases.find((item) => item.id === feature.phaseId);
+    if (!phase || !isValidationPhase(phase)) {
+      throw new RoadmapError(`"${feature.name}" is not a validation line; only validation lines are ticked.`);
+    }
+    db2.prepare(`UPDATE roadmap_features SET checked_at = ?, checked_by = ? WHERE id = ?`).run(
+      checked ? now : null,
+      checked ? by : null,
+      feature.id
+    );
+  });
+}
+function setCardPlacement(db2, cardId, placement) {
+  transaction(db2, () => {
+    if (!getRow(db2, `SELECT id FROM cards WHERE id = ?`, cardId)) throw new RoadmapError(`Card not found: ${cardId}`);
+    if (placement && !ROADMAP_PLACEMENT_KINDS.includes(placement.kind)) {
+      throw new RoadmapError(`Unknown roadmap placement "${placement.kind}"; use one of ${ROADMAP_PLACEMENT_KINDS.join(", ")}.`);
+    }
+    const value = placement ? JSON.stringify({
+      kind: placement.kind,
+      phaseId: placement.phaseId ?? null,
+      featureId: placement.featureId ?? null,
+      suggestedPhaseId: placement.suggestedPhaseId ?? null,
+      target: placement.target ?? "",
+      dismissed: placement.dismissed === true,
+      note: placement.note ?? "",
+      at: placement.now ?? nowIso()
+    }) : null;
+    db2.prepare(`UPDATE cards SET roadmap_placement = ? WHERE id = ?`).run(value, cardId);
+  });
+}
+function storedPlacementOf(db2, cardId) {
+  const row = getRow(db2, `SELECT roadmap_placement AS raw FROM cards WHERE id = ?`, cardId);
+  return parseStoredPlacement(row?.raw);
+}
+function placeCardFromMarker(db2, cardId, marker, now) {
+  const card = getRow(db2, `SELECT project_id AS projectId FROM cards WHERE id = ?`, cardId);
+  if (!card?.projectId) return null;
+  if (!ROADMAP_PLACEMENT_KINDS.includes(marker.kind)) return null;
+  const kind = marker.kind;
+  const roadmap = getRoadmap(db2, card.projectId);
+  const approved = roadmap?.status === "approved" ? roadmap : null;
+  if (kind === "product_idea" === !!approved) return null;
+  const dismissed = storedPlacementOf(db2, cardId)?.dismissed === true;
+  const base = { kind, target: marker.target, note: marker.note, dismissed, now };
+  if (!approved) {
+    setCardPlacement(db2, cardId, base);
+    return { kind, target: marker.target, matched: true };
+  }
+  const found = resolveRoadmapTarget(approved, marker.target);
+  if (kind === "new_item") {
+    setCardPlacement(db2, cardId, { ...base, suggestedPhaseId: found?.phaseId ?? null });
+  } else {
+    setCardPlacement(db2, cardId, { ...base, featureId: found?.featureId ?? null, phaseId: found?.phaseId ?? null });
+  }
+  return { kind, target: marker.target, matched: !!found };
+}
+function dismissCardPlacement(db2, cardId) {
+  return transaction(db2, () => {
+    const stored = storedPlacementOf(db2, cardId);
+    if (!stored) return false;
+    setCardPlacement(db2, cardId, { ...stored, dismissed: true, now: stored.at });
+    return true;
+  });
+}
+var plainTitle = (title) => title.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+function addCardAsFeature(db2, projectId2, input, opts = {}) {
+  return edit(db2, projectId2, opts, (rows, now) => {
+    const card = getRow(
+      db2,
+      `SELECT id, title, group_id AS groupId FROM cards WHERE id = ? AND project_id = ?`,
+      input.cardId,
+      projectId2
+    );
+    if (!card) throw new RoadmapError(`Card not found in this project: ${input.cardId}`);
+    const taken = rows.features.find(
+      (feature) => feature.cardId === card.id || !!card.groupId && feature.groupId === card.groupId
+    );
+    if (taken) throw new RoadmapError(`That card is already feature "${taken.name}".`);
+    const phaseId = input.phaseId ?? null;
+    if (phaseId) mustPhase(rows, phaseId);
+    const id = newId();
+    db2.prepare(
+      `INSERT INTO roadmap_features (id, roadmap_id, phase_id, position, name, scope, card_id, prerequisite) VALUES (?, ?, ?, ?, ?, '', ?, 0)`
+    ).run(id, rows.roadmap.id, phaseId, nextPosition(rows, phaseId), plainTitle(card.title), phaseId ? card.id : null);
+    if (!phaseId) {
+      const stored = storedPlacementOf(db2, card.id);
+      setCardPlacement(db2, card.id, { kind: "later", featureId: id, note: stored?.note ?? "", target: plainTitle(card.title), now });
+    }
+  });
+}
+function deleteRoadmap(db2, projectId2) {
+  transaction(db2, () => {
+    const roadmap = roadmapRow(db2, projectId2);
+    if (!roadmap) return;
+    db2.prepare(
+      `DELETE FROM roadmap_feature_waits WHERE feature_id IN (SELECT id FROM roadmap_features WHERE roadmap_id = ?)`
+    ).run(roadmap.id);
+    db2.prepare(`DELETE FROM roadmap_features WHERE roadmap_id = ?`).run(roadmap.id);
+    if (getRow(db2, `SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'roadmap_phase_proposals'`)) {
+      db2.prepare(
+        `DELETE FROM roadmap_phase_proposals WHERE phase_id IN (SELECT id FROM roadmap_phases WHERE roadmap_id = ?)`
+      ).run(roadmap.id);
+    }
+    db2.prepare(`DELETE FROM roadmap_phases WHERE roadmap_id = ?`).run(roadmap.id);
+    db2.prepare(`DELETE FROM roadmaps WHERE id = ?`).run(roadmap.id);
+  });
+}
+var ROADMAP_OPS = [
+  "approve",
+  "move_to_later",
+  "bring_forward",
+  "add_feature",
+  "rename_feature",
+  "remove_feature",
+  "move_feature",
+  "tick_line",
+  "add_card_as_feature"
+];
+function applyRoadmapOp(db2, projectId2, input, by) {
+  const opts = { expectedUpdatedAt: input.expectedUpdatedAt ?? null };
+  const need = (value, name) => {
+    if (value === void 0 || value === null || value === "") throw new RoadmapError(`${input.op} needs ${name}.`);
+    return value;
+  };
+  switch (input.op) {
+    case "approve":
+      return approveRoadmap(db2, projectId2, opts);
+    case "move_to_later":
+      return movePhaseToLater(db2, projectId2, need(input.phaseId, "phaseId"), opts);
+    case "bring_forward":
+      return bringForward(db2, projectId2, need(input.phaseId, "phaseId"), opts);
+    case "add_feature":
+      return addFeature(
+        db2,
+        projectId2,
+        { phaseId: input.phaseId ?? null, name: need(input.name, "name"), scope: input.scope, waitsFor: input.waitsFor },
+        opts
+      );
+    case "rename_feature":
+      return renameFeature(db2, projectId2, need(input.featureId, "featureId"), { name: input.name, scope: input.scope }, opts);
+    case "remove_feature":
+      return removeFeature(db2, projectId2, need(input.featureId, "featureId"), opts);
+    case "move_feature":
+      return moveFeature(db2, projectId2, need(input.featureId, "featureId"), input.phaseId ?? null, opts);
+    case "tick_line":
+      return tickValidationLine(db2, projectId2, need(input.featureId, "featureId"), input.checked !== false, by, opts);
+    case "add_card_as_feature":
+      return addCardAsFeature(db2, projectId2, { cardId: need(input.cardId, "cardId"), phaseId: input.phaseId ?? null }, opts);
+    default:
+      throw new RoadmapError(`Unknown roadmap operation "${input.op}"; use one of ${ROADMAP_OPS.join(", ")}.`);
+  }
+}
+
 // ../lib/card-ops/save-opinion.ts
 var SPLIT_FENCE_HTML_RE = /<pre[^>]*>\s*<code[^>]*language-ideafy-split[^>]*>[\s\S]*?<\/code>\s*<\/pre>/g;
 function saveOpinion(db2, args) {
@@ -34355,8 +35218,10 @@ function saveOpinion(db2, args) {
   const keep = args.mode === "append";
   const html = externalizeInlineImages(args.id, fence.found ? args.html.replace(SPLIT_FENCE_HTML_RE, "") : args.html);
   return transaction(db2, () => {
-    const result = writeOpinion(db2, args, html, verdict, markers, keep);
-    if (!result.ok) return result;
+    const written = writeOpinion(db2, args, html, verdict, markers, keep);
+    if (!written.ok) return written;
+    const placed = markers.roadmap && args.placeOnRoadmap !== false ? placeCardFromMarker(db2, args.id, markers.roadmap, args.now) : null;
+    const result = placed ? { ...written, roadmap: placed } : written;
     if (args.splitInto == null ? fence.withdraw === true : isSplitWithdrawal(args.splitInto)) {
       return keep ? result : { ...result, withdrawal: withdrawSplitProposal(db2, args.id) };
     }
@@ -34511,10 +35376,10 @@ function updateCard(db2, args) {
     const status = reopened ? "progress" : fields.status ?? existing.status;
     const columns2 = [];
     const values = [];
-    for (const [key, value] of Object.entries(set2)) {
-      columns2.push(`${COLUMN3[key]} = ?`);
+    for (const [key2, value] of Object.entries(set2)) {
+      columns2.push(`${COLUMN3[key2]} = ?`);
       values.push(
-        key === "useWorktree" ? serializeUseWorktreeForDb(value) : key === "aiPlatform" ? normalizeCardPlatform(value) : value
+        key2 === "useWorktree" ? serializeUseWorktreeForDb(value) : key2 === "aiPlatform" ? normalizeCardPlatform(value) : value
       );
     }
     if (projectChanged) {
@@ -34564,358 +35429,6 @@ function updateCard(db2, args) {
       placed
     };
   });
-}
-
-// ../lib/card-ops/roadmap.ts
-var RoadmapError = class extends Error {
-  constructor(message) {
-    super(message);
-    this.name = "RoadmapError";
-  }
-};
-var newId = () => globalThis.crypto.randomUUID();
-var nowIso = () => (/* @__PURE__ */ new Date()).toISOString();
-var ROADMAP_COLS = `id, project_id AS projectId, status, approved_at AS approvedAt, created_at AS createdAt, updated_at AS updatedAt`;
-var PHASE_COLS = `id, roadmap_id AS roadmapId, position, name, goal, kind, opened_at AS openedAt, deferred_at AS deferredAt`;
-var FEATURE_COLS = `id, roadmap_id AS roadmapId, phase_id AS phaseId, position, name, scope, card_id AS cardId, group_id AS groupId, prerequisite, checked_at AS checkedAt, checked_by AS checkedBy`;
-function roadmapRow(db2, projectId2) {
-  return getRow(db2, `SELECT ${ROADMAP_COLS} FROM roadmaps WHERE project_id = ?`, projectId2);
-}
-function readRows(db2, roadmap) {
-  const phases = allRows(db2, `SELECT ${PHASE_COLS} FROM roadmap_phases WHERE roadmap_id = ? ORDER BY position`, roadmap.id);
-  const features = allRows(
-    db2,
-    `SELECT ${FEATURE_COLS} FROM roadmap_features WHERE roadmap_id = ? ORDER BY position`,
-    roadmap.id
-  ).map((feature) => ({ ...feature, prerequisite: !!feature.prerequisite }));
-  const waits = allRows(
-    db2,
-    `SELECT w.feature_id AS featureId, w.waits_for_feature_id AS waitsForFeatureId
-       FROM roadmap_feature_waits w JOIN roadmap_features f ON f.id = w.feature_id
-      WHERE f.roadmap_id = ?`,
-    roadmap.id
-  );
-  return { roadmap, phases, features, waits };
-}
-function derive(db2, rows) {
-  const cards = allRows(
-    db2,
-    `SELECT id, status, group_id AS groupId, ai_verdict AS aiVerdict,
-            git_branch_name AS gitBranchName, git_branch_status AS gitBranchStatus, title
-       FROM cards WHERE project_id = ?`,
-    rows.roadmap.projectId
-  );
-  const groups = allRows(db2, `SELECT id, archived_at AS archivedAt FROM card_groups`);
-  return deriveRoadmap(rows.roadmap, rows.phases, rows.features, rows.waits, cards, groups);
-}
-function getRoadmap(db2, projectId2) {
-  const roadmap = roadmapRow(db2, projectId2);
-  return roadmap ? derive(db2, readRows(db2, roadmap)) : null;
-}
-function roadmapPlacementForCard(db2, cardId) {
-  return roadmapContextForCard(db2, cardId)?.placement ?? null;
-}
-function roadmapContextForCard(db2, cardId) {
-  const card = getRow(
-    db2,
-    `SELECT id, project_id AS projectId, group_id AS groupId, roadmap_placement AS roadmapPlacement FROM cards WHERE id = ?`,
-    cardId
-  );
-  if (!card?.projectId) return null;
-  const roadmap = getRoadmap(db2, card.projectId);
-  if (!roadmap || roadmap.status !== "approved") return null;
-  const placement = placementOf(roadmap, card);
-  return { placement, section: roadmapPromptSection(roadmap, placement) };
-}
-function roadmapSectionForProject(db2, projectId2) {
-  return roadmapPromptSection(getRoadmap(db2, projectId2));
-}
-function mustRoadmap(db2, projectId2, opts) {
-  const roadmap = roadmapRow(db2, projectId2);
-  if (!roadmap) throw new RoadmapError("This project has no roadmap.");
-  if (opts.expectedUpdatedAt && opts.expectedUpdatedAt !== roadmap.updatedAt) {
-    throw new RoadmapError("The roadmap changed, read it again.");
-  }
-  return roadmap;
-}
-function edit(db2, projectId2, opts, fn) {
-  return transaction(db2, () => {
-    const roadmap = mustRoadmap(db2, projectId2, opts);
-    let now = opts.now ?? nowIso();
-    if (now <= roadmap.updatedAt) now = new Date(Date.parse(roadmap.updatedAt) + 1).toISOString();
-    fn(readRows(db2, roadmap), now);
-    db2.prepare(`UPDATE roadmaps SET updated_at = ? WHERE id = ?`).run(now, roadmap.id);
-    const after = readRows(db2, { ...roadmap, ...roadmapRow(db2, projectId2) });
-    const broken = validateRoadmap(after.phases, after.features, after.waits);
-    if (broken) throw new RoadmapError(broken);
-    return derive(db2, after);
-  });
-}
-function mustPhase(rows, phaseId) {
-  const phase = rows.phases.find((item) => item.id === phaseId);
-  if (!phase) throw new RoadmapError(`Phase not found on this roadmap: ${phaseId}`);
-  return phase;
-}
-function mustFeature(rows, featureId) {
-  const feature = rows.features.find((item) => item.id === featureId);
-  if (!feature) throw new RoadmapError(`Feature not found on this roadmap: ${featureId}`);
-  return feature;
-}
-var nextPosition = (rows, phaseId) => Math.max(0, ...rows.features.filter((feature) => feature.phaseId === phaseId).map((feature) => feature.position)) + 1;
-function saveRoadmapDraft(db2, input) {
-  return transaction(db2, () => {
-    if (!getRow(db2, `SELECT id FROM projects WHERE id = ?`, input.projectId)) {
-      throw new RoadmapError(`Project not found: ${input.projectId}`);
-    }
-    if (!Array.isArray(input.phases) || input.phases.length === 0) throw new RoadmapError("A roadmap needs at least one phase.");
-    const existing = roadmapRow(db2, input.projectId);
-    if (existing?.status === "approved") {
-      throw new RoadmapError("This project's roadmap is approved; a draft cannot replace it. Edit it with the roadmap's own operations.");
-    }
-    if (existing) db2.prepare(`DELETE FROM roadmaps WHERE id = ?`).run(existing.id);
-    const now = input.now ?? nowIso();
-    const roadmapId = newId();
-    db2.prepare(
-      `INSERT INTO roadmaps (id, project_id, status, approved_at, created_at, updated_at) VALUES (?, ?, 'draft', NULL, ?, ?)`
-    ).run(roadmapId, input.projectId, existing?.createdAt ?? now, now);
-    const insertFeature = db2.prepare(
-      `INSERT INTO roadmap_features (id, roadmap_id, phase_id, position, name, scope, prerequisite) VALUES (?, ?, ?, ?, ?, ?, 0)`
-    );
-    input.phases.forEach((phase, phaseIndex) => {
-      const phaseId = newId();
-      db2.prepare(
-        `INSERT INTO roadmap_phases (id, roadmap_id, position, name, goal, kind) VALUES (?, ?, ?, ?, ?, ?)`
-      ).run(phaseId, roadmapId, phaseIndex + 1, String(phase.name ?? "").trim(), String(phase.goal ?? "").trim(), String(phase.kind ?? "mvp").trim() || "mvp");
-      const ids = /* @__PURE__ */ new Map();
-      const features = Array.isArray(phase.features) ? phase.features : [];
-      features.forEach((feature, index) => {
-        const id = newId();
-        const name = String(feature.name ?? "").trim();
-        ids.set(name.toLowerCase(), id);
-        insertFeature.run(id, roadmapId, phaseId, index + 1, name, String(feature.scope ?? "").trim());
-      });
-      for (const feature of features) {
-        for (const waited of feature.waitsFor ?? []) {
-          const target2 = ids.get(String(waited).trim().toLowerCase());
-          if (!target2) {
-            throw new RoadmapError(
-              `"${feature.name}" cannot wait for "${waited}": a feature waits only for a feature of its own phase.`
-            );
-          }
-          db2.prepare(`INSERT OR IGNORE INTO roadmap_feature_waits (feature_id, waits_for_feature_id) VALUES (?, ?)`).run(
-            ids.get(String(feature.name ?? "").trim().toLowerCase()),
-            target2
-          );
-        }
-      }
-    });
-    (input.later ?? []).forEach((line, index) => {
-      insertFeature.run(newId(), roadmapId, null, index + 1, String(line.name ?? "").trim(), String(line.scope ?? "").trim());
-    });
-    const rows = readRows(db2, roadmapRow(db2, input.projectId));
-    const broken = validateRoadmap(rows.phases, rows.features, rows.waits, { maxFeatures: ROADMAP_DRAFT_MAX_FEATURES });
-    if (broken) throw new RoadmapError(broken);
-    return derive(db2, rows);
-  });
-}
-function approveRoadmap(db2, projectId2, opts = {}) {
-  return edit(db2, projectId2, opts, (rows, now) => {
-    if (rows.roadmap.status === "approved") return;
-    db2.prepare(`UPDATE roadmaps SET status = 'approved', approved_at = ? WHERE id = ?`).run(now, rows.roadmap.id);
-  });
-}
-function movePhaseToLater(db2, projectId2, phaseId, opts = {}) {
-  return edit(db2, projectId2, opts, (rows, now) => {
-    const phase = mustPhase(rows, phaseId);
-    if (phase.openedAt) throw new RoadmapError(`Phase "${phase.name}" is opened and has cards; an opened phase cannot move to Later.`);
-    db2.prepare(`UPDATE roadmap_phases SET deferred_at = COALESCE(deferred_at, ?) WHERE id = ?`).run(now, phase.id);
-  });
-}
-function bringForward(db2, projectId2, phaseId, opts = {}) {
-  return edit(db2, projectId2, opts, (rows) => {
-    const phase = mustPhase(rows, phaseId);
-    if (phase.openedAt) throw new RoadmapError(`Phase "${phase.name}" is already opened.`);
-    if (phase.deferredAt) {
-      db2.prepare(`UPDATE roadmap_phases SET deferred_at = NULL WHERE id = ?`).run(phase.id);
-      return;
-    }
-    const before = rows.phases.filter((item) => !item.deferredAt && item.position < phase.position).pop();
-    if (!before) throw new RoadmapError(`Phase "${phase.name}" is already first.`);
-    if (before.openedAt) throw new RoadmapError(`Phase "${phase.name}" cannot move ahead of "${before.name}", which is opened.`);
-    db2.prepare(`UPDATE roadmap_phases SET position = ? WHERE id = ?`).run(before.position, phase.id);
-    db2.prepare(`UPDATE roadmap_phases SET position = ? WHERE id = ?`).run(phase.position, before.id);
-  });
-}
-function addFeature(db2, projectId2, input, opts = {}) {
-  return edit(db2, projectId2, opts, (rows) => {
-    const phaseId = input.phaseId ?? null;
-    if (phaseId) mustPhase(rows, phaseId);
-    const id = newId();
-    db2.prepare(
-      `INSERT INTO roadmap_features (id, roadmap_id, phase_id, position, name, scope, prerequisite) VALUES (?, ?, ?, ?, ?, ?, ?)`
-    ).run(id, rows.roadmap.id, phaseId, nextPosition(rows, phaseId), String(input.name ?? "").trim(), String(input.scope ?? "").trim(), input.prerequisite ? 1 : 0);
-    for (const waited of input.waitsFor ?? []) {
-      if (!rows.features.some((feature) => feature.id === waited)) {
-        throw new RoadmapError("A feature waits for a feature that is not on this roadmap.");
-      }
-      db2.prepare(`INSERT OR IGNORE INTO roadmap_feature_waits (feature_id, waits_for_feature_id) VALUES (?, ?)`).run(id, waited);
-    }
-  });
-}
-function renameFeature(db2, projectId2, featureId, change, opts = {}) {
-  return edit(db2, projectId2, opts, (rows) => {
-    const feature = mustFeature(rows, featureId);
-    db2.prepare(`UPDATE roadmap_features SET name = ?, scope = ? WHERE id = ?`).run(
-      change.name !== void 0 ? String(change.name).trim() : feature.name,
-      change.scope !== void 0 ? String(change.scope).trim() : feature.scope,
-      feature.id
-    );
-  });
-}
-var linkedRefusal = (feature, verb) => new RoadmapError(
-  `Feature "${feature.name}" is opened as a ${feature.cardId ? "card" : "chain"}; an opened feature cannot be ${verb}.`
-);
-function removeFeature(db2, projectId2, featureId, opts = {}) {
-  return edit(db2, projectId2, opts, (rows) => {
-    const feature = mustFeature(rows, featureId);
-    if (feature.cardId || feature.groupId) throw linkedRefusal(feature, "removed");
-    db2.prepare(`DELETE FROM roadmap_features WHERE id = ?`).run(feature.id);
-  });
-}
-function moveFeature(db2, projectId2, featureId, phaseId, opts = {}) {
-  return edit(db2, projectId2, opts, (rows) => {
-    const feature = mustFeature(rows, featureId);
-    if (feature.cardId || feature.groupId) throw linkedRefusal(feature, "moved");
-    if (phaseId) mustPhase(rows, phaseId);
-    if ((feature.phaseId ?? null) === (phaseId ?? null)) return;
-    db2.prepare(`DELETE FROM roadmap_feature_waits WHERE feature_id = ? OR waits_for_feature_id = ?`).run(feature.id, feature.id);
-    db2.prepare(`UPDATE roadmap_features SET phase_id = ?, position = ?, checked_at = NULL, checked_by = NULL WHERE id = ?`).run(
-      phaseId ?? null,
-      nextPosition(rows, phaseId ?? null),
-      feature.id
-    );
-  });
-}
-function linkFeature(db2, projectId2, featureId, link, opts = {}) {
-  return edit(db2, projectId2, opts, (rows) => {
-    const feature = mustFeature(rows, featureId);
-    const cardId = link.cardId ?? null;
-    const groupId = link.groupId ?? null;
-    if (cardId && groupId) {
-      throw new RoadmapError(`Feature "${feature.name}" is one card or one chain, never both.`);
-    }
-    if (cardId && !getRow(db2, `SELECT id FROM cards WHERE id = ? AND project_id = ?`, cardId, projectId2)) {
-      throw new RoadmapError(`Card not found in this project: ${cardId}`);
-    }
-    if (groupId) {
-      if (!getRow(db2, `SELECT id FROM card_groups WHERE id = ?`, groupId)) throw new RoadmapError(`Chain not found: ${groupId}`);
-      const count = getRow(
-        db2,
-        `SELECT COUNT(*) AS n FROM cards WHERE group_id = ? AND status != 'withdrawn'`,
-        groupId
-      );
-      if (Number(count?.n ?? 0) > ROADMAP_MAX_CHAIN_CARDS) {
-        throw new RoadmapError(`A feature's chain holds at most ${ROADMAP_MAX_CHAIN_CARDS} cards; this chain has ${count?.n}.`);
-      }
-    }
-    const taken = rows.features.find(
-      (other) => other.id !== feature.id && (cardId && other.cardId === cardId || groupId && other.groupId === groupId)
-    );
-    if (taken) throw new RoadmapError(`That ${cardId ? "card" : "chain"} is already feature "${taken.name}".`);
-    db2.prepare(`UPDATE roadmap_features SET card_id = ?, group_id = ? WHERE id = ?`).run(cardId, groupId, feature.id);
-  });
-}
-function markPhaseOpened(db2, projectId2, phaseId, opts = {}) {
-  return edit(db2, projectId2, opts, (rows, now) => {
-    const phase = mustPhase(rows, phaseId);
-    if (rows.roadmap.status !== "approved") throw new RoadmapError("Approve the roadmap before opening a phase.");
-    if (phase.deferredAt) throw new RoadmapError(`Phase "${phase.name}" is in Later; bring it forward first.`);
-    db2.prepare(`UPDATE roadmap_phases SET opened_at = COALESCE(opened_at, ?) WHERE id = ?`).run(now, phase.id);
-  });
-}
-function tickValidationLine(db2, projectId2, featureId, checked, by, opts = {}) {
-  return edit(db2, projectId2, opts, (rows, now) => {
-    const feature = mustFeature(rows, featureId);
-    const phase = rows.phases.find((item) => item.id === feature.phaseId);
-    if (!phase || !isValidationPhase(phase)) {
-      throw new RoadmapError(`"${feature.name}" is not a validation line; only validation lines are ticked.`);
-    }
-    db2.prepare(`UPDATE roadmap_features SET checked_at = ?, checked_by = ? WHERE id = ?`).run(
-      checked ? now : null,
-      checked ? by : null,
-      feature.id
-    );
-  });
-}
-function setCardPlacement(db2, cardId, placement) {
-  transaction(db2, () => {
-    if (!getRow(db2, `SELECT id FROM cards WHERE id = ?`, cardId)) throw new RoadmapError(`Card not found: ${cardId}`);
-    if (placement && !ROADMAP_PLACEMENT_KINDS.includes(placement.kind)) {
-      throw new RoadmapError(`Unknown roadmap placement "${placement.kind}"; use one of ${ROADMAP_PLACEMENT_KINDS.join(", ")}.`);
-    }
-    const value = placement ? JSON.stringify({
-      kind: placement.kind,
-      phaseId: placement.phaseId ?? null,
-      featureId: placement.featureId ?? null,
-      note: placement.note ?? "",
-      at: placement.now ?? nowIso()
-    }) : null;
-    db2.prepare(`UPDATE cards SET roadmap_placement = ? WHERE id = ?`).run(value, cardId);
-  });
-}
-function deleteRoadmap(db2, projectId2) {
-  transaction(db2, () => {
-    const roadmap = roadmapRow(db2, projectId2);
-    if (!roadmap) return;
-    db2.prepare(
-      `DELETE FROM roadmap_feature_waits WHERE feature_id IN (SELECT id FROM roadmap_features WHERE roadmap_id = ?)`
-    ).run(roadmap.id);
-    db2.prepare(`DELETE FROM roadmap_features WHERE roadmap_id = ?`).run(roadmap.id);
-    db2.prepare(`DELETE FROM roadmap_phases WHERE roadmap_id = ?`).run(roadmap.id);
-    db2.prepare(`DELETE FROM roadmaps WHERE id = ?`).run(roadmap.id);
-  });
-}
-var ROADMAP_OPS = [
-  "approve",
-  "move_to_later",
-  "bring_forward",
-  "add_feature",
-  "rename_feature",
-  "remove_feature",
-  "move_feature",
-  "tick_line"
-];
-function applyRoadmapOp(db2, projectId2, input, by) {
-  const opts = { expectedUpdatedAt: input.expectedUpdatedAt ?? null };
-  const need = (value, name) => {
-    if (value === void 0 || value === null || value === "") throw new RoadmapError(`${input.op} needs ${name}.`);
-    return value;
-  };
-  switch (input.op) {
-    case "approve":
-      return approveRoadmap(db2, projectId2, opts);
-    case "move_to_later":
-      return movePhaseToLater(db2, projectId2, need(input.phaseId, "phaseId"), opts);
-    case "bring_forward":
-      return bringForward(db2, projectId2, need(input.phaseId, "phaseId"), opts);
-    case "add_feature":
-      return addFeature(
-        db2,
-        projectId2,
-        { phaseId: input.phaseId ?? null, name: need(input.name, "name"), scope: input.scope, waitsFor: input.waitsFor },
-        opts
-      );
-    case "rename_feature":
-      return renameFeature(db2, projectId2, need(input.featureId, "featureId"), { name: input.name, scope: input.scope }, opts);
-    case "remove_feature":
-      return removeFeature(db2, projectId2, need(input.featureId, "featureId"), opts);
-    case "move_feature":
-      return moveFeature(db2, projectId2, need(input.featureId, "featureId"), input.phaseId ?? null, opts);
-    case "tick_line":
-      return tickValidationLine(db2, projectId2, need(input.featureId, "featureId"), input.checked !== false, by, opts);
-    default:
-      throw new RoadmapError(`Unknown roadmap operation "${input.op}"; use one of ${ROADMAP_OPS.join(", ")}.`);
-  }
 }
 
 // ../lib/card-ops/chain.ts
@@ -35088,8 +35601,8 @@ function globalAgentModeEnabled(db2) {
 function sharedPrefixes(projects) {
   const seen = /* @__PURE__ */ new Map();
   for (const project of projects) {
-    const key = project.idPrefix.toUpperCase();
-    seen.set(key, (seen.get(key) ?? 0) + 1);
+    const key2 = project.idPrefix.toUpperCase();
+    seen.set(key2, (seen.get(key2) ?? 0) + 1);
   }
   return [...seen].filter(([, n]) => n > 1).map(([prefix]) => prefix);
 }
@@ -35286,8 +35799,8 @@ var SplitCardError = class extends Error {
   }
   kind;
 };
-function escapeHtml5(text3) {
-  return text3.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+function escapeHtml5(text4) {
+  return text4.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 function childDescription(card, parentLabel) {
   const parts = [];
@@ -36008,10 +36521,10 @@ var Refused2 = class extends Error {
   refusals;
 };
 var IntegrationBlocked = class extends Error {
-  constructor(blockers, text3) {
+  constructor(blockers, text4) {
     super("integration-blocked");
     this.blockers = blockers;
-    this.text = text3;
+    this.text = text4;
   }
   blockers;
   text;
@@ -36474,6 +36987,315 @@ function codexHookLastHeard(db2) {
   return getRow(db2, `SELECT value FROM settings WHERE key = ?`, CODEX_HOOK_LAST_HEARD_KEY)?.value ?? null;
 }
 
+// ../lib/card-ops/roadmap-open.ts
+import { existsSync as existsSync11, rmSync as rmSync2 } from "fs";
+var nowIso2 = () => (/* @__PURE__ */ new Date()).toISOString();
+function hasPhaseProposalTable(db2) {
+  return !!getRow(db2, "SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'roadmap_phase_proposals'");
+}
+function mustTable(db2) {
+  if (!hasPhaseProposalTable(db2)) {
+    throw new RoadmapError(
+      "This Ideafy database cannot store phase proposals yet. Update the Ideafy app; it adds the table on its next start."
+    );
+  }
+}
+var PROPOSAL_COLS = `phase_id AS phaseId, payload, status, created_at AS createdAt, updated_at AS updatedAt`;
+function toStored(row) {
+  if (!row) return null;
+  try {
+    const proposal = JSON.parse(row.payload);
+    return { phaseId: row.phaseId, status: row.status, proposal, createdAt: row.createdAt, updatedAt: row.updatedAt };
+  } catch {
+    return null;
+  }
+}
+function getPhaseProposal(db2, phaseId) {
+  if (!hasPhaseProposalTable(db2)) return null;
+  return toStored(getRow(db2, `SELECT ${PROPOSAL_COLS} FROM roadmap_phase_proposals WHERE phase_id = ?`, phaseId));
+}
+function pendingPhaseProposals(db2, projectId2) {
+  if (!hasPhaseProposalTable(db2)) return [];
+  return allRows(
+    db2,
+    `SELECT pp.phase_id AS phaseId, pp.payload, pp.status, pp.created_at AS createdAt, pp.updated_at AS updatedAt
+       FROM roadmap_phase_proposals pp
+       JOIN roadmap_phases ph ON ph.id = pp.phase_id
+       JOIN roadmaps r ON r.id = ph.roadmap_id
+      WHERE r.project_id = ? AND pp.status = 'pending'
+      ORDER BY ph.position`,
+    projectId2
+  ).map(toStored).filter((item) => item !== null);
+}
+function checkPhaseCanOpen(db2, projectId2, phaseId) {
+  const roadmap = getRoadmap(db2, projectId2);
+  if (!roadmap) throw new RoadmapError("This project has no roadmap.");
+  if (roadmap.status !== "approved") throw new RoadmapError("Approve the roadmap before opening a phase.");
+  const phase = roadmap.phases.find((item) => item.id === phaseId);
+  if (!phase) throw new RoadmapError(`Phase not found on this roadmap: ${phaseId}`);
+  if (isValidationPhase(phase)) {
+    throw new RoadmapError(`"${phase.name}" is a validation phase; its lines are ticked on the Roadmap, it opens no cards.`);
+  }
+  if (phase.openedAt) throw new RoadmapError(`Phase "${phase.name}" is already opened.`);
+  if (phase.deferredAt) throw new RoadmapError(`Phase "${phase.name}" is in Later; bring it forward first.`);
+  if (phase.state !== "next") {
+    const next = roadmap.phases.find((item) => item.state === "next");
+    throw new RoadmapError(`Phase "${phase.name}" is not next in line${next ? `; "${next.name}" opens first` : ""}.`);
+  }
+  if (phase.features.length === 0) throw new RoadmapError(`Phase "${phase.name}" has no features to open.`);
+  let earlyOpen = null;
+  if (!phase.waitsToOpen) {
+    const open = roadmap.phases.filter((item) => item.state === "open");
+    const openFeatures = open.reduce((sum, item) => sum + (item.total - item.done), 0);
+    earlyOpen = { phaseName: open[0]?.name ?? "The phase before it", openFeatures };
+  }
+  return { roadmap, phase, earlyOpen };
+}
+var refs = (phase) => phaseFeatureRefs(phase.features);
+function linkedCards(db2, feature) {
+  if (feature.groupId) {
+    return allRows(
+      db2,
+      `SELECT id, title, task_number AS taskNumber FROM cards
+        WHERE group_id = ? AND status != 'withdrawn'
+        ORDER BY (group_order IS NULL), group_order, task_number`,
+      feature.groupId
+    );
+  }
+  if (!feature.cardId) return [];
+  return allRows(
+    db2,
+    `SELECT id, title, task_number AS taskNumber FROM cards WHERE id = ? AND status != 'withdrawn'`,
+    feature.cardId
+  );
+}
+function linkedFeatureLabels(db2, projectId2, phase) {
+  const idPrefix = getRow(db2, `SELECT id_prefix AS idPrefix FROM projects WHERE id = ?`, projectId2)?.idPrefix ?? null;
+  const labels = {};
+  for (const feature of phase.features) {
+    if (feature.groupId) {
+      const code = getRow(db2, `SELECT code FROM card_groups WHERE id = ?`, feature.groupId)?.code;
+      labels[feature.id] = code ? `chain ${code}` : "a chain";
+    } else if (feature.cardId) {
+      const card = getRow(db2, `SELECT task_number AS taskNumber FROM cards WHERE id = ?`, feature.cardId);
+      const displayId = card?.taskNumber != null ? formatDisplayId(idPrefix, card.taskNumber) : null;
+      if (displayId) labels[feature.id] = displayId;
+    }
+  }
+  return labels;
+}
+function savePhaseProposal(db2, input) {
+  mustTable(db2);
+  return transaction(db2, () => {
+    const existing = getPhaseProposal(db2, input.phaseId);
+    if (existing?.status === "applied") throw new RoadmapError("This phase's proposal is already opened; nothing was written.");
+    const check2 = checkPhaseCanOpen(db2, input.projectId, input.phaseId);
+    const proposal = {
+      ...normalizePhaseProposal(input.proposal, input.phaseId, refs(check2.phase)),
+      earlyOpen: check2.earlyOpen,
+      roadmapUpdatedAt: check2.roadmap.updatedAt
+    };
+    const broken = validatePhaseProposal(proposal, refs(check2.phase));
+    if (broken) throw new RoadmapError(broken);
+    const now = input.now ?? nowIso2();
+    runChanges(
+      db2,
+      `INSERT INTO roadmap_phase_proposals (phase_id, payload, status, created_at, updated_at) VALUES (?, ?, 'pending', ?, ?)
+       ON CONFLICT(phase_id) DO UPDATE SET payload = excluded.payload, status = 'pending', updated_at = excluded.updated_at`,
+      input.phaseId,
+      JSON.stringify(proposal),
+      now,
+      now
+    );
+    return getPhaseProposal(db2, input.phaseId);
+  });
+}
+function dismissPhaseProposal(db2, projectId2, phaseId, now = nowIso2()) {
+  mustTable(db2);
+  transaction(db2, () => {
+    const roadmap = getRoadmap(db2, projectId2);
+    if (!roadmap?.phases.some((phase) => phase.id === phaseId)) throw new RoadmapError(`Phase not found on this roadmap: ${phaseId}`);
+    const existing = getPhaseProposal(db2, phaseId);
+    if (!existing) throw new RoadmapError("This phase has no proposal.");
+    if (existing.status === "applied") throw new RoadmapError("This phase's proposal is already opened; it cannot be dismissed.");
+    runChanges(db2, `UPDATE roadmap_phase_proposals SET status = 'dismissed', updated_at = ? WHERE phase_id = ?`, now, phaseId);
+  });
+}
+function escapeHtml6(value) {
+  return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+function cardDescription(scope, featureName, phaseName) {
+  const lines2 = scope.split(/\n+/).map((line) => line.trim()).filter(Boolean);
+  return [
+    ...lines2.map((line) => `<p>${escapeHtml6(line)}</p>`),
+    `<p><em>Feature: ${escapeHtml6(featureName)} \xB7 Phase: ${escapeHtml6(phaseName)}</em></p>`
+  ].join("");
+}
+function openFeatureChain(db2, projectId2, feature, now) {
+  const base = normalizeGroupCode(feature.chainCode ?? "") || normalizeGroupCode(feature.name) || "PHASE";
+  for (let n = 1; n <= 9; n += 1) {
+    const code = n === 1 ? base : `${base.slice(0, GROUP_CODE_MAX - 1)}${n}`;
+    try {
+      return createGroup(db2, { code, name: feature.name, projectId: projectId2, integrationBranch: false }, now);
+    } catch (error2) {
+      if (!(error2 instanceof CardGroupError) || error2.kind !== "conflict") throw error2;
+    }
+  }
+  throw new RoadmapError(`No free chain code from "${base}" for feature "${feature.name}".`);
+}
+function applyPhaseProposal(db2, args) {
+  mustTable(db2);
+  const madeCards = [];
+  try {
+    return applyInTransaction(db2, args, madeCards);
+  } catch (error2) {
+    for (const id of madeCards) {
+      try {
+        const folder = cardArtifactDir(id);
+        if (existsSync11(folder)) rmSync2(folder, { recursive: true, force: true });
+      } catch {
+      }
+    }
+    if (error2 instanceof CardGroupError) throw new RoadmapError(error2.message);
+    throw error2;
+  }
+}
+function applyInTransaction(db2, args, madeCards) {
+  const { projectId: projectId2, phaseId, author } = args;
+  const now = args.now ?? nowIso2();
+  return transaction(db2, () => {
+    const stored = getPhaseProposal(db2, phaseId);
+    if (!stored) throw new RoadmapError("This phase has no proposal. Ask for one first.");
+    if (stored.status === "applied") throw new RoadmapError("This phase is already opened; nothing was opened again.");
+    if (stored.status === "dismissed") throw new RoadmapError("This phase's proposal was dismissed. Ask again for a new one.");
+    const check2 = checkPhaseCanOpen(db2, projectId2, phaseId);
+    if (stored.proposal.roadmapUpdatedAt && stored.proposal.roadmapUpdatedAt !== check2.roadmap.updatedAt) {
+      throw new RoadmapError("The roadmap changed since this proposal was written. Ask again.");
+    }
+    const phase = check2.phase;
+    const proposal = args.proposal ? {
+      ...normalizePhaseProposal(args.proposal, phaseId, refs(phase)),
+      earlyOpen: stored.proposal.earlyOpen ?? null,
+      roadmapUpdatedAt: stored.proposal.roadmapUpdatedAt ?? null
+    } : stored.proposal;
+    const broken = validatePhaseProposal(proposal, refs(phase));
+    if (broken) throw new RoadmapError(broken);
+    const after = check2.roadmap.phases.filter(
+      (item) => item.position > phase.position && !item.openedAt && !item.deferredAt && !isValidationPhase(item)
+    );
+    const nextPhaseId = after.sort((a, b2) => a.position - b2.position)[0]?.id ?? null;
+    for (const id of proposal.moveToNext) moveFeature(db2, projectId2, id, nextPhaseId);
+    for (const feature of proposal.features) {
+      for (const id of feature.mergedFrom ?? []) removeFeature(db2, projectId2, id);
+    }
+    const featureIdByName = /* @__PURE__ */ new Map();
+    const lower = (value) => value.trim().toLowerCase();
+    for (const feature of proposal.features) {
+      if (feature.featureId) {
+        const current = phase.features.find((item) => item.id === feature.featureId);
+        if (current && current.name !== feature.name) renameFeature(db2, projectId2, feature.featureId, { name: feature.name });
+        featureIdByName.set(lower(feature.name), feature.featureId);
+        continue;
+      }
+      const known = new Set(featureIdByName.values());
+      const roadmap2 = addFeature(db2, projectId2, { phaseId, name: feature.name, scope: feature.scope, prerequisite: true });
+      const added = roadmap2.phases.find((item) => item.id === phaseId)?.features.filter((item) => item.prerequisite && item.name === feature.name && !known.has(item.id)).pop();
+      if (!added) throw new RoadmapError(`Could not add the shared piece "${feature.name}".`);
+      featureIdByName.set(lower(feature.name), added.id);
+    }
+    const idPrefix = getRow(db2, `SELECT id_prefix AS idPrefix FROM projects WHERE id = ?`, projectId2)?.idPrefix ?? null;
+    const opened = /* @__PURE__ */ new Map();
+    const kept = [];
+    for (const feature of phase.features) {
+      if (!feature.cardId && !feature.groupId) continue;
+      const entry = {
+        featureId: feature.id,
+        name: feature.name,
+        kind: feature.groupId ? "chain" : "card",
+        groupId: feature.groupId,
+        groupCode: null,
+        cards: linkedCards(db2, feature).map((card) => ({
+          id: card.id,
+          displayId: card.taskNumber != null ? formatDisplayId(idPrefix, card.taskNumber) : null,
+          title: card.title
+        })),
+        waitsFor: []
+      };
+      kept.push(entry);
+      opened.set(lower(feature.name), entry);
+    }
+    for (const feature of proposalBuildOrder(proposal.features)) {
+      const group = feature.kind === "chain" ? openFeatureChain(db2, projectId2, feature, now) : null;
+      const cards = [];
+      feature.cards.forEach((card, index) => {
+        const id = globalThis.crypto.randomUUID();
+        madeCards.push(id);
+        const blockedBy = index === 0 ? feature.waitsFor.flatMap((waited) => {
+          const target2 = opened.get(lower(waited));
+          const last = target2.cards[target2.cards.length - 1];
+          return last ? [{ card: last.id, note: `waits for feature ${target2.name}` }] : [];
+        }) : [];
+        const created = createCard(
+          db2,
+          {
+            id,
+            title: card.title,
+            description: cardDescription(card.scope || feature.scope, feature.name, phase.name),
+            status: "backlog",
+            projectId: projectId2,
+            groupId: group?.id ?? null,
+            blockedBy
+          },
+          now,
+          author
+        );
+        if (!created.ok) throw new RoadmapError(`Could not open "${card.title}": ${created.reason}`);
+        cards.push({ id, displayId: formatDisplayId(idPrefix, created.taskNumber), title: card.title });
+      });
+      opened.set(lower(feature.name), {
+        featureId: featureIdByName.get(lower(feature.name)),
+        name: feature.name,
+        kind: feature.kind,
+        groupId: group?.id ?? null,
+        groupCode: group?.code ?? null,
+        cards,
+        waitsFor: feature.waitsFor
+      });
+    }
+    const inOrder = proposal.features.map((feature) => opened.get(lower(feature.name)));
+    for (const feature of inOrder) {
+      linkFeature(db2, projectId2, feature.featureId, feature.groupId ? { groupId: feature.groupId } : { cardId: feature.cards[0].id });
+    }
+    replacePhaseWaits(
+      db2,
+      projectId2,
+      phaseId,
+      inOrder.flatMap(
+        (feature) => feature.waitsFor.map((waited) => ({
+          featureId: feature.featureId,
+          waitsForFeatureId: opened.get(lower(waited)).featureId
+        }))
+      ),
+      { order: [...kept, ...inOrder].map((feature) => feature.featureId) }
+    );
+    const roadmap = markPhaseOpened(db2, projectId2, phaseId);
+    runChanges(
+      db2,
+      `UPDATE roadmap_phase_proposals SET status = 'applied', payload = ?, updated_at = ? WHERE phase_id = ?`,
+      JSON.stringify({ ...proposal, roadmapUpdatedAt: roadmap.updatedAt }),
+      now,
+      phaseId
+    );
+    return {
+      phaseId,
+      phaseName: phase.name,
+      features: inOrder,
+      cards: inOrder.reduce((sum, feature) => sum + feature.cards.length, 0),
+      roadmap
+    };
+  });
+}
+
 // ../lib/prompts/evaluation.ts
 var evaluation_exports = {};
 __export(evaluation_exports, {
@@ -36487,6 +37309,23 @@ __export(evaluation_exports, {
   buildSplitParentPlanningSection: () => buildSplitParentPlanningSection,
   buildSplitSection: () => buildSplitSection
 });
+
+// ../lib/prompts/roadmap-placement.ts
+var ROADMAP_PLACEMENT_RULE = `Place this idea on the roadmap above and say so in the opinion. End the Summary Verdict section with one line of its own:
+\`[ROADMAP: <kind> | <name>] \u2014 one sentence\`
+The kind is one word, in English; the name is the feature, phase or Later line exactly as the roadmap writes it.
+- in_open_phase: the idea is the same as a feature of the open phase, or as a card of it. Name the feature, and list its card under Related Cards as a duplicate.
+- next_phase / later: it is the same as a feature of a coming phase, or as a Later line. Name the line and ask whether to bring it forward now or leave it where it is.
+- conflicts: it goes against a decision the roadmap made: it asks for something the narrative or the roadmap left out of scope, redefines a feature of the open phase in another direction, or relies on a feature of a phase that is not open yet. Name the conflict and the line. Do not lower the verdict for this alone; the user decides.
+- new_item: none of the above. The name is the phase it fits, or Later.
+Write the line once in every opinion. When unsure, new_item.`;
+var ROADMAP_PRODUCT_IDEA_RULE = `This project has no roadmap. If the card is not one feature but a product idea that would take several phases (three or more capabilities that stand on their own), end the Summary Verdict section with one line of its own:
+\`[ROADMAP: product_idea | <capability>, <capability>, \u2026] \u2014 one sentence\`
+and do not propose breaking the card up: a roadmap is the answer, and the user is offered one. Otherwise leave the line out.`;
+var ROADMAP_PLACEMENT_GUIDE = `Roadmap: when get_card returned a \`roadmap\` field, its \`section\` is the project's short roadmap. ${ROADMAP_PLACEMENT_RULE}
+When get_card returned no \`roadmap\` field and \`project.mode\` is not work: ${ROADMAP_PRODUCT_IDEA_RULE}`;
+
+// ../lib/prompts/evaluation.ts
 var EVALUATION_OUTPUT_SCHEMA = `## Summary Verdict
 [VERDICT: strong_yes/yes/maybe/no/strong_no] \u2014 one sentence: Strong Yes / Yes / Maybe / No / Strong No, and why.
 
@@ -36512,6 +37351,8 @@ Give low (or trivial) only when the change is small and touches none of these: c
 
 ## Final Score
 [SCORE: X/10] \u2014 brief justification
+
+A fifth marker, [ROADMAP: \u2026], is written only when the roadmap rule asks for it, as the last line of Summary Verdict.
 
 The four bracketed markers \u2014 [VERDICT: \u2026], [PRIORITY: \u2026], [COMPLEXITY: \u2026], [SCORE: X/10] \u2014 each hold exactly one value and stay in English whatever language the rest is written in. The card's verdict, score, priority and complexity are read from them.`;
 var EVALUATION_HEADINGS_RULE = "Markdown with exactly these sections (Related Cards is the only optional one). Keep every `##` heading exactly as written, in English, even when you write the content in another language: the app reads the verdict and the scores from them.";
@@ -36612,6 +37453,8 @@ ${EVALUATION_OUTPUT_SCHEMA}`;
 function buildEvaluationGuide() {
   return `${PRIOR_DECISIONS_EVALUATION_RULE}
 
+${ROADMAP_PLACEMENT_GUIDE}
+
 ${EVALUATION_SAVE_INSTRUCTION}`;
 }
 
@@ -36653,10 +37496,10 @@ ${headings}
 ${PLAN_MARKERS_RULE}`;
 }
 function buildPlanFormatGuide() {
-  const list = (mode) => PLAN_HEADINGS[mode].map((heading) => `### ${heading.replace(/ \(.*\)$/, "")}`).join(", ");
+  const list2 = (mode) => PLAN_HEADINGS[mode].map((heading) => `### ${heading.replace(/ \(.*\)$/, "")}`).join(", ");
   return `PLAN FORMAT (the one the app's planning run writes; get_card's \`project.mode\` says which set applies):
-- development (or no mode): ${list("development")}.
-- work: ${list("work")}. Under Output, name what gets produced and the name it is saved under in the project folder.
+- development (or no mode): ${list2("development")}.
+- work: ${list2("work")}. Under Output, name what gets produced and the name it is saved under in the project folder.
 Use these four headings, in this order, in every voice \u2014 the voice decides how the prose under them reads, not which sections exist. An engineer's Changed Files table (| File | Change |) sits under Files to Modify, not in a section of its own.
 A development plan ends on a \`Files: path/a.ts, path/b.ts\` line with every path it will change (or lists them under Files to Modify). list_open_work, the file-overlap check and planVsBranch read only those two places; a file named only in prose is invisible to them.
 
@@ -36673,9 +37516,9 @@ var HEADING_PATTERNS = [
   [new RegExp(`^(open\\s+questions|a\xE7[\u0131i]k\\s+sorular)${NOT_LETTER}`, "iu"), "questions"]
 ];
 function planHeadingKind(headingText2) {
-  const text3 = headingText2.replace(/İ/g, "i").replace(/\s+/g, " ").trim().replace(/:$/, "");
+  const text4 = headingText2.replace(/İ/g, "i").replace(/\s+/g, " ").trim().replace(/:$/, "");
   for (const [pattern, kind] of HEADING_PATTERNS) {
-    if (pattern.test(text3)) return kind;
+    if (pattern.test(text4)) return kind;
   }
   return null;
 }
@@ -36687,7 +37530,7 @@ function headingTexts(plan) {
   const html = [...plan.matchAll(/<h[1-6][^>]*>([\s\S]*?)<\/h[1-6]>/gi)].map((m2) => htmlToText(m2[1]));
   const markdown = [...plan.matchAll(/^\s{0,3}#{1,6}\s+(.+?)\s*#*\s*$/gm)].map((m2) => m2[1]);
   const bold = [...plan.matchAll(/^\s*(?:<p>)?\s*(?:\*\*|<strong>)([^*<]+?)(?:\*\*|<\/strong>)\s*:?\s*(?:<\/p>)?\s*$/gim)].map((m2) => m2[1]);
-  return [...html, ...markdown, ...bold].map((text3) => text3.replace(/[*_`]/g, "").trim());
+  return [...html, ...markdown, ...bold].map((text4) => text4.replace(/[*_`]/g, "").trim());
 }
 function planFormatGaps(plan, mode) {
   const kinds = new Set(headingTexts(plan).map(planHeadingKind).filter((kind) => kind !== null));
@@ -36695,9 +37538,9 @@ function planFormatGaps(plan, mode) {
   MODE_KINDS[mode].forEach((kind, i) => {
     if (!kinds.has(kind)) gaps.push(PLAN_HEADINGS[mode][i].replace(/ \(.*\)$/, ""));
   });
-  const text3 = htmlToText(plan);
+  const text4 = htmlToText(plan);
   PLAN_MARKER_PATTERNS.forEach((pattern, i) => {
-    if (!pattern.test(text3)) gaps.push(MARKER_LABELS[i]);
+    if (!pattern.test(text4)) gaps.push(MARKER_LABELS[i]);
   });
   if (mode === "development" && extractPlanFiles(plan).length === 0) gaps.push("a Files: line");
   return gaps;
@@ -36714,7 +37557,7 @@ __export(card_mockups_exports, {
   mockupState: () => mockupState,
   resolveCardMockupFile: () => resolveCardMockupFile
 });
-import { existsSync as existsSync11, realpathSync as realpathSync4, statSync as statSync6 } from "fs";
+import { existsSync as existsSync12, realpathSync as realpathSync4, statSync as statSync6 } from "fs";
 import path8 from "path";
 function isInside3(child, parent) {
   return child === parent || child.startsWith(parent + path8.sep);
@@ -36749,7 +37592,7 @@ function resolveCardMockupFile(cardId, segments, cardDir = cardArtifactDir(cardI
   const root = realDir(cardDir);
   if (!root) return null;
   const candidate = path8.join(root, ...segments);
-  if (!existsSync11(candidate)) return null;
+  if (!existsSync12(candidate)) return null;
   const real = realpathSync4(candidate);
   if (!isInside3(real, root) || real === root || !statSync6(real).isFile()) return null;
   return real;
@@ -36768,7 +37611,7 @@ __export(test_report_files_exports, {
   testReportRunDir: () => testReportRunDir,
   waitForRunVideos: () => waitForRunVideos
 });
-import { copyFileSync as copyFileSync3, mkdirSync as mkdirSync5, readFileSync as readFileSync5, readdirSync as readdirSync2, rmSync as rmSync2, statSync as statSync7 } from "fs";
+import { copyFileSync as copyFileSync3, mkdirSync as mkdirSync5, readFileSync as readFileSync5, readdirSync as readdirSync2, rmSync as rmSync3, statSync as statSync7 } from "fs";
 import { homedir as homedir3 } from "os";
 import path9 from "path";
 var MAX_SCREENSHOT_BYTES = 20 * 1024 * 1024;
@@ -36779,7 +37622,7 @@ function removeTestReportRunDirs(cardId, runs, homeDir) {
   for (const run2 of runs) {
     if (!isTestReportRunId(run2.id)) continue;
     try {
-      rmSync2(testReportRunDir(cardId, run2.id, homeDir), { recursive: true, force: true });
+      rmSync3(testReportRunDir(cardId, run2.id, homeDir), { recursive: true, force: true });
     } catch (error2) {
       console.warn(`[test-report] could not remove ${run2.id} of ${cardId}:`, error2);
     }
@@ -36875,12 +37718,12 @@ function removeRunVideoFiles(runDir, files) {
   for (const file2 of files ?? findRunVideos(runDir).map((video) => video.file)) {
     if (!isTestReportVideoName(file2)) continue;
     try {
-      rmSync2(path9.join(runDir, file2), { force: true });
+      rmSync3(path9.join(runDir, file2), { force: true });
     } catch (error2) {
       console.warn(`[test-report] could not remove video ${file2}:`, error2);
     }
   }
-  if (!files) rmSync2(path9.join(runDir, CLICK_LOG_FILE), { force: true });
+  if (!files) rmSync3(path9.join(runDir, CLICK_LOG_FILE), { force: true });
 }
 function stampArtifactVideoTimes(items, runDir, offset) {
   return items.map((item) => ({
@@ -36920,8 +37763,8 @@ var FENCE2 = new RegExp(
 var PLAN_DRIFT_IMPLEMENTATION_RULE = `Plan drift: when get_card returns a \`planDrift\` field, the plan was written before those commits. The code wins \u2014 read them with \`git show <sha> -- <file>\` before you follow the plan, and do not edit the plan. After the checklist, add one fenced \`\`\`${PLAN_DEVIATIONS_FENCE} block with one line per place you deviated from the plan (what the plan said, what you did instead, why). With no \`planDrift\` field, or no deviation, leave the block out.`;
 
 // ../lib/test-report-brief.ts
-function withoutNumbers(text3) {
-  return text3.replace(/\b[A-Z][A-Z0-9]*-\d+\b/g, "[card]").replace(/#\d+'s\b/g, "the newest run's").replace(/#?\d+(?:[.,:/]\d+)*%?/g, "").replace(/\(\s*\)/g, "").replace(/\s+([,.;:])/g, "$1").replace(/\s+/g, " ").trim();
+function withoutNumbers(text4) {
+  return text4.replace(/\b[A-Z][A-Z0-9]*-\d+\b/g, "[card]").replace(/#\d+'s\b/g, "the newest run's").replace(/#?\d+(?:[.,:/]\d+)*%?/g, "").replace(/\(\s*\)/g, "").replace(/\s+([,.;:])/g, "$1").replace(/\s+/g, " ").trim();
 }
 var SECTION_TITLES = [
   ["problems", "Problems (failed)"],
@@ -36930,15 +37773,15 @@ var SECTION_TITLES = [
   ["worked", "Passed"]
 ];
 var BRIEF_RULES_VERSION = "short-v3";
-function djb2(text3) {
+function djb2(text4) {
   let hash2 = 5381;
-  for (let i = 0; i < text3.length; i++) hash2 = (hash2 << 5) + hash2 + text3.charCodeAt(i) | 0;
+  for (let i = 0; i < text4.length; i++) hash2 = (hash2 << 5) + hash2 + text4.charCodeAt(i) | 0;
   return (hash2 >>> 0).toString(36);
 }
 function briefBasis(state) {
   const parts = [BRIEF_RULES_VERSION, state.headline, state.textOnly ? "text" : "visual", ...state.runNotes];
-  for (const [key] of SECTION_TITLES) {
-    for (const item of state[key]) parts.push(`${item.kind}\0${item.checklistText}\0${item.caveat ?? ""}`);
+  for (const [key2] of SECTION_TITLES) {
+    for (const item of state[key2]) parts.push(`${item.kind}\0${item.checklistText}\0${item.caveat ?? ""}`);
   }
   return djb2(parts.join(""));
 }
@@ -36997,8 +37840,8 @@ function codeText(run2) {
   const dirty = run2.code?.dirtyTotal ?? 0;
   return `code: ${commit.slice(0, 7)}${dirty > 0 ? ` (+${dirty} uncommitted)` : ""}`;
 }
-function indent(text3, prefix) {
-  return text3.split("\n").map((line) => `${prefix}${line}`).join("\n");
+function indent(text4, prefix) {
+  return text4.split("\n").map((line) => `${prefix}${line}`).join("\n");
 }
 function itemText(item, number3, full, clip) {
   const video = clip ? ` \xB7 video ${formatVideoTime(clip.start)}\u2013${formatVideoTime(clip.at)} (${clip.start}s\u2013${clip.at}s)` : "";
@@ -37274,8 +38117,8 @@ var ITEM_TEXT_MAX = 320;
 var OBSERVED_TEXT_MAX = 180;
 var TECHNICAL = /\b[a-z]+_[a-z_]+\b|\blucide-|\b\w+=\S|\b(?:DB|DOM|SQL|API|HTTP|JSON|PID|SSIM|localhost)\b|\b(?:curl|ffprobe|sqlite3?|npm|npx|verify-server|querySelector|currentTime)\b|\/api\/|127\.0\.0\.1|:\d{4}\b|\w+\.(?:tsx?|json|sql|mjs)\b|=>|[{}]|\b\w+\(\)/i;
 var CAMEL_CASE = /\b[a-z]+[A-Z][a-zA-Z]+\b/;
-function isTechnical(text3) {
-  return TECHNICAL.test(text3) || CAMEL_CASE.test(text3);
+function isTechnical(text4) {
+  return TECHNICAL.test(text4) || CAMEL_CASE.test(text4);
 }
 var SETUP_PREFIX = /^(?:[A-Z]+-\d+:\s*)?(?:(?:ayn\u0131\s+)?kopyada\s+|(?:in|on)\s+the\s+copy,?\s+)?/i;
 function merged(segments) {
@@ -37346,26 +38189,26 @@ function otherMoments(run2, taken) {
   const items = new Set(taken.map((wanted) => wanted.item));
   return timedItems(run2).filter((item) => !items.has(item)).sort((a, b2) => a.resultAt - b2.resultAt).map((item) => ({ run: run2, item, segments: windowOf(item.resultAt, run2) }));
 }
-function sentencesOf(text3) {
+function sentencesOf(text4) {
   const sentences = [];
   let current = "";
   let quoted = false;
   let single = false;
   let depth2 = 0;
   const isLetter = (char) => !!char && /[\p{L}\p{N}]/u.test(char);
-  for (let index = 0; index < text3.length; index++) {
-    const char = text3[index];
+  for (let index = 0; index < text4.length; index++) {
+    const char = text4[index];
     current += char;
     if (char === '"') quoted = !quoted;
     else if (char === "(") depth2 += 1;
     else if (char === ")") depth2 = Math.max(0, depth2 - 1);
     else if (char === "'") {
-      if (!single && !isLetter(text3[index - 1]) && isLetter(text3[index + 1])) single = true;
-      else if (single && !isLetter(text3[index + 1])) single = false;
+      if (!single && !isLetter(text4[index - 1]) && isLetter(text4[index + 1])) single = true;
+      else if (single && !isLetter(text4[index + 1])) single = false;
     }
     const closes = char === "." || char === "!" || char === "?" || char === "\u2026";
-    const next = text3[index + 1];
-    const after = text3[index + 2];
+    const next = text4[index + 1];
+    const after = text4[index + 2];
     if (closes && !quoted && !single && depth2 === 0 && next === " " && after !== void 0 && !/[a-z\u00e7\u011f\u0131\u00f6\u015f\u00fc]/.test(after)) {
       sentences.push(current.trim());
       current = "";
@@ -37374,8 +38217,8 @@ function sentencesOf(text3) {
   if (current.trim()) sentences.push(current.trim());
   return sentences;
 }
-function upperFirst(text3, locale) {
-  return text3.charAt(0).toLocaleUpperCase(locale) + text3.slice(1);
+function upperFirst(text4, locale) {
+  return text4.charAt(0).toLocaleUpperCase(locale) + text4.slice(1);
 }
 function fitSentence(sentence, max) {
   if (sentence.length <= max) return sentence;
@@ -37384,8 +38227,8 @@ function fitSentence(sentence, max) {
   const kept = pause > max * 0.4 ? head.slice(0, pause) : head.slice(0, head.lastIndexOf(" ")).trimEnd();
   return /[.!?…]$/.test(kept) ? kept : `${kept}\u2026`;
 }
-function readableText(text3, max, redact, sentences = Infinity) {
-  let clean = text3.replace(/\s*\[(?:ui|manual)\]/gi, "").replace(/\*\*|`/g, "").replace(/\s*\([^()]{30,}\)/g, "").replace(/\s*\(([^()]*)\)/g, (aside, inner) => isTechnical(inner) ? "" : aside).replace(/\s+/g, " ").trim();
+function readableText(text4, max, redact, sentences = Infinity) {
+  let clean = text4.replace(/\s*\[(?:ui|manual)\]/gi, "").replace(/\*\*|`/g, "").replace(/\s*\([^()]{30,}\)/g, "").replace(/\s*\(([^()]*)\)/g, (aside, inner) => isTechnical(inner) ? "" : aside).replace(/\s+/g, " ").trim();
   for (const [folder, stand] of redact) clean = clean.split(folder).join(stand);
   const locale = /[\u00e7\u011f\u0131\u00f6\u015f\u00fc]/i.test(clean) ? "tr" : "en";
   const kept = sentencesOf(clean).filter((sentence) => !isTechnical(sentence)).map((sentence) => upperFirst(sentence.replace(SETUP_PREFIX, ""), locale));
@@ -37568,7 +38411,7 @@ function buildSummarySpec(data, stories = /* @__PURE__ */ new Map()) {
   const day = date4 ? new Intl.DateTimeFormat("en-GB", { timeZone: data.timeZone, day: "numeric", month: "short", year: "numeric" }).format(new Date(date4)) : null;
   const ticked = data.cards.reduce((sum, card) => sum + card.ticked, 0);
   const total = data.cards.reduce((sum, card) => sum + card.total, 0);
-  const plural8 = (count, word) => `${count} ${word}${count === 1 ? "" : "s"}`;
+  const plural9 = (count, word) => `${count} ${word}${count === 1 ? "" : "s"}`;
   const storyOf = (card) => stories.get(card.id) ?? void 0;
   const banners = data.cards.map((card) => bannerOf(storyOf(card)));
   return {
@@ -37580,8 +38423,8 @@ function buildSummarySpec(data, stories = /* @__PURE__ */ new Map()) {
     // Runs and stops count Ralph's events: a zero there says nothing about the card.
     outcome: [
       `${ticked}/${total} checked`,
-      ...data.totals.runs > 0 ? [plural8(data.totals.runs, "run")] : [],
-      ...data.totals.stops > 0 ? [plural8(data.totals.stops, "stop")] : []
+      ...data.totals.runs > 0 ? [plural9(data.totals.runs, "run")] : [],
+      ...data.totals.stops > 0 ? [plural9(data.totals.stops, "stop")] : []
     ].join(" \xB7 "),
     titled,
     cards: shown.map((card) => ({
@@ -37769,21 +38612,21 @@ function interventionsOf(events, authorship, window) {
   }
   return out.sort((a, b2) => a.at.localeCompare(b2.at));
 }
-function summarizeInterventions(list) {
+function summarizeInterventions(list2) {
   const counts = /* @__PURE__ */ new Map();
-  for (const entry of list) {
-    const key = entry.kind === "continue" ? `continue\0${entry.cause ?? "ralph"}` : entry.kind;
-    counts.set(key, (counts.get(key) ?? 0) + 1);
+  for (const entry of list2) {
+    const key2 = entry.kind === "continue" ? `continue\0${entry.cause ?? "ralph"}` : entry.kind;
+    counts.set(key2, (counts.get(key2) ?? 0) + 1);
   }
-  const reasons = [...counts.entries()].map(([key, count]) => {
-    if (key.startsWith("continue\0")) {
-      const cause = key.slice(9);
+  const reasons = [...counts.entries()].map(([key2, count]) => {
+    if (key2.startsWith("continue\0")) {
+      const cause = key2.slice(9);
       return { text: `${count} Continue ${CONTINUE_AFTER[cause]}`, count };
     }
-    const [one, many] = PLAIN[key];
+    const [one, many] = PLAIN[key2];
     return { text: `${count} ${count === 1 ? one : many}`, count };
   }).sort((a, b2) => b2.count - a.count);
-  return { count: list.length, reasons };
+  return { count: list2.length, reasons };
 }
 
 // ../lib/run-report/executive-summary.ts
@@ -37794,7 +38637,7 @@ function joinSegments(segments) {
   return segments.map((segment) => segment.text).join("");
 }
 var SUMMARY_RULES_VERSION = "exec-4";
-function plural7(count, one, many = `${one}s`) {
+function plural8(count, one, many = `${one}s`) {
   return `${count} ${count === 1 ? one : many}`;
 }
 function formatMs(ms) {
@@ -37817,11 +38660,11 @@ function sureSegments(cards, decisions, tally) {
   const yours = items.filter((item) => item.manual && !item.afterMerge && !item.checked).length;
   const untested = items.filter((item) => item.lastStatus === null && !item.manual).length;
   const out = [];
-  const add = (text3, tone = null) => out.push({ text: text3, tone });
+  const add = (text4, tone = null) => out.push({ text: text4, tone });
   if (items.length === 0) add("No checklist to check against");
   else {
     const how = passed.length === 0 ? "" : onScreen === 0 ? ", all in a terminal" : inTerminal === 0 ? ", all on screen" : `, ${onScreen} on screen and ${inTerminal} in a terminal`;
-    add(`${passed.length} of ${plural7(items.length, "check")} passed`, passed.length > 0 ? "ai" : null);
+    add(`${passed.length} of ${plural8(items.length, "check")} passed`, passed.length > 0 ? "ai" : null);
     add(how);
   }
   const rest = [];
@@ -37838,10 +38681,10 @@ function sureSegments(cards, decisions, tally) {
 }
 function tallySureSegments(tally) {
   const out = [];
-  const add = (text3, tone = null) => out.push({ text: text3, tone });
+  const add = (text4, tone = null) => out.push({ text: text4, tone });
   if (tally.total === 0) add("No checklist to check against");
   else {
-    add(`${tally.passed} of ${plural7(tally.total, "check")} passed`, tally.passed > 0 ? "ai" : null);
+    add(`${tally.passed} of ${plural8(tally.total, "check")} passed`, tally.passed > 0 ? "ai" : null);
     const kinds = [
       [tally.onScreen, "on screen"],
       [tally.inTerminal, "in a terminal"],
@@ -37867,12 +38710,12 @@ function tallySureSegments(tally) {
 }
 function decisionSegments(decisions) {
   const out = [];
-  const add = (text3) => out.push({ text: text3, tone: null });
+  const add = (text4) => out.push({ text: text4, tone: null });
   const accepted = decisions.filter((decision) => decision.kind === "acceptance").length;
   const reworded = decisions.filter((decision) => decision.kind === "revision").length;
   const took = [];
-  if (accepted > 0) took.push(`took ${plural7(accepted, "decision")} on its own`);
-  if (reworded > 0) took.push(`reworded ${plural7(reworded, "item")}`);
+  if (accepted > 0) took.push(`took ${plural8(accepted, "decision")} on its own`);
+  if (reworded > 0) took.push(`reworded ${plural8(reworded, "item")}`);
   if (took.length > 0) add(` Ralph ${took.join(" and ")}.`);
   return out;
 }
@@ -37894,17 +38737,17 @@ function touchedSegments(cards) {
   const removed = prints.reduce((sum, print) => sum + print.removed, 0);
   const out = [
     { text: "Changed ", tone: null },
-    { text: plural7(paths.size, "file"), tone: "ai" },
-    { text: `${tests > 0 ? ` (${tests} of them tests)` : ""}, +${added.toLocaleString("en-US")} \u2212${removed.toLocaleString("en-US")} over ${plural7(commits, "commit")}.`, tone: null }
+    { text: plural8(paths.size, "file"), tone: "ai" },
+    { text: `${tests > 0 ? ` (${tests} of them tests)` : ""}, +${added.toLocaleString("en-US")} \u2212${removed.toLocaleString("en-US")} over ${plural8(commits, "commit")}.`, tone: null }
   ];
   const flags = Object.keys(FLAG_PHRASE).filter((flag) => prints.some((print) => print.flags.includes(flag)));
   if (flags.length > 0) {
     const phrases = flags.map((flag) => FLAG_PHRASE[flag]);
-    const list = phrases.length === 1 ? phrases[0] : `${phrases.slice(0, -1).join(", ")} and ${phrases[phrases.length - 1]}`;
-    out.push({ text: ` Includes ${list}.`, tone: null });
+    const list2 = phrases.length === 1 ? phrases[0] : `${phrases.slice(0, -1).join(", ")} and ${phrases[phrases.length - 1]}`;
+    out.push({ text: ` Includes ${list2}.`, tone: null });
   }
   const unread = cards.length - read.length;
-  if (unread > 0) out.push({ text: ` Not readable here for ${plural7(unread, "card")}.`, tone: null });
+  if (unread > 0) out.push({ text: ` Not readable here for ${plural8(unread, "card")}.`, tone: null });
   return out;
 }
 function selfFixLine(cards) {
@@ -37919,15 +38762,15 @@ function selfFixSegments(cards) {
     (id) => `${id}: ${commits.filter((fix) => fix.displayId === id).length}`
   );
   const out = [];
-  const add = (text3, tone = null) => out.push({ text: text3, tone });
+  const add = (text4, tone = null) => out.push({ text: text4, tone });
   if (commits.length > 0) {
     add("Fixed ");
-    add(plural7(commits.length, "problem"), "ai");
+    add(plural8(commits.length, "problem"), "ai");
     add(` its checks found${cards.length > 1 ? ` (${perCard.join(", ")})` : ""}`);
   }
   if (conflicts > 0) {
     add(commits.length > 0 ? " and solved " : "solved ");
-    add(plural7(conflicts, "chain conflict"), "ai");
+    add(plural8(conflicts, "chain conflict"), "ai");
   }
   if (out.length > 0) add(".");
   else if (unreadable.length !== cards.length) add("Nothing it had to fix on its own.");
@@ -37940,10 +38783,10 @@ function selfFixSegments(cards) {
 function costLine(data) {
   const cost = data.totals.cost === null ? "cost not reported" : `$${data.totals.cost.toFixed(2)}`;
   const span = data.firstAt && data.lastAt ? `; ${formatMs(Date.parse(data.lastAt) - Date.parse(data.firstAt))} from first send to last event` : "";
-  return `${plural7(data.totals.runs, "AI run")}, ${formatMs(data.totals.ms)} of AI time, ${cost}${span}.`;
+  return `${plural8(data.totals.runs, "AI run")}, ${formatMs(data.totals.ms)} of AI time, ${cost}${span}.`;
 }
-function interventionLine(list) {
-  const summary = summarizeInterventions(list);
+function interventionLine(list2) {
+  const summary = summarizeInterventions(list2);
   if (summary.count === 0) return "You did not step in, as far as the app recorded.";
   return `You stepped in at least ${summary.count} ${summary.count === 1 ? "time" : "times"}: ${summary.reasons.map((reason) => reason.text).join(", ")}.`;
 }
@@ -37958,7 +38801,7 @@ function summaryInput(data) {
   lines2.push(
     anyVisual ? "Evidence: visual \u2014 at least one run recorded the screen." : "Evidence: text only \u2014 no run recorded the screen. Nothing on screen was seen; whether it works on screen is unknown."
   );
-  const clean = (text3) => withoutNumbers(text3);
+  const clean = (text4) => withoutNumbers(text4);
   for (const card of data.cards) {
     lines2.push("", `Card: ${clean(card.title)}${card.isParent ? " (joins the others; its test is end to end)" : ""}`);
     if (card.about) lines2.push(`About: ${clean(card.about)}`);
@@ -37999,14 +38842,14 @@ function summaryInput(data) {
 function summaryBasis(input) {
   return djb2(`${SUMMARY_RULES_VERSION}${input}`);
 }
-function normalizeParagraph(text3) {
-  const out = text3.replace(/\s+/g, " ").trim();
+function normalizeParagraph(text4) {
+  const out = text4.replace(/\s+/g, " ").trim();
   const quotes = /^["'“”«»„](.*)["'“”«»]$/s.exec(out);
   return quotes ? quotes[1].trim() : out;
 }
-function paragraphProblem(text3) {
-  if (!text3 || !text3.trim()) return "it is empty";
-  const out = normalizeParagraph(text3);
+function paragraphProblem(text4) {
+  if (!text4 || !text4.trim()) return "it is empty";
+  const out = normalizeParagraph(text4);
   if (/\d/.test(out)) return "it has a digit";
   if (/\[card\]/i.test(out)) return "it writes [card]";
   if (/[*`#>|]|\]\(|^\s*[-•]\s|(?<![\p{L}\p{N}])_|_(?![\p{L}\p{N}])/u.test(out)) return "it has markdown";
@@ -38014,8 +38857,8 @@ function paragraphProblem(text3) {
   if (out.length > SUMMARY_PARAGRAPH_MAX) return "it is too long";
   return null;
 }
-function cleanParagraph(text3) {
-  return paragraphProblem(text3) ? null : normalizeParagraph(text3);
+function cleanParagraph(text4) {
+  return paragraphProblem(text4) ? null : normalizeParagraph(text4);
 }
 function currentSummary(stored, basis) {
   if (!stored || stored.basis !== basis) return null;
@@ -38110,16 +38953,16 @@ function resultsOf(runs, checklistHtml) {
     runs.filter((run2) => run2.evidence === "visual"),
     checklistHtml
   );
-  const keyOf = (text3) => matchTaskItem(text3, checklistHtml)?.normalized ?? null;
+  const keyOf = (text4) => matchTaskItem(text4, checklistHtml)?.normalized ?? null;
   return {
-    last(text3) {
-      const key = keyOf(text3);
-      const hit = key !== null ? latest.get(key) : void 0;
+    last(text4) {
+      const key2 = keyOf(text4);
+      const hit = key2 !== null ? latest.get(key2) : void 0;
       return hit ? { status: hit.item.status, evidence: hit.run.evidence } : null;
     },
-    seenOnScreen(text3) {
-      const key = keyOf(text3);
-      return key !== null && visual.has(key);
+    seenOnScreen(text4) {
+      const key2 = keyOf(text4);
+      return key2 !== null && visual.has(key2);
     }
   };
 }
@@ -38251,8 +39094,8 @@ function timelineOf(events, nameOf3, reportRuns) {
           last.cards.push(name);
           break;
         }
-        const text3 = detail.target ? `Rolled back: ${detail.target} was thrown away` : "Rolled back: its branch was thrown away";
-        rows.push({ at: event.at, kind: "rolled_back", cards: [name], who: "you", text: text3, reason: null, next: null, failed: false });
+        const text4 = detail.target ? `Rolled back: ${detail.target} was thrown away` : "Rolled back: its branch was thrown away";
+        rows.push({ at: event.at, kind: "rolled_back", cards: [name], who: "you", text: text4, reason: null, next: null, failed: false });
         break;
       }
       case "merged": {
@@ -38260,8 +39103,8 @@ function timelineOf(events, nameOf3, reportRuns) {
           last.cards.push(name);
           break;
         }
-        const text3 = detail.withoutMerge ? "Closed: its branch was already merged or gone" : `Landed on ${detail.target ?? "main"}${short(detail.commit) ? ` as ${short(detail.commit)}` : ""}`;
-        rows.push({ at: event.at, kind: "merged", cards: [name], who: "you", text: text3, reason: null, next: null, failed: false });
+        const text4 = detail.withoutMerge ? "Closed: its branch was already merged or gone" : `Landed on ${detail.target ?? "main"}${short(detail.commit) ? ` as ${short(detail.commit)}` : ""}`;
+        rows.push({ at: event.at, kind: "merged", cards: [name], who: "you", text: text4, reason: null, next: null, failed: false });
         break;
       }
     }
@@ -38298,8 +39141,8 @@ function collectRunReport(db2, cardId, opts) {
     const runs = stored.map((run2, index) => runOf(row.id, run2, index, stored.length, opts.fileSize, opts.readyClipBytes, opts.readClicks));
     for (const run2 of runs) reportRuns.set(`${row.id}\0${run2.id}`, run2);
     const ticks = cardAuthorship(db2, row.id)?.ticks ?? [];
-    const tickerOf = (text3) => {
-      const index = closestTaskText(text3, ticks.map((tick) => tick.item));
+    const tickerOf = (text4) => {
+      const index = closestTaskText(text4, ticks.map((tick) => tick.item));
       const by = index >= 0 ? ticks[index].by : null;
       return by === "you" || by === "ideafy" ? by : null;
     };
@@ -38370,11 +39213,11 @@ function collectRunReport(db2, cardId, opts) {
       }
     }
   }
-  const handOver = (kind, displayId, item, why, text3) => {
+  const handOver = (kind, displayId, item, why, text4) => {
     const mine = gaps.filter((gap) => gap.group === "yours" && gap.displayId === displayId);
     const index = closestTaskText(stripItemTokens(item), mine.map((gap) => stripItemTokens(gap.text)));
     if (index >= 0) mine[index].why = mine[index].why ? `${mine[index].why}; ${why}` : why;
-    else gaps.push({ kind, group: "before-merge", displayId, text: text3 });
+    else gaps.push({ kind, group: "before-merge", displayId, text: text4 });
   };
   const decisions = ordered.flatMap((row) => {
     const stored = parseTestReports(row.test_reports) ?? [];
@@ -38462,8 +39305,8 @@ function collectRunReport(db2, cardId, opts) {
     const aiSummary = {};
     for (const row of ordered) {
       const read = chain.cards.some((entry) => entry.id === row.id && entry.state);
-      const text3 = read ? briefOf(row) : null;
-      if (text3) aiSummary[row.id] = text3;
+      const text4 = read ? briefOf(row) : null;
+      if (text4) aiSummary[row.id] = text4;
     }
     state = { kind: "chain", chain, aiSummary };
   } else {
@@ -38520,8 +39363,8 @@ function aboutOf(html) {
   if (!html) return null;
   const withoutImages = html.replace(/<img[^>]*>/gi, " ");
   const first = /<p[^>]*>([\s\S]*?)<\/p>/i.exec(withoutImages)?.[1] ?? withoutImages;
-  const text3 = plainTextLabel(first, 400);
-  return text3 || null;
+  const text4 = plainTextLabel(first, 400);
+  return text4 || null;
 }
 function authorshipOf(db2, cardIds) {
   if (cardIds.length === 0 || !hasAuthorshipTable(db2)) return [];
@@ -38742,8 +39585,8 @@ p.num{white-space:normal}
 .evidence details{padding:6px 10px}
 }
 `;
-function plainRefs(text3) {
-  return text3.replace(/\[\[([A-Z][A-Z0-9]*-\d+)([^\]\n]*)\]\]/g, "$1$2").replace(/\[\[(?=[A-Z][A-Z0-9]*-\d+)/g, "");
+function plainRefs(text4) {
+  return text4.replace(/\[\[([A-Z][A-Z0-9]*-\d+)([^\]\n]*)\]\]/g, "$1$2").replace(/\[\[(?=[A-Z][A-Z0-9]*-\d+)/g, "");
 }
 function wordDiffHtml(before, after) {
   const a = before.split(/(\s+)/).filter((token) => token !== "");
@@ -38815,17 +39658,17 @@ function idPills(esc2, ids) {
 function pillRow(esc2, displayId, body) {
   return `<li class="r">${idPill(esc2, displayId)}<span class="body">${body}</span></li>`;
 }
-function withChips(esc2, text3) {
-  const at = itemTokensStart(text3);
-  if (at >= text3.length) return esc2(text3);
-  const tokens = text3.slice(at).match(/\[(ui|manual|after-merge)\]/gi) ?? [];
+function withChips(esc2, text4) {
+  const at = itemTokensStart(text4);
+  if (at >= text4.length) return esc2(text4);
+  const tokens = text4.slice(at).match(/\[(ui|manual|after-merge)\]/gi) ?? [];
   const chips = tokens.map((token) => {
     const kind = token.slice(1, -1).toLowerCase();
     const { title, svg } = ITEM_CHIPS[kind];
     const inline = svg.replace(/ xmlns="[^"]*"/, "");
     return `<span class="chip ${kind}" title="${esc2(title)}" aria-hidden="true">${inline}</span><span class="tok">${esc2(token)}</span>`;
   });
-  return `${esc2(text3.slice(0, at))} ${chips.join("")}`;
+  return `${esc2(text4.slice(0, at))} ${chips.join("")}`;
 }
 function pillCodes(html) {
   return html.replace(/\b[A-Z][A-Z0-9]*-\d+\b/g, (code) => `<span class="id">${code}</span>`);
@@ -38865,7 +39708,7 @@ function cardStateHtml(data, esc2) {
   const out = [`<h2>Card state</h2>`];
   const card = data.state?.kind === "card" ? data.state.card : null;
   const tally = tallyOf(data);
-  const list = (title, lines2, cls = "") => {
+  const list2 = (title, lines2, cls = "") => {
     if (lines2.length === 0) return;
     out.push(`<h4>${esc2(title)} \xB7 ${lines2.length}</h4><ul${cls ? ` class="${cls}"` : ""}>`);
     for (const line of lines2.slice(0, 8)) out.push(line.startsWith("<li") ? line : `<li>${line}</li>`);
@@ -38888,8 +39731,8 @@ function cardStateHtml(data, esc2) {
     if (tally.afterMerge > 0) parts.push(`${AFTER_MERGE_TITLE} \xB7 ${tally.afterMerge}`);
     if (parts.length > 0) out.push(`<p class="small muted">${esc2(parts.join(", "))}: in Your turn above.</p>`);
   };
-  const headline = (text3, detail) => `<p><strong class="${text3 === "Ready to merge" ? "ok" : "bad"}">${esc2(text3)}</strong>${detail ? ` \xB7 ${esc2(detail)}` : ""}</p>`;
-  const aiLine = (text3) => `<p class="small muted"><span class="who ai">AI SUMMARY</span> ${esc2(text3)}</p>`;
+  const headline = (text4, detail) => `<p><strong class="${text4 === "Ready to merge" ? "ok" : "bad"}">${esc2(text4)}</strong>${detail ? ` \xB7 ${esc2(detail)}` : ""}</p>`;
+  const aiLine = (text4) => `<p class="small muted"><span class="who ai">AI SUMMARY</span> ${esc2(text4)}</p>`;
   let hasAi = false;
   if (data.state.kind === "chain") {
     const chain = data.state.chain;
@@ -38897,7 +39740,7 @@ function cardStateHtml(data, esc2) {
     out.push(`<p class="num">${esc2(chain.counts)}</p>`);
     out.push(`<p class="small muted">${esc2(chainScopeLine(chain.cards.length))}</p>`);
     const itemLine = (line) => line.item ? pillRow(esc2, line.displayId, esc2(line.sentence)) : esc2(line.sentence);
-    list("Problems", chain.problems.map(itemLine), "bad");
+    list2("Problems", chain.problems.map(itemLine), "bad");
     pointer();
     notes(chain.notesTitle, chain.passedBut.map((line) => `<li class="r"><span>${idPills(esc2, line.cards)}</span><span class="body">${esc2(line.text)}</span></li>`));
     out.push(`<div class="t"><table><thead><tr><th>Card</th><th>Checks</th></tr></thead><tbody>`);
@@ -38918,7 +39761,7 @@ function cardStateHtml(data, esc2) {
       hasAi = true;
       out.push(aiLine(data.state.aiSummary));
     }
-    list("Problems", card.problems.map((item) => esc2(item.sentence)), "bad");
+    list2("Problems", card.problems.map((item) => esc2(item.sentence)), "bad");
     pointer();
     notes(card.passedButTitle, [
       // The code check (IDE-788) beside the agent's own caveat, as get_test_report joins them (IDE-771).
@@ -38937,7 +39780,7 @@ function cardStateHtml(data, esc2) {
 function executiveHtml(data, nextLine, esc2) {
   const exec = data.executive;
   if (!exec) return [];
-  const ai = (text3) => text3 ? `<p><span class="who ai">WRITTEN BY AI</span>${esc2(text3)}</p>` : `<p class="small muted">AI summary not written yet.</p>`;
+  const ai = (text4) => text4 ? `<p><span class="who ai">WRITTEN BY AI</span>${esc2(text4)}</p>` : `<p class="small muted">AI summary not written yet.</p>`;
   const row = (title, body) => `<h4>${title}</h4>${body}`;
   return [
     `<section class="exec"><h2>Executive summary</h2>`,
@@ -38954,9 +39797,9 @@ function executiveHtml(data, nextLine, esc2) {
 }
 function renderRunReport(data, embed, summary = { state: "none" }, extras = {}) {
   const esc2 = (value) => {
-    let text3 = plainRefs(String(value ?? ""));
-    for (const [folder, stand] of data.redact) text3 = text3.split(folder).join(stand);
-    return text3.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+    let text4 = plainRefs(String(value ?? ""));
+    for (const [folder, stand] of data.redact) text4 = text4.split(folder).join(stand);
+    return text4.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
   };
   const time3 = new Intl.DateTimeFormat("en-GB", { timeZone: data.timeZone, hour: "2-digit", minute: "2-digit" });
   const day = new Intl.DateTimeFormat("en-GB", { timeZone: data.timeZone, day: "numeric", month: "short", year: "numeric" });
@@ -38979,22 +39822,22 @@ function renderRunReport(data, embed, summary = { state: "none" }, extras = {}) 
   const scope = data.chain ? `Chain of ${data.cards.length} card${data.cards.length === 1 ? "" : "s"}` : "Single card";
   parts.push(`<header class="top"><h1>Ralph report: ${esc2(data.title)}</h1>${THEME_PICKER}</header>`);
   const nextLine = data.next ? `<p class="next${data.next.yourTurn ? " you" : ""}">${pillCodes(esc2(data.next.text))}</p>` : "";
-  const diffOf = (text3) => {
-    const at = text3.indexOf(" \u2192 ");
-    return at < 0 ? esc2(text3) : wordDiffHtml(esc2(text3.slice(0, at)), esc2(text3.slice(at + 3)));
+  const diffOf = (text4) => {
+    const at = text4.indexOf(" \u2192 ");
+    return at < 0 ? esc2(text4) : wordDiffHtml(esc2(text4.slice(0, at)), esc2(text4.slice(at + 3)));
   };
   const gapList = (group) => {
     const out = [];
     for (const kind of GAP_ORDER) {
       if (kind === "unticked") continue;
-      const list = data.gaps.filter((gap) => gap.kind === kind && (gap.group ?? "before-merge") === group);
-      if (list.length === 0) continue;
+      const list2 = data.gaps.filter((gap) => gap.kind === kind && (gap.group ?? "before-merge") === group);
+      if (list2.length === 0) continue;
       const heading = group === "yours" ? "[manual] items left to you" : GAP_HEADINGS[kind];
-      out.push(`<h4>${esc2(heading)} (${list.length})</h4><ul>`);
-      for (const gap of list) {
-        const text3 = kind === "revision" || kind === "core-revision" ? diffOf(gap.text) : withChips(esc2, gap.text);
+      out.push(`<h4>${esc2(heading)} (${list2.length})</h4><ul>`);
+      for (const gap of list2) {
+        const text4 = kind === "revision" || kind === "core-revision" ? diffOf(gap.text) : withChips(esc2, gap.text);
         const why = gap.why ? ` <span class="small muted">\u2014 why: ${esc2(gap.why)}</span>` : "";
-        out.push(pillRow(esc2, gap.displayId, `${text3}${why}`));
+        out.push(pillRow(esc2, gap.displayId, `${text4}${why}`));
       }
       out.push(`</ul>`);
     }
@@ -39002,9 +39845,9 @@ function renderRunReport(data, embed, summary = { state: "none" }, extras = {}) 
   };
   const tally = tallyOf(data);
   const reasonOf = (line) => {
-    const key = stripItemTokens(line.item.checklistText).toLowerCase();
+    const key2 = stripItemTokens(line.item.checklistText).toLowerCase();
     const gap = data.gaps.find(
-      (candidate) => candidate.why && candidate.group === "yours" && stripItemTokens(candidate.text).toLowerCase() === key
+      (candidate) => candidate.why && candidate.group === "yours" && stripItemTokens(candidate.text).toLowerCase() === key2
     );
     return gap?.why ?? null;
   };
@@ -39093,10 +39936,10 @@ function renderRunReport(data, embed, summary = { state: "none" }, extras = {}) 
   if (stops.length > 0) {
     stopsHtml.push(`<h2>Stops</h2>`);
     for (const cause of STOP_CAUSE_ORDER) {
-      const list = stops.filter((row) => (row.cause ?? "ralph") === cause);
-      if (list.length === 0) continue;
-      stopsHtml.push(`<h4>${esc2(STOP_CAUSE_LABEL[cause])} (${list.length})</h4><ul>`);
-      for (const row of list) {
+      const list2 = stops.filter((row) => (row.cause ?? "ralph") === cause);
+      if (list2.length === 0) continue;
+      stopsHtml.push(`<h4>${esc2(STOP_CAUSE_LABEL[cause])} (${list2.length})</h4><ul>`);
+      for (const row of list2) {
         const state = row.resolved ? `<span class="state ok">resolved</span>` : `<span class="state you">open</span>`;
         stopsHtml.push(
           `<li class="r">${state}<span>${idPills(esc2, row.cards)}</span><span class="body"><span class="muted num">${atFull(row.at)}</span> \xB7 ${esc2(row.reason)}${row.next ? `<br><span class="small">Next: ${esc2(row.next)}</span>` : ""}</span></li>`
@@ -39356,13 +40199,13 @@ function readyClipBytes(ref, video, homeDir) {
   return fileBytes(path10.join(runDir, REPORT_CLIP_FILE));
 }
 function readClicks(ref, video, homeDir) {
-  let text3;
+  let text4;
   try {
-    text3 = readFileSync6(path10.join(testReportRunDir(ref.cardId, ref.runId, homeDir), CLICK_LOG_FILE), "utf8");
+    text4 = readFileSync6(path10.join(testReportRunDir(ref.cardId, ref.runId, homeDir), CLICK_LOG_FILE), "utf8");
   } catch {
     return null;
   }
-  return parseClickLog(text3, Date.parse(video.startedAt), video.tab ?? 0);
+  return parseClickLog(text4, Date.parse(video.startedAt), video.tab ?? 0);
 }
 function readStoredExecSummary(anchorCardId, homeDir) {
   try {
@@ -39646,14 +40489,14 @@ var STUCK_HEADLINE = "Running this again will not change it";
 var SEND_TO_AUTOPILOT_TO_PASS = "Send to Autopilot to make this pass";
 var STUCK_REVISE_LABEL = "Revise";
 var STUCK_EXPLANATION = "This item stayed the same twice on the same code. Rewrite it, or let Autopilot fix the code and test it again.";
-function stuckKey(text3) {
-  return stripItemTokens(decodeHtmlEntities(text3.replace(/<[^>]*>/g, " "))).toLowerCase().replace(/[.,;:!?/\\|()[\]{}<>@#$%^&*"'`~=+\-_]/g, " ").replace(/\s+/g, " ").trim();
+function stuckKey(text4) {
+  return stripItemTokens(decodeHtmlEntities(text4.replace(/<[^>]*>/g, " "))).toLowerCase().replace(/[.,;:!?/\\|()[\]{}<>@#$%^&*"'`~=+\-_]/g, " ").replace(/\s+/g, " ").trim();
 }
 function sameStamp(a, b2) {
   if (!a?.commit || !b2?.commit || a.commit !== b2.commit) return false;
   if (a.dirtyTotal !== b2.dirtyTotal || a.dirty.length !== b2.dirty.length) return false;
-  const key = (stamp) => stamp.dirty.map((entry) => `${entry.path}:${entry.blob ?? "-"}`).sort().join(",");
-  return key(a) === key(b2);
+  const key2 = (stamp) => stamp.dirty.map((entry) => `${entry.path}:${entry.blob ?? "-"}`).sort().join(",");
+  return key2(a) === key2(b2);
 }
 function stuckItems(runs, checklistHtml, codeChanges) {
   if (!runs || runs.length < 2 || !checklistHtml || !codeChanges) return [];
@@ -39661,12 +40504,12 @@ function stuckItems(runs, checklistHtml, codeChanges) {
   const seen = /* @__PURE__ */ new Set();
   for (const entry of extractTaskItems(checklistHtml)) {
     if (entry.checked) continue;
-    const key = stuckKey(entry.rawText);
-    if (!key || seen.has(key)) continue;
-    seen.add(key);
+    const key2 = stuckKey(entry.rawText);
+    if (!key2 || seen.has(key2)) continue;
+    seen.add(key2);
     const hits = [];
     for (let index = 0; index < runs.length && hits.length < 2; index++) {
-      const result = runs[index].items.find((candidate) => stuckKey(candidate.item) === key);
+      const result = runs[index].items.find((candidate) => stuckKey(candidate.item) === key2);
       if (result) hits.push({ run: runs[index], index, result });
     }
     if (hits.length < 2) continue;
@@ -39695,7 +40538,7 @@ function stuckBlocksPreVerify(stuck, checklistHtml, verifyScope) {
   const runnable = runnableItemTexts(checklistHtml, groups);
   if (runnable.length === 0) return false;
   const keys = new Set(stuck.map((s) => stuckKey(s.item)));
-  return runnable.every((text3) => keys.has(stuckKey(text3)));
+  return runnable.every((text4) => keys.has(stuckKey(text4)));
 }
 function stuckRunsLine(stuck) {
   return `#${stuck.runNumbers[0]} and #${stuck.runNumbers[1]} \xB7 ${stuck.commit}`;
@@ -39845,6 +40688,11 @@ var {
   getRoadmap: getRoadmap2,
   roadmapContextForCard: roadmapContextForCard2,
   saveRoadmapDraft: saveRoadmapDraft2,
+  applyPhaseProposal: applyPhaseProposal2,
+  checkPhaseCanOpen: checkPhaseCanOpen2,
+  dismissPhaseProposal: dismissPhaseProposal2,
+  pendingPhaseProposals: pendingPhaseProposals2,
+  savePhaseProposal: savePhaseProposal2,
   linkFeature: linkFeature2,
   markPhaseOpened: markPhaseOpened2,
   setCardPlacement: setCardPlacement2,
@@ -39983,6 +40831,8 @@ var { COLUMNS: COLUMNS2, formatDisplayId: formatDisplayId2 } = unwrap(types_expo
 var { stopProcessGroup: stopProcessGroup2 } = unwrap(process_group_exports);
 var { integrationSuggestion: integrationSuggestion2, splitProposalAsk: splitProposalAsk2, canStillBreakUp: canStillBreakUp2 } = unwrap(split_proposal_exports);
 var { roadmapGenerationGuide: roadmapGenerationGuide2 } = unwrap(roadmap_generate_exports);
+var { openPhaseGuide: openPhaseGuide2 } = unwrap(roadmap_open_phase_exports);
+var { phaseProposalSummary: phaseProposalSummary2 } = unwrap(roadmap_open_exports);
 
 // db.ts
 var MIN_NODE = [22, 5];
@@ -40209,20 +41059,22 @@ var CAPABILITIES = {
   /** roadmaps (0044) — the project's roadmap (IDE-717), read and written by the roadmap tools. */
   roadmap: ["roadmaps", "id"],
   /** roadmap_placement (0044) — where Evaluate placed a card on the roadmap, read by get_card's `roadmap`. */
-  roadmapPlacement: ["cards", "roadmap_placement"]
+  roadmapPlacement: ["cards", "roadmap_placement"],
+  /** roadmap_phase_proposals (0045) — a phase's Open phase proposal (IDE-832): propose_phase, open_phase. */
+  roadmapProposals: ["roadmap_phase_proposals", "phase_id"]
 };
 var knownColumns = /* @__PURE__ */ new WeakMap();
 function hasColumn(db2, table, column) {
-  const key = `${table}.${column}`;
+  const key2 = `${table}.${column}`;
   let known = knownColumns.get(db2);
   if (!known) {
     known = /* @__PURE__ */ new Set();
     knownColumns.set(db2, known);
   }
-  if (known.has(key)) return true;
+  if (known.has(key2)) return true;
   const rows = db2.prepare(`PRAGMA table_info(${JSON.stringify(table)})`).all();
   const present5 = rows.some((row) => row.name === column);
-  if (present5) known.add(key);
+  if (present5) known.add(key2);
   return present5;
 }
 function hasCapability(db2, capability) {
@@ -40235,7 +41087,7 @@ function missingCapabilityMessage(tool, capability) {
 }
 
 // output-paths.ts
-import { existsSync as existsSync12, realpathSync as realpathSync5, statSync as statSync9 } from "fs";
+import { existsSync as existsSync13, realpathSync as realpathSync5, statSync as statSync9 } from "fs";
 import { homedir as homedir5 } from "os";
 import { isAbsolute, relative, resolve as resolve3, sep } from "path";
 var OutputPathError = class extends Error {
@@ -40264,7 +41116,7 @@ function resolveOutputPath(projectFolder, inputPath) {
       `The card's project folder does not exist on this machine: ${projectFolder}. Nothing was recorded.`
     );
   }
-  if (!existsSync12(absolute)) {
+  if (!existsSync13(absolute)) {
     throw new OutputPathError(
       `File not found: ${absolute}. save_output records a file that already exists \u2014 write it first, then call save_output again.`
     );
@@ -40335,11 +41187,12 @@ function splitNote(displayId, outcome2, remind, pendingCards = 0) {
 }
 
 // roadmap-tools.ts
+var PROPOSAL_OPS = ["open_phase", "dismiss_phase_proposal"];
 var projectId = { type: "string", description: "Project ID (UUID)" };
 var ROADMAP_TOOLS = [
   {
     name: "get_roadmap",
-    description: "Read a project's roadmap: phases in order with their features, and the Later lines. States are derived from the cards on every read, never stored: a feature is not_opened, open, done (its card, or every card of its chain, is Completed) or dropped (all withdrawn); a phase is later, next, open or done, and `waitsToOpen` marks the next phase once every phase before it is done. `strip` is the open phase, one segment a feature. Pass `updatedAt` back as `expectedUpdatedAt` when you edit.",
+    description: "Read a project's roadmap: phases in order with their features, and the Later lines. States are derived from the cards on every read, never stored: a feature is not_opened, open, done (its card, or every card of its chain, is Completed) or dropped (all withdrawn); a phase is later, next, open or done, and `waitsToOpen` marks the next phase once every phase before it is done. `strip` is the open phase, one segment a feature. A phase with a proposal waiting for the user carries it as `proposal` (how its features become cards, with `summary`); the phase that can be opened and has none carries `openPhase`, the rules for writing one with propose_phase. Pass `updatedAt` back as `expectedUpdatedAt` when you edit.",
     inputSchema: { type: "object", properties: { projectId }, required: ["projectId"] }
   },
   {
@@ -40383,14 +41236,15 @@ var ROADMAP_TOOLS = [
   },
   {
     name: "update_roadmap",
-    description: "Edit a project's roadmap, one operation a call. approve: the draft becomes the roadmap. move_to_later / bring_forward (phaseId): push a phase that is not opened to Later, or bring it back or one place earlier. add_feature (name, scope, phaseId; no phaseId = a Later line): refused when the phase already holds 8, then offer the next phase or Later. rename_feature (featureId, name and/or scope). remove_feature / move_feature (featureId; phaseId or null for Later): refused for a feature already opened as a card or chain. tick_line (featureId, checked): a validation line. Pass `expectedUpdatedAt` from get_roadmap; when the roadmap changed since, nothing is written and you read it again.",
+    description: "Edit a project's roadmap, one operation a call. approve: the draft becomes the roadmap. move_to_later / bring_forward (phaseId): push a phase that is not opened to Later, or bring it back or one place earlier. add_feature (name, scope, phaseId; no phaseId = a Later line): refused when the phase already holds 8, then offer the next phase or Later. rename_feature (featureId, name and/or scope). remove_feature / move_feature (featureId; phaseId or null for Later): refused for a feature already opened as a card or chain. tick_line (featureId, checked): a validation line. add_card_as_feature (cardId, phaseId; no phaseId = a Later line): writes an existing card onto the roadmap as a feature named after it and links the two; only when the user explicitly asks, refused when the phase holds 8 or the card is already a feature. open_phase (phaseId): the user's yes to the phase's pending proposal; opens every chain and card of it in one step, links each feature and marks the phase opened. Only when the user explicitly asks: it creates cards, and a proposal opened once is not opened again. dismiss_phase_proposal (phaseId): the user turned it down, nothing is opened. Pass `expectedUpdatedAt` from get_roadmap; when the roadmap changed since, nothing is written and you read it again.",
     inputSchema: {
       type: "object",
       properties: {
         projectId,
-        op: { type: "string", enum: [...ROADMAP_OPS2] },
+        op: { type: "string", enum: [...ROADMAP_OPS2, ...PROPOSAL_OPS] },
         phaseId: { type: ["string", "null"] },
         featureId: { type: "string" },
+        cardId: { type: "string", description: "add_card_as_feature: the card's UUID" },
         name: { type: "string" },
         scope: { type: "string" },
         waitsFor: { type: "array", items: { type: "string" }, description: "add_feature: ids of features of the same phase it waits for" },
@@ -40399,17 +41253,80 @@ var ROADMAP_TOOLS = [
       },
       required: ["projectId", "op"]
     }
+  },
+  {
+    name: "propose_phase",
+    description: "Write how a roadmap phase becomes cards, as a proposal the user reads before anything is created: for every feature one card or a chain of 2 to 8 cards in build order. Read get_roadmap first: the phase that can be opened carries the rules as `openPhase`. A feature names a roadmap feature of the phase, or is a shared piece you pulled out (`prerequisite: true`); every roadmap feature appears once, as a feature, in a `mergedFrom`, or in `moveToNext`, except one that is already a card or chain (it carries `cardId` or `groupId`): leave that out and name it only in `waitsFor`. `waitsFor` holds feature names: the waiting feature starts when all of the other has landed on main; no card-level links between features, no loops. At most 8 features after opening. Stores the proposal as pending, replacing one that waits; nothing is written when a rule is broken. Opening it is update_roadmap op open_phase, on the user's word only.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        projectId,
+        phaseId: { type: "string" },
+        proposal: {
+          type: "object",
+          properties: {
+            features: {
+              type: "array",
+              items: {
+                type: "object",
+                properties: {
+                  name: { type: "string" },
+                  kind: { type: "string", enum: ["card", "chain"] },
+                  chainCode: { type: "string", description: "Chain only: up to 6 letters or digits" },
+                  cards: {
+                    type: "array",
+                    items: { type: "object", properties: { title: { type: "string" }, scope: { type: "string" } }, required: ["title"] }
+                  },
+                  waitsFor: { type: "array", items: { type: "string" }, description: "Names of features of this proposal" },
+                  prerequisite: { type: "boolean", description: "A shared piece added at opening, not a roadmap feature" },
+                  mergedFrom: { type: "array", items: { type: "string" }, description: "Roadmap features folded into this one" }
+                },
+                required: ["name", "cards"]
+              }
+            },
+            moveToNext: { type: "array", items: { type: "string" }, description: "Roadmap features that go to the next phase" },
+            notes: { type: "array", items: { type: "string" } }
+          },
+          required: ["features"]
+        }
+      },
+      required: ["projectId", "phaseId", "proposal"]
+    }
   }
 ];
-var text2 = (value, isError = false) => ({ content: [{ type: "text", text: value }], ...isError ? { isError } : {} });
+var text3 = (value, isError = false) => ({ content: [{ type: "text", text: value }], ...isError ? { isError } : {} });
 function roadmapTool(db2, name, args) {
-  if (!hasCapability(db2, "roadmap")) return text2(missingCapabilityMessage(name, "roadmap"), true);
+  if (!hasCapability(db2, "roadmap")) return text3(missingCapabilityMessage(name, "roadmap"), true);
   const projectId2 = String(args.projectId ?? "");
-  if (!projectId2) return text2(`${name}: projectId is required.`, true);
+  if (!projectId2) return text3(`${name}: projectId is required.`, true);
   try {
     if (name === "get_roadmap") {
       const roadmap2 = getRoadmap2(db2, projectId2);
-      return roadmap2 ? text2(JSON.stringify(roadmap2, null, 2)) : text2(roadmapGenerationGuide2());
+      return roadmap2 ? text3(JSON.stringify(withProposals(db2, roadmap2), null, 2)) : text3(roadmapGenerationGuide2());
+    }
+    if (name === "propose_phase" || PROPOSAL_OPS.includes(args.op)) {
+      if (!hasCapability(db2, "roadmapProposals")) return text3(missingCapabilityMessage(name, "roadmapProposals"), true);
+      const phaseId = String(args.phaseId ?? "");
+      if (!phaseId) return text3(`${name}: phaseId is required.`, true);
+      if (name === "propose_phase") {
+        const stored = savePhaseProposal2(db2, { projectId: projectId2, phaseId, proposal: args.proposal });
+        return text3(
+          `Proposal saved: ${phaseProposalSummary2(stored.proposal)}. No card exists yet. Tell the user it is ready to read in Ideafy's Roadmap view; open it with update_roadmap op "open_phase" only when they explicitly ask.
+${JSON.stringify(stored.proposal, null, 2)}`
+        );
+      }
+      if (args.op === "dismiss_phase_proposal") {
+        dismissPhaseProposal2(db2, projectId2, phaseId);
+        return text3("Proposal dismissed. Nothing was opened; the phase can be proposed again.");
+      }
+      const result = applyPhaseProposal2(db2, { projectId: projectId2, phaseId, author: IDEAFY_AUTHOR2 });
+      const lines2 = result.features.map((feature) => {
+        const ids = feature.cards.map((card) => card.displayId ?? card.title).join(", ");
+        const waits = feature.waitsFor.length ? `, waits for ${feature.waitsFor.join(", ")}` : ", starts now";
+        return `- ${feature.name}: ${feature.groupCode ? `chain ${feature.groupCode} (${ids})` : ids}${waits}`;
+      });
+      return text3(`${result.phaseName} is open: ${result.cards} ${result.cards === 1 ? "card" : "cards"} in Backlog.
+${lines2.join("\n")}`);
     }
     if (name === "save_roadmap") {
       const roadmap2 = saveRoadmapDraft2(db2, {
@@ -40417,19 +41334,45 @@ function roadmapTool(db2, name, args) {
         phases: args.phases,
         later: args.later
       });
-      return text2(`Roadmap draft saved. It is not the roadmap until it is approved (update_roadmap op: approve).
+      return text3(`Roadmap draft saved. It is not the roadmap until it is approved (update_roadmap op: approve).
 ${JSON.stringify(roadmap2, null, 2)}`);
     }
     const roadmap = applyRoadmapOp2(db2, projectId2, args, "ideafy");
-    return text2(JSON.stringify(roadmap, null, 2));
+    return text3(JSON.stringify(roadmap, null, 2));
   } catch (error2) {
-    if (error2 instanceof RoadmapError2) return text2(`${name}: ${error2.message} Nothing was written.`, true);
+    if (error2 instanceof RoadmapError2) return text3(`${name}: ${error2.message} Nothing was written.`, true);
     throw error2;
   }
+}
+function withProposals(db2, roadmap) {
+  if (!hasCapability(db2, "roadmapProposals") || roadmap.status !== "approved") return roadmap;
+  const pending = new Map(pendingPhaseProposals2(db2, roadmap.projectId).map((item) => [item.phaseId, item]));
+  return {
+    ...roadmap,
+    phases: roadmap.phases.map((phase) => {
+      const stored = pending.get(phase.id);
+      if (stored) return { ...phase, proposal: { ...stored.proposal, summary: phaseProposalSummary2(stored.proposal), proposedAt: stored.updatedAt } };
+      if (phase.state !== "next") return phase;
+      try {
+        checkPhaseCanOpen2(db2, roadmap.projectId, phase.id);
+        return { ...phase, openPhase: openPhaseGuide2(phase.name) };
+      } catch {
+        return phase;
+      }
+    })
+  };
 }
 function cardRoadmapField(db2, cardId) {
   if (!hasCapability(db2, "roadmap") || !hasCapability(db2, "roadmapPlacement")) return null;
   return roadmapContextForCard2(db2, cardId);
+}
+function roadmapPlacedNote(placed) {
+  if (placed.kind === "product_idea") {
+    return "Roadmap: marked as a product idea; the app offers the user to turn it into a roadmap. Do not draft one unless they ask.";
+  }
+  const where = placed.target ? ` (${placed.target})` : "";
+  const missing = placed.matched || !placed.target ? "" : ` "${placed.target}" is not a line on the roadmap, so the place names no line.`;
+  return `Roadmap place written: ${placed.kind}${placed.matched ? where : ""}.${missing}`;
 }
 
 // app-http.ts
@@ -40634,10 +41577,10 @@ async function openCardSessionTool(db2, input, deps = {}) {
 }
 
 // merge-card.ts
-function withStashWarning(text3, warning) {
-  return warning ? `${text3}
+function withStashWarning(text4, warning) {
+  return warning ? `${text4}
 
-Warning: ${warning}` : text3;
+Warning: ${warning}` : text4;
 }
 function mergeCardText(result) {
   switch (result.kind) {
@@ -40873,7 +41816,7 @@ function chainStateText(db2, cardId) {
   return formatChainState2(state).join("\n");
 }
 function readTestReport(db2, card, opts = {}) {
-  const fail = (text3) => ({ content: [{ type: "text", text: text3 }], isError: true });
+  const fail = (text4) => ({ content: [{ type: "text", text: text4 }], isError: true });
   if (!hasCapability(db2, "testReports")) {
     return fail(
       "get_test_report: this Ideafy database has no Test Reports yet (cards.test_reports). Update the Ideafy app \u2014 it adds the column on its next start."
@@ -40967,7 +41910,7 @@ function readTestReport(db2, card, opts = {}) {
 }
 
 // git-helpers.ts
-import { existsSync as existsSync13, mkdirSync as mkdirSync7 } from "fs";
+import { existsSync as existsSync14, mkdirSync as mkdirSync7 } from "fs";
 async function getCurrentBranch3(cwd) {
   try {
     return await getCurrentBranch2(cwd);
@@ -40979,7 +41922,7 @@ async function createWorktree2(projectPath, branchName, baseBranch) {
   const worktreePath = getWorktreePath2(projectPath, branchName);
   const baseDir = getWorktreeBaseDir2(projectPath);
   try {
-    if (!existsSync13(baseDir)) {
+    if (!existsSync14(baseDir)) {
       mkdirSync7(baseDir, { recursive: true });
     }
     if (await worktreeExists2(projectPath, worktreePath)) {
@@ -41039,9 +41982,9 @@ function foldChar(c) {
   }
   return ch;
 }
-function foldText(text3) {
-  const out = new Array(text3.length);
-  for (let i = 0; i < text3.length; i++) out[i] = foldChar(text3[i]);
+function foldText(text4) {
+  const out = new Array(text4.length);
+  for (let i = 0; i < text4.length; i++) out[i] = foldChar(text4[i]);
   return out.join("");
 }
 function queryTerms(query) {
@@ -41050,11 +41993,11 @@ function queryTerms(query) {
 }
 var SNIPPET_LENGTH = 240;
 var SNIPPET_LEAD = 80;
-function snippetAround(text3, at) {
+function snippetAround(text4, at) {
   const start = Math.max(0, at - SNIPPET_LEAD);
-  const end = Math.min(text3.length, start + SNIPPET_LENGTH);
-  const body = text3.slice(start, end).trim();
-  return `${start > 0 ? "\u2026" : ""}${body}${end < text3.length ? "\u2026" : ""}`;
+  const end = Math.min(text4.length, start + SNIPPET_LENGTH);
+  const body = text4.slice(start, end).trim();
+  return `${start > 0 ? "\u2026" : ""}${body}${end < text4.length ? "\u2026" : ""}`;
 }
 function projectPrefix(db2, projectId2) {
   const row = db2.prepare(`SELECT id_prefix as idPrefix FROM projects WHERE id = ?`).get(projectId2);
@@ -41093,7 +42036,7 @@ function searchCards(db2, opts) {
   for (const row of rows) {
     const title = htmlToText2(row.title);
     const foldedTitle = foldText(title);
-    const bodies = [row.aiOpinion, row.solutionSummary, row.description].map((html) => htmlToText2(html).replace(/\s+/g, " ")).filter((text3) => text3.length > 0);
+    const bodies = [row.aiOpinion, row.solutionSummary, row.description].map((html) => htmlToText2(html).replace(/\s+/g, " ")).filter((text4) => text4.length > 0);
     const foldedBodies = bodies.map(foldText);
     let score = matchesCardNumber2(numberQuery, { idPrefix: prefix, taskNumber: row.taskNumber }) ? NUMBER_WEIGHT : 0;
     for (const term of terms) {
@@ -41214,13 +42157,13 @@ function listGroupsWithChains(db2, projectId2, includeArchived = false) {
   }
   return groups.map((group) => {
     const ordered = (byGroup.get(group.id) ?? []).sort(compareByChainOrder2);
-    const refs = ordered.map(toChainRef);
+    const refs2 = ordered.map(toChainRef);
     const autopilot = chainAutopilotLine2(db2, group.id);
     return {
       ...group,
       ...autopilot ? { autopilot } : {},
-      next: refs.find((ref) => !isFinished3(ref)) ?? null,
-      members: refs.map((ref, index) => ({ ...ref, position: index + 1 }))
+      next: refs2.find((ref) => !isFinished3(ref)) ?? null,
+      members: refs2.map((ref, index) => ({ ...ref, position: index + 1 }))
     };
   });
 }
@@ -41951,7 +42894,9 @@ All three voices still produce the same sections of the template (see aiOpinion)
 
 BEFORE YOU WRITE: get_card returns the full evaluation rule with an ideation card that has no opinion yet \u2014 follow it. When you re-evaluate a card that already has one, run the same check before writing: search_cards for earlier decisions and duplicates, list_open_work for overlapping work, and the chain get_card returns; report what you found under Related Cards.
 
-A mockup or any other file linked in the opinion (a file:// link to a file in the project or a temp folder, or a \`\`\`html artifact="name.html" block) is copied into the card's folder and shown as a chip, the way the app's Apply keeps it. A backticked path is only text, and a key, credential or settings file (~/.ssh, ~/.aws, ~/Library/Application Support, .env \u2026) is never copied.`,
+A mockup or any other file linked in the opinion (a file:// link to a file in the project or a temp folder, or a \`\`\`html artifact="name.html" block) is copied into the card's folder and shown as a chip, the way the app's Apply keeps it. A backticked path is only text, and a key, credential or settings file (~/.ssh, ~/.aws, ~/Library/Application Support, .env \u2026) is never copied.
+
+A \`[ROADMAP: kind | name]\` line in the opinion (get_card's evaluation note says when to write one) is stored as the card's place on the project's roadmap, and the reply names what was written.`,
         inputSchema: {
           type: "object",
           properties: {
@@ -42628,6 +43573,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       case "get_roadmap":
       case "save_roadmap":
       case "update_roadmap":
+      case "propose_phase":
         return roadmapTool(db, name, args ?? {});
       case "export_run_report": {
         const { id: rawId, version: rawVersion } = args;
@@ -42709,7 +43655,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           workTemplateId: "work_template_id"
         };
         const unknownKeys = Object.keys(updates).filter(
-          (key) => !(key in fieldMap) && updates[key] !== void 0
+          (key2) => !(key2 in fieldMap) && updates[key2] !== void 0
         );
         if (unknownKeys.length > 0) {
           return {
@@ -42806,7 +43752,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             isError: true
           };
         }
-        const written = Object.keys(updates).filter((key) => key in fieldMap);
+        const written = Object.keys(updates).filter((key2) => key2 in fieldMap);
         if (reorder) written.push("afterCardId");
         if (blockedBy !== void 0) written.push("blockedBy");
         let parkNote = "";
@@ -43416,7 +44362,9 @@ ${formatWarning}` : ""}` }]
           now: (/* @__PURE__ */ new Date()).toISOString(),
           author: IDEAFY_AUTHOR2,
           // An older database cannot take the proposal; the opinion still saves.
-          splitInto: hasCapability(db, "splitProposals") ? splitInto : void 0
+          splitInto: hasCapability(db, "splitProposals") ? splitInto : void 0,
+          // The place needs the roadmap tables (0044); without them the opinion still saves.
+          placeOnRoadmap: hasCapability(db, "roadmap") && hasCapability(db, "roadmapPlacement")
         });
         if (!result.ok) {
           return {
@@ -43432,7 +44380,7 @@ ${formatWarning}` : ""}` }]
         return {
           content: [{
             type: "text",
-            text: `AI opinion saved to card ${id} (${describeOpinionMarkers2(result) || "no verdict or score read"}). Card is still in "${readStatus(id)}" \u2014 this tool does not move cards. Ask the user before calling move_card.` + (suggested ? ` ${suggested}` : "") + (split ? ` ${split}` : "")
+            text: `AI opinion saved to card ${id} (${describeOpinionMarkers2(result) || "no verdict or score read"}). Card is still in "${readStatus(id)}" \u2014 this tool does not move cards. Ask the user before calling move_card.` + (suggested ? ` ${suggested}` : "") + (split ? ` ${split}` : "") + (result.roadmap ? ` ${roadmapPlacedNote(result.roadmap)}` : "")
           }]
         };
       }
@@ -43547,7 +44495,7 @@ ${formatWarning}` : ""}` }]
           );
           branchGenerated = true;
         }
-        const nowIso2 = (/* @__PURE__ */ new Date()).toISOString();
+        const nowIso3 = (/* @__PURE__ */ new Date()).toISOString();
         const expectedPath = card.gitWorktreePath || getWorktreePath2(projectFolder, targetBranch);
         if (await worktreeExists2(projectFolder, expectedPath)) {
           const branchInWorktree = await getCurrentBranch3(expectedPath);
@@ -43559,7 +44507,7 @@ ${formatWarning}` : ""}` }]
                      git_worktree_path = ?, git_worktree_status = 'active',
                      updated_at = ?
                  WHERE id = ?`
-              ).run(targetBranch, expectedPath, nowIso2, cardId);
+              ).run(targetBranch, expectedPath, nowIso3, cardId);
             }
             return {
               content: [
@@ -43605,7 +44553,7 @@ ${formatWarning}` : ""}` }]
                git_worktree_path = ?, git_worktree_status = 'active',
                updated_at = ?
            WHERE id = ?`
-        ).run(targetBranch, result.worktreePath, nowIso2, cardId);
+        ).run(targetBranch, result.worktreePath, nowIso3, cardId);
         return {
           content: [
             {
@@ -44100,18 +45048,18 @@ ${waiting}` : ""}` : choice === "silent" ? `${bound} This session is outside eve
         const unwalked = unwalkedChildItemsText2(chainUnwalkedItems2(db, groupId));
         const review = mergeReviewText2(chainMergeReview2(db, groupId));
         const result = await mergeChain2(db, groupId);
-        const text3 = mergeChainText(result);
-        const said = [text3, unwalked && `${unwalked}.`, review].filter(Boolean).join(review ? "\n" : " ");
+        const text4 = mergeChainText(result);
+        const said = [text4, unwalked && `${unwalked}.`, review].filter(Boolean).join(review ? "\n" : " ");
         return {
-          content: [{ type: "text", text: result.kind === "ok" ? said : text3 }],
+          content: [{ type: "text", text: result.kind === "ok" ? said : text4 }],
           ...result.kind === "ok" ? {} : { isError: true }
         };
       }
       case "rollback_chain": {
         const { groupId } = args;
         const result = await rollbackChain2(db, groupId);
-        const text3 = result.kind === "ok" ? `${result.branch} deleted; ${result.restored} card(s) back in Human Test with their own branch active.` : result.kind === "alreadyMerged" ? `The chain is already on main. Undo it with: git revert -m 1 ${result.mergedCommit}. Nothing was rolled back.` : result.kind === "notRepo" ? `${result.workingDir} is not a git repository. Nothing was rolled back.` : "This chain has no integration branch. Nothing was rolled back.";
-        return { content: [{ type: "text", text: text3 }], ...result.kind === "ok" ? {} : { isError: true } };
+        const text4 = result.kind === "ok" ? `${result.branch} deleted; ${result.restored} card(s) back in Human Test with their own branch active.` : result.kind === "alreadyMerged" ? `The chain is already on main. Undo it with: git revert -m 1 ${result.mergedCommit}. Nothing was rolled back.` : result.kind === "notRepo" ? `${result.workingDir} is not a git repository. Nothing was rolled back.` : "This chain has no integration branch. Nothing was rolled back.";
+        return { content: [{ type: "text", text: text4 }], ...result.kind === "ok" ? {} : { isError: true } };
       }
       case "list_groups": {
         const { projectId: projectId2, includeArchived } = args ?? {};
