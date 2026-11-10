@@ -25182,6 +25182,7 @@ var ROADMAP_DRAFT_MAX_FEATURES = 6;
 var ROADMAP_MAX_CHAIN_CARDS = 8;
 var ROADMAP_PROMPT_LATER = 5;
 var PROMPT_MAX_LINES = 25;
+var ROADMAP_PHASE_KINDS = ["validation", "foundation", "mvp"];
 var byPosition = (a, b2) => a.position - b2.position;
 var isValidationPhase = (phase) => phase.kind === "validation";
 function deriveFeature(feature, phase, cards, groups) {
@@ -25289,6 +25290,7 @@ function deriveRoadmap(roadmap, phases, features, waits, cards, groups) {
     later: features.filter((feature) => !feature.phaseId).sort(byPosition).map((feature) => derived.get(feature.id)),
     openPhaseId: open?.id ?? null,
     nextPhaseId: next?.id ?? null,
+    needsNextPhase: approved && !open && !next && outPhases.some((phase) => phase.state === "done"),
     strip: (open?.features ?? []).slice(0, ROADMAP_MAX_FEATURES).map((feature) => ({
       featureId: feature.id,
       name: feature.name,
@@ -25407,6 +25409,7 @@ function placementOf(roadmap, card) {
   };
 }
 var sameName = (value) => value.toLocaleLowerCase("en").replace(/\s+/g, " ").trim();
+var samePhaseName = (a, b2) => sameName(a) === sameName(b2);
 function resolveRoadmapTarget(roadmap, name) {
   const wanted = sameName(name);
   if (!wanted) return null;
@@ -25442,13 +25445,17 @@ function roadmapPromptSection(roadmap, placement) {
   const lines2 = [];
   const open = roadmap.phases.find((phase) => phase.id === roadmap.openPhaseId);
   const next = roadmap.phases.find((phase) => phase.id === roadmap.nextPhaseId);
-  if (open) {
+  if (roadmap.needsNextPhase) {
+    lines2.push(
+      "Every phase is done; new work goes to Later until the user plans the next phase. There is no open phase and no next phase: place a new idea as later or new_item, never as in_open_phase or next_phase."
+    );
+  } else if (open) {
     lines2.push(`Open phase: ${open.name} (${open.done}/${open.total} done)${open.goal ? `: ${open.goal}` : ""}`);
     for (const feature of open.features) lines2.push(featureLine(feature, isValidationPhase(open)));
   } else {
     lines2.push("Open phase: none.");
   }
-  if (next) {
+  if (next && !roadmap.needsNextPhase) {
     const names = next.features.map((feature) => feature.name).join(", ");
     lines2.push(`Next phase${next.waitsToOpen ? " (waits to open)" : ""}: ${next.name}${names ? `: ${names}` : ""}`);
   }
@@ -26930,6 +26937,7 @@ __export(card_ops_exports, {
   rememberWorkTemplate: () => rememberWorkTemplate,
   removeDependency: () => removeDependency,
   removeFeature: () => removeFeature,
+  removeRoadmap: () => removeRoadmap,
   renameFeature: () => renameFeature,
   reopenFinalTest: () => reopenFinalTest,
   resolveCardRef: () => resolveCardRef,
@@ -31489,7 +31497,9 @@ function mergeReviewFor(db2, cardId) {
   if (!parent) return review;
   const parentName = formatDisplayId(parent.idPrefix, parent.taskNumber) ?? parent.title;
   const regression = checklistItems(parent.tests).filter((item) => !item.checked && isChainRegressionHeading(item.heading)).map((item) => ({ text: stripItemTokens(item.text), heading: item.heading, manual: isManualItem(item.text) }));
-  if (regression.length > 0) review.push({ name: `${parentName} \xB7 ${CHAIN_REGRESSION_HEADING}`, items: regression, decisions: [] });
+  if (regression.length > 0) {
+    review.push({ name: `${parentName} \xB7 ${CHAIN_REGRESSION_HEADING}`, items: regression, decisions: [], own: "regression" });
+  }
   const leftovers = openLeftovers(parent.tests).map((item) => ({ text: stripItemTokens(item.text), heading: item.heading, manual: true }));
   if (leftovers.length > 0) review.push({ name: `${parentName} \xB7 ${CHAIN_LEFTOVERS_HEADING}`, items: leftovers, decisions: [] });
   add(parentName, cardId, []);
@@ -34952,6 +34962,49 @@ function bringForward(db2, projectId2, phaseId, opts = {}) {
     db2.prepare(`UPDATE roadmap_phases SET position = ? WHERE id = ?`).run(phase.position, before.id);
   });
 }
+function addPhase(db2, projectId2, input, opts = {}) {
+  return edit(db2, projectId2, opts, (rows) => {
+    const name = String(input.name ?? "").trim();
+    if (!name) throw new RoadmapError("A phase needs a name.");
+    const twin = rows.phases.find((phase) => samePhaseName(phase.name, name));
+    if (twin) throw new RoadmapError(`This roadmap already has a phase named "${twin.name}"; give the new phase another name.`);
+    const kind = String(input.kind ?? "").trim() || "mvp";
+    if (!ROADMAP_PHASE_KINDS.includes(kind)) {
+      throw new RoadmapError(`Unknown phase kind "${kind}"; use one of ${ROADMAP_PHASE_KINDS.join(", ")}.`);
+    }
+    const ids = [...new Set((Array.isArray(input.featureIds) ? input.featureIds : []).map(String))];
+    if (ids.length > ROADMAP_MAX_FEATURES) {
+      throw new RoadmapError(
+        `Phase "${name}" would hold ${ids.length} features; a phase holds at most ${ROADMAP_MAX_FEATURES}. Leave the rest in Later.`
+      );
+    }
+    const picked = ids.map((id) => {
+      const feature = mustFeature(rows, id);
+      if (feature.cardId || feature.groupId) throw linkedRefusal(feature, "moved");
+      const from = rows.phases.find((phase) => phase.id === feature.phaseId);
+      if (from?.openedAt) {
+        throw new RoadmapError(`Feature "${feature.name}" is in "${from.name}", which is opened; a feature of an opened phase cannot be moved.`);
+      }
+      return feature;
+    });
+    const phaseId = newId();
+    const position = Math.max(0, ...rows.phases.map((phase) => phase.position)) + 1;
+    db2.prepare(`INSERT INTO roadmap_phases (id, roadmap_id, position, name, goal, kind) VALUES (?, ?, ?, ?, ?, ?)`).run(
+      phaseId,
+      rows.roadmap.id,
+      position,
+      name,
+      String(input.goal ?? "").trim(),
+      kind
+    );
+    const dropWaits = db2.prepare(`DELETE FROM roadmap_feature_waits WHERE feature_id = ? OR waits_for_feature_id = ?`);
+    const move = db2.prepare(`UPDATE roadmap_features SET phase_id = ?, position = ?, checked_at = NULL, checked_by = NULL WHERE id = ?`);
+    picked.forEach((feature, index) => {
+      dropWaits.run(feature.id, feature.id);
+      move.run(phaseId, index + 1, feature.id);
+    });
+  });
+}
 function addFeature(db2, projectId2, input, opts = {}) {
   return edit(db2, projectId2, opts, (rows) => {
     const phaseId = input.phaseId ?? null;
@@ -35146,26 +35199,48 @@ function addCardAsFeature(db2, projectId2, input, opts = {}) {
   });
 }
 function deleteRoadmap(db2, projectId2) {
-  transaction(db2, () => {
+  return transaction(db2, () => {
     const roadmap = roadmapRow(db2, projectId2);
-    if (!roadmap) return;
-    db2.prepare(
-      `DELETE FROM roadmap_feature_waits WHERE feature_id IN (SELECT id FROM roadmap_features WHERE roadmap_id = ?)`
-    ).run(roadmap.id);
-    db2.prepare(`DELETE FROM roadmap_features WHERE roadmap_id = ?`).run(roadmap.id);
-    if (getRow(db2, `SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'roadmap_phase_proposals'`)) {
-      db2.prepare(
-        `DELETE FROM roadmap_phase_proposals WHERE phase_id IN (SELECT id FROM roadmap_phases WHERE roadmap_id = ?)`
-      ).run(roadmap.id);
-    }
-    db2.prepare(`DELETE FROM roadmap_phases WHERE roadmap_id = ?`).run(roadmap.id);
-    db2.prepare(`DELETE FROM roadmaps WHERE id = ?`).run(roadmap.id);
+    if (!roadmap) return null;
+    return deleteRoadmapRows(db2, roadmap);
   });
+}
+function removeRoadmap(db2, projectId2, opts = {}) {
+  return transaction(db2, () => deleteRoadmapRows(db2, mustRoadmap(db2, projectId2, opts)));
+}
+function deleteRoadmapRows(db2, roadmap) {
+  const count = (sql, ...params) => getRow(db2, sql, ...params)?.n ?? 0;
+  const removed = {
+    phases: count(`SELECT COUNT(*) AS n FROM roadmap_phases WHERE roadmap_id = ?`, roadmap.id),
+    features: count(`SELECT COUNT(*) AS n FROM roadmap_features WHERE roadmap_id = ? AND phase_id IS NOT NULL`, roadmap.id),
+    later: count(`SELECT COUNT(*) AS n FROM roadmap_features WHERE roadmap_id = ? AND phase_id IS NULL`, roadmap.id),
+    cardsWithPlacement: 0
+  };
+  db2.prepare(
+    `DELETE FROM roadmap_feature_waits WHERE feature_id IN (SELECT id FROM roadmap_features WHERE roadmap_id = ?)`
+  ).run(roadmap.id);
+  db2.prepare(`DELETE FROM roadmap_features WHERE roadmap_id = ?`).run(roadmap.id);
+  if (getRow(db2, `SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'roadmap_phase_proposals'`)) {
+    db2.prepare(
+      `DELETE FROM roadmap_phase_proposals WHERE phase_id IN (SELECT id FROM roadmap_phases WHERE roadmap_id = ?)`
+    ).run(roadmap.id);
+  }
+  db2.prepare(`DELETE FROM roadmap_phases WHERE roadmap_id = ?`).run(roadmap.id);
+  db2.prepare(`DELETE FROM roadmaps WHERE id = ?`).run(roadmap.id);
+  if (getRow(db2, `SELECT name FROM pragma_table_info('cards') WHERE name = 'roadmap_placement'`)) {
+    removed.cardsWithPlacement = count(
+      `SELECT COUNT(*) AS n FROM cards WHERE project_id = ? AND roadmap_placement IS NOT NULL`,
+      roadmap.projectId
+    );
+    db2.prepare(`UPDATE cards SET roadmap_placement = NULL WHERE project_id = ? AND roadmap_placement IS NOT NULL`).run(roadmap.projectId);
+  }
+  return removed;
 }
 var ROADMAP_OPS = [
   "approve",
   "move_to_later",
   "bring_forward",
+  "add_phase",
   "add_feature",
   "rename_feature",
   "remove_feature",
@@ -35186,6 +35261,13 @@ function applyRoadmapOp(db2, projectId2, input, by) {
       return movePhaseToLater(db2, projectId2, need(input.phaseId, "phaseId"), opts);
     case "bring_forward":
       return bringForward(db2, projectId2, need(input.phaseId, "phaseId"), opts);
+    case "add_phase":
+      return addPhase(
+        db2,
+        projectId2,
+        { name: need(input.name, "name"), goal: input.goal, kind: input.kind, featureIds: input.featureIds },
+        opts
+      );
     case "add_feature":
       return addFeature(
         db2,
@@ -40697,6 +40779,7 @@ var {
   markPhaseOpened: markPhaseOpened2,
   setCardPlacement: setCardPlacement2,
   deleteRoadmap: deleteRoadmap2,
+  removeRoadmap: removeRoadmap2,
   readRuntime: readRuntime2,
   readWriteAck: readWriteAck2,
   acknowledgeWrite: acknowledgeWrite2,
@@ -41188,11 +41271,12 @@ function splitNote(displayId, outcome2, remind, pendingCards = 0) {
 
 // roadmap-tools.ts
 var PROPOSAL_OPS = ["open_phase", "dismiss_phase_proposal"];
+var REMOVE_OP = "remove";
 var projectId = { type: "string", description: "Project ID (UUID)" };
 var ROADMAP_TOOLS = [
   {
     name: "get_roadmap",
-    description: "Read a project's roadmap: phases in order with their features, and the Later lines. States are derived from the cards on every read, never stored: a feature is not_opened, open, done (its card, or every card of its chain, is Completed) or dropped (all withdrawn); a phase is later, next, open or done, and `waitsToOpen` marks the next phase once every phase before it is done. `strip` is the open phase, one segment a feature. A phase with a proposal waiting for the user carries it as `proposal` (how its features become cards, with `summary`); the phase that can be opened and has none carries `openPhase`, the rules for writing one with propose_phase. Pass `updatedAt` back as `expectedUpdatedAt` when you edit.",
+    description: "Read a project's roadmap: phases in order with their features, and the Later lines. States are derived from the cards on every read, never stored: a feature is not_opened, open, done (its card, or every card of its chain, is Completed) or dropped (all withdrawn); a phase is later, next, open or done, and `waitsToOpen` marks the next phase once every phase before it is done. `needsNextPhase` is true when an approved roadmap has a finished phase and nothing open or next: the user plans what comes next (update_roadmap op add_phase), and until then new work goes to Later. `strip` is the open phase, one segment a feature. A phase with a proposal waiting for the user carries it as `proposal` (how its features become cards, with `summary`); the phase that can be opened and has none carries `openPhase`, the rules for writing one with propose_phase. Pass `updatedAt` back as `expectedUpdatedAt` when you edit.",
     inputSchema: { type: "object", properties: { projectId }, required: ["projectId"] }
   },
   {
@@ -41236,17 +41320,24 @@ var ROADMAP_TOOLS = [
   },
   {
     name: "update_roadmap",
-    description: "Edit a project's roadmap, one operation a call. approve: the draft becomes the roadmap. move_to_later / bring_forward (phaseId): push a phase that is not opened to Later, or bring it back or one place earlier. add_feature (name, scope, phaseId; no phaseId = a Later line): refused when the phase already holds 8, then offer the next phase or Later. rename_feature (featureId, name and/or scope). remove_feature / move_feature (featureId; phaseId or null for Later): refused for a feature already opened as a card or chain. tick_line (featureId, checked): a validation line. add_card_as_feature (cardId, phaseId; no phaseId = a Later line): writes an existing card onto the roadmap as a feature named after it and links the two; only when the user explicitly asks, refused when the phase holds 8 or the card is already a feature. open_phase (phaseId): the user's yes to the phase's pending proposal; opens every chain and card of it in one step, links each feature and marks the phase opened. Only when the user explicitly asks: it creates cards, and a proposal opened once is not opened again. dismiss_phase_proposal (phaseId): the user turned it down, nothing is opened. Pass `expectedUpdatedAt` from get_roadmap; when the roadmap changed since, nothing is written and you read it again.",
+    description: "Edit a project's roadmap, one operation a call. approve: the draft becomes the roadmap. move_to_later / bring_forward (phaseId): push a phase that is not opened to Later, or bring it back or one place earlier. add_phase (name; optional goal, kind, featureIds): a new phase after every phase that is not in Later, with the Later lines or unopened features in `featureIds` (at most 8) moved into it; this is how a roadmap whose phases are all done goes on (`needsNextPhase` on get_roadmap), and it works at any time, on a draft too. Refused for a name another phase carries and for a feature that is a card or chain or sits in an opened phase. Only when the user asks for the phase: planning what comes next is their decision. add_feature (name, scope, phaseId; no phaseId = a Later line): refused when the phase already holds 8, then offer the next phase or Later. rename_feature (featureId, name and/or scope). remove_feature / move_feature (featureId; phaseId or null for Later): refused for a feature already opened as a card or chain. tick_line (featureId, checked): a validation line. add_card_as_feature (cardId, phaseId; no phaseId = a Later line): writes an existing card onto the roadmap as a feature named after it and links the two; only when the user explicitly asks, refused when the phase holds 8 or the card is already a feature. open_phase (phaseId): the user's yes to the phase's pending proposal; opens every chain and card of it in one step, links each feature and marks the phase opened. Only when the user explicitly asks: it creates cards, and a proposal opened once is not opened again. dismiss_phase_proposal (phaseId): the user turned it down, nothing is opened. remove: deletes the whole roadmap, draft or approved: its phases, features, Later lines, waits, pending proposals and the roadmap place on the project's cards. Cards and chains stay on the board as they are, a chain opened from the roadmap lives on as an ordinary chain. Only when the user explicitly asks to remove the roadmap: there is no undo, a new roadmap is drafted from scratch; never use it to redo a draft (save_roadmap replaces a draft) or because every phase is done (that is add_phase). Pass `expectedUpdatedAt` from get_roadmap; when the roadmap changed since, nothing is written and you read it again.",
     inputSchema: {
       type: "object",
       properties: {
         projectId,
-        op: { type: "string", enum: [...ROADMAP_OPS2, ...PROPOSAL_OPS] },
+        op: { type: "string", enum: [...ROADMAP_OPS2, ...PROPOSAL_OPS, REMOVE_OP] },
         phaseId: { type: ["string", "null"] },
         featureId: { type: "string" },
         cardId: { type: "string", description: "add_card_as_feature: the card's UUID" },
         name: { type: "string" },
         scope: { type: "string" },
+        goal: { type: "string", description: "add_phase: what the phase is for, one sentence" },
+        kind: { type: "string", enum: ["validation", "foundation", "mvp"], description: "add_phase: mvp when left out" },
+        featureIds: {
+          type: "array",
+          items: { type: "string" },
+          description: "add_phase: ids of the Later lines or unopened features that move into the new phase, at most 8"
+        },
         waitsFor: { type: "array", items: { type: "string" }, description: "add_feature: ids of features of the same phase it waits for" },
         checked: { type: "boolean" },
         expectedUpdatedAt: { type: "string" }
@@ -41337,6 +41428,16 @@ ${lines2.join("\n")}`);
       return text3(`Roadmap draft saved. It is not the roadmap until it is approved (update_roadmap op: approve).
 ${JSON.stringify(roadmap2, null, 2)}`);
     }
+    if (args.op === REMOVE_OP) {
+      if (!hasCapability(db2, "roadmapPlacement")) return text3(missingCapabilityMessage(name, "roadmapPlacement"), true);
+      const removed = removeRoadmap2(db2, projectId2, {
+        expectedUpdatedAt: typeof args.expectedUpdatedAt === "string" ? args.expectedUpdatedAt : null
+      });
+      const count = (n, word) => `${n} ${word}${n === 1 ? "" : "s"}`;
+      return text3(
+        `Roadmap removed: ${count(removed.phases, "phase")}, ${count(removed.features, "feature")} and ${count(removed.later, "Later line")} deleted; ${count(removed.cardsWithPlacement, "card")} lost a roadmap place. Every card and chain is still on the board. The project has no roadmap now; this cannot be undone, a new one is drafted with save_roadmap.`
+      );
+    }
     const roadmap = applyRoadmapOp2(db2, projectId2, args, "ideafy");
     return text3(JSON.stringify(roadmap, null, 2));
   } catch (error2) {
@@ -41409,6 +41510,13 @@ async function callApp(method, path12, body, options = {}) {
 }
 
 // queue-control.ts
+var QUEUE_RETRY_TIMEOUT_MS = 15e3;
+async function callQueue(action, options) {
+  const send = (timeoutMs) => callApp("PATCH", "/api/queue", { action, source: "terminal" }, { port: options.port, fetchImpl: options.fetchImpl, timeoutMs });
+  const first = await send(options.timeoutMs ?? APP_CALL_TIMEOUT_MS);
+  if (first.kind !== "unreachable" || !first.timedOut) return first;
+  return send(options.retryTimeoutMs ?? QUEUE_RETRY_TIMEOUT_MS);
+}
 function summarize(action, snapshot) {
   const waiting = snapshot.items?.length ?? 0;
   const next = snapshot.items?.[0]?.displayId;
@@ -41429,13 +41537,14 @@ async function setQueueRunning(action, options = {}) {
     ok: false,
     text: `The Ideafy app is not open on port ${port}; the queue only runs inside it. Nothing was changed.` + (port === "3030" ? "" : " (IDEAFY_PORT is set; check it matches the app's port.)")
   };
-  const result = await callApp(
-    "PATCH",
-    "/api/queue",
-    { action, source: "terminal" },
-    { port, fetchImpl: options.fetchImpl, timeoutMs: options.timeoutMs ?? APP_CALL_TIMEOUT_MS }
-  );
-  if (result.kind === "unreachable") return closed;
+  const result = await callQueue(action, { ...options, port });
+  if (result.kind === "unreachable") {
+    if (!result.timedOut) return closed;
+    return {
+      ok: false,
+      text: `The Ideafy app on port ${port} is open but did not answer in time, so it is not known whether the queue was ${action === "pause" ? "paused" : "resumed"}. Check with list_queue before trying again.`
+    };
+  }
   if (result.kind === "refused") {
     return {
       ok: false,
@@ -41445,14 +41554,12 @@ async function setQueueRunning(action, options = {}) {
   return { ok: true, text: summarize(action, result.json) };
 }
 async function armQueueIfIdle(options = {}) {
-  const result = await callApp(
-    "PATCH",
-    "/api/queue",
-    { action: "arm", source: "terminal" },
-    { port: options.port, fetchImpl: options.fetchImpl, timeoutMs: options.timeoutMs ?? APP_CALL_TIMEOUT_MS }
-  );
+  const result = await callQueue("arm", options);
   if (result.kind === "unreachable") {
-    return "The Ideafy app did not answer, so nothing starts now; the queue opens paused on the next launch.";
+    if (!result.timedOut) {
+      return "The Ideafy app is not open, so nothing starts now; the queue opens paused on the next launch.";
+    }
+    return "The Ideafy app is open but did not answer in time, so it is not known whether the queue started. If it is already running the card starts within about 10 seconds; check with list_queue.";
   }
   if (result.kind === "refused") {
     return "This Ideafy app cannot start the queue from a terminal; the card starts within about 10 seconds if the queue is already running, otherwise on Resume in the app.";
