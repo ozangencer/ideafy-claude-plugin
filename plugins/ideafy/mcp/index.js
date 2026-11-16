@@ -23808,7 +23808,7 @@ function sanitizeForReminder(value, maxLength = 120) {
   const neutralized = collapsed.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, '\\"');
   return neutralized.length > maxLength ? `${neutralized.slice(0, maxLength)}\u2026` : neutralized;
 }
-var SPLIT_PARENT_RULE = "This card was split into the cards below. Your job is to join the pieces and show the idea works end to end. Do not redo what the child cards did: read their plans and changes first (get_card). Fix a joining gap in your own plan and commit; for a bigger gap, propose a new card. The `## End-to-end` group on its checklist was written before any child existed: when you write the checklist, write that group too, after your own groups and under the same heading, naming the children's real cards, screens and files. A flow that needs nested AI runs or a merge is still a run's to walk on a verify-server copy; give a long one its own group rather than `[manual]`, which stays for what no run on this machine can do. Once every child is ready and the card has neither a plan nor a checklist of its own, its next step is the final test, not a plan: it walks the `## End-to-end` flows as they stand, a failed flow gets one fix through the verify-fix round, and it stops at Ready to merge. Write a plan only if the person asks for one: a plan after the final test sends the card back to In Progress and clears the End-to-end ticks, so the flows are walked again on the new code. Starting that plan with start_card_run takes `planNote`: ask the person what the test showed. When the parent's verify starts, the server writes `## Chain regression \xB7 \u2026` groups itself: the core flows of the children whose files changed on the chain's code since their last pass. It also writes `## Chain leftovers \xB7 \u2026` groups: the items Ralph handed over on a child as `[manual]` or parked, tried once more on the combined code; one that still does not pass stays `[manual]` on the parent. The person's own `[manual]` and `[after-merge]` items on a child are not walked; Merge lists them. A run that writes the checklist never writes, deletes or renames these groups and never changes their items. When you write the checklist after a plan with a `## Joining Gaps` section, every checklist item that section names goes into your own group, word for word as the plan wrote it.";
+var SPLIT_PARENT_RULE = "This card was split into the cards below. Your job is to join the pieces and show the idea works end to end. Do not redo what the child cards did: read their plans and changes first (get_card). The chain's code reaches this worktree by merge: never cherry-pick, copy or squash a child card's commits into it. When a change from the chain is missing here, stop and say so. Fix a joining gap in your own plan and commit; for a bigger gap, propose a new card. The `## End-to-end` group on its checklist was written before any child existed: when you write the checklist, write that group too, after your own groups and under the same heading, naming the children's real cards, screens and files. A flow that needs nested AI runs or a merge is still a run's to walk on a verify-server copy; give a long one its own group rather than `[manual]`, which stays for what no run on this machine can do. Once every child is ready and the card has neither a plan nor a checklist of its own, its next step is the final test, not a plan: it walks the `## End-to-end` flows as they stand, a failed flow gets one fix through the verify-fix round, and it stops at Ready to merge. Write a plan only if the person asks for one: a plan after the final test sends the card back to In Progress and clears the End-to-end ticks, so the flows are walked again on the new code. Starting that plan with start_card_run takes `planNote`: ask the person what the test showed. When the parent's verify starts, the server writes `## Chain regression \xB7 \u2026` groups itself: the core flows of the children whose files changed on the chain's code since their last pass. It also writes `## Chain leftovers \xB7 \u2026` groups: the items Ralph handed over on a child as `[manual]` or parked, tried once more on the combined code; one that still does not pass stays `[manual]` on the parent. The person's own `[manual]` and `[after-merge]` items on a child are not walked; Merge lists them. A run that writes the checklist never writes, deletes or renames these groups and never changes their items. When you write the checklist after a plan with a `## Joining Gaps` section, every checklist item that section names goes into your own group, word for word as the plan wrote it.";
 var SPLIT_PARENT_PLANNING_RULE = `Before you write this parent's plan, check where the children's code is joined:
 1. Work at the chain's tip. In an app run that is the folder the run works in: the chain's worktree, or the project folder when the card is in no chain. In a terminal session, check the chain's \`chain/...\` branch out in a worktree of its own. Run the project's typecheck and its test suite there \u2014 read the commands from package.json scripts or the project's CLAUDE.md. Give each command at most 5 minutes; when the suite does not finish in that time, run the tests nearest to the files the children changed instead, and say which ones you ran.
 2. A failure in a file the chain did not change is not a gap: when \`git log <default branch>..HEAD -- <file>\` prints nothing, it fails on the default branch already. Give it one sentence under Edge Cases. A dependency that still cannot be found is a setup problem, not a gap: say the code could not be checked, and carry on.
@@ -30130,6 +30130,56 @@ function chainConflictText(branch, files, worktreePath, opts = {}) {
   const happened = opts.dryRun ? `Merging main into ${branch} would conflict in ${count}. Nothing was merged, and ${branch} is as it was.` : `Merging main into ${branch} conflicts in ${count}. The merge was rolled back and ${branch} is as it was.`;
   return `${lead} ${happened} Solve it in ${worktreePath} (git merge main, fix, commit), then start again.`;
 }
+async function syncChainIntoParent(db2, cardId, opts) {
+  const log = opts.log ?? (() => {
+  });
+  const group = cardIntegrationGroup(db2, cardId);
+  if (!group?.integrationBranch || !isChainParent(db2, cardId, group.id)) return { kind: "upToDate", chainBranch: null };
+  const chainBranch = group.integrationBranch;
+  const { worktreePath, branchName } = opts;
+  if (!worktreePath || !branchName || !existsSync7(worktreePath)) return { kind: "upToDate", chainBranch };
+  try {
+    if (!gitRead(worktreePath, ["rev-parse", "--verify", "--quiet", `refs/heads/${chainBranch}`])) {
+      log(`[Chain] ${chainBranch} not found; chain tip not merged into the parent ${branchName}`);
+      return { kind: "failed", error: `${chainBranch} not found`, chainBranch };
+    }
+    const ancestor = await git(worktreePath, "merge-base", "--is-ancestor", chainBranch, branchName).then(() => true).catch(() => false);
+    if (ancestor) return { kind: "upToDate", chainBranch };
+    const files = async () => {
+      const { stdout } = await git(worktreePath, "diff", "--name-only", "--diff-filter=U").catch(() => ({ stdout: "" }));
+      return stdout.trim().split("\n").filter(Boolean);
+    };
+    if (gitRead(worktreePath, ["rev-parse", "--verify", "--quiet", "MERGE_HEAD"])) {
+      log(`[Chain] a merge is under way in ${worktreePath}, left as it is`);
+      return { kind: "conflict", chainBranch, branch: branchName, worktreePath, files: await files(), inProgress: true };
+    }
+    const head = gitRead(worktreePath, ["rev-parse", "--abbrev-ref", "HEAD"]);
+    if (head !== branchName) {
+      return { kind: "failed", error: `${worktreePath} is on ${head || "a detached HEAD"}, not ${branchName}`, chainBranch };
+    }
+    const { stdout: dirty } = await git(worktreePath, "status", "--porcelain", "-uno");
+    if (dirty.trim()) {
+      log(`[Chain] uncommitted changes in ${worktreePath}; chain tip not merged into the parent ${branchName}`);
+      return { kind: "failed", error: `Uncommitted changes in ${worktreePath}: commit them first`, chainBranch };
+    }
+    try {
+      await git(worktreePath, "merge", "--no-ff", "--no-edit", chainBranch, "-m", `Merge ${chainBranch} into ${branchName}`);
+      log(`[Chain] ${chainBranch} merged into the parent ${branchName}`);
+      return { kind: "ok", chainBranch, branch: branchName, worktreePath };
+    } catch (mergeError) {
+      const conflicted = await files();
+      if (conflicted.length === 0) {
+        await git(worktreePath, "merge", "--abort").catch(() => void 0);
+        return { kind: "failed", error: mergeError instanceof Error ? mergeError.message : String(mergeError), chainBranch };
+      }
+      if (!opts.keepConflict) await git(worktreePath, "merge", "--abort").catch(() => void 0);
+      log(`[Chain] ${chainBranch} \u2192 ${branchName} conflicts in ${conflicted.join(", ")}`);
+      return { kind: "conflict", chainBranch, branch: branchName, worktreePath, files: conflicted, ...opts.keepConflict ? { left: true } : {} };
+    }
+  } catch (error2) {
+    return { kind: "failed", error: error2 instanceof Error ? error2.message : String(error2), chainBranch };
+  }
+}
 var probeCache = /* @__PURE__ */ new Map();
 function defaultBranchOf(repo) {
   const origin = gitRead(repo, ["symbolic-ref", "refs/remotes/origin/HEAD"]);
@@ -33774,6 +33824,7 @@ function nextStepFor(card, flags, ctx) {
     row(together, {
       id: ctx.hasBranch ? "merge" : "complete",
       title: ctx.chainMerge === "into-chain" ? "Merge into chain" : !ctx.hasBranch ? "Complete" : ctx.chainParentMerge ? "Merge & Complete" : "Merge",
+      ...ctx.chainMerge !== "into-chain" && ctx.hasBranch && ctx.chainParentMerge ? { desc: "Land the chain on main" } : {},
       kind: "you",
       disabledReason: ctx.running ? "A run is going" : chainMergeReason(card, ctx)
     });
@@ -36744,8 +36795,8 @@ async function mergeCard(db2, cardId, opts = {}) {
   try {
     if (worktreePath) {
       const gitDir = worktreeGitDir(worktreePath);
-      if (existsSync10(`${gitDir}/rebase-merge`) || existsSync10(`${gitDir}/rebase-apply`)) {
-        log(`[Merge] Ongoing rebase detected in worktree`);
+      if (existsSync10(`${gitDir}/rebase-merge`) || existsSync10(`${gitDir}/rebase-apply`) || existsSync10(`${gitDir}/MERGE_HEAD`)) {
+        log(`[Merge] Ongoing rebase or merge detected in worktree`);
         const conflictFiles = await unmergedFiles(worktreePath);
         if (!card.rebaseConflict) markConflict(conflictFiles);
         return { kind: "rebaseConflict", conflictFiles, worktreePath, branchName, cardId, displayId };
@@ -36765,7 +36816,8 @@ async function mergeCard(db2, cardId, opts = {}) {
       }
     }
     try {
-      const { stdout } = await git(workingDir, "rev-list", "--count", `${targetBranch}..${branchName}`);
+      const noMerges = isSplitParent(db2, cardId) ? ["--no-merges"] : [];
+      const { stdout } = await git(workingDir, "rev-list", "--count", ...noMerges, `${targetBranch}..${branchName}`);
       const count = parseInt(stdout.trim(), 10);
       log(`[Merge] Branch has ${count} commits ahead of ${targetBranch}`);
       if (count === 0) {
@@ -36780,7 +36832,20 @@ async function mergeCard(db2, cardId, opts = {}) {
       stashSha = await pushStash(mergeDir, stashMessage, { includeUntracked: true });
       if (stashSha) log(`[Merge] Main repo changes stashed as ${describeStash(stashMessage, stashSha)}`);
     }
-    if (worktreePath) {
+    const parentIntoChain = !!chainGroup && !!worktreePath && isChainParent(db2, cardId, chainGroup.id);
+    if (parentIntoChain && worktreePath) {
+      const synced = await syncChainIntoParent(db2, cardId, { worktreePath, branchName, log, keepConflict: true });
+      if (synced.kind === "conflict") {
+        markConflict(synced.files);
+        const stashRestoreWarning2 = await restoreStash();
+        return { kind: "rebaseConflict", conflictFiles: synced.files, worktreePath, branchName, cardId, displayId, stashRestoreWarning: stashRestoreWarning2 };
+      }
+      if (synced.kind === "failed") {
+        const stashRestoreWarning2 = await restoreStash();
+        return { kind: "failed", error: `Could not merge ${targetBranch} into ${branchName}: ${synced.error}`, stashRestoreWarning: stashRestoreWarning2 };
+      }
+      log(synced.kind === "ok" ? `[Merge] ${targetBranch} merged into ${branchName}` : `[Merge] ${branchName} already holds ${targetBranch}; no rebase`);
+    } else if (worktreePath) {
       try {
         await git(worktreePath, "rebase", targetBranch);
         log(`[Merge] Rebase successful`);
