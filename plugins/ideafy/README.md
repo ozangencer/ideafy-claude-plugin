@@ -27,7 +27,7 @@ agents/                      reserved for future subagents
 
 - Ideafy app running on `localhost:${IDEAFY_PORT:-3030}` (for hook context to be active)
 - Ideafy SQLite DB at OS-standard userData path (MCP server resolves it automatically)
-- Node.js 22.5 or newer as `node` on PATH. The MCP server uses Node's built-in `node:sqlite`, so the plugin has no native dependency to build
+- Nothing to install when the Ideafy app is on the machine: the MCP server runs under the app's own Electron (`mcp/launch.sh` reads the path the app writes to `<userData>/electron-exec`). Without the app, Node.js 22.5 or newer as `node` on PATH
 
 If the server is unreachable the hooks emit a single reminder asking the user to launch Ideafy, then stay silent. A Work project gets no reminder.
 

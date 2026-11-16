@@ -1,11 +1,9 @@
 {
   "mcpServers": {
     "ideafy": {
-      "command": "node",
+      "command": "sh",
       "args": [
-        "--experimental-sqlite",
-        "--disable-warning=ExperimentalWarning",
-        "${CLAUDE_PLUGIN_ROOT}/mcp/index.js"
+        "${CLAUDE_PLUGIN_ROOT}/mcp/launch.sh"
       ]
     }
   }
