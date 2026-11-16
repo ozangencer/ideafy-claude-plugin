@@ -23502,8 +23502,9 @@ paths, session IDs, URLs, column names.
   release, a GitHub release), a physical device or another machine, the
   person's own account or login, or a judgement of taste ("does it look
   right"). Everything else is yours to run, on a \`verify-server\` copy when
-  it writes: a nested AI run (\`--ai-run\`), a merge, an app or server
-  restart, an MCP call, a terminal step. "Slow", "hard" or "not sure" is no
+  it writes: a nested AI run (\`--ai-run\`), an app or server restart, an
+  MCP call, a terminal step. A merge is the one exception: see the point on
+  merges below. "Slow", "hard" or "not sure" is no
   reason \u2014 a long item goes in its own group, not under the token. At most
   ${MANUAL_ITEM_LIMIT} \`[manual]\` items per checklist outside the core flow;
   save_tests refuses more. Pre-verify and Autopilot skip \`[manual]\` items
@@ -23512,9 +23513,14 @@ paths, session IDs, URLs, column names.
 - End an item with \`[after-merge]\` only for a check that can be seen once the
   change has truly landed on main: a plugin or app release cut from main,
   another card or session that takes the change from main, a backfill on the
-  live DB. The merge itself still runs on a \`verify-server\` copy \u2014 the token
-  is not for that, and not for an item that is merely hard. A \`[manual]\`
+  live DB. Not for an item that is merely hard. A \`[manual]\`
   item that has to wait for the merge is written \`[after-merge]\` instead.
+- No item merges or rolls back on a \`verify-server\` copy: the copy shares
+  the live repo's branches, so it refuses Merge & Complete, Merge into chain,
+  \`merge_card\`, \`merge_chain\` and a rollback and says why. Check a merge's
+  rules with an automated test that builds its own temporary repo (a terminal
+  step), and its screen up to the confirm window, which a copy still opens.
+  What only a real merge shows is \`[after-merge]\`.
   At most ${AFTER_MERGE_ITEM_LIMIT} per checklist outside the core flow;
   save_tests refuses more. No run takes them and Ready to merge does not wait
   on them; the Test Report lists them under After merge. Never in the core
@@ -23641,9 +23647,9 @@ session ID, URL, kolon ad\u0131.
   yay\u0131nlanan bir \u015Fey (plugin release, GitHub release), fiziksel cihaz ya da
   ba\u015Fka bir makine, insan\u0131n kendi hesab\u0131 ya da giri\u015Fi, ya da bir zevk karar\u0131
   ("do\u011Fru g\xF6r\xFCn\xFCyor mu"). Gerisini sen ko\u015Fars\u0131n, bir \u015Fey yaz\u0131yorsa bir
-  \`verify-server\` kopyas\u0131nda: i\xE7 i\xE7e AI ko\u015Fusu (\`--ai-run\`), merge, app ya
-  da server restart, MCP \xE7a\u011Fr\u0131s\u0131, terminal ad\u0131m\u0131. "Uzun s\xFCrer", "zor" ya da
-  "emin de\u011Filim" sebep de\u011Fil \u2014 uzun bir madde token'a de\u011Fil kendi grubuna
+  \`verify-server\` kopyas\u0131nda: i\xE7 i\xE7e AI ko\u015Fusu (\`--ai-run\`), app ya da
+  server restart, MCP \xE7a\u011Fr\u0131s\u0131, terminal ad\u0131m\u0131. Tek istisna merge: a\u015Fa\u011F\u0131daki
+  merge maddesine bak. "Uzun s\xFCrer", "zor" ya da "emin de\u011Filim" sebep de\u011Fil \u2014 uzun bir madde token'a de\u011Fil kendi grubuna
   gider. Temel ak\u0131\u015F d\u0131\u015F\u0131nda bir \xE7eklistte en fazla ${MANUAL_ITEM_LIMIT}
   \`[manual]\` madde olur; save_tests fazlas\u0131n\u0131 reddeder. Pre-verify ve
   Autopilot \`[manual]\` maddeleri atlar, insana b\u0131rak\u0131r; tiklenmi\u015F olan\u0131
@@ -23652,13 +23658,19 @@ session ID, URL, kolon ad\u0131.
 - Bir maddenin sonuna \`[after-merge]\` yaln\u0131zca de\u011Fi\u015Fiklik ger\xE7ekten main'e
   indikten sonra g\xF6r\xFClebilen bir kontrol i\xE7in yaz: main'den kesilen bir plugin
   ya da app release'i, de\u011Fi\u015Fikli\u011Fi main'den alan ba\u015Fka bir kart ya da oturum,
-  canl\u0131 DB'deki bir backfill. Merge'\xFCn kendisi yine bir \`verify-server\`
-  kopyas\u0131nda ko\u015Fulur \u2014 token onun i\xE7in de\u011Fil, sadece zor olan bir madde i\xE7in
-  de de\u011Fil. Merge'\xFC beklemesi gereken bir \`[manual]\` madde \`[after-merge]\`
-  yaz\u0131l\u0131r. Temel ak\u0131\u015F d\u0131\u015F\u0131nda bir \xE7eklistte en fazla ${AFTER_MERGE_ITEM_LIMIT}
+  canl\u0131 DB'deki bir backfill. Sadece zor olan bir madde i\xE7in de\u011Fil. Merge'\xFC
+  beklemesi gereken bir \`[manual]\` madde \`[after-merge]\` yaz\u0131l\u0131r. Temel
+  ak\u0131\u015F d\u0131\u015F\u0131nda bir \xE7eklistte en fazla ${AFTER_MERGE_ITEM_LIMIT}
   \`[after-merge]\` madde olur; save_tests fazlas\u0131n\u0131 reddeder. Hi\xE7bir ko\u015Fu bu
   maddeleri almaz, Ready to merge onlar\u0131 beklemez; Test Report onlar\u0131 After
   merge alt\u0131nda listeler. Temel ak\u0131\u015Fta asla \u2014 orada yok say\u0131l\u0131r.
+- Hi\xE7bir madde \`verify-server\` kopyas\u0131nda merge ya da rollback yapmaz:
+  kopya canl\u0131 reponun branch'lerini payla\u015F\u0131r; bu y\xFCzden Merge & Complete,
+  Merge into chain, \`merge_card\`, \`merge_chain\` ve rollback'i reddeder ve
+  nedenini s\xF6yler. Merge'\xFCn kurallar\u0131n\u0131 kendi ge\xE7ici reposunu kuran bir
+  otomatik testle (terminal ad\u0131m\u0131), ekran\u0131n\u0131 da kopyan\u0131n h\xE2l\xE2 a\xE7t\u0131\u011F\u0131 onay
+  penceresine kadar kontrol et. Yaln\u0131zca ger\xE7ek bir merge'\xFCn g\xF6sterdi\u011Fi \u015Fey
+  \`[after-merge]\` yaz\u0131l\u0131r.
 - Taray\u0131c\u0131n\u0131n kendi aray\xFCz\xFC (\`<datalist>\` listesi, a\xE7\u0131k \`<select>\`, tarih
   se\xE7ici, dosya ya da yazd\u0131rma diyalo\u011Fu) headless ko\u015Fuda g\xF6r\xFCnmeyebilir. Maddeyi
   sayfan\u0131n tuttu\u011Fu \u015Feye g\xF6re yaz (\`#x option\`). A\xE7\u0131l\u0131r listeyi g\xF6rmek \u015Fartsa ve
@@ -25623,7 +25635,7 @@ function openPhaseGuide(phaseName) {
 
 ${OPEN_PHASE_RULES}
 
-propose_phase stores the proposal only; no card exists yet. Opening it is the user's decision: tell them the proposal is ready to read in Ideafy's Roadmap view, and call update_roadmap with op "open_phase" only when they explicitly ask you to.`;
+propose_phase stores the proposal only; no card exists yet. Opening it is the user's decision: tell them the proposal is ready to read in Ideafy's Plan view, and call update_roadmap with op "open_phase" only when they explicitly ask you to.`;
 }
 
 // ../lib/roadmap-open.ts
@@ -25773,15 +25785,15 @@ function validatePhaseProposal(proposal, phaseFeatures) {
     return `The phase would hold ${features.length + linked.length} features after opening; a phase holds at most ${ROADMAP_MAX_FEATURES}. Fold a shared piece into the feature that needs it, or list a feature in \`moveToNext\`.`;
   }
   const roadmapIds = new Set(phaseFeatures.map((feature) => feature.id));
-  const nameOf3 = (id) => phaseFeatures.find((feature) => feature.id === id)?.name ?? id;
+  const nameOf4 = (id) => phaseFeatures.find((feature) => feature.id === id)?.name ?? id;
   const names = /* @__PURE__ */ new Set();
   const covered = /* @__PURE__ */ new Map();
   const cover = (id, how) => {
     if (!roadmapIds.has(id)) return `"${id}" is not a feature of this phase.`;
     if (linkedIds.has(id)) {
-      return `Feature "${nameOf3(id)}" is already a card, leave it out: it is listed ${how}. Propose no card for it; another feature may name it in \`waitsFor\`.`;
+      return `Feature "${nameOf4(id)}" is already a card, leave it out: it is listed ${how}. Propose no card for it; another feature may name it in \`waitsFor\`.`;
     }
-    if (covered.has(id)) return `Feature "${nameOf3(id)}" appears twice: ${covered.get(id)} and ${how}.`;
+    if (covered.has(id)) return `Feature "${nameOf4(id)}" appears twice: ${covered.get(id)} and ${how}.`;
     covered.set(id, how);
     return null;
   };
@@ -26529,10 +26541,8 @@ var STATUS_TEXT_COLORS = {
   withdrawn: "text-status-withdrawn"
 };
 var BOARD_VIEW_PREFERENCE_OPTIONS = [
-  { value: "focus", label: "Focus" },
-  { value: "all", label: "All columns" },
-  { value: "chains", label: "Chains" },
-  { value: "roadmap", label: "Roadmap" },
+  { value: "board", label: "Board" },
+  { value: "plan", label: "Plan" },
   { value: "last", label: "Last used" }
 ];
 var COLUMN_WIP_LIMITS = {
@@ -26737,6 +26747,7 @@ __export(card_ops_exports, {
   ROADMAP_OPS: () => ROADMAP_OPS,
   RoadmapError: () => RoadmapError,
   SplitCardError: () => SplitCardError,
+  SplitParentError: () => SplitParentError,
   TERMINAL_WRITER_TTL_MS: () => TERMINAL_WRITER_TTL_MS,
   YOU_AUTHOR: () => YOU_AUTHOR,
   acceptPlanDecisions: () => acceptPlanDecisions,
@@ -26771,6 +26782,7 @@ __export(card_ops_exports, {
   cardHasRunReport: () => cardHasRunReport,
   cardHead: () => cardHead,
   cardIntegrationGroup: () => cardIntegrationGroup,
+  cardMockupWarning: () => cardMockupWarning,
   cardRepoFolder: () => cardRepoFolder,
   cardRoadmapNote: () => cardRoadmapNote,
   cardWorkTemplate: () => cardWorkTemplate,
@@ -26973,8 +26985,10 @@ __export(card_ops_exports, {
   setCardRuntime: () => setCardRuntime,
   setIntegrationBranch: () => setIntegrationBranch,
   setParked: () => setParked,
+  setSplitParent: () => setSplitParent,
   sharedPrefixes: () => sharedPrefixes,
   splitCard: () => splitCard,
+  splitParentOptions: () => splitParentOptions,
   splitProposalOutcome: () => splitProposalOutcome,
   splitRelations: () => splitRelations,
   splitRoleLine: () => splitRoleLine,
@@ -26984,6 +26998,7 @@ __export(card_ops_exports, {
   startAutopilot: () => startAutopilot,
   startChainAutopilot: () => startChainAutopilot,
   statusAfterPlan: () => statusAfterPlan,
+  statusAfterRunStart: () => statusAfterRunStart,
   statusAfterTests: () => statusAfterTests,
   stopAutopilot: () => stopAutopilot,
   strandedAutopilotCardIds: () => strandedAutopilotCardIds,
@@ -27673,7 +27688,8 @@ function removeDependency(db2, args) {
         );
       }
     }
-    return { blockedById: predecessor.id, removed: changes > 0, dismissed };
+    const splitChild = hasSplitColumn(db2) && !!getRow(db2, "SELECT 1 AS found FROM cards WHERE id = ? AND split_from_card_id = ?", predecessor.id, args.cardId);
+    return { blockedById: predecessor.id, removed: changes > 0, dismissed, ...splitChild ? { splitChild: true } : {} };
   });
 }
 function groupOf(db2, id) {
@@ -28310,6 +28326,10 @@ function statusAfterPlan(current) {
 function statusAfterTests(current) {
   return current === "test" || current === "completed" || current === "withdrawn" ? null : "test";
 }
+function statusAfterRunStart(phase, current) {
+  if (phase !== "implementation" && phase !== "retest") return null;
+  return current === "backlog" || current === "bugs" ? "progress" : null;
+}
 function moveCard(db2, id, status, now) {
   if (!isStatus(status)) return { ok: false, reason: "invalid-status" };
   return transaction(db2, () => {
@@ -28557,6 +28577,61 @@ function fileLinksToArtifactChips(html) {
   );
 }
 
+// ../lib/canvas-html.ts
+var CANVAS_SUFFIX_RE = /\.dc\.html?$/i;
+var SUPPORT_SCRIPT_RE = /[ \t]*<script\b[^>]*\bsrc=["']\.\/support\.js["'][^>]*>\s*<\/script>[ \t]*\r?\n?/gi;
+var DC_SCRIPT_RE = /[ \t]*<script\b[^>]*\btype=["']text\/x-dc["'][^>]*>[\s\S]*?<\/script>[ \t]*\r?\n?/gi;
+var PROPS_RE = /<script\b[^>]*\btype=["']text\/x-dc["'][^>]*\bdata-props='([^']*)'/i;
+var UNSUPPORTED_RE = /<(?:sc-for|sc-if|dc-import|x-import)\b/i;
+var HOLE_RE = /\{\{\s*([A-Za-z_$][\w$]*)\s*\}\}/g;
+var WRAPPER_TAG_RE = /[ \t]*<\/?(?:x-dc|helmet)>[ \t]*\r?\n?/gi;
+function isCanvasFile(name) {
+  return CANVAS_SUFFIX_RE.test(name);
+}
+function standaloneCanvasName(name) {
+  return name.replace(CANVAS_SUFFIX_RE, ".html");
+}
+function decodeAttr(value) {
+  return value.replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
+}
+function escapeHtml2(value) {
+  return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+function propDefaults(source) {
+  const raw = source.match(PROPS_RE)?.[1];
+  if (raw === void 0) return {};
+  let props;
+  try {
+    props = JSON.parse(decodeAttr(raw));
+  } catch {
+    return null;
+  }
+  if (!props || typeof props !== "object") return null;
+  const values = {};
+  for (const [key2, spec] of Object.entries(props)) {
+    if (key2.startsWith("$") || !spec || typeof spec !== "object") continue;
+    const value = spec.default;
+    if (typeof value === "string" || typeof value === "number" || typeof value === "boolean") values[key2] = String(value);
+  }
+  return values;
+}
+function standaloneCanvasHtml(source) {
+  if (!/<x-dc\b/i.test(source)) return null;
+  if (UNSUPPORTED_RE.test(source)) return null;
+  const defaults = propDefaults(source);
+  if (!defaults) return null;
+  let unresolved = false;
+  const filled = source.replace(DC_SCRIPT_RE, "").replace(SUPPORT_SCRIPT_RE, "").replace(HOLE_RE, (hole, name) => {
+    if (!(name in defaults)) {
+      unresolved = true;
+      return hole;
+    }
+    return escapeHtml2(defaults[name]);
+  });
+  if (unresolved || filled.includes("{{")) return null;
+  return filled.replace(WRAPPER_TAG_RE, "");
+}
+
 // ../lib/artifact-links.ts
 var MAX_ARTIFACT_BYTES = 50 * 1024 * 1024;
 var SCRATCH_DIR = "scratch";
@@ -28742,12 +28817,14 @@ function persistArtifactLinks(html, cardDir, sources = {}) {
       return match;
     }
     try {
-      const target2 = destinationFor(
-        artifactBasename(realSource),
-        realCardDir,
-        (candidate) => sameContents(realSource, candidate)
-      );
-      if (!existsSync2(target2)) copyFileSync(realSource, target2);
+      const name = artifactBasename(realSource);
+      const page = isCanvasFile(name) ? standaloneCanvasHtml(readFileSync2(realSource, "utf8")) : null;
+      const bytes = page === null ? null : Buffer.from(page, "utf8");
+      const target2 = bytes ? destinationFor(standaloneCanvasName(name), realCardDir, (candidate) => sameBytes(candidate, bytes)) : destinationFor(name, realCardDir, (candidate) => sameContents(realSource, candidate));
+      if (!existsSync2(target2)) {
+        if (bytes) writeFileSync(target2, bytes);
+        else copyFileSync(realSource, target2);
+      }
       return `href=${quote}${escapeAttr2(pathToFileUrl(target2))}${quote}`;
     } catch (error2) {
       console.error("Failed to persist artifact:", source, error2);
@@ -28855,14 +28932,14 @@ function externalizeInlineImages(cardId, html, homeDir) {
   return out;
 }
 var CARD_RICH_FIELDS = ["description", "solutionSummary", "testScenarios", "aiOpinion"];
-function externalizeFields(cardId, fields, names, homeDir) {
-  let out = fields;
+function externalizeFields(cardId, fields2, names, homeDir) {
+  let out = fields2;
   for (const name of names) {
     const value = out[name];
     if (typeof value !== "string" || !value) continue;
     const next = externalizeInlineImages(cardId, value, homeDir);
     if (next !== value) {
-      if (out === fields) out = { ...out };
+      if (out === fields2) out = { ...out };
       out[name] = next;
     }
   }
@@ -29235,6 +29312,7 @@ async function getUnpushedStatus(projectPath, options = {}) {
 // ../lib/git/worktree.ts
 var worktree_exports = {};
 __export(worktree_exports, {
+  copyMergeRefusal: () => copyMergeRefusal,
   createWorktree: () => createWorktree,
   findCardBranch: () => findCardBranch,
   findTargetCheckout: () => findTargetCheckout,
@@ -29249,6 +29327,28 @@ __export(worktree_exports, {
 });
 import { existsSync as existsSync6, mkdirSync as mkdirSync3, realpathSync as realpathSync2 } from "fs";
 import path3, { join as join2 } from "path";
+
+// ../lib/verify-copy.ts
+var VERIFY_COPY_ROOT_ENV = "IDEAFY_VERIFY_COPY_ROOT";
+function trimSlashes(path12) {
+  return path12.length > 1 ? path12.replace(/[\\/]+$/, "") : path12;
+}
+function verifyCopyRoot(env = process.env) {
+  const root = env[VERIFY_COPY_ROOT_ENV]?.trim();
+  return root ? trimSlashes(root) : null;
+}
+function isForeignToCopy(path12, env = process.env) {
+  const root = verifyCopyRoot(env);
+  if (!root) return false;
+  const target2 = trimSlashes(path12);
+  return !(target2 === root || target2.startsWith(`${root}/`) || target2.startsWith(`${root}\\`));
+}
+function copyLiveBranchRefusal(branch, where) {
+  const held = where === "checked-out" ? `${branch} is checked out in the live repo, and a copy does not work there.` : `${branch} is the live repo's own branch, and a copy does not move it.`;
+  return `This is a verify-server copy: ${held} The step was not run.`;
+}
+
+// ../lib/git/worktree.ts
 function getWorktreeBaseDir(projectPath) {
   return join2(projectPath, ".worktrees", "kanban");
 }
@@ -29293,6 +29393,7 @@ async function listWorktrees(projectPath) {
         }
       }
       if (info.path && info.commit) {
+        info.foreign = isForeignToCopy(info.path);
         worktrees.push(info);
       }
     }
@@ -29387,14 +29488,26 @@ async function pruneWorktrees(projectPath, log = silent) {
 }
 async function findTargetCheckout(projectPath, targetBranch) {
   if (targetBranch === await getDefaultBranch(projectPath)) return projectPath;
-  const holder = (await listWorktrees(projectPath)).find((wt) => wt.branch === targetBranch);
+  const holder = (await listWorktrees(projectPath)).find((wt) => wt.branch === targetBranch && !wt.foreign);
   return holder?.path ?? null;
+}
+async function copyMergeRefusal(projectPath, targetBranch) {
+  if (!verifyCopyRoot()) return null;
+  if (isForeignToCopy(projectPath)) return copyLiveBranchRefusal(targetBranch, "checked-out");
+  const worktrees = await listWorktrees(projectPath);
+  if (worktrees.some((wt) => wt.branch === targetBranch && wt.foreign)) {
+    return copyLiveBranchRefusal(targetBranch, "checked-out");
+  }
+  if (targetBranch === await getDefaultBranch(projectPath)) return copyLiveBranchRefusal(targetBranch, "ref");
+  return null;
 }
 async function squashMergeFromWorktree(projectPath, branchName, commitMessage, opts = {}) {
   const log = opts.log ?? silent;
   try {
     const defaultBranch2 = await getDefaultBranch(projectPath);
     const targetBranch = opts.targetBranch || defaultBranch2;
+    const refusal = await copyMergeRefusal(projectPath, targetBranch);
+    if (refusal) return { success: false, error: refusal };
     const mergeDir = await findTargetCheckout(projectPath, targetBranch);
     if (!mergeDir) {
       return {
@@ -29457,7 +29570,7 @@ async function findCardBranch(projectPath, idPrefix, taskNumber) {
   if (names.size !== 1) return null;
   const [branchName] = names;
   const worktree = (await listWorktrees(projectPath)).find(
-    (w2) => w2.branch === branchName && !w2.isPrunable && existsSync6(w2.path)
+    (w2) => w2.branch === branchName && !w2.isPrunable && !w2.foreign && existsSync6(w2.path)
   );
   return { branchName, worktreePath: worktree?.path ?? null };
 }
@@ -29931,16 +30044,9 @@ function integrationWorktreePath(projectPath, branch) {
   return join3(getWorktreeBaseDir(projectPath), "..", branch);
 }
 async function checkedOutAt(projectPath, branch) {
-  try {
-    const { stdout } = await git(projectPath, "worktree", "list", "--porcelain");
-    let path12 = null;
-    for (const line of stdout.split("\n")) {
-      if (line.startsWith("worktree ")) path12 = line.slice("worktree ".length);
-      else if (line === `branch refs/heads/${branch}` && path12) return path12;
-    }
-  } catch {
-  }
-  return null;
+  const holders = (await listWorktrees(projectPath)).filter((wt) => wt.branch === branch);
+  const own = holders.find((wt) => !wt.foreign);
+  return { path: own?.path ?? null, foreign: !own && holders.length > 0 };
 }
 async function ensureIntegrationBranch(db2, groupId, opts = {}) {
   const log = opts.log ?? (() => {
@@ -29952,7 +30058,11 @@ async function ensureIntegrationBranch(db2, groupId, opts = {}) {
   const branch = group.integrationBranch;
   try {
     const holder = await checkedOutAt(workingDir, branch);
-    if (holder) return { kind: "ok", branch, worktreePath: holder, created: false };
+    if (holder.path) return { kind: "ok", branch, worktreePath: holder.path, created: false };
+    if (holder.foreign) return { kind: "failed", error: copyLiveBranchRefusal(branch, "checked-out"), liveBranch: true };
+    if (verifyCopyRoot() && await branchExists(workingDir, branch)) {
+      return { kind: "failed", error: copyLiveBranchRefusal(branch, "ref"), liveBranch: true };
+    }
     const worktreePath = integrationWorktreePath(workingDir, branch);
     const parent = join3(worktreePath, "..");
     if (!existsSync7(parent)) mkdirSync4(parent, { recursive: true });
@@ -30103,11 +30213,11 @@ async function rollbackChain(db2, groupId, opts = {}) {
   if (!workingDir || !await isGitRepo(workingDir)) return { kind: "notRepo", workingDir: workingDir ?? "" };
   const branch = group.integrationBranch;
   const holder = await checkedOutAt(workingDir, branch);
-  if (holder) {
-    const removed = await removeWorktree(workingDir, holder, log);
-    if (!removed.success) log(`[Chain] Failed to remove ${holder}: ${removed.error}`);
+  if (holder.path) {
+    const removed = await removeWorktree(workingDir, holder.path, log);
+    if (!removed.success) log(`[Chain] Failed to remove ${holder.path}: ${removed.error}`);
   }
-  await git(workingDir, "branch", "-D", "--", branch).catch(() => void 0);
+  if (!holder.foreign) await git(workingDir, "branch", "-D", "--", branch).catch(() => void 0);
   await pruneWorktrees(workingDir, log);
   const members = inChainMembers(db2, groupId);
   const rolledBackAt = now();
@@ -30205,7 +30315,7 @@ function setIntegrationBranch(db2, groupId, on, opts = {}) {
       return {
         kind: "branchOpen",
         branch,
-        text: `Chain ${group.code}'s branch ${branch} is already open. Throw it away with rollback_chain (Rollback chain in the Chains view) instead of turning it off.`
+        text: `Chain ${group.code}'s branch ${branch} is already open. Throw it away with rollback_chain (Rollback chain in the chain's details on Plan) instead of turning it off.`
       };
     }
     runChanges(db2, `UPDATE card_groups SET integration_branch = NULL WHERE id = ?`, group.id);
@@ -30888,7 +30998,7 @@ function stepExcerptBefore(planBefore) {
   }
   return null;
 }
-function escapeHtml2(text4) {
+function escapeHtml3(text4) {
   return text4.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 function acceptPlanMarkers(planHtml) {
@@ -30908,7 +31018,7 @@ function acceptPlanMarkers(planHtml) {
       accepted.push({ question, recommended: recommended ?? stepExcerpt, stepExcerpt });
       if (recommended) return `[NEEDS_DECISION accepted:${raw}]`;
       const tail = stepExcerpt ? shorten(stepExcerpt.replace(/[[\]]/g, ""), INLINE_RECOMMENDED_MAX) : "the option the step above is written with";
-      return `[NEEDS_DECISION accepted:${raw.replace(/\s+$/, "")} \u2014 recommended: ${escapeHtml2(tail)}]`;
+      return `[NEEDS_DECISION accepted:${raw.replace(/\s+$/, "")} \u2014 recommended: ${escapeHtml3(tail)}]`;
     });
   });
   return { html: out.join(""), accepted };
@@ -31390,14 +31500,14 @@ function chainCheckFor(db2, cardId) {
   if (!hasSplitColumn2(db2)) return [];
   const check2 = [];
   const children = childrenOf(db2, cardId);
-  const nameOf3 = (child) => formatDisplayId(child.idPrefix, child.taskNumber);
+  const nameOf4 = (child) => formatDisplayId(child.idPrefix, child.taskNumber);
   for (const child of children) {
     if (child.status === "withdrawn") continue;
     const plan = planBranchFilesFor(db2, child.id);
-    const siblings = children.filter((other) => other.id !== child.id).map(nameOf3).filter((name) => !!name);
+    const siblings = children.filter((other) => other.id !== child.id).map(nameOf4).filter((name) => !!name);
     const progress = parseTestProgress(child.testScenarios ?? "");
     const row = {
-      name: nameOf3(child) ?? child.title,
+      name: nameOf4(child) ?? child.title,
       untouched: plan?.rows.filter((file2) => file2.state === "planned").map((file2) => file2.path) ?? [],
       offPlan: plan?.rows.filter((file2) => file2.state === "outside").map((file2) => file2.path) ?? [],
       driftCommits: driftSince(db2, child.id, "tests", { ignoreCards: siblings })?.total ?? 0,
@@ -32453,6 +32563,25 @@ function dismissSplitProposal(db2, cardId, now) {
   );
   return changes > 0;
 }
+function strayChildrenOf(db2, parentId) {
+  if (!hasDependencyTable(db2)) return [];
+  return allRows(
+    db2,
+    `SELECT c.id, c.title, c.status, c.task_number AS taskNumber, p.id_prefix AS idPrefix,
+            (parent.group_id IS NOT NULL AND c.group_id IS parent.group_id) AS inChain,
+            EXISTS (SELECT 1 FROM card_dependencies d WHERE d.card_id = parent.id AND d.blocked_by_card_id = c.id) AS linked
+     FROM cards c JOIN cards parent ON parent.id = c.split_from_card_id LEFT JOIN projects p ON p.id = c.project_id
+     WHERE c.split_from_card_id = ? AND c.status != 'withdrawn'
+     ORDER BY c.task_number`,
+    parentId
+  ).filter((row) => !row.inChain || !row.linked).map((row) => ({
+    displayId: toRef2(row).displayId,
+    title: row.title,
+    status: row.status,
+    inChain: !!row.inChain,
+    linked: !!row.linked
+  }));
+}
 var PLAN_SUMMARY_MAX = 200;
 var FILES_MAX = 8;
 function toRef2(row) {
@@ -32516,12 +32645,14 @@ function splitRelations(db2, cardId) {
   const role = children.length > 0 ? SPLIT_PARENT_RULE : parent && !("missing" in parent) ? splitChildRule(refName(parent)) : null;
   const unwalked = children.length > 0 ? unwalkedChildItems(db2, cardId) : 0;
   const mergeReview = children.length > 0 ? mergeReviewFor(db2, cardId) : [];
+  const stray = children.length > 0 ? strayChildrenOf(db2, cardId) : [];
   return {
     parent,
     children,
     role,
     ...unwalked > 0 ? { unwalkedChildItems: unwalked } : {},
-    ...mergeReview.length > 0 ? { mergeReview } : {}
+    ...mergeReview.length > 0 ? { mergeReview } : {},
+    ...stray.length > 0 ? { strayChildren: stray } : {}
   };
 }
 function splitRoleLine(db2, cardId) {
@@ -32758,7 +32889,7 @@ function chainLeftoversFor(db2, parentId) {
     return null;
   }
 }
-var escapeHtml3 = (text4) => text4.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+var escapeHtml4 = (text4) => text4.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 var withoutManual = (text4) => text4.replace(/\s*\[manual\](?=(?:\s|\[(?:ui|manual|after-merge)\])*$)/gi, "").trim();
 function chainLeftoversHtml(children) {
   const packs = [];
@@ -32777,9 +32908,9 @@ function chainLeftoversHtml(children) {
   return packs.map((pack) => {
     const heading = [CHAIN_LEFTOVERS_HEADING, ...pack.names].join(" \xB7 ");
     const items = pack.items.map(
-      (text4) => `<li data-type="taskItem" data-checked="false"><label><input type="checkbox"><span></span></label><div><p>${escapeHtml3(withoutManual(text4))}</p></div></li>`
+      (text4) => `<li data-type="taskItem" data-checked="false"><label><input type="checkbox"><span></span></label><div><p>${escapeHtml4(withoutManual(text4))}</p></div></li>`
     ).join("");
-    return `<h2>${escapeHtml3(heading)}</h2><ul data-type="taskList">${items}</ul>`;
+    return `<h2>${escapeHtml4(heading)}</h2><ul data-type="taskList">${items}</ul>`;
   }).join("");
 }
 function chainLeftoversSummary(children) {
@@ -32808,8 +32939,8 @@ function chainLeftoversRecordFor(db2, parentId) {
 function writeChainLeftovers(db2, parentId, opts = {}) {
   try {
     if (!hasSplitColumn3(db2)) return { written: false, reason: "not-a-parent" };
-    const hasChildren = !!getRow(db2, `SELECT 1 AS ok FROM cards WHERE split_from_card_id = ? AND status != 'withdrawn' LIMIT 1`, parentId);
-    if (!hasChildren) return { written: false, reason: "not-a-parent" };
+    const hasChildren2 = !!getRow(db2, `SELECT 1 AS ok FROM cards WHERE split_from_card_id = ? AND status != 'withdrawn' LIMIT 1`, parentId);
+    if (!hasChildren2) return { written: false, reason: "not-a-parent" };
     const now = opts.now ?? (/* @__PURE__ */ new Date()).toISOString();
     return transaction(db2, () => {
       const tests = getRow(db2, `SELECT test_scenarios AS tests FROM cards WHERE id = ?`, parentId)?.tests ?? "";
@@ -32943,7 +33074,7 @@ function chainRegressionFor(db2, parentId, tip) {
     return null;
   }
 }
-var escapeHtml4 = (text4) => text4.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+var escapeHtml5 = (text4) => text4.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 var withoutPersonsTokens = (text4) => text4.replace(/\s*\[(?:manual|after-merge)\](?=(?:\s|\[(?:ui|manual|after-merge)\])*$)/gi, "").trim();
 function chainRegressionHtml(children) {
   const packs = [];
@@ -32956,9 +33087,9 @@ function chainRegressionHtml(children) {
   return packs.map((pack) => {
     const heading = [CHAIN_REGRESSION_HEADING, ...pack.map((entry) => entry.displayId)].join(" \xB7 ");
     const items = pack.flatMap((entry) => entry.items).map(
-      (text4) => `<li data-type="taskItem" data-checked="false"><label><input type="checkbox"><span></span></label><div><p>${escapeHtml4(withoutPersonsTokens(text4))}</p></div></li>`
+      (text4) => `<li data-type="taskItem" data-checked="false"><label><input type="checkbox"><span></span></label><div><p>${escapeHtml5(withoutPersonsTokens(text4))}</p></div></li>`
     ).join("");
-    return `<h2>${escapeHtml4(heading)}</h2><ul data-type="taskList">${items}</ul>`;
+    return `<h2>${escapeHtml5(heading)}</h2><ul data-type="taskList">${items}</ul>`;
   }).join("");
 }
 var REASON_TEXT2 = {
@@ -32996,8 +33127,8 @@ function chainRegressionRecordFor(db2, parentId) {
 function writeChainRegression(db2, parentId, opts = {}) {
   try {
     if (!hasSplitColumn4(db2)) return { written: false, reason: "not-a-parent" };
-    const hasChildren = !!getRow(db2, `SELECT 1 AS ok FROM cards WHERE split_from_card_id = ? AND status != 'withdrawn' LIMIT 1`, parentId);
-    if (!hasChildren) return { written: false, reason: "not-a-parent" };
+    const hasChildren2 = !!getRow(db2, `SELECT 1 AS ok FROM cards WHERE split_from_card_id = ? AND status != 'withdrawn' LIMIT 1`, parentId);
+    if (!hasChildren2) return { written: false, reason: "not-a-parent" };
     const already = () => {
       const tests = getRow(db2, `SELECT test_scenarios AS tests FROM cards WHERE id = ?`, parentId)?.tests;
       return !!chainRegressionSectionsHtml(tests) || !!chainRegressionRecordFor(db2, parentId);
@@ -33438,6 +33569,7 @@ function phasePrimary(card, flags, ctx, rows) {
   if (card.status === "bugs" && has("quick-fix")) return "quick-fix";
   if (card.status === "test") {
     if (card.rebaseConflict && ctx.hasBranch && has("merge") && !rows.get("merge")?.disabledReason) return "merge";
+    if (ctx.chainParentMerge && ctx.hasBranch && has("merge")) return "merge";
     if (flags.phase === "verify" && nextVerifyGroup(ctx.testProgress)) return "play";
     const progress = ctx.testProgress;
     const allTicked = !!progress && progress.total > 0 && progress.checked === progress.total;
@@ -33641,7 +33773,7 @@ function nextStepFor(card, flags, ctx) {
   if (card.status === "test" && ctx.chainMerge !== "in-chain") {
     row(together, {
       id: ctx.hasBranch ? "merge" : "complete",
-      title: ctx.chainMerge === "into-chain" ? "Merge into chain" : ctx.hasBranch ? "Merge" : "Complete",
+      title: ctx.chainMerge === "into-chain" ? "Merge into chain" : !ctx.hasBranch ? "Complete" : ctx.chainParentMerge ? "Merge & Complete" : "Merge",
       kind: "you",
       disabledReason: ctx.running ? "A run is going" : chainMergeReason(card, ctx)
     });
@@ -34643,6 +34775,159 @@ function leaveSplitChain(db2, cardId) {
   );
   if (changes > 0) runChanges(db2, "UPDATE cards SET split_from_card_id = NULL WHERE id = ?", cardId);
 }
+function brokenOutParent(db2, cardId) {
+  if (!hasSplitColumn(db2) || !hasDependencyTable(db2)) return null;
+  const row = getRow(
+    db2,
+    `SELECT c.split_from_card_id AS parentId,
+            (SELECT 1 FROM card_dependencies d WHERE d.card_id = c.split_from_card_id AND d.blocked_by_card_id = c.id AND d.note = ?) AS joined
+     FROM cards c WHERE c.id = ?`,
+    JOINED_NOTE,
+    cardId
+  );
+  return row?.parentId && !row.joined ? row.parentId : null;
+}
+var ATTACHED_NOTE = "child of this split";
+var LOCKED_PARENT_STATUSES = /* @__PURE__ */ new Set(["test", "completed", "withdrawn"]);
+var STATUS_WORDS = {
+  test: "in Human Test",
+  completed: "completed",
+  withdrawn: "withdrawn"
+};
+var SplitParentError = class extends Error {
+  constructor(code, message) {
+    super(message);
+    this.code = code;
+    this.name = "SplitParentError";
+  }
+  code;
+};
+function splitRow(db2, id) {
+  return getRow(
+    db2,
+    `SELECT c.id, c.title, c.status, c.group_id AS groupId, c.split_from_card_id AS splitFromCardId,
+            c.task_number AS taskNumber, p.id_prefix AS idPrefix
+     FROM cards c LEFT JOIN projects p ON p.id = c.project_id WHERE c.id = ?`,
+    id
+  );
+}
+var nameOf = (row) => formatDisplayId(row.idPrefix, row.taskNumber) ?? `"${row.title}"`;
+function lockedReason(parent) {
+  if (!LOCKED_PARENT_STATUSES.has(parent.status)) return null;
+  const tail = parent.status === "test" ? "; move it back to In Progress first" : "";
+  return `${nameOf(parent)} is ${STATUS_WORDS[parent.status]}${tail}.`;
+}
+function hasChildren(db2, cardId) {
+  return !!getRow(db2, "SELECT 1 AS found FROM cards WHERE split_from_card_id = ? LIMIT 1", cardId);
+}
+function attachBlocker(db2, card, parent) {
+  if (card.id === parent.id) return { code: "same-card", message: `${nameOf(card)} cannot be its own parent.` };
+  const locked = lockedReason(parent);
+  if (locked) return { code: "parent-locked", message: locked };
+  if (card.splitFromCardId && card.splitFromCardId !== parent.id) {
+    const other = splitRow(db2, card.splitFromCardId);
+    return {
+      code: "has-parent",
+      message: `${nameOf(card)} is already a child of ${other ? nameOf(other) : "another card"}; detach it first.`
+    };
+  }
+  if (!parent.groupId || card.groupId !== parent.groupId) {
+    return { code: "not-in-chain", message: `${nameOf(card)} is not in ${nameOf(parent)}'s chain; add it to that chain first.` };
+  }
+  if (hasChildren(db2, card.id)) {
+    return { code: "has-children", message: `${nameOf(card)} has children of its own, so it cannot be a child.` };
+  }
+  if (getRow(db2, "SELECT 1 AS found FROM card_dependencies WHERE card_id = ? AND blocked_by_card_id = ?", card.id, parent.id)) {
+    return {
+      code: "cycle",
+      message: `${nameOf(card)} waits on ${nameOf(parent)}, so it is follow-up work, not a child. Remove that link first.`
+    };
+  }
+  return null;
+}
+function chainSplitParent(db2, groupId, exceptId) {
+  const row = getRow(
+    db2,
+    `SELECT c.split_from_card_id AS parentId FROM cards c JOIN cards parent ON parent.id = c.split_from_card_id
+     WHERE c.group_id = ? AND parent.group_id = ? AND c.id != ? AND parent.id != ?
+     GROUP BY c.split_from_card_id ORDER BY COUNT(*) DESC LIMIT 1`,
+    groupId,
+    groupId,
+    exceptId,
+    exceptId
+  );
+  return row ? splitRow(db2, row.parentId) ?? null : null;
+}
+function splitParentOptions(db2, cardId) {
+  if (!hasSplitColumn(db2) || !hasDependencyTable(db2)) return null;
+  const card = splitRow(db2, cardId);
+  if (!card) return null;
+  if (card.splitFromCardId) {
+    const parent2 = splitRow(db2, card.splitFromCardId);
+    const reason = parent2 ? lockedReason(parent2) : null;
+    return { parentId: card.splitFromCardId, canDetach: !reason, attachTo: null, canAttach: false, reason };
+  }
+  if (!card.groupId || hasChildren(db2, card.id)) return null;
+  const parent = chainSplitParent(db2, card.groupId, card.id);
+  if (!parent) return null;
+  const blocker = attachBlocker(db2, card, parent);
+  if (blocker && blocker.code !== "parent-locked") return null;
+  return {
+    parentId: null,
+    canDetach: false,
+    attachTo: { id: parent.id, name: nameOf(parent) },
+    canAttach: !blocker,
+    reason: blocker?.message ?? null
+  };
+}
+function setSplitParent(db2, args) {
+  if (!hasSplitColumn(db2) || !hasDependencyTable(db2)) {
+    throw new SplitParentError(
+      "unsupported",
+      "This Ideafy database cannot store split parents yet. Update the Ideafy app, then try again. Nothing was written."
+    );
+  }
+  const card = splitRow(db2, args.cardId);
+  if (!card) throw new SplitParentError("not-found", `Card not found: ${args.cardId}`);
+  const previousParentId = card.splitFromCardId;
+  if (args.parentId === null) {
+    if (!previousParentId) {
+      return { changed: false, previousParentId, parentId: null, message: `${nameOf(card)} has no parent; nothing changed.` };
+    }
+    const parent2 = splitRow(db2, previousParentId);
+    const locked = parent2 ? lockedReason(parent2) : null;
+    if (locked) throw new SplitParentError("parent-locked", locked);
+    runChanges(db2, "DELETE FROM card_dependencies WHERE card_id = ? AND blocked_by_card_id = ?", previousParentId, card.id);
+    runChanges(db2, "UPDATE cards SET split_from_card_id = NULL WHERE id = ?", card.id);
+    const parentName = parent2 ? nameOf(parent2) : "its deleted parent";
+    return {
+      changed: true,
+      previousParentId,
+      parentId: null,
+      message: parent2 ? `${nameOf(card)} detached from ${parentName}; ${parentName} no longer waits on it.` : `${nameOf(card)} detached from ${parentName}.`
+    };
+  }
+  const parent = splitRow(db2, args.parentId);
+  if (!parent) throw new SplitParentError("not-found", `Card not found: ${args.parentId}`);
+  if (previousParentId === parent.id) {
+    return { changed: false, previousParentId, parentId: parent.id, message: `${nameOf(card)} is already a child of ${nameOf(parent)}.` };
+  }
+  const blocker = attachBlocker(db2, card, parent);
+  if (blocker) throw new SplitParentError(blocker.code, blocker.message);
+  try {
+    setBlockedBy(db2, parent.id, [{ card: card.id, note: ATTACHED_NOTE }], args.now, "add");
+  } catch (error2) {
+    if (error2 instanceof CardDependencyError && error2.code === "cycle") throw new SplitParentError("cycle", error2.message);
+    throw error2;
+  }
+  runChanges(db2, "UPDATE cards SET split_from_card_id = ? WHERE id = ?", parent.id, card.id);
+  return {
+    changed: true,
+    previousParentId,
+    parentId: parent.id,
+    message: `${nameOf(card)} is now a child of ${nameOf(parent)}; ${nameOf(parent)} waits on it.`
+  };
+}
 
 // ../lib/card-ops/create-card.ts
 function createCard(db2, given, now, author) {
@@ -35390,12 +35675,12 @@ var COLUMN3 = {
 };
 function updateCard(db2, args) {
   const { id, now } = args;
-  const fields = externalizeFields(
+  const fields2 = externalizeFields(
     id,
     Object.fromEntries(Object.entries(args.fields).filter(([, value]) => value !== void 0)),
     CARD_RICH_FIELDS
   );
-  if (fields.status !== void 0 && !isStatus(fields.status)) return { ok: false, reason: "invalid-status" };
+  if (fields2.status !== void 0 && !isStatus(fields2.status)) return { ok: false, reason: "invalid-status" };
   return transaction(db2, () => {
     const existing = getRow(
       db2,
@@ -35405,27 +35690,27 @@ function updateCard(db2, args) {
       id
     );
     if (!existing) return { ok: false, reason: "not-found" };
-    const set2 = { ...fields };
-    if (fields.testScenarios !== void 0 && existing.test_scenarios) {
+    const set2 = { ...fields2 };
+    if (fields2.testScenarios !== void 0 && existing.test_scenarios) {
       if (!args.baseUpdatedAt) {
-        set2.testScenarios = mergeTestCheckState(existing.test_scenarios, fields.testScenarios);
+        set2.testScenarios = mergeTestCheckState(existing.test_scenarios, fields2.testScenarios);
       } else if (args.baseUpdatedAt !== existing.updated_at) {
-        set2.testScenarios = mergeStaleTestWrite(existing.test_scenarios, fields.testScenarios);
+        set2.testScenarios = mergeStaleTestWrite(existing.test_scenarios, fields2.testScenarios);
       } else {
-        set2.testScenarios = normalizeTestsHtml(fields.testScenarios);
+        set2.testScenarios = normalizeTestsHtml(fields2.testScenarios);
       }
     }
-    if (fields.aiOpinion !== void 0) {
-      const edited = opinionEditFields(existing.ai_opinion, fields.aiOpinion);
-      if (fields.aiVerdict === void 0 && "verdict" in edited) set2.aiVerdict = edited.verdict ?? null;
-      if (fields.aiScore === void 0 && "score" in edited) set2.aiScore = edited.score ?? null;
+    if (fields2.aiOpinion !== void 0) {
+      const edited = opinionEditFields(existing.ai_opinion, fields2.aiOpinion);
+      if (fields2.aiVerdict === void 0 && "verdict" in edited) set2.aiVerdict = edited.verdict ?? null;
+      if (fields2.aiScore === void 0 && "score" in edited) set2.aiScore = edited.score ?? null;
       for (const level of ["priority", "complexity"]) {
-        const pickedByHand = fields[level] !== void 0 && fields[level] !== existing[level];
+        const pickedByHand = fields2[level] !== void 0 && fields2[level] !== existing[level];
         if (!pickedByHand && edited[level]) set2[level] = edited[level];
       }
     }
     let taskNumber = existing.task_number;
-    const projectId2 = fields.projectId !== void 0 ? fields.projectId : existing.project_id;
+    const projectId2 = fields2.projectId !== void 0 ? fields2.projectId : existing.project_id;
     const projectChanged = projectId2 !== existing.project_id;
     if (projectChanged) {
       if (projectId2 === null) {
@@ -35443,7 +35728,7 @@ function updateCard(db2, args) {
       set2.projectId = projectId2;
     }
     let groupId = existing.group_id;
-    if (fields.groupId !== void 0) groupId = normalizeGroupId(fields.groupId) ?? null;
+    if (fields2.groupId !== void 0) groupId = normalizeGroupId(fields2.groupId) ?? null;
     if (projectChanged && groupId) {
       const group = getGroup(db2, groupId);
       if (!group || group.projectId && group.projectId !== projectId2) groupId = null;
@@ -35454,8 +35739,8 @@ function updateCard(db2, args) {
     } else {
       delete set2.groupId;
     }
-    const reopened = fields.status === void 0 && typeof fields.solutionSummary === "string" && hasRealPlan(fields.solutionSummary) && reopenFinalTest(db2, id, now, args.author);
-    const status = reopened ? "progress" : fields.status ?? existing.status;
+    const reopened = fields2.status === void 0 && typeof fields2.solutionSummary === "string" && hasRealPlan(fields2.solutionSummary) && reopenFinalTest(db2, id, now, args.author);
+    const status = reopened ? "progress" : fields2.status ?? existing.status;
     const columns2 = [];
     const values = [];
     for (const [key2, value] of Object.entries(set2)) {
@@ -35468,7 +35753,7 @@ function updateCard(db2, args) {
       columns2.push("task_number = ?");
       values.push(taskNumber);
     }
-    if (fields.status !== void 0 || args.completedAt !== void 0) {
+    if (fields2.status !== void 0 || args.completedAt !== void 0) {
       columns2.push("completed_at = ?");
       values.push(
         args.completedAt !== void 0 ? args.completedAt : completedAtFor(existing.status, status, existing.completed_at, now)
@@ -35494,21 +35779,33 @@ function updateCard(db2, args) {
         }
       });
     }
-    if (fields.status !== void 0 && status !== existing.status) clearParked(db2, id);
+    if (fields2.status !== void 0 && status !== existing.status) clearParked(db2, id);
     if (typeof set2.workTemplateId === "string") rememberWorkTemplate(db2, projectId2, set2.workTemplateId);
     const placed = args.afterCardId !== void 0 ? moveCardInChain(db2, id, args.afterCardId) : null;
     if (args.blockedBy !== void 0) setBlockedBy(db2, id, args.blockedBy, now, "replace");
+    let splitChildStill;
     if (groupId !== existing.group_id) {
       if (existing.group_id) leaveSplitChain(db2, id);
       if (groupId) joinSplitChain(db2, id, groupId, now, args.afterCardId !== void 0);
+      if (args.splitFrom === void 0) {
+        const parentId = brokenOutParent(db2, id);
+        if (parentId) splitChildStill = { parentId };
+      }
     }
+    const split = args.splitFrom !== void 0 ? setSplitParent(db2, { cardId: id, parentId: args.splitFrom, now }) : void 0;
     return {
       ok: true,
       status,
       taskNumber,
       groupId,
-      written: args.blockedBy !== void 0 ? [...Object.keys(set2), "blockedBy"] : Object.keys(set2),
-      placed
+      written: [
+        ...Object.keys(set2),
+        ...args.blockedBy !== void 0 ? ["blockedBy"] : [],
+        ...split?.changed ? ["splitFrom"] : []
+      ],
+      placed,
+      ...split ? { split } : {},
+      ...splitChildStill ? { splitChildStill } : {}
     };
   });
 }
@@ -35872,6 +36169,35 @@ function findMockupSection(html) {
   return section2;
 }
 
+// ../lib/mockup-guard.ts
+var MOCKUP_HEADING_RE2 = /<h[1-6]\b[^>]*>\s*mockups?\b/i;
+var REMOTE_ARTIFACT_RE = /https?:\/\/claude\.ai\/(?:code\/)?artifact\/[A-Za-z0-9_-]+/gi;
+function fields(card) {
+  return [card.aiOpinion, card.solutionSummary, card.description].filter((v2) => Boolean(v2));
+}
+function unlinkedMockup(card, exists) {
+  const linked = cardMockups(card);
+  if (linked.some(exists)) return null;
+  const html = fields(card);
+  const heading = html.some((h) => MOCKUP_HEADING_RE2.test(h));
+  const remoteLinks = [...new Set(html.flatMap((h) => h.match(REMOTE_ARTIFACT_RE) ?? []))];
+  const missingFiles = linked;
+  if (!heading && remoteLinks.length === 0 && missingFiles.length === 0) return null;
+  return { heading, remoteLinks, missingFiles };
+}
+function what(found) {
+  if (found.missingFiles.length > 0) return `links a mockup file that is gone (${found.missingFiles.join(", ")})`;
+  if (found.remoteLinks.length > 0) return `links its mockup only on claude.ai (${found.remoteLinks.join(", ")})`;
+  return "has a Mockup section with no mockup file in it";
+}
+var HOW_TO_LINK = "Save the mockup as a local HTML file and link it with a file:// link under the plan's or the opinion's Mockup heading: save_plan and save_opinion copy it into the card's folder. A Design canvas artboard (Main.dc.html) works as is: Ideafy turns it into a standalone page when it copies it";
+function splitMockupRefusal(label2, found) {
+  return `${label2} ${what(found)}, so its children would get no mockup. ${HOW_TO_LINK}, then break it up again. To break it up without a mockup, pass noMockup: true (in the app: Break up without the mockup).`;
+}
+function mockupWarning(label2, found) {
+  return `Warning: ${label2} ${what(found)}. The board cannot show it and a split cannot carry it to child cards. ${HOW_TO_LINK}.`;
+}
+
 // ../lib/card-ops/split-card.ts
 var SplitCardError = class extends Error {
   constructor(message, kind = "invalid") {
@@ -35881,22 +36207,22 @@ var SplitCardError = class extends Error {
   }
   kind;
 };
-function escapeHtml5(text4) {
+function escapeHtml6(text4) {
   return text4.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 function childDescription(card, parentLabel) {
   const parts = [];
-  if (card.scope) parts.push(`<p>${escapeHtml5(card.scope)}</p>`);
-  if (card.reason) parts.push(`<p><em>${escapeHtml5(card.reason)}</em></p>`);
+  if (card.scope) parts.push(`<p>${escapeHtml6(card.scope)}</p>`);
+  if (card.reason) parts.push(`<p><em>${escapeHtml6(card.reason)}</em></p>`);
   if (card.carries) {
-    parts.push(`<h3>Carried from ${escapeHtml5(parentLabel)}</h3>`, `<p>${escapeHtml5(card.carries)}</p>`);
+    parts.push(`<h3>Carried from ${escapeHtml6(parentLabel)}</h3>`, `<p>${escapeHtml6(card.carries)}</p>`);
   }
   return parts.join("");
 }
 var CHIP_RE = /<span\b[^>]*data-type="artifactMention"[^>]*>[\s\S]*?<\/span>/gi;
 function fileLink(absPath, name) {
   const label2 = name?.trim() || absPath.split("/").pop() || absPath;
-  return `<a href="${escapeHtml5(pathToFileUrl(absPath))}">${escapeHtml5(label2)}</a>`;
+  return `<a href="${escapeHtml6(pathToFileUrl(absPath))}">${escapeHtml6(label2)}</a>`;
 }
 function parentMockupHtml(parent, parentLabel) {
   const paths = cardMockups(parent).filter(isFile);
@@ -35916,11 +36242,11 @@ function parentMockupHtml(parent, parentLabel) {
   }
   const inProse = new Set(listMockupArtifacts(prose));
   const rest = paths.filter((p) => !inProse.has(p)).map((p) => `<p>${fileLink(p)}</p>`);
-  return `<h3>Mockup (from ${escapeHtml5(parentLabel)})</h3>${prose}${rest.join("")}`;
+  return `<h3>Mockup (from ${escapeHtml6(parentLabel)})</h3>${prose}${rest.join("")}`;
 }
 function flowsHtml(flows) {
   const items = flows.map((flow) => flow.trim()).map(
-    (flow) => `<li data-type="taskItem" data-checked="false"><label><input type="checkbox"><span></span></label><div><p>${escapeHtml5(flow)}</p></div></li>`
+    (flow) => `<li data-type="taskItem" data-checked="false"><label><input type="checkbox"><span></span></label><div><p>${escapeHtml6(flow)}</p></div></li>`
   ).join("");
   return `<h2>${SPLIT_FLOWS_HEADING}</h2><ul data-type="taskList">${items}</ul>`;
 }
@@ -36001,6 +36327,12 @@ function splitInTransaction(db2, cardId, choices, now, author, madeFolders) {
     if (!parsed.ok) throw new SplitCardError(parsed.error, "invalid");
     const proposal = parsed.proposal;
     const statuses = (choices.cards ?? []).map((card) => card.status);
+    const parentLabel = formatDisplayId(parent.idPrefix, parent.taskNumber) ?? "the parent card";
+    const mockupHtml = parentMockupHtml(parent, parentLabel);
+    if (!mockupHtml && choices.noMockup !== true) {
+      const unlinked = unlinkedMockup(parent, isFile);
+      if (unlinked) throw new SplitCardError(splitMockupRefusal(parentLabel, unlinked), "mockup_missing");
+    }
     let groupId;
     let groupCode;
     let newChain = false;
@@ -36016,8 +36348,6 @@ function splitInTransaction(db2, cardId, choices, now, author, madeFolders) {
       groupCode = group.code;
       newChain = true;
     }
-    const parentLabel = formatDisplayId(parent.idPrefix, parent.taskNumber) ?? "the parent card";
-    const mockupHtml = parentMockupHtml(parent, parentLabel);
     const parentFolder = cardArtifactDir(parent.id);
     const children = [];
     proposal.cards.forEach((card, index) => {
@@ -36044,7 +36374,8 @@ function splitInTransaction(db2, cardId, choices, now, author, madeFolders) {
         author
       );
       if (!created.ok) throw new SplitCardError(`Could not open "${card.title}": ${created.reason}`, "invalid");
-      children.push({ id, displayId: formatDisplayId(parent.idPrefix, created.taskNumber), title: card.title, status });
+      const mockups = listMockupArtifacts(mockup).map((p) => p.split("/").pop() ?? p);
+      children.push({ id, displayId: formatDisplayId(parent.idPrefix, created.taskNumber), title: card.title, status, mockups });
     });
     const moved = updateCard(db2, {
       id: parent.id,
@@ -36079,6 +36410,21 @@ function splitInTransaction(db2, cardId, choices, now, author, madeFolders) {
     );
     return { groupId, groupCode, newChain, children, parentStatus: moved.status };
   });
+}
+
+// ../lib/card-ops/mockup-warning.ts
+function cardMockupWarning(db2, cardId) {
+  const row = getRow(
+    db2,
+    `SELECT c.ai_opinion AS aiOpinion, c.solution_summary AS solutionSummary, c.description,
+            c.task_number AS taskNumber, p.id_prefix AS idPrefix
+     FROM cards c LEFT JOIN projects p ON p.id = c.project_id WHERE c.id = ?`,
+    cardId
+  );
+  if (!row) return null;
+  const found = unlinkedMockup(row, isFile);
+  if (!found) return null;
+  return mockupWarning(formatDisplayId(row.idPrefix, row.taskNumber) ?? "This card", found);
 }
 
 // ../lib/git/stash.ts
@@ -36142,6 +36488,8 @@ async function mergeChain(db2, groupId, opts = {}) {
   if (notReady.length > 0) return { kind: "notReady", cards: notReady };
   const workingDir = group.folderPath;
   if (!workingDir || !await isGitRepo(workingDir)) return { kind: "notRepo", workingDir: workingDir ?? "" };
+  const refusal = await copyMergeRefusal(workingDir, await getDefaultBranch(workingDir));
+  if (refusal) return { kind: "failed", error: refusal };
   const synced = await syncMainIntoChain(db2, groupId, { log, projectPath: workingDir });
   if (synced.kind === "conflict") return synced;
   if (synced.kind !== "ok") {
@@ -36303,6 +36651,8 @@ async function mergeCard(db2, cardId, opts = {}) {
     mergeDir = ensured.worktreePath;
   } else {
     targetBranch = opts.targetBranch || await getDefaultBranch(workingDir);
+    const refusal = await copyMergeRefusal(workingDir, targetBranch);
+    if (refusal) return { kind: "failed", error: refusal, stashRestoreWarning: null };
     mergeDir = await findTargetCheckout(workingDir, targetBranch);
   }
   if (!mergeDir) return { kind: "targetNotCheckedOut", targetBranch };
@@ -36589,7 +36939,7 @@ function openMembers(db2, groupId) {
     groupId
   ).sort(compareByChainOrder);
 }
-var nameOf = (row) => formatDisplayId(row.idPrefix, row.taskNumber) ?? row.title;
+var nameOf2 = (row) => formatDisplayId(row.idPrefix, row.taskNumber) ?? row.title;
 function isTickedTestCard(row) {
   if (row.status !== "test" || row.gitBranchStatus !== "active") return false;
   const progress = parseTestProgress(row.testScenarios ?? "");
@@ -36654,7 +37004,7 @@ function startChainAutopilot(db2, groupId, opts = {}) {
     const stage = isAutopilotStage(row.stage) ? row.stage : null;
     if (isActiveAutopilotStage(stage) || stage === "ready") {
       if (ralph && isActiveAutopilotStage(stage) && modes.get(row.id) !== "ralph") {
-        refusals.push({ cardId: row.id, displayId: nameOf(row), reason: "already on Autopilot \u2014 stop the chain, then send it to Ralph" });
+        refusals.push({ cardId: row.id, displayId: nameOf2(row), reason: "already on Autopilot \u2014 stop the chain, then send it to Ralph" });
         continue;
       }
       kept.push(row.id);
@@ -36665,7 +37015,7 @@ function startChainAutopilot(db2, groupId, opts = {}) {
       continue;
     }
     const refusal = isParked(db2, row.id) ? "it is parked \u2014 unpark it first" : autopilotRefusal(db2, row.id);
-    if (refusal) refusals.push({ cardId: row.id, displayId: nameOf(row), reason: refusal });
+    if (refusal) refusals.push({ cardId: row.id, displayId: nameOf2(row), reason: refusal });
     else toQueue.push(row);
   }
   if (refusals.length > 0) return { ok: false, reason: "ineligible", message: refusalMessage(code, refusals, name), refusals };
@@ -36723,12 +37073,12 @@ function startChainAutopilot(db2, groupId, opts = {}) {
         const result = enqueueCard(db2, row.id, after, "next");
         if (!result.ok) {
           throw new Refused2([
-            { cardId: row.id, displayId: nameOf(row), reason: result.message.replace(/^Cannot queue [^:]+: /, "") }
+            { cardId: row.id, displayId: nameOf2(row), reason: result.message.replace(/^Cannot queue [^:]+: /, "") }
           ]);
         }
         after = row.id;
         if (ralph) recordRalphSend(db2, row.id, { stage, ...rounds }, sentAt);
-        out.push({ cardId: row.id, displayId: nameOf(row), stage });
+        out.push({ cardId: row.id, displayId: nameOf2(row), stage });
       }
       if (ralph) {
         db2.prepare(`UPDATE card_groups SET ralph_deadline = ? WHERE id = ?`).run(
@@ -36867,7 +37217,7 @@ async function landReadyChainMembers(db2, groupId, opts = {}) {
     }
     const reason = `could not go into ${group.integrationBranch}: ${whyNotLanded(result)}`;
     stopAutopilot(db2, row.id, reason);
-    out.stopped.push({ cardId: row.id, displayId: nameOf(row), reason });
+    out.stopped.push({ cardId: row.id, displayId: nameOf2(row), reason });
   }
   return out;
 }
@@ -36906,7 +37256,7 @@ function chainAutopilotLine(db2, groupId) {
     return chainAutopilotSummary(
       rows.map((row) => ({
         id: row.id,
-        displayId: nameOf(row),
+        displayId: nameOf2(row),
         status: row.status,
         gitBranchStatus: row.gitBranchStatus,
         autopilotStage: row.stage,
@@ -37203,14 +37553,14 @@ function dismissPhaseProposal(db2, projectId2, phaseId, now = nowIso2()) {
     runChanges(db2, `UPDATE roadmap_phase_proposals SET status = 'dismissed', updated_at = ? WHERE phase_id = ?`, now, phaseId);
   });
 }
-function escapeHtml6(value) {
+function escapeHtml7(value) {
   return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 function cardDescription(scope, featureName, phaseName) {
   const lines2 = scope.split(/\n+/).map((line) => line.trim()).filter(Boolean);
   return [
-    ...lines2.map((line) => `<p>${escapeHtml6(line)}</p>`),
-    `<p><em>Feature: ${escapeHtml6(featureName)} \xB7 Phase: ${escapeHtml6(phaseName)}</em></p>`
+    ...lines2.map((line) => `<p>${escapeHtml7(line)}</p>`),
+    `<p><em>Feature: ${escapeHtml7(featureName)} \xB7 Phase: ${escapeHtml7(phaseName)}</em></p>`
   ].join("");
 }
 function openFeatureChain(db2, projectId2, feature, now) {
@@ -39095,10 +39445,10 @@ function capVideos(cards, capBytes) {
   return { embedded, leftOut, embeddedBytes };
 }
 var MOVED_ON = /* @__PURE__ */ new Set(["continued", "run", "ready", "in_chain", "merged"]);
-function timelineOf(events, nameOf3, reportRuns) {
+function timelineOf(events, nameOf4, reportRuns) {
   const rows = [];
   for (const [index, event] of events.entries()) {
-    const name = nameOf3.get(event.cardId) ?? event.cardId;
+    const name = nameOf4.get(event.cardId) ?? event.cardId;
     const detail = event.detail;
     const last = rows[rows.length - 1];
     switch (event.kind) {
@@ -39214,7 +39564,7 @@ function collectRunReport(db2, cardId, opts) {
     return measure ? chainRegressionMeasureLine(measure) : null;
   };
   const events = ralphEventsFor(db2, ordered.map((row) => row.id));
-  const nameOf3 = new Map(ordered.map((row) => [row.id, displayIdOf2(row)]));
+  const nameOf4 = new Map(ordered.map((row) => [row.id, displayIdOf2(row)]));
   const reportRuns = /* @__PURE__ */ new Map();
   const gaps = [];
   const cards = ordered.map((row) => {
@@ -39279,8 +39629,8 @@ function collectRunReport(db2, cardId, opts) {
       runs,
       ticked: checklist.filter((item) => item.checked).length,
       total: checklist.length,
-      selfFixes: opts.cardOnly ? null : selfFixesOf(row, displayId, events),
-      footprint: opts.cardOnly ? null : footprintOfCard(row, displayId),
+      selfFixes: opts.cardOnly || opts.noGit ? null : selfFixesOf(row, displayId, events),
+      footprint: opts.cardOnly || opts.noGit ? null : footprintOfCard(row, displayId),
       chainRegression: chainRegressionLineOf(row.id),
       aiMs: own2.reduce((sum, event) => sum + (event.detail.durationMs ?? 0), 0),
       runCount: own2.length,
@@ -39359,7 +39709,7 @@ function collectRunReport(db2, cardId, opts) {
     }
   }
   const parsedRuns = new Map(ordered.map((row) => [row.id, parseTestReports(row.test_reports) ?? []]));
-  const codeChangesOf = (row) => opts.cardOnly ? null : runCodeChangesFor(db2, row.id, parsedRuns.get(row.id) ?? []);
+  const codeChangesOf = (row) => opts.cardOnly || opts.noGit ? null : runCodeChangesFor(db2, row.id, parsedRuns.get(row.id) ?? []);
   const briefOf = (row) => {
     const runs = parsedRuns.get(row.id) ?? [];
     return currentBrief(runs[0]?.brief, cardTestReportState(runs, row.test_scenarios, 0, null, { merged: landedRow(row) }));
@@ -39414,7 +39764,7 @@ function collectRunReport(db2, cardId, opts) {
     firstAt: events[0]?.at ?? null,
     lastAt: events[events.length - 1]?.at ?? null,
     cards,
-    timeline: timelineOf(events, nameOf3, reportRuns),
+    timeline: timelineOf(events, nameOf4, reportRuns),
     decisions,
     // An item with three lost screenshots is one thing to look at.
     gaps: gaps.filter(
@@ -40304,6 +40654,7 @@ function runReportFilename(code, at, version2 = "full") {
 function collectReportData(db2, cardId, opts = {}) {
   return collectRunReport(db2, cardId, {
     cardOnly: opts.cardOnly,
+    noGit: opts.noGit,
     videoCapBytes: opts.videoCapBytes ?? RUN_REPORT_VIDEO_CAP_BYTES,
     now: opts.now,
     timeZone: opts.timeZone,
@@ -40741,6 +41092,7 @@ var {
   completedAtOnCreate: completedAtOnCreate2,
   isStatus: isStatus2,
   statusAfterPlan: statusAfterPlan2,
+  statusAfterRunStart: statusAfterRunStart2,
   statusAfterTests: statusAfterTests2,
   saveOpinion: saveOpinion2,
   listQueueRows: listQueueRows2,
@@ -40850,6 +41202,10 @@ var {
   splitRoleLine: splitRoleLine2,
   splitCard: splitCard2,
   SplitCardError: SplitCardError2,
+  cardMockupWarning: cardMockupWarning2,
+  setSplitParent: setSplitParent2,
+  splitParentOptions: splitParentOptions2,
+  SplitParentError: SplitParentError2,
   mergeCard: mergeCard2,
   mergeChain: mergeChain2,
   rollbackChain: rollbackChain2,
@@ -41402,7 +41758,7 @@ function roadmapTool(db2, name, args) {
       if (name === "propose_phase") {
         const stored = savePhaseProposal2(db2, { projectId: projectId2, phaseId, proposal: args.proposal });
         return text3(
-          `Proposal saved: ${phaseProposalSummary2(stored.proposal)}. No card exists yet. Tell the user it is ready to read in Ideafy's Roadmap view; open it with update_roadmap op "open_phase" only when they explicitly ask.
+          `Proposal saved: ${phaseProposalSummary2(stored.proposal)}. No card exists yet. Tell the user it is ready to read in Ideafy's Plan view; open it with update_roadmap op "open_phase" only when they explicitly ask.
 ${JSON.stringify(stored.proposal, null, 2)}`
         );
       }
@@ -41512,7 +41868,12 @@ async function callApp(method, path12, body, options = {}) {
 // queue-control.ts
 var QUEUE_RETRY_TIMEOUT_MS = 15e3;
 async function callQueue(action, options) {
-  const send = (timeoutMs) => callApp("PATCH", "/api/queue", { action, source: "terminal" }, { port: options.port, fetchImpl: options.fetchImpl, timeoutMs });
+  const send = (timeoutMs) => callApp(
+    "PATCH",
+    "/api/queue",
+    { action, source: "terminal", ...action === "arm" && options.visual ? { visual: options.visual } : {} },
+    { port: options.port, fetchImpl: options.fetchImpl, timeoutMs }
+  );
   const first = await send(options.timeoutMs ?? APP_CALL_TIMEOUT_MS);
   if (first.kind !== "unreachable" || !first.timedOut) return first;
   return send(options.retryTimeoutMs ?? QUEUE_RETRY_TIMEOUT_MS);
@@ -41594,7 +41955,7 @@ function asBoardCard(card) {
 function modeOf(card) {
   return card.mode === "work" ? "work" : "development";
 }
-function nameOf2(card) {
+function nameOf3(card) {
   return card.displayId ?? `"${card.title}"`;
 }
 function failureText(tool, name, result) {
@@ -41610,7 +41971,7 @@ async function startCardRunTool(db2, input, deps = {}) {
   if (!card) return { ok: false, text: `Card not found: ${input.cardId}` };
   const runtime = readRuntime2(db2);
   if (runtime.appState !== "open") return { ok: false, text: APP_CLOSED_TEXT };
-  const name = nameOf2(card);
+  const name = nameOf3(card);
   const solutionText = stripHtml2(card.solutionSummary ?? "");
   const testText = stripHtml2(card.testScenarios ?? "");
   const progress = parseTestProgress2(card.testScenarios ?? "");
@@ -41657,7 +42018,7 @@ async function openCardSessionTool(db2, input, deps = {}) {
   if (!card) return { ok: false, text: `Card not found: ${input.cardId}` };
   const runtime = readRuntime2(db2);
   if (runtime.appState !== "open") return { ok: false, text: APP_CLOSED_TEXT };
-  const name = nameOf2(card);
+  const name = nameOf3(card);
   if (card.status === "withdrawn" || !canStartCard2(asBoardCard(card))) {
     const why = card.description ? `the board offers no session on a card in ${card.status}` : "the card has no description";
     return { ok: false, text: `open_card_session: ${name}: ${why}. Nothing was changed.` };
@@ -42334,6 +42695,15 @@ function cardFieldHtml(id, markdown) {
   const linked = linkCardsInHtml2(db, markdownToTiptapHtml2(withFiles), projectIdOfCard2(db, id));
   return persistCardFieldArtifacts2(db, id, linked);
 }
+function mockupNoteFor(id) {
+  try {
+    const warning = cardMockupWarning2(db, id);
+    return warning ? `
+${warning}` : "";
+  } catch {
+    return "";
+  }
+}
 var DEPENDS_ON_SCHEMA = {
   type: "array",
   items: {
@@ -42446,7 +42816,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
     tools: [
       {
         name: "get_card",
-        description: "Get a kanban card by ID. When the card belongs to a chain, `chain` gives its place in that chain: position/total, predecessors and successors in chain order (displayId, title, status), and `next`, the chain's first member that is neither completed nor withdrawn. `chain.mainConflict: { files }` appears when bringing main into the chain's integration branch would conflict (a dry run; nothing is merged). When the card has blocked-by links, `blockedBy` lists the cards it waits on and `blocks` the cards waiting on it, each with displayId, title, status, `landed` (its code is already in what this card would start from) and the link's note. When an opinion or plan suggested a link the user has not answered yet, `suggestedBlockedBy` lists those cards with the reason: ask the user, then add_dependency on yes or remove_dependency on no. When an opinion proposed breaking the card into cards and the user has not answered, `splitProposal` holds the cards: ask the user, then split_card on yes or split_card with keepAsOne on no. `split` names the card this one was broken out of (`parent`) and the cards broken out of it (`children`), with `role`, the one sentence this relation gives the card: a parent joins its children and shows the whole works end to end, a child keeps to its own scope. Each child carries `status`, `tests` (ticked/total such as 4/6, null without a checklist), a short `plan` summary, the `files` its plan names, and `ready`: Completed, in Human Test with every item ticked and its branch merged, or in its chain's branch, whatever its ticks say. A parent waits on its children by this stricter rule, so a child's `landed` in `blockedBy` follows `ready`; every other link keeps the plain code-is-in rule. `split.chainRegression` on a split parent says which children its verify re-walks as `## Chain regression \xB7 \u2026` groups on the chain's combined code (`written: true` with `at`, `tip` and every child's `reason`: changed, conflict-resolved, no-stamp, unchanged, no-core), or before that verify a `preview` of what it would pick today; once a run walked those groups, `measured` adds per child the items walked, passed first time, fixed after a work round and handed over (environment or code), with the groups' approximate run cost (null when a run reported none, never 0). `split.chainLeftovers` does the same for the `## Chain leftovers \xB7 \u2026` groups, the items Ralph handed over on a child (`[manual]` as could not verify, or parked) tried once more on the combined code: `written: true` with `at` and each child's items with `kind` and Ralph's `reason`, or a `preview`. `split.unwalkedChildItems` counts the items a child in the chain left that nothing walks, those the parent took over as Chain leftovers counted on the parent's line while unticked there, and `split.mergeReview` lists them per card with what Ralph decided there, read only, as the Merge window does. `finalTestReady: true` means a split parent with every child ready and no plan or checklist of its own: its next step is the End-to-end test (start_card_run), not a plan. When the card has a Test Report, `testReport` gives how many runs it holds and how the newest came out; read the runs themselves with get_test_report. When commits have touched the card's files since its checklist was written, `testsDrift` lists them (base, files, commits, total): the checklist may have gone stale. `planDrift` does the same since its plan was written: the code wins over the plan. When the plan's Files list and what the card's work changed disagree, `planVsBranch` lists both sides: `touched`, `untouched` (planned, not changed yet) and `offPlan` (changed, not in the plan), read from its worktree, its branch, or (`source: commits`) its `Card:` trailer commits. When a Backlog or Bugs card's plan carries `[NEEDS_DECISION: \u2026]` questions, `planDecisions` lists them: the card does not start or queue until the user writes the decision into the plan and deletes the marker. `decisions` is the card's decision ledger, read only: each question Ralph took with the recommended option (kind `acceptance`, with `recommended` and the plan `step` it shaped); its plan shows them as `[NEEDS_DECISION accepted: \u2026]`. Kind `revision` is a checklist item Ralph reworded (`originalText`, `newText`, `reason`; source `ralph-verify-core` when it was a core-flow item on a checklist Ralph wrote itself). Source `ralph-unverifiable` is an item Ralph could not verify on this machine (`item`, `reason`), now `[manual]` and the person's. `authorship` says who wrote and who last edited each tab (`you` or `ideafy`, with the date) and who ticked each checked item, so you can see what the user changed by hand. `story` is the card's eight steps (Idea, Verdict, Argued, Plan, Built, Proof, Your test, Merge; seven on a Work card) with who moves at each and its state (done, now, todo, skipped), the step in play as `now`, and `banner`, whose move it is in the words of the app's turn banner (null when nobody's). `roadmap`, only when the project has an approved roadmap, gives the card's `placement` (the feature it was opened as, Evaluate's decision, or not_checked) and `section`, the short roadmap: the open phase and its features, the next phase, the first Later lines.",
+        description: "Get a kanban card by ID. When the card belongs to a chain, `chain` gives its place in that chain: position/total, predecessors and successors in chain order (displayId, title, status), and `next`, the chain's first member that is neither completed nor withdrawn. `chain.mainConflict: { files }` appears when bringing main into the chain's integration branch would conflict (a dry run; nothing is merged). When the card has blocked-by links, `blockedBy` lists the cards it waits on and `blocks` the cards waiting on it, each with displayId, title, status, `landed` (its code is already in what this card would start from) and the link's note. When an opinion or plan suggested a link the user has not answered yet, `suggestedBlockedBy` lists those cards with the reason: ask the user, then add_dependency on yes or remove_dependency on no. When an opinion proposed breaking the card into cards and the user has not answered, `splitProposal` holds the cards: ask the user, then split_card on yes or split_card with keepAsOne on no. `split` names the card this one was broken out of (`parent`) and the cards broken out of it (`children`), with `role`, the one sentence this relation gives the card: a parent joins its children and shows the whole works end to end, a child keeps to its own scope. Each child carries `status`, `tests` (ticked/total such as 4/6, null without a checklist), a short `plan` summary, the `files` its plan names, and `ready`: Completed, in Human Test with every item ticked and its branch merged, or in its chain's branch, whatever its ticks say. A parent waits on its children by this stricter rule, so a child's `landed` in `blockedBy` follows `ready`; every other link keeps the plain code-is-in rule. `split.chainRegression` on a split parent says which children its verify re-walks as `## Chain regression \xB7 \u2026` groups on the chain's combined code (`written: true` with `at`, `tip` and every child's `reason`: changed, conflict-resolved, no-stamp, unchanged, no-core), or before that verify a `preview` of what it would pick today; once a run walked those groups, `measured` adds per child the items walked, passed first time, fixed after a work round and handed over (environment or code), with the groups' approximate run cost (null when a run reported none, never 0). `split.chainLeftovers` does the same for the `## Chain leftovers \xB7 \u2026` groups, the items Ralph handed over on a child (`[manual]` as could not verify, or parked) tried once more on the combined code: `written: true` with `at` and each child's items with `kind` and Ralph's `reason`, or a `preview`. `split.strayChildren` on a split parent lists children that left its chain or its link but still count, so its end-to-end test waits on them: ask the user whether to detach each (update_card splitFrom: null) or put it back. `split.unwalkedChildItems` counts the items a child in the chain left that nothing walks, those the parent took over as Chain leftovers counted on the parent's line while unticked there, and `split.mergeReview` lists them per card with what Ralph decided there, read only, as the Merge window does. `finalTestReady: true` means a split parent with every child ready and no plan or checklist of its own: its next step is the End-to-end test (start_card_run), not a plan. When the card has a Test Report, `testReport` gives how many runs it holds and how the newest came out; read the runs themselves with get_test_report. When commits have touched the card's files since its checklist was written, `testsDrift` lists them (base, files, commits, total): the checklist may have gone stale. `planDrift` does the same since its plan was written: the code wins over the plan. When the plan's Files list and what the card's work changed disagree, `planVsBranch` lists both sides: `touched`, `untouched` (planned, not changed yet) and `offPlan` (changed, not in the plan), read from its worktree, its branch, or (`source: commits`) its `Card:` trailer commits. When a Backlog or Bugs card's plan carries `[NEEDS_DECISION: \u2026]` questions, `planDecisions` lists them: the card does not start or queue until the user writes the decision into the plan and deletes the marker. `decisions` is the card's decision ledger, read only: each question Ralph took with the recommended option (kind `acceptance`, with `recommended` and the plan `step` it shaped); its plan shows them as `[NEEDS_DECISION accepted: \u2026]`. Kind `revision` is a checklist item Ralph reworded (`originalText`, `newText`, `reason`; source `ralph-verify-core` when it was a core-flow item on a checklist Ralph wrote itself). Source `ralph-unverifiable` is an item Ralph could not verify on this machine (`item`, `reason`), now `[manual]` and the person's. `authorship` says who wrote and who last edited each tab (`you` or `ideafy`, with the date) and who ticked each checked item, so you can see what the user changed by hand. `story` is the card's eight steps (Idea, Verdict, Argued, Plan, Built, Proof, Your test, Merge; seven on a Work card) with who moves at each and its state (done, now, todo, skipped), the step in play as `now`, and `banner`, whose move it is in the words of the app's turn banner (null when nobody's). `roadmap`, only when the project has an approved roadmap, gives the card's `placement` (the feature it was opened as, Evaluate's decision, or not_checked) and `section`, the short roadmap: the open phase and its features, the next phase, the first Later lines.",
         inputSchema: {
           type: "object",
           properties: {
@@ -42507,7 +42877,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
       },
       {
         name: "update_card",
-        description: "Update a kanban card fields (title, description, solutionSummary, status, complexity, priority, useWorktree, groupId, workTemplateId, afterCardId, blockedBy, parked). For testScenarios, use save_tests instead \u2014 update_card rejects it to protect checkbox states. For outputPaths, use save_output \u2014 it validates the file against the project folder.",
+        description: "Update a kanban card fields (title, description, solutionSummary, status, complexity, priority, useWorktree, groupId, workTemplateId, afterCardId, blockedBy, parked, splitFrom). For testScenarios, use save_tests instead \u2014 update_card rejects it to protect checkbox states. For outputPaths, use save_output \u2014 it validates the file against the project folder.",
         inputSchema: {
           type: "object",
           properties: {
@@ -42570,11 +42940,15 @@ ${buildPlanFormatGuide2()}`
             },
             parked: {
               type: "boolean",
-              description: "true parks the card below its column, the board's Park: it stays in Ideation, Backlog or Bugs but leaves the column count, Stale, Focus and the run queue. false unparks it. Cards in other columns or on Autopilot are refused with the reason. A status change, queue_card or a run start unparks it on its own."
+              description: "true parks the card below its column, the board's Park: it stays in Ideation, Backlog or Bugs but leaves the column count, Stale, Your turn on the rail and the run queue. false unparks it. Cards in other columns or on Autopilot are refused with the reason. A status change, queue_card or a run start unparks it on its own."
             },
             workTemplateId: {
               type: ["string", "null"],
               description: "Work projects only: the template Generate runs this card with. null clears it (the first template runs). Valid ids are in list_projects / get_project_by_folder (workTemplates); an unknown id or a Development project is rejected."
+            },
+            splitFrom: {
+              type: ["string", "null"],
+              description: "The card this one counts as broken out of (its split parent). null detaches it: the split record and the parent's link to it go together, the chain stays. A card ref makes it a child of that card and writes the parent's link: only for a card in the parent's chain with no parent or children of its own that does not wait on the parent. Refused while the parent is in Human Test, Completed or Withdrawn. With groupId in the same call, the chain is written first."
             }
           },
           required: ["id"]
@@ -42626,7 +43000,7 @@ ${buildPlanFormatGuide2()}`
       },
       {
         name: "split_card",
-        description: "Break a card into the cards its pending break-up proposal names (get_card's splitProposal), in one step: the child cards are opened with their blocked-by links and a link back to the parent, put in a chain (a new one, or the parent's), and the parent goes last in that chain, waiting on every child, moved from Ideation to Backlog, with the proposal's end-to-end flows on its Tests. All or nothing. Call it only after the user said yes. With keepAsOne: true it turns the proposal down instead, and it is not proposed again.",
+        description: "Break a card into the cards its pending break-up proposal names (get_card's splitProposal), in one step: the child cards are opened with their blocked-by links and a link back to the parent, put in a chain (a new one, or the parent's), and the parent goes last in that chain, waiting on every child, moved from Ideation to Backlog, with the proposal's end-to-end flows on its Tests. All or nothing. Call it only after the user said yes. With keepAsOne: true it turns the proposal down instead, and it is not proposed again. The parent's mockup (a local HTML file linked on it) is copied into every child's folder, and the reply names what each child got. A parent that talks about a mockup Ideafy cannot open (a Mockup heading with no file, a claude.ai artifact link, a file that is gone) is refused: link the mockup as a local HTML file first, or pass noMockup: true when the user agrees to go on without it.",
         inputSchema: {
           type: "object",
           properties: {
@@ -42648,7 +43022,8 @@ ${buildPlanFormatGuide2()}`
             newChain: { type: "boolean", description: "Optional. Open a new chain even when the parent is in one." },
             chainCode: { type: "string", description: "Optional, with a new chain. Its code (up to 6 letters or digits); a taken code is refused. Defaults to one made from the parent's title." },
             chainName: { type: "string", description: "Optional, with a new chain. Its name; defaults to the parent's title." },
-            integrationBranch: { type: "boolean", description: "Optional, with a new chain (IDE-612): give it an integration branch, so the children branch off it, land there one by one and reach main with the parent's Merge & Complete. Pass true only when the user agreed to it: when get_card's splitProposal suggests one (integrationBranch.suggested), ask; never set it unasked." }
+            integrationBranch: { type: "boolean", description: "Optional, with a new chain (IDE-612): give it an integration branch, so the children branch off it, land there one by one and reach main with the parent's Merge & Complete. Pass true only when the user agreed to it: when get_card's splitProposal suggests one (integrationBranch.suggested), ask; never set it unasked." },
+            noMockup: { type: "boolean", description: "Optional (IDE-853). Break up a parent whose mockup Ideafy cannot open anyway, with no mockup on the children. Only after the user agreed; the better fix is to link the mockup as a local HTML file." }
           },
           required: ["id"]
         }
@@ -42674,7 +43049,7 @@ ${buildPlanFormatGuide2()}`
             },
             withMockups: {
               type: "boolean",
-              description: "Only cards that link an HTML mockup in their opinion, plan or description, each with mockups: [{ path, state }] \u2014 state is preview (in the card's folder), outside (elsewhere on disk) or missing. The same list the app's Chains view shows."
+              description: "Only cards that link an HTML mockup in their opinion, plan or description, each with mockups: [{ path, state }] \u2014 state is preview (in the card's folder), outside (elsewhere on disk) or missing. The same list the app's Plan view shows in its Mockups mode."
             },
             groupId: {
               type: "string",
@@ -42862,7 +43237,7 @@ ${buildPlanFormatGuide2()}`
       },
       {
         name: "save_tests",
-        description: `Save test scenarios to a card and move it to Human Test (a Completed or Withdrawn card stays where it is). Use this when you've completed implementation. End an item with \`[after-merge]\` only for a check that needs the change truly on main (a release cut from main, a live-DB backfill): no run takes it, Ready to merge does not wait on it, at most 2 outside the core flow; a merge itself still runs on a verify-server copy.
+        description: `Save test scenarios to a card and move it to Human Test (a Completed or Withdrawn card stays where it is). Use this when you've completed implementation. End an item with \`[after-merge]\` only for a check that needs the change truly on main (a release cut from main, a live-DB backfill): no run takes it, Ready to merge does not wait on it, at most 2 outside the core flow. No item merges or rolls back on a verify-server copy: the copy refuses it.
 
 ${TEST_STYLE_CONTRACT}
 
@@ -43102,7 +43477,7 @@ The server writes the card's verdict, score, priority and complexity from those 
       },
       {
         name: "queue_card",
-        description: "Add a card to the run queue, or move one already queued. Queueing is consent to an unattended, code-writing run: never call this unless the user explicitly asked to queue this card. The app's Add to queue rules apply \u2014 a Backlog or In Progress card with a plan and no checklist yet (implementation), or a Human Test card whose checklist opens with Core flow / Temel ak\u0131\u015F and still has unticked items (pre-verify); a refusal says why and writes nothing. A queued pre-verify walks the core flow while it has unticked items, then the next group that does; scope all walks every group left in one run. Like the app's Add to queue, it starts an idle queue (stopped with no reason): the card starts within about 10 seconds or once the run ahead of it ends. A queue paused for a reason (Paused by you, Ideafy restarted, failed runs) stays paused and the card waits for Resume in the app; if the app is closed, nothing starts, and the queue opens paused on the next launch. The result says which happened. pause_queue and resume_queue do what the popover's Pause and Resume do. If the card jumps its chain (a predecessor whose code is not in yet), the result says so in the app's words: the card is queued anyway and the queue does not reorder for it \u2014 tell the user, and offer to move the predecessor ahead. Moving a card does not bump its updatedAt.",
+        description: "Add a card to the run queue, or move one already queued. Queueing is consent to an unattended, code-writing run: never call this unless the user explicitly asked to queue this card. The app's Add to queue rules apply \u2014 a Backlog or In Progress card with a plan and no checklist yet (implementation), or a Human Test card whose checklist opens with Core flow / Temel ak\u0131\u015F and still has unticked items (pre-verify); a refusal says why and writes nothing. A queued pre-verify walks the core flow while it has unticked items, then the next group that does; scope all walks every group left in one run. Like the app's Add to queue, it starts an idle queue (stopped with no reason): the card starts within about 10 seconds or once the run ahead of it ends. A queue paused for a reason (Paused by you, Ideafy restarted, failed runs) stays paused and the card waits for Resume in the app; if the app is closed, nothing starts, and the queue opens paused on the next launch. The result says which happened. pause_queue and resume_queue do what the popover's Pause and Resume do. If the card jumps its chain (a predecessor whose code is not in yet), the result says so in the app's words: the card is queued anyway and the queue does not reorder for it \u2014 tell the user, and offer to move the predecessor ahead. Moving a card does not bump its updatedAt. A queued pre-verify goes on screen by its checklist, as Play does (IDE-843): the target groups' [ui] items, and ticked [ui] items with no screenshot yet, are checked in the browser with screenshots, the rest in a terminal in the same run, and a group with no [ui] items runs as text; visual: false asks for a text run. The result says which.",
         inputSchema: {
           type: "object",
           properties: {
@@ -43122,6 +43497,10 @@ The server writes the card's verdict, score, priority and complexity from those 
               type: "string",
               enum: ["next", "all"],
               description: 'Human Test cards only: "next" (default) pre-verifies the next group with unticked items; "all" pre-verifies every group with unticked items in one run. Only pass "all" when the user asked for it. Omitted on a card already queued, its scope is kept.'
+            },
+            visual: {
+              type: "boolean",
+              description: "Human Test cards only (IDE-843). Omitted or true: the pre-verify goes on screen by the checklist, as Play does \u2014 [ui] items in the browser with screenshots, the rest in a terminal. false: a text run with no browser; only when the user asked for one. Needs the app open: with the app closed or not answering the choice cannot reach it and the run is text. Omitted on a card already queued, its choice is kept. Ignored with autopilot."
             },
             autopilot: {
               type: "boolean",
@@ -43708,7 +44087,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         };
       }
       case "update_card": {
-        const { id: rawId, afterCardId: rawAfterCardId, blockedBy: rawBlockedBy, parked: rawParked, ...updates } = args;
+        const { id: rawId, afterCardId: rawAfterCardId, blockedBy: rawBlockedBy, parked: rawParked, splitFrom: rawSplitFrom, ...updates } = args;
         const id = resolveCardRef2(db, rawId);
         if (!id) {
           return {
@@ -43741,6 +44120,23 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             isError: true
           };
         }
+        let splitFrom;
+        if (rawSplitFrom !== void 0) {
+          if (rawSplitFrom !== null && typeof rawSplitFrom !== "string") {
+            return { content: [{ type: "text", text: "update_card: splitFrom must be a card ref or null." }], isError: true };
+          }
+          if (!hasCapability(db, "splitFrom") || !hasCapability(db, "dependencies")) {
+            return { content: [{ type: "text", text: missingCapabilityMessage("update_card", "splitFrom") }], isError: true };
+          }
+          if (rawSplitFrom === null || rawSplitFrom.trim() === "") {
+            splitFrom = null;
+          } else {
+            splitFrom = resolveCardRef2(db, rawSplitFrom);
+            if (!splitFrom) {
+              return { content: [{ type: "text", text: `splitFrom not found: ${rawSplitFrom}` }], isError: true };
+            }
+          }
+        }
         if ("testScenarios" in updates) {
           return {
             content: [{
@@ -43768,7 +44164,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           return {
             content: [{
               type: "text",
-              text: `update_card does not accept: ${unknownKeys.join(", ")}. Accepted fields: ${[...Object.keys(fieldMap), "afterCardId", "blockedBy", "parked"].join(", ")}. For testScenarios use save_tests; for aiOpinion use save_opinion; for outputPaths use save_output; for the run queue use queue_card / unqueue_card.`
+              text: `update_card does not accept: ${unknownKeys.join(", ")}. Accepted fields: ${[...Object.keys(fieldMap), "afterCardId", "blockedBy", "parked", "splitFrom"].join(", ")}. For testScenarios use save_tests; for aiOpinion use save_opinion; for outputPaths use save_output; for the run queue use queue_card / unqueue_card.`
             }],
             isError: true
           };
@@ -43819,9 +44215,9 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             isError: true
           };
         }
-        const fields = updateCardFields(db, id, updates);
-        const writeFields = Object.values(fields).some((value) => value !== void 0);
-        if (!writeFields && !reorder && blockedBy === void 0 && parked !== void 0) {
+        const fields2 = updateCardFields(db, id, updates);
+        const writeFields = Object.values(fields2).some((value) => value !== void 0);
+        if (!writeFields && !reorder && blockedBy === void 0 && splitFrom === void 0 && parked !== void 0) {
           const result = setParked2(db, [id], parked, (/* @__PURE__ */ new Date()).toISOString());
           const skip = result.skipped[0];
           if (skip) {
@@ -43836,7 +44232,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             content: [{ type: "text", text: `Card ${id} ${verb}.${note} Card is in "${readStatus(id)}".` }]
           };
         }
-        if (!writeFields && !reorder && blockedBy === void 0) {
+        if (!writeFields && !reorder && blockedBy === void 0 && splitFrom === void 0) {
           return {
             content: [{
               type: "text",
@@ -43845,14 +44241,23 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             isError: true
           };
         }
-        const outcome2 = updateCard2(db, {
-          id,
-          now: (/* @__PURE__ */ new Date()).toISOString(),
-          fields,
-          author: IDEAFY_AUTHOR2,
-          afterCardId: reorder ? afterCardId ?? null : void 0,
-          blockedBy
-        });
+        let outcome2;
+        try {
+          outcome2 = updateCard2(db, {
+            id,
+            now: (/* @__PURE__ */ new Date()).toISOString(),
+            fields: fields2,
+            author: IDEAFY_AUTHOR2,
+            afterCardId: reorder ? afterCardId ?? null : void 0,
+            blockedBy,
+            splitFrom
+          });
+        } catch (error2) {
+          if (error2 instanceof SplitParentError2) {
+            return { content: [{ type: "text", text: `update_card: ${error2.message} Nothing was written.` }], isError: true };
+          }
+          throw error2;
+        }
         if (!outcome2.ok) {
           return {
             content: [{ type: "text", text: `Card not found: ${id}` }],
@@ -43862,6 +44267,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         const written = Object.keys(updates).filter((key2) => key2 in fieldMap);
         if (reorder) written.push("afterCardId");
         if (blockedBy !== void 0) written.push("blockedBy");
+        if (outcome2.split?.changed) written.push("splitFrom");
+        const splitNote2 = outcome2.split ? ` ${outcome2.split.message}` : outcome2.splitChildStill ? ` ${queueDisplayIdOf(id)} is still a child of ${queueDisplayIdOf(outcome2.splitChildStill.parentId)}, which keeps waiting on it for its end-to-end test. Pass splitFrom: null to detach it.` : "";
         let parkNote = "";
         if (parked !== void 0) {
           const result = setParked2(db, [id], parked, (/* @__PURE__ */ new Date()).toISOString());
@@ -43873,7 +44280,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         return {
           content: [{
             type: "text",
-            text: `Card ${id} updated (${written.join(", ")}).${placedNote}${parkNote} Card is in "${readStatus(id)}".`
+            text: `Card ${id} updated (${written.join(", ") || "nothing changed"}).${placedNote}${splitNote2}${parkNote} Card is in "${readStatus(id)}".` + (written.includes("description") || written.includes("solutionSummary") ? mockupNoteFor(id) : "")
           }]
         };
       }
@@ -43890,15 +44297,15 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         if (!cardId) {
           return { content: [{ type: "text", text: `Card not found: ${rawCardId}` }], isError: true };
         }
-        const nameOf3 = queueDisplayIdOf;
+        const nameOf4 = queueDisplayIdOf;
         try {
           if (name === "add_dependency") {
             const result2 = addDependency2(db, { cardId, blockedBy, note, now: (/* @__PURE__ */ new Date()).toISOString() });
-            const waits = `${nameOf3(cardId)} waits on ${nameOf3(result2.blockedById)}`;
+            const waits = `${nameOf4(cardId)} waits on ${nameOf4(result2.blockedById)}`;
             return {
               content: [{
                 type: "text",
-                text: result2.created ? `${waits} now. Starting or queueing ${nameOf3(cardId)} warns until ${nameOf3(result2.blockedById)}'s code lands.` : `${waits} already${note !== void 0 ? "; its note was updated" : ""}.`
+                text: result2.created ? `${waits} now. Starting or queueing ${nameOf4(cardId)} warns until ${nameOf4(result2.blockedById)}'s code lands.` : `${waits} already${note !== void 0 ? "; its note was updated" : ""}.`
               }]
             };
           }
@@ -43906,7 +44313,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           return {
             content: [{
               type: "text",
-              text: result.removed ? `${nameOf3(cardId)} no longer waits on ${nameOf3(result.blockedById)}.` : result.dismissed ? `The suggested link was turned down: ${nameOf3(cardId)} does not wait on ${nameOf3(result.blockedById)}, and it will not be suggested again.` : `${nameOf3(cardId)} did not wait on ${nameOf3(result.blockedById)}; nothing changed.`
+              text: result.removed ? `${nameOf4(cardId)} no longer waits on ${nameOf4(result.blockedById)}.` + (result.splitChild ? ` ${nameOf4(result.blockedById)} still counts as a child of ${nameOf4(cardId)}; to detach it too, call update_card on ${nameOf4(result.blockedById)} with splitFrom: null.` : "") : result.dismissed ? `The suggested link was turned down: ${nameOf4(cardId)} does not wait on ${nameOf4(result.blockedById)}, and it will not be suggested again.` : `${nameOf4(cardId)} did not wait on ${nameOf4(result.blockedById)}; nothing changed.`
             }]
           };
         } catch (error2) {
@@ -43914,7 +44321,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         }
       }
       case "split_card": {
-        const { id: rawId, keepAsOne, cards, flows, groupId, newChain, chainCode, chainName, integrationBranch } = args ?? {};
+        const { id: rawId, keepAsOne, cards, flows, groupId, newChain, chainCode, chainName, integrationBranch, noMockup } = args ?? {};
         if (!hasCapability(db, "splitProposals") || !hasCapability(db, "splitFrom")) {
           return { content: [{ type: "text", text: missingCapabilityMessage("split_card", "splitFrom") }], isError: true };
         }
@@ -43933,12 +44340,18 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         try {
           const named = chainCode || chainName;
           const chain = newChain || named && !groupId || integrationBranch && !groupId ? { mode: "new", code: chainCode, name: chainName, integrationBranch: integrationBranch === true } : groupId ? { mode: "existing", groupId } : void 0;
-          const result = splitCard2(db, { cardId: id, choices: { cards, flows, chain }, now, author: IDEAFY_AUTHOR2 });
+          const result = splitCard2(db, {
+            cardId: id,
+            choices: { cards, flows, chain, ...noMockup === true ? { noMockup: true } : {} },
+            now,
+            author: IDEAFY_AUTHOR2
+          });
           const names = result.children.map((child) => child.displayId ?? `"${child.title}"`).join(", ");
+          const mockupLine = result.children.some((child) => child.mockups.length > 0) ? "Mockup copied into each child: " + result.children.map((child) => `${child.displayId ?? `"${child.title}"`} ${child.mockups.length > 0 ? child.mockups.join(", ") : "none"}`).join("; ") + "." : noMockup === true ? "No mockup was carried (noMockup)." : "The parent has no mockup, so no child got one.";
           return {
             content: [{
               type: "text",
-              text: `${queueDisplayIdOf(id)} was broken into ${result.children.length} cards: ${names}, in ${result.newChain ? "the new" : "the"} chain ${result.groupCode}. ${queueDisplayIdOf(id)} is last in that chain, waits on each of them, and is in "${result.parentStatus}".`
+              text: `${queueDisplayIdOf(id)} was broken into ${result.children.length} cards: ${names}, in ${result.newChain ? "the new" : "the"} chain ${result.groupCode}. ${queueDisplayIdOf(id)} is last in that chain, waits on each of them, and is in "${result.parentStatus}". ${mockupLine}`
             }]
           };
         } catch (error2) {
@@ -44210,7 +44623,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         const content = [
           {
             type: "text",
-            text: hint ? `Card created: ${cardId}${displayId} (${validTitle}). ${hint}` : `Card created: ${cardId}${displayId} (${validTitle})`
+            text: (hint ? `Card created: ${cardId}${displayId} (${validTitle}). ${hint}` : `Card created: ${cardId}${displayId} (${validTitle})`) + mockupNoteFor(cardId)
           }
         ];
         const opinionClause = buildCreatedCardOpinionClause2(status, hasHtmlText(solutionSummary));
@@ -44270,9 +44683,9 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             return { content: [{ type: "text", text: `Card not found: ${id}` }], isError: true };
           }
           const base = refreshed.base ? ` Its base commit is now ${refreshed.base.slice(0, 8)}.` : "";
-          const what = refreshed.added === 0 ? "Every point was already in the plan's update section; nothing was added." : "Update section appended to the plan.";
+          const what2 = refreshed.added === 0 ? "Every point was already in the plan's update section; nothing was added." : "Update section appended to the plan.";
           return {
-            content: [{ type: "text", text: `${what}${base} Card ${id} is in "${readStatus(id)}".` }]
+            content: [{ type: "text", text: `${what2}${base} Card ${id} is in "${readStatus(id)}".` }]
           };
         }
         if (!hasCapability(db, "completedAt")) {
@@ -44294,7 +44707,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         const resume = saved.autopilotDecisionAnswered ? ` ${autopilotContinueQuestion2(id, autopilotModeFor2(db, id))}` : "";
         return {
           content: [{ type: "text", text: `Plan saved to card ${id}. Card is in "${readStatus(id)}".${suggested ? ` ${suggested}` : ""}${resume}${formatWarning ? `
-${formatWarning}` : ""}` }]
+${formatWarning}` : ""}${mockupNoteFor(id)}` }]
         };
       }
       case "save_tests": {
@@ -44487,7 +44900,7 @@ ${formatWarning}` : ""}` }]
         return {
           content: [{
             type: "text",
-            text: `AI opinion saved to card ${id} (${describeOpinionMarkers2(result) || "no verdict or score read"}). Card is still in "${readStatus(id)}" \u2014 this tool does not move cards. Ask the user before calling move_card.` + (suggested ? ` ${suggested}` : "") + (split ? ` ${split}` : "") + (result.roadmap ? ` ${roadmapPlacedNote(result.roadmap)}` : "")
+            text: `AI opinion saved to card ${id} (${describeOpinionMarkers2(result) || "no verdict or score read"}). Card is still in "${readStatus(id)}" \u2014 this tool does not move cards. Ask the user before calling move_card.` + (suggested ? ` ${suggested}` : "") + (split ? ` ${split}` : "") + (result.roadmap ? ` ${roadmapPlacedNote(result.roadmap)}` : "") + mockupNoteFor(id)
           }]
         };
       }
@@ -44953,7 +45366,10 @@ ${waiting}` : ""}` : choice === "silent" ? `${bound} This session is outside eve
             isError: true
           };
         }
-        const { cardId: rawCardId, groupId: rawGroupId, afterCardId: rawAfterCardId, scope: rawScope, autopilot, mode: rawMode } = args;
+        const { cardId: rawCardId, groupId: rawGroupId, afterCardId: rawAfterCardId, scope: rawScope, autopilot, mode: rawMode, visual: rawVisual } = args;
+        if (rawVisual !== void 0 && typeof rawVisual !== "boolean") {
+          return { content: [{ type: "text", text: "queue_card: visual must be true or false. Nothing was written." }], isError: true };
+        }
         const rawMaxRounds = args.maxRounds;
         let maxRounds;
         if (rawMaxRounds !== void 0) {
@@ -45081,23 +45497,28 @@ ${waiting}` : ""}` : choice === "silent" ? `${bound} This session is outside eve
             return { content: [{ type: "text", text: `afterCardId not found: ${rawAfterCardId}` }], isError: true };
           }
         }
+        const wasQueued = listQueueRows2(db).some((row) => row.id === cardId);
         const result = enqueueCard2(db, cardId, afterCardId, rawScope);
         if (!result.ok) {
           return { content: [{ type: "text", text: `queue_card: ${result.message}. Nothing was written.` }], isError: true };
         }
+        const isVerify = queueKindOf2(result.row) === "verify";
+        const visual = isVerify && (rawVisual !== void 0 || rawScope !== void 0 || !wasQueued) ? { cardId, mode: rawVisual === false ? "text" : "auto" } : void 0;
         const total = listQueueRows2(db).length;
         const name2 = queueDisplayId2(result.row);
         const runtime = readRuntime2(db);
         const running = runtime.runs.filter((run2) => run2.source === "app" && run2.cardId).map((run2) => run2.cardId);
         const chainWarning = queuedChainWarningFor2(db, cardId, running);
-        const armed = runtime.appState === "closed" ? "The Ideafy app is closed, so nothing starts; the queue opens paused on the next launch." : await armQueueIfIdle({ port: appPort(runtime) });
+        const armed = runtime.appState === "closed" ? "The Ideafy app is closed, so nothing starts; the queue opens paused on the next launch." : await armQueueIfIdle({ port: appPort(runtime), ...visual ? { visual } : {} });
+        const reached = runtime.appState !== "closed" && !/^(The|This) Ideafy app /.test(armed);
+        const visualNote = !visual ? "" : visual.mode === "text" ? " Its pre-verify runs as text, no browser." : reached ? " Its pre-verify goes on screen by the checklist, as Play does: [ui] items in the browser with screenshots, the rest in a terminal; with no [ui] item left it runs as text." : " The on-screen choice could not reach the app, so its pre-verify runs as text; queue it again with the app open to put its [ui] items on screen.";
         const step = runtime.appState === "closed" ? null : nextQueueStep2(db);
         const queueState = step?.kind === "idle" && step.waiting > 0 && armed.startsWith("The queue is running; its next card") ? "The queue is armed, but nothing starts yet: every queued card waits on another card to land." : armed;
         const behind = total - result.rank;
         return {
           content: [{
             type: "text",
-            text: `${name2} ${result.moved ? "moved to" : "queued at"} #${result.rank} of ${total} in the run queue. ` + queueState + (chainWarning ? chainWarning.blockers.length > 0 || chainWarning.withdrawn.length > 0 ? ` Order: ${chainWarning.message} Tell the user${behind > 0 ? "; the queue starts the cards behind it meanwhile" : ""}.` : ` Chain order: ${chainWarning.message} It was queued anyway; tell the user, and offer to move the predecessor ahead.` : "")
+            text: `${name2} ${result.moved ? "moved to" : "queued at"} #${result.rank} of ${total} in the run queue. ` + queueState + visualNote + (chainWarning ? chainWarning.blockers.length > 0 || chainWarning.withdrawn.length > 0 ? ` Order: ${chainWarning.message} Tell the user${behind > 0 ? "; the queue starts the cards behind it meanwhile" : ""}.` : ` Chain order: ${chainWarning.message} It was queued anyway; tell the user, and offer to move the predecessor ahead.` : "")
           }]
         };
       }
@@ -45197,7 +45618,7 @@ ${waiting}` : ""}` : choice === "silent" ? `${bound} This session is outside eve
             isError: true
           };
         }
-        const { integrationBranch, ...fields } = updates;
+        const { integrationBranch, ...fields2 } = updates;
         let integrationLine = "";
         if (typeof integrationBranch === "boolean") {
           const result = setIntegrationBranch2(db, id, integrationBranch);
@@ -45206,7 +45627,7 @@ ${waiting}` : ""}` : choice === "silent" ? `${bound} This session is outside eve
           }
           integrationLine = !result.changed ? integrationBranch ? ` Chain ${result.code} already uses ${result.branch}.` : ` Chain ${result.code} has no integration branch.` : result.branch ? ` ${integrationOnText2(result.code, result.branch)}` : ` Chain ${result.code} has no integration branch now: its cards land on main one by one.`;
         }
-        const group = updateGroup2(db, id, fields);
+        const group = updateGroup2(db, id, fields2);
         return {
           content: [{
             type: "text",
