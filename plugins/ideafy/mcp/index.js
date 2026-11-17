@@ -3223,8 +3223,8 @@ var require_utils = __commonJS({
       }
       return ind;
     }
-    function removeDotSegments(path12) {
-      let input = path12;
+    function removeDotSegments(path14) {
+      let input = path14;
       const output = [];
       let nextSlash = -1;
       let len = 0;
@@ -3423,8 +3423,8 @@ var require_schemes = __commonJS({
         wsComponent.secure = void 0;
       }
       if (wsComponent.resourceName) {
-        const [path12, query] = wsComponent.resourceName.split("?");
-        wsComponent.path = path12 && path12 !== "/" ? path12 : void 0;
+        const [path14, query] = wsComponent.resourceName.split("?");
+        wsComponent.path = path14 && path14 !== "/" ? path14 : void 0;
         wsComponent.query = query;
         wsComponent.resourceName = void 0;
       }
@@ -6786,12 +6786,12 @@ var require_dist = __commonJS({
         throw new Error(`Unknown format "${name}"`);
       return f;
     };
-    function addFormats(ajv, list2, fs, exportName) {
+    function addFormats(ajv, list2, fs3, exportName) {
       var _a2;
       var _b;
       (_a2 = (_b = ajv.opts.code).formats) !== null && _a2 !== void 0 ? _a2 : _b.formats = (0, codegen_1._)`require("ajv-formats/dist/formats").${exportName}`;
       for (const f of list2)
-        ajv.addFormat(f, fs[f]);
+        ajv.addFormat(f, fs3[f]);
     }
     module.exports = exports = formatsPlugin;
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -7158,8 +7158,8 @@ function getErrorMap() {
 
 // node_modules/zod/v3/helpers/parseUtil.js
 var makeIssue = (params) => {
-  const { data, path: path12, errorMaps, issueData } = params;
-  const fullPath = [...path12, ...issueData.path || []];
+  const { data, path: path14, errorMaps, issueData } = params;
+  const fullPath = [...path14, ...issueData.path || []];
   const fullIssue = {
     ...issueData,
     path: fullPath
@@ -7274,11 +7274,11 @@ var errorUtil;
 
 // node_modules/zod/v3/types.js
 var ParseInputLazyPath = class {
-  constructor(parent, value, path12, key2) {
+  constructor(parent, value, path14, key2) {
     this._cachedPath = [];
     this.parent = parent;
     this.data = value;
-    this._path = path12;
+    this._path = path14;
     this._key = key2;
   }
   get path() {
@@ -10922,10 +10922,10 @@ function mergeDefs(...defs) {
 function cloneDef(schema) {
   return mergeDefs(schema._zod.def);
 }
-function getElementAtPath(obj, path12) {
-  if (!path12)
+function getElementAtPath(obj, path14) {
+  if (!path14)
     return obj;
-  return path12.reduce((acc, key2) => acc?.[key2], obj);
+  return path14.reduce((acc, key2) => acc?.[key2], obj);
 }
 function promiseAllObject(promisesObj) {
   const keys = Object.keys(promisesObj);
@@ -11308,11 +11308,11 @@ function aborted(x2, startIndex = 0) {
   }
   return false;
 }
-function prefixIssues(path12, issues) {
+function prefixIssues(path14, issues) {
   return issues.map((iss) => {
     var _a2;
     (_a2 = iss).path ?? (_a2.path = []);
-    iss.path.unshift(path12);
+    iss.path.unshift(path14);
     return iss;
   });
 }
@@ -24432,10 +24432,10 @@ function normalizeCodeStamp(value) {
   const commit = typeof record2.commit === "string" && SHA.test(record2.commit) ? record2.commit : null;
   const dirty = (Array.isArray(record2.dirty) ? record2.dirty : []).map((entry) => {
     if (!entry || typeof entry !== "object") return null;
-    const path12 = str(entry.path, 500);
-    if (!path12) return null;
+    const path14 = str(entry.path, 500);
+    if (!path14) return null;
     const blob = entry.blob;
-    return { path: path12, blob: typeof blob === "string" && SHA.test(blob) ? blob : null };
+    return { path: path14, blob: typeof blob === "string" && SHA.test(blob) ? blob : null };
   }).filter((entry) => entry !== null).slice(0, 50);
   const total = typeof record2.dirtyTotal === "number" && Number.isFinite(record2.dirtyTotal) ? Math.floor(record2.dirtyTotal) : 0;
   if (!commit && dirty.length === 0) return void 0;
@@ -25008,7 +25008,7 @@ function runCodeCaveat(change, runNumber) {
     return `Passed before later changes \xB7 ${plural2(change.files.length, "file")} changed since #${runNumber}`;
   }
   if (change.uncommitted.length > 0) {
-    const names = change.uncommitted.map((path12) => path12.split("/").pop() ?? path12);
+    const names = change.uncommitted.map((path14) => path14.split("/").pop() ?? path14);
     const shown = names.slice(0, 3).join(", ");
     return `Passed with uncommitted code: ${shown}${names.length > 3 ? ` +${names.length - 3}` : ""}`;
   }
@@ -26328,8 +26328,8 @@ function extractPlanFiles(solutionHtml) {
   const section2 = text4.match(/Files to Modify\s*\n([\s\S]*?)(?:\n(?:Implementation Steps|Edge Cases|Dependencies)\b|$)/i);
   return section2 ? pathTokens(section2[1]) : [];
 }
-function normalizePath(path12) {
-  return path12.trim().replace(/^\.\//, "").replace(/\/+$/, "");
+function normalizePath(path14) {
+  return path14.trim().replace(/^\.\//, "").replace(/\/+$/, "");
 }
 function pathsOverlap(a, b2) {
   const globRoot = (p) => /\/\*+$/.test(p) ? p.replace(/\/\*+$/, "/") : null;
@@ -26373,7 +26373,7 @@ function countPlanSteps(solutionHtml) {
 }
 var GENERATED = [/^drizzle\/meta\//, /(^|\/)(package-lock\.json|pnpm-lock\.yaml|yarn\.lock|bun\.lockb)$/];
 var isGenerated = (file2) => GENERATED.some((pattern) => pattern.test(file2));
-var dunderless = (path12) => normalizePath(path12).replace(/(^|\/)__([^/]+)__(?=\/|$)/g, "$1$2");
+var dunderless = (path14) => normalizePath(path14).replace(/(^|\/)__([^/]+)__(?=\/|$)/g, "$1$2");
 function comparePlanFiles(planned, touched) {
   const plan = Array.from(new Set(planned.map(normalizePath).filter(Boolean)));
   const branch = Array.from(new Set(touched.map(normalizePath).filter(Boolean)));
@@ -26382,7 +26382,7 @@ function comparePlanFiles(planned, touched) {
   const waiting = [];
   for (const file2 of plan) {
     const key2 = dunderless(file2);
-    const hits = branch.filter((path12) => pathsOverlap(key2, dunderless(path12)));
+    const hits = branch.filter((path14) => pathsOverlap(key2, dunderless(path14)));
     if (hits.length === 0) {
       waiting.push({ path: file2, state: "planned" });
       continue;
@@ -26390,7 +26390,7 @@ function comparePlanFiles(planned, touched) {
     hits.forEach((hit) => used.add(hit));
     done.push({ path: file2.includes("*") ? file2 : hits[0], state: "touched" });
   }
-  const outside = branch.filter((path12) => !used.has(path12) && !isGenerated(path12)).map((path12) => ({ path: path12, state: "outside" }));
+  const outside = branch.filter((path14) => !used.has(path14) && !isGenerated(path14)).map((path14) => ({ path: path14, state: "outside" }));
   return [...done, ...waiting, ...outside];
 }
 
@@ -26557,7 +26557,7 @@ var DEFAULT_SETTINGS = {
   aiPlatform: "claude",
   skillsPath: "~/.claude/skills",
   mcpConfigPath: "~/.claude.json",
-  terminalApp: "iterm2",
+  terminalApp: "terminal",
   detectedTerminal: null,
   systemNotifications: true,
   activeWorkspace: "development",
@@ -27599,9 +27599,9 @@ function waitPath(db2, from, to) {
   while (queue.length > 0) {
     const current = queue.shift();
     if (current === to) {
-      const path12 = [];
-      for (let step = current; step !== null; step = previous.get(step) ?? null) path12.unshift(step);
-      return path12;
+      const path14 = [];
+      for (let step = current; step !== null; step = previous.get(step) ?? null) path14.unshift(step);
+      return path14;
     }
     for (const { next } of allRows(
       db2,
@@ -27623,9 +27623,9 @@ function linkOne(db2, cardId, entry, now) {
   if (predecessor.id === cardId) {
     throw new CardDependencyError("self", `${label(card)} cannot wait on itself.`);
   }
-  const path12 = waitPath(db2, predecessor.id, cardId);
-  if (path12) {
-    const names = path12.map((id) => {
+  const path14 = waitPath(db2, predecessor.id, cardId);
+  if (path14) {
+    const names = path14.map((id) => {
       const row = cardRow(db2, id);
       return row ? label(row) : id;
     });
@@ -29055,9 +29055,9 @@ function codeStamp(cwd) {
   if (status === null) return commit ? { commit, dirty: [], dirtyTotal: 0 } : null;
   const paths = [...new Set(parsePorcelainPaths(status))];
   const listed = paths.slice(0, MAX_STAMP_FILES);
-  const present5 = listed.filter((path12) => {
+  const present5 = listed.filter((path14) => {
     try {
-      const full = join(cwd, path12);
+      const full = join(cwd, path14);
       return existsSync4(full) && statSync2(full).isFile();
     } catch {
       return false;
@@ -29067,12 +29067,12 @@ function codeStamp(cwd) {
   if (present5.length > 0) {
     const out = run(cwd, ["hash-object", "--", ...present5]);
     const lines2 = out ? out.split("\n") : [];
-    if (lines2.length === present5.length) present5.forEach((path12, index) => hashes.set(path12, lines2[index].trim()));
+    if (lines2.length === present5.length) present5.forEach((path14, index) => hashes.set(path14, lines2[index].trim()));
   }
   if (!commit && listed.length === 0) return null;
   return {
     commit,
-    dirty: listed.map((path12) => ({ path: path12, blob: hashes.get(path12) ?? null })),
+    dirty: listed.map((path14) => ({ path: path14, blob: hashes.get(path14) ?? null })),
     dirtyTotal: paths.length
   };
 }
@@ -29330,17 +29330,17 @@ import path3, { join as join2 } from "path";
 
 // ../lib/verify-copy.ts
 var VERIFY_COPY_ROOT_ENV = "IDEAFY_VERIFY_COPY_ROOT";
-function trimSlashes(path12) {
-  return path12.length > 1 ? path12.replace(/[\\/]+$/, "") : path12;
+function trimSlashes(path14) {
+  return path14.length > 1 ? path14.replace(/[\\/]+$/, "") : path14;
 }
 function verifyCopyRoot(env = process.env) {
   const root = env[VERIFY_COPY_ROOT_ENV]?.trim();
   return root ? trimSlashes(root) : null;
 }
-function isForeignToCopy(path12, env = process.env) {
+function isForeignToCopy(path14, env = process.env) {
   const root = verifyCopyRoot(env);
   if (!root) return false;
-  const target2 = trimSlashes(path12);
+  const target2 = trimSlashes(path14);
   return !(target2 === root || target2.startsWith(`${root}/`) || target2.startsWith(`${root}\\`));
 }
 function copyLiveBranchRefusal(branch, where) {
@@ -30187,10 +30187,10 @@ function defaultBranchOf(repo) {
   return gitRead(repo, ["rev-parse", "--verify", "--quiet", "refs/heads/main"]) ? "main" : "master";
 }
 function chainWorktreeOf(repo, branch) {
-  let path12 = null;
+  let path14 = null;
   for (const line of (gitRead(repo, ["worktree", "list", "--porcelain"]) ?? "").split("\n")) {
-    if (line.startsWith("worktree ")) path12 = line.slice("worktree ".length);
-    else if (line === `branch refs/heads/${branch}` && path12) return path12;
+    if (line.startsWith("worktree ")) path14 = line.slice("worktree ".length);
+    else if (line === `branch refs/heads/${branch}` && path14) return path14;
   }
   return integrationWorktreePath(repo, branch);
 }
@@ -30838,7 +30838,7 @@ function acknowledgeWrite(db2, input) {
 
 // ../lib/autonomous-run/browser-prereqs.ts
 import { accessSync, constants, readdirSync, statSync as statSync3 } from "fs";
-import path4 from "path";
+import path6 from "path";
 
 // ../lib/platform/base-provider.ts
 import { join as join4 } from "path";
@@ -30859,6 +30859,42 @@ function buildEnv() {
     USER: user,
     PATH: newPath
   };
+}
+
+// ../lib/paths.ts
+import path4 from "node:path";
+import fs from "node:fs";
+import os from "node:os";
+function appResourcesRoot() {
+  return process.env.IDEAFY_APP_RESOURCES ?? process.env.IDEAFY_ROOT ?? process.cwd();
+}
+function resolveUserDataDir() {
+  const fromEnv = process.env.IDEAFY_USER_DATA;
+  if (fromEnv) {
+    fs.mkdirSync(fromEnv, { recursive: true });
+    return fromEnv;
+  }
+  const defaultDir = path4.join(
+    os.homedir(),
+    "Library",
+    "Application Support",
+    "ideafy"
+  );
+  fs.mkdirSync(defaultDir, { recursive: true });
+  return defaultDir;
+}
+
+// ../lib/electron-exec-file.ts
+import * as fs2 from "fs";
+import * as path5 from "path";
+var ELECTRON_EXEC_FILENAME = "electron-exec";
+var PLAYWRIGHT_MCP_ENTRY_FILENAME = "playwright-mcp-entry";
+function readPathFile(dir, filename) {
+  try {
+    return fs2.readFileSync(path5.join(dir, filename), "utf8").split("\n")[0].trim() || null;
+  } catch {
+    return null;
+  }
 }
 
 // ../lib/run-video/clicks.ts
@@ -30915,6 +30951,49 @@ var CARD_FOLDERS_ENV = "IDEAFY_CARD_FOLDERS_ROOT";
 var UNOWNED_GRACE_MS = 10 * 6e4;
 
 // ../lib/autonomous-run/browser-prereqs.ts
+var PLAYWRIGHT_MCP_VERSION = "0.0.83";
+var PLAYWRIGHT_MCP_PACKAGE = `@playwright/mcp@${PLAYWRIGHT_MCP_VERSION}`;
+var PLAYWRIGHT_MCP_ENTRY_ENV = "IDEAFY_PLAYWRIGHT_MCP_ENTRY";
+function isFile(p) {
+  try {
+    return statSync3(p).isFile();
+  } catch {
+    return false;
+  }
+}
+function defaultUserDataDir() {
+  try {
+    return resolveUserDataDir();
+  } catch {
+    return null;
+  }
+}
+function playwrightMcpLaunch(input = {}) {
+  const env = input.env ?? process.env;
+  const exists = input.exists ?? isFile;
+  const bundled = (electronExec, entry) => electronExec && entry && exists(electronExec) && exists(entry) ? { kind: "bundled", command: electronExec, args: [entry], env: { ELECTRON_RUN_AS_NODE: "1" } } : null;
+  if (env.IDEAFY_PACKAGED === "1") {
+    const own = bundled(env.IDEAFY_ELECTRON_EXEC, env[PLAYWRIGHT_MCP_ENTRY_ENV]);
+    if (own) return own;
+  }
+  const resourcesRoot = input.resourcesRoot ?? appResourcesRoot();
+  const localEntry = path6.join(resourcesRoot, "node_modules", "@playwright", "mcp", "cli.js");
+  if (exists(localEntry)) return { kind: "local", command: "node", args: [localEntry] };
+  const userDataDir = input.userDataDir === void 0 ? defaultUserDataDir() : input.userDataDir;
+  if (userDataDir) {
+    const installed = bundled(
+      readPathFile(userDataDir, ELECTRON_EXEC_FILENAME),
+      readPathFile(userDataDir, PLAYWRIGHT_MCP_ENTRY_FILENAME)
+    );
+    if (installed) return installed;
+  }
+  return {
+    kind: "npx",
+    command: "npx",
+    // The pinned version once fetched is used from npm's cache as it is.
+    args: ["-y", "--prefer-offline", PLAYWRIGHT_MCP_PACKAGE]
+  };
+}
 function isExecutableFile(p) {
   try {
     if (!statSync3(p).isFile()) return false;
@@ -30930,7 +31009,7 @@ function findOnPath(binary, pathValue, platform = process.platform) {
   for (const dir of pathValue.split(delimiter)) {
     if (!dir) continue;
     for (const name of names) {
-      const candidate = path4.join(dir, name);
+      const candidate = path6.join(dir, name);
       if (isExecutableFile(candidate)) return candidate;
     }
   }
@@ -30940,11 +31019,11 @@ function chromeCandidates(platform = process.platform, env = process.env) {
   const home = env.HOME || env.USERPROFILE || "";
   if (platform === "darwin") {
     const app = "Google Chrome.app/Contents/MacOS/Google Chrome";
-    return [path4.join("/Applications", app), ...home ? [path4.join(home, "Applications", app)] : []];
+    return [path6.join("/Applications", app), ...home ? [path6.join(home, "Applications", app)] : []];
   }
   if (platform === "win32") {
-    const exe = path4.win32.join("Google", "Chrome", "Application", "chrome.exe");
-    return [env.LOCALAPPDATA, env.PROGRAMFILES, env["PROGRAMFILES(X86)"]].filter((root) => Boolean(root)).map((root) => path4.win32.join(root, exe));
+    const exe = path6.win32.join("Google", "Chrome", "Application", "chrome.exe");
+    return [env.LOCALAPPDATA, env.PROGRAMFILES, env["PROGRAMFILES(X86)"]].filter((root) => Boolean(root)).map((root) => path6.win32.join(root, exe));
   }
   return ["/opt/google/chrome/chrome"];
 }
@@ -30952,11 +31031,15 @@ function findChrome(candidates = chromeCandidates()) {
   return candidates.find((candidate) => isExecutableFile(candidate)) ?? null;
 }
 var NPX_MISSING = "Node/npx was not found on the PATH Ideafy runs agents with";
+var NODE_MISSING = "Node was not found on the PATH Ideafy runs agents with";
 var CHROME_MISSING = "Google Chrome is not installed \u2014 the visual check runs in Chrome";
 function checkBrowserPrereqs(input) {
-  if (!findOnPath("npx", input.pathValue)) return { ok: false, reason: NPX_MISSING };
-  if (!findChrome(input.chromeCandidates)) return { ok: false, reason: CHROME_MISSING };
-  return { ok: true };
+  const launch = input.launch ?? "npx";
+  if (launch === "npx" && !findOnPath("npx", input.pathValue)) return { ok: false, reason: NPX_MISSING };
+  if (launch === "local" && !findOnPath("node", input.pathValue)) return { ok: false, reason: NODE_MISSING };
+  if (findChrome(input.chromeCandidates)) return { ok: true };
+  if (launch === "npx") return { ok: false, reason: CHROME_MISSING };
+  return { ok: true, downloads: "chromium" };
 }
 var VERIFY_NO_CHROME_ENV = "IDEAFY_VERIFY_NO_CHROME";
 function verifyHidesChrome(env = process.env) {
@@ -30968,7 +31051,8 @@ function browserPrereqs() {
   if (cached2 && Date.now() - cached2.at < PREREQS_TTL_MS) return cached2.result;
   const result = checkBrowserPrereqs({
     pathValue: buildEnv().PATH ?? "",
-    chromeCandidates: verifyHidesChrome() ? [] : chromeCandidates()
+    chromeCandidates: verifyHidesChrome() ? [] : chromeCandidates(),
+    launch: playwrightMcpLaunch().kind
   });
   cached2 = { at: Date.now(), result };
   return result;
@@ -31075,7 +31159,7 @@ function acceptPlanMarkers(planHtml) {
 }
 
 // ../lib/card-ops/branch-files.ts
-import { existsSync as existsSync8 } from "fs";
+import { existsSync as existsSync9 } from "fs";
 function defaultBranchName(repo) {
   const remote = gitRead(repo, ["symbolic-ref", "refs/remotes/origin/HEAD"]);
   if (remote) return remote.replace("refs/remotes/origin/", "").replace("refs/heads/", "");
@@ -31086,7 +31170,7 @@ function listChangedFiles(repoPath, opts) {
   const base = opts.baseRef || defaultBranchName(repoPath);
   const renames = opts.noRenames ? ["--no-renames"] : [];
   if (opts.worktreePath) {
-    if (!existsSync8(opts.worktreePath)) return [];
+    if (!existsSync9(opts.worktreePath)) return [];
     const mergeBase = gitRead(opts.worktreePath, ["merge-base", base, "HEAD"]);
     if (!mergeBase) return [];
     const stdout = gitRead(opts.worktreePath, ["diff", "--name-only", ...renames, mergeBase]);
@@ -31110,7 +31194,7 @@ function cached3(key2, read) {
 }
 function touchedFiles(db2, cardId, row, repo) {
   const base = chainTipFor(db2, cardId, repo)?.ref ?? defaultBranchName(repo);
-  if (row.worktreeStatus === "active" && row.worktreePath && existsSync8(row.worktreePath)) {
+  if (row.worktreeStatus === "active" && row.worktreePath && existsSync9(row.worktreePath)) {
     const head = currentHead(row.worktreePath);
     const found = cached3(`${row.worktreePath}\0${base}\0${head}`, () => {
       const changed = listChangedFiles(repo, { worktreePath: row.worktreePath, baseRef: base, noRenames: true });
@@ -31290,7 +31374,7 @@ var MAX_RUN_COMMITS = 5;
 function blobsAt(repo, ref, paths) {
   const out = gitRead(repo, ["ls-tree", "-r", ref, "--", ...paths]);
   if (out === null) return null;
-  const blobs = new Map(paths.map((path12) => [path12, null]));
+  const blobs = new Map(paths.map((path14) => [path14, null]));
   for (const line of out.split("\n")) {
     const match = /^\d+ blob ([0-9a-f]{40})\t(.+)$/.exec(line);
     if (match) blobs.set(match[2], match[1]);
@@ -32342,7 +32426,7 @@ function reviseTests(db2, args) {
 
 // ../lib/card-ops/split-proposals.ts
 import { statSync as statSync4 } from "fs";
-import path5 from "path";
+import path7 from "path";
 
 // ../lib/prompts/mockup-request.ts
 var mockup_request_exports = {};
@@ -32370,20 +32454,20 @@ function listMockupArtifacts(html) {
   if (!html) return [];
   const found = [];
   for (const match of html.matchAll(/<span\b[^>]*data-type="artifactMention"[^>]*>/gi)) {
-    const path12 = match[0].match(/data-path="([^"]*)"/i)?.[1];
-    if (path12 && HTML_FILE.test(path12)) found.push({ at: match.index ?? 0, path: decodeEntities3(path12) });
+    const path14 = match[0].match(/data-path="([^"]*)"/i)?.[1];
+    if (path14 && HTML_FILE.test(path14)) found.push({ at: match.index ?? 0, path: decodeEntities3(path14) });
   }
   for (const match of html.matchAll(/file:\/\/[^"'\s)<]+/gi)) {
     if (!HTML_FILE.test(match[0])) continue;
-    const path12 = fileUrlToPath(decodeEntities3(match[0]));
-    if (path12) found.push({ at: match.index ?? 0, path: path12 });
+    const path14 = fileUrlToPath(decodeEntities3(match[0]));
+    if (path14) found.push({ at: match.index ?? 0, path: path14 });
   }
   const seen = /* @__PURE__ */ new Set();
   const paths = [];
-  for (const { path: path12 } of found.sort((a, b2) => a.at - b2.at)) {
-    if (seen.has(path12)) continue;
-    seen.add(path12);
-    paths.push(path12);
+  for (const { path: path14 } of found.sort((a, b2) => a.at - b2.at)) {
+    if (seen.has(path14)) continue;
+    seen.add(path14);
+    paths.push(path14);
   }
   return paths;
 }
@@ -32404,15 +32488,15 @@ function cardMockupsWithSource(card) {
     ["opinion", card.aiOpinion],
     ["description", card.description]
   ]) {
-    for (const path12 of listMockupArtifacts(html)) {
-      if (!sourceOf.has(path12)) sourceOf.set(path12, source);
+    for (const path14 of listMockupArtifacts(html)) {
+      if (!sourceOf.has(path14)) sourceOf.set(path14, source);
     }
   }
   const planHasOne = [...sourceOf.values()].includes("solution");
   if (!planHasOne) {
-    return cardMockups(card).map((path12) => ({ path: path12, source: sourceOf.get(path12), dimmed: false }));
+    return cardMockups(card).map((path14) => ({ path: path14, source: sourceOf.get(path14), dimmed: false }));
   }
-  return [...sourceOf].map(([path12, source]) => ({ path: path12, source, dimmed: source !== "solution" }));
+  return [...sourceOf].map(([path14, source]) => ({ path: path14, source, dimmed: source !== "solution" }));
 }
 var MOCKUP_OFFER_HINT = `Mockup: if this card changes UI and its target tab (AI Opinion on an ideation card, the plan after that) has no mockup yet, ask the user in one sentence whether they want an HTML mockup. Only on yes, put the whole file in the save_opinion / save_plan text as one fenced block, \`\`\`html artifact="short-name.html"\`, directly above a \`## Mockup\` heading, and put that section at the end of the text; Ideafy saves it into the card folder and shows it as a link. Never draw one unasked. If the tab already has a mockup and the user asks for a new one, replace its link and its \`## Mockup\` section in place, keep the rest of the text as it is, and leave the old file on disk. Whenever you rewrite a text that has a mockup, its link stays directly above its \`## Mockup\` heading, never at the top of the text.`;
 var LINKED_FILE_RULE = `Linking a file that already exists, such as a mockup in a sibling design repo: link it with its absolute path as a file:// link. The card opens it only when it sits in the project folder, the card folder or one of the project's Linked Folders (project settings). Outside those the chip draws dead, so tell the user which folder to link instead of linking it anyway.`;
@@ -32666,7 +32750,7 @@ var CHILD_SELECT2 = `SELECT c.id, c.title, c.status, c.task_number AS taskNumber
     c.git_branch_status AS gitBranchStatus, c.test_scenarios AS testScenarios, c.solution_summary AS solutionSummary
   FROM cards c LEFT JOIN projects p ON p.id = c.project_id`;
 var refName = (ref) => ref.displayId ?? ref.title;
-function isFile(absPath) {
+function isFile2(absPath) {
   try {
     return statSync4(absPath).isFile();
   } catch {
@@ -32677,9 +32761,9 @@ var MOCKUP_SELECT = `SELECT ai_opinion AS aiOpinion, solution_summary AS solutio
 function mockupsForChild(db2, parentId, childId) {
   const parent = getRow(db2, MOCKUP_SELECT, parentId);
   const child = getRow(db2, MOCKUP_SELECT, childId);
-  const ownFolder = cardArtifactDir(childId) + path5.sep;
+  const ownFolder = cardArtifactDir(childId) + path7.sep;
   const copies = listMockupArtifacts(child?.description).filter((p) => p.startsWith(ownFolder));
-  return [.../* @__PURE__ */ new Set([...parent ? cardMockups(parent) : [], ...copies])].filter(isFile);
+  return [.../* @__PURE__ */ new Set([...parent ? cardMockups(parent) : [], ...copies])].filter(isFile2);
 }
 function splitRelations(db2, cardId) {
   const columns2 = allRows(db2, "PRAGMA table_info(cards)");
@@ -35951,7 +36035,7 @@ function chainWriteConflictFor(db2, cardId) {
 }
 
 // ../lib/card-ops/projects.ts
-import * as path6 from "path";
+import * as path8 from "path";
 var OPEN_COLUMNS = ["ideation", "backlog", "bugs", "progress", "test"];
 function toRef4(row) {
   return {
@@ -35965,13 +36049,13 @@ function toRef4(row) {
 function resolveProjectByFolder(db2, dir) {
   if (!dir || typeof dir !== "string") return null;
   const statement = db2.prepare("SELECT * FROM projects WHERE folder_path = ?");
-  let current = path6.resolve(dir);
-  const root = path6.parse(current).root;
+  let current = path8.resolve(dir);
+  const root = path8.parse(current).root;
   for (let i = 0; i < 64; i++) {
     const row = statement.get(current);
     if (row) return toRef4({ ...row });
     if (current === root) return null;
-    const parent = path6.dirname(current);
+    const parent = path8.dirname(current);
     if (parent === current) return null;
     current = parent;
   }
@@ -35989,7 +36073,7 @@ function listProjects(db2, options = {}) {
   if (query) {
     const exact = projects.filter((p) => p.idPrefix.toLowerCase() === query);
     projects = exact.length ? exact : projects.filter(
-      (p) => p.name.toLowerCase().includes(query) || p.idPrefix.toLowerCase().includes(query) || path6.basename(p.folderPath).toLowerCase().includes(query)
+      (p) => p.name.toLowerCase().includes(query) || p.idPrefix.toLowerCase().includes(query) || path8.basename(p.folderPath).toLowerCase().includes(query)
     );
   }
   const withParked = hasParkedColumn(db2);
@@ -36080,23 +36164,23 @@ function projectIdOfCard(db2, cardId) {
 }
 
 // ../lib/linked-folders.ts
-import { existsSync as existsSync9, realpathSync as realpathSync3, statSync as statSync5 } from "fs";
+import { existsSync as existsSync10, realpathSync as realpathSync3, statSync as statSync5 } from "fs";
 import { homedir as homedir2 } from "os";
-import path7 from "path";
+import path9 from "path";
 function parseLinkedFolders(raw) {
   if (!raw) return [];
   try {
     const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed.filter((p) => typeof p === "string" && path7.isAbsolute(p)) : [];
+    return Array.isArray(parsed) ? parsed.filter((p) => typeof p === "string" && path9.isAbsolute(p)) : [];
   } catch {
     return [];
   }
 }
 function isInside2(child, parent) {
-  return child === parent || child.startsWith(parent + path7.sep);
+  return child === parent || child.startsWith(parent + path9.sep);
 }
 function linkedFolderProblem(folder, homeDir = homedir2()) {
-  if (!folder || !path7.isAbsolute(folder)) return "Use an absolute folder path";
+  if (!folder || !path9.isAbsolute(folder)) return "Use an absolute folder path";
   let real;
   try {
     real = realpathSync3(folder);
@@ -36276,7 +36360,7 @@ function fileLink(absPath, name) {
   return `<a href="${escapeHtml6(pathToFileUrl(absPath))}">${escapeHtml6(label2)}</a>`;
 }
 function parentMockupHtml(parent, parentLabel) {
-  const paths = cardMockups(parent).filter(isFile);
+  const paths = cardMockups(parent).filter(isFile2);
   if (paths.length === 0) return "";
   let prose = "";
   for (const html of [parent.solutionSummary, parent.aiOpinion]) {
@@ -36285,7 +36369,7 @@ function parentMockupHtml(parent, parentLabel) {
     prose = html.slice(section2.start, section2.end).replace(/<h([1-6])\b[^>]*>[\s\S]*?<\/h\1>/i, "").replace(CHIP_RE, (chip) => {
       const raw = chip.match(/data-path="([^"]*)"/i)?.[1];
       const absPath = raw ? decodeHtmlEntities(raw) : null;
-      if (!absPath || !isFile(absPath)) return "";
+      if (!absPath || !isFile2(absPath)) return "";
       const name = chip.match(/data-name="([^"]*)"/i)?.[1];
       return fileLink(absPath, name ? decodeHtmlEntities(name) : void 0);
     }).replace(/<p>\s*<\/p>/g, "");
@@ -36381,7 +36465,7 @@ function splitInTransaction(db2, cardId, choices, now, author, madeFolders) {
     const parentLabel = formatDisplayId(parent.idPrefix, parent.taskNumber) ?? "the parent card";
     const mockupHtml = parentMockupHtml(parent, parentLabel);
     if (!mockupHtml && choices.noMockup !== true) {
-      const unlinked = unlinkedMockup(parent, isFile);
+      const unlinked = unlinkedMockup(parent, isFile2);
       if (unlinked) throw new SplitCardError(splitMockupRefusal(parentLabel, unlinked), "mockup_missing");
     }
     let groupId;
@@ -36473,7 +36557,7 @@ function cardMockupWarning(db2, cardId) {
     cardId
   );
   if (!row) return null;
-  const found = unlinkedMockup(row, isFile);
+  const found = unlinkedMockup(row, isFile2);
   if (!found) return null;
   return mockupWarning(formatDisplayId(row.idPrefix, row.taskNumber) ?? "This card", found);
 }
@@ -36615,7 +36699,7 @@ async function mergeChain(db2, groupId, opts = {}) {
 }
 
 // ../lib/card-ops/merge-card.ts
-import { existsSync as existsSync10, readFileSync as readFileSync4 } from "fs";
+import { existsSync as existsSync11, readFileSync as readFileSync5 } from "fs";
 function isSplitParent(db2, cardId) {
   const columns2 = db2.prepare(`PRAGMA table_info("cards")`).all();
   if (!columns2.some((column) => column.name === "split_from_card_id")) return false;
@@ -36637,7 +36721,7 @@ function errorText(error2) {
 function worktreeGitDir(worktreePath) {
   const gitFile = `${worktreePath}/.git`;
   try {
-    const match = readFileSync4(gitFile, "utf-8").match(/gitdir:\s*(.+)/);
+    const match = readFileSync5(gitFile, "utf-8").match(/gitdir:\s*(.+)/);
     if (match) return match[1].trim();
   } catch {
   }
@@ -36717,7 +36801,7 @@ async function mergeCard(db2, cardId, opts = {}) {
   }
   const displayId = formatDisplayId(project?.idPrefix, card.taskNumber) ?? `TASK-${card.taskNumber || "X"}`;
   const commitMessage = intoChain ? chainMergeCommitMessage(displayId, card.title, branchName) : mergeCommitMessage(displayId, card.title, branchName);
-  const worktreePath = card.gitWorktreePath && existsSync10(card.gitWorktreePath) ? card.gitWorktreePath : null;
+  const worktreePath = card.gitWorktreePath && existsSync11(card.gitWorktreePath) ? card.gitWorktreePath : null;
   const markConflict = (conflictFiles) => setCardRuntime(db2, cardId, { rebaseConflict: true, conflictFiles }, now());
   let stashSha = null;
   const stashMessage = `kanban-merge-stash-${cardId}-${Date.now()}`;
@@ -36795,7 +36879,7 @@ async function mergeCard(db2, cardId, opts = {}) {
   try {
     if (worktreePath) {
       const gitDir = worktreeGitDir(worktreePath);
-      if (existsSync10(`${gitDir}/rebase-merge`) || existsSync10(`${gitDir}/rebase-apply`) || existsSync10(`${gitDir}/MERGE_HEAD`)) {
+      if (existsSync11(`${gitDir}/rebase-merge`) || existsSync11(`${gitDir}/rebase-apply`) || existsSync11(`${gitDir}/MERGE_HEAD`)) {
         log(`[Merge] Ongoing rebase or merge detected in worktree`);
         const conflictFiles = await unmergedFiles(worktreePath);
         if (!card.rebaseConflict) markConflict(conflictFiles);
@@ -37485,7 +37569,7 @@ function codexHookLastHeard(db2) {
 }
 
 // ../lib/card-ops/roadmap-open.ts
-import { existsSync as existsSync11, rmSync as rmSync2 } from "fs";
+import { existsSync as existsSync12, rmSync as rmSync2 } from "fs";
 var nowIso2 = () => (/* @__PURE__ */ new Date()).toISOString();
 function hasPhaseProposalTable(db2) {
   return !!getRow(db2, "SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'roadmap_phase_proposals'");
@@ -37649,7 +37733,7 @@ function applyPhaseProposal(db2, args) {
     for (const id of madeCards) {
       try {
         const folder = cardArtifactDir(id);
-        if (existsSync11(folder)) rmSync2(folder, { recursive: true, force: true });
+        if (existsSync12(folder)) rmSync2(folder, { recursive: true, force: true });
       } catch {
       }
     }
@@ -38054,10 +38138,10 @@ __export(card_mockups_exports, {
   mockupState: () => mockupState,
   resolveCardMockupFile: () => resolveCardMockupFile
 });
-import { existsSync as existsSync12, realpathSync as realpathSync4, statSync as statSync6 } from "fs";
-import path8 from "path";
+import { existsSync as existsSync13, realpathSync as realpathSync4, statSync as statSync6 } from "fs";
+import path10 from "path";
 function isInside3(child, parent) {
-  return child === parent || child.startsWith(parent + path8.sep);
+  return child === parent || child.startsWith(parent + path10.sep);
 }
 function realDir(dir) {
   try {
@@ -38067,7 +38151,7 @@ function realDir(dir) {
   }
 }
 function mockupState(cardId, absPath, cardDir = cardArtifactDir(cardId)) {
-  if (!path8.isAbsolute(absPath) || absPath.includes("\0")) return { state: "missing" };
+  if (!path10.isAbsolute(absPath) || absPath.includes("\0")) return { state: "missing" };
   let real;
   try {
     real = realpathSync4(absPath);
@@ -38077,7 +38161,7 @@ function mockupState(cardId, absPath, cardDir = cardArtifactDir(cardId)) {
   }
   const root = realDir(cardDir);
   if (!root || !isInside3(real, root) || real === root) return { state: "outside" };
-  return { state: "preview", relPath: path8.relative(root, real).split(path8.sep).join("/") };
+  return { state: "preview", relPath: path10.relative(root, real).split(path10.sep).join("/") };
 }
 function resolveCardMockupFile(cardId, segments, cardDir = cardArtifactDir(cardId)) {
   if (segments.length === 0) return null;
@@ -38088,8 +38172,8 @@ function resolveCardMockupFile(cardId, segments, cardDir = cardArtifactDir(cardI
   }
   const root = realDir(cardDir);
   if (!root) return null;
-  const candidate = path8.join(root, ...segments);
-  if (!existsSync12(candidate)) return null;
+  const candidate = path10.join(root, ...segments);
+  if (!existsSync13(candidate)) return null;
   const real = realpathSync4(candidate);
   if (!isInside3(real, root) || real === root || !statSync6(real).isFile()) return null;
   return real;
@@ -38108,12 +38192,12 @@ __export(test_report_files_exports, {
   testReportRunDir: () => testReportRunDir,
   waitForRunVideos: () => waitForRunVideos
 });
-import { copyFileSync as copyFileSync3, mkdirSync as mkdirSync5, readFileSync as readFileSync5, readdirSync as readdirSync2, rmSync as rmSync3, statSync as statSync7 } from "fs";
+import { copyFileSync as copyFileSync3, mkdirSync as mkdirSync5, readFileSync as readFileSync6, readdirSync as readdirSync2, rmSync as rmSync3, statSync as statSync7 } from "fs";
 import { homedir as homedir3 } from "os";
-import path9 from "path";
+import path11 from "path";
 var MAX_SCREENSHOT_BYTES = 20 * 1024 * 1024;
 function testReportRunDir(cardId, runId, homeDir) {
-  return path9.join(cardArtifactDir(cardId, homeDir), TEST_REPORT_DIR, runId);
+  return path11.join(cardArtifactDir(cardId, homeDir), TEST_REPORT_DIR, runId);
 }
 function removeTestReportRunDirs(cardId, runs, homeDir) {
   for (const run2 of runs) {
@@ -38125,7 +38209,7 @@ function removeTestReportRunDirs(cardId, runs, homeDir) {
     }
   }
 }
-function isFile2(p) {
+function isFile3(p) {
   try {
     const stat = statSync7(p);
     return stat.isFile() && stat.size <= MAX_SCREENSHOT_BYTES;
@@ -38136,7 +38220,7 @@ function isFile2(p) {
 function keepWrittenArtifacts(items, runDir) {
   return items.map((item) => ({
     ...item,
-    artifacts: item.artifacts.map((artifact) => ({ ...artifact, file: path9.basename(artifact.file) })).filter((artifact) => isTestReportImageName(artifact.file) && isFile2(path9.join(runDir, artifact.file)))
+    artifacts: item.artifacts.map((artifact) => ({ ...artifact, file: path11.basename(artifact.file) })).filter((artifact) => isTestReportImageName(artifact.file) && isFile3(path11.join(runDir, artifact.file)))
   }));
 }
 function importTerminalArtifacts(items, runDir) {
@@ -38145,9 +38229,9 @@ function importTerminalArtifacts(items, runDir) {
   return items.map((item) => ({
     ...item,
     artifacts: item.artifacts.flatMap((artifact) => {
-      const source = artifact.file.startsWith("~/") ? path9.join(homedir3(), artifact.file.slice(2)) : artifact.file;
-      if (!path9.isAbsolute(source) || !isFile2(source)) return [];
-      const ext = path9.extname(source).toLowerCase();
+      const source = artifact.file.startsWith("~/") ? path11.join(homedir3(), artifact.file.slice(2)) : artifact.file;
+      if (!path11.isAbsolute(source) || !isFile3(source)) return [];
+      const ext = path11.extname(source).toLowerCase();
       const file2 = `shot-${++n}${ext}`;
       if (!isTestReportImageName(file2)) return [];
       try {
@@ -38155,7 +38239,7 @@ function importTerminalArtifacts(items, runDir) {
           mkdirSync5(runDir, { recursive: true });
           made = true;
         }
-        copyFileSync3(source, path9.join(runDir, file2));
+        copyFileSync3(source, path11.join(runDir, file2));
         return [{ ...artifact, file: file2 }];
       } catch {
         return [];
@@ -38174,7 +38258,7 @@ function findRunVideos(runDir) {
   for (const file2 of names) {
     if (!file2.endsWith(".webm") || !isTestReportVideoName(file2)) continue;
     try {
-      const stat = statSync7(path9.join(runDir, file2));
+      const stat = statSync7(path11.join(runDir, file2));
       if (stat.isFile()) videos.push({ file: file2, size: stat.size, birthMs: stat.birthtimeMs || 0 });
     } catch {
     }
@@ -38186,7 +38270,7 @@ function pickRunVideo(runDir, videos) {
   if (videos.length === 1) return { video: videos[0], tab: 0 };
   let counts = /* @__PURE__ */ new Map();
   try {
-    counts = clickCountsByTab(readFileSync5(path9.join(runDir, CLICK_LOG_FILE), "utf8"));
+    counts = clickCountsByTab(readFileSync6(path11.join(runDir, CLICK_LOG_FILE), "utf8"));
   } catch {
   }
   let busiest = -1;
@@ -38215,12 +38299,12 @@ function removeRunVideoFiles(runDir, files) {
   for (const file2 of files ?? findRunVideos(runDir).map((video) => video.file)) {
     if (!isTestReportVideoName(file2)) continue;
     try {
-      rmSync3(path9.join(runDir, file2), { force: true });
+      rmSync3(path11.join(runDir, file2), { force: true });
     } catch (error2) {
       console.warn(`[test-report] could not remove video ${file2}:`, error2);
     }
   }
-  if (!files) rmSync3(path9.join(runDir, CLICK_LOG_FILE), { force: true });
+  if (!files) rmSync3(path11.join(runDir, CLICK_LOG_FILE), { force: true });
 }
 function stampArtifactVideoTimes(items, runDir, offset) {
   return items.map((item) => ({
@@ -38228,7 +38312,7 @@ function stampArtifactVideoTimes(items, runDir, offset) {
     artifacts: item.artifacts.map((artifact) => {
       let mtimeMs = NaN;
       try {
-        mtimeMs = statSync7(path9.join(runDir, artifact.file)).mtimeMs;
+        mtimeMs = statSync7(path11.join(runDir, artifact.file)).mtimeMs;
       } catch {
       }
       return { ...artifact, videoAt: offset(mtimeMs) };
@@ -38562,9 +38646,9 @@ __export(write_exports, {
   summarySpecOf: () => summarySpecOf,
   writeRunReport: () => writeRunReport
 });
-import { mkdirSync as mkdirSync6, readFileSync as readFileSync6, statSync as statSync8, writeFileSync as writeFileSync3 } from "fs";
+import { mkdirSync as mkdirSync6, readFileSync as readFileSync7, statSync as statSync8, writeFileSync as writeFileSync4 } from "fs";
 import { homedir as homedir4 } from "os";
-import path10 from "path";
+import path12 from "path";
 
 // ../lib/run-video/plan.ts
 var RUN_VIDEO_VERSION = 1;
@@ -39025,10 +39109,10 @@ function footprintOf(numstat) {
       if (!match) continue;
       const plus = match[1] === "-" ? 0 : Number(match[1]);
       const minus = match[2] === "-" ? 0 : Number(match[2]);
-      const path12 = renamedTo(match[3]);
+      const path14 = renamedTo(match[3]);
       added += plus;
       removed += minus;
-      files.set(path12, (files.get(path12) ?? 0) + plus + minus);
+      files.set(path14, (files.get(path14) ?? 0) + plus + minus);
     }
   }
   const byArea = /* @__PURE__ */ new Map();
@@ -39047,11 +39131,11 @@ function footprintOf(numstat) {
     paths: [...files.keys()].sort()
   };
 }
-function renamedTo(path12) {
-  const braced = /^(.*)\{(.*) => (.*)\}(.*)$/.exec(path12);
+function renamedTo(path14) {
+  const braced = /^(.*)\{(.*) => (.*)\}(.*)$/.exec(path14);
   if (braced) return `${braced[1]}${braced[3]}${braced[4]}`.replace(/\/\//g, "/");
-  const plain = /^(.*) => (.*)$/.exec(path12);
-  return plain ? plain[2] : path12;
+  const plain = /^(.*) => (.*)$/.exec(path14);
+  return plain ? plain[2] : path14;
 }
 
 // ../lib/run-report/interventions.ts
@@ -40672,7 +40756,7 @@ var MIME2 = {
   ".mp4": "video/mp4"
 };
 function runFile(ref, homeDir) {
-  return path10.join(testReportRunDir(ref.cardId, ref.runId, homeDir), path10.basename(ref.file));
+  return path12.join(testReportRunDir(ref.cardId, ref.runId, homeDir), path12.basename(ref.file));
 }
 function fileBytes(target2) {
   try {
@@ -40684,21 +40768,21 @@ function fileBytes(target2) {
 }
 function readyClipBytes(ref, video, homeDir) {
   const runDir = testReportRunDir(ref.cardId, ref.runId, homeDir);
-  const sourceBytes = fileBytes(path10.join(runDir, path10.basename(video.file)));
+  const sourceBytes = fileBytes(path12.join(runDir, path12.basename(video.file)));
   if (sourceBytes === null) return null;
   let note;
   try {
-    note = JSON.parse(readFileSync6(path10.join(runDir, REPORT_CLIP_NOTE), "utf8"));
+    note = JSON.parse(readFileSync7(path12.join(runDir, REPORT_CLIP_NOTE), "utf8"));
   } catch {
     return null;
   }
   if (!note.renderedAt || note.sourceKey !== renderSourceKey(video.file, sourceBytes, clipsFromIntervals(video.intervals))) return null;
-  return fileBytes(path10.join(runDir, REPORT_CLIP_FILE));
+  return fileBytes(path12.join(runDir, REPORT_CLIP_FILE));
 }
 function readClicks(ref, video, homeDir) {
   let text4;
   try {
-    text4 = readFileSync6(path10.join(testReportRunDir(ref.cardId, ref.runId, homeDir), CLICK_LOG_FILE), "utf8");
+    text4 = readFileSync7(path12.join(testReportRunDir(ref.cardId, ref.runId, homeDir), CLICK_LOG_FILE), "utf8");
   } catch {
     return null;
   }
@@ -40706,7 +40790,7 @@ function readClicks(ref, video, homeDir) {
 }
 function readStoredExecSummary(anchorCardId, homeDir) {
   try {
-    const parsed = JSON.parse(readFileSync6(path10.join(cardArtifactDir(anchorCardId, homeDir), "run-report", SUMMARY_FILE_NAME), "utf8"));
+    const parsed = JSON.parse(readFileSync7(path12.join(cardArtifactDir(anchorCardId, homeDir), "run-report", SUMMARY_FILE_NAME), "utf8"));
     return parsed && typeof parsed.basis === "string" ? parsed : null;
   } catch {
     return null;
@@ -40732,7 +40816,7 @@ function collectReportData(db2, cardId, opts = {}) {
 }
 function summaryLocation(data, homeDir) {
   const anchor = (data.cards.find((card) => card.isParent) ?? data.cards[0]).id;
-  return { anchor, dir: path10.join(cardArtifactDir(anchor, homeDir), "run-report") };
+  return { anchor, dir: path12.join(cardArtifactDir(anchor, homeDir), "run-report") };
 }
 function summarySpecOf(db2, data) {
   return buildSummarySpec(data, new Map(data.cards.map((card) => [card.id, loadCardStory(db2, card.id)])));
@@ -40744,12 +40828,12 @@ function readySummary(data, spec, homeDir) {
   const { dir } = summaryLocation(data, homeDir);
   let note;
   try {
-    note = JSON.parse(readFileSync6(path10.join(dir, SUMMARY_NOTE), "utf8"));
+    note = JSON.parse(readFileSync7(path12.join(dir, SUMMARY_NOTE), "utf8"));
   } catch {
     return null;
   }
   if (!note.renderedAt || note.sourceKey !== summarySourceKey(spec)) return null;
-  const file2 = path10.join(dir, SUMMARY_FILE);
+  const file2 = path12.join(dir, SUMMARY_FILE);
   const bytes = fileBytes(file2);
   return bytes === null ? null : { file: file2, bytes };
 }
@@ -40765,7 +40849,7 @@ function summaryRunNumbers(spec, data) {
   return [...used].sort((a, b2) => a - b2);
 }
 function cardSummaryDir(cardId, homeDir) {
-  return path10.join(cardArtifactDir(cardId, homeDir), "run-report");
+  return path12.join(cardArtifactDir(cardId, homeDir), "run-report");
 }
 function cardSummarySourceKey(spec) {
   return JSON.stringify([SUMMARY_VERSION, spec.cards.map((card) => card.clips)]);
@@ -40786,20 +40870,20 @@ function cardSummaryState(db2, cardId, opts = {}) {
   const dir = cardSummaryDir(cardId, opts.homeDir);
   let note = null;
   try {
-    note = JSON.parse(readFileSync6(path10.join(dir, CARD_SUMMARY_NOTE), "utf8"));
+    note = JSON.parse(readFileSync7(path12.join(dir, CARD_SUMMARY_NOTE), "utf8"));
   } catch {
   }
   const current = note?.sourceKey === cardSummarySourceKey(spec);
-  const file2 = path10.join(dir, CARD_SUMMARY_FILE);
+  const file2 = path12.join(dir, CARD_SUMMARY_FILE);
   if (current && note?.renderedAt && fileBytes(file2) !== null) return { state: "ready", file: file2, version: note.renderedAt, runs: summaryRunNumbers(spec, data) };
   if (current && (note?.failures ?? 0) >= RENDER_MAX_FAILURES) return { state: "none" };
   return cardSummaryWanted(row.status, parseTestReports(row.test_reports) ?? [], opts.now) ? { state: "pending" } : { state: "none" };
 }
 function dataUri(file2) {
-  const mime = MIME2[path10.extname(file2).toLowerCase()];
+  const mime = MIME2[path12.extname(file2).toLowerCase()];
   if (!mime) return null;
   try {
-    return `data:${mime};base64,${readFileSync6(file2).toString("base64")}`;
+    return `data:${mime};base64,${readFileSync7(file2).toString("base64")}`;
   } catch {
     return null;
   }
@@ -40891,7 +40975,7 @@ function buildShareableRunReport(db2, cardId, opts) {
       }
     }
     const versionNote = overCap2 ? "Shareable version \xB7 over 25 MB even without media, so none is in it \xB7 full recordings stay on the card" : "Shareable version \xB7 full recordings stay on the card";
-    const page = renderRunReport(data, (ref) => MIME2[path10.extname(ref.file).toLowerCase()] ? tokenOf(runFile(ref, opts.homeDir)) : null, summary, {
+    const page = renderRunReport(data, (ref) => MIME2[path12.extname(ref.file).toLowerCase()] ? tokenOf(runFile(ref, opts.homeDir)) : null, summary, {
       versionNote,
       cardSummaries: cardRows
     });
@@ -40934,7 +41018,7 @@ function buildRunReport(db2, cardId, opts = {}) {
   if (ready) {
     summary = {
       state: "in-file",
-      src: `data:video/mp4;base64,${readFileSync6(ready.file).toString("base64")}`,
+      src: `data:video/mp4;base64,${readFileSync7(ready.file).toString("base64")}`,
       bytes: ready.bytes,
       durationSec: summaryDuration(spec)
     };
@@ -40942,10 +41026,10 @@ function buildRunReport(db2, cardId, opts = {}) {
     data = collectReportData(db2, cardId, { ...opts, videoCapBytes: Math.max(0, cap - ready.bytes) }) ?? data;
   }
   const html = renderRunReport(data, (ref) => {
-    const mime = MIME2[path10.extname(ref.file).toLowerCase()];
+    const mime = MIME2[path12.extname(ref.file).toLowerCase()];
     if (!mime) return null;
     try {
-      return `data:${mime};base64,${readFileSync6(runFile(ref, opts.homeDir)).toString("base64")}`;
+      return `data:${mime};base64,${readFileSync7(runFile(ref, opts.homeDir)).toString("base64")}`;
     } catch {
       return null;
     }
@@ -40962,10 +41046,10 @@ function buildRunReport(db2, cardId, opts = {}) {
 function writeRunReport(db2, cardId, opts = {}) {
   const built = buildRunReport(db2, cardId, opts);
   if (!built) return null;
-  const folder = path10.join(cardArtifactDir(cardId, opts.homeDir), "run-report");
+  const folder = path12.join(cardArtifactDir(cardId, opts.homeDir), "run-report");
   mkdirSync6(folder, { recursive: true });
-  const file2 = path10.join(folder, built.filename);
-  writeFileSync3(file2, built.html);
+  const file2 = path12.join(folder, built.filename);
+  writeFileSync4(file2, built.html);
   return { path: file2, bytes: built.bytes, videosEmbedded: built.videosEmbedded, videosLeftOut: built.videosLeftOut, summaryVideo: built.summaryVideo };
 }
 
@@ -41355,9 +41439,9 @@ function loadSqlite() {
     );
   }
 }
-function openDatabase(path12) {
+function openDatabase(path14) {
   const { DatabaseSync } = loadSqlite();
-  const db2 = new DatabaseSync(path12);
+  const db2 = new DatabaseSync(path14);
   db2.exec("PRAGMA journal_mode = WAL");
   db2.exec("PRAGMA foreign_keys = ON");
   db2.exec("PRAGMA busy_timeout = 5000");
@@ -41422,7 +41506,7 @@ function v4(options, buf, offset) {
 var v4_default = v4;
 
 // serialize-card.ts
-import { readFileSync as readFileSync7 } from "node:fs";
+import { readFileSync as readFileSync8 } from "node:fs";
 function normalizeUseWorktree(value) {
   if (value === null || value === void 0) return null;
   return Boolean(value);
@@ -41435,7 +41519,7 @@ function extractImagesFromHtml(html, fieldName) {
     const [ref] = attachmentRefs2(match[1]);
     if (!ref) continue;
     try {
-      const data = readFileSync7(ref.path).toString("base64");
+      const data = readFileSync8(ref.path).toString("base64");
       images.push({ id: `${fieldName}_image_${index}`, data, mimeType: attachmentContentType2(ref.file), fieldName, index });
       index++;
     } catch {
@@ -41591,7 +41675,7 @@ function missingCapabilityMessage(tool, capability) {
 }
 
 // output-paths.ts
-import { existsSync as existsSync13, realpathSync as realpathSync5, statSync as statSync9 } from "fs";
+import { existsSync as existsSync14, realpathSync as realpathSync5, statSync as statSync9 } from "fs";
 import { homedir as homedir5 } from "os";
 import { isAbsolute, relative, resolve as resolve3, sep } from "path";
 var OutputPathError = class extends Error {
@@ -41620,7 +41704,7 @@ function resolveOutputPath(projectFolder, inputPath) {
       `The card's project folder does not exist on this machine: ${projectFolder}. Nothing was recorded.`
     );
   }
-  if (!existsSync13(absolute)) {
+  if (!existsSync14(absolute)) {
     throw new OutputPathError(
       `File not found: ${absolute}. save_output records a file that already exists \u2014 write it first, then call save_output again.`
     );
@@ -41906,12 +41990,12 @@ function appPort(runtime = null, env = process.env) {
   if (runtime?.appState === "open" && runtime.port?.trim()) return runtime.port.trim();
   return "3030";
 }
-async function callApp(method, path12, body, options = {}) {
+async function callApp(method, path14, body, options = {}) {
   const port = options.port ?? appPort();
   const doFetch = options.fetchImpl ?? fetch;
   let response;
   try {
-    response = await doFetch(`http://127.0.0.1:${port}${path12}`, {
+    response = await doFetch(`http://127.0.0.1:${port}${path14}`, {
       method,
       headers: body === void 0 ? void 0 : { "Content-Type": "application/json" },
       body: body === void 0 ? void 0 : JSON.stringify(body),
@@ -42256,8 +42340,8 @@ function mergeChainText(result) {
 }
 
 // test-report.ts
-import { readFileSync as readFileSync8 } from "node:fs";
-import path11 from "node:path";
+import { readFileSync as readFileSync9 } from "node:fs";
+import path13 from "node:path";
 function readTerminalReport(db2, report) {
   if (!hasCapability(db2, "testReports")) {
     return { ok: false, message: missingCapabilityMessage("save_tests", "testReports") };
@@ -42399,7 +42483,7 @@ function readTestReport(db2, card, opts = {}) {
         checklistHtml: row?.testScenarios ?? null,
         screenshotsAttached: Boolean(opts.screenshots),
         // The recording's absolute path (IDE-699), for a terminal to open.
-        videoPath: run2.video ? path11.join(testReportRunDir2(card.id, run2.id, opts.homeDir), run2.video.file) : null,
+        videoPath: run2.video ? path13.join(testReportRunDir2(card.id, run2.id, opts.homeDir), run2.video.file) : null,
         summaryLine: summary?.state === "ready" ? `Summary video: ${summary.file}` : summary?.state === "pending" ? "Summary video: not ready yet; the app makes it while it is open and no run is going." : null,
         codeChanges,
         // IDE-810: after the merge the after-merge items count as left (isLanded, IDE-823).
@@ -42419,7 +42503,7 @@ function readTestReport(db2, card, opts = {}) {
     tried++;
     let data;
     try {
-      data = readFileSync8(path11.join(dir, artifact.file)).toString("base64");
+      data = readFileSync9(path13.join(dir, artifact.file)).toString("base64");
     } catch {
       continue;
     }
@@ -42443,7 +42527,7 @@ function readTestReport(db2, card, opts = {}) {
 }
 
 // git-helpers.ts
-import { existsSync as existsSync14, mkdirSync as mkdirSync7 } from "fs";
+import { existsSync as existsSync15, mkdirSync as mkdirSync7 } from "fs";
 async function getCurrentBranch3(cwd) {
   try {
     return await getCurrentBranch2(cwd);
@@ -42455,7 +42539,7 @@ async function createWorktree2(projectPath, branchName, baseBranch) {
   const worktreePath = getWorktreePath2(projectPath, branchName);
   const baseDir = getWorktreeBaseDir2(projectPath);
   try {
-    if (!existsSync14(baseDir)) {
+    if (!existsSync15(baseDir)) {
       mkdirSync7(baseDir, { recursive: true });
     }
     if (await worktreeExists2(projectPath, worktreePath)) {
@@ -42493,9 +42577,9 @@ async function listUncommittedFiles(cwd, files) {
     if (files && files.length > 0) args.push("--", ...files);
     const { stdout } = await git2(cwd, ...args);
     return stdout.split("\n").filter((line) => line.length > 3).map((line) => {
-      const path12 = line.slice(3);
-      const arrow = path12.indexOf(" -> ");
-      return (arrow === -1 ? path12 : path12.slice(arrow + 4)).replace(/^"|"$/g, "");
+      const path14 = line.slice(3);
+      const arrow = path14.indexOf(" -> ");
+      return (arrow === -1 ? path14 : path14.slice(arrow + 4)).replace(/^"|"$/g, "");
     });
   } catch {
     return [];
