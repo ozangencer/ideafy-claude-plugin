@@ -35,6 +35,16 @@ If the server is unreachable, the hooks emit a single reminder asking the user t
 
 Each plugin is versioned independently. The marketplace manifest mirrors plugin versions — bump both when shipping a release.
 
+## Releasing
+
+Only `plugins/ideafy/` reaches users; keep maintainer notes in this file, not in the plugin folder.
+
+1. From a clean checkout of the Ideafy app at the commit to ship: `cd mcp-server && npm run build`.
+2. Copy its `dist/index.js` to `plugins/ideafy/mcp/index.js`.
+3. Bump `version` in `.claude-plugin/marketplace.json` (`plugins[0]`) and `plugins/ideafy/.claude-plugin/plugin.json`.
+4. `node scripts/verify-bundle.mjs < /dev/null`: installs the plugin the way Claude Code does and starts the server on every launcher path.
+5. Commit and push `main`. No tag: the marketplace reads the version field.
+
 ## Layout
 
 ```

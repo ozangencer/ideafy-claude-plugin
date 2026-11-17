@@ -1,7 +1,7 @@
 # Ideafy MCP Server (bundled)
 
-Runtime artifact bundled with the plugin. Built from the public Ideafy repo:
-`~/vibecode/ideafy/mcp-server/` (TypeScript source → `dist/index.js` via `npm run build`, esbuild).
+Runtime artifact bundled with the plugin, built from the Ideafy app's
+`mcp-server/` (TypeScript source → `dist/index.js` via esbuild).
 
 ## Files
 
@@ -31,15 +31,3 @@ Cross-platform: writes/reads to the OS-standard Electron userData dir:
 - Windows: `%APPDATA%/ideafy/kanban.db`
 
 Override: set `IDEAFY_USER_DATA` env to point at an alternate dir.
-
-## Rebuilding
-
-Use `/ideafy-plugin-release` from the app repo. By hand:
-
-```bash
-cd ~/vibecode/ideafy/mcp-server && npm run build
-cp dist/index.js ~/vibecode/ideafy-claude-plugin/plugins/ideafy/mcp/index.js
-cd ~/vibecode/ideafy-claude-plugin && node scripts/verify-bundle.mjs
-```
-
-Then bump the two version fields and commit.

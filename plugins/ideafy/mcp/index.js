@@ -23560,7 +23560,7 @@ paths, session IDs, URLs, column names.
 ## Core flow
 - [ ] Open card IDE-282 and click the terminal icon in the header. One row
   should appear: \`83e1174a\u2026\`, labelled \`terminal\`.
-- [ ] Hit copy, then paste into a fresh terminal in ~/vibecode/ideafy.
+- [ ] Hit copy, then paste into a fresh terminal in ~/projects/acme-web.
   Yesterday's conversation should resume.
 - [ ] Back in the popover, hit the terminal button instead. Your terminal app
   opens on the same conversation and Ideafy shows "Resumed in CLI".
@@ -23704,7 +23704,7 @@ session ID, URL, kolon ad\u0131.
 ## Temel ak\u0131\u015F
 - [ ] IDE-282'yi a\xE7, header'daki terminal ikonuna t\u0131kla. Tek sat\u0131r \xE7\u0131kmal\u0131:
   \`83e1174a\u2026\`, \`terminal\` etiketiyle.
-- [ ] Kopyala'ya bas, ~/vibecode/ideafy i\xE7inde yeni bir terminale yap\u0131\u015Ft\u0131r.
+- [ ] Kopyala'ya bas, ~/projects/acme-web i\xE7inde yeni bir terminale yap\u0131\u015Ft\u0131r.
   D\xFCnk\xFC konu\u015Fma a\xE7\u0131lmal\u0131.
 - [ ] Popover'da bu kez terminal butonuna bas. Terminal uygulaman ayn\u0131
   konu\u015Fmayla a\xE7\u0131lmal\u0131, Ideafy'da "Resumed in CLI" bildirimi \xE7\u0131kmal\u0131.

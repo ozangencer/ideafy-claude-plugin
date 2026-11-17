@@ -19,8 +19,8 @@ Two supported paths:
 hooks/hooks.json             UserPromptSubmit + PreToolUse
 hooks/*.sh                   hook scripts
 skills/ideafy-workflow/      workflow skill
-mcp/                         compiled MCP server (built from ~/vibecode/ideafy/mcp-server)
-agents/                      reserved for future subagents
+skills/product-narrative/    product narrative interview
+mcp/                         compiled MCP server (built from the Ideafy app's mcp-server/)
 ```
 
 ## Dependencies on the host
@@ -30,7 +30,3 @@ agents/                      reserved for future subagents
 - Nothing to install when the Ideafy app is on the machine: the MCP server runs under the app's own Electron (`mcp/launch.sh` reads the path the app writes to `<userData>/electron-exec`). Without the app, Node.js 22.5 or newer as `node` on PATH
 
 If the server is unreachable the hooks emit a single reminder asking the user to launch Ideafy, then stay silent. A Work project gets no reminder.
-
-## Versioning
-
-Bump `.claude-plugin/plugin.json#version` on any content change. The Ideafy app reads this to decide whether to replace the cached copy on next launch.
